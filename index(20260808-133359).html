@@ -1,0 +1,1246 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#9a76c4">
+<title>角色生活物語・聯機修正版 v2</title>
+<style>
+:root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
+*{box-sizing:border-box}
+body{margin:0;min-height:100dvh;font-family:system-ui,-apple-system,"Noto Sans TC","Microsoft JhengHei",sans-serif;background:linear-gradient(#eee5f6,#fbf7fa);color:var(--text);-webkit-text-size-adjust:100%}
+button,input,select{font:inherit}
+button{min-height:46px;border:0;border-radius:12px;padding:10px 12px;background:var(--soft);color:#654879;font-weight:700;cursor:pointer}
+button.primary{background:var(--accent);color:white}
+button.danger{background:#f8e8eb;color:var(--bad)}
+input,select{width:100%;min-height:46px;border:1px solid #d9cce2;border-radius:12px;padding:10px;background:#fff;color:var(--text);font-size:16px}
+.wrap{width:100%;max-width:500px;margin:auto;padding:12px 12px calc(22px + env(safe-area-inset-bottom))}
+.hidden{display:none!important}
+.top{position:sticky;top:0;z-index:10;margin:0 -12px 12px;padding:10px 12px;background:rgba(247,241,250,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:10px}
+h1{font-size:20px;margin:0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:13px;margin-bottom:10px}
+.muted{font-size:13px;color:var(--muted)}
+.section{font-size:14px;font-weight:800;margin-bottom:9px}
+.chip{display:inline-block;padding:4px 9px;border-radius:999px;background:var(--soft);font-size:12px;color:#76558b}
+.saveList{display:grid;gap:10px}
+.save{display:grid;grid-template-columns:72px 1fr;gap:10px;border:1px solid var(--line);border-radius:17px;padding:10px;background:#fff}
+.pic{width:72px;height:92px;border-radius:13px;background:#eee5f4;overflow:hidden;display:grid;place-items:center;font-size:28px}
+.pic img{width:100%;height:100%;object-fit:cover}
+.saveName{font-size:17px;font-weight:800}
+.actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:7px}
+.create{display:grid;gap:8px;margin-top:12px}
+.hero{display:grid;grid-template-columns:96px 1fr;gap:11px;align-items:center}
+.avatar{width:96px;height:132px;border-radius:18px;background:linear-gradient(145deg,#ead8f3,#f6dfe8);overflow:hidden;display:grid;place-items:center;position:relative;font-size:40px;cursor:pointer}
+.avatar img{width:100%;height:100%;object-fit:cover;display:none}
+.hint{position:absolute;left:0;right:0;bottom:0;background:#31233a77;color:#fff;font-size:10px;text-align:center;padding:5px}
+.now{border:1px dashed #ccb6db;background:#fbf7fd;border-radius:15px;padding:12px;margin-top:8px}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;margin-top:9px}
+.stat{padding:9px;border:1px solid var(--line);border-radius:13px;background:#fcf9fd;text-align:center}
+.stat b{display:block;font-size:18px}
+.stat span{font-size:11px;color:var(--muted)}
+.roomBox{display:grid;gap:9px}
+.partner{display:grid;grid-template-columns:68px 1fr;gap:9px;padding:10px;border:1px solid var(--line);border-radius:15px;background:#fffafd;margin-top:10px}
+.partnerPic{width:68px;height:80px;border-radius:12px;overflow:hidden;background:#eee6f3;display:grid;place-items:center}
+.partnerPic img{width:100%;height:100%;object-fit:cover}
+.bonus{font-size:12px;color:var(--good);margin-top:4px}
+.interactions{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin-top:10px}
+.interactions button{min-height:52px}
+.notice,.event{border:1px solid var(--line);border-radius:14px;padding:11px;background:#fffafd;margin-bottom:8px}
+.title{font-weight:800}
+.small{font-size:12px;color:var(--muted);margin-top:4px}
+.chat{border:1px solid var(--line);border-radius:15px;min-height:230px;max-height:42dvh;overflow:auto;padding:10px}
+.msg{display:flex;margin:7px 0}
+.msg.me{justify-content:flex-end}
+.bubble{max-width:86%;padding:10px 12px;border-radius:14px;background:#f1ebf6;line-height:1.5}
+.msg.me .bubble{background:#eadcf4}
+.chatInput{display:grid;gap:8px;margin-top:8px}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.modal{position:fixed;inset:0;background:#2d24355e;display:flex;align-items:flex-end;justify-content:center;z-index:30}
+.modalBox{width:100%;max-width:500px;background:#fff;border-radius:22px 22px 0 0;padding:18px 14px calc(18px + env(safe-area-inset-bottom))}
+.gameChoices{display:grid;gap:8px;margin-top:12px}
+.gameResult{text-align:center;font-weight:800;padding:14px;background:var(--soft);border-radius:14px;margin-top:12px}
+#roomCode{font-size:18px;letter-spacing:3px;padding:7px 12px}
+.relList{display:grid;gap:8px;margin-bottom:10px}
+.relItem{border:1px solid var(--line);border-radius:14px;padding:10px;background:#fffafd;display:flex;justify-content:space-between;gap:10px;align-items:center}
+.relItem.active{border-color:#b99ace;background:#faf4fd}
+.relItem .meta{min-width:0}
+.relItem .meta b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.relActions{display:flex;gap:6px;flex-shrink:0}
+.relActions button{min-height:40px;padding:8px 10px}
+.errorBox{background:#fff0f2;border:1px solid #e7bdc5;color:#8b4c5b;border-radius:14px;padding:10px;font-size:13px;margin-bottom:10px}
+
+.drawerShade{position:fixed;inset:0;background:#2d24355c;z-index:40}.drawer{position:fixed;z-index:41;left:0;top:0;bottom:0;width:min(82vw,330px);background:#fff;padding:18px 12px;box-shadow:10px 0 30px #0002;overflow:auto}.navBtn{width:100%;text-align:left;background:transparent;margin:2px 0}.navSep{height:1px;background:var(--line);margin:8px}.barRow{margin:11px 0}.barHead{display:flex;justify-content:space-between;align-items:center;font-size:13px;font-weight:800}.bar{height:12px;background:#eee7f1;border-radius:999px;overflow:hidden;margin-top:5px}.fill{height:100%;background:linear-gradient(90deg,#aa88cc,#df9dbd);border-radius:999px}.infoBtn{min-height:28px;width:28px;border-radius:50%;padding:0}.pageCard{display:none}.pageCard.active{display:block}.itemRow{border:1px solid var(--line);border-radius:14px;padding:10px;background:#fffafd;margin-bottom:8px}.money{font-weight:800}.menuBtn{min-width:44px;font-size:21px}.redDot{display:inline-block;min-width:18px;padding:2px 5px;border-radius:999px;background:#c97891;color:white;font-size:10px;text-align:center}
+
+.filters{display:flex;gap:6px;overflow:auto;padding:4px 0}.filters button{white-space:nowrap}.filters .on{background:#8f70bd;color:white}
+.itemGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.tile{text-align:center;min-height:88px;border:1px solid #eadfee;background:#fffafd}.tile .ico{font-size:27px}
+.journalLine{padding:8px 2px;border-bottom:1px dashed #eadfee;font-size:13px}.presence.on{color:#39835a}.presence.off{color:#8b8290}.placeGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+
+#extraAchievements{overflow-x:hidden}
+#extraAchievements .filters{position:sticky;top:0;background:#fffdfd;z-index:3;padding:8px 0;border-bottom:1px solid var(--line)}
+#extraAchievements #achievementList{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;overflow-x:hidden}
+#extraAchievements .itemRow{aspect-ratio:1/1;margin:0;padding:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;overflow:hidden}
+#extraAchievements .itemRow b{font-size:12px;line-height:1.25}
+#extraAchievements .itemRow .small{display:none}
+
+/* === V2 mobile feature sheets: UI only === */
+.pageCard{display:none!important}
+.pageCard.active{
+  display:block!important;
+  position:fixed!important;
+  z-index:80!important;
+  left:50%!important;
+  bottom:0!important;
+  transform:translateX(-50%)!important;
+  width:min(100%,520px)!important;
+  max-height:86dvh!important;
+  overflow:auto!important;
+  margin:0!important;
+  border-radius:24px 24px 0 0!important;
+  padding:18px 14px calc(22px + env(safe-area-inset-bottom))!important;
+  background:#fffdfd!important;
+  box-shadow:0 -12px 36px #2d24352e!important
+}
+.pageCard.active::before{
+  content:"";position:fixed;z-index:-1;inset:-100vh -100vw;background:#2d24355e
+}
+.sheetHead{display:flex;align-items:center;justify-content:space-between;gap:10px;position:sticky;top:-18px;z-index:6;background:#fffdfd;padding:10px 0 9px;margin-bottom:6px}
+.sheetClose{width:42px;min-height:40px;padding:2px;border-radius:14px;font-size:23px}
+#extraChat #chatRelationList{margin-bottom:12px}
+#extraChat .chatRoomBtn{width:100%;text-align:left;margin:0 0 8px}
+#extraAchievements #achievementList{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:10px!important}
+#extraAchievements .achBadge{width:100%!important}
+
+
+.bondPanel{margin-top:10px;padding:10px;border:1px solid var(--line);border-radius:14px;background:#fffafd}
+.bondTop{display:flex;justify-content:space-between;gap:8px;align-items:center;font-size:12px;font-weight:800}
+.bondTrack{height:11px;background:#eee7f1;border-radius:999px;overflow:hidden;margin-top:6px}
+.bondFill{height:100%;background:linear-gradient(90deg,#ad8bd0,#df9dbd);border-radius:999px}
+.stageTag{display:inline-block;margin-top:6px;padding:3px 7px;border-radius:999px;background:#f2eaf7;font-size:11px}
+
+.relEventCard{border:1px solid var(--line);border-radius:14px;padding:10px;background:#fffafd;margin-bottom:8px}
+.relEventCard .result{margin-top:5px;font-size:12px;color:var(--muted)}
+.modalChoices{display:grid;gap:8px}
+
+.dailyTask{border:1px solid var(--line);border-radius:14px;padding:10px;background:#fffafd;margin-bottom:8px}
+.dailyTask.done{background:#f1f8f2;border-color:#c9ddce}
+.dailyTask .taskTop{display:flex;justify-content:space-between;gap:8px;align-items:center}
+.dailyProgress{height:8px;background:#eee7f1;border-radius:999px;overflow:hidden;margin-top:7px}
+.dailyProgress>div{height:100%;background:linear-gradient(90deg,#aa88cc,#df9dbd);border-radius:999px}
+.dailyReward{padding:10px;border:1px dashed #cbb6da;border-radius:14px;background:#fbf7fd;margin-top:8px}
+.achHint{font-size:12px;color:var(--muted);margin-top:5px}
+#achievementList .itemRow{cursor:pointer}
+
+.workGrid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.workCard{border:1px solid var(--line);border-radius:15px;background:#fffafd;padding:10px;text-align:left}
+.workCard b{display:block;margin-bottom:4px}.limitNote{padding:9px 10px;border:1px dashed #cbb6da;border-radius:13px;background:#fbf7fd;margin-bottom:10px}
+.interactionLimit{font-size:13px;color:#654879;margin:9px 0 4px;padding:8px 10px;border:1px dashed #cbb6da;border-radius:12px;background:#fbf7fd;font-weight:800;text-align:center}
+.interactions button:disabled{opacity:.45}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div id="fatal" class="errorBox hidden"></div>
+
+<section id="home">
+  <div class="top"><div><h1>角色生活物語</h1><div class="muted">手機聯機・打工＆每日限制修正版</div></div><span class="chip" id="net">雲端待命</span></div>
+  <div class="card">
+    <div class="section">角色存檔 <span id="saveCount" class="muted"></span></div><div class="muted" style="margin-bottom:8px">此版本會從全新的本機存檔開始，不會帶入舊角色。</div>
+    <div id="saveList" class="saveList"></div>
+    <div class="create"><input id="newName" maxlength="20" placeholder="輸入新角色名稱"><button class="primary" id="createChar">創建角色</button></div>
+  </div>
+</section>
+
+<section id="game" class="hidden">
+  <div class="top"><button id="menuBtn" class="menuBtn">☰</button><b id="pageTitle">角色生活</b><span class="chip">🪙 <b id="moneyTop">0</b></span></div>
+
+  <div class="card hero">
+    <div class="avatar" id="avatar"><span id="emoji">🐾</span><img id="avatarImg"><span class="hint">點擊放圖片</span></div>
+    <input type="file" accept="image/*" id="imageInput" hidden>
+    <div>
+      <div><b id="charName" style="font-size:22px"></b> <span class="chip">Lv.<span id="level">1</span></span></div>
+      <div class="muted" style="margin-top:4px">生活第 <span id="day">1</span> 天</div>
+      <div class="now"><b id="activity"></b><div id="activityDetail" class="muted"></div></div>
+      <div id="bars" style="margin-top:10px">
+<div class="barRow"><div class="barHead"><span>⚡ 體力</span><span><b id="energy">90</b>/100 <button class="infoBtn" data-info="energy">ⓘ</button></span></div><div class="bar"><div id="energyFill" class="fill"></div></div></div>
+<div class="barRow"><div class="barHead"><span>🍙 飽食度</span><span><b id="hunger">85</b>/100 <button class="infoBtn" data-info="hunger">ⓘ</button></span></div><div class="bar"><div id="hungerFill" class="fill"></div></div></div>
+<div class="barRow"><div class="barHead"><span>🌸 心情</span><span><b id="mood">82</b>/100 <button class="infoBtn" data-info="mood">ⓘ</button></span></div><div class="bar"><div id="moodFill" class="fill"></div></div></div>
+<div class="barRow"><div class="barHead"><span>✨ 經驗</span><span><b id="exp">0</b> <button class="infoBtn" data-info="exp">ⓘ</button></span></div><div class="bar"><div id="expFill" class="fill"></div></div></div>
+</div>
+    </div>
+  </div>
+
+  <button id="quickWork" style="width:100%;margin-bottom:10px">💼 打工賺錢　<span id="quickWorkLeft" class="small"></span></button>
+
+  <div class="card">
+    <div class="section">角色關係 <span id="relationCount" class="muted">0/3</span></div>
+    <div id="relationshipList" class="relList"></div>
+
+    <div id="roomSetup">
+      <div class="muted" style="margin-bottom:8px">還可以建立新的關係。建立者決定關係類型。</div>
+      <label>新關係類型
+        <select id="relation">
+          <option value="lover">戀人</option>
+          <option value="bestfriend">摯友</option>
+          <option value="family">家人</option>
+          <option value="partner">搭檔</option>
+          <option value="rival">宿敵</option>
+          <option value="enemy">仇敵</option>
+        </select>
+      </label>
+      <button class="primary" id="createRoom" style="width:100%;margin-top:9px">建立新關係房間</button>
+      <input id="joinCode" maxlength="6" inputmode="numeric" pattern="[0-9]*" placeholder="輸入對方給的 6 位房間碼" style="margin-top:10px">
+      <button id="joinRoom" style="width:100%;margin-top:8px">加入對方的關係房間</button>
+    </div>
+
+    <div id="roomActive" class="hidden">
+      <div style="display:flex;justify-content:space-between;gap:8px;align-items:center">
+        <div><b>目前關係房間：</b><span id="roomCode" class="chip"></span></div>
+        <button id="disconnectRoom" class="danger">解除關係</button>
+      </div>
+      <div id="waiting" class="muted" style="margin-top:8px">等待另一位玩家加入……</div>
+      <div id="partnerCard" class="partner hidden">
+        <div id="partnerPic" class="partnerPic">♡</div>
+        <div>
+          <b id="partnerName"></b> <span id="relationChip" class="chip"></span>
+          <div id="partnerStatus" class="small"></div>
+          <div id="partnerStats" class="small"></div>
+          <div id="relationBonus" class="bonus"></div>
+          <div id="bondPanel" class="bondPanel">
+            <div class="bondTop"><span id="bondTitle">💗 共同羈絆 Lv.1</span><span id="bondValue">0 / 20</span></div>
+            <div class="bondTrack"><div id="bondFill" class="bondFill" style="width:0%"></div></div>
+            <span id="bondStage" class="stageTag">第 1 階</span>
+          </div>
+        </div>
+      </div>
+      <div id="interactionLimit" class="interactionLimit">今日羈絆互動 0 / 5</div>
+      <div id="interactionGrid" class="interactions"></div>
+      <div class="section" style="margin-top:14px">📖 兩人事件紀錄</div>
+      <div id="relationEventLog"><div class="muted">還沒有發生共同事件。</div></div>
+    </div>
+  </div>
+
+  <div id="extraChat" class="card pageCard"><div class="card"><div class="section">💬 聊天列表</div><div id="chatRelationList"></div></div>
+  <div class="card">
+    <div class="section">聊天室</div>
+    <div id="chatBox" class="chat"><div class="muted">建立雙人房間後才能聊天。</div></div>
+    <div class="chatInput"><input id="chatInput" maxlength="500" placeholder="輸入訊息……"><button class="primary" id="sendChat">送出</button></div>
+  </div>
+
+  <div class="card">
+    <div class="section">收到的互動</div>
+    <div id="inbox" class="muted">目前沒有互動。</div>
+  </div></div>
+
+  <div class="card">
+    <div class="section">待抉擇角色事件 <span id="eventCount" class="muted"></span></div>
+    <div id="events"></div>
+  </div>
+  <div id="extraJournal" class="card pageCard"><div class="section">📖 今日生活日誌</div><div id="journalList"></div></div>
+<div id="extraOuting" class="card pageCard"><div class="section">🗺️ 外出</div><div class="muted">自己出門，或邀請關係角色。對方接受後共同外出才生效。</div><div id="placeList" class="placeGrid" style="margin-top:9px"></div><div class="section" style="margin-top:14px">💌 外出邀請</div><div id="outingInvites"></div></div>
+<div id="extraDaily" class="card pageCard"><div class="section">☀️ 今日小事</div><div id="dailyList"></div></div>
+  <div id="extraWork" class="card pageCard">
+    <div class="section">💼 打工賺錢</div><div class="small" style="margin-bottom:8px">每天最多 3 次，00:00 自動恢復。</div>
+    <div id="workLimit" class="limitNote"></div>
+    <div id="workList" class="workGrid"></div>
+  </div>
+  <div id="extraShop" class="card pageCard"><div class="section">🏪 小商店</div><div id="shopList"></div></div>
+  <div id="extraBag" class="card pageCard"><div class="section">🎒 背包</div><div id="bagList"></div></div>
+  <div id="extraMemory" class="card pageCard"><div class="section">📖 回憶</div><div id="memoryList"></div></div>
+  <div id="extraAchievements" class="card pageCard"><div class="section">🏆 成就</div><div id="achievementFilters" class="filters"></div><div id="achievementList"></div></div>
+</section>
+</div>
+
+<div id="drawerShade" class="drawerShade hidden"></div><aside id="drawer" class="drawer hidden"><div style="padding:8px"><b id="drawerName">角色</b><div class="muted">功能選單</div></div><button class="navBtn" data-nav="life">🏠 角色生活</button><button class="navBtn" data-nav="daily">📋 今日小事</button><button class="navBtn" data-nav="work">💼 打工賺錢</button><button class="navBtn" data-nav="journal">📖 今日生活日誌</button><button class="navBtn" data-nav="outing">🗺️ 外出</button><button class="navBtn" data-nav="relations">💞 關係</button><button class="navBtn" data-nav="chat">💬 聊天</button><div class="navSep"></div><button class="navBtn" data-nav="bag">🎒 背包</button><button class="navBtn" data-nav="shop">🏪 商店</button><button class="navBtn" data-nav="memory">📖 回憶</button><button class="navBtn" data-nav="achievements">🏆 成就</button><div class="navSep"></div><div style="padding:8px"><b>🎵 悠閒 BGM</b><div class="actions"><button id="bgmToggle">▶ 播放</button><input id="bgmVolume" type="range" min="0" max="1" step=".05" value=".25"></div><div class="small">把 bgm.mp3 和 index.html 放同一資料夾。</div></div><audio id="bgm" loop preload="none"><source src="bgm.mp3" type="audio/mpeg"></audio><button class="navBtn" id="back">💾 返回存檔首頁</button></aside><div id="infoModal" class="modal hidden"><div class="modalBox"><h3 id="infoTitle"></h3><div id="infoBody"></div><button id="closeInfo" class="primary" style="width:100%;margin-top:12px">知道了</button></div></div>
+<div id="itemModal" class="modal hidden"><div class="modalBox"><h3 id="itemTitle"></h3><div id="itemBody"></div><div id="itemActions" class="actions"></div><button id="closeItem" style="width:100%;margin-top:10px">關閉</button></div></div>
+<div id="relationEventModal" class="modal hidden">
+  <div class="modalBox">
+    <div class="badge" id="relationEventRarity">關係事件</div>
+    <h3 id="relationEventTitle" style="margin-bottom:6px"></h3>
+    <div id="relationEventText"></div>
+    <div id="relationEventChoices" class="modalChoices" style="margin-top:12px"></div>
+    <button id="closeRelationEvent" style="width:100%;margin-top:8px">先放著</button>
+  </div>
+</div>
+<div id="gameModal" class="modal hidden">
+  <div class="modalBox">
+    <h3 style="margin:0">互動小遊戲：心有靈犀</h3>
+    <div class="muted" style="margin-top:5px">兩個人各選一個答案，雙方選完後揭曉。</div>
+    <div class="gameChoices">
+      <button data-choice="甜點店">甜點店</button>
+      <button data-choice="散步">散步</button>
+      <button data-choice="看星星">看星星</button>
+    </div>
+    <div id="gameResult" class="gameResult">等待選擇……</div>
+    <button id="closeGame" style="width:100%;margin-top:10px">關閉</button>
+  </div>
+</div>
+
+<script>
+const SUPABASE_URL = "https://uaanvqqjwfcfmecjhyjn.supabase.co";
+const SUPABASE_KEY = "sb_publishable_h3YN0v-lcO0eW95UHuPkLw_KLZSoPY4";
+const API = SUPABASE_URL + "/rest/v1";
+
+const HEADERS = {
+  "apikey": SUPABASE_KEY,
+  "Authorization": "Bearer " + SUPABASE_KEY,
+  "Content-Type": "application/json"
+};
+
+const LOCAL_KEY="role_life_v2";
+const PLAYER_KEY="role_life_player_v2";
+
+const defs={
+  lover:{name:"戀人",bond:1.5,exp:1.25,desc:"羈絆×1.5、經驗×1.25",actions:[["抱抱","抱抱你"],["約會","邀請你去約會"],["撒嬌","跑來向你撒嬌"],["分享甜點","想和你分享甜點"],["說想你","說有點想你"],["互動小遊戲","game"]]},
+  bestfriend:{name:"摯友",bond:1.35,exp:1.18,desc:"羈絆×1.35、經驗×1.18",actions:[["聊八卦","想找你聊八卦"],["出去玩","約你出去玩"],["分零食","分你一點零食"],["擊掌","向你伸手擊掌"],["打氣","替你加油"],["互動小遊戲","game"]]},
+  family:{name:"家人",bond:1.4,exp:1.12,desc:"羈絆×1.4、經驗×1.12",actions:[["一起吃飯","叫你一起吃飯"],["關心","問你今天過得怎樣"],["陪伴","想陪你待一下"],["幫忙","說要幫你做點事"],["送伴手禮","帶了小東西給你"],["互動小遊戲","game"]]},
+  partner:{name:"搭檔",bond:1.15,exp:1.3,desc:"經驗×1.3",actions:[["訓練","邀請你一起訓練"],["討論計畫","想和你討論計畫"],["交換情報","來交換情報"],["掩護","表示會替你掩護"],["慶祝","邀你慶祝一下"],["互動小遊戲","game"]]},
+  rival:{name:"宿敵",bond:.8,exp:1.4,desc:"經驗×1.4，羈絆較慢",actions:[["挑戰","向你發起挑戰"],["比戰績","要和你比較戰績"],["挑釁","故意來挑釁你"],["再戰","丟下一句下次再戰"],["嘴硬稱讚","嘴硬地稱讚你"],["互動小遊戲","game"]]},
+  enemy:{name:"仇敵",bond:.45,exp:1.32,desc:"經驗×1.32，羈絆很慢",actions:[["下戰帖","向你下戰帖"],["嘲諷","對你冷嘲熱諷"],["正面較量","邀你正面較量"],["警告","對你發出警告"],["宣戰","表示絕對不會認輸"],["互動小遊戲","game"]]}
+};
+
+const routines=[
+  [0,6,"熟睡中","抱著被子安穩睡著。"],
+  [6,7,"剛起床","還有點迷迷糊糊。"],
+  [7,8,"吃早餐","正在吃早餐。"],
+  [8,12,"做自己的事","工作、練習或處理今天的事。"],
+  [12,13,"吃午餐","暫時休息吃午餐。"],
+  [13,17,"繼續忙碌","午後繼續自己的生活。"],
+  [17,18,"散步回家","慢慢走在回家的路上。"],
+  [18,19,"吃晚餐","正在吃晚餐。"],
+  [19,21,"悠閒時間","窩著休息。"],
+  [21,22,"洗澡","洗去一天疲憊。"],
+  [22,24,"準備睡覺","鑽進被窩準備睡了。"]
+];
+
+const eventPool=[
+  ["突然想起對方",p=>`忙到一半時，你突然想起${p}。`,[["傳訊息",2],["晚點再說",0]]],
+  ["看到小禮物",p=>`你看到一樣很適合${p}的小東西。`,[["買下來",3],["拍照給他看",2],["先記住",1]]],
+  ["有點疲憊",p=>`今天有點累，你想到也許可以找${p}說說話。`,[["找他聊聊",2],["自己休息",1]]]
+];
+
+let local=loadLocal();
+let playerId=localStorage.getItem(PLAYER_KEY);
+if(!playerId){playerId=(crypto.randomUUID?crypto.randomUUID():"p"+Date.now()+Math.random().toString(16).slice(2));localStorage.setItem(PLAYER_KEY,playerId)}
+
+let activeId=null, room=null, partner=null, pollTimer=null, gameId=null, gamePollTimer=null, activeRoomCode="", relationshipSummaries={}, bondCache={};
+
+function loadLocal(){try{return JSON.parse(localStorage.getItem(LOCAL_KEY))||{characters:[]}}catch(e){return{characters:[]}}}
+function saveLocal(){localStorage.setItem(LOCAL_KEY,JSON.stringify(local))}
+function cur(){return local.characters.find(x=>x.id===activeId)}
+function ensureRelations(c){
+  if(!c)return;
+  if(!c.journal)c.journal={};if(!c.relationshipEvents)c.relationshipEvents={};if(!c.stats)c.stats={};if(!c.dailyTasks)c.dailyTasks=[];if(!c.dailyBaseline)c.dailyBaseline={};if(c.dailyRewardClaimed==null)c.dailyRewardClaimed=false;if(c.dailyWorkUsed==null)c.dailyWorkUsed=0;if(!c.dailyRelationUses)c.dailyRelationUses={};
+  if(!Array.isArray(c.roomCodes))c.roomCodes=[];
+  if(c.roomCode && !c.roomCodes.includes(c.roomCode))c.roomCodes.push(c.roomCode);
+  c.roomCodes=[...new Set(c.roomCodes.filter(Boolean))].slice(0,3);
+  delete c.roomCode;
+}
+function uuid(){return crypto.randomUUID?crypto.randomUUID():"id"+Date.now()+Math.random().toString(16).slice(2)}
+function newChar(name){return{id:uuid(),name,level:1,exp:0,energy:90,mood:82,bond:0,image:"",start:new Date().toISOString().slice(0,10),events:[],lastEvent:Date.now(),roomCodes:[],hunger:85,money:300,inventory:{},memories:[],achievements:{},dailyDate:"",dailyDone:0,dailyTasks:[],dailyBaseline:{},dailyRewardClaimed:false,dailyWorkUsed:0,dailyRelationUses:{},journal:{}}}
+function routine(){let h=new Date().getHours();return routines.find(r=>h>=r[0]&&h<r[1])||routines[0]}
+function day(c){let a=new Date(c.start+"T00:00:00"),b=new Date();b.setHours(0,0,0,0);return Math.max(1,Math.floor((b-a)/86400000)+1)}
+function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+function show(id){document.getElementById("home").classList.toggle("hidden",id!=="home");document.getElementById("game").classList.toggle("hidden",id!=="game")}
+function publicState(c){let r=routine();return{name:c.name,image:c.image||"",level:c.level,energy:Math.round(c.energy),mood:Math.round(c.mood),activity:r[2],updated:Date.now()}}
+function relDef(){return room?defs[room.relation]:null}
+function fatal(msg){let f=document.getElementById("fatal");f.textContent=msg;f.classList.remove("hidden")}
+function clearFatal(){document.getElementById("fatal").classList.add("hidden")}
+
+async function api(path,options={}){
+  const res=await fetch(API+path,{...options,headers:{...HEADERS,...(options.headers||{})}});
+  const text=await res.text();
+  let data=null;
+  if(text){try{data=JSON.parse(text)}catch(e){data=text}}
+  if(!res.ok){
+    console.error("API error",res.status,data);
+    throw new Error((data&&data.message)||("Supabase 錯誤 "+res.status));
+  }
+  return data;
+}
+
+function renderHome(){
+  document.getElementById("saveCount").textContent=`${local.characters.length}/5`;
+  let box=document.getElementById("saveList");box.innerHTML="";
+  if(!local.characters.length)box.innerHTML='<div class="muted">還沒有角色，先創建一個吧。</div>';
+  local.characters.forEach(c=>{
+    ensureRelations(c);
+    let d=document.createElement("div");d.className="save";
+    d.innerHTML=`<div class="pic">${c.image?`<img src="${c.image}">`:"🐾"}</div><div><div class="saveName">${esc(c.name)}</div><div class="muted">Lv.${c.level} · 第 ${day(c)} 天 ${c.roomCodes.length?`· ${c.roomCodes.length} 段關係`:""}</div><div class="actions"><button class="primary" data-open="${c.id}">進入</button><button class="danger" data-del="${c.id}">刪除</button></div></div>`;
+    box.appendChild(d);
+  });
+  saveLocal();
+}
+
+document.getElementById("createChar").onclick=()=>{
+  if(local.characters.length>=5)return alert("最多 5 個角色。");
+  let n=document.getElementById("newName").value.trim()||`角色 ${local.characters.length+1}`;
+  local.characters.push(newChar(n));document.getElementById("newName").value="";saveLocal();renderHome();
+};
+
+document.getElementById("saveList").onclick=e=>{
+  if(e.target.dataset.open)openChar(e.target.dataset.open);
+  if(e.target.dataset.del){
+    let c=local.characters.find(x=>x.id===e.target.dataset.del);
+    if(c&&confirm(`確定刪除「${c.name}」？`)){
+      local.characters=local.characters.filter(x=>x.id!==c.id);saveLocal();renderHome();
+    }
+  }
+};
+
+async function openChar(id){
+  activeId=id;show("game");
+  let c=cur();ensureRelations(c);resetDailyIfNeeded(c);saveLocal();
+  activeRoomCode=c.roomCodes[0]||"";
+  await refreshRelationships();
+  if(activeRoomCode){try{await loadRoom(activeRoomCode)}catch(e){fatal(e.message)}}
+  else{room=null;partner=null;renderGame()}
+  startPolling();maybeEvent();
+}
+
+document.getElementById("back").onclick=()=>{
+  stopPolling();activeId=null;room=null;partner=null;activeRoomCode="";relationshipSummaries={};show("home");renderHome();
+};
+
+async function makeCode(){
+  for(let i=0;i<15;i++){
+    let code=String(Math.floor(100000+Math.random()*900000));
+    let rows=await api(`/rooms?code=eq.${encodeURIComponent(code)}&select=code&limit=1`);
+    if(!rows.length)return code;
+  }
+  throw new Error("無法產生房間碼，請再試一次。");
+}
+
+document.getElementById("createRoom").onclick=async()=>{
+  try{
+    clearFatal();
+    let c=cur(); if(!c)return;ensureRelations(c);
+    if(c.roomCodes.length>=3)return alert("每個角色最多建立 3 段關係。");
+    let code=await makeCode(), relation=document.getElementById("relation").value;
+    await api("/rooms",{method:"POST",headers:{"Prefer":"return=representation"},body:JSON.stringify({
+      code,relation,host_player:playerId,host_char:c.id,host_state:publicState(c)
+    })});
+    c.roomCodes.push(code);activeRoomCode=code;saveLocal();await refreshRelationships();await loadRoom(code);startPolling();
+  }catch(e){alert(e.message)}
+};
+
+document.getElementById("joinRoom").onclick=async()=>{
+  try{
+    clearFatal();
+    let c=cur();ensureRelations(c);
+    if(c.roomCodes.length>=3)return alert("每個角色最多建立 3 段關係。");
+    let code=document.getElementById("joinCode").value.replace(/\D/g,"");
+    if(code.length!==6)return alert("請輸入 6 位房間碼。");
+    if(c.roomCodes.includes(code))return alert("這段關係已經在你的列表裡。");
+    let rows=await api(`/rooms?code=eq.${encodeURIComponent(code)}&select=*`);
+    if(!rows.length)return alert("找不到這個房間。");
+    let r=rows[0];
+    if(r.guest_char && r.guest_char!==c.id)return alert("這個房間已經有兩個角色。");
+    await api(`/rooms?code=eq.${encodeURIComponent(code)}`,{method:"PATCH",headers:{"Prefer":"return=representation"},body:JSON.stringify({
+      guest_player:playerId,guest_char:c.id,guest_state:publicState(c)
+    })});
+    c.roomCodes.push(code);activeRoomCode=code;saveLocal();await refreshRelationships();await loadRoom(code);startPolling();
+  }catch(e){alert(e.message)}
+};
+
+
+const relationStages={
+ lover:["初識心動","互有好感","親密戀人","熱戀相伴","深愛彼此","無可取代"],
+ bestfriend:["初識","聊得來","好朋友","摯友","知己","靈魂摯友"],
+ family:["熟悉","親近","互相照顧","深厚家人","彼此依靠","不可取代的家人"],
+ partner:["初次合作","有些默契","固定搭檔","默契十足","生死與共","最強搭檔"],
+ rival:["競爭者","對手","勁敵","宿敵","一生之敵","命定對手"],
+ enemy:["看不順眼","敵視","針鋒相對","水火不容","不死不休","宿命之敵"]
+};
+
+const relationshipEventPools={
+ lover:[
+  {min:1,act:["抱抱","撒嬌"],rarity:"普通",title:"靠近一點",text:n=>`你向${n}靠近時，對方像是早就猜到你的動作。`,choices:[["直接抱住他",6,4,"對方愣了一下，最後還是把你抱得更緊。"],["輕輕拉住衣角",4,3,"對方低頭看了看你的手，嘴角悄悄彎起。"],["突然害羞停住",2,2,"你臨時退縮，反而讓氣氛變得更微妙。"]]},
+  {min:3,act:["約會","分享甜點"],rarity:"稀有",title:"最後一塊蛋糕",text:n=>`你和${n}面前只剩最後一塊蛋糕。`,choices:[["分一半",7,4,"你們很自然地把蛋糕分成兩半。"],["餵給對方",9,6,"對方明顯愣住，耳尖慢慢紅了。"],["搶先吃掉",3,2,"對方一臉無奈，最後還是被你逗笑。"]]},
+  {min:5,act:["說想你","約會"],rarity:"特殊",title:"沒有說完的話",text:n=>`${n}看著你，像是有什麼話放在心裡很久了。`,choices:[["安靜等他說",10,7,"沉默很久後，他終於把真正的心意說了出來。"],["握住他的手",12,8,"你沒有催促，只是用動作告訴他你在。"],["用玩笑帶過",5,3,"氣氛輕了一點，但那句話似乎還留在心裡。"]]}
+ ],
+ bestfriend:[
+  {min:1,act:["聊八卦","擊掌"],rarity:"普通",title:"笑到停不下來",text:n=>`你和${n}本來只是隨便聊兩句，結果話題越來越離譜。`,choices:[["繼續講",5,6,"最後兩個人都笑到肚子痛。"],["錄下黑歷史",4,5,"這段黑歷史大概會被你們記很久。"]]},
+  {min:3,act:["出去玩","分零食"],rarity:"稀有",title:"臨時起意",text:n=>`${n}突然提議今天什麼都不要計畫，直接出門。`,choices:[["說走就走",8,6,"一場毫無計畫的小旅行反而變成很好的回憶。"],["先買零食",6,5,"你們抱著一袋零食開始了這次亂晃。"]]},
+  {min:5,act:["打氣"],rarity:"特殊",title:"只有你知道",text:n=>`${n}難得沒有開玩笑，而是認真說起最近的煩惱。`,choices:[["好好聽完",10,7,"這一次，你成了他最放心說真話的人。"],["拍拍他",8,6,"不用說太多，你們已經懂彼此的意思。"]]}
+ ],
+ family:[
+  {min:1,act:["一起吃飯","關心"],rarity:"普通",title:"今晚吃什麼",text:n=>`${n}問你今天想吃什麼。`,choices:[["一起煮",6,5,"廚房有點亂，但晚餐意外地很好吃。"],["叫外送",4,4,"你們窩在一起挑了很久的菜單。"]]},
+  {min:3,act:["陪伴","幫忙"],rarity:"稀有",title:"不用逞強",text:n=>`${n}發現你今天有點疲憊。`,choices:[["讓他幫忙",8,6,"有人分擔之後，今天突然沒那麼累了。"],["嘴硬說沒事",4,3,"對方沒有拆穿你，只是默默留在旁邊。"]]},
+  {min:5,act:["送伴手禮"],rarity:"特殊",title:"留給你的那一份",text:n=>`${n}特別替你留了一份東西。`,choices:[["收下",10,7,"那不是什麼昂貴的東西，卻讓你覺得很安心。"],["也準備回禮",9,7,"你們都默默記得對方喜歡什麼。"]]}
+ ],
+ partner:[
+  {min:1,act:["訓練","討論計畫"],rarity:"普通",title:"配合練習",text:n=>`你和${n}試著重新調整彼此的配合。`,choices:[["照計畫來",5,3,"你們的節奏越來越一致。"],["臨場改變",6,4,"對方很快跟上了你的變化。"]]},
+  {min:3,act:["交換情報","掩護"],rarity:"稀有",title:"意外狀況",text:n=>`原本順利的行動突然出了差錯。`,choices:[["相信對方",9,5,"你沒有猶豫，而對方也沒有辜負你的信任。"],["自己處理",5,3,"事情解決了，但對方似乎有點不滿你沒依靠他。"]]},
+  {min:5,act:["慶祝"],rarity:"特殊",title:"任務之後",text:n=>`一切結束後，${n}難得真正放鬆下來。`,choices:[["一起慶祝",10,7,"你們舉杯的那一刻，都知道這份默契來之不易。"],["安靜坐著",8,6,"沒有多餘的話，但彼此都知道對方在。"]]}
+ ],
+ rival:[
+  {min:1,act:["挑戰","比戰績"],rarity:"普通",title:"又輸不得",text:n=>`${n}看到你的成績後立刻不服氣地看過來。`,choices:[["接受挑戰",5,4,"你們誰也不肯先認輸。"],["故意挑釁",6,3,"對方果然被你激得更認真了。"]]},
+  {min:3,act:["再戰","嘴硬稱讚"],rarity:"稀有",title:"不情願的肯定",text:n=>`${n}沉默很久，最後勉強承認你這次做得不錯。`,choices:[["得意一下",7,5,"對方立刻後悔剛才稱讚你。"],["認真回敬",9,6,"你也承認了對方的實力，氣氛難得沒有火藥味。"]]},
+  {min:5,act:["挑釁"],rarity:"特殊",title:"只有我能贏你",text:n=>`別人貶低你時，${n}反而第一個冷下臉。`,choices:[["問他為什麼",10,6,"他只說：『要贏你的人只能是我。』"],["當作沒聽見",7,4,"你假裝沒注意，心裡卻把那句話記了下來。"]]}
+ ],
+ enemy:[
+  {min:1,act:["下戰帖","嘲諷"],rarity:"普通",title:"針鋒相對",text:n=>`你和${n}才說沒幾句，氣氛就變得十分緊繃。`,choices:[["正面回擊",4,2,"你們誰都沒有後退半步。"],["冷笑帶過",3,3,"對方沒有得到想要的反應，反而更不爽。"]]},
+  {min:3,act:["正面較量","警告"],rarity:"稀有",title:"不得不合作",text:n=>`突發狀況迫使你和${n}暫時站到同一邊。`,choices:[["先合作再說",8,4,"你們配合得意外地不差，這件事讓彼此都很不爽。"],["各做各的",4,2,"事情最後還是解決了，但過程非常難看。"]]},
+  {min:5,act:["宣戰"],rarity:"特殊",title:"真正的執念",text:n=>`${n}看著你，說這場勝負早就不只是普通的恩怨了。`,choices:[["奉陪到底",10,5,"你們都知道，這段關係已經成了彼此生命的一部分。"],["問他到底想證明什麼",8,4,"對方沉默了很久，沒有給出答案。"]]}
+ ]
+};
+function getEligibleRelationEvents(rel,label,stage){
+  return (relationshipEventPools[rel]||[]).filter(e=>e.min<=stage+1 && e.act.includes(label));
+}
+let activeRelationEvent=null;
+function renderRelationEventLog(){
+  let box=document.getElementById("relationEventLog"),c=cur();
+  if(!box||!c||!activeRoomCode)return;
+  c.relationshipEvents??={};
+  let arr=c.relationshipEvents[activeRoomCode]||[];
+  box.innerHTML=arr.length?arr.slice().reverse().slice(0,12).map(x=>`<div class="relEventCard"><b>${esc(x.icon||"💞")} ${esc(x.title)}</b><div class="small">${esc(x.time)}・${esc(x.choice)}</div><div class="result">${esc(x.result)}</div></div>`).join(""):'<div class="muted">還沒有發生共同事件。</div>';
+}
+function openRelationEvent(ev,label){
+  activeRelationEvent={...ev,label};
+  relationEventRarity.textContent=ev.rarity;
+  relationEventTitle.textContent=ev.title;
+  relationEventText.textContent=ev.text(partner?.name||"對方");
+  relationEventChoices.innerHTML="";
+  ev.choices.forEach(ch=>{
+    let b=document.createElement("button");b.textContent=ch[0];
+    b.onclick=()=>resolveRelationEvent(ch);
+    relationEventChoices.appendChild(b);
+  });
+  relationEventModal.classList.remove("hidden");
+}
+async function resolveRelationEvent(ch){
+  if(!activeRelationEvent||!room||!partner)return;
+  let c=cur(),ev=activeRelationEvent,isHost=room.host_char===c.id;
+  let gain=Math.max(1,Math.round(ch[1]*(relDef()?.bond||1)));
+  c.mood=Math.min(100,c.mood+(ch[2]||0));
+  c.stats??={};c.stats.interactions=(c.stats.interactions||0)+1;c.stats.relationshipEvents=(c.stats.relationshipEvents||0)+1;
+  let useCtr=ensureRelationCounter(c,room.code);useCtr.used=(useCtr.used||0)+1;saveLocal();
+  c.relationshipEvents??={};c.relationshipEvents[room.code]??=[];
+  c.relationshipEvents[room.code].push({
+    id:uuid(),title:ev.title,choice:ch[0],result:ch[3],icon:ev.rarity==="特殊"?"✨":ev.rarity==="稀有"?"🌟":"💞",
+    time:new Date().toLocaleString("zh-TW")
+  });
+  c.relationshipEvents[room.code]=c.relationshipEvents[room.code].slice(-50);
+  await api("/interactions",{method:"POST",body:JSON.stringify({
+    room_code:room.code,from_char:c.id,to_char:isHost?room.guest_char:room.host_char,
+    text:`EVENT|${ev.title}|${ch[0]}|${ch[3]}`
+  })});
+  saveLocal();relationEventModal.classList.add("hidden");activeRelationEvent=null;
+  await refreshBond(room.code);renderGame();renderRelationEventLog();await loadInbox();
+  infoTitle.textContent=`${ev.rarity==="特殊"?"✨":ev.rarity==="稀有"?"🌟":"💞"} ${ev.title}`;
+  infoBody.innerHTML=`${esc(ch[3])}<br><br><b>共同羈絆 +${gain}</b>　🌸 心情 +${ch[2]||0}`;
+  infoModal.classList.remove("hidden");
+}
+function bondInfoFromCount(code,count){
+  let rr=relationshipSummaries[code]||room,def=rr?defs[rr.relation]:null;
+  let total=Math.round(count*4*(def?.bond||1));
+  let lv=Math.min(30,1+Math.floor(total/20));
+  let into=total%20,stage=Math.min(5,Math.floor((lv-1)/5));
+  return{count,total,lv,into,stage,max:lv>=30};
+}
+async function refreshBond(code){
+  if(!code)return;
+  try{
+    let rows=await api(`/interactions?room_code=eq.${encodeURIComponent(code)}&select=id&limit=1000`);
+    bondCache[code]=bondInfoFromCount(code,rows.length);
+  }catch(e){console.warn("bond",e)}
+}
+function renderBond(code){
+  let b=bondCache[code]||bondInfoFromCount(code,0),rr=relationshipSummaries[code]||room;
+  let stages=relationStages[rr?.relation]||["第1階","第2階","第3階","第4階","第5階","第6階"];
+  let title=document.getElementById("bondTitle"),value=document.getElementById("bondValue"),fill=document.getElementById("bondFill"),stage=document.getElementById("bondStage");
+  if(!title)return;
+  title.textContent=`💗 共同羈絆 Lv.${b.lv}${b.max?" MAX":""}`;
+  value.textContent=b.max?"MAX":`${b.into} / 20`;
+  fill.style.width=(b.max?100:b.into/20*100)+"%";
+  stage.textContent=`第 ${b.stage+1} 階・${stages[b.stage]}`;
+}
+function interactionStory(rel,label,name){
+  const pools={
+    lover:[`${name}愣了一下，耳尖似乎有點紅，最後還是笑著接受了你的「${label}」。`,`你做了「${label}」，兩個人的距離好像悄悄近了一點。`,`${name}沒有躲開。這個小小的「${label}」讓氣氛變得很甜。`],
+    bestfriend:[`你對${name}做了「${label}」，結果兩個人很快笑成一團。`,`${name}立刻接住你的「${label}」，熟悉得像早就知道你會這麼做。`],
+    family:[`你對${name}做了「${label}」。這份自然的關心，讓人覺得很安心。`,`${name}收下了你的「${label}」，像平常一樣留在你身邊。`],
+    partner:[`你和${name}進行「${label}」，彼此的默契又多了一點。`,`${name}很快理解你的意思，「${label}」進行得比想像中順利。`],
+    rival:[`你向${name}「${label}」，對方挑了挑眉，看起來完全不打算認輸。`,`${name}接下了你的「${label}」。空氣裡立刻多了一點火藥味。`],
+    enemy:[`你對${name}「${label}」，對方冷冷回應，氣氛瞬間緊繃。`,`${name}沒有退讓。你們的「${label}」讓這段關係更加劍拔弩張。`]
+  };
+  let arr=pools[rel]||[`你和${name}完成了一次「${label}」。`];
+  return arr[Math.floor(Math.random()*arr.length)];
+}
+function showInteractionResult(label,story,gain){
+  infoTitle.textContent=`💞 ${label}`;
+  infoBody.innerHTML=`${esc(story)}<br><br><b>共同羈絆 +${gain}</b>`;
+  infoModal.classList.remove("hidden");
+}
+async function loadRoom(code){
+  let rows=await api(`/rooms?code=eq.${encodeURIComponent(code)}&select=*`);
+  if(!rows.length){
+    let c=cur();
+    if(c){ensureRelations(c);c.roomCodes=c.roomCodes.filter(x=>x!==code);saveLocal()}
+    delete relationshipSummaries[code];
+    if(activeRoomCode===code)activeRoomCode=(c?.roomCodes?.[0]||"");
+    room=null;partner=null;renderGame();return;
+  }
+  room=rows[0];activeRoomCode=code;relationshipSummaries[code]=room;
+  let c=cur();
+  partner=room.host_char===c.id?room.guest_state:room.host_state;
+  await refreshBond(code);
+  renderGame();
+  await Promise.all([loadMessages(),loadInbox()]);
+}
+
+async function refreshRelationships(){
+  let c=cur();if(!c)return;ensureRelations(c);
+  relationshipSummaries={};
+  const valid=[];
+  for(const code of c.roomCodes){
+    try{
+      const rows=await api(`/rooms?code=eq.${encodeURIComponent(code)}&select=*`);
+      if(rows.length){relationshipSummaries[code]=rows[0];valid.push(code)}
+    }catch(e){console.warn(e)}
+  }
+  if(valid.length!==c.roomCodes.length){c.roomCodes=valid;saveLocal()}
+  if(activeRoomCode && !valid.includes(activeRoomCode))activeRoomCode=valid[0]||"";
+  renderGame();
+}
+
+async function syncState(){
+  let c=cur();if(!c||!activeRoomCode||!room)return;
+  let field=room.host_char===c.id?"host_state":"guest_state";
+  let body={};body[field]=publicState(c);
+  await api(`/rooms?code=eq.${encodeURIComponent(room.code)}`,{method:"PATCH",body:JSON.stringify(body)});
+}
+
+function startPolling(){
+  stopPolling();
+  pollTimer=setInterval(async()=>{
+    try{
+      let c=cur();if(!c)return;
+      ensureRelations(c);
+      await refreshRelationships();
+      if(activeRoomCode)await loadRoom(activeRoomCode);
+      else{room=null;partner=null;renderGame()}
+    }catch(e){console.warn(e)}
+  },2500);
+}
+function stopPolling(){if(pollTimer)clearInterval(pollTimer);pollTimer=null}
+
+function renderGame(){
+  let c=cur();if(!c)return;resetDailyIfNeeded(c);let r=routine();
+  document.getElementById("day").textContent=day(c);
+  document.getElementById("charName").textContent=c.name;
+  document.getElementById("level").textContent=c.level;
+  document.getElementById("exp").textContent=Math.floor(c.exp);
+  document.getElementById("energy").textContent=Math.floor(c.energy);
+  document.getElementById("mood").textContent=Math.floor(c.mood);
+  c.hunger ??= 85;c.money ??= 300;c.inventory ??= {};c.memories ??= [];c.achievements ??= {};
+  document.getElementById("hunger").textContent=Math.floor(c.hunger);
+  document.getElementById("moneyTop").textContent=c.money;
+  let wctr=ensureWorkCounter(c),qwl=document.getElementById("quickWorkLeft");
+  if(qwl)qwl.textContent=`今日剩餘 ${Math.max(0,3-(wctr.used||0))}/3`;
+
+  document.getElementById("energyFill").style.width=c.energy+"%";document.getElementById("hungerFill").style.width=c.hunger+"%";document.getElementById("moodFill").style.width=c.mood+"%";
+  let expNeed=60+c.level*25;document.getElementById("expFill").style.width=Math.min(100,c.exp/expNeed*100)+"%";document.getElementById("drawerName").textContent=c.name;renderExtras(c);
+  document.getElementById("activity").textContent=r[2];
+  document.getElementById("activityDetail").textContent=r[3];
+
+  let im=document.getElementById("avatarImg"),em=document.getElementById("emoji");
+  if(c.image){im.src=c.image;im.style.display="block";em.style.display="none"}else{im.style.display="none";em.style.display="inline"}
+
+  ensureRelations(c);
+  document.getElementById("relationCount").textContent=`${c.roomCodes.length}/3`;
+  document.getElementById("roomSetup").classList.toggle("hidden",c.roomCodes.length>=3);
+  document.getElementById("roomActive").classList.toggle("hidden",!room);
+
+  const list=document.getElementById("relationshipList");list.innerHTML="";
+  if(!c.roomCodes.length)list.innerHTML='<div class="muted">目前還沒有建立任何關係。</div>';
+  c.roomCodes.forEach(code=>{
+    const rr=relationshipSummaries[code];
+    const isHost=rr?.host_char===c.id;
+    const other=rr?(isHost?rr.guest_state:rr.host_state):null;
+    const def=rr?defs[rr.relation]:null;
+    const item=document.createElement("div");item.className="relItem "+(code===activeRoomCode?"active":"");
+    let bi=bondCache[code]||bondInfoFromCount(code,0);item.innerHTML=`<div class="meta"><b>${other?esc(other.name):"等待對方加入"} ${def?`· ${def.name}`:""}</b><div class="small">💗 羈絆 Lv.${bi.lv}${bi.max?" MAX":""}　·　房間 ${esc(code)}</div></div><div class="relActions"><button data-switch="${esc(code)}">開啟</button></div>`;
+    list.appendChild(item);
+  });
+
+  if(room){
+    document.getElementById("roomCode").textContent=room.code;
+    document.getElementById("waiting").classList.toggle("hidden",!!partner);
+    document.getElementById("partnerCard").classList.toggle("hidden",!partner);
+    let grid=document.getElementById("interactionGrid");grid.innerHTML="";
+    if(partner){
+      let d=relDef();
+      document.getElementById("partnerName").textContent=partner.name||"對方";
+      document.getElementById("relationChip").textContent=d.name;
+      document.getElementById("partnerStatus").textContent=partner.activity||"未知狀態";
+      document.getElementById("partnerStats").textContent=`Lv.${partner.level||1}　體力 ${partner.energy??"?"}　心情 ${partner.mood??"?"}`;
+      document.getElementById("relationBonus").textContent=d.desc;
+      renderBond(room.code);
+      renderRelationEventLog();
+      document.getElementById("partnerPic").innerHTML=partner.image?`<img src="${partner.image}">`:"♡";
+      d.actions.forEach(([label,key])=>{let b=document.createElement("button");b.textContent=label;b.dataset.act=key;grid.appendChild(b)});
+      updateInteractionLimit(c,room.code);
+    }
+  }
+
+  document.getElementById("eventCount").textContent=`${c.events.length}/10`;
+  let eb=document.getElementById("events");eb.innerHTML="";
+  if(!c.events.length)eb.innerHTML='<div class="muted">目前沒有待抉擇事件。</div>';
+  c.events.forEach(ev=>{
+    let d=document.createElement("div");d.className="event";
+    d.innerHTML=`<div class="title">${esc(ev.title)}</div><div class="small">${esc(ev.text)}</div><div class="choices"></div>`;
+    let choices=d.querySelector(".choices");
+    ev.choices.forEach(ch=>{let b=document.createElement("button");b.textContent=ch[0];b.onclick=()=>{c.events=c.events.filter(x=>x.id!==ev.id);c.mood=Math.max(0,Math.min(100,c.mood+(ch[1]||0)));c.stats??={};c.stats.events=(c.stats.events||0)+1;logJournal(c,`處理事件「${ev.title}」：${ch[0]}`,"🎭");saveLocal();renderGame()};choices.appendChild(b)});
+    eb.appendChild(d);
+  });
+}
+
+document.getElementById("relationshipList").onclick=async e=>{
+  const code=e.target.dataset.switch;if(!code)return;
+  activeRoomCode=code;
+  try{await loadRoom(code)}catch(err){alert(err.message)}
+};
+
+document.getElementById("disconnectRoom").onclick=async()=>{
+  if(!room||!activeRoomCode)return;
+  const c=cur();
+  const name=partner?.name||"對方";
+  if(!confirm(`確定要解除和「${name}」的關係嗎？\n這段關係的房間、聊天、互動與小遊戲資料都會一起刪除。`))return;
+  try{
+    await api(`/rooms?code=eq.${encodeURIComponent(activeRoomCode)}`,{method:"DELETE"});
+    c.roomCodes=c.roomCodes.filter(x=>x!==activeRoomCode);
+    activeRoomCode=c.roomCodes[0]||"";
+    room=null;partner=null;saveLocal();
+    await refreshRelationships();
+    if(activeRoomCode)await loadRoom(activeRoomCode);
+    else renderGame();
+  }catch(err){alert(err.message)}
+};
+
+
+function relationUseCount(c,code){return Number(ensureRelationCounter(c,code).used||0)}
+function relationUseLeft(c,code){return Math.max(0,5-relationUseCount(c,code))}
+function updateInteractionLimit(c,code){
+  let el=document.getElementById("interactionLimit");if(!el)return;
+  let used=relationUseCount(c,code),left=Math.max(0,5-used);
+  el.textContent=`💗 今日羈絆互動：${used} / 5　｜　剩餘 ${left} 次　｜　00:00 重置`;
+  document.querySelectorAll("#interactionGrid button").forEach(b=>{
+    if(b.dataset.act!=="game"){
+      b.disabled=left<=0;
+      b.title=left<=0?"今天這段關係的羈絆互動次數已用完":"";
+    }
+  });
+}
+document.getElementById("interactionGrid").onclick=async e=>{
+  let key=e.target.dataset.act;if(!key||!room||!partner)return;
+  if(key==="game")return startGame();
+  let c=cur();
+  if(relationUseLeft(c,room.code)<=0){
+    infoTitle.textContent="💞 今天已經互動很多次了";
+    infoBody.innerHTML="這段關係今天的羈絆互動已達 <b>5 / 5</b>。<br><br>明天 00:00 會恢復。聊天、共同外出和小遊戲不受這個限制。";
+    infoModal.classList.remove("hidden");return;
+  }
+  let label=relDef().actions.find(x=>x[1]===key)?.[0]||"互動";
+  let b=bondCache[room.code]||bondInfoFromCount(room.code,0),eligible=getEligibleRelationEvents(room.relation,label,b.stage);
+  if(!eligible.length){
+    infoTitle.textContent=`💞 ${label}`;
+    infoBody.innerHTML=`目前這個羈絆階段還沒有對應事件。隨著羈絆提升，會解鎖新的「${label}」事件。`;
+    infoModal.classList.remove("hidden");return;
+  }
+  // Higher rarity becomes possible as bond stage rises, but still random.
+  let weighted=[];
+  eligible.forEach(ev=>{
+    let w=ev.rarity==="特殊"?Math.max(1,b.stage-2):ev.rarity==="稀有"?2+b.stage:6;
+    for(let i=0;i<w;i++)weighted.push(ev);
+  });
+  openRelationEvent(weighted[Math.floor(Math.random()*weighted.length)],label);
+};
+
+async function loadInbox(){
+  if(!room)return;
+  let c=cur();
+  let data=await api(`/interactions?room_code=eq.${encodeURIComponent(room.code)}&to_char=eq.${encodeURIComponent(c.id)}&select=*&order=created_at.desc&limit=12`);
+  let box=document.getElementById("inbox");box.innerHTML="";
+  if(!data.length)box.innerHTML='<div class="muted">目前沒有互動。</div>';
+  data.forEach(x=>{let d=document.createElement("div"),parts=String(x.text||"").split("|");d.className="notice";if(parts[0]==="EVENT"){d.innerHTML=`<div class="title">${esc(partner?.name||"對方")}觸發了事件「${esc(parts[1]||"關係事件")}」</div><div class="small">選擇：${esc(parts[2]||"")}<br>${esc(parts.slice(3).join("|")||"")}</div>`}else{let label=parts[0],story=parts.slice(1).join("|");d.innerHTML=`<div class="title">${esc(partner?.name||"對方")}：${esc(label)}</div><div class="small">${story?esc(story):"這個互動已同步到你的角色。"}</div>`}box.appendChild(d)});
+}
+
+document.getElementById("sendChat").onclick=sendChat;
+document.getElementById("chatInput").onkeydown=e=>{if(e.key==="Enter")sendChat()};
+
+async function sendChat(){
+  try{
+    let c=cur(),i=document.getElementById("chatInput"),t=i.value.trim();
+    if(!t||!room||!partner)return;
+    await api("/messages",{method:"POST",body:JSON.stringify({room_code:room.code,from_char:c.id,text:t})});
+    c.stats??={};c.stats.messages=(c.stats.messages||0)+1;logJournal(c,`傳了一則訊息給${partner?.name||"關係角色"}`,"💬");saveLocal();
+    i.value="";await loadMessages();renderGame();
+  }catch(e){alert(e.message)}
+}
+
+async function loadMessages(){
+  if(!room)return;
+  let c=cur();
+  let data=await api(`/messages?room_code=eq.${encodeURIComponent(room.code)}&select=*&order=created_at.asc&limit=60`);
+  let box=document.getElementById("chatBox");box.innerHTML="";
+  if(!data.length)box.innerHTML='<div class="muted">還沒有聊天紀錄。</div>';
+  data.forEach(m=>{let d=document.createElement("div");d.className="msg "+(m.from_char===c.id?"me":"");d.innerHTML=`<div class="bubble">${esc(m.text)}</div>`;box.appendChild(d)});
+  box.scrollTop=box.scrollHeight;
+}
+
+async function startGame(){
+  try{
+    if(!room||!partner)return;
+    // 先找這個房間最近尚未完成的一局，第二個玩家會加入同一局。
+    let recent=await api(`/games?room_code=eq.${encodeURIComponent(room.code)}&select=*&order=id.desc&limit=10`);
+    let open=recent.find(g=>!g.host_choice||!g.guest_choice);
+    if(open){
+      gameId=open.id;
+    }else{
+      let data=await api("/games",{method:"POST",headers:{"Prefer":"return=representation"},body:JSON.stringify({
+        room_code:room.code,host_char:room.host_char,guest_char:room.guest_char,host_choice:null,guest_choice:null
+      })});
+      gameId=data[0].id;
+    }
+    document.getElementById("gameModal").classList.remove("hidden");
+    clearInterval(gamePollTimer);
+    gamePollTimer=setInterval(()=>refreshGame().catch(()=>{}),1200);
+    await refreshGame();
+  }catch(e){alert(e.message)}
+}
+
+document.querySelectorAll("[data-choice]").forEach(b=>b.onclick=async()=>{
+  if(!gameId||!room)return;
+  let c=cur(),field=room.host_char===c.id?"host_choice":"guest_choice";
+  let body={};body[field]=b.dataset.choice;
+  try{
+    await api(`/games?id=eq.${gameId}`,{method:"PATCH",body:JSON.stringify(body)});
+    await refreshGame();
+  }catch(e){alert(e.message)}
+});
+
+let rewardedGames=new Set();
+async function refreshGame(){
+  if(!gameId)return;
+  let rows=await api(`/games?id=eq.${gameId}&select=*`);
+  if(!rows.length)return;
+  let g=rows[0],c=cur(),mine=room.host_char===c.id?g.host_choice:g.guest_choice,other=room.host_char===c.id?g.guest_choice:g.host_choice;
+  let res=document.getElementById("gameResult");
+  if(!mine)res.textContent="請選一個答案。對方也會在自己的手機上選。";
+  else if(!other)res.textContent=`你選了「${mine}」，等待對方選擇……`;
+  else{
+    let same=mine===other;
+    res.textContent=same?`心有靈犀！你們都選了「${mine}」 ♡`:`你選「${mine}」，對方選「${other}」`;
+    if(!rewardedGames.has(g.id)){
+      rewardedGames.add(g.id);
+      c.stats??={};c.stats.games=(c.stats.games||0)+1;
+      if(same)c.achievements.game1=1;
+      saveLocal();
+      // 只由房主寫入一次共同羈絆紀錄，避免雙方重複加成。
+      if(room.host_char===c.id){
+        let tag=`小遊戲|${same?"心有靈犀":"完成心有靈犀"} #${g.id}`;
+        let existing=await api(`/interactions?room_code=eq.${encodeURIComponent(room.code)}&text=eq.${encodeURIComponent(tag)}&select=id&limit=1`);
+        if(!existing.length){
+          await api("/interactions",{method:"POST",body:JSON.stringify({room_code:room.code,from_char:c.id,to_char:room.guest_char,text:tag})});
+        }
+      }
+      await refreshBond(room.code);renderGame();
+    }
+  }
+}
+document.getElementById("closeRelationEvent").onclick=()=>document.getElementById("relationEventModal").classList.add("hidden");
+document.getElementById("closeGame").onclick=()=>{document.getElementById("gameModal").classList.add("hidden");clearInterval(gamePollTimer);gamePollTimer=null};
+
+document.getElementById("avatar").onclick=()=>document.getElementById("imageInput").click();
+document.getElementById("imageInput").onchange=e=>{
+  let c=cur(),f=e.target.files[0];if(!c||!f)return;
+  let rd=new FileReader();rd.onload=v=>{let im=new Image();im.onload=()=>{let cv=document.createElement("canvas"),w=im.width,h=im.height,max=320;if(w>h&&w>max){h=h*max/w;w=max}else if(h>=w&&h>max){w=w*max/h;h=max}cv.width=w;cv.height=h;cv.getContext("2d").drawImage(im,0,0,w,h);c.image=cv.toDataURL("image/jpeg",.65);saveLocal();syncState().catch(()=>{});renderGame()};im.src=v.target.result};rd.readAsDataURL(f);
+};
+
+function maybeEvent(){
+  let c=cur();if(!c||c.events.length>=10||Date.now()-c.lastEvent<90000||Math.random()>.6)return;
+  c.lastEvent=Date.now();let x=eventPool[Math.floor(Math.random()*eventPool.length)],p=partner?.name||"那個人";
+  c.events.push({id:uuid(),title:x[0],text:x[1](p),choices:x[2]});saveLocal();renderGame();
+}
+
+setInterval(async()=>{
+  let c=cur();if(!c)return;
+  const relationMultipliers=Object.values(relationshipSummaries)
+    .map(r=>defs[r.relation]?.exp||1);
+  const expMultiplier=1+relationMultipliers.reduce((sum,x)=>sum+(x-1),0);
+  c.exp+=1*expMultiplier;c.hunger=Math.max(0,c.hunger-.18);c.energy=Math.max(0,Math.min(100,c.energy+(new Date().getHours()<7?.8:-.1)));c.mood=Math.max(0,Math.min(100,c.mood+.15));
+  let need=60+c.level*25;if(c.exp>=need){c.exp-=need;c.level++}
+  saveLocal();try{await syncState()}catch(e){console.warn(e)};maybeEvent();renderGame();
+},60000);
+
+
+
+const places=[["park","🌳","公園"],["cafe","☕","咖啡店"],["bookstore","📚","書店"],["street","🛍️","商店街"],["cinema","🎬","電影院"],["river","🌙","河堤"]];
+let achievementFilter="全部";
+function todayKey(){return new Date().toISOString().slice(0,10)}
+function logJournal(c,text,icon="•"){c.journal??={};let k=todayKey();c.journal[k]??=[];c.journal[k].push({time:new Date().toLocaleTimeString("zh-TW",{hour:"2-digit",minute:"2-digit",hour12:false}),text,icon});c.journal[k]=c.journal[k].slice(-60);saveLocal()}
+function presence(st){if(!st?.updated)return '<span class="presence off">⚫ 離線</span>';let d=Date.now()-st.updated;if(d<90000)return '<span class="presence on">🟢 在線</span>';let m=Math.floor(d/60000);return `<span class="presence off">⚫ 離線・${m<60?m+" 分鐘前":Math.floor(m/60)+" 小時前"}</span>`}
+function renderJournal(c){let el=document.getElementById("journalList"),a=c.journal?.[todayKey()]||[];if(el)el.innerHTML=a.length?a.map(x=>`<div class="journalLine"><b>${x.time}</b>　${x.icon} ${esc(x.text)}</div>`).join(""):'<div class="muted">今天還沒有特別紀錄。</div>'}
+
+const outingRelationEvents={
+ park:[
+  {rels:["lover"],min:1,rarity:"普通",title:"長椅上的距離",text:n=>`你和${n}走累了，在公園長椅上坐下。肩膀不知不覺靠得很近。`,choices:[["靠著他休息",7,4,"你輕輕靠過去，對方沒有躲開。"],["買飲料回來",5,3,"你們一人一杯飲料，慢慢聊了很久。"]]},
+  {rels:["bestfriend","family"],min:1,rarity:"普通",title:"意外的野餐地",text:n=>`你和${n}找到一小塊很舒服的草地。`,choices:[["直接坐下來",6,4,"什麼都沒準備，反而格外悠閒。"],["拍張照片",4,3,"這張照片後來成了很日常的一段回憶。"]]},
+  {rels:["rival","enemy"],min:2,rarity:"稀有",title:"偶遇比賽",text:n=>`公園裡剛好有人在舉辦小型競賽，${n}立刻看向你。`,choices:[["比就比",8,3,"你們一路較勁到最後，誰也不服誰。"],["故意讓他先",5,2,"對方發現後反而更火大。"]]}
+ ],
+ cafe:[
+  {rels:["lover"],min:1,rarity:"普通",title:"最後一塊甜點",text:n=>`你和${n}看中的甜點只剩最後一份。`,choices:[["一起分",8,5,"你們自然地一人一半，甜得剛剛好。"],["讓給對方",6,4,"對方吃了一口後，又把叉子推回你面前。"]]},
+  {rels:["bestfriend"],min:1,rarity:"普通",title:"點餐大失敗",text:n=>`${n}點了一杯看起來很可疑的新飲料。`,choices:[["交換喝一口",6,5,"你們同時露出嫌棄的表情，然後笑到不行。"],["堅持讓他喝完",4,4,"這件事大概會被你笑很久。"]]},
+  {rels:["family","partner"],min:2,rarity:"稀有",title:"窗邊的休息",text:n=>`難得沒有其他事情，你和${n}坐在窗邊安靜休息。`,choices:[["聊聊近況",7,5,"你們交換了最近一直沒空說的事情。"],["什麼都不說",6,4,"只是一起坐著，也有種安心感。"]]}
+ ],
+ bookstore:[
+  {rels:["lover","bestfriend"],min:1,rarity:"普通",title:"同一本書",text:n=>`你和${n}同時伸手拿向書架上的同一本書。`,choices:[["一起看",7,4,"你們站在書架旁翻了好一陣子。"],["讓給對方",5,3,"對方翻了幾頁後，說看完一定借你。"]]},
+  {rels:["family"],min:2,rarity:"稀有",title:"熟悉的書頁",text:n=>`${n}翻到一本讓他想起從前的書。`,choices:[["問問以前的事",8,5,"你聽到了一段以前沒聽過的故事。"],["買下來送他",10,6,"這本書後來被好好收在了房間裡。"]]},
+  {rels:["rival","enemy"],min:2,rarity:"稀有",title:"知識較量",text:n=>`${n}突然拿起一本書問你一個刁鑽的問題。`,choices:[["正面回答",7,3,"你們最後甚至開始互相出題。"],["反問回去",8,3,"這場較量莫名持續了很久。"]]}
+ ],
+ street:[
+  {rels:["lover"],min:2,rarity:"稀有",title:"牽住別走散",text:n=>`商店街人很多，你和${n}差點被人群沖散。`,choices:[["主動牽手",10,6,"對方很快反握住你的手，之後一直沒放開。"],["拉住袖子",7,4,"你抓住他的袖口，順利沒有走散。"]]},
+  {rels:["bestfriend","family"],min:1,rarity:"普通",title:"亂逛也很好",text:n=>`你和${n}本來什麼都沒打算買，卻一家一家逛下去。`,choices:[["買點小東西",6,4,"你們各自挑了一件奇怪的小東西。"],["去吃小吃",7,5,"最後最大的收穫似乎是吃了很多東西。"]]},
+  {rels:["partner","rival"],min:2,rarity:"稀有",title:"街頭挑戰",text:n=>`路邊的小遊戲攤位吸引了${n}的注意。`,choices:[["比誰分數高",8,4,"勝負欲立刻被點燃了。"],["合作拿獎品",9,5,"你們的配合比預想中還要好。"]]}
+ ],
+ cinema:[
+  {rels:["lover"],min:2,rarity:"稀有",title:"電影看到一半",text:n=>`電影進行到一半，你發現${n}的手就放在你旁邊。`,choices:[["偷偷碰一下",9,5,"指尖碰到的瞬間，兩個人都沒有移開。"],["專心看電影",6,4,"散場時才發現對方其實一直在偷看你。"]]},
+  {rels:["bestfriend","family"],min:1,rarity:"普通",title:"選錯片了",text:n=>`這部電影跟你們想像的完全不一樣。`,choices:[["看到底",5,5,"爛得太有特色，反而變成很好笑的回憶。"],["中途逃走",6,4,"你們跑去附近找別的事情做。"]]},
+  {rels:["rival","enemy"],min:3,rarity:"特殊",title:"難得的停戰",text:n=>`黑暗的影廳裡，你和${n}居然安靜地坐完了一整場電影。`,choices:[["散場後談電影",10,4,"你們第一次像普通人一樣交換了看法。"],["當作什麼都沒發生",7,3,"一出影廳，熟悉的火藥味又回來了。"]]}
+ ],
+ river:[
+  {rels:["lover"],min:3,rarity:"特殊",title:"夜風裡的話",text:n=>`河堤的風很輕，${n}忽然叫了你的名字。`,choices:[["回頭看他",12,7,"他停了很久，最後說：『只是突然很想這樣叫你。』"],["靠近一點",11,6,"你們並肩走著，誰也沒有急著回去。"]]},
+  {rels:["bestfriend","family"],min:2,rarity:"稀有",title:"夜裡散步",text:n=>`白天說不出口的事情，在夜風裡好像容易說一點。`,choices:[["聊些真心話",9,6,"你們聊到很晚，知道了彼此更多事情。"],["安靜散步",7,5,"不說話也不尷尬，這就是熟悉的感覺。"]]},
+  {rels:["partner","rival","enemy"],min:3,rarity:"特殊",title:"短暫的並肩",text:n=>`夜裡沒有任務也沒有勝負，你和${n}只是並肩走在河堤上。`,choices:[["問他最近如何",9,4,"對方明顯不習慣這麼普通的問題，但還是回答了。"],["什麼都不問",8,4,"你們難得共享了一段沒有衝突的時間。"]]}
+ ]
+};
+let activeOutingEvent=null;
+function pickOutingEvent(placeId){
+  let b=bondCache[room?.code]||bondInfoFromCount(room?.code||"",0),rel=room?.relation;
+  let pool=(outingRelationEvents[placeId]||[]).filter(e=>e.rels.includes(rel)&&e.min<=b.stage+1);
+  if(!pool.length)return null;
+  let weighted=[];
+  pool.forEach(e=>{let w=e.rarity==="特殊"?Math.max(1,b.stage-1):e.rarity==="稀有"?3+b.stage:6;for(let i=0;i<w;i++)weighted.push(e)});
+  return weighted[Math.floor(Math.random()*weighted.length)];
+}
+function openOutingBondEvent(placeId){
+  let ev=pickOutingEvent(placeId),pl=places.find(x=>x[0]===placeId);
+  if(!ev){
+    infoTitle.textContent=`${pl?.[1]||"🗺️"} 共同外出`;
+    infoBody.innerHTML=`你們一起去了${pl?.[2]||"目的地"}。這次沒有發生特別事件。`;
+    infoModal.classList.remove("hidden");return;
+  }
+  activeOutingEvent={...ev,placeId};
+  relationEventRarity.textContent=`${pl?.[1]||"🗺️"} 外出・${ev.rarity}`;
+  relationEventTitle.textContent=ev.title;
+  relationEventText.textContent=ev.text(partner?.name||"對方");
+  relationEventChoices.innerHTML="";
+  ev.choices.forEach(ch=>{let b=document.createElement("button");b.textContent=ch[0];b.onclick=()=>resolveOutingBondEvent(ch);relationEventChoices.appendChild(b)});
+  relationEventModal.classList.remove("hidden");
+}
+async function resolveOutingBondEvent(ch){
+  if(!activeOutingEvent||!room||!partner)return;
+  let c=cur(),ev=activeOutingEvent,isHost=room.host_char===c.id,pl=places.find(x=>x[0]===ev.placeId);
+  c.mood=Math.min(100,c.mood+(ch[2]||0));c.stats??={};c.stats.outingTogether=(c.stats.outingTogether||0)+1;
+  c.relationshipEvents??={};c.relationshipEvents[room.code]??=[];
+  c.relationshipEvents[room.code].push({id:uuid(),title:`${pl?.[2]||"外出"}・${ev.title}`,choice:ch[0],result:ch[3],icon:pl?.[1]||"🗺️",time:new Date().toLocaleString("zh-TW")});
+  c.relationshipEvents[room.code]=c.relationshipEvents[room.code].slice(-50);
+  await api("/interactions",{method:"POST",body:JSON.stringify({room_code:room.code,from_char:c.id,to_char:isHost?room.guest_char:room.host_char,text:`EVENT|${pl?.[2]||"外出"}・${ev.title}|${ch[0]}|${ch[3]}`})});
+  saveLocal();activeOutingEvent=null;relationEventModal.classList.add("hidden");
+  await refreshBond(room.code);c.achievements.outingTogether=1;
+  renderGame();renderRelationEventLog();await loadInbox();
+  infoTitle.textContent=`${pl?.[1]||"🗺️"} ${ev.title}`;
+  infoBody.innerHTML=`${esc(ch[3])}<br><br><b>共同羈絆提升</b>　🌸 心情 +${ch[2]||0}`;
+  infoModal.classList.remove("hidden");
+}
+function renderOuting(c){let el=document.getElementById("placeList");if(el)el.innerHTML=places.map(x=>`<button data-place="${x[0]}">${x[1]} ${x[2]}</button>`).join("");renderInvites(c)}
+async function renderInvites(c){let el=document.getElementById("outingInvites");if(!el)return;let all=[];for(let code of c.roomCodes){try{let xs=await api(`/interactions?room_code=eq.${code}&to_char=eq.${c.id}&select=*&order=created_at.desc&limit=20`);xs.filter(x=>String(x.text).startsWith("OUTING_INVITE|")).forEach(x=>all.push({...x,code}))}catch{}}el.innerHTML=all.length?all.map(x=>{let q=x.text.split("|"),pl=places.find(p=>p[0]===q[1]);return `<div class="itemRow"><b>💌 ${pl?.[2]||"外出"}邀請</b><div class="small">只有接受後才會開始共同外出。</div><button data-accept="${x.id}" data-code="${x.code}" data-place="${q[1]}">接受</button> <button data-decline="${x.id}">婉拒</button></div>`}).join(""):'<div class="muted">目前沒有等待回覆的邀請。</div>'}
+function renderChatRooms(c){let el=document.getElementById("chatRelationList");if(!el)return;el.innerHTML=c.roomCodes.length?c.roomCodes.map(code=>{let rr=relationshipSummaries?.[code],o=rr?(rr.host_char===c.id?rr.guest_state:rr.host_state):null;return `<button style="width:100%;margin-bottom:6px" data-chatroom="${code}"><b>${esc(o?.name||"等待加入")}</b><div>${presence(o)}</div></button>`}).join(""):'<div class="muted">還沒有關係聊天室。</div>'}
+const protoShop=[{id:"coffee",n:"☕ 香醇咖啡",p:45},{id:"novel",n:"📕 小說",p:80},{id:"lamp",n:"🕯️ 小夜燈",p:120},{id:"cake",n:"🍰 草莓蛋糕",p:90},{id:"flowers",n:"💐 小花束",p:130},{id:"picnic",n:"🧺 野餐籃",p:180},{id:"oldkey",n:"🗝️ 舊鑰匙",p:260},{id:"letter",n:"✉️ 泛黃信紙",p:110},{id:"dryflower",n:"🥀 乾燥花",p:150}];
+const protoAch=[["start","🌱 冒險的開始","開始角色生活","角色"],["week","🌙 七日物語","生活滿 7 天","生活"],["month","📅 一個月的生活","生活滿 30 天","生活"],["shop","🛍️ 購物初體驗","第一次購物","收藏"],["shop5","🎁 小小收藏家","累積購物 5 次","收藏"],["memory10","📖 回憶收藏冊","留下 10 段回憶","收藏"],["read","？？？","隱藏成就","隱藏"],["picnic","？？？","隱藏成就","隱藏"],["secret","？？？","隱藏成就","隱藏"],["solo","？？？","隱藏成就","隱藏"],["relation","🤝 命運的相遇","第一次建立關係","關係"],["three","💞 三段交會","同時擁有 3 段關係","關係"],["break","？？？","羈絆突破隱藏成就","隱藏"],["newyear","🧧 新年的第一頁","元旦期間可刷出","節日"],["qixi","🌌 今夜星河","七夕期間可刷出","節日"],["xmas","🎄 冬夜的禮物","聖誕期間可刷出","節日"],["relation","🤝","命運的相遇","第一次建立任意關係","關係"],["three","🕸️","三段交會","同時擁有 3 段關係","關係"],["lover","💕","心之所向","第一次建立戀人關係","關係"],["friend","🫂","摯友一生","第一次建立摯友關係","關係"],["family","🏠","家的方向","第一次建立家人關係","關係"],["partner","⚔️","並肩而行","第一次建立搭檔關係","關係"],["rival","🔥","命中宿敵","第一次建立宿敵關係","關係"],["enemy","💢","狹路相逢","第一次建立仇敵關係","關係"],["msg1","💬","第一句話","第一次傳送關係聊天訊息","關係"],["msg10","✉️","聊得來","累積傳送 10 則訊息","關係"],["msg50","💌","有好多話想說","累積傳送 50 則訊息","關係"],["interact1","💞","第一次靠近","第一次進行關係互動","關係"],["interact10","🌷","更加熟悉","累積關係互動 10 次","關係"],["interact50","🌹","已成習慣","累積關係互動 50 次","關係"],["outingTogether","🧋","一起出去吧","第一次完成共同外出","關係"],["outing5","🎡","好多共同足跡","累積完成 5 次共同外出","關係"],["game1","🎮","一起玩吧","第一次完成雙人小遊戲","關係"],["sync3","💫","心有靈犀","小遊戲連續 3 次默契成功","關係"],["gift1","🎁","一點心意","第一次送禮給關係角色","關係"],["gift10","🎀","總想送你東西","累積送禮 10 次","關係"],["bond5","💗","開始熟悉","任一關係羈絆達 Lv.5","關係"],["bond10","💖","更加靠近","任一關係羈絆達 Lv.10","關係"],["bond15","💓","默契漸深","任一關係羈絆達 Lv.15","關係"],["bond20","💞","彼此重要","任一關係羈絆達 Lv.20","關係"],["bond25","💘","無可忽視","任一關係羈絆達 Lv.25","關係"],["bond6","💎","一路走到這裡","任一關係抵達第六階","關係"],["bondmax","✨","滿溢的羈絆","任一關係羈絆達 Lv.30 MAX","關係"],["lover_stage3","🌸","習慣你的存在","戀人關係進入第三階段","關係"],["lover_stage6","💍","無可取代","戀人關係進入第六階段","關係"],["friend_stage3","🍬","聊不完的日常","摯友關係進入第三階段","關係"],["friend_stage6","🌟","靈魂摯友","摯友關係進入第六階段","關係"],["family_stage3","🍲","互相照顧","家人關係進入第三階段","關係"],["family_stage6","🏡","永遠的歸處","家人關係進入第六階段","關係"],["partner_stage3","🛡️","默契搭檔","搭檔關係進入第三階段","關係"],["partner_stage6","⚔️","最強搭檔","搭檔關係進入第六階段","關係"],["rival_stage3","🥊","真正的對手","宿敵關係進入第三階段","關係"],["rival_stage6","🔥","命定對手","宿敵關係進入第六階段","關係"],["enemy_stage3","⚡","水火不容","仇敵關係進入第三階段","關係"],["enemy_stage6","🩸","宿命之敵","仇敵關係進入第六階段","關係"],["daily1","☀️ 今日的小事","完成一次每日任務組","生活"],["daily10","✅ 日常達人","完成 10 次每日任務組","生活"],["work1","💼 第一天上班","完成第一次打工","生活"],["work10","🧾 熟練打工人","累積打工 10 次","生活"],["earn1000","💰 自己賺的錢","打工累積收入 1000 金幣","收藏"]];
+
+function localDateKey(d=new Date()){
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+}
+const dailyTaskDefs={
+  event1:{name:"處理 1 個角色事件",icon:"🎭",target:1,progress:(c,b)=>Math.max(0,(c.stats.events||0)-(b.events||0))},
+  mood60:{name:"讓心情保持在 60 以上",icon:"🌸",target:1,progress:c=>c.mood>=60?1:0},
+  shop1:{name:"在商店買 1 件東西",icon:"🛍️",target:1,progress:(c,b)=>Math.max(0,(c.stats.purchases||0)-(b.purchases||0))},
+  chat1:{name:"傳送 1 則關係訊息",icon:"💬",target:1,progress:(c,b)=>Math.max(0,(c.stats.messages||0)-(b.messages||0))},
+  rel2:{name:"完成 2 次關係劇情事件",icon:"💞",target:2,progress:(c,b)=>Math.max(0,(c.stats.relationshipEvents||0)-(b.relationshipEvents||0))},
+  outing1:{name:"完成 1 次共同外出",icon:"🗺️",target:1,progress:(c,b)=>Math.max(0,(c.stats.outingTogether||0)-(b.outingTogether||0))},
+  game1:{name:"完成 1 次互動小遊戲",icon:"🎮",target:1,progress:(c,b)=>Math.max(0,(c.stats.games||0)-(b.games||0))},
+  work1:{name:"完成 1 次打工",icon:"💼",target:1,progress:(c,b)=>Math.max(0,(c.stats.workCount||0)-(b.workCount||0))}
+};
+function makeDailyBaseline(c){
+  return {
+    events:c.stats.events||0,purchases:c.stats.purchases||0,messages:c.stats.messages||0,
+    relationshipEvents:c.stats.relationshipEvents||0,outingTogether:c.stats.outingTogether||0,games:c.stats.games||0,workCount:c.stats.workCount||0
+  };
+}
+function chooseDailyTasks(c){
+  let pool=["event1","mood60","shop1","work1"];
+  if(c.roomCodes?.length)pool.push("chat1","rel2","outing1","game1");
+  for(let i=pool.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]]}
+  return pool.slice(0,3);
+}
+function resetDailyIfNeeded(c,force=false){
+  let key=localDateKey();
+  if(force||c.dailyDate!==key||!Array.isArray(c.dailyTasks)||c.dailyTasks.length!==3){
+    c.dailyDate=key;
+    c.dailyTasks=chooseDailyTasks(c);
+    c.dailyBaseline=makeDailyBaseline(c);
+    c.dailyRewardClaimed=false;
+    saveLocal();
+  }
+}
+function dailyStatus(c){
+  resetDailyIfNeeded(c);
+  let b=c.dailyBaseline||{},items=c.dailyTasks.map(id=>{
+    let d=dailyTaskDefs[id],p=Math.min(d.target,d.progress(c,b));
+    return{id,d,p,done:p>=d.target};
+  });
+  return{items,all:items.every(x=>x.done)};
+}
+function checkDailyReward(c){
+  let st=dailyStatus(c);
+  if(st.all&&!c.dailyRewardClaimed){
+    c.dailyRewardClaimed=true;
+    c.money=(c.money||0)+80;c.exp=(c.exp||0)+25;
+    c.stats.dailyCompleted=(c.stats.dailyCompleted||0)+1;
+    if(c.stats.dailyCompleted>=1)c.achievements.daily1=1;
+    if(c.stats.dailyCompleted>=10)c.achievements.daily10=1;
+    logJournal(c,"完成今日所有小任務，獲得 🪙80＋EXP 25","✅");
+    saveLocal();
+    if(document.getElementById("extraDaily")?.classList.contains("active")){
+      infoTitle.textContent="✅ 今日任務完成";
+      infoBody.innerHTML="三個今日小事都完成了！<br><br><b>獎勵：🪙80＋EXP 25</b>";
+      infoModal.classList.remove("hidden");
+    }
+  }
+  return st;
+}
+function renderDailyTasks(c){
+  let dl=document.getElementById("dailyList");if(!dl)return;
+  let st=checkDailyReward(c);
+  dl.innerHTML=st.items.map(x=>{
+    let pct=Math.min(100,x.p/x.d.target*100);
+    return `<div class="dailyTask ${x.done?"done":""}"><div class="taskTop"><b>${x.done?"✅":x.d.icon} ${esc(x.d.name)}</b><span class="small">${x.p}/${x.d.target}</span></div><div class="dailyProgress"><div style="width:${pct}%"></div></div></div>`;
+  }).join("")+`<div class="dailyReward"><b>${c.dailyRewardClaimed?"🎁 今日獎勵已領取":"🎁 全部完成獎勵"}</b><div class="small">${c.dailyRewardClaimed?"明天 00:00 會換新任務。":"🪙80＋EXP 25・每天 00:00 更新"}</div></div>`;
+}
+let midnightTimer=null;
+function scheduleMidnightReset(){
+  clearTimeout(midnightTimer);
+  let now=new Date(),next=new Date(now);next.setHours(24,0,0,80);
+  midnightTimer=setTimeout(()=>{
+    local.characters.forEach(c=>{ensureRelations(c);resetDailyIfNeeded(c,true)});
+    if(cur())renderGame();
+    scheduleMidnightReset();
+  },Math.max(1000,next-now));
+}
+
+const achievementHints={
+ start:"建立角色並開始生活就會遇見它。",
+ week:"陪角色一起生活幾天看看。",
+ month:"長期陪伴角色生活。",
+ shop:"去商店買下第一件東西。",
+ shop5:"偶爾替角色添些生活用品。",
+ memory10:"多經歷特殊事件，回憶會慢慢累積。",
+ relation:"試著和另一名玩家建立一段關係。",
+ three:"一個角色最多能擁有三段關係。",
+ lover:"建立一段戀人關係。",
+ friend:"建立一段摯友關係。",
+ family:"建立一段家人關係。",
+ partner:"建立一段搭檔關係。",
+ rival:"建立一段宿敵關係。",
+ enemy:"建立一段仇敵關係。",
+ msg1:"試著從聊天室傳出第一句話。",
+ msg10:"有空時多和關係角色聊聊。",
+ msg50:"有些關係是聊著聊著變深的。",
+ interact1:"點一次關係互動，完成出現的事件選擇。",
+ interact10:"多觸發不同的兩人事件。",
+ interact50:"讓共同事件成為你們的日常。",
+ outingTogether:"邀請對方外出，等對方同意後完成外出事件。",
+ outing5:"一起去不同地方走走。",
+ game1:"和對方完成一次「心有靈犀」。",
+ sync3:"小遊戲裡，默契比勝負更重要。",
+ bond5:"多完成共同事件，羈絆會自然成長。",
+ bond10:"繼續培養目前的一段關係。",
+ bond15:"更深的劇情會在更高羈絆出現。",
+ bond20:"讓一段關係維持更久。",
+ bond25:"距離最高階已經很近了。",
+ bond6:"關係階段會隨羈絆等級提升。",
+ bondmax:"將任一段共同羈絆培養到目前極限。",
+ lover_stage3:"和戀人累積更多共同經歷。",
+ lover_stage6:"把戀人的羈絆一路培養到最深階段。",
+ friend_stage3:"和摯友累積更多共同事件。",
+ friend_stage6:"真正的知己需要長時間相處。",
+ family_stage3:"日常的照顧會讓家人關係更深。",
+ family_stage6:"讓這段家人羈絆成為不可取代的存在。",
+ partner_stage3:"多合作、多經歷搭檔事件。",
+ partner_stage6:"把默契培養到最高階。",
+ rival_stage3:"多接受挑戰，讓競爭變得更深。",
+ rival_stage6:"有些對手會陪你走很久。",
+ enemy_stage3:"衝突也可能形成特殊羈絆。",
+ enemy_stage6:"讓這段恩怨走到最高階。",
+ read:"有些普通商品放在一起，會形成很適合夜晚的組合。",
+ picnic:"想想一場舒服的午後小旅行需要哪些東西。",
+ secret:"幾件看起來有年代感的物品，也許屬於同一個故事。",
+ solo:"即使沒有建立任何關係，也能把自己的生活過得很好。",
+ break:"羈絆到達極限後，也許還有辦法繼續前進。",
+ newyear:"某些成就只會在特定節日附近出現。",
+ qixi:"在特別的日子裡，和重要的人做些特別的事。",
+ xmas:"冬天的某一天，也許會有限定故事。",
+ daily1:"完成今天列出的三個小任務。",
+ daily10:"持續完成每日小任務。",
+ work1:"去打工頁完成第一次工作。",
+ work10:"穩定工作幾天，累積一些打工次數。",
+ earn1000:"打工收入累積到一定程度。"
+};
+function achievementHint(a,unlocked){
+  if(unlocked)return a[2];
+  if(a[3]==="隱藏")return achievementHints[a[0]]||"這是一個隱藏條件，多嘗試不同玩法吧。";
+  return achievementHints[a[0]]||`多體驗「${a[3]}」相關玩法看看。`;
+}
+
+
+function ensureWorkCounter(c){
+  let k=localDateKey();
+  if(!c.workDaily||c.workDaily.date!==k)c.workDaily={date:k,used:0};
+  return c.workDaily;
+}
+function ensureRelationCounter(c,code){
+  let k=localDateKey();
+  c.relationDaily??={};
+  let r=c.relationDaily[code];
+  if(!r||r.date!==k)c.relationDaily[code]={date:k,used:0};
+  return c.relationDaily[code];
+}
+const workDefs=[
+  {id:"cafe",icon:"☕",name:"咖啡廳打工",min:55,max:85,energy:8,text:["今天客人很多，你一路忙到下班。","替客人端上甜點時，意外收到一句稱讚。","今天的拉花雖然有點歪，但總算平安下班。"]},
+  {id:"store",icon:"🏪",name:"便利商店打工",min:45,max:75,energy:6,text:["補貨補到手有點痠，不過今天很順利。","遇到一位很客氣的常客，心情也跟著變好。","今天的收銀沒有出錯，平安結束一班。"]},
+  {id:"street",icon:"🎤",name:"街頭表演",min:40,max:110,energy:12,text:["路人慢慢停下腳步，最後留下不少零錢。","今天觀眾不算多，但有個人聽完整場才離開。","表演到一半差點出錯，幸好最後救回來了。"]},
+  {id:"temp",icon:"📦",name:"臨時工",min:60,max:100,energy:14,text:["搬了一下午東西，累得只想躺下。","工作比想像中提早結束，還多拿了一點工資。","雖然很累，但看到薪水時覺得值得了。"]},
+  {id:"commission",icon:"🎨",name:"接小委託",min:50,max:120,energy:10,text:["今天的委託意外很合你的胃口。","改了幾次細節後，委託人終於滿意了。","這次接到一個有點奇怪、但報酬不錯的委託。"]}
+];
+function renderWork(c){
+  let ctr=ensureWorkCounter(c),used=ctr.used||0,left=Math.max(0,3-used);
+  workLimit.innerHTML=`<b>今日剩餘次數：${left} / 3</b><div class="small">打工次數每天 00:00 重置。每次會消耗少量體力。</div>`;
+  workList.innerHTML=workDefs.map(w=>`<button class="workCard" data-work="${w.id}" ${left<=0||c.energy<w.energy?"disabled":""}><b>${w.icon} ${w.name}</b><span class="small">約 🪙${w.min}～${w.max}・體力 -${w.energy}</span></button>`).join("");
+}
+async function doWork(id){
+  let c=cur(),w=workDefs.find(x=>x.id===id);if(!c||!w)return;
+  resetDailyIfNeeded(c);
+  let ctr=ensureWorkCounter(c);if((ctr.used||0)>=3){
+    infoTitle.textContent="💼 今天已經工作很多了";
+    infoBody.innerHTML="每日最多打工 <b>3 次</b>，明天 00:00 會恢復。";
+    infoModal.classList.remove("hidden");return;
+  }
+  if(c.energy<w.energy){
+    infoTitle.textContent="⚡ 體力不足";
+    infoBody.textContent="先讓角色休息一下再工作吧。";
+    infoModal.classList.remove("hidden");return;
+  }
+  let earned=Math.floor(w.min+Math.random()*(w.max-w.min+1)),story=w.text[Math.floor(Math.random()*w.text.length)];
+  // 10% 小幸運獎金
+  let lucky=Math.random()<.1;
+  if(lucky)earned+=30;
+  ctr.used=(ctr.used||0)+1;
+  c.money=(c.money||0)+earned;c.energy=Math.max(0,c.energy-w.energy);
+  c.stats??={};c.stats.workCount=(c.stats.workCount||0)+1;c.stats.workEarned=(c.stats.workEarned||0)+earned;
+  logJournal(c,`${w.name}，賺到 🪙${earned}`,"💼");
+  saveLocal();renderGame();
+  infoTitle.textContent=`${w.icon} ${w.name}`;
+  infoBody.innerHTML=`${esc(story)}${lucky?"<br><br>🍀 今天運氣很好，多拿到了一點獎金！":""}<br><br><b>收入：🪙${earned}</b><br>⚡ 體力 -${w.energy}<br><span class="small">今日打工 ${ctr.used||0} / 3</span>`;
+  infoModal.classList.remove("hidden");
+}
+document.getElementById("workList").onclick=e=>{let b=e.target.closest("[data-work]");if(b&&!b.disabled)doWork(b.dataset.work)};
+function renderExtras(c){
+ renderDailyTasks(c);renderWork(c);
+ let sl=document.getElementById('shopList');if(sl){sl.className="itemGrid";sl.innerHTML=protoShop.map(i=>`<button class="tile" data-shop="${i.id}"><div class="ico">${i.n.split(" ")[0]}</div><b>${i.n.substring(i.n.indexOf(" ")+1)}</b><div class="small">🪙${i.p}</div></button>`).join('')}
+ let bl=document.getElementById('bagList');if(bl){let a=Object.entries(c.inventory).filter(x=>x[1]>0);bl.className=a.length?"itemGrid":"";bl.innerHTML=a.length?a.map(([id,n])=>{let i=protoShop.find(x=>x.id===id);return `<button class="tile" data-bag="${id}"><div class="ico">${i?.n.split(" ")[0]||"🎁"}</div><b>${i?.n.substring(i.n.indexOf(" ")+1)||id}</b><div class="small">×${n}</div></button>`}).join(''):'<div class="muted">背包目前是空的。</div>'}
+ let ml=document.getElementById('memoryList');if(ml)ml.innerHTML=c.memories.length?c.memories.map(x=>`<div class="itemRow"><b>${x.t}</b><div class="small">${x.d}</div></div>`).join(''):'<div class="muted">還沒有特殊回憶。</div>';
+ if(day(c)>=7)c.achievements.week=1;if(day(c)>=30)c.achievements.month=1;c.achievements.start=1;if((c.stats?.workCount||0)>=1)c.achievements.work1=1;if((c.stats?.workCount||0)>=10)c.achievements.work10=1;if((c.stats?.workEarned||0)>=1000)c.achievements.earn1000=1;if(c.roomCodes.length)c.achievements.relation=1;if(c.roomCodes.length>=3)c.achievements.three=1;
+ if((c.stats?.messages||0)>=1)c.achievements.msg1=1;if((c.stats?.messages||0)>=10)c.achievements.msg10=1;if((c.stats?.messages||0)>=50)c.achievements.msg50=1;
+ if((c.stats?.interactions||0)>=1)c.achievements.interact1=1;if((c.stats?.interactions||0)>=10)c.achievements.interact10=1;if((c.stats?.interactions||0)>=50)c.achievements.interact50=1;
+ let relTypes=(c.roomCodes||[]).map(code=>relationshipSummaries?.[code]?.relation).filter(Boolean);if(relTypes.includes("lover"))c.achievements.lover=1;if(relTypes.includes("bestfriend"))c.achievements.friend=1;if(relTypes.includes("family"))c.achievements.family=1;if(relTypes.includes("partner"))c.achievements.partner=1;if(relTypes.includes("rival"))c.achievements.rival=1;if(relTypes.includes("enemy"))c.achievements.enemy=1;
+ let infos=(c.roomCodes||[]).map(code=>({code,rr:relationshipSummaries?.[code],b:bondCache?.[code]})).filter(x=>x.rr&&x.b);
+ let maxBond=infos.reduce((m,x)=>Math.max(m,x.b.lv||1),1);
+ if(maxBond>=5)c.achievements.bond5=1;if(maxBond>=10)c.achievements.bond10=1;if(maxBond>=15)c.achievements.bond15=1;if(maxBond>=20)c.achievements.bond20=1;if(maxBond>=25)c.achievements.bond25=1;if(maxBond>=26)c.achievements.bond6=1;if(maxBond>=30)c.achievements.bondmax=1;
+ infos.forEach(x=>{let st=x.b.stage||0,t=x.rr.relation;if(t==="lover"&&st>=2)c.achievements.lover_stage3=1;if(t==="lover"&&st>=5)c.achievements.lover_stage6=1;if(t==="bestfriend"&&st>=2)c.achievements.friend_stage3=1;if(t==="bestfriend"&&st>=5)c.achievements.friend_stage6=1;if(t==="family"&&st>=2)c.achievements.family_stage3=1;if(t==="family"&&st>=5)c.achievements.family_stage6=1;if(t==="partner"&&st>=2)c.achievements.partner_stage3=1;if(t==="partner"&&st>=5)c.achievements.partner_stage6=1;if(t==="rival"&&st>=2)c.achievements.rival_stage3=1;if(t==="rival"&&st>=5)c.achievements.rival_stage6=1;if(t==="enemy"&&st>=2)c.achievements.enemy_stage3=1;if(t==="enemy"&&st>=5)c.achievements.enemy_stage6=1});
+ if((c.stats?.relationshipEvents||0)>=1)c.achievements.interact1=1;if((c.stats?.relationshipEvents||0)>=10)c.achievements.interact10=1;if((c.stats?.relationshipEvents||0)>=50)c.achievements.interact50=1;if((c.stats?.outingTogether||0)>=1)c.achievements.outingTogether=1;if((c.stats?.outingTogether||0)>=5)c.achievements.outing5=1;if(c.memories.length>=10)c.achievements.memory10=1;if(!c.roomCodes.length&&c.mood>=90)c.achievements.solo=1;
+ let f=document.getElementById("achievementFilters");if(f){let fs=["全部","角色","生活","關係","收藏","節日","隱藏"];f.innerHTML=fs.map(x=>`<button class="${achievementFilter===x?"on":""}" data-af="${x}">${x}</button>`).join("")}
+ let al=document.getElementById('achievementList');if(al){let view=protoAch.filter(a=>achievementFilter==="全部"||a[3]===achievementFilter);al.innerHTML=view.map(a=>{let ok=!!c.achievements[a[0]],display=ok&&a[1]=="？？？"?({read:"燈下的一頁",picnic:"午後的小旅行",secret:"被遺忘的故事",solo:"自己的生活也很好",break:"超越界限之人"}[a[0]]||a[1]):a[1];return `<div class="itemRow" data-ach="${a[0]}"><b>${ok?"🏆":"🔒"} ${display}</b><span class="chip">${a[3]}</span><div class="achHint">${ok?"點擊查看完成條件":"點擊查看提示"}</div></div>`}).join('')}
+ renderJournal(c);renderOuting(c);renderChatRooms(c);
+}
+function checkCombo(c){let h=id=>(c.inventory[id]||0)>0,hit=null;if(h('lamp')&&h('novel')&&!c.achievements.read)hit=['read','📖 特殊劇情・夜讀時光','暖黃色的小夜燈亮起來後，房間突然變得很適合讀完那本小說。'];else if(h('picnic')&&h('cake')&&h('flowers')&&!c.achievements.picnic)hit=['picnic','🌼 特殊劇情・午後的小旅行','野餐籃、蛋糕和花束湊在一起。角色決定把今天變成一場小旅行。'];else if(h('oldkey')&&h('letter')&&h('dryflower')&&!c.achievements.secret)hit=['secret','🔐 ？？？特殊劇情','舊鑰匙壓在泛黃信紙上，乾燥花從紙頁間滑落——這三樣東西原來彼此有關。'];if(hit){c.achievements[hit[0]]=1;c.memories.unshift({t:hit[1],d:new Date().toLocaleDateString('zh-TW')});saveLocal();alert(hit[1]+'\n\n'+hit[2]);renderGame()}}
+function openItem(i,mode){itemTitle.textContent=i.n;itemBody.innerHTML=`<div class="small">持有：${cur().inventory[i.id]||0}${mode==="shop"?`・價格 🪙${i.p}`:""}</div>`;itemActions.innerHTML=`<button class="primary" id="itemDo">${mode==="shop"?"購買":"使用"}</button>`;itemModal.classList.remove("hidden");itemDo.onclick=()=>{let c=cur();if(mode==="shop"){if(c.money<i.p)return alert("金幣不夠。");c.money-=i.p;c.inventory[i.id]=(c.inventory[i.id]||0)+1;c.achievements.shop=1;c.purchaseCount=(c.purchaseCount||0)+1;c.stats??={};c.stats.purchases=(c.stats.purchases||0)+1;if(c.purchaseCount>=5)c.achievements.shop5=1;logJournal(c,`買了${i.n}`,"🛍️")}else{if(!(c.inventory[i.id]>0))return;c.inventory[i.id]--;c.mood=Math.min(100,c.mood+5);logJournal(c,`使用了${i.n}`,"🎒")}saveLocal();itemModal.classList.add("hidden");renderGame();checkCombo(c)}}
+document.getElementById("closeItem").onclick=()=>itemModal.classList.add("hidden");
+document.getElementById("shopList").onclick=e=>{let b=e.target.closest("[data-shop]");if(b)openItem(protoShop.find(x=>x.id===b.dataset.shop),"shop")};
+document.getElementById("bagList").onclick=e=>{let b=e.target.closest("[data-bag]");if(b)openItem(protoShop.find(x=>x.id===b.dataset.bag),"bag")};
+document.getElementById("achievementFilters").onclick=e=>{if(e.target.dataset.af){achievementFilter=e.target.dataset.af;renderExtras(cur())}};
+document.getElementById("achievementList").onclick=e=>{
+  let card=e.target.closest("[data-ach]");if(!card)return;
+  let a=protoAch.find(x=>x[0]===card.dataset.ach),c=cur();if(!a||!c)return;
+  let ok=!!c.achievements[a[0]],hidden=a[3]==="隱藏"&&!ok;
+  infoTitle.textContent=hidden?"❔ 隱藏成就":`${ok?"🏆":"💡"} ${a[1]}`;
+  infoBody.innerHTML=`<b>${ok?"完成條件":"提示"}</b><br>${esc(achievementHint(a,ok))}${ok?"<br><br>✅ 已完成":""}`;
+  infoModal.classList.remove("hidden");
+};
+document.getElementById("chatRelationList").onclick=e=>{let b=e.target.closest("[data-chatroom]");if(b)loadRoom(b.dataset.chatroom)};
+document.getElementById("placeList").onclick=async e=>{let b=e.target.closest("[data-place]");if(!b)return;let c=cur(),pl=places.find(x=>x[0]===b.dataset.place),opts=["自己去"];for(let code of c.roomCodes){let rr=relationshipSummaries?.[code],o=rr?(rr.host_char===c.id?rr.guest_state:rr.host_state):null;if(o)opts.push(`${o.name}|${code}`)}let ans=prompt(`${pl[1]} ${pl[2]}\\n1. 自己去\\n`+opts.slice(1).map((x,i)=>`${i+2}. 邀請 ${x.split("|")[0]}`).join("\\n"));let n=Number(ans)-1;if(n===0){c.mood=Math.min(100,c.mood+5);logJournal(c,`自己去了${pl[2]}`,pl[1]);c.memories.unshift({t:`去了${pl[2]}`,d:new Date().toLocaleDateString("zh-TW")});saveLocal();alert(`去了${pl[2]}，心情 +5`);renderGame();return}let sel=opts[n];if(!sel)return;let code=sel.split("|")[1],rr=relationshipSummaries[code],to=rr.host_char===c.id?rr.guest_char:rr.host_char;await api("/interactions",{method:"POST",body:JSON.stringify({room_code:code,from_char:c.id,to_char:to,text:`OUTING_INVITE|${pl[0]}|${Date.now()}`})});alert("邀請已送出。對方接受前不會生效。")};
+document.getElementById("outingInvites").onclick=async e=>{
+  let c=cur();
+  if(e.target.dataset.accept){
+    let id=e.target.dataset.accept,code=e.target.dataset.code,pid=e.target.dataset.place,pl=places.find(x=>x[0]===pid);
+    await api(`/interactions?id=eq.${id}`,{method:"DELETE"});
+    activeRoomCode=code;await loadRoom(code);
+    logJournal(c,`接受邀請，一起去了${pl?.[2]||"外出"}`,pl?.[1]||"🗺️");
+    addMemory?.(c,`共同外出・${pl?.[2]||""}`,"接受了一次共同外出邀請。");
+    saveLocal();renderGame();await renderInvites(c);
+    openOutingBondEvent(pid);
+  }else if(e.target.dataset.decline){
+    await api(`/interactions?id=eq.${e.target.dataset.decline}`,{method:"DELETE"});
+    infoTitle.textContent="💌 已婉拒外出";
+    infoBody.textContent="這次沒有一起出門，不會扣心情或羈絆。";
+    infoModal.classList.remove("hidden");
+    renderGame();
+  }
+};
+function closeDrawer(){drawer.classList.add('hidden');drawerShade.classList.add('hidden')}menuBtn.onclick=()=>{drawer.classList.remove('hidden');drawerShade.classList.remove('hidden')};drawerShade.onclick=closeDrawer;
+document.getElementById("quickWork").onclick=()=>{closeDrawer();document.querySelectorAll(".pageCard").forEach(x=>x.classList.remove("active"));document.getElementById("extraWork").classList.add("active");pageTitle.textContent="打工";renderGame()};
+document.querySelectorAll('[data-nav]').forEach(b=>b.onclick=()=>{
+  let n=b.dataset.nav;closeDrawer();
+  document.querySelectorAll('.pageCard').forEach(x=>x.classList.remove('active'));
+  let map={daily:'extraDaily',work:'extraWork',journal:'extraJournal',outing:'extraOuting',chat:'extraChat',bag:'extraBag',shop:'extraShop',memory:'extraMemory',achievements:'extraAchievements'};
+  if(map[n]){
+    let el=document.getElementById(map[n]);
+    if(el){el.classList.add('active');renderGame()}
+  }else if(n==='relations'){
+    document.getElementById('relationshipList')?.scrollIntoView({behavior:'smooth',block:'start'});
+  }else{
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+  pageTitle.textContent={life:'角色生活',daily:'今日小事',work:'打工',journal:'今日生活日誌',outing:'外出',relations:'關係',chat:'聊天',bag:'背包',shop:'商店',memory:'回憶',achievements:'成就'}[n]||'角色生活';
+});
+document.getElementById('bars').onclick=e=>{let k=e.target.dataset.info;if(!k)return;let c=cur(),d={energy:['⚡ 體力',`目前 ${Math.floor(c.energy)}/100。<br>低體力會讓角色優先休息，並影響外出、約會與冒險。`],hunger:['🍙 飽食度',`目前 ${Math.floor(c.hunger)}/100。<br>會隨時間下降；太餓會影響體力與心情，也會提高吃飯類事件機率。`],mood:['🌸 心情',`目前 ${Math.floor(c.mood)}/100。<br>會改變角色行動傾向與隨機事件池。低落時更容易出現安慰、陪伴、散心事件。`],exp:['✨ 經驗',`角色自己的成長值。升級後會逐步解鎖更多生活與 TRPG 內容。`]}[k];infoTitle.textContent=d[0];infoBody.innerHTML=d[1];infoModal.classList.remove('hidden')};closeInfo.onclick=()=>infoModal.classList.add('hidden');
+
+window.addEventListener("error",e=>fatal("程式錯誤："+e.message));
+bgm.volume=Number(localStorage.getItem("roleLife_bgm_volume_fresh_v1")||.25);bgmVolume.value=bgm.volume;bgmToggle.onclick=async()=>{if(bgm.paused){try{await bgm.play();bgmToggle.textContent="⏸ 暫停"}catch{alert("請把 bgm.mp3 和 index.html 放在同一資料夾。")}}else{bgm.pause();bgmToggle.textContent="▶ 播放"}};bgmVolume.oninput=()=>{bgm.volume=Number(bgmVolume.value);localStorage.setItem("roleLife_bgm_volume_fresh_v1",bgm.volume)};
+
+document.querySelectorAll(".pageCard").forEach(el=>{
+  if(el.querySelector(".sheetHead")) return;
+  let first=el.querySelector(".section");
+  if(!first)return;
+  let head=document.createElement("div");head.className="sheetHead";
+  first.parentNode.insertBefore(head,first);head.appendChild(first);
+  let close=document.createElement("button");close.className="sheetClose";close.type="button";close.textContent="×";
+  close.onclick=()=>{el.classList.remove("active");pageTitle.textContent="角色生活"};
+  head.appendChild(close);
+});
+scheduleMidnightReset();
+renderHome();
+</script>
+</body>
+</html>
