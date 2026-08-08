@@ -1,0 +1,484 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#9a76c4">
+<title>角色生活物語・聯機修正版 v2</title>
+<style>
+:root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
+*{box-sizing:border-box}
+body{margin:0;min-height:100dvh;font-family:system-ui,-apple-system,"Noto Sans TC","Microsoft JhengHei",sans-serif;background:linear-gradient(#eee5f6,#fbf7fa);color:var(--text);-webkit-text-size-adjust:100%}
+button,input,select{font:inherit}
+button{min-height:46px;border:0;border-radius:12px;padding:10px 12px;background:var(--soft);color:#654879;font-weight:700;cursor:pointer}
+button.primary{background:var(--accent);color:white}
+button.danger{background:#f8e8eb;color:var(--bad)}
+input,select{width:100%;min-height:46px;border:1px solid #d9cce2;border-radius:12px;padding:10px;background:#fff;color:var(--text);font-size:16px}
+.wrap{width:100%;max-width:500px;margin:auto;padding:12px 12px calc(22px + env(safe-area-inset-bottom))}
+.hidden{display:none!important}
+.top{position:sticky;top:0;z-index:10;margin:0 -12px 12px;padding:10px 12px;background:rgba(247,241,250,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:10px}
+h1{font-size:20px;margin:0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:13px;margin-bottom:10px}
+.muted{font-size:13px;color:var(--muted)}
+.section{font-size:14px;font-weight:800;margin-bottom:9px}
+.chip{display:inline-block;padding:4px 9px;border-radius:999px;background:var(--soft);font-size:12px;color:#76558b}
+.saveList{display:grid;gap:10px}
+.save{display:grid;grid-template-columns:72px 1fr;gap:10px;border:1px solid var(--line);border-radius:17px;padding:10px;background:#fff}
+.pic{width:72px;height:92px;border-radius:13px;background:#eee5f4;overflow:hidden;display:grid;place-items:center;font-size:28px}
+.pic img{width:100%;height:100%;object-fit:cover}
+.saveName{font-size:17px;font-weight:800}
+.actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:7px}
+.create{display:grid;gap:8px;margin-top:12px}
+.hero{display:grid;grid-template-columns:96px 1fr;gap:11px;align-items:center}
+.avatar{width:96px;height:132px;border-radius:18px;background:linear-gradient(145deg,#ead8f3,#f6dfe8);overflow:hidden;display:grid;place-items:center;position:relative;font-size:40px;cursor:pointer}
+.avatar img{width:100%;height:100%;object-fit:cover;display:none}
+.hint{position:absolute;left:0;right:0;bottom:0;background:#31233a77;color:#fff;font-size:10px;text-align:center;padding:5px}
+.now{border:1px dashed #ccb6db;background:#fbf7fd;border-radius:15px;padding:12px;margin-top:8px}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;margin-top:9px}
+.stat{padding:9px;border:1px solid var(--line);border-radius:13px;background:#fcf9fd;text-align:center}
+.stat b{display:block;font-size:18px}
+.stat span{font-size:11px;color:var(--muted)}
+.roomBox{display:grid;gap:9px}
+.partner{display:grid;grid-template-columns:68px 1fr;gap:9px;padding:10px;border:1px solid var(--line);border-radius:15px;background:#fffafd;margin-top:10px}
+.partnerPic{width:68px;height:80px;border-radius:12px;overflow:hidden;background:#eee6f3;display:grid;place-items:center}
+.partnerPic img{width:100%;height:100%;object-fit:cover}
+.bonus{font-size:12px;color:var(--good);margin-top:4px}
+.interactions{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin-top:10px}
+.interactions button{min-height:52px}
+.notice,.event{border:1px solid var(--line);border-radius:14px;padding:11px;background:#fffafd;margin-bottom:8px}
+.title{font-weight:800}
+.small{font-size:12px;color:var(--muted);margin-top:4px}
+.chat{border:1px solid var(--line);border-radius:15px;min-height:230px;max-height:42dvh;overflow:auto;padding:10px}
+.msg{display:flex;margin:7px 0}
+.msg.me{justify-content:flex-end}
+.bubble{max-width:86%;padding:10px 12px;border-radius:14px;background:#f1ebf6;line-height:1.5}
+.msg.me .bubble{background:#eadcf4}
+.chatInput{display:grid;gap:8px;margin-top:8px}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.modal{position:fixed;inset:0;background:#2d24355e;display:flex;align-items:flex-end;justify-content:center;z-index:30}
+.modalBox{width:100%;max-width:500px;background:#fff;border-radius:22px 22px 0 0;padding:18px 14px calc(18px + env(safe-area-inset-bottom))}
+.gameChoices{display:grid;gap:8px;margin-top:12px}
+.gameResult{text-align:center;font-weight:800;padding:14px;background:var(--soft);border-radius:14px;margin-top:12px}
+#roomCode{font-size:18px;letter-spacing:3px;padding:7px 12px}
+.errorBox{background:#fff0f2;border:1px solid #e7bdc5;color:#8b4c5b;border-radius:14px;padding:10px;font-size:13px;margin-bottom:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div id="fatal" class="errorBox hidden"></div>
+
+<section id="home">
+  <div class="top"><div><h1>角色生活物語</h1><div class="muted">手機聯機修正版 v2</div></div><span class="chip" id="net">雲端待命</span></div>
+  <div class="card">
+    <div class="section">角色存檔 <span id="saveCount" class="muted"></span></div>
+    <div id="saveList" class="saveList"></div>
+    <div class="create"><input id="newName" maxlength="20" placeholder="輸入新角色名稱"><button class="primary" id="createChar">創建角色</button></div>
+  </div>
+</section>
+
+<section id="game" class="hidden">
+  <div class="top"><button id="back">← 回首頁</button><span class="chip">第 <b id="day">1</b> 天</span></div>
+
+  <div class="card hero">
+    <div class="avatar" id="avatar"><span id="emoji">🐾</span><img id="avatarImg"><span class="hint">點擊放圖片</span></div>
+    <input type="file" accept="image/*" id="imageInput" hidden>
+    <div>
+      <div><b id="charName" style="font-size:22px"></b> <span class="chip">Lv.<span id="level">1</span></span></div>
+      <div class="now"><b id="activity"></b><div id="activityDetail" class="muted"></div></div>
+      <div class="stats">
+        <div class="stat"><b id="exp">0</b><span>經驗</span></div>
+        <div class="stat"><b id="energy">90</b><span>體力</span></div>
+        <div class="stat"><b id="mood">82</b><span>心情</span></div>
+        <div class="stat"><b id="bond">0</b><span>羈絆</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section">雙人房間</div>
+    <div id="roomSetup">
+      <label>關係
+        <select id="relation">
+          <option value="lover">戀人</option>
+          <option value="bestfriend">摯友</option>
+          <option value="family">家人</option>
+          <option value="partner">搭檔</option>
+          <option value="rival">宿敵</option>
+          <option value="enemy">仇敵</option>
+        </select>
+      </label>
+      <button class="primary" id="createRoom" style="width:100%;margin-top:9px">建立房間</button>
+      <input id="joinCode" maxlength="6" inputmode="numeric" pattern="[0-9]*" placeholder="輸入 6 位房間碼" style="margin-top:10px">
+      <button id="joinRoom" style="width:100%;margin-top:8px">加入房間</button>
+    </div>
+
+    <div id="roomActive" class="hidden">
+      <div><b>房間碼：</b><span id="roomCode" class="chip"></span></div>
+      <div id="waiting" class="muted" style="margin-top:8px">等待另一位玩家加入……</div>
+      <div id="partnerCard" class="partner hidden">
+        <div id="partnerPic" class="partnerPic">♡</div>
+        <div>
+          <b id="partnerName"></b> <span id="relationChip" class="chip"></span>
+          <div id="partnerStatus" class="small"></div>
+          <div id="partnerStats" class="small"></div>
+          <div id="relationBonus" class="bonus"></div>
+        </div>
+      </div>
+      <div id="interactionGrid" class="interactions"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section">收到的互動</div>
+    <div id="inbox" class="muted">目前沒有互動。</div>
+  </div>
+
+  <div class="card">
+    <div class="section">聊天</div>
+    <div id="chatBox" class="chat"><div class="muted">建立雙人房間後才能聊天。</div></div>
+    <div class="chatInput"><input id="chatInput" maxlength="500" placeholder="輸入訊息……"><button class="primary" id="sendChat">送出</button></div>
+  </div>
+
+  <div class="card">
+    <div class="section">待抉擇角色事件 <span id="eventCount" class="muted"></span></div>
+    <div id="events"></div>
+  </div>
+</section>
+</div>
+
+<div id="gameModal" class="modal hidden">
+  <div class="modalBox">
+    <h3 style="margin:0">互動小遊戲：心有靈犀</h3>
+    <div class="muted" style="margin-top:5px">兩個人各選一個答案，雙方選完後揭曉。</div>
+    <div class="gameChoices">
+      <button data-choice="甜點店">甜點店</button>
+      <button data-choice="散步">散步</button>
+      <button data-choice="看星星">看星星</button>
+    </div>
+    <div id="gameResult" class="gameResult">等待選擇……</div>
+    <button id="closeGame" style="width:100%;margin-top:10px">關閉</button>
+  </div>
+</div>
+
+<script>
+const SUPABASE_URL = "https://uaanvqqjwfcfmecjhyjn.supabase.co";
+const SUPABASE_KEY = "sb_publishable_h3YN0v-lcO0eW95UHuPkLw_KLZSoPY4";
+const API = SUPABASE_URL + "/rest/v1";
+
+const HEADERS = {
+  "apikey": SUPABASE_KEY,
+  "Authorization": "Bearer " + SUPABASE_KEY,
+  "Content-Type": "application/json"
+};
+
+const LOCAL_KEY="role_life_v2";
+const PLAYER_KEY="role_life_player_v2";
+
+const defs={
+  lover:{name:"戀人",bond:1.5,exp:1.25,desc:"羈絆×1.5、經驗×1.25",actions:[["抱抱","抱抱你"],["約會","邀請你去約會"],["撒嬌","跑來向你撒嬌"],["分享甜點","想和你分享甜點"],["說想你","說有點想你"],["互動小遊戲","game"]]},
+  bestfriend:{name:"摯友",bond:1.35,exp:1.18,desc:"羈絆×1.35、經驗×1.18",actions:[["聊八卦","想找你聊八卦"],["出去玩","約你出去玩"],["分零食","分你一點零食"],["擊掌","向你伸手擊掌"],["打氣","替你加油"],["互動小遊戲","game"]]},
+  family:{name:"家人",bond:1.4,exp:1.12,desc:"羈絆×1.4、經驗×1.12",actions:[["一起吃飯","叫你一起吃飯"],["關心","問你今天過得怎樣"],["陪伴","想陪你待一下"],["幫忙","說要幫你做點事"],["送伴手禮","帶了小東西給你"],["互動小遊戲","game"]]},
+  partner:{name:"搭檔",bond:1.15,exp:1.3,desc:"經驗×1.3",actions:[["訓練","邀請你一起訓練"],["討論計畫","想和你討論計畫"],["交換情報","來交換情報"],["掩護","表示會替你掩護"],["慶祝","邀你慶祝一下"],["互動小遊戲","game"]]},
+  rival:{name:"宿敵",bond:.8,exp:1.4,desc:"經驗×1.4，羈絆較慢",actions:[["挑戰","向你發起挑戰"],["比戰績","要和你比較戰績"],["挑釁","故意來挑釁你"],["再戰","丟下一句下次再戰"],["嘴硬稱讚","嘴硬地稱讚你"],["互動小遊戲","game"]]},
+  enemy:{name:"仇敵",bond:.45,exp:1.32,desc:"經驗×1.32，羈絆很慢",actions:[["下戰帖","向你下戰帖"],["嘲諷","對你冷嘲熱諷"],["正面較量","邀你正面較量"],["警告","對你發出警告"],["宣戰","表示絕對不會認輸"],["互動小遊戲","game"]]}
+};
+
+const routines=[
+  [0,6,"熟睡中","抱著被子安穩睡著。"],
+  [6,7,"剛起床","還有點迷迷糊糊。"],
+  [7,8,"吃早餐","正在吃早餐。"],
+  [8,12,"做自己的事","工作、練習或處理今天的事。"],
+  [12,13,"吃午餐","暫時休息吃午餐。"],
+  [13,17,"繼續忙碌","午後繼續自己的生活。"],
+  [17,18,"散步回家","慢慢走在回家的路上。"],
+  [18,19,"吃晚餐","正在吃晚餐。"],
+  [19,21,"悠閒時間","窩著休息。"],
+  [21,22,"洗澡","洗去一天疲憊。"],
+  [22,24,"準備睡覺","鑽進被窩準備睡了。"]
+];
+
+const eventPool=[
+  ["突然想起對方",p=>`忙到一半時，你突然想起${p}。`,[["傳訊息",2],["晚點再說",0]]],
+  ["看到小禮物",p=>`你看到一樣很適合${p}的小東西。`,[["買下來",3],["拍照給他看",2],["先記住",1]]],
+  ["有點疲憊",p=>`今天有點累，你想到也許可以找${p}說說話。`,[["找他聊聊",2],["自己休息",1]]]
+];
+
+let local=loadLocal();
+let playerId=localStorage.getItem(PLAYER_KEY);
+if(!playerId){playerId=(crypto.randomUUID?crypto.randomUUID():"p"+Date.now()+Math.random().toString(16).slice(2));localStorage.setItem(PLAYER_KEY,playerId)}
+
+let activeId=null, room=null, partner=null, pollTimer=null, gameId=null;
+
+function loadLocal(){try{return JSON.parse(localStorage.getItem(LOCAL_KEY))||{characters:[]}}catch(e){return{characters:[]}}}
+function saveLocal(){localStorage.setItem(LOCAL_KEY,JSON.stringify(local))}
+function cur(){return local.characters.find(x=>x.id===activeId)}
+function uuid(){return crypto.randomUUID?crypto.randomUUID():"id"+Date.now()+Math.random().toString(16).slice(2)}
+function newChar(name){return{id:uuid(),name,level:1,exp:0,energy:90,mood:82,bond:0,image:"",start:new Date().toISOString().slice(0,10),events:[],lastEvent:Date.now(),roomCode:""}}
+function routine(){let h=new Date().getHours();return routines.find(r=>h>=r[0]&&h<r[1])||routines[0]}
+function day(c){let a=new Date(c.start+"T00:00:00"),b=new Date();b.setHours(0,0,0,0);return Math.max(1,Math.floor((b-a)/86400000)+1)}
+function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+function show(id){document.getElementById("home").classList.toggle("hidden",id!=="home");document.getElementById("game").classList.toggle("hidden",id!=="game")}
+function publicState(c){let r=routine();return{name:c.name,image:c.image||"",level:c.level,energy:Math.round(c.energy),mood:Math.round(c.mood),activity:r[2],updated:Date.now()}}
+function relDef(){return room?defs[room.relation]:null}
+function fatal(msg){let f=document.getElementById("fatal");f.textContent=msg;f.classList.remove("hidden")}
+function clearFatal(){document.getElementById("fatal").classList.add("hidden")}
+
+async function api(path,options={}){
+  const res=await fetch(API+path,{...options,headers:{...HEADERS,...(options.headers||{})}});
+  const text=await res.text();
+  let data=null;
+  if(text){try{data=JSON.parse(text)}catch(e){data=text}}
+  if(!res.ok){
+    console.error("API error",res.status,data);
+    throw new Error((data&&data.message)||("Supabase 錯誤 "+res.status));
+  }
+  return data;
+}
+
+function renderHome(){
+  document.getElementById("saveCount").textContent=`${local.characters.length}/5`;
+  let box=document.getElementById("saveList");box.innerHTML="";
+  if(!local.characters.length)box.innerHTML='<div class="muted">還沒有角色，先創建一個吧。</div>';
+  local.characters.forEach(c=>{
+    let d=document.createElement("div");d.className="save";
+    d.innerHTML=`<div class="pic">${c.image?`<img src="${c.image}">`:"🐾"}</div><div><div class="saveName">${esc(c.name)}</div><div class="muted">Lv.${c.level} · 第 ${day(c)} 天 ${c.roomCode?`· 房間 ${c.roomCode}`:""}</div><div class="actions"><button class="primary" data-open="${c.id}">進入</button><button class="danger" data-del="${c.id}">刪除</button></div></div>`;
+    box.appendChild(d);
+  });
+}
+
+document.getElementById("createChar").onclick=()=>{
+  if(local.characters.length>=5)return alert("最多 5 個角色。");
+  let n=document.getElementById("newName").value.trim()||`角色 ${local.characters.length+1}`;
+  local.characters.push(newChar(n));document.getElementById("newName").value="";saveLocal();renderHome();
+};
+
+document.getElementById("saveList").onclick=e=>{
+  if(e.target.dataset.open)openChar(e.target.dataset.open);
+  if(e.target.dataset.del){
+    let c=local.characters.find(x=>x.id===e.target.dataset.del);
+    if(c&&confirm(`確定刪除「${c.name}」？`)){
+      local.characters=local.characters.filter(x=>x.id!==c.id);saveLocal();renderHome();
+    }
+  }
+};
+
+async function openChar(id){
+  activeId=id;show("game");renderGame();
+  let c=cur();
+  if(c.roomCode){try{await loadRoom(c.roomCode)}catch(e){fatal(e.message)}}
+  startPolling();maybeEvent();
+}
+
+document.getElementById("back").onclick=()=>{
+  stopPolling();activeId=null;room=null;partner=null;show("home");renderHome();
+};
+
+async function makeCode(){
+  for(let i=0;i<15;i++){
+    let code=String(Math.floor(100000+Math.random()*900000));
+    let rows=await api(`/rooms?code=eq.${encodeURIComponent(code)}&select=code&limit=1`);
+    if(!rows.length)return code;
+  }
+  throw new Error("無法產生房間碼，請再試一次。");
+}
+
+document.getElementById("createRoom").onclick=async()=>{
+  try{
+    clearFatal();
+    let c=cur(); if(!c)return;
+    let code=await makeCode(), relation=document.getElementById("relation").value;
+    await api("/rooms",{method:"POST",headers:{"Prefer":"return=representation"},body:JSON.stringify({
+      code,relation,host_player:playerId,host_char:c.id,host_state:publicState(c)
+    })});
+    c.roomCode=code;saveLocal();await loadRoom(code);startPolling();
+  }catch(e){alert(e.message)}
+};
+
+document.getElementById("joinRoom").onclick=async()=>{
+  try{
+    clearFatal();
+    let c=cur(),code=document.getElementById("joinCode").value.replace(/\D/g,"");
+    if(code.length!==6)return alert("請輸入 6 位房間碼。");
+    let rows=await api(`/rooms?code=eq.${encodeURIComponent(code)}&select=*`);
+    if(!rows.length)return alert("找不到這個房間。");
+    let r=rows[0];
+    if(r.guest_char && r.guest_char!==c.id)return alert("這個房間已經有兩個角色。");
+    await api(`/rooms?code=eq.${encodeURIComponent(code)}`,{method:"PATCH",headers:{"Prefer":"return=representation"},body:JSON.stringify({
+      guest_player:playerId,guest_char:c.id,guest_state:publicState(c)
+    })});
+    c.roomCode=code;saveLocal();await loadRoom(code);startPolling();
+  }catch(e){alert(e.message)}
+};
+
+async function loadRoom(code){
+  let rows=await api(`/rooms?code=eq.${encodeURIComponent(code)}&select=*`);
+  if(!rows.length){room=null;partner=null;return}
+  room=rows[0];
+  let c=cur();
+  partner=room.host_char===c.id?room.guest_state:room.host_state;
+  renderGame();
+  await Promise.all([loadMessages(),loadInbox()]);
+}
+
+async function syncState(){
+  let c=cur();if(!c?.roomCode||!room)return;
+  let field=room.host_char===c.id?"host_state":"guest_state";
+  let body={};body[field]=publicState(c);
+  await api(`/rooms?code=eq.${encodeURIComponent(room.code)}`,{method:"PATCH",body:JSON.stringify(body)});
+}
+
+function startPolling(){
+  stopPolling();
+  pollTimer=setInterval(async()=>{
+    try{let c=cur();if(!c)return;if(c.roomCode)await loadRoom(c.roomCode)}catch(e){console.warn(e)}
+  },2500);
+}
+function stopPolling(){if(pollTimer)clearInterval(pollTimer);pollTimer=null}
+
+function renderGame(){
+  let c=cur();if(!c)return;let r=routine();
+  document.getElementById("day").textContent=day(c);
+  document.getElementById("charName").textContent=c.name;
+  document.getElementById("level").textContent=c.level;
+  document.getElementById("exp").textContent=Math.floor(c.exp);
+  document.getElementById("energy").textContent=Math.floor(c.energy);
+  document.getElementById("mood").textContent=Math.floor(c.mood);
+  document.getElementById("bond").textContent=Math.floor(c.bond);
+  document.getElementById("activity").textContent=r[2];
+  document.getElementById("activityDetail").textContent=r[3];
+
+  let im=document.getElementById("avatarImg"),em=document.getElementById("emoji");
+  if(c.image){im.src=c.image;im.style.display="block";em.style.display="none"}else{im.style.display="none";em.style.display="inline"}
+
+  document.getElementById("roomSetup").classList.toggle("hidden",!!room);
+  document.getElementById("roomActive").classList.toggle("hidden",!room);
+
+  if(room){
+    document.getElementById("roomCode").textContent=room.code;
+    document.getElementById("waiting").classList.toggle("hidden",!!partner);
+    document.getElementById("partnerCard").classList.toggle("hidden",!partner);
+    let grid=document.getElementById("interactionGrid");grid.innerHTML="";
+    if(partner){
+      let d=relDef();
+      document.getElementById("partnerName").textContent=partner.name||"對方";
+      document.getElementById("relationChip").textContent=d.name;
+      document.getElementById("partnerStatus").textContent=partner.activity||"未知狀態";
+      document.getElementById("partnerStats").textContent=`Lv.${partner.level||1}　體力 ${partner.energy??"?"}　心情 ${partner.mood??"?"}`;
+      document.getElementById("relationBonus").textContent=d.desc;
+      document.getElementById("partnerPic").innerHTML=partner.image?`<img src="${partner.image}">`:"♡";
+      d.actions.forEach(([label,key])=>{let b=document.createElement("button");b.textContent=label;b.dataset.act=key;grid.appendChild(b)});
+    }
+  }
+
+  document.getElementById("eventCount").textContent=`${c.events.length}/10`;
+  let eb=document.getElementById("events");eb.innerHTML="";
+  if(!c.events.length)eb.innerHTML='<div class="muted">目前沒有待抉擇事件。</div>';
+  c.events.forEach(ev=>{
+    let d=document.createElement("div");d.className="event";
+    d.innerHTML=`<div class="title">${esc(ev.title)}</div><div class="small">${esc(ev.text)}</div><div class="choices"></div>`;
+    let choices=d.querySelector(".choices");
+    ev.choices.forEach(ch=>{let b=document.createElement("button");b.textContent=ch[0];b.onclick=()=>{c.bond+=ch[1]*(relDef()?.bond||1);c.events=c.events.filter(x=>x.id!==ev.id);saveLocal();renderGame()};choices.appendChild(b)});
+    eb.appendChild(d);
+  });
+}
+
+document.getElementById("interactionGrid").onclick=async e=>{
+  let key=e.target.dataset.act;if(!key||!room||!partner)return;
+  if(key==="game")return startGame();
+  try{
+    let c=cur(),isHost=room.host_char===c.id;
+    let label=relDef().actions.find(x=>x[1]===key)?.[0]||"互動";
+    await api("/interactions",{method:"POST",body:JSON.stringify({
+      room_code:room.code,from_char:c.id,to_char:isHost?room.guest_char:room.host_char,text:label
+    })});
+    c.bond+=.5*relDef().bond;saveLocal();renderGame();await loadInbox();
+  }catch(e2){alert(e2.message)}
+};
+
+async function loadInbox(){
+  if(!room)return;
+  let c=cur();
+  let data=await api(`/interactions?room_code=eq.${encodeURIComponent(room.code)}&to_char=eq.${encodeURIComponent(c.id)}&select=*&order=created_at.desc&limit=12`);
+  let box=document.getElementById("inbox");box.innerHTML="";
+  if(!data.length)box.innerHTML='<div class="muted">目前沒有互動。</div>';
+  data.forEach(x=>{let d=document.createElement("div");d.className="notice";d.innerHTML=`<div class="title">${esc(partner?.name||"對方")}：${esc(x.text)}</div><div class="small">這個互動已同步到你的角色。</div>`;box.appendChild(d)});
+}
+
+document.getElementById("sendChat").onclick=sendChat;
+document.getElementById("chatInput").onkeydown=e=>{if(e.key==="Enter")sendChat()};
+
+async function sendChat(){
+  try{
+    let c=cur(),i=document.getElementById("chatInput"),t=i.value.trim();
+    if(!t||!room||!partner)return;
+    await api("/messages",{method:"POST",body:JSON.stringify({room_code:room.code,from_char:c.id,text:t})});
+    i.value="";await loadMessages();
+  }catch(e){alert(e.message)}
+}
+
+async function loadMessages(){
+  if(!room)return;
+  let c=cur();
+  let data=await api(`/messages?room_code=eq.${encodeURIComponent(room.code)}&select=*&order=created_at.asc&limit=60`);
+  let box=document.getElementById("chatBox");box.innerHTML="";
+  if(!data.length)box.innerHTML='<div class="muted">還沒有聊天紀錄。</div>';
+  data.forEach(m=>{let d=document.createElement("div");d.className="msg "+(m.from_char===c.id?"me":"");d.innerHTML=`<div class="bubble">${esc(m.text)}</div>`;box.appendChild(d)});
+  box.scrollTop=box.scrollHeight;
+}
+
+async function startGame(){
+  try{
+    if(!room||!partner)return;
+    let data=await api("/games",{method:"POST",headers:{"Prefer":"return=representation"},body:JSON.stringify({
+      room_code:room.code,host_char:room.host_char,guest_char:room.guest_char,host_choice:null,guest_choice:null
+    })});
+    gameId=data[0].id;document.getElementById("gameModal").classList.remove("hidden");refreshGame();
+  }catch(e){alert(e.message)}
+}
+
+document.querySelectorAll("[data-choice]").forEach(b=>b.onclick=async()=>{
+  if(!gameId||!room)return;
+  let c=cur(),field=room.host_char===c.id?"host_choice":"guest_choice";
+  let body={};body[field]=b.dataset.choice;
+  try{await api(`/games?id=eq.${gameId}`,{method:"PATCH",body:JSON.stringify(body)});refreshGame()}catch(e){alert(e.message)}
+});
+
+async function refreshGame(){
+  if(!gameId)return;
+  let rows=await api(`/games?id=eq.${gameId}&select=*`);
+  if(!rows.length)return;
+  let g=rows[0],c=cur(),mine=room.host_char===c.id?g.host_choice:g.guest_choice,other=room.host_char===c.id?g.guest_choice:g.host_choice;
+  let res=document.getElementById("gameResult");
+  if(!mine)res.textContent="請選一個答案。";
+  else if(!other)res.textContent="你已選好，等待對方……";
+  else{
+    res.textContent=mine===other?`心有靈犀！你們都選了「${mine}」 ♡`:`你選「${mine}」，對方選「${other}」`;
+  }
+}
+document.getElementById("closeGame").onclick=()=>document.getElementById("gameModal").classList.add("hidden");
+
+document.getElementById("avatar").onclick=()=>document.getElementById("imageInput").click();
+document.getElementById("imageInput").onchange=e=>{
+  let c=cur(),f=e.target.files[0];if(!c||!f)return;
+  let rd=new FileReader();rd.onload=v=>{let im=new Image();im.onload=()=>{let cv=document.createElement("canvas"),w=im.width,h=im.height,max=320;if(w>h&&w>max){h=h*max/w;w=max}else if(h>=w&&h>max){w=w*max/h;h=max}cv.width=w;cv.height=h;cv.getContext("2d").drawImage(im,0,0,w,h);c.image=cv.toDataURL("image/jpeg",.65);saveLocal();syncState().catch(()=>{});renderGame()};im.src=v.target.result};rd.readAsDataURL(f);
+};
+
+function maybeEvent(){
+  let c=cur();if(!c||c.events.length>=10||Date.now()-c.lastEvent<90000||Math.random()>.6)return;
+  c.lastEvent=Date.now();let x=eventPool[Math.floor(Math.random()*eventPool.length)],p=partner?.name||"那個人";
+  c.events.push({id:uuid(),title:x[0],text:x[1](p),choices:x[2]});saveLocal();renderGame();
+}
+
+setInterval(async()=>{
+  let c=cur();if(!c)return;
+  let d=relDef()||{exp:1};
+  c.exp+=1*d.exp;c.energy=Math.max(0,Math.min(100,c.energy+(new Date().getHours()<7?.8:-.1)));c.mood=Math.max(0,Math.min(100,c.mood+.15));
+  let need=60+c.level*25;if(c.exp>=need){c.exp-=need;c.level++}
+  saveLocal();try{await syncState()}catch(e){console.warn(e)};maybeEvent();renderGame();
+},60000);
+
+window.addEventListener("error",e=>fatal("程式錯誤："+e.message));
+renderHome();
+</script>
+</body>
+</html>
