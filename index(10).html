@@ -1,0 +1,662 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#9a76c4">
+<title>角色生活物語・聯機修正版 v2</title>
+<style>
+:root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
+*{box-sizing:border-box}
+body{margin:0;min-height:100dvh;font-family:system-ui,-apple-system,"Noto Sans TC","Microsoft JhengHei",sans-serif;background:linear-gradient(#eee5f6,#fbf7fa);color:var(--text);-webkit-text-size-adjust:100%}
+button,input,select{font:inherit}
+button{min-height:46px;border:0;border-radius:12px;padding:10px 12px;background:var(--soft);color:#654879;font-weight:700;cursor:pointer}
+button.primary{background:var(--accent);color:white}
+button.danger{background:#f8e8eb;color:var(--bad)}
+input,select{width:100%;min-height:46px;border:1px solid #d9cce2;border-radius:12px;padding:10px;background:#fff;color:var(--text);font-size:16px}
+.wrap{width:100%;max-width:500px;margin:auto;padding:12px 12px calc(22px + env(safe-area-inset-bottom))}
+.hidden{display:none!important}
+.top{position:sticky;top:0;z-index:10;margin:0 -12px 12px;padding:10px 12px;background:rgba(247,241,250,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:10px}
+h1{font-size:20px;margin:0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:13px;margin-bottom:10px}
+.muted{font-size:13px;color:var(--muted)}
+.section{font-size:14px;font-weight:800;margin-bottom:9px}
+.chip{display:inline-block;padding:4px 9px;border-radius:999px;background:var(--soft);font-size:12px;color:#76558b}
+.saveList{display:grid;gap:10px}
+.save{display:grid;grid-template-columns:72px 1fr;gap:10px;border:1px solid var(--line);border-radius:17px;padding:10px;background:#fff}
+.pic{width:72px;height:92px;border-radius:13px;background:#eee5f4;overflow:hidden;display:grid;place-items:center;font-size:28px}
+.pic img{width:100%;height:100%;object-fit:cover}
+.saveName{font-size:17px;font-weight:800}
+.actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:7px}
+.create{display:grid;gap:8px;margin-top:12px}
+.hero{display:grid;grid-template-columns:96px 1fr;gap:11px;align-items:center}
+.avatar{width:96px;height:132px;border-radius:18px;background:linear-gradient(145deg,#ead8f3,#f6dfe8);overflow:hidden;display:grid;place-items:center;position:relative;font-size:40px;cursor:pointer}
+.avatar img{width:100%;height:100%;object-fit:cover;display:none}
+.hint{position:absolute;left:0;right:0;bottom:0;background:#31233a77;color:#fff;font-size:10px;text-align:center;padding:5px}
+.now{border:1px dashed #ccb6db;background:#fbf7fd;border-radius:15px;padding:12px;margin-top:8px}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;margin-top:9px}
+.stat{padding:9px;border:1px solid var(--line);border-radius:13px;background:#fcf9fd;text-align:center}
+.stat b{display:block;font-size:18px}
+.stat span{font-size:11px;color:var(--muted)}
+.roomBox{display:grid;gap:9px}
+.partner{display:grid;grid-template-columns:68px 1fr;gap:9px;padding:10px;border:1px solid var(--line);border-radius:15px;background:#fffafd;margin-top:10px}
+.partnerPic{width:68px;height:80px;border-radius:12px;overflow:hidden;background:#eee6f3;display:grid;place-items:center}
+.partnerPic img{width:100%;height:100%;object-fit:cover}
+.bonus{font-size:12px;color:var(--good);margin-top:4px}
+.interactions{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin-top:10px}
+.interactions button{min-height:52px}
+.notice,.event{border:1px solid var(--line);border-radius:14px;padding:11px;background:#fffafd;margin-bottom:8px}
+.title{font-weight:800}
+.small{font-size:12px;color:var(--muted);margin-top:4px}
+.chat{border:1px solid var(--line);border-radius:15px;min-height:230px;max-height:42dvh;overflow:auto;padding:10px}
+.msg{display:flex;margin:7px 0}
+.msg.me{justify-content:flex-end}
+.bubble{max-width:86%;padding:10px 12px;border-radius:14px;background:#f1ebf6;line-height:1.5}
+.msg.me .bubble{background:#eadcf4}
+.chatInput{display:grid;gap:8px;margin-top:8px}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.modal{position:fixed;inset:0;background:#2d24355e;display:flex;align-items:flex-end;justify-content:center;z-index:30}
+.modalBox{width:100%;max-width:500px;background:#fff;border-radius:22px 22px 0 0;padding:18px 14px calc(18px + env(safe-area-inset-bottom))}
+.gameChoices{display:grid;gap:8px;margin-top:12px}
+.gameResult{text-align:center;font-weight:800;padding:14px;background:var(--soft);border-radius:14px;margin-top:12px}
+#roomCode{font-size:18px;letter-spacing:3px;padding:7px 12px}
+.relList{display:grid;gap:8px;margin-bottom:10px}
+.relItem{border:1px solid var(--line);border-radius:14px;padding:10px;background:#fffafd;display:flex;justify-content:space-between;gap:10px;align-items:center}
+.relItem.active{border-color:#b99ace;background:#faf4fd}
+.relItem .meta{min-width:0}
+.relItem .meta b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.relActions{display:flex;gap:6px;flex-shrink:0}
+.relActions button{min-height:40px;padding:8px 10px}
+.errorBox{background:#fff0f2;border:1px solid #e7bdc5;color:#8b4c5b;border-radius:14px;padding:10px;font-size:13px;margin-bottom:10px}
+
+.drawerShade{position:fixed;inset:0;background:#2d24355c;z-index:40}.drawer{position:fixed;z-index:41;left:0;top:0;bottom:0;width:min(82vw,330px);background:#fff;padding:18px 12px;box-shadow:10px 0 30px #0002;overflow:auto}.navBtn{width:100%;text-align:left;background:transparent;margin:2px 0}.navSep{height:1px;background:var(--line);margin:8px}.barRow{margin:11px 0}.barHead{display:flex;justify-content:space-between;align-items:center;font-size:13px;font-weight:800}.bar{height:12px;background:#eee7f1;border-radius:999px;overflow:hidden;margin-top:5px}.fill{height:100%;background:linear-gradient(90deg,#aa88cc,#df9dbd);border-radius:999px}.infoBtn{min-height:28px;width:28px;border-radius:50%;padding:0}.pageCard{display:none}
+.pageCard.active{display:block;position:fixed;z-index:70;left:50%;transform:translateX(-50%);bottom:0;width:min(100%,520px);max-height:86dvh;overflow:auto;margin:0;border-radius:22px 22px 0 0;padding:16px 14px calc(20px + env(safe-area-inset-bottom));box-shadow:0 -10px 36px #2d24352e}
+.pageCard.active:before{content:"";position:fixed;z-index:-1;inset:-100vh -100vw;background:#2d24355e}
+.sheetHead{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px;position:sticky;top:-16px;background:#fffdfd;padding:10px 0 8px;z-index:2}.sheetClose{width:38px;min-height:36px;padding:3px;font-size:20px}
+.achGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:10px;padding-bottom:8px}.achBadge{aspect-ratio:1/1;border:1px solid var(--line);border-radius:18px;background:#fffafd;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px;min-height:0;overflow:hidden}.achBadge.locked{opacity:.42;filter:grayscale(1)}.achIcon{font-size:32px;line-height:1}.achName{font-size:11px;margin-top:7px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;font-weight:800}
+.chatRoomBtn{width:100%;text-align:left;display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:7px}.chatRoomBtn.active{background:#e9dcf3}.unreadBadge{display:inline-grid;place-items:center;min-width:19px;height:19px;padding:0 5px;border-radius:999px;background:#c97891;color:#fff;font-size:10px}
+.notifyToast{position:fixed;z-index:100;top:calc(10px + env(safe-area-inset-top));left:50%;transform:translateX(-50%);width:min(calc(100% - 24px),480px);background:#fff;border:1px solid var(--line);border-radius:16px;padding:11px 13px;box-shadow:0 10px 30px #2d243526;display:flex;gap:9px;align-items:flex-start}.itemRow{border:1px solid var(--line);border-radius:14px;padding:10px;background:#fffafd;margin-bottom:8px}.money{font-weight:800}.menuBtn{min-width:44px;font-size:21px}.redDot{display:inline-block;min-width:18px;padding:2px 5px;border-radius:999px;background:#c97891;color:white;font-size:10px;text-align:center}
+
+.filters{display:flex;gap:6px;overflow:auto;padding:8px 0;position:sticky;top:52px;background:#fffdfd;z-index:3;border-bottom:1px solid var(--line)}.filters button{white-space:nowrap}.filters .on{background:#8f70bd;color:white}
+.itemGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.tile{text-align:center;min-height:88px;border:1px solid #eadfee;background:#fffafd}.tile .ico{font-size:27px}
+.journalLine{padding:8px 2px;border-bottom:1px dashed #eadfee;font-size:13px}.presence.on{color:#39835a}.presence.off{color:#8b8290}.placeGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div id="fatal" class="errorBox hidden"></div>
+
+<section id="home">
+  <div class="top"><div><h1>角色生活物語</h1><div class="muted">手機聯機修正版 v2</div></div><span class="chip" id="net">雲端待命</span></div>
+  <div class="card">
+    <div class="section">角色存檔 <span id="saveCount" class="muted"></span></div>
+    <div id="saveList" class="saveList"></div>
+    <div class="create"><input id="newName" maxlength="20" placeholder="輸入新角色名稱"><button class="primary" id="createChar">創建角色</button></div>
+  </div>
+</section>
+
+<section id="game" class="hidden">
+  <div class="top"><button id="menuBtn" class="menuBtn">☰</button><b id="pageTitle">角色生活</b><span class="chip">🪙 <b id="moneyTop">0</b></span></div>
+
+  <div class="card hero">
+    <div class="avatar" id="avatar"><span id="emoji">🐾</span><img id="avatarImg"><span class="hint">點擊放圖片</span></div>
+    <input type="file" accept="image/*" id="imageInput" hidden>
+    <div>
+      <div><b id="charName" style="font-size:22px"></b> <span class="chip">Lv.<span id="level">1</span></span></div>
+      <div class="muted" style="margin-top:4px">生活第 <span id="day">1</span> 天</div>
+      <div class="now"><b id="activity"></b><div id="activityDetail" class="muted"></div></div>
+      <div id="bars" style="margin-top:10px">
+<div class="barRow"><div class="barHead"><span>⚡ 體力</span><span><b id="energy">90</b>/100 <button class="infoBtn" data-info="energy">ⓘ</button></span></div><div class="bar"><div id="energyFill" class="fill"></div></div></div>
+<div class="barRow"><div class="barHead"><span>🍙 飽食度</span><span><b id="hunger">85</b>/100 <button class="infoBtn" data-info="hunger">ⓘ</button></span></div><div class="bar"><div id="hungerFill" class="fill"></div></div></div>
+<div class="barRow"><div class="barHead"><span>🌸 心情</span><span><b id="mood">82</b>/100 <button class="infoBtn" data-info="mood">ⓘ</button></span></div><div class="bar"><div id="moodFill" class="fill"></div></div></div>
+<div class="barRow"><div class="barHead"><span>✨ 經驗</span><span><b id="exp">0</b> <button class="infoBtn" data-info="exp">ⓘ</button></span></div><div class="bar"><div id="expFill" class="fill"></div></div></div>
+</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section">角色關係 <span id="relationCount" class="muted">0/3</span></div>
+    <div id="relationshipList" class="relList"></div>
+
+    <div id="roomSetup">
+      <div class="muted" style="margin-bottom:8px">還可以建立新的關係。建立者決定關係類型。</div>
+      <label>新關係類型
+        <select id="relation">
+          <option value="lover">戀人</option>
+          <option value="bestfriend">摯友</option>
+          <option value="family">家人</option>
+          <option value="partner">搭檔</option>
+          <option value="rival">宿敵</option>
+          <option value="enemy">仇敵</option>
+        </select>
+      </label>
+      <button class="primary" id="createRoom" style="width:100%;margin-top:9px">建立新關係房間</button>
+      <input id="joinCode" maxlength="6" inputmode="numeric" pattern="[0-9]*" placeholder="輸入對方給的 6 位房間碼" style="margin-top:10px">
+      <button id="joinRoom" style="width:100%;margin-top:8px">加入對方的關係房間</button>
+    </div>
+
+    <div id="roomActive" class="hidden">
+      <div style="display:flex;justify-content:space-between;gap:8px;align-items:center">
+        <div><b>目前關係房間：</b><span id="roomCode" class="chip"></span></div>
+        <button id="disconnectRoom" class="danger">解除關係</button>
+      </div>
+      <div id="waiting" class="muted" style="margin-top:8px">等待另一位玩家加入……</div>
+      <div id="partnerCard" class="partner hidden">
+        <div id="partnerPic" class="partnerPic">♡</div>
+        <div>
+          <b id="partnerName"></b> <span id="relationChip" class="chip"></span>
+          <div id="partnerStatus" class="small"></div>
+          <div id="partnerStats" class="small"></div>
+          <div id="relationBonus" class="bonus"></div>
+        </div>
+      </div>
+      <div id="interactionGrid" class="interactions"></div>
+    </div>
+  </div>
+
+  <div id="extraChat" class="card pageCard">
+    <div class="section">💬 聊天</div>
+    <div class="section" style="margin-top:8px">選擇聊天對象</div>
+    <div id="chatRelationList"></div>
+    <div class="section" style="margin-top:12px">聊天室</div>
+    <div id="chatBox" class="chat"><div class="muted">先選擇一名關係角色。</div></div>
+    <div class="chatInput"><input id="chatInput" maxlength="500" placeholder="輸入訊息……"><button class="primary" id="sendChat">送出</button></div>
+    <div class="section" style="margin-top:14px">收到的互動</div>
+    <div id="inbox" class="muted">目前沒有互動。</div>
+  </div>
+
+  <div class="card">
+    <div class="section">待抉擇角色事件 <span id="eventCount" class="muted"></span></div>
+    <div id="events"></div>
+  </div>
+  <div id="extraJournal" class="card pageCard"><div class="section">📖 今日生活日誌</div><div id="journalList"></div></div>
+<div id="extraOuting" class="card pageCard"><div class="section">🗺️ 外出</div><div class="muted">自己出門，或邀請關係角色。對方接受後共同外出才生效。</div><div id="placeList" class="placeGrid" style="margin-top:9px"></div><div class="section" style="margin-top:14px">💌 外出邀請</div><div id="outingInvites"></div></div>
+<div id="extraDaily" class="card pageCard"><div class="section">☀️ 今日小事</div><div id="dailyList"></div></div>
+  <div id="extraShop" class="card pageCard"><div class="section">🏪 小商店</div><div id="shopList"></div></div>
+  <div id="extraBag" class="card pageCard"><div class="section">🎒 背包</div><div id="bagList"></div></div>
+  <div id="extraMemory" class="card pageCard"><div class="section">📖 回憶</div><div id="memoryList"></div></div>
+  <div id="extraAchievements" class="card pageCard"><div class="section">🏆 成就</div><div id="achievementFilters" class="filters"></div><div id="achievementList"></div></div>
+</section>
+</div>
+
+<div id="drawerShade" class="drawerShade hidden"></div><aside id="drawer" class="drawer hidden"><div style="padding:8px"><b id="drawerName">角色</b><div class="muted">功能選單</div></div><button class="navBtn" data-nav="life">🏠 角色生活</button><button class="navBtn" data-nav="daily">📋 今日小事</button><button class="navBtn" data-nav="journal">📖 今日生活日誌</button><button class="navBtn" data-nav="outing">🗺️ 外出</button><button class="navBtn" data-nav="relations">💞 關係</button><button class="navBtn" data-nav="chat">💬 聊天 <span id="chatNavBadge"></span></button><div class="navSep"></div><button class="navBtn" data-nav="bag">🎒 背包</button><button class="navBtn" data-nav="shop">🏪 商店</button><button class="navBtn" data-nav="memory">📖 回憶</button><button class="navBtn" data-nav="achievements">🏆 成就</button><div class="navSep"></div><div style="padding:8px"><b>🎵 悠閒 BGM</b><div class="actions"><button id="bgmToggle">▶ 播放</button><input id="bgmVolume" type="range" min="0" max="1" step=".05" value=".25"></div><div class="small">把 bgm.mp3 和 index.html 放同一資料夾。</div></div><audio id="bgm" loop preload="none"><source src="bgm.mp3" type="audio/mpeg"></audio><button class="navBtn" id="back">💾 返回存檔首頁</button></aside><div id="notifyToast" class="notifyToast hidden"><div id="notifyIcon" style="font-size:22px">💬</div><div><b id="notifyTitle"></b><div id="notifyText" class="small"></div></div></div>
+<div id="infoModal" class="modal hidden"><div class="modalBox"><h3 id="infoTitle"></h3><div id="infoBody"></div><button id="closeInfo" class="primary" style="width:100%;margin-top:12px">知道了</button></div></div>
+<div id="itemModal" class="modal hidden"><div class="modalBox"><h3 id="itemTitle"></h3><div id="itemBody"></div><div id="itemActions" class="actions"></div><button id="closeItem" style="width:100%;margin-top:10px">關閉</button></div></div>
+<div id="gameModal" class="modal hidden">
+  <div class="modalBox">
+    <h3 style="margin:0">互動小遊戲：心有靈犀</h3>
+    <div class="muted" style="margin-top:5px">兩個人各選一個答案，雙方選完後揭曉。</div>
+    <div class="gameChoices">
+      <button data-choice="甜點店">甜點店</button>
+      <button data-choice="散步">散步</button>
+      <button data-choice="看星星">看星星</button>
+    </div>
+    <div id="gameResult" class="gameResult">等待選擇……</div>
+    <button id="closeGame" style="width:100%;margin-top:10px">關閉</button>
+  </div>
+</div>
+
+<script>
+const SUPABASE_URL = "https://uaanvqqjwfcfmecjhyjn.supabase.co";
+const SUPABASE_KEY = "sb_publishable_h3YN0v-lcO0eW95UHuPkLw_KLZSoPY4";
+const API = SUPABASE_URL + "/rest/v1";
+
+const HEADERS = {
+  "apikey": SUPABASE_KEY,
+  "Authorization": "Bearer " + SUPABASE_KEY,
+  "Content-Type": "application/json"
+};
+
+const LOCAL_KEY="role_life_v2";
+const PLAYER_KEY="role_life_player_v2";
+
+const defs={
+  lover:{name:"戀人",bond:1.5,exp:1.25,desc:"羈絆×1.5、經驗×1.25",actions:[["抱抱","抱抱你"],["約會","邀請你去約會"],["撒嬌","跑來向你撒嬌"],["分享甜點","想和你分享甜點"],["說想你","說有點想你"],["互動小遊戲","game"]]},
+  bestfriend:{name:"摯友",bond:1.35,exp:1.18,desc:"羈絆×1.35、經驗×1.18",actions:[["聊八卦","想找你聊八卦"],["出去玩","約你出去玩"],["分零食","分你一點零食"],["擊掌","向你伸手擊掌"],["打氣","替你加油"],["互動小遊戲","game"]]},
+  family:{name:"家人",bond:1.4,exp:1.12,desc:"羈絆×1.4、經驗×1.12",actions:[["一起吃飯","叫你一起吃飯"],["關心","問你今天過得怎樣"],["陪伴","想陪你待一下"],["幫忙","說要幫你做點事"],["送伴手禮","帶了小東西給你"],["互動小遊戲","game"]]},
+  partner:{name:"搭檔",bond:1.15,exp:1.3,desc:"經驗×1.3",actions:[["訓練","邀請你一起訓練"],["討論計畫","想和你討論計畫"],["交換情報","來交換情報"],["掩護","表示會替你掩護"],["慶祝","邀你慶祝一下"],["互動小遊戲","game"]]},
+  rival:{name:"宿敵",bond:.8,exp:1.4,desc:"經驗×1.4，羈絆較慢",actions:[["挑戰","向你發起挑戰"],["比戰績","要和你比較戰績"],["挑釁","故意來挑釁你"],["再戰","丟下一句下次再戰"],["嘴硬稱讚","嘴硬地稱讚你"],["互動小遊戲","game"]]},
+  enemy:{name:"仇敵",bond:.45,exp:1.32,desc:"經驗×1.32，羈絆很慢",actions:[["下戰帖","向你下戰帖"],["嘲諷","對你冷嘲熱諷"],["正面較量","邀你正面較量"],["警告","對你發出警告"],["宣戰","表示絕對不會認輸"],["互動小遊戲","game"]]}
+};
+
+const routines=[
+  [0,6,"熟睡中","抱著被子安穩睡著。"],
+  [6,7,"剛起床","還有點迷迷糊糊。"],
+  [7,8,"吃早餐","正在吃早餐。"],
+  [8,12,"做自己的事","工作、練習或處理今天的事。"],
+  [12,13,"吃午餐","暫時休息吃午餐。"],
+  [13,17,"繼續忙碌","午後繼續自己的生活。"],
+  [17,18,"散步回家","慢慢走在回家的路上。"],
+  [18,19,"吃晚餐","正在吃晚餐。"],
+  [19,21,"悠閒時間","窩著休息。"],
+  [21,22,"洗澡","洗去一天疲憊。"],
+  [22,24,"準備睡覺","鑽進被窩準備睡了。"]
+];
+
+const eventPool=[
+  ["突然想起對方",p=>`忙到一半時，你突然想起${p}。`,[["傳訊息",2],["晚點再說",0]]],
+  ["看到小禮物",p=>`你看到一樣很適合${p}的小東西。`,[["買下來",3],["拍照給他看",2],["先記住",1]]],
+  ["有點疲憊",p=>`今天有點累，你想到也許可以找${p}說說話。`,[["找他聊聊",2],["自己休息",1]]]
+];
+
+let local=loadLocal();
+let playerId=localStorage.getItem(PLAYER_KEY);
+if(!playerId){playerId=(crypto.randomUUID?crypto.randomUUID():"p"+Date.now()+Math.random().toString(16).slice(2));localStorage.setItem(PLAYER_KEY,playerId)}
+
+let activeId=null, room=null, partner=null, pollTimer=null, gameId=null, activeRoomCode="", relationshipSummaries={};
+
+function loadLocal(){try{return JSON.parse(localStorage.getItem(LOCAL_KEY))||{characters:[]}}catch(e){return{characters:[]}}}
+function saveLocal(){localStorage.setItem(LOCAL_KEY,JSON.stringify(local))}
+function cur(){return local.characters.find(x=>x.id===activeId)}
+function ensureRelations(c){
+  if(!c)return;
+  if(!c.journal)c.journal={};
+  if(!Array.isArray(c.roomCodes))c.roomCodes=[];
+  if(c.roomCode && !c.roomCodes.includes(c.roomCode))c.roomCodes.push(c.roomCode);
+  c.roomCodes=[...new Set(c.roomCodes.filter(Boolean))].slice(0,3);
+  delete c.roomCode;
+}
+function uuid(){return crypto.randomUUID?crypto.randomUUID():"id"+Date.now()+Math.random().toString(16).slice(2)}
+function newChar(name){return{id:uuid(),name,level:1,exp:0,energy:90,mood:82,bond:0,image:"",start:new Date().toISOString().slice(0,10),events:[],lastEvent:Date.now(),roomCodes:[],hunger:85,money:300,inventory:{},memories:[],achievements:{},dailyDate:"",dailyDone:0,journal:{}}}
+function routine(){let h=new Date().getHours();return routines.find(r=>h>=r[0]&&h<r[1])||routines[0]}
+function day(c){let a=new Date(c.start+"T00:00:00"),b=new Date();b.setHours(0,0,0,0);return Math.max(1,Math.floor((b-a)/86400000)+1)}
+function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+function show(id){document.getElementById("home").classList.toggle("hidden",id!=="home");document.getElementById("game").classList.toggle("hidden",id!=="game")}
+function publicState(c){let r=routine();return{name:c.name,image:c.image||"",level:c.level,energy:Math.round(c.energy),mood:Math.round(c.mood),activity:r[2],updated:Date.now()}}
+function relDef(){return room?defs[room.relation]:null}
+function fatal(msg){let f=document.getElementById("fatal");f.textContent=msg;f.classList.remove("hidden")}
+function clearFatal(){document.getElementById("fatal").classList.add("hidden")}
+
+async function api(path,options={}){
+  const res=await fetch(API+path,{...options,headers:{...HEADERS,...(options.headers||{})}});
+  const text=await res.text();
+  let data=null;
+  if(text){try{data=JSON.parse(text)}catch(e){data=text}}
+  if(!res.ok){
+    console.error("API error",res.status,data);
+    throw new Error((data&&data.message)||("Supabase 錯誤 "+res.status));
+  }
+  return data;
+}
+
+function renderHome(){
+  document.getElementById("saveCount").textContent=`${local.characters.length}/5`;
+  let box=document.getElementById("saveList");box.innerHTML="";
+  if(!local.characters.length)box.innerHTML='<div class="muted">還沒有角色，先創建一個吧。</div>';
+  local.characters.forEach(c=>{
+    ensureRelations(c);
+    let d=document.createElement("div");d.className="save";
+    d.innerHTML=`<div class="pic">${c.image?`<img src="${c.image}">`:"🐾"}</div><div><div class="saveName">${esc(c.name)}</div><div class="muted">Lv.${c.level} · 第 ${day(c)} 天 ${c.roomCodes.length?`· ${c.roomCodes.length} 段關係`:""}</div><div class="actions"><button class="primary" data-open="${c.id}">進入</button><button class="danger" data-del="${c.id}">刪除</button></div></div>`;
+    box.appendChild(d);
+  });
+  saveLocal();
+}
+
+document.getElementById("createChar").onclick=()=>{
+  if(local.characters.length>=5)return alert("最多 5 個角色。");
+  let n=document.getElementById("newName").value.trim()||`角色 ${local.characters.length+1}`;
+  local.characters.push(newChar(n));document.getElementById("newName").value="";saveLocal();renderHome();
+};
+
+document.getElementById("saveList").onclick=e=>{
+  if(e.target.dataset.open)openChar(e.target.dataset.open);
+  if(e.target.dataset.del){
+    let c=local.characters.find(x=>x.id===e.target.dataset.del);
+    if(c&&confirm(`確定刪除「${c.name}」？`)){
+      local.characters=local.characters.filter(x=>x.id!==c.id);saveLocal();renderHome();
+    }
+  }
+};
+
+async function openChar(id){
+  activeId=id;show("game");
+  let c=cur();ensureRelations(c);saveLocal();
+  activeRoomCode=c.roomCodes[0]||"";
+  await refreshRelationships();
+  if(activeRoomCode){try{await loadRoom(activeRoomCode)}catch(e){fatal(e.message)}}
+  else{room=null;partner=null;renderGame()}
+  startPolling();maybeEvent();
+}
+
+document.getElementById("back").onclick=()=>{
+  stopPolling();activeId=null;room=null;partner=null;activeRoomCode="";relationshipSummaries={};show("home");renderHome();
+};
+
+async function makeCode(){
+  for(let i=0;i<15;i++){
+    let code=String(Math.floor(100000+Math.random()*900000));
+    let rows=await api(`/rooms?code=eq.${encodeURIComponent(code)}&select=code&limit=1`);
+    if(!rows.length)return code;
+  }
+  throw new Error("無法產生房間碼，請再試一次。");
+}
+
+document.getElementById("createRoom").onclick=async()=>{
+  try{
+    clearFatal();
+    let c=cur(); if(!c)return;ensureRelations(c);
+    if(c.roomCodes.length>=3)return alert("每個角色最多建立 3 段關係。");
+    let code=await makeCode(), relation=document.getElementById("relation").value;
+    await api("/rooms",{method:"POST",headers:{"Prefer":"return=representation"},body:JSON.stringify({
+      code,relation,host_player:playerId,host_char:c.id,host_state:publicState(c)
+    })});
+    c.roomCodes.push(code);activeRoomCode=code;saveLocal();await refreshRelationships();await loadRoom(code);startPolling();
+  }catch(e){alert(e.message)}
+};
+
+document.getElementById("joinRoom").onclick=async()=>{
+  try{
+    clearFatal();
+    let c=cur();ensureRelations(c);
+    if(c.roomCodes.length>=3)return alert("每個角色最多建立 3 段關係。");
+    let code=document.getElementById("joinCode").value.replace(/\D/g,"");
+    if(code.length!==6)return alert("請輸入 6 位房間碼。");
+    if(c.roomCodes.includes(code))return alert("這段關係已經在你的列表裡。");
+    let rows=await api(`/rooms?code=eq.${encodeURIComponent(code)}&select=*`);
+    if(!rows.length)return alert("找不到這個房間。");
+    let r=rows[0];
+    if(r.guest_char && r.guest_char!==c.id)return alert("這個房間已經有兩個角色。");
+    await api(`/rooms?code=eq.${encodeURIComponent(code)}`,{method:"PATCH",headers:{"Prefer":"return=representation"},body:JSON.stringify({
+      guest_player:playerId,guest_char:c.id,guest_state:publicState(c)
+    })});
+    c.roomCodes.push(code);activeRoomCode=code;saveLocal();await refreshRelationships();await loadRoom(code);startPolling();
+  }catch(e){alert(e.message)}
+};
+
+async function loadRoom(code){
+  let rows=await api(`/rooms?code=eq.${encodeURIComponent(code)}&select=*`);
+  if(!rows.length){
+    let c=cur();
+    if(c){ensureRelations(c);c.roomCodes=c.roomCodes.filter(x=>x!==code);saveLocal()}
+    delete relationshipSummaries[code];
+    if(activeRoomCode===code)activeRoomCode=(c?.roomCodes?.[0]||"");
+    room=null;partner=null;renderGame();return;
+  }
+  room=rows[0];activeRoomCode=code;relationshipSummaries[code]=room;
+  let c=cur();
+  partner=room.host_char===c.id?room.guest_state:room.host_state;
+  renderGame();
+  await Promise.all([loadMessages(),loadInbox()]);
+}
+
+async function refreshRelationships(){
+  let c=cur();if(!c)return;ensureRelations(c);
+  relationshipSummaries={};
+  const valid=[];
+  for(const code of c.roomCodes){
+    try{
+      const rows=await api(`/rooms?code=eq.${encodeURIComponent(code)}&select=*`);
+      if(rows.length){relationshipSummaries[code]=rows[0];valid.push(code)}
+    }catch(e){console.warn(e)}
+  }
+  if(valid.length!==c.roomCodes.length){c.roomCodes=valid;saveLocal()}
+  if(activeRoomCode && !valid.includes(activeRoomCode))activeRoomCode=valid[0]||"";
+  renderGame();
+}
+
+async function syncState(){
+  let c=cur();if(!c||!activeRoomCode||!room)return;
+  let field=room.host_char===c.id?"host_state":"guest_state";
+  let body={};body[field]=publicState(c);
+  await api(`/rooms?code=eq.${encodeURIComponent(room.code)}`,{method:"PATCH",body:JSON.stringify(body)});
+}
+
+function startPolling(){
+  stopPolling();
+  pollTimer=setInterval(async()=>{
+    try{
+      let c=cur();if(!c)return;
+      ensureRelations(c);
+      await refreshRelationships();await pollChatNotifications();
+      if(activeRoomCode)await loadRoom(activeRoomCode);
+      else{room=null;partner=null;renderGame()}
+    }catch(e){console.warn(e)}
+  },2500);
+}
+function stopPolling(){if(pollTimer)clearInterval(pollTimer);pollTimer=null}
+
+function renderGame(){
+  let c=cur();if(!c)return;let r=routine();
+  document.getElementById("day").textContent=day(c);
+  document.getElementById("charName").textContent=c.name;
+  document.getElementById("level").textContent=c.level;
+  document.getElementById("exp").textContent=Math.floor(c.exp);
+  document.getElementById("energy").textContent=Math.floor(c.energy);
+  document.getElementById("mood").textContent=Math.floor(c.mood);
+  c.hunger ??= 85;c.money ??= 300;c.inventory ??= {};c.memories ??= [];c.achievements ??= {};
+  document.getElementById("hunger").textContent=Math.floor(c.hunger);
+  document.getElementById("moneyTop").textContent=c.money;
+  document.getElementById("energyFill").style.width=c.energy+"%";document.getElementById("hungerFill").style.width=c.hunger+"%";document.getElementById("moodFill").style.width=c.mood+"%";
+  let expNeed=60+c.level*25;document.getElementById("expFill").style.width=Math.min(100,c.exp/expNeed*100)+"%";document.getElementById("drawerName").textContent=c.name;renderExtras(c);
+  document.getElementById("activity").textContent=r[2];
+  document.getElementById("activityDetail").textContent=r[3];
+
+  let im=document.getElementById("avatarImg"),em=document.getElementById("emoji");
+  if(c.image){im.src=c.image;im.style.display="block";em.style.display="none"}else{im.style.display="none";em.style.display="inline"}
+
+  ensureRelations(c);
+  document.getElementById("relationCount").textContent=`${c.roomCodes.length}/3`;
+  document.getElementById("roomSetup").classList.toggle("hidden",c.roomCodes.length>=3);
+  document.getElementById("roomActive").classList.toggle("hidden",!room);
+
+  const list=document.getElementById("relationshipList");list.innerHTML="";
+  if(!c.roomCodes.length)list.innerHTML='<div class="muted">目前還沒有建立任何關係。</div>';
+  c.roomCodes.forEach(code=>{
+    const rr=relationshipSummaries[code];
+    const isHost=rr?.host_char===c.id;
+    const other=rr?(isHost?rr.guest_state:rr.host_state):null;
+    const def=rr?defs[rr.relation]:null;
+    const item=document.createElement("div");item.className="relItem "+(code===activeRoomCode?"active":"");
+    item.innerHTML=`<div class="meta"><b>${other?esc(other.name):"等待對方加入"} ${def?`· ${def.name}`:""}</b><div class="small">房間 ${esc(code)}</div></div><div class="relActions"><button data-switch="${esc(code)}">開啟</button></div>`;
+    list.appendChild(item);
+  });
+
+  if(room){
+    document.getElementById("roomCode").textContent=room.code;
+    document.getElementById("waiting").classList.toggle("hidden",!!partner);
+    document.getElementById("partnerCard").classList.toggle("hidden",!partner);
+    let grid=document.getElementById("interactionGrid");grid.innerHTML="";
+    if(partner){
+      let d=relDef();
+      document.getElementById("partnerName").textContent=partner.name||"對方";
+      document.getElementById("relationChip").textContent=d.name;
+      document.getElementById("partnerStatus").textContent=partner.activity||"未知狀態";
+      document.getElementById("partnerStats").textContent=`Lv.${partner.level||1}　體力 ${partner.energy??"?"}　心情 ${partner.mood??"?"}`;
+      document.getElementById("relationBonus").textContent=d.desc;
+      document.getElementById("partnerPic").innerHTML=partner.image?`<img src="${partner.image}">`:"♡";
+      d.actions.forEach(([label,key])=>{let b=document.createElement("button");b.textContent=label;b.dataset.act=key;grid.appendChild(b)});
+    }
+  }
+
+  document.getElementById("eventCount").textContent=`${c.events.length}/10`;
+  let eb=document.getElementById("events");eb.innerHTML="";
+  if(!c.events.length)eb.innerHTML='<div class="muted">目前沒有待抉擇事件。</div>';
+  c.events.forEach(ev=>{
+    let d=document.createElement("div");d.className="event";
+    d.innerHTML=`<div class="title">${esc(ev.title)}</div><div class="small">${esc(ev.text)}</div><div class="choices"></div>`;
+    let choices=d.querySelector(".choices");
+    ev.choices.forEach(ch=>{let b=document.createElement("button");b.textContent=ch[0];b.onclick=()=>{c.events=c.events.filter(x=>x.id!==ev.id);c.mood=Math.max(0,Math.min(100,c.mood+(ch[1]||0)));saveLocal();renderGame()};choices.appendChild(b)});
+    eb.appendChild(d);
+  });
+}
+
+document.getElementById("relationshipList").onclick=async e=>{
+  const code=e.target.dataset.switch;if(!code)return;
+  activeRoomCode=code;
+  try{await loadRoom(code)}catch(err){alert(err.message)}
+};
+
+document.getElementById("disconnectRoom").onclick=async()=>{
+  if(!room||!activeRoomCode)return;
+  const c=cur();
+  const name=partner?.name||"對方";
+  if(!confirm(`確定要解除和「${name}」的關係嗎？\n這段關係的房間、聊天、互動與小遊戲資料都會一起刪除。`))return;
+  try{
+    await api(`/rooms?code=eq.${encodeURIComponent(activeRoomCode)}`,{method:"DELETE"});
+    c.roomCodes=c.roomCodes.filter(x=>x!==activeRoomCode);
+    activeRoomCode=c.roomCodes[0]||"";
+    room=null;partner=null;saveLocal();
+    await refreshRelationships();
+    if(activeRoomCode)await loadRoom(activeRoomCode);
+    else renderGame();
+  }catch(err){alert(err.message)}
+};
+
+document.getElementById("interactionGrid").onclick=async e=>{
+  let key=e.target.dataset.act;if(!key||!room||!partner)return;
+  if(key==="game")return startGame();
+  try{
+    let c=cur(),isHost=room.host_char===c.id;
+    let label=relDef().actions.find(x=>x[1]===key)?.[0]||"互動";
+    await api("/interactions",{method:"POST",body:JSON.stringify({
+      room_code:room.code,from_char:c.id,to_char:isHost?room.guest_char:room.host_char,text:label
+    })});
+    c.bond+=.5*relDef().bond;saveLocal();renderGame();await loadInbox();
+  }catch(e2){alert(e2.message)}
+};
+
+async function loadInbox(){
+  if(!room)return;
+  let c=cur();
+  let data=await api(`/interactions?room_code=eq.${encodeURIComponent(room.code)}&to_char=eq.${encodeURIComponent(c.id)}&select=*&order=created_at.desc&limit=12`);
+  let box=document.getElementById("inbox");box.innerHTML="";
+  if(!data.length)box.innerHTML='<div class="muted">目前沒有互動。</div>';
+  data.forEach(x=>{let d=document.createElement("div");d.className="notice";d.innerHTML=`<div class="title">${esc(partner?.name||"對方")}：${esc(x.text)}</div><div class="small">這個互動已同步到你的角色。</div>`;box.appendChild(d)});
+}
+
+document.getElementById("sendChat").onclick=sendChat;
+document.getElementById("chatInput").onkeydown=e=>{if(e.key==="Enter")sendChat()};
+
+async function sendChat(){
+  try{
+    let c=cur(),i=document.getElementById("chatInput"),t=i.value.trim();
+    if(!t||!room||!partner)return;
+    await api("/messages",{method:"POST",body:JSON.stringify({room_code:room.code,from_char:c.id,text:t})});
+    i.value="";await loadMessages();
+  }catch(e){alert(e.message)}
+}
+
+async function loadMessages(){
+  if(!room)return;
+  let c=cur();
+  let data=await api(`/messages?room_code=eq.${encodeURIComponent(room.code)}&select=*&order=created_at.asc&limit=60`);
+  let box=document.getElementById("chatBox");box.innerHTML="";
+  if(!data.length)box.innerHTML='<div class="muted">還沒有聊天紀錄。</div>';
+  data.forEach(m=>{let d=document.createElement("div");d.className="msg "+(m.from_char===c.id?"me":"");d.innerHTML=`<div class="bubble">${esc(m.text)}</div>`;box.appendChild(d)});
+  box.scrollTop=box.scrollHeight;
+}
+
+async function startGame(){
+  try{
+    if(!room||!partner)return;
+    let data=await api("/games",{method:"POST",headers:{"Prefer":"return=representation"},body:JSON.stringify({
+      room_code:room.code,host_char:room.host_char,guest_char:room.guest_char,host_choice:null,guest_choice:null
+    })});
+    gameId=data[0].id;document.getElementById("gameModal").classList.remove("hidden");refreshGame();
+  }catch(e){alert(e.message)}
+}
+
+document.querySelectorAll("[data-choice]").forEach(b=>b.onclick=async()=>{
+  if(!gameId||!room)return;
+  let c=cur(),field=room.host_char===c.id?"host_choice":"guest_choice";
+  let body={};body[field]=b.dataset.choice;
+  try{await api(`/games?id=eq.${gameId}`,{method:"PATCH",body:JSON.stringify(body)});refreshGame()}catch(e){alert(e.message)}
+});
+
+async function refreshGame(){
+  if(!gameId)return;
+  let rows=await api(`/games?id=eq.${gameId}&select=*`);
+  if(!rows.length)return;
+  let g=rows[0],c=cur(),mine=room.host_char===c.id?g.host_choice:g.guest_choice,other=room.host_char===c.id?g.guest_choice:g.host_choice;
+  let res=document.getElementById("gameResult");
+  if(!mine)res.textContent="請選一個答案。";
+  else if(!other)res.textContent="你已選好，等待對方……";
+  else{
+    res.textContent=mine===other?`心有靈犀！你們都選了「${mine}」 ♡`:`你選「${mine}」，對方選「${other}」`;
+  }
+}
+document.getElementById("closeGame").onclick=()=>document.getElementById("gameModal").classList.add("hidden");
+
+document.getElementById("avatar").onclick=()=>document.getElementById("imageInput").click();
+document.getElementById("imageInput").onchange=e=>{
+  let c=cur(),f=e.target.files[0];if(!c||!f)return;
+  let rd=new FileReader();rd.onload=v=>{let im=new Image();im.onload=()=>{let cv=document.createElement("canvas"),w=im.width,h=im.height,max=320;if(w>h&&w>max){h=h*max/w;w=max}else if(h>=w&&h>max){w=w*max/h;h=max}cv.width=w;cv.height=h;cv.getContext("2d").drawImage(im,0,0,w,h);c.image=cv.toDataURL("image/jpeg",.65);saveLocal();syncState().catch(()=>{});renderGame()};im.src=v.target.result};rd.readAsDataURL(f);
+};
+
+function maybeEvent(){
+  let c=cur();if(!c||c.events.length>=10||Date.now()-c.lastEvent<90000||Math.random()>.6)return;
+  c.lastEvent=Date.now();let x=eventPool[Math.floor(Math.random()*eventPool.length)],p=partner?.name||"那個人";
+  c.events.push({id:uuid(),title:x[0],text:x[1](p),choices:x[2]});saveLocal();renderGame();
+}
+
+setInterval(async()=>{
+  let c=cur();if(!c)return;
+  const relationMultipliers=Object.values(relationshipSummaries)
+    .map(r=>defs[r.relation]?.exp||1);
+  const expMultiplier=1+relationMultipliers.reduce((sum,x)=>sum+(x-1),0);
+  c.exp+=1*expMultiplier;c.hunger=Math.max(0,c.hunger-.18);c.energy=Math.max(0,Math.min(100,c.energy+(new Date().getHours()<7?.8:-.1)));c.mood=Math.max(0,Math.min(100,c.mood+.15));
+  let need=60+c.level*25;if(c.exp>=need){c.exp-=need;c.level++}
+  saveLocal();try{await syncState()}catch(e){console.warn(e)};maybeEvent();renderGame();
+},60000);
+
+
+
+const places=[["park","🌳","公園"],["cafe","☕","咖啡店"],["bookstore","📚","書店"],["street","🛍️","商店街"],["cinema","🎬","電影院"],["river","🌙","河堤"]];
+let achievementFilter="全部";
+function todayKey(){return new Date().toISOString().slice(0,10)}
+function logJournal(c,text,icon="•"){c.journal??={};let k=todayKey();c.journal[k]??=[];c.journal[k].push({time:new Date().toLocaleTimeString("zh-TW",{hour:"2-digit",minute:"2-digit",hour12:false}),text,icon});c.journal[k]=c.journal[k].slice(-60);saveLocal()}
+function presence(st){if(!st?.updated)return '<span class="presence off">⚫ 離線</span>';let d=Date.now()-st.updated;if(d<90000)return '<span class="presence on">🟢 在線</span>';let m=Math.floor(d/60000);return `<span class="presence off">⚫ 離線・${m<60?m+" 分鐘前":Math.floor(m/60)+" 小時前"}</span>`}
+function renderJournal(c){let el=document.getElementById("journalList"),a=c.journal?.[todayKey()]||[];if(el)el.innerHTML=a.length?a.map(x=>`<div class="journalLine"><b>${x.time}</b>　${x.icon} ${esc(x.text)}</div>`).join(""):'<div class="muted">今天還沒有特別紀錄。</div>'}
+function renderOuting(c){let el=document.getElementById("placeList");if(el)el.innerHTML=places.map(x=>`<button data-place="${x[0]}">${x[1]} ${x[2]}</button>`).join("");renderInvites(c)}
+async function renderInvites(c){let el=document.getElementById("outingInvites");if(!el)return;let all=[];for(let code of c.roomCodes){try{let xs=await api(`/interactions?room_code=eq.${code}&to_char=eq.${c.id}&select=*&order=created_at.desc&limit=20`);xs.filter(x=>String(x.text).startsWith("OUTING_INVITE|")).forEach(x=>all.push({...x,code}))}catch{}}el.innerHTML=all.length?all.map(x=>{let q=x.text.split("|"),pl=places.find(p=>p[0]===q[1]);return `<div class="itemRow"><b>💌 ${pl?.[2]||"外出"}邀請</b><div class="small">只有接受後才會開始共同外出。</div><button data-accept="${x.id}" data-code="${x.code}" data-place="${q[1]}">接受</button> <button data-decline="${x.id}">婉拒</button></div>`}).join(""):'<div class="muted">目前沒有等待回覆的邀請。</div>'}
+const CHAT_UNREAD_KEY="roleLife_chat_unread_v2",CHAT_LAST_KEY="roleLife_chat_last_v2";
+function getUnreadMap(){try{return JSON.parse(localStorage.getItem(CHAT_UNREAD_KEY)||"{}")}catch{return{}}}
+function setUnreadMap(x){localStorage.setItem(CHAT_UNREAD_KEY,JSON.stringify(x));updateUnreadBadge()}
+function getLastMsgMap(){try{return JSON.parse(localStorage.getItem(CHAT_LAST_KEY)||"{}")}catch{return{}}}
+function setLastMsgMap(x){localStorage.setItem(CHAT_LAST_KEY,JSON.stringify(x))}
+function updateUnreadBadge(){let el=document.getElementById("chatNavBadge");if(!el)return;let n=Object.values(getUnreadMap()).reduce((a,b)=>a+(Number(b)||0),0);el.innerHTML=n?`<span class="unreadBadge">${n}</span>`:""}
+let notifyTimer=null;
+function gameNotify(title,text,icon="💬"){let b=document.getElementById("notifyToast");if(!b)return;notifyIcon.textContent=icon;notifyTitle.textContent=title;notifyText.textContent=text;b.classList.remove("hidden");clearTimeout(notifyTimer);notifyTimer=setTimeout(()=>b.classList.add("hidden"),4200)}
+function markChatRead(code){let u=getUnreadMap();u[code]=0;setUnreadMap(u)}
+async function pollChatNotifications(){let c=cur();if(!c)return;let last=getLastMsgMap(),u=getUnreadMap();for(let code of c.roomCodes){try{let xs=await api(`/messages?room_code=eq.${code}&select=*&order=created_at.desc&limit=1`);if(!xs.length)continue;let m=xs[0];if(last[code]&&last[code]!==m.id&&m.from_char!==c.id){let rr=relationshipSummaries?.[code],o=rr?(rr.host_char===c.id?rr.guest_state:rr.host_state):null,chatOpen=document.getElementById("extraChat").classList.contains("active")&&activeRoomCode===code;if(!chatOpen){u[code]=(u[code]||0)+1;gameNotify(`${o?.name||"關係角色"}傳來新訊息`,String(m.text).slice(0,55),"💬")}}last[code]=m.id}catch{}}setLastMsgMap(last);setUnreadMap(u)}
+function renderChatRooms(c){let el=document.getElementById("chatRelationList");if(!el)return;let u=getUnreadMap();el.innerHTML=c.roomCodes.length?c.roomCodes.map(code=>{let rr=relationshipSummaries?.[code],o=rr?(rr.host_char===c.id?rr.guest_state:rr.host_state):null,d=rr?defs[rr.relation]:null;return `<button class="chatRoomBtn ${code===activeRoomCode?"active":""}" data-chatroom="${code}"><span><b>${esc(o?.name||"等待加入")}</b> <span class="chip">${d?.name||""}</span><div>${presence(o)}</div></span>${u[code]?`<span class="unreadBadge">${u[code]}</span>`:""}</button>`}).join(""):'<div class="muted">還沒有關係聊天室。</div>'}
+const protoShop=[{id:"coffee",n:"☕ 香醇咖啡",p:45},{id:"novel",n:"📕 小說",p:80},{id:"lamp",n:"🕯️ 小夜燈",p:120},{id:"cake",n:"🍰 草莓蛋糕",p:90},{id:"flowers",n:"💐 小花束",p:130},{id:"picnic",n:"🧺 野餐籃",p:180},{id:"oldkey",n:"🗝️ 舊鑰匙",p:260},{id:"letter",n:"✉️ 泛黃信紙",p:110},{id:"dryflower",n:"🥀 乾燥花",p:150}];
+const protoAch=[["start","🌱","冒險的開始","開始角色生活","角色"],["lv5","⭐","小有成長","角色達到 Lv.5","角色"],["lv10","🌟","逐漸成熟","角色達到 Lv.10","角色"],["lv20","👑","身經百戰","角色達到 Lv.20","角色"],["week","🌙","七日物語","生活滿 7 天","生活"],["month","📅","一個月的生活","生活滿 30 天","生活"],["day100","🗓️","百日生活","生活滿 100 天","生活"],["mood90","🌸","今天心情真好","心情達到 90","生活"],["energy90","⚡","精神百倍","體力達到 90","生活"],["hungry","🍙","肚子叫了","飽食度降到 20 以下","生活"],["event1","🎭","生活的小插曲","完成第一次角色事件","生活"],["event10","🎪","故事漸多","完成 10 個角色事件","生活"],["outing1","🌳","出去走走","第一次主動外出","生活"],["park","🌿","公園散心","去過公園","生活"],["cafe","☕","午後咖啡","去過咖啡店","生活"],["bookstore","📖","書頁之間","去過書店","生活"],["street","🛍️","逛逛街吧","去過商店街","生活"],["cinema","🎬","電影時間","去過電影院","生活"],["river","🌙","河堤夜風","去過河堤","生活"],["shop","🛍️","購物初體驗","第一次購物","收藏"],["shop5","🎁","小小收藏家","累積購物 5 次","收藏"],["shop20","🧺","買了好多東西","累積購物 20 次","收藏"],["coin500","🪙","小小積蓄","持有 500 金幣","收藏"],["coin2000","💰","存錢高手","持有 2000 金幣","收藏"],["memory10","📖","回憶收藏冊","留下 10 段回憶","收藏"],["memory30","📚","回憶滿滿","留下 30 段回憶","收藏"],["read","❔","？？？","特殊物品組合","隱藏"],["picnic","❔","？？？","特殊物品組合","隱藏"],["secret","❔","？？？","特殊物品組合","隱藏"],["solo","❔","？？？","單人特殊條件","隱藏"],["relation","🤝","命運的相遇","第一次建立關係","關係"],["three","🕸️","人際網路","同時擁有 3 段關係","關係"],["lover","💕","心之所向","第一次建立戀人關係","關係"],["friend","🫂","摯友一生","第一次建立摯友關係","關係"],["family","🏠","家的方向","第一次建立家人關係","關係"],["partner","⚔️","並肩而行","第一次建立搭檔關係","關係"],["rival","🔥","命中宿敵","第一次建立宿敵關係","關係"],["enemy","💢","狹路相逢","第一次建立仇敵關係","關係"],["msg1","💬","第一句話","第一次傳送訊息","關係"],["msg50","💌","有好多話想說","累積傳送 50 則訊息","關係"],["interact10","💞","更加熟悉","累積互動 10 次","關係"],["outingTogether","🧋","一起出去吧","第一次共同外出","關係"],["bond6","💗","一路走到這裡","任一關係抵達第六階","關係"],["bondmax","💎","滿溢的羈絆","羈絆達目前上限","關係"],["break","❔","？？？","完成羈絆突破","隱藏"],["newyear","🧧","新年的第一頁","元旦限定","節日"],["lunar","🏮","新春如意","農曆新年限定","節日"],["lantern","🏮","燈火闌珊","元宵限定","節日"],["qixi","🌌","今夜星河","七夕限定","節日"],["halloween","🎃","今晚要搗蛋","萬聖節限定","節日"],["xmas","🎄","冬夜的禮物","聖誕限定","節日"],["birthday","🎂","今天是特別的一天","角色生日限定","節日"],["anniversary","💐","又走過一年","關係紀念日限定","節日"],["rare","✨","稀有的一天","遇到稀有生活事件","生活"],["hidden5","🗝️","秘密探索者","發現 5 個隱藏成就","隱藏"],["game1","🎮","一起玩吧","完成第一次雙人小遊戲","關係"],["sync3","💫","心有靈犀","連續 3 次默契成功","關係"],["gift1","🎁","一點心意","第一次送禮","關係"],["gift10","🎀","總想送你東西","累積送禮 10 次","關係"],["diary7","✍️","一週日誌","累積七天生活日誌","生活"],["daily1","☀️","今天的小事","完成一次每日任務","生活"],["daily10","✅","日常達人","完成十次每日任務","生活"]];
+function renderExtras(c){
+ let dl=document.getElementById('dailyList'); if(dl)dl.innerHTML='<div class="itemRow">☐ 處理 1 個角色事件</div><div class="itemRow">☐ 保持心情 60 以上</div><div class="itemRow">☐ '+(c.roomCodes.length?'和關係角色互動 2 次':'在商店買 1 件東西')+'</div><div class="muted">全部完成：🪙80＋EXP 25</div>';
+ let sl=document.getElementById('shopList');if(sl){sl.className="itemGrid";sl.innerHTML=protoShop.map(i=>`<button class="tile" data-shop="${i.id}"><div class="ico">${i.n.split(" ")[0]}</div><b>${i.n.substring(i.n.indexOf(" ")+1)}</b><div class="small">🪙${i.p}</div></button>`).join('')}
+ let bl=document.getElementById('bagList');if(bl){let a=Object.entries(c.inventory).filter(x=>x[1]>0);bl.className=a.length?"itemGrid":"";bl.innerHTML=a.length?a.map(([id,n])=>{let i=protoShop.find(x=>x.id===id);return `<button class="tile" data-bag="${id}"><div class="ico">${i?.n.split(" ")[0]||"🎁"}</div><b>${i?.n.substring(i.n.indexOf(" ")+1)||id}</b><div class="small">×${n}</div></button>`}).join(''):'<div class="muted">背包目前是空的。</div>'}
+ let ml=document.getElementById('memoryList');if(ml)ml.innerHTML=c.memories.length?c.memories.map(x=>`<div class="itemRow"><b>${x.t}</b><div class="small">${x.d}</div></div>`).join(''):'<div class="muted">還沒有特殊回憶。</div>';
+ c.achievements.start=1;if(day(c)>=7)c.achievements.week=1;if(day(c)>=30)c.achievements.month=1;if(day(c)>=100)c.achievements.day100=1;if(c.level>=5)c.achievements.lv5=1;if(c.level>=10)c.achievements.lv10=1;if(c.level>=20)c.achievements.lv20=1;if(c.mood>=90)c.achievements.mood90=1;if(c.energy>=90)c.achievements.energy90=1;if(c.hunger<=20)c.achievements.hungry=1;if(c.money>=500)c.achievements.coin500=1;if(c.money>=2000)c.achievements.coin2000=1;if(c.roomCodes.length)c.achievements.relation=1;if(c.roomCodes.length>=3)c.achievements.three=1;if(c.memories.length>=10)c.achievements.memory10=1;if(c.memories.length>=30)c.achievements.memory30=1;if(!c.roomCodes.length&&c.mood>=90)c.achievements.solo=1;
+ let f=document.getElementById("achievementFilters");if(f){let fs=["全部","角色","生活","關係","收藏","節日","隱藏"];f.innerHTML=fs.map(x=>`<button class="${achievementFilter===x?"on":""}" data-af="${x}">${x}</button>`).join("")}
+ let al=document.getElementById('achievementList');if(al){let view=protoAch.filter(a=>achievementFilter==="全部"||a[4]===achievementFilter);al.className="achGrid";al.innerHTML=view.map(a=>{let ok=!!c.achievements[a[0]],hidden=a[4]==="隱藏"&&!ok;let shortName=hidden?"？？？":String(a[2]).replace("一個月的生活","一個月").replace("今天心情真好","好心情").replace("有好多話想說","好多話").replace("今天是特別的一天","生日").replace("冒險的開始","冒險開始").replace("回憶收藏冊","回憶冊").replace("人際網路","三段關係");return `<button class="achBadge ${ok?"":"locked"}" data-ach="${a[0]}"><div class="achIcon">${hidden?"❔":a[1]}</div><div class="achName">${shortName}</div></button>`}).join('')}
+ renderJournal(c);renderOuting(c);renderChatRooms(c);updateUnreadBadge();
+}
+function checkCombo(c){let h=id=>(c.inventory[id]||0)>0,hit=null;if(h('lamp')&&h('novel')&&!c.achievements.read)hit=['read','📖 特殊劇情・夜讀時光','暖黃色的小夜燈亮起來後，房間突然變得很適合讀完那本小說。'];else if(h('picnic')&&h('cake')&&h('flowers')&&!c.achievements.picnic)hit=['picnic','🌼 特殊劇情・午後的小旅行','野餐籃、蛋糕和花束湊在一起。角色決定把今天變成一場小旅行。'];else if(h('oldkey')&&h('letter')&&h('dryflower')&&!c.achievements.secret)hit=['secret','🔐 ？？？特殊劇情','舊鑰匙壓在泛黃信紙上，乾燥花從紙頁間滑落——這三樣東西原來彼此有關。'];if(hit){c.achievements[hit[0]]=1;c.memories.unshift({t:hit[1],d:new Date().toLocaleDateString('zh-TW')});saveLocal();alert(hit[1]+'\n\n'+hit[2]);renderGame()}}
+function openItem(i,mode){itemTitle.textContent=i.n;itemBody.innerHTML=`<div class="small">持有：${cur().inventory[i.id]||0}${mode==="shop"?`・價格 🪙${i.p}`:""}</div>`;itemActions.innerHTML=`<button class="primary" id="itemDo">${mode==="shop"?"購買":"使用"}</button>`;itemModal.classList.remove("hidden");itemDo.onclick=()=>{let c=cur();if(mode==="shop"){if(c.money<i.p)return alert("金幣不夠。");c.money-=i.p;c.inventory[i.id]=(c.inventory[i.id]||0)+1;c.achievements.shop=1;c.purchaseCount=(c.purchaseCount||0)+1;if(c.purchaseCount>=5)c.achievements.shop5=1;logJournal(c,`買了${i.n}`,"🛍️")}else{if(!(c.inventory[i.id]>0))return;c.inventory[i.id]--;c.mood=Math.min(100,c.mood+5);logJournal(c,`使用了${i.n}`,"🎒")}saveLocal();itemModal.classList.add("hidden");renderGame();checkCombo(c)}}}
+document.getElementById("closeItem").onclick=()=>itemModal.classList.add("hidden");
+document.getElementById("shopList").onclick=e=>{let b=e.target.closest("[data-shop]");if(b)openItem(protoShop.find(x=>x.id===b.dataset.shop),"shop")};
+document.getElementById("bagList").onclick=e=>{let b=e.target.closest("[data-bag]");if(b)openItem(protoShop.find(x=>x.id===b.dataset.bag),"bag")};
+document.getElementById("achievementFilters").onclick=e=>{if(e.target.dataset.af){achievementFilter=e.target.dataset.af;renderExtras(cur())}};document.getElementById("achievementList").onclick=e=>{let b=e.target.closest("[data-ach]");if(!b)return;let a=protoAch.find(x=>x[0]===b.dataset.ach),c=cur(),ok=!!c.achievements[a[0]],hidden=a[4]==="隱藏"&&!ok;infoTitle.textContent=hidden?"❔ 隱藏成就":`${a[1]} ${a[2]}`;infoBody.innerHTML=hidden?"達成特殊條件後才會揭曉。":`<b>分類：</b>${a[4]}<br><br>${a[3]}<br><br>${ok?"已解鎖 ✅":"尚未解鎖"}`;infoModal.classList.remove("hidden")};
+document.getElementById("chatRelationList").onclick=async e=>{let b=e.target.closest("[data-chatroom]");if(b){activeRoomCode=b.dataset.chatroom;markChatRead(activeRoomCode);await loadRoom(activeRoomCode);renderChatRooms(cur())}};
+document.getElementById("placeList").onclick=async e=>{let b=e.target.closest("[data-place]");if(!b)return;let c=cur(),pl=places.find(x=>x[0]===b.dataset.place),opts=["自己去"];for(let code of c.roomCodes){let rr=relationshipSummaries?.[code],o=rr?(rr.host_char===c.id?rr.guest_state:rr.host_state):null;if(o)opts.push(`${o.name}|${code}`)}let ans=prompt(`${pl[1]} ${pl[2]}\\n1. 自己去\\n`+opts.slice(1).map((x,i)=>`${i+2}. 邀請 ${x.split("|")[0]}`).join("\\n"));let n=Number(ans)-1;if(n===0){c.mood=Math.min(100,c.mood+5);logJournal(c,`自己去了${pl[2]}`,pl[1]);c.memories.unshift({t:`去了${pl[2]}`,d:new Date().toLocaleDateString("zh-TW")});saveLocal();alert(`去了${pl[2]}，心情 +5`);renderGame();return}let sel=opts[n];if(!sel)return;let code=sel.split("|")[1],rr=relationshipSummaries[code],to=rr.host_char===c.id?rr.guest_char:rr.host_char;await api("/interactions",{method:"POST",body:JSON.stringify({room_code:code,from_char:c.id,to_char:to,text:`OUTING_INVITE|${pl[0]}|${Date.now()}`})});alert("邀請已送出。對方接受前不會生效。")};
+document.getElementById("outingInvites").onclick=async e=>{let c=cur();if(e.target.dataset.accept){let id=e.target.dataset.accept,pid=e.target.dataset.place,pl=places.find(x=>x[0]===pid);await api(`/interactions?id=eq.${id}`,{method:"DELETE"});logJournal(c,`接受邀請，一起去了${pl?.[2]||"外出"}`,pl?.[1]||"🗺️");c.memories.unshift({t:`共同外出・${pl?.[2]||""}`,d:new Date().toLocaleDateString("zh-TW")});saveLocal();alert(`已接受，一起去${pl?.[2]||"外出"}！`);renderGame()}else if(e.target.dataset.decline){await api(`/interactions?id=eq.${e.target.dataset.decline}`,{method:"DELETE"});alert("已婉拒，不會扣心情或羈絆。");renderGame()}};
+function closeDrawer(){drawer.classList.add('hidden');drawerShade.classList.add('hidden')}menuBtn.onclick=()=>{drawer.classList.remove('hidden');drawerShade.classList.remove('hidden')};drawerShade.onclick=closeDrawer;
+document.querySelectorAll('[data-nav]').forEach(b=>b.onclick=()=>{let n=b.dataset.nav;closeDrawer();document.querySelectorAll('.pageCard').forEach(x=>x.classList.remove('active'));let map={daily:'extraDaily',journal:'extraJournal',outing:'extraOuting',chat:'extraChat',bag:'extraBag',shop:'extraShop',memory:'extraMemory',achievements:'extraAchievements'};if(map[n]){let el=document.getElementById(map[n]);el.classList.add('active');if(n==="chat"&&activeRoomCode)markChatRead(activeRoomCode);renderGame()}else if(n==='relations')document.getElementById('relationshipList').scrollIntoView({behavior:'smooth',block:'start'});else window.scrollTo({top:0,behavior:'smooth'});pageTitle.textContent={life:'角色生活',daily:'今日小事',journal:'今日生活日誌',outing:'外出',relations:'關係',chat:'聊天',bag:'背包',shop:'商店',memory:'回憶',achievements:'成就'}[n]||'角色生活'});
+document.getElementById('bars').onclick=e=>{let k=e.target.dataset.info;if(!k)return;let c=cur(),d={energy:['⚡ 體力',`目前 ${Math.floor(c.energy)}/100。<br>低體力會讓角色優先休息，並影響外出、約會與冒險。`],hunger:['🍙 飽食度',`目前 ${Math.floor(c.hunger)}/100。<br>會隨時間下降；太餓會影響體力與心情，也會提高吃飯類事件機率。`],mood:['🌸 心情',`目前 ${Math.floor(c.mood)}/100。<br>會改變角色行動傾向與隨機事件池。低落時更容易出現安慰、陪伴、散心事件。`],exp:['✨ 經驗',`角色自己的成長值。升級後會逐步解鎖更多生活與 TRPG 內容。`]}[k];infoTitle.textContent=d[0];infoBody.innerHTML=d[1];infoModal.classList.remove('hidden')};closeInfo.onclick=()=>infoModal.classList.add('hidden');
+
+window.addEventListener("error",e=>fatal("程式錯誤："+e.message));
+bgm.volume=Number(localStorage.getItem("roleLife_bgm_volume")||.25);bgmVolume.value=bgm.volume;bgmToggle.onclick=async()=>{if(bgm.paused){try{await bgm.play();bgmToggle.textContent="⏸ 暫停"}catch{alert("請把 bgm.mp3 和 index.html 放在同一資料夾。")}}else{bgm.pause();bgmToggle.textContent="▶ 播放"}};bgmVolume.oninput=()=>{bgm.volume=Number(bgmVolume.value);localStorage.setItem("roleLife_bgm_volume",bgm.volume)};
+document.querySelectorAll(".pageCard").forEach(el=>{let h=el.querySelector(".section");if(h&&!el.querySelector(".sheetClose")){let w=document.createElement("div");w.className="sheetHead";h.parentNode.insertBefore(w,h);w.appendChild(h);let b=document.createElement("button");b.className="sheetClose";b.textContent="×";b.onclick=()=>{el.classList.remove("active");pageTitle.textContent="角色生活"};w.appendChild(b)}});
+renderHome();
+</script>
+</body>
+</html>
+<style>
+#extraAchievements{overflow-x:hidden}
+#extraAchievements #achievementList{overflow-x:hidden}
+#extraAchievements .filters{-webkit-overflow-scrolling:touch}
+#extraAchievements .filters button{flex:0 0 auto}
+#extraAchievements .achBadge{width:100%}
+#extraAchievements .sheetHead{z-index:4}
+</style>
