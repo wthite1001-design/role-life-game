@@ -1484,7 +1484,7 @@ body.npcStoryRunning .draggableFab{
 <div class="launchTabs">
 <button class="active" data-launch-tab="seven">📅 七日任務</button>
 <button data-launch-tab="duo">💞 有你真好</button>
-
+<button data-launch-tab="invite">🤝 邀請好友</button>
 <button data-launch-tab="collection">🏅 限定收藏</button>
 </div>
 <div class="launchActivityBody" id="launchActivityBody"></div>
@@ -7267,10 +7267,59 @@ function launchUnlockedDay(now=Date.now()){
   return Math.max(1,Math.min(7,nowDay-startDay+1));
 }
 
-// 正式服不使用測試服邀請碼 / referral RPC。
+// 正式服邀請碼活動：正式 RPC 優先，舊版 RPC 作相容 fallback。
 let testReferralInfo=null;
-async function loadTestReferralPanel(){}
-async function refreshLaunchReferralCount(){ launchReferralCount=0; }
+async function formalReferralRpc(name,args={}){
+  const candidates={
+    get:["get_referral_info","get_test_referral_info"],
+    bind:["bind_inviter","bind_test_inviter"],
+    claim:["claim_referral_coins","claim_test_referral_coins"]
+  }[name]||[];
+  let lastErr=null;
+  for(const rpc of candidates){
+    try{return await api("/rpc/"+rpc,{method:"POST",body:JSON.stringify(args)})}
+    catch(e){lastErr=e}
+  }
+  throw lastErr||new Error("邀請系統尚未設定");
+}
+async function loadTestReferralPanel(){
+  const codeEl=document.getElementById("formalMyReferralCode");
+  if(!codeEl)return;
+  codeEl.textContent="雲端連線中…";
+  try{
+    let info=await formalReferralRpc("get",{p_player_id:playerId});
+    if(Array.isArray(info))info=info[0]||{};
+    testReferralInfo=info||{};
+    codeEl.textContent=String(info?.invite_code||"—");
+    launchReferralCount=Math.max(0,Number(info?.successful_invites??info?.invite_count??info?.referred_count??info?.completed_referrals??0));
+    const bound=document.getElementById("formalBoundInviterStatus");
+    const bindBox=document.getElementById("formalBindInviterBox");
+    if(info?.bound_inviter_code){
+      if(bound)bound.textContent=`✅ 已綁定邀請人：${info.bound_inviter_code}`;
+      bindBox?.classList.add("hidden");
+    }else{
+      if(bound)bound.textContent="尚未綁定邀請人。";
+      bindBox?.classList.remove("hidden");
+    }
+    const pending=Math.max(0,Number(info?.pending_coins||0));
+    const reward=document.getElementById("formalReferralRewardStatus");
+    if(reward)reward.textContent=pending>0?`目前有 🪙${pending} 可以領取。`:"目前沒有待領取的邀請獎勵。";
+    const btn=document.getElementById("claimFormalReferralReward");
+    if(btn)btn.disabled=pending<=0||!(local.characters||[]).length;
+  }catch(e){
+    codeEl.textContent="讀取失敗";
+    const reward=document.getElementById("formalReferralRewardStatus");
+    if(reward)reward.textContent="⚠️ 邀請系統連線失敗："+e.message;
+  }
+}
+async function refreshLaunchReferralCount(){
+  try{
+    let info=await formalReferralRpc("get",{p_player_id:playerId});
+    if(Array.isArray(info))info=info[0]||{};
+    testReferralInfo=info||{};
+    launchReferralCount=Math.max(0,Number(info?.successful_invites??info?.invite_count??info?.referred_count??info?.completed_referrals??0));
+  }catch(e){launchReferralCount=0}
+}
 function saveLaunchState(x){localStorage.setItem(LAUNCH_EVENT_KEY,JSON.stringify(x||{}))}
 function launchTargetChar(){
   return cur?.() || (local.characters||[])[0] || null;
@@ -7370,7 +7419,7 @@ const launchInviteMilestones=[
   {key:"invite5",n:5,title:"一起來到故事裡",reward:[{type:"item",id:"gift_music",amount:2},{type:"coins",amount:800}]}
 ];
 
-async function refreshLaunchReferralCount(){ launchReferralCount=0; }
+
 
 async function evaluateLaunchActivity(silent=false){
   let now=Date.now();
@@ -7495,7 +7544,23 @@ function renderLaunchActivity(){
   }else if(launchActivityTab==="invite"){
     body.innerHTML=`<div class="launchTaskCard">
       <b>🤝 邀請好友加碼</b>
-      <div class="small">目前成功邀請：${launchReferralCount} 人。這是開服活動額外獎勵，原本每次邀請的 300/200 金幣獎勵照常保留。</div>
+      <div class="small">目前成功邀請：${launchReferralCount} 人。成功邀請除了原本的邀請金幣外，也會累積本次開服活動里程碑。</div>
+      <div class="testReferralCodeBox" style="margin-top:10px">
+        <div><div class="small">我的邀請碼</div><b id="formalMyReferralCode">雲端連線中…</b></div>
+        <button id="copyFormalReferralCode" type="button">📋 複製</button>
+      </div>
+      <div id="formalBindInviterBox" class="testReferralBind">
+        <input id="formalInviterCodeInput" maxlength="30" placeholder="輸入邀請你的玩家邀請碼">
+        <button id="bindFormalInviterBtn" type="button">綁定</button>
+      </div>
+      <div id="formalBoundInviterStatus" class="small" style="margin-top:7px">讀取中…</div>
+      <div class="testReferralRewardBox">
+        <div><b>🎁 邀請金幣</b><div id="formalReferralRewardStatus" class="small">讀取中…</div></div>
+        <select id="formalReferralRewardChar">
+          ${(local.characters||[]).length?local.characters.map(c=>`<option value="${esc(c.id)}">${esc(c.name)}・🪙${Number(c.money||0)}</option>`).join(""):'<option value="">請先建立角色</option>'}
+        </select>
+        <button id="claimFormalReferralReward" type="button">領取邀請獎勵</button>
+      </div>
     </div>
     ${launchInviteMilestones.map(m=>`<div class="launchTaskCard ${st.claimed[m.key]?"done":""}">
       <div class="launchTaskTop"><div><b>${m.n} 人・${m.title}</b><div class="small">${launchReferralCount}/${m.n}</div></div><span class="launchAutoTag">${st.claimed[m.key]?"✅ 已獲得":"自動領取"}</span></div>
@@ -7513,6 +7578,7 @@ function renderLaunchActivity(){
       </div>`;
     }).join("")}</div>`;
   }
+  if(launchActivityTab==="invite")setTimeout(loadTestReferralPanel,0);
 }
 
 
@@ -9449,7 +9515,7 @@ function syncNpcFab(){
   const inGame=!!game&&!game.classList.contains("hidden");
   document.getElementById("npcTownFab")?.classList.toggle("hidden",!inGame);
 }
-document.getElementById("npcTownFab")?.addEventListener("click",openNpcShop);
+document.getElementById("npcTownFab")?.addEventListener("click",()=>window.openNpcShop());
 document.getElementById("closeNpcShop")?.addEventListener("click",()=>document.getElementById("npcShopModal")?.classList.add("hidden"));
 document.getElementById("npcShopModal")?.addEventListener("click",e=>{if(e.target.id==="npcShopModal")e.currentTarget.classList.add("hidden")});
 document.getElementById("closeNpcChoice")?.addEventListener("click",npcCloseChoice);
@@ -11704,7 +11770,7 @@ body.game-entry-active #npcTownFab{
 })();
 </script>
 <script>
-/* === 3.27.6 FORMAL badge visibility / backfill fix === */
+/* === 3.27.8 FORMAL badge visibility / backfill fix === */
 (function(){
   const LAUNCH_BADGE_BY_CLAIM={
     day1:"launch_newbie",
@@ -11775,7 +11841,7 @@ body.game-entry-active #npcTownFab{
 
 
 <script>
-/* === 3.27.6 FORMAL opening story trigger fix === */
+/* === 3.27.8 FORMAL opening story trigger fix === */
 (function(){
   const OPENING_ID="shop_event_first";
   const OPENING_FLAG="formalOpeningCompleted_3276";
@@ -11854,6 +11920,78 @@ body.game-entry-active #npcTownFab{
   // Existing saves that were only marked "visited" but never collected the actual
   // opening story are intentionally NOT considered complete, so they get a repair replay.
   window.formalPlayShopkeeperOpeningIfNeeded=playFormalOpening;
+})();
+</script>
+
+
+<script>
+/* === 3.27.8 FORMAL referral activity bindings === */
+(function(){
+  async function bindFormalInviter(){
+    const code=(document.getElementById("formalInviterCodeInput")?.value||"").trim().toUpperCase();
+    if(!code)return toast("請輸入邀請碼");
+    try{
+      let result=await formalReferralRpc("bind",{p_invitee_player_id:playerId,p_inviter_code:code});
+      if(Array.isArray(result))result=result[0];
+      if(result?.ok===false)throw new Error(result?.message||"綁定失敗");
+      toast("🤝 已成功綁定邀請人！");
+      await loadTestReferralPanel();
+      await evaluateLaunchActivity(true);
+      renderLaunchActivity();
+    }catch(e){toast("綁定邀請人失敗："+e.message,4500)}
+  }
+  async function claimFormalReferralReward(){
+    const charId=document.getElementById("formalReferralRewardChar")?.value;
+    const c=(local.characters||[]).find(x=>String(x.id)===String(charId));
+    if(!c)return toast("請先選擇領取獎勵的角色");
+    try{
+      let info=await formalReferralRpc("get",{p_player_id:playerId});
+      if(Array.isArray(info))info=info[0]||{};
+      if(Math.max(0,Number(info?.pending_coins||0))<=0)return toast("目前沒有可以領取的邀請獎勵");
+      let claimed=await formalReferralRpc("claim",{p_player_id:playerId});
+      if(Array.isArray(claimed))claimed=claimed[0];
+      if(claimed&&typeof claimed==="object")claimed=claimed.amount??claimed.coins??claimed.claimed_coins??0;
+      claimed=Math.max(0,Number(claimed||0));
+      if(claimed<=0)return toast("這份邀請獎勵已經領取過了");
+      c.money=safeMoney(Number(c.money||0)+claimed);
+      if(typeof logJournal==="function")logJournal(c,`領取邀請獎勵 🪙${claimed}`,"🤝");
+      if(!saveLocal())return toast("⚠️ 雲端已標記領取，但本機存檔失敗，請聯絡 GM。",5500);
+      toast(`🎁 ${c.name} 已領取邀請獎勵 🪙${claimed}`,4500);
+      renderHome?.();
+      await loadTestReferralPanel();
+    }catch(e){toast("邀請獎勵領取失敗："+e.message,4500)}
+  }
+  document.addEventListener("click",e=>{
+    if(e.target.closest("#copyFormalReferralCode")){
+      const code=document.getElementById("formalMyReferralCode")?.textContent.trim();
+      if(code&&code!=="—"&&!code.includes("失敗")&&!code.includes("連線")){
+        if(typeof copyTextValue==="function")copyTextValue(code); else navigator.clipboard?.writeText(code);
+      }
+      return;
+    }
+    if(e.target.closest("#bindFormalInviterBtn"))return bindFormalInviter();
+    if(e.target.closest("#claimFormalReferralReward"))return claimFormalReferralReward();
+  },true);
+  document.addEventListener("keydown",e=>{if(e.key==="Enter"&&e.target?.id==="formalInviterCodeInput")bindFormalInviter()});
+})();
+</script>
+
+
+<script>
+/* === 3.27.8 FORMAL NPC story entry safety ===
+   Important: npcTownFab now calls window.openNpcShop dynamically.
+   This lets all later wrappers (opening story, milestone repair, event gate) actually execute.
+*/
+(function(){
+  document.getElementById("npcTownFab")?.addEventListener("click",()=>{
+    setTimeout(()=>{
+      try{
+        if(typeof window.formalPlayShopkeeperOpeningIfNeeded==="function"){
+          window.formalPlayShopkeeperOpeningIfNeeded();
+        }
+      }catch(e){console.warn("opening story safety trigger",e)}
+    },520);
+  });
 })();
 </script>
 
