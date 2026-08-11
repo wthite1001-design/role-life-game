@@ -4877,6 +4877,11 @@ async function refreshBond(code){
       if(c&&top){ensureSharedAchievements();c.achievements=local.sharedAchievements;c.achievements[top.ach]=1;c.achievements.break=1;unlockBadge(top.badge);checkTopAll(c);saveLocal()}
     }
     bondCache[code]=info;
+
+    // If this is the room currently on screen, update the bond UI immediately.
+    if(String(activeRoomCode||"")===String(code)){
+      try{renderBond(code)}catch(e){console.warn("bond render",e)}
+    }
   }catch(e){console.warn("bond",e)}
 }
 function renderBond(code){
@@ -7866,18 +7871,28 @@ function renderRelationGiftPanel(c){
   let show=!!room&&!!partner;
   panel.classList.toggle("hidden",!show);
   if(!show)return;
+
+  // Polling/renderGame may rerender this panel every few seconds.
+  // Keep the player's current choice instead of resetting to option #1.
+  const previousSelection=sel.value||sel.dataset.lastGiftSelection||"";
   let items=relationGiftOptions(c);
   sel.innerHTML=items.length
     ?items.map(x=>`<option value="${esc(x.id)}">${esc(x.name)}（持有 ${x.n}）</option>`).join("")
     :'<option value="">背包沒有可以送的物品</option>';
+  if(previousSelection && items.some(x=>x.id===previousSelection))sel.value=previousSelection;
+  else if(items.length)sel.value=items[0].id;
+  sel.dataset.lastGiftSelection=sel.value||"";
   let btn=document.getElementById("sendRelationGift");if(btn)btn.disabled=!items.length;
   let left=giftSendLeft(c);
   if(hint)hint.textContent=items.length?`今日還能送 ${left}/${DAILY_RELATION_GIFT_LIMIT} 次。送給 ${partner?.name||"對方"}後會直接消耗，並立即增加羈絆。`:"先到商店的「🎁 好感禮物」頁籤買一些禮物吧。";
   let sendBtn=document.getElementById("sendRelationGift");if(sendBtn)sendBtn.disabled=!items.length||left<=0;
 }
+let relationGiftSending=false;
 async function sendRelationGift(){
+  if(relationGiftSending)return toast("禮物正在送出，請稍候。");
   let c=cur();if(!c||!room||!partner)return toast("請先開啟一段已有對方的關係");
-  let itemId=document.getElementById("relationGiftItem")?.value;
+  const giftSelect=document.getElementById("relationGiftItem");
+  let itemId=giftSelect?.value;
   let count=Math.max(1,Math.min(5,Number(document.getElementById("relationGiftCount")?.value)||1));
   if(!itemId)return toast("請選擇要送的好感禮物");
 
@@ -7892,6 +7907,11 @@ async function sendRelationGift(){
   let totalAffinity=Math.max(0,affinity*count);
 
   if(!confirm(`確定要送給 ${partner.name||"對方"}？\n\n${itemName} ×${count}${totalAffinity?`\n送出成功後共同羈絆 +${totalAffinity}`:""}`))return;
+
+  relationGiftSending=true;
+  const sendBtn=document.getElementById("sendRelationGift");
+  if(sendBtn)sendBtn.disabled=true;
+  if(giftSelect)giftSelect.disabled=true;
 
   // Step 1: only this part determines whether "sending" succeeded.
   try{
@@ -7916,6 +7936,9 @@ async function sendRelationGift(){
       })
     });
   }catch(e){
+    relationGiftSending=false;
+    if(sendBtn)sendBtn.disabled=false;
+    if(giftSelect)giftSelect.disabled=false;
     toast("送禮物失敗："+(e?.message||"雲端寫入失敗"),4500);
     return;
   }
@@ -7954,6 +7977,9 @@ async function sendRelationGift(){
     // If local save fails, restore the in-memory item so the player isn't silently charged.
     c.inventory[itemId]=before;
     ctr.used=Math.max(0,Number(ctr.used||0)-1);
+    relationGiftSending=false;
+    if(sendBtn)sendBtn.disabled=false;
+    if(giftSelect)giftSelect.disabled=false;
     toast("⚠️ 禮物已送到對方，但本機存檔失敗；道具已先恢復，請重新整理後確認。",5500);
     return;
   }
@@ -7961,12 +7987,27 @@ async function sendRelationGift(){
   // 羈絆在送出後立即更新，不等待對方領取。
   await refreshBond(room.code).catch(e=>console.warn("送禮羈絆刷新",e));
 
+  // refreshBond() only recalculates bondCache; explicitly repaint the visible Lv/value/progress bar now.
+  try{renderBond(room.code)}catch(e){console.warn("送禮羈絆畫面刷新",e)}
+  try{
+    const rr=relationshipSummaries?.[room.code]||room;
+    if(rr)relationshipSummaries[room.code]=rr;
+  }catch(e){}
+
   // Step 3: UI refresh is cosmetic and must never turn a successful send into a failure.
   safeCall(()=>renderExtras(c),"送禮後刷新");
   safeCall(()=>renderRelationGiftPanel(c),"送禮面板刷新");
   safeCall(()=>renderRelationEventLog(),"送禮紀錄刷新");
   safeCall(()=>safeRenderGame(),"角色畫面刷新");
 
+  relationGiftSending=false;
+  if(giftSelect){
+    giftSelect.disabled=false;
+    const stillHas=Number(c.inventory?.[itemId]||0)>0;
+    giftSelect.dataset.lastGiftSelection=stillHas?itemId:(giftSelect.value||"");
+  }
+  if(sendBtn)sendBtn.disabled=false;
+  renderRelationGiftPanel(c);
   toast(`🎁 已送出 ${itemName} ×${count}・今日剩餘 ${giftSendLeft(c)} 次`,4200);
 }
 async function clearLegacyGiftNotice(ev){
@@ -7977,6 +8018,9 @@ async function clearLegacyGiftNotice(ev){
     await api(`/interactions?id=eq.${encodeURIComponent(ev.row.id)}`,{method:"DELETE"});
   }catch(e){}
 }
+document.getElementById("relationGiftItem")?.addEventListener("change",e=>{
+  e.currentTarget.dataset.lastGiftSelection=e.currentTarget.value||"";
+});
 document.getElementById("sendRelationGift")?.addEventListener("click",sendRelationGift);
 async function fetchPendingEvents(c){
   if(!c)return [];
@@ -8116,7 +8160,14 @@ document.getElementById("cancelGameInviteBtn")?.addEventListener("click",async()
 });
 document.getElementById("pendingEventList")?.addEventListener("click",async e=>{
   let b=e.target.closest("[data-pending-open]");if(!b)return;
+  e.preventDefault();
   let ev=pendingEventRows[Number(b.dataset.pendingOpen)],c=cur();if(!ev||!c)return;
+
+  // 未處理事件不只「處理」，還要真的帶玩家到對應的關係頁。
+  const relationNav=document.querySelector('[data-nav="relations"]');
+  if(relationNav)relationNav.click();
+  await new Promise(r=>setTimeout(r,40));
+  if(ev.code)activeRoomCode=String(ev.code);
   if(ev.kind==="transform"){
     let p=ev.transform;
     activeRoomCode=String(ev.code);
@@ -8162,8 +8213,9 @@ document.getElementById("pendingEventList")?.addEventListener("click",async e=>{
   }
   if(ev.kind==="message"){
     c.pendingMessageSeen??={};c.pendingMessageSeen[ev.code]=Date.parse(ev.created_at||"")||Date.now();saveLocal();
-    activeRoomCode=ev.code;await loadRoom(ev.code);await renderPendingEvents(c);
-    document.getElementById("roomActive")?.scrollIntoView({behavior:"smooth",block:"start"});
+    activeRoomCode=String(ev.code);await loadRoom(ev.code);await renderPendingEvents(c);
+    try{renderGame?.()}catch(_){}
+    setTimeout(()=>document.getElementById("roomActive")?.scrollIntoView({behavior:"smooth",block:"start"}),60);
 
 document.getElementById("gmGiftInbox")?.addEventListener("click",e=>{
   let b=e.target.closest("[data-open-mailbox]");if(!b)return;
@@ -9475,14 +9527,15 @@ function npcChoice(title,text,choices){
 function npcCloseChoice(){document.getElementById("npcChoiceModal")?.classList.add("hidden")}
 function npcTalk(){
   let st=npcState();npcEnsureDaily(st);
+  if(Number(st.daily.talk||0)>=10)return toast("💬 今天已經跟貓貓聊滿 10 次了，明天再來吧。",3200);
   const options=[
     {label:"「只是來看看妳。」",fn:()=>{
-      st=npcState();npcEnsureDaily(st);st.chatCount++;st.daily.talk++;st.affection=Math.min(100,st.affection+(st.affection>=50?3:2));saveNpcState(st);
+      st=npcState();npcEnsureDaily(st);st.affection=Math.min(100,st.affection+(st.affection>=50?3:2));saveNpcState(st);
       npcRelationScore("romance",2);
       npcChoice("店長・貓貓",st.affection>=50?"貓貓怔了一下，別開視線。<br><br>「……那你看夠了嗎？」":"「看我？」她歪了歪頭。<br><br>「你這客人有點奇怪欸。」",[{label:"好像沒有。",fn:()=>{npcRelationScore("romance",1);npcGain("affection",1,"貓貓好感")}}]);
     }},
     {label:"「今天有什麼推薦？」",fn:()=>{
-      st=npcState();npcEnsureDaily(st);st.chatCount++;st.daily.talk++;st.affection=Math.min(100,st.affection+1);saveNpcState(st);
+      st=npcState();npcEnsureDaily(st);st.affection=Math.min(100,st.affection+1);saveNpcState(st);
       npcChoice("今日推薦","「今天的話……星辰之淚吧。雖然我也不知道你拿去要幹嘛。」<br><br>她偷偷把一個紫色小盒子往你這邊推。",[{label:"記住了。",fn:()=>{}}]);
     }},
     {label:"「最近城鎮有什麼怪事嗎？」",locked:st.affection<40,fn:()=>{
@@ -9496,7 +9549,25 @@ function npcTalk(){
       ]);
     }}
   ];
-  npcChoice("💬 跟貓貓聊天","今天想跟她聊什麼？",options.filter(x=>!x.locked).map(x=>({label:x.label,fn:x.fn})));
+  npcChoice("💬 跟貓貓聊天","今天想跟她聊什麼？",options.filter(x=>!x.locked).map(x=>({
+    label:x.label,
+    fn:()=>{
+      let live=npcState();npcEnsureDaily(live);
+      if(Number(live.daily.talk||0)>=10)return toast("💬 今天已經跟貓貓聊滿 10 次了，明天再來吧。",3200);
+
+      // Every selected topic is one real chat interaction.
+      live.chatCount=Math.max(0,Number(live.chatCount||0))+1;
+      live.daily.talk=Math.max(0,Number(live.daily.talk||0))+1;
+      saveNpcState(live);
+
+      // Run the selected story/reaction first, then repaint the shop behind the modal.
+      try{x.fn?.()}finally{
+        try{reconcileNpcEventAchievements?.()}catch(e){}
+        try{updateNpcStats?.()}catch(e){}
+        try{renderNpcShop?.()}catch(e){}
+      }
+    }
+  })));
 }
 function npcPetCat(){
   let st=npcState();npcEnsureDaily(st);
@@ -9739,7 +9810,12 @@ document.querySelectorAll("[data-npc-tab]").forEach(b=>b.addEventListener("click
 document.getElementById("npcChoiceButtons")?.addEventListener("click",e=>{
   const b=e.target.closest("[data-npc-choice]");if(!b)return;
   const list=e.currentTarget._choices||[];const c=list[Number(b.dataset.npcChoice)];
-  npcCloseChoice();if(c?.fn)c.fn();
+  npcCloseChoice();
+  if(c?.fn)c.fn();
+
+  // State changes must be visible immediately; do not wait for tab switching.
+  try{updateNpcStats?.()}catch(_){}
+  try{renderNpcShop?.()}catch(_){}
 });
 document.getElementById("npcShopBody")?.addEventListener("click",e=>{
   const a=e.target.closest("[data-npc-action]");
@@ -11979,7 +12055,7 @@ body.game-entry-active #npcTownFab{
 })();
 </script>
 <script>
-/* === 3.28.7 FORMAL badge visibility / backfill fix === */
+/* === 3.28.9 FORMAL badge visibility / backfill fix === */
 (function(){
   const LAUNCH_BADGE_BY_CLAIM={
     day1:"launch_newbie",
@@ -12050,7 +12126,7 @@ body.game-entry-active #npcTownFab{
 
 
 <script>
-/* === 3.28.7 FORMAL opening story trigger fix === */
+/* === 3.28.9 FORMAL opening story trigger fix === */
 (function(){
   const OPENING_ID="shop_event_first";
   const OPENING_FLAG="formalOpeningCompleted_3276";
@@ -12134,7 +12210,7 @@ body.game-entry-active #npcTownFab{
 
 
 <script>
-/* === 3.28.7 FORMAL referral activity bindings === */
+/* === 3.28.9 FORMAL referral activity bindings === */
 (function(){
   async function bindFormalInviter(){
     const code=(document.getElementById("formalInviterCodeInput")?.value||"").trim().toUpperCase();
@@ -12187,7 +12263,7 @@ body.game-entry-active #npcTownFab{
 
 
 <script>
-/* === 3.28.7 FORMAL NPC story entry safety ===
+/* === 3.28.9 FORMAL NPC story entry safety ===
    Important: npcTownFab now calls window.openNpcShop dynamically.
    This lets all later wrappers (opening story, milestone repair, event gate) actually execute.
 */
@@ -12206,7 +12282,7 @@ body.game-entry-active #npcTownFab{
 
 
 <script>
-/* === 3.28.7 FORMAL story expression semantic-priority fix === */
+/* === 3.28.9 FORMAL story expression semantic-priority fix === */
 (function(){
   function semanticFaceForFormalStory(line, previous="normal"){
     if(!line)return "normal";
@@ -12282,7 +12358,7 @@ body.game-entry-active #npcTownFab{
           portrait.src=window.NPC_SHOPKEEPER_FACE_DATA[face];
           portrait.dataset.npcFace=face;
         }
-      }catch(e){console.warn("3.28.7 story semantic face",e)}
+      }catch(e){console.warn("3.28.9 story semantic face",e)}
     };
   }
 
@@ -12301,7 +12377,7 @@ body.game-entry-active #npcTownFab{
 </div>
 </div>
 <script>
-/* === 3.28.7 restore original formal-server functions === */
+/* === 3.28.9 restore original formal-server functions === */
 function closeDeepRescueModal(e){
     if(e){ e.preventDefault(); e.stopPropagation(); }
     modal.classList.add("hidden");
@@ -12567,9 +12643,11 @@ function rescueSaveInteractive(){
 }
 
 function revealChatInput(){
+    const input=document.getElementById("chatInput");
+    if(!input)return;
     document.body.classList.add("chatKeyboardOpen");
     setTimeout(()=>{
-      try{input.scrollIntoView({block:"center",behavior:"smooth"})}catch(_){input.scrollIntoView()}
+      try{input.scrollIntoView({block:"center",behavior:"smooth"})}catch(_){try{input.scrollIntoView()}catch(__){}}
     },120);
     setTimeout(()=>{
       try{input.scrollIntoView({block:"nearest"})}catch(_){}
@@ -12704,7 +12782,7 @@ function updateSaveRescueStatus(){
 </script>
 
 <script>
-/* === 3.28.7 shopkeeper portrait click: include normal expression === */
+/* === 3.28.9 shopkeeper portrait click: include normal expression === */
 (function(){
   const normalLines=[
     "今天也有好好營業喔。",
@@ -12747,7 +12825,7 @@ function updateSaveRescueStatus(){
 
 
 <script>
-/* === 3.28.7 authoritative shopkeeper image click reaction === */
+/* === 3.28.9 authoritative shopkeeper image click reaction === */
 (function(){
   document.addEventListener("click",e=>{
     const portrait=e.target.closest("#npcShopkeeperImg,#npcShopkeeperPortrait,.npcShopkeeperPortrait,[data-npc-shopkeeper-portrait]");
@@ -12776,7 +12854,7 @@ function updateSaveRescueStatus(){
 
 
 <script>
-/* === 3.28.7 limited shop ends; earned NPC relationship persists === */
+/* === 3.28.9 limited shop ends; earned NPC relationship persists === */
 (function(){
   const NPC_PERSIST_KEY="npcRelationshipUnlocked";
   const EVENT_END=Date.parse("2026-09-11T23:59:59+08:00");
@@ -12869,7 +12947,7 @@ function updateSaveRescueStatus(){
 
 
 <script>
-/* === 3.28.7 activity item display + chip conversion compatibility === */
+/* === 3.28.9 activity item display + chip conversion compatibility === */
 (function(){
   const activityItemNames={
     future_limited_item_ticket:"🎟️ 限定物品抽獎券",
@@ -12907,6 +12985,20 @@ function updateSaveRescueStatus(){
   };
 
   setTimeout(()=>window.convertNpcCrystalChipsToTickets?.(true),500);
+})();
+</script>
+
+
+<script>
+/* === 3.28.9 pending event card navigation safety === */
+(function(){
+  document.addEventListener("click",e=>{
+    const card=e.target.closest("#pendingEventList .pendingEventCard");
+    if(!card)return;
+    if(e.target.closest("button,a,input,select,textarea"))return;
+    const btn=card.querySelector("[data-pending-open]");
+    if(btn)btn.click();
+  },true);
 })();
 </script>
 
