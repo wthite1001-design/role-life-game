@@ -1467,7 +1467,7 @@ body.npcStoryRunning .draggableFab{
 <link href="manifest.json" rel="manifest"/>
 
 <style>
-/* === 3.29.4 NPC relation sheet stable layer === */
+/* === 3.29.6 NPC relation sheet stable layer === */
 #extraNpcRelations:not(.active){
   display:none!important;
 }
@@ -1820,6 +1820,18 @@ body.npcStoryRunning .draggableFab{
 <div id="gmTestInviteList" class="gmTestInviteList"><div class="small">尚未載入測試碼。</div></div>
 </div>
 
+<datalist id="gmItemIdList">
+<option value="npc_crystal_chip">💎 紫晶碎片</option>
+<option value="npc_cat_cookie">🐾 貓掌餅乾</option>
+<option value="npc_lucky_bell">🔔 小幸運鈴【限定贈禮】</option>
+<option value="npc_regular_box">🎁 熟客小盒</option>
+<option value="future_limited_item_ticket">🎟️ 限定物品抽獎券</option>
+<option value="gift_keychain">🔑 鑰匙圈</option>
+<option value="gift_flower">🌷 花束</option>
+<option value="gift_letter">💌 手寫卡片</option>
+<option value="gift_plush">🧸 小玩偶</option>
+<option value="gift_music">🎵 音樂小盒</option>
+</datalist>
 <div class="gmPanel">
 <b>🎁 發送官方禮物</b>
 <div class="gmGrid" style="margin-top:9px">
@@ -1839,7 +1851,7 @@ body.npcStoryRunning .draggableFab{
 <option value="item">🎒 道具</option>
 <option value="badge">🏅 徽章</option>
 </select>
-<input id="gmGiftValue" placeholder="金額／道具 ID／徽章 ID"/>
+<input id="gmGiftValue" list="gmItemIdList" placeholder="金額／道具 ID／徽章 ID"/>
 <div>
 <div class="small" style="margin-bottom:4px">這一項的數量</div>
 <input id="gmGiftCount" max="999999" min="1" type="number" value="1"/>
@@ -1880,7 +1892,7 @@ body.npcStoryRunning .draggableFab{
 <option value="item">🎒 道具</option>
 <option value="badge">🏅 徽章</option>
 </select>
-<input id="gmBroadcastGiftValue" placeholder="金額／道具 ID／徽章 ID"/>
+<input id="gmBroadcastGiftValue" list="gmItemIdList" placeholder="金額／道具 ID／徽章 ID"/>
 <div>
 <div class="small" style="margin-bottom:4px">這一項的數量</div>
 <input id="gmBroadcastGiftCount" max="999999" min="1" type="number" value="1"/>
@@ -3281,7 +3293,13 @@ async function claimMailAttachment(c,m){
     if(m.gift_type==="money"){
       c.money=safeMoney((c.money||0)+(Number(m.gift_value)||0)*count);
     }else if(m.gift_type==="item"){
-      c.inventory??={};c.inventory[m.gift_value]=(c.inventory[m.gift_value]||0)+count;
+      c.inventory??={};
+      c.inventory[m.gift_value]=(c.inventory[m.gift_value]||0)+count;
+      if(m.gift_value==="npc_crystal_chip"){
+        const converted=typeof convertCrystalChipsAfterOfficialGift==="function"
+          ?convertCrystalChipsAfterOfficialGift(c):0;
+        if(converted>0)setTimeout(()=>toast(`💎 紫晶碎片已自動轉換：🎟️ 限定物品抽獎券 ×${converted}`,4200),120);
+      }
     }else if(m.gift_type==="badge"){
       const alreadyOwned=!!local.sharedBadges?.[m.gift_value];
       await ensureBadgeOwnedAndDefined(m.gift_value);
@@ -3360,6 +3378,7 @@ function addCurrentGMBroadcastGift(){
   let value=document.getElementById("gmBroadcastGiftValue")?.value.trim();
   let count=Math.max(1,Math.min(999999,Number(document.getElementById("gmBroadcastGiftCount")?.value)||1));
   if(!value)return toast("先輸入這一項群發附件");
+  value=typeof gmNormalizeGiftValue==="function"?gmNormalizeGiftValue(type,value):value;
   if(type==="badge")count=1;
   gmBroadcastCartItems.push({type,value,count});
   document.getElementById("gmBroadcastGiftValue").value="";
@@ -3770,6 +3789,7 @@ function addCurrentGMGiftToCart(){
   let value=document.getElementById("gmGiftValue")?.value.trim();
   let count=Math.max(1,Math.min(999999,Number(document.getElementById("gmGiftCount")?.value)||1));
   if(!value)return toast("先輸入這一項禮物");
+  value=typeof gmNormalizeGiftValue==="function"?gmNormalizeGiftValue(type,value):value;
   if(type==="badge")count=1;
   gmGiftCartItems.push({type,value,count});
   document.getElementById("gmGiftValue").value="";
@@ -3887,6 +3907,11 @@ async function claimOfficialGift(id){
     }else if(g.gift_type==="item"){
       c.inventory??={};
       c.inventory[g.gift_value]=(c.inventory[g.gift_value]||0)+count;
+      if(g.gift_value==="npc_crystal_chip"){
+        const converted=typeof convertCrystalChipsAfterOfficialGift==="function"
+          ?convertCrystalChipsAfterOfficialGift(c):0;
+        if(converted>0)setTimeout(()=>toast(`💎 紫晶碎片已自動轉換：🎟️ 限定物品抽獎券 ×${converted}`,4200),120);
+      }
     }else if(g.gift_type==="badge"){
       await ensureBadgeOwnedAndDefined(g.gift_value);
     }
@@ -9697,7 +9722,7 @@ function npcGiveGift(){
   if(!c)return toast("請先進入角色。",3000);
   c.inventory??={};
 
-  // 3.29.4：店長只接受「親密／好感禮物」。
+  // 3.29.6：店長只接受「親密／好感禮物」。
   // 直接沿用真人關係送禮的 affectionGiftInfo() 判定，避免活動材料或一般補給混進來。
   const items=Object.entries(c.inventory)
     .filter(([id,n])=>Number(n||0)>0 && typeof affectionGiftInfo==="function" && !!affectionGiftInfo(id))
@@ -12066,11 +12091,27 @@ body.game-entry-active #npcTownFab{
   window.refreshNpcEventPeriodHint=function(){
     const el=document.getElementById('npcEventPeriodHint');
     if(!el)return;
-    const remain=Math.max(0,FORMAL_EVENT_END-Date.now());
-    const d=Math.ceil(remain/86400000);
-    const next=formalEventActive()?`🎊 限定活動進行中・剩餘 ${d} 天`:'';
-    if(el.textContent!==next)el.textContent=next;
-    el.classList.toggle("hidden",!formalEventActive());
+
+    if(!formalEventActive()){
+      if(el.textContent!=="")el.textContent="";
+      el.classList.add("hidden");
+      return;
+    }
+
+    // 3.29.6：以「台灣本地日期」計算，整天固定同一個數字。
+    // 8/12 ~ 9/11 採首尾日都包含，因此 8/12 固定顯示 31 天。
+    const now=new Date();
+    const today=new Date(now.getFullYear(),now.getMonth(),now.getDate()).getTime();
+    const end=new Date(2026,8,11).getTime();
+    const days=Math.max(1,Math.floor((end-today)/86400000)+1);
+    const dayKey=`${now.getFullYear()}-${now.getMonth()+1}-${now.getDate()}`;
+
+    // 同一天不再重寫 DOM，避免 NPC 關係頁文字反覆閃動。
+    if(el.dataset.dayKey!==dayKey){
+      el.dataset.dayKey=dayKey;
+      el.textContent=`🎊 限定活動進行中・剩餘 ${days} 天`;
+    }
+    el.classList.remove("hidden");
   };
   function gameOpen(){const g=document.getElementById('game');return !!g&&!g.classList.contains('hidden');}
   window.enforceEventVisibility=function(){
@@ -12085,7 +12126,6 @@ body.game-entry-active #npcTownFab{
       document.getElementById('launchActivityModal')?.classList.add('hidden');
       document.getElementById('npcShopModal')?.classList.add('hidden');
     }
-    window.refreshNpcEventPeriodHint?.();
   };
   window.syncNpcFab=window.enforceEventVisibility;
   window.updateLaunchActivityFab=function(){
@@ -12113,7 +12153,7 @@ body.game-entry-active #npcTownFab{
 })();
 </script>
 <script>
-/* === 3.29.4 FORMAL badge visibility / backfill fix === */
+/* === 3.29.6 FORMAL badge visibility / backfill fix === */
 (function(){
   const LAUNCH_BADGE_BY_CLAIM={
     day1:"launch_newbie",
@@ -12184,7 +12224,7 @@ body.game-entry-active #npcTownFab{
 
 
 <script>
-/* === 3.29.4 FORMAL opening story trigger fix === */
+/* === 3.29.6 FORMAL opening story trigger fix === */
 (function(){
   const OPENING_ID="shop_event_first";
   const OPENING_FLAG="formalOpeningCompleted_3276";
@@ -12268,7 +12308,7 @@ body.game-entry-active #npcTownFab{
 
 
 <script>
-/* === 3.29.4 FORMAL referral activity bindings === */
+/* === 3.29.6 FORMAL referral activity bindings === */
 (function(){
   async function bindFormalInviter(){
     const code=(document.getElementById("formalInviterCodeInput")?.value||"").trim().toUpperCase();
@@ -12321,7 +12361,7 @@ body.game-entry-active #npcTownFab{
 
 
 <script>
-/* === 3.29.4 FORMAL NPC story entry safety ===
+/* === 3.29.6 FORMAL NPC story entry safety ===
    Important: npcTownFab now calls window.openNpcShop dynamically.
    This lets all later wrappers (opening story, milestone repair, event gate) actually execute.
 */
@@ -12340,7 +12380,7 @@ body.game-entry-active #npcTownFab{
 
 
 <script>
-/* === 3.29.4 FORMAL story expression semantic-priority fix === */
+/* === 3.29.6 FORMAL story expression semantic-priority fix === */
 (function(){
   function semanticFaceForFormalStory(line, previous="normal"){
     if(!line)return "normal";
@@ -12416,7 +12456,7 @@ body.game-entry-active #npcTownFab{
           portrait.src=window.NPC_SHOPKEEPER_FACE_DATA[face];
           portrait.dataset.npcFace=face;
         }
-      }catch(e){console.warn("3.29.4 story semantic face",e)}
+      }catch(e){console.warn("3.29.6 story semantic face",e)}
     };
   }
 
@@ -12435,7 +12475,7 @@ body.game-entry-active #npcTownFab{
 </div>
 </div>
 <script>
-/* === 3.29.4 restore original formal-server functions === */
+/* === 3.29.6 restore original formal-server functions === */
 function closeDeepRescueModal(e){
     if(e){ e.preventDefault(); e.stopPropagation(); }
     modal.classList.add("hidden");
@@ -12840,7 +12880,7 @@ function updateSaveRescueStatus(){
 </script>
 
 <script>
-/* === 3.29.4 shopkeeper portrait click: include normal expression === */
+/* === 3.29.6 shopkeeper portrait click: include normal expression === */
 (function(){
   const normalLines=[
     "今天也有好好營業喔。",
@@ -12883,7 +12923,7 @@ function updateSaveRescueStatus(){
 
 
 <script>
-/* === 3.29.4 authoritative shopkeeper image click reaction === */
+/* === 3.29.6 authoritative shopkeeper image click reaction === */
 (function(){
   document.addEventListener("click",e=>{
     const portrait=e.target.closest("#npcShopkeeperImg,#npcShopkeeperPortrait,.npcShopkeeperPortrait,[data-npc-shopkeeper-portrait]");
@@ -12912,7 +12952,7 @@ function updateSaveRescueStatus(){
 
 
 <script>
-/* === 3.29.4 limited shop ends; earned NPC relationship persists === */
+/* === 3.29.6 limited shop ends; earned NPC relationship persists === */
 (function(){
   const NPC_PERSIST_KEY="npcRelationshipUnlocked";
   const EVENT_END=Date.parse("2026-09-11T23:59:59+08:00");
@@ -13005,7 +13045,7 @@ function updateSaveRescueStatus(){
 
 
 <script>
-/* === 3.29.4 activity item display + chip conversion compatibility === */
+/* === 3.29.6 activity item display + chip conversion compatibility === */
 (function(){
   const activityItemNames={
     future_limited_item_ticket:"🎟️ 限定物品抽獎券",
@@ -13048,7 +13088,7 @@ function updateSaveRescueStatus(){
 
 
 <script>
-/* === 3.29.4 pending event card navigation safety === */
+/* === 3.29.6 pending event card navigation safety === */
 (function(){
   document.addEventListener("click",e=>{
     const card=e.target.closest("#pendingEventList .pendingEventCard");
@@ -13062,7 +13102,7 @@ function updateSaveRescueStatus(){
 
 
 <script>
-/* === 3.29.4 authoritative shopkeeper normal image === */
+/* === 3.29.6 authoritative shopkeeper normal image === */
 (function(){
   const NORMAL_SRC="cat_shopkeeper_normal.png";
 
@@ -13121,7 +13161,7 @@ function updateSaveRescueStatus(){
 
 
 <script>
-/* === 3.29.4 activity expiry cleanup + NPC relationship anti-flicker === */
+/* === 3.29.6 activity expiry cleanup + NPC relationship anti-flicker === */
 (function(){
   function active(){
     try{
@@ -13175,20 +13215,7 @@ function updateSaveRescueStatus(){
   }
 
   // Do not rewrite identical countdown text: prevents visible text flashing/reflow.
-  const oldHint=window.refreshNpcEventPeriodHint;
-  window.refreshNpcEventPeriodHint=function(){
-    const el=document.getElementById("npcEventPeriodHint");
-    if(!el)return;
-    if(!active()){ hide(el); return; }
-
-    const end=(typeof FORMAL_EVENT_END!=="undefined"?FORMAL_EVENT_END:Date.now());
-    const remain=Math.max(0,end-Date.now());
-    const d=Math.ceil(remain/86400000);
-    const next=`🎊 限定活動進行中・剩餘 ${d} 天`;
-    if(el.textContent!==next)el.textContent=next;
-    show(el);
-  };
-
+  // 3.29.6：不再覆寫正式倒數函式；固定天數由 FORMAL controller 唯一管理。
   // Coalesce bursts of repeated renders into one paint.
   let raf=0;
   const oldRender=window.renderNpcRelationships;
@@ -13206,16 +13233,27 @@ function updateSaveRescueStatus(){
   },{once:true});
 
   // Deadline can happen while the page stays open.
+  // 每分鐘只檢查「日期是否跨日」；同一天不重畫倒數。
   setInterval(()=>{
     if(document.hidden)return;
     syncExpiry();
-    if(active())window.refreshNpcEventPeriodHint?.();
-  },3600000);
+    if(active()){
+      const now=new Date();
+      const key=`${now.getFullYear()}-${now.getMonth()+1}-${now.getDate()}`;
+      const el=document.getElementById("npcEventPeriodHint");
+      if(el?.dataset?.dayKey!==key)window.refreshNpcEventPeriodHint?.();
+    }
+  },60000);
 
   document.addEventListener("visibilitychange",()=>{
     if(!document.hidden){
       syncExpiry();
-      if(active())window.refreshNpcEventPeriodHint?.();
+      if(active()){
+        const now=new Date();
+        const key=`${now.getFullYear()}-${now.getMonth()+1}-${now.getDate()}`;
+        const el=document.getElementById("npcEventPeriodHint");
+        if(el?.dataset?.dayKey!==key)window.refreshNpcEventPeriodHint?.();
+      }
     }
   });
 })();
@@ -13223,7 +13261,7 @@ function updateSaveRescueStatus(){
 
 
 <script>
-/* === 3.29.4 NPC relation sheet: show only when explicitly opened === */
+/* === 3.29.6 NPC relation sheet: show only when explicitly opened === */
 (function(){
   const sheet=document.getElementById("extraNpcRelations");
   if(!sheet)return;
@@ -13243,6 +13281,40 @@ function updateSaveRescueStatus(){
     }
   });
   observer.observe(sheet,{attributes:true,attributeFilter:["class"]});
+})();
+</script>
+
+
+<script>
+/* === 3.29.6 GM activity item gifting === */
+(function(){
+  const GM_ACTIVITY_ITEMS=new Set([
+    "npc_crystal_chip",
+    "npc_cat_cookie",
+    "npc_lucky_bell",
+    "npc_regular_box",
+    "future_limited_item_ticket"
+  ]);
+  window.GM_ACTIVITY_ITEMS=GM_ACTIVITY_ITEMS;
+
+  window.gmNormalizeGiftValue=function(type,value){
+    value=String(value||"").trim();
+    if(type!=="item")return value;
+    return value;
+  };
+
+  window.convertCrystalChipsAfterOfficialGift=function(c){
+    try{
+      if(!c?.inventory)return 0;
+      const chips=Math.max(0,Number(c.inventory.npc_crystal_chip||0));
+      const tickets=Math.floor(chips/10);
+      if(tickets<=0)return 0;
+      c.inventory.npc_crystal_chip=chips-(tickets*10);
+      c.inventory.future_limited_item_ticket=
+        Math.max(0,Number(c.inventory.future_limited_item_ticket||0))+tickets;
+      return tickets;
+    }catch(e){return 0}
+  };
 })();
 </script>
 
