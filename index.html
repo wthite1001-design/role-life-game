@@ -1432,6 +1432,13 @@ body.npcStoryRunning .draggableFab{
 .gmGiftCartRow{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;padding:9px 10px;border:1px solid var(--line);border-radius:13px;background:#fff}
 .gmGiftCartRow .small{margin-top:2px}.gmGiftCartRow button{min-height:34px;padding:6px 9px}
 .gmGiftCartEmpty{padding:10px;text-align:center;color:var(--muted);font-size:12px;border:1px dashed var(--line);border-radius:12px}
+.gmBroadcastComposer{grid-column:1/-1;border:1px solid var(--line);border-radius:15px;padding:10px;background:#fffafd}
+.gmBroadcastComposerGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.gmBroadcastCart{display:grid;gap:7px;margin-top:9px}
+.gmBroadcastCartRow{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;padding:9px 10px;border:1px solid var(--line);border-radius:13px;background:#fff}
+.gmBroadcastCartRow button{min-height:34px;padding:6px 9px}
+.gmBroadcastCartEmpty{padding:10px;text-align:center;color:var(--muted);font-size:12px;border:1px dashed var(--line);border-radius:12px}
+
 </style>
 <style>
 .guideCard{max-height:88vh;overflow:hidden}
@@ -1824,17 +1831,35 @@ body.npcStoryRunning .draggableFab{
 </select>
 <input class="full" id="gmBroadcastTitle" maxlength="60" placeholder="郵件標題"/>
 <textarea class="full" id="gmBroadcastBody" maxlength="500" placeholder="郵件內容" rows="4"></textarea>
+<div class="gmBroadcastComposer">
+<div class="small" style="margin-bottom:7px">可加入 2 種以上不同附件，最後一次送出整份群發禮包。也可以不加附件，只發純文字公告。</div>
+<div class="gmBroadcastComposerGrid">
 <select id="gmBroadcastGiftType">
-<option value="">無附件</option>
 <option value="money">🪙 金錢</option>
 <option value="item">🎒 道具</option>
 <option value="badge">🏅 徽章</option>
 </select>
 <input id="gmBroadcastGiftValue" placeholder="金額／道具 ID／徽章 ID"/>
-<input id="gmBroadcastGiftCount" max="999999" min="1" placeholder="數量" type="number" value="1"/>
+<div>
+<div class="small" style="margin-bottom:4px">這一項的數量</div>
+<input id="gmBroadcastGiftCount" max="999999" min="1" type="number" value="1"/>
+</div>
+<div>
+<div class="small" style="margin-bottom:4px">快速數量</div>
+<div class="actions" id="gmBroadcastCountPresets" style="margin-top:0">
+<button data-gm-broadcast-count="10" type="button">×10</button>
+<button data-gm-broadcast-count="50" type="button">×50</button>
+<button data-gm-broadcast-count="100" type="button">×100</button>
+<button data-gm-broadcast-count="500" type="button">×500</button>
+</div>
+</div>
+</div>
+<button id="gmAddBroadcastGift" style="width:100%;margin-top:8px" type="button">＋ 加入這一項</button>
+<div class="gmBroadcastCart" id="gmBroadcastCart"><div class="gmBroadcastCartEmpty">尚未加入附件</div></div>
+</div>
 <input class="full" id="gmBroadcastExpires" type="datetime-local"/>
-<div class="small full">「目前所有角色」會鎖定發送當下已存在的角色；「包含新角色」需要設定期限；「永久新手禮物」不需要期限；每一筆都是獨立項目。新玩家會看到全部未領項目，舊玩家也會自動補看到之後新增的新手禮物，每一項每台裝置只能領一次。</div>
-<button class="primary full" id="gmSendBroadcast">📢 發送群發郵件</button><button class="full" id="gmCheckBroadcastBtn" type="button">🔎 檢查最近群發</button><button class="full" id="gmCheckCurrentCharBroadcastBtn" type="button">📬 檢查目前角色能收到的群發</button>
+<div class="small full">「目前所有角色」會鎖定發送當下已存在的角色；「包含新角色」需要設定期限；「永久新手禮物」不需要期限。複選附件會在一次操作中整批建立；新手禮物仍維持逐項補發與逐項領取紀錄。</div>
+<button class="primary full" id="gmSendBroadcast">📢 一次送出整份群發禮包</button><button class="full" id="gmCheckBroadcastBtn" type="button">🔎 檢查最近群發</button><button class="full" id="gmCheckCurrentCharBroadcastBtn" type="button">📬 檢查目前角色能收到的群發</button>
 </div>
 </div>
 <div class="gmPanel" style="margin-top:10px">
@@ -3260,37 +3285,126 @@ async function gmCheckRecentBroadcast(){
     alert(rows.map(x=>`#${x.id} ${x.active?"啟用":"停用"}｜${x.title}\\n${x.mode}｜${x.gift_type||"無附件"} ${x.gift_value||""} ×${x.gift_count||1}`).join("\\n\\n"));
   }catch(e){toast("檢查失敗："+e.message)}
 }
+
+let gmBroadcastCartItems=[];
+
+function gmBroadcastGiftLabel(x){
+  if(!x)return "";
+  if(x.type==="money")return `🪙 金錢 ${x.value} ×${x.count}`;
+  if(x.type==="item")return `🎒 ${itemDisplayName?.(x.value)||x.value} ×${x.count}`;
+  if(x.type==="badge"){
+    let b=typeof badgeDisplayInfo==="function"?badgeDisplayInfo(x.value):null;
+    return `🏅 ${b?.name||x.value}`;
+  }
+  return `${x.value||""}`;
+}
+function renderGMBroadcastCart(){
+  const box=document.getElementById("gmBroadcastCart");
+  if(!box)return;
+  if(!gmBroadcastCartItems.length){
+    box.innerHTML='<div class="gmBroadcastCartEmpty">尚未加入附件</div>';
+    return;
+  }
+  box.innerHTML=gmBroadcastCartItems.map((x,i)=>`
+    <div class="gmBroadcastCartRow">
+      <div><b>${esc(gmBroadcastGiftLabel(x))}</b><div class="small">${x.type==="badge"?"徽章":"群發附件"}</div></div>
+      <button type="button" data-gm-remove-broadcast="${i}">移除</button>
+    </div>`).join("");
+}
+function addCurrentGMBroadcastGift(){
+  let type=document.getElementById("gmBroadcastGiftType")?.value;
+  let value=document.getElementById("gmBroadcastGiftValue")?.value.trim();
+  let count=Math.max(1,Math.min(999999,Number(document.getElementById("gmBroadcastGiftCount")?.value)||1));
+  if(!value)return toast("先輸入這一項群發附件");
+  if(type==="badge")count=1;
+  gmBroadcastCartItems.push({type,value,count});
+  document.getElementById("gmBroadcastGiftValue").value="";
+  document.getElementById("gmBroadcastGiftCount").value="1";
+  renderGMBroadcastCart();
+  toast("已加入群發禮包");
+}
+
 async function gmSendBroadcast(){
   if(!gmProfile)return toast("請先登入 GM");
+
   let mode=document.getElementById("gmBroadcastMode")?.value||"current";
   let title=document.getElementById("gmBroadcastTitle")?.value.trim();
   let body=document.getElementById("gmBroadcastBody")?.value.trim()||"";
-  let gift_type=document.getElementById("gmBroadcastGiftType")?.value||null;
-  let gift_value=document.getElementById("gmBroadcastGiftValue")?.value.trim()||null;
-  let gift_count=Math.max(1,Math.min(999999,Number(document.getElementById("gmBroadcastGiftCount")?.value)||1));
   let expRaw=document.getElementById("gmBroadcastExpires")?.value;
   let expires_at=expRaw?new Date(expRaw).toISOString():null;
+
   if(!title)return toast("請輸入郵件標題");
   if(mode==="future"&&!expires_at)return toast("「包含之後的新角色」需要設定期限");
   if(mode==="starter")expires_at=null;
-  if(gift_type&&!gift_value)return toast("有附件時請填寫金額／道具 ID／徽章 ID");
-  if(!confirm(`確定要發送「${title}」？\n\n模式：${mode==="current"?"目前所有角色":mode==="future"?"包含期限內新角色":"永久新手禮物（單項補發制）"}`))return;
+
+  // If GM typed an attachment but forgot to click "加入", include it automatically.
+  let pendingValue=document.getElementById("gmBroadcastGiftValue")?.value.trim();
+  if(pendingValue){
+    let type=document.getElementById("gmBroadcastGiftType")?.value;
+    let count=Math.max(1,Math.min(999999,Number(document.getElementById("gmBroadcastGiftCount")?.value)||1));
+    if(type==="badge")count=1;
+    gmBroadcastCartItems.push({type,value:pendingValue,count});
+    document.getElementById("gmBroadcastGiftValue").value="";
+    document.getElementById("gmBroadcastGiftCount").value="1";
+    renderGMBroadcastCart();
+  }
+
+  const modeLabel=mode==="current"?"目前所有角色":mode==="future"?"包含期限內新角色":"永久新手禮物（單項補發制）";
+  const preview=gmBroadcastCartItems.length
+    ?gmBroadcastCartItems.map(gmBroadcastGiftLabel).join("\n")
+    :"（純文字郵件，沒有附件）";
+
+  if(!confirm(`確定一次送出「${title}」？\n\n模式：${modeLabel}\n\n${preview}`))return;
+
   try{
-    await gmAuthFetch("/gm_broadcasts",{method:"POST",headers:{"Prefer":"return=representation"},body:JSON.stringify({
-      mode,title,body,gift_type,gift_value,gift_count,expires_at,active:true,sent_by:gmSession.user.id
-    })});
-    toast("📢 群發郵件已送出");
+    const base={
+      mode,title,body,expires_at,active:true,sent_by:gmSession.user.id
+    };
+
+    let payload;
+    if(gmBroadcastCartItems.length){
+      payload=gmBroadcastCartItems.map(x=>({
+        ...base,
+        gift_type:x.type,
+        gift_value:x.value,
+        gift_count:x.type==="badge"?1:x.count
+      }));
+    }else{
+      payload=[{
+        ...base,
+        gift_type:null,
+        gift_value:null,
+        gift_count:1
+      }];
+    }
+
+    // One HTTP request creates the whole selected broadcast bundle.
+    await gmAuthFetch("/gm_broadcasts",{
+      method:"POST",
+      headers:{"Prefer":"return=representation"},
+      body:JSON.stringify(payload)
+    });
+
+    const kinds=gmBroadcastCartItems.length;
+    gmBroadcastCartItems=[];
+    renderGMBroadcastCart();
+
+    toast(kinds
+      ?`📢 已一次送出 ${kinds} 種群發附件`
+      :"📢 純文字群發郵件已送出",4500);
+
     let cc=cur();
     if(cc){
       await loadMailbox(cc);
-      let mailBtn=document.querySelector('[data-nav="mailbox"]');
       let dot=document.querySelector('[data-dot="mailbox"]');
       if(dot)dot.classList.remove("hidden");
     }
     document.getElementById("gmBroadcastTitle").value="";
     document.getElementById("gmBroadcastBody").value="";
-    await loadGMLog();
-  }catch(e){toast("群發失敗："+e.message,5000)}
+    await loadGMLog().catch(()=>{});
+  }catch(e){
+    toast("群發失敗："+e.message,7000);
+  }
 }
 
 function shortCharacterId(raw){
@@ -3847,6 +3961,21 @@ document.getElementById("gmSentGiftList")?.addEventListener("click",e=>{
   let box=document.getElementById("gmSentGiftList"),rows=box?._rows||[];
   let g=rows[Number(b.dataset.revokeGift)];
   if(g)revokeGMGift(g);
+});
+
+
+document.getElementById("gmAddBroadcastGift")?.addEventListener("click",addCurrentGMBroadcastGift);
+document.getElementById("gmBroadcastCountPresets")?.addEventListener("click",e=>{
+  const b=e.target.closest("[data-gm-broadcast-count]");
+  if(!b)return;
+  const input=document.getElementById("gmBroadcastGiftCount");
+  if(input)input.value=String(Math.max(1,Number(b.dataset.gmBroadcastCount)||1));
+});
+document.getElementById("gmBroadcastCart")?.addEventListener("click",e=>{
+  const b=e.target.closest("[data-gm-remove-broadcast]");
+  if(!b)return;
+  gmBroadcastCartItems.splice(Number(b.dataset.gmRemoveBroadcast),1);
+  renderGMBroadcastCart();
 });
 
 document.getElementById("gmSendBroadcast")?.addEventListener("click",gmSendBroadcast);
@@ -10827,14 +10956,14 @@ document.getElementById("closeNpcStoryPlayer")?.addEventListener("click",e=>{e.s
       mark("shop_story_01",7,"shy");
 
       mark("shop_story_02",0,"normal");
-      mark("shop_story_02",2,"annoyed");
+      mark("shop_story_02",2,"normal");
       mark("shop_story_02",4,"soft");
       mark("shop_story_02",8,"shy");
 
       mark("shop_story_03",1,"normal");
       mark("shop_story_03",3,"shy");
       mark("shop_story_03",6,"soft");
-      mark("shop_story_03",8,"annoyed");
+      mark("shop_story_03",8,"normal");
 
       mark("shop_story_04",1,"surprised");
       mark("shop_story_04",4,"soft");
@@ -11789,7 +11918,7 @@ body.game-entry-active #npcTownFab{
 })();
 </script>
 <script>
-/* === 3.28.0 FORMAL badge visibility / backfill fix === */
+/* === 3.28.2 FORMAL badge visibility / backfill fix === */
 (function(){
   const LAUNCH_BADGE_BY_CLAIM={
     day1:"launch_newbie",
@@ -11860,7 +11989,7 @@ body.game-entry-active #npcTownFab{
 
 
 <script>
-/* === 3.28.0 FORMAL opening story trigger fix === */
+/* === 3.28.2 FORMAL opening story trigger fix === */
 (function(){
   const OPENING_ID="shop_event_first";
   const OPENING_FLAG="formalOpeningCompleted_3276";
@@ -11944,7 +12073,7 @@ body.game-entry-active #npcTownFab{
 
 
 <script>
-/* === 3.28.0 FORMAL referral activity bindings === */
+/* === 3.28.2 FORMAL referral activity bindings === */
 (function(){
   async function bindFormalInviter(){
     const code=(document.getElementById("formalInviterCodeInput")?.value||"").trim().toUpperCase();
@@ -11997,7 +12126,7 @@ body.game-entry-active #npcTownFab{
 
 
 <script>
-/* === 3.28.0 FORMAL NPC story entry safety ===
+/* === 3.28.2 FORMAL NPC story entry safety ===
    Important: npcTownFab now calls window.openNpcShop dynamically.
    This lets all later wrappers (opening story, milestone repair, event gate) actually execute.
 */
@@ -12016,40 +12145,50 @@ body.game-entry-active #npcTownFab{
 
 
 <script>
-/* === 3.28.0 FORMAL story expression semantic-priority fix === */
+/* === 3.28.2 FORMAL story expression semantic-priority fix === */
 (function(){
   function semanticFaceForFormalStory(line, previous="normal"){
-    if(!line)return previous||"normal";
+    if(!line)return "normal";
     const speaker=String(line.speaker||"");
     const t=String(line.text||"").replace(/<[^>]*>/g,"").trim();
 
+    // 旁白/玩家不主動改店長表情。
     if(speaker==="旁白"||speaker==="你"||speaker==="玩家")return previous||"normal";
 
-    // Strong semantic signals override old hard-coded face markers.
-    // Surprise / unexpected reunion.
+    // 1. 驚訝：突然遇見、疑問、意外反應。
     if(/又是你|怎麼又是你|第一次來嗎|你怎麼(會|在|來)|怎麼是你|居然是你|原來是你|你也在|咦|欸[？?!！]|誒[？?!！]|什麼[？?!！]|怎麼會|真的假的|不會吧|突然|嚇了?一跳|愣住|睜大|怔住|怔了一下|沒想到/.test(t))
       return "surprised";
 
-    // Shy / flustered.
-    if(/臉紅|耳根.*紅|別開.*視線|移開.*視線|害羞|心跳|你別看|一直盯|才、才|才不是|喜歡你|告白|靠太近|不要靠那麼近|笨蛋|手上的.*打了個結/.test(t))
+    // 2. 害羞：只有明確害羞/心動才使用。
+    if(/臉紅|耳根.*紅|別開.*視線|移開.*視線|害羞|心跳|你別看|一直盯|才、才|才不是|喜歡你|告白|靠太近|不要靠那麼近|手上的.*打了個結/.test(t))
       return "shy";
 
-    // Truly annoyed / angry only.
-    if(/暴怒|氣炸|怒瞪|狠狠瞪|滾出去|閉嘴|不准碰|煩死|真的生氣|討厭死|火大|生氣地|再戳我|騷擾店長/.test(t))
-      return "annoyed";
-
-    // Happy.
-    if(/笑了|笑著|笑出聲|噗嗤|哈哈|嘿嘿|開心|太好了|歡迎回來|期待|好耶|真棒|太棒|今天也來|你來啦/.test(t))
+    // 3. 開心：明確笑意與正向興奮。
+    if(/笑了|笑著|笑出聲|噗嗤|哈哈|嘿嘿|開心|太好了|歡迎回來|期待|好耶|真棒|太棒|你來啦|今天也來/.test(t))
       return "happy";
 
-    // Soft / warm.
-    if(/輕聲|溫柔|放心|沒關係|陪著|相信你|謝謝|捨不得|留下來|晚安|辛苦了|慢慢來|有我在|很高興你來|願意常來|記得你/.test(t))
-      return "soft";
+    // 4. 生氣：必須真的有怒意，不把吐槽算生氣。
+    if(/暴怒|氣炸|怒瞪|狠狠瞪|滾出去|閉嘴|不准碰|煩死|真的生氣|討厭死|火大|生氣地|再戳我|騷擾店長/.test(t))
+      return "angry";
 
-    // Plain ellipsis or neutral dialogue should NOT become annoyed/sad automatically.
-    return previous||"normal";
+    // 5. 難過：只給明確低落、悲傷或哭泣。
+    if(/難過|傷心|失落|低落|哭了|哭泣|眼眶.*紅|眼淚|寂寞|孤單|捨不得離開|再也見不到|對不起.*沒能/.test(t))
+      return "sad";
+
+    // 6. 無語：大幅收窄。只有明確「無言/嫌棄/扶額/吐槽到說不出話」才用。
+    if(/無語|無言|扶額|白了你一眼|嫌棄|嘴角.*抽|不知道該說什麼|一時語塞|沉默地看著你|……你認真的|你是笨蛋嗎/.test(t))
+      return "annoyed";
+
+    // 7. 溫柔如果現有素材存在就使用；否則回平常。
+    if(/輕聲|溫柔|放心|沒關係|陪著|相信你|謝謝|留下來|晚安|辛苦了|慢慢來|有我在|很高興你來|願意常來|記得你/.test(t)){
+      if(window.NPC_SHOPKEEPER_FACE_DATA?.soft)return "soft";
+      return "normal";
+    }
+
+    // 沒有明確情緒 = 平常。
+    // 不再沿用上一句，因此不會整段劇情卡在「無語」。
+    return "normal";
   }
-
   const oldRender = window.renderNpcRpgLine;
   if(typeof oldRender==="function"){
     window.renderNpcRpgLine=function(){
@@ -12062,12 +12201,19 @@ body.game-entry-active #npcTownFab{
 
         const portrait=document.getElementById("npcStoryPortrait");
         const prev=portrait?.dataset?.npcFace||"normal";
-        const face=semanticFaceForFormalStory(line,prev);
-
-        // Clear stale explicit face when it conflicts with strong semantic meaning.
+        const semantic=semanticFaceForFormalStory(line,prev);
         const t=String(line.text||"");
         const strongSurprise=/又是你|第一次來嗎|怎麼又是你|你怎麼(會|在|來)|居然是你|怎麼是你|沒想到/.test(t);
         if(strongSurprise) line.face="surprised";
+
+        // 明確語意優先；沒有語意時預設平常。
+        // 只有人工標記為 surprise/shy/happy/soft/sad 且台詞確有相應情緒時才保留。
+        let face=semantic;
+        if(face==="normal"){
+          const explicit=String(line.face||"");
+          if(["surprised","shy","happy","soft","sad"].includes(explicit))face=explicit;
+          if(["annoyed","angry"].includes(explicit))face="normal";
+        }
 
         if(typeof window.setNpcExpression==="function"){
           window.setNpcExpression(face);
@@ -12075,7 +12221,7 @@ body.game-entry-active #npcTownFab{
           portrait.src=window.NPC_SHOPKEEPER_FACE_DATA[face];
           portrait.dataset.npcFace=face;
         }
-      }catch(e){console.warn("3.28.0 story semantic face",e)}
+      }catch(e){console.warn("3.28.2 story semantic face",e)}
     };
   }
 
@@ -12094,7 +12240,7 @@ body.game-entry-active #npcTownFab{
 </div>
 </div>
 <script>
-/* === 3.28.0 restore original formal-server functions === */
+/* === 3.28.2 restore original formal-server functions === */
 function closeDeepRescueModal(e){
     if(e){ e.preventDefault(); e.stopPropagation(); }
     modal.classList.add("hidden");
