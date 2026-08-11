@@ -1549,9 +1549,12 @@ body.npcStoryRunning .draggableFab{
 <div class="backupGrid">
 <button class="primary" id="exportSaveBtn" type="button">💾 匯出存檔</button>
 <button id="importSaveBtn" type="button">📂 匯入存檔</button>
+<button id="rescueSaveBtn" type="button">🛟 搜尋可救援存檔</button>
+<button id="deepRescueBtn" type="button">🔎 深度救援</button>
+<button id="makeBackupNowBtn" type="button">🧷 立即建立備份</button>
 <input accept=".json,application/json" class="hidden" id="importSaveFile" type="file"/>
 </div>
-<div class="small" style="margin-top:8px">支援舊版存檔自動升級。更新版本、換手機或安裝 APK 前仍建議先備份一次。</div>
+<div id="saveRescueStatus" class="small" style="margin-top:8px">系統會自動保留最近兩份本機備份；「🔎 深度救援」還會掃描這個網站底下可讀到的舊角色資料。</div>
 </div>
 <div class="homePanel">
 <div class="homePanelTitle"><span>🎵 背景音樂</span><span class="chip" id="net">雲端待命</span></div>
@@ -1750,8 +1753,24 @@ body.npcStoryRunning .draggableFab{
 <div class="card pageCard" id="extraGM">
 <div class="section">🛠️ GM 操作台 <span class="chip" id="gmRoleChip">owner</span></div>
 <div class="small" style="margin-bottom:10px">GM 身分只影響這個操作台；你自己的角色仍照一般玩家規則遊玩。</div>
-<div class="small" style="margin-bottom:10px">正式服 GM 操作台：官方禮物、群發與徽章管理。NPC 劇情數值不提供人工修改或重置。</div>
+<div class="small" style="margin-bottom:10px">正式服 GM 操作台：保留原正式服管理功能；NPC 劇情數值不提供人工修改或重置。</div>
 
+<div class="gmPanel" style="margin-top:10px">
+<b>🧪 測試服管理</b>
+<div class="small" style="margin-top:5px">只有 Owner 可以產生與停用測試碼。每組測試碼之後會綁定一台測試裝置。</div>
+<div class="gmTestActions">
+<button id="gmCreateTestInvite" type="button" class="primary">➕ 產生測試碼</button>
+<button id="gmRefreshTestInvites" type="button">🔄 重新整理</button>
+</div>
+<button id="gmOpenTestServer" type="button" class="primary" style="width:100%;margin-top:8px">🧪 進入測試服</button>
+<div id="gmLatestTestCode" class="gmLatestTestCode hidden">
+<div class="small">剛產生的測試碼</div>
+<b id="gmLatestTestCodeText">TEST-XXXXXX</b>
+<button id="gmCopyLatestTestCode" type="button">📋 複製</button>
+</div>
+<div id="gmTestInviteStatus" class="small" style="margin-top:7px"></div>
+<div id="gmTestInviteList" class="gmTestInviteList"><div class="small">尚未載入測試碼。</div></div>
+</div>
 
 <div class="gmPanel">
 <b>🎁 發送官方禮物</b>
@@ -10802,7 +10821,7 @@ document.getElementById("closeNpcStoryPlayer")?.addEventListener("click",e=>{e.s
         if(S[id]?.[index]) S[id][index].face=face;
       };
 
-      mark("shop_story_01",1,"happy");
+      mark("shop_story_01",1,"surprised");
       mark("shop_story_01",3,"shy");
       mark("shop_story_01",5,"shy");
       mark("shop_story_01",7,"shy");
@@ -11770,7 +11789,7 @@ body.game-entry-active #npcTownFab{
 })();
 </script>
 <script>
-/* === 3.27.8 FORMAL badge visibility / backfill fix === */
+/* === 3.28.0 FORMAL badge visibility / backfill fix === */
 (function(){
   const LAUNCH_BADGE_BY_CLAIM={
     day1:"launch_newbie",
@@ -11841,7 +11860,7 @@ body.game-entry-active #npcTownFab{
 
 
 <script>
-/* === 3.27.8 FORMAL opening story trigger fix === */
+/* === 3.28.0 FORMAL opening story trigger fix === */
 (function(){
   const OPENING_ID="shop_event_first";
   const OPENING_FLAG="formalOpeningCompleted_3276";
@@ -11925,7 +11944,7 @@ body.game-entry-active #npcTownFab{
 
 
 <script>
-/* === 3.27.8 FORMAL referral activity bindings === */
+/* === 3.28.0 FORMAL referral activity bindings === */
 (function(){
   async function bindFormalInviter(){
     const code=(document.getElementById("formalInviterCodeInput")?.value||"").trim().toUpperCase();
@@ -11978,7 +11997,7 @@ body.game-entry-active #npcTownFab{
 
 
 <script>
-/* === 3.27.8 FORMAL NPC story entry safety ===
+/* === 3.28.0 FORMAL NPC story entry safety ===
    Important: npcTownFab now calls window.openNpcShop dynamically.
    This lets all later wrappers (opening story, milestone repair, event gate) actually execute.
 */
@@ -11995,6 +12014,487 @@ body.game-entry-active #npcTownFab{
 })();
 </script>
 
+
+<script>
+/* === 3.28.0 FORMAL story expression semantic-priority fix === */
+(function(){
+  function semanticFaceForFormalStory(line, previous="normal"){
+    if(!line)return previous||"normal";
+    const speaker=String(line.speaker||"");
+    const t=String(line.text||"").replace(/<[^>]*>/g,"").trim();
+
+    if(speaker==="旁白"||speaker==="你"||speaker==="玩家")return previous||"normal";
+
+    // Strong semantic signals override old hard-coded face markers.
+    // Surprise / unexpected reunion.
+    if(/又是你|怎麼又是你|第一次來嗎|你怎麼(會|在|來)|怎麼是你|居然是你|原來是你|你也在|咦|欸[？?!！]|誒[？?!！]|什麼[？?!！]|怎麼會|真的假的|不會吧|突然|嚇了?一跳|愣住|睜大|怔住|怔了一下|沒想到/.test(t))
+      return "surprised";
+
+    // Shy / flustered.
+    if(/臉紅|耳根.*紅|別開.*視線|移開.*視線|害羞|心跳|你別看|一直盯|才、才|才不是|喜歡你|告白|靠太近|不要靠那麼近|笨蛋|手上的.*打了個結/.test(t))
+      return "shy";
+
+    // Truly annoyed / angry only.
+    if(/暴怒|氣炸|怒瞪|狠狠瞪|滾出去|閉嘴|不准碰|煩死|真的生氣|討厭死|火大|生氣地|再戳我|騷擾店長/.test(t))
+      return "annoyed";
+
+    // Happy.
+    if(/笑了|笑著|笑出聲|噗嗤|哈哈|嘿嘿|開心|太好了|歡迎回來|期待|好耶|真棒|太棒|今天也來|你來啦/.test(t))
+      return "happy";
+
+    // Soft / warm.
+    if(/輕聲|溫柔|放心|沒關係|陪著|相信你|謝謝|捨不得|留下來|晚安|辛苦了|慢慢來|有我在|很高興你來|願意常來|記得你/.test(t))
+      return "soft";
+
+    // Plain ellipsis or neutral dialogue should NOT become annoyed/sad automatically.
+    return previous||"normal";
+  }
+
+  const oldRender = window.renderNpcRpgLine;
+  if(typeof oldRender==="function"){
+    window.renderNpcRpgLine=function(){
+      oldRender.apply(this,arguments);
+
+      try{
+        const st=window.npcStoryPlayerState;
+        const line=st?.lines?.[st.index];
+        if(!line)return;
+
+        const portrait=document.getElementById("npcStoryPortrait");
+        const prev=portrait?.dataset?.npcFace||"normal";
+        const face=semanticFaceForFormalStory(line,prev);
+
+        // Clear stale explicit face when it conflicts with strong semantic meaning.
+        const t=String(line.text||"");
+        const strongSurprise=/又是你|第一次來嗎|怎麼又是你|你怎麼(會|在|來)|居然是你|怎麼是你|沒想到/.test(t);
+        if(strongSurprise) line.face="surprised";
+
+        if(typeof window.setNpcExpression==="function"){
+          window.setNpcExpression(face);
+        }else if(portrait && window.NPC_SHOPKEEPER_FACE_DATA?.[face]){
+          portrait.src=window.NPC_SHOPKEEPER_FACE_DATA[face];
+          portrait.dataset.npcFace=face;
+        }
+      }catch(e){console.warn("3.28.0 story semantic face",e)}
+    };
+  }
+
+  window.semanticFaceForFormalStory=semanticFaceForFormalStory;
+})();
+</script>
+
+<div id="deepRescueModal" class="modal hidden">
+<div class="modalCard deepRescueCard">
+<div class="modalHead">
+<div><b>🔎 深度救援</b><div class="small">掃描目前瀏覽器可讀到的舊角色資料，不會自動覆蓋現在存檔。</div></div>
+<button id="closeDeepRescue" class="x" type="button">×</button>
+</div>
+<div id="deepRescueSummary" class="small"></div>
+<div id="deepRescueList" class="deepRescueList"></div>
+</div>
+</div>
+<script>
+/* === 3.28.0 restore original formal-server functions === */
+function closeDeepRescueModal(e){
+    if(e){ e.preventDefault(); e.stopPropagation(); }
+    modal.classList.add("hidden");
+  }
+
+function deepPreview(index){
+  const rows=document.getElementById("deepRescueList")?._deepRows||[];
+  const r=rows[index];
+  if(!r)return;
+  const lines=(r.payload.characters||[]).map((c,i)=>{
+    return `${i+1}. ${c.name||"未命名"}｜Lv.${Number(c.level||1)}｜EXP ${Number(c.exp||0)}｜🪙${Number(c.money||0)}`;
+  }).join("\n");
+  alert(`這份資料有 ${r.count} 位角色：\n\n${lines}\n\n來源：${r.key}\n位置：${r.path}`);
+}
+
+function deepRestore(index){
+  const rows=document.getElementById("deepRescueList")?._deepRows||[];
+  const r=rows[index];
+  if(!r)return;
+
+  const names=(r.payload.characters||[]).map(c=>c.name||"未命名").join("、");
+
+  if(!confirm(
+    `準備恢復這份資料：\n\n`+
+    `角色：${names}\n`+
+    `角色數：${r.count}\n`+
+    `來源：${r.key}\n\n`+
+    `目前主存檔會先備份，再進行恢復。確定嗎？`
+  ))return;
+
+  try{
+    const currentRaw=localStorage.getItem(LOCAL_KEY);
+    if(currentRaw&&parseSaveText(currentRaw)){
+      localStorage.setItem(`role_life_preimport_${Date.now()}`,currentRaw);
+    }
+
+    const rescuePayload={
+      ...r.payload,
+      characters:(r.payload.characters||[]).map(c=>({...c}))
+    };
+
+    localStorage.setItem(LOCAL_KEY,JSON.stringify(rescuePayload));
+    local=loadLocal();
+    local.characters??=[];
+
+    local.characters.forEach(c=>{
+      ensureRelations(c);
+      ensureMeta?.(c);
+    });
+
+    ensureSharedAchievements();
+    ensureBadges();
+    saveLocal();
+
+    activeId="";
+    activeRoomCode="";
+    room=null;
+    partner=null;
+    stopPolling();
+
+    document.getElementById("deepRescueModal")?.classList.add("hidden");
+    show("home");
+    renderHome();
+    updateSaveRescueStatus();
+
+    alert(
+      `✅ 已恢復 ${r.count} 位角色。\n\n`+
+      `請現在立刻按「💾 匯出存檔」，把救回來的資料下載成 JSON 備份。`
+    );
+  }catch(e){
+    alert("深度救援失敗："+(e?.message||e));
+  }
+}
+
+function deepScanLocalStorage(){
+  let results=[];
+  const knownMainKeys=new Set([
+    LOCAL_KEY,
+    SAVE_AUTO_BACKUP_KEY,
+    SAVE_AUTO_BACKUP_OLD_KEY
+  ]);
+
+  for(let i=0;i<localStorage.length;i++){
+    const key=localStorage.key(i);
+    if(!key)continue;
+
+    const raw=localStorage.getItem(key);
+    if(!raw||raw.length<10)continue;
+
+    let parsed;
+    try{parsed=JSON.parse(raw)}catch(_){continue}
+
+    const candidates=extractCharacterCandidatesFromValue(parsed);
+    for(const c of candidates){
+      const payload=normalizedRescuePayload(c);
+      if(!payload?.characters?.length)continue;
+
+      const names=payload.characters
+        .map(x=>String(x?.name||"未命名角色").trim()||"未命名角色")
+        .slice(0,12);
+
+      results.push({
+        key,
+        path:c.path,
+        payload,
+        count:payload.characters.length,
+        names,
+        isKnown:knownMainKeys.has(key),
+        rawSize:raw.length
+      });
+    }
+  }
+
+  // Remove obvious duplicate sets: same key/path/count/names.
+  const seen=new Set();
+  results=results.filter(r=>{
+    const sig=[r.key,r.path,r.count,r.names.join("|")].join("::");
+    if(seen.has(sig))return false;
+    seen.add(sig);
+    return true;
+  });
+
+  // Prefer more characters and non-current/legacy sources first.
+  results.sort((a,b)=>{
+    if(a.isKnown!==b.isKnown)return a.isKnown?1:-1;
+    if(b.count!==a.count)return b.count-a.count;
+    return a.key.localeCompare(b.key);
+  });
+
+  return results;
+}
+
+function extractCharacterCandidatesFromValue(value,path="$",depth=0,seen=new Set()){
+  if(depth>6||value==null)return [];
+  if(typeof value!=="object")return [];
+  if(seen.has(value))return [];
+  seen.add(value);
+
+  let found=[];
+
+  if(Array.isArray(value)){
+    const chars=value.filter(looksLikeCharacterObject);
+    if(chars.length){
+      found.push({path,characters:chars});
+    }
+    value.forEach((v,i)=>{
+      if(typeof v==="object"&&v!==null){
+        found.push(...extractCharacterCandidatesFromValue(v,`${path}[${i}]`,depth+1,seen));
+      }
+    });
+    return found;
+  }
+
+  if(Array.isArray(value.characters)){
+    const chars=value.characters.filter(looksLikeCharacterObject);
+    if(chars.length)found.push({path:`${path}.characters`,characters:chars,root:value});
+  }
+
+  for(const [k,v] of Object.entries(value)){
+    if(k==="characters")continue;
+    if(typeof v==="object"&&v!==null){
+      found.push(...extractCharacterCandidatesFromValue(v,`${path}.${k}`,depth+1,seen));
+    }
+  }
+  return found;
+}
+
+function looksLikeCharacterObject(c){
+  if(!c||typeof c!=="object")return false;
+  const score=[
+    "id" in c,
+    "name" in c,
+    "level" in c,
+    "exp" in c,
+    "energy" in c,
+    "mood" in c,
+    "inventory" in c,
+    "roomCodes" in c
+  ].filter(Boolean).length;
+  return score>=3;
+}
+
+function makeBackupNow(){
+  try{
+    let payload=makePayloadForSave();
+    let json=JSON.stringify(payload);
+    rotateAutoBackup(json);
+    updateSaveRescueStatus();
+    toast(`🧷 已建立本機備份（${saveCharacterCount(payload)} 位角色）`,3500);
+  }catch(e){alert("建立備份失敗："+e.message)}
+}
+
+function makePayloadForSave(){
+  return {
+    ...local,
+    characters:(local.characters||[]).map(c=>{
+      let copy={...c};
+      delete copy.achievements;
+      delete copy.achievementNotified;
+      delete copy.achievementNoticeReady;
+      return copy;
+    })
+  };
+}
+
+function normalizedRescuePayload(candidate){
+  const chars=(candidate?.characters||[]).filter(looksLikeCharacterObject);
+  if(!chars.length)return null;
+
+  let payload={characters:chars};
+
+  // If the containing root already resembles our normal save structure, preserve its shared fields.
+  if(candidate.root&&typeof candidate.root==="object"){
+    payload={...candidate.root,characters:chars};
+  }
+  payload.characters=chars;
+  return payload;
+}
+
+function parseSaveText(raw){
+  if(!raw)return null;
+  try{
+    let x=JSON.parse(raw);
+    if(!x||typeof x!=="object"||!Array.isArray(x.characters))return null;
+    return x;
+  }catch(e){return null}
+}
+
+function rescueSaveInteractive(){
+  const found=scanRecoverableSaves().filter(x=>x.key!==LOCAL_KEY);
+  if(!found.length){
+    alert("目前這個瀏覽器裡找不到其他可救援的正式服備份。\n\n如果玩家換了瀏覽器、換手機、使用無痕模式，或已清除網站資料，localStorage 會一起消失；這種情況只能用之前匯出的 JSON 備份恢復。");
+    return;
+  }
+  let text=found.map((x,i)=>`${i+1}. ${x.label}｜${x.count} 位角色`).join("\n");
+  let pick=prompt(`找到以下可救援存檔：\n\n${text}\n\n請輸入要恢復的編號：`);
+  let idx=Number(pick)-1;
+  if(!Number.isInteger(idx)||idx<0||idx>=found.length)return;
+  let chosen=found[idx];
+
+  let names=(chosen.data.characters||[]).map(c=>c.name||"未命名").slice(0,8).join("、");
+  if(!confirm(`準備恢復「${chosen.label}」。\n\n角色數：${chosen.count}\n角色：${names||"—"}\n\n目前主存檔會先另存成安全備份，再進行恢復。確定嗎？`))return;
+
+  try{
+    const current=localStorage.getItem(LOCAL_KEY);
+    if(current&&parseSaveText(current)){
+      localStorage.setItem(`role_life_preimport_${Date.now()}`,current);
+    }
+    localStorage.setItem(LOCAL_KEY,chosen.raw);
+    local=loadLocal();
+    local.characters??=[];
+    local.characters.forEach(c=>ensureRelations(c));
+    ensureSharedAchievements();
+    ensureBadges();
+    saveLocal();
+    activeId=null;room=null;partner=null;activeRoomCode="";
+    show("home");renderHome();
+    updateSaveRescueStatus();
+    alert(`✅ 已恢復 ${chosen.count} 位角色。\n\n請現在立刻按「💾 匯出存檔」，把救回來的資料下載成 JSON。`);
+  }catch(e){
+    alert("恢復失敗："+(e?.message||e));
+  }
+}
+
+function revealChatInput(){
+    document.body.classList.add("chatKeyboardOpen");
+    setTimeout(()=>{
+      try{input.scrollIntoView({block:"center",behavior:"smooth"})}catch(_){input.scrollIntoView()}
+    },120);
+    setTimeout(()=>{
+      try{input.scrollIntoView({block:"nearest"})}catch(_){}
+    },450);
+  }
+
+function rotateAutoBackup(newJson){
+  try{
+    const oldLatest=localStorage.getItem(SAVE_AUTO_BACKUP_KEY);
+    if(oldLatest && parseSaveText(oldLatest)){
+      localStorage.setItem(SAVE_AUTO_BACKUP_OLD_KEY,oldLatest);
+    }
+    localStorage.setItem(SAVE_AUTO_BACKUP_KEY,newJson);
+  }catch(e){console.warn("auto backup failed",e)}
+}
+
+function saveCharacterCount(x){return Array.isArray(x?.characters)?x.characters.length:0}
+
+function scanRecoverableSaves(){
+  let rows=[];
+  const add=(key,label)=>{
+    const raw=localStorage.getItem(key);
+    const data=parseSaveText(raw);
+    if(!data)return;
+    const count=saveCharacterCount(data);
+    if(count<=0)return;
+    rows.push({key,label,data,count,raw});
+  };
+  add(LOCAL_KEY,"目前主存檔");
+  add(SAVE_AUTO_BACKUP_KEY,"最近自動備份");
+  add(SAVE_AUTO_BACKUP_OLD_KEY,"上一份自動備份");
+
+  // Existing pre-import snapshots from older versions.
+  for(let i=0;i<localStorage.length;i++){
+    const k=localStorage.key(i);
+    if(k?.startsWith("role_life_preimport_"))add(k,"匯入前安全備份");
+  }
+
+  // Also inspect known historical production keys, but never import test-server keys.
+  ["role_life_v1","role_life_save","role_life"].forEach(k=>add(k,"舊版正式服存檔"));
+  return rows.sort((a,b)=>b.count-a.count);
+}
+
+function showDeepRescue(){
+  const modal=document.getElementById("deepRescueModal");
+  const list=document.getElementById("deepRescueList");
+  const summary=document.getElementById("deepRescueSummary");
+  if(!modal||!list||!summary)return;
+
+  const results=deepScanLocalStorage();
+  list._deepRows=results;
+
+  if(!results.length){
+    summary.textContent="沒有找到其他可辨識的角色資料。";
+    list.innerHTML=`<div class="deepRescueRow">
+      <b>目前找不到可救援資料</b>
+      <div class="small">
+        如果玩家已清除網站資料、換手機、換瀏覽器，或原本是在無痕模式遊玩，
+        那些 localStorage 可能已經不存在。此時只能靠之前匯出的 JSON 備份恢復。
+      </div>
+    </div>`;
+  }else{
+    summary.textContent=`找到 ${results.length} 組可能的角色資料。請先看角色名稱再決定要不要恢復。`;
+    list.innerHTML=results.map((r,i)=>{
+      const known=r.key===LOCAL_KEY?"目前主存檔":
+        r.key===SAVE_AUTO_BACKUP_KEY?"最近自動備份":
+        r.key===SAVE_AUTO_BACKUP_OLD_KEY?"上一份自動備份":
+        r.key.startsWith("role_life_preimport_")?"匯入前安全備份":
+        "其他舊資料";
+
+      return `<div class="deepRescueRow">
+        <b>${esc(known)}｜${r.count} 位角色</b>
+        <div class="small">角色：${esc(r.names.join("、"))}</div>
+        <div class="deepRescueKey">來源：${esc(r.key)}<br>位置：${esc(r.path)}</div>
+        <div class="actions">
+          <button type="button" data-deep-preview="${i}">👀 查看</button>
+          <button type="button" class="primary" data-deep-restore="${i}">🛟 恢復這份</button>
+        </div>
+      </div>`;
+    }).join("");
+  }
+
+  modal.classList.remove("hidden");
+}
+
+function updateSaveRescueStatus(){
+  let box=document.getElementById("saveRescueStatus");if(!box)return;
+  if(saveRecoveryNotice){
+    box.innerHTML=`<div class="saveRescueFound"><b>🛟 已啟動存檔救援</b>${esc(saveRecoveryNotice)}</div>`;
+    return;
+  }
+  let saves=scanRecoverableSaves();
+  let max=saves.reduce((m,x)=>Math.max(m,x.count),0);
+  box.textContent=max>0
+    ?`✅ 本機目前可找到最多 ${max} 位角色的有效存檔／備份。系統會自動保留最近兩份本機備份。`
+    :"目前尚未找到角色存檔。若玩家曾清除瀏覽器網站資料，本機資料可能已無法恢復。";
+}
+(function(){
+  document.getElementById("rescueSaveBtn")?.addEventListener("click",rescueSaveInteractive);
+  document.getElementById("makeBackupNowBtn")?.addEventListener("click",makeBackupNow);
+  document.getElementById("deepRescueBtn")?.addEventListener("click",showDeepRescue);
+
+  const dm=document.getElementById("deepRescueModal");
+  const dc=document.getElementById("closeDeepRescue");
+  dc?.addEventListener("click",closeDeepRescueModal);
+  dc?.addEventListener("pointerup",closeDeepRescueModal);
+  dm?.addEventListener("click",e=>{if(e.target===dm)closeDeepRescueModal(e)});
+  document.getElementById("deepRescueList")?.addEventListener("click",e=>{
+    const p=e.target.closest("[data-deep-preview]");
+    const r=e.target.closest("[data-deep-restore]");
+    if(p)return deepPreview(Number(p.dataset.deepPreview));
+    if(r)return deepRestore(Number(r.dataset.deepRestore));
+  });
+
+  document.getElementById("gmOpenTestServer")?.addEventListener("click",()=>{window.location.href="./test.html"});
+
+  const input=document.getElementById("chatInput");
+  if(input){
+    input.addEventListener("focus",revealChatInput);
+    input.addEventListener("input",()=>{
+      input.style.setProperty("color","#3d3343","important");
+      input.style.setProperty("-webkit-text-fill-color","#3d3343","important");
+      input.style.setProperty("caret-color","#6f4f86","important");
+    });
+    input.addEventListener("blur",()=>document.body.classList.remove("chatKeyboardOpen"));
+    if(window.visualViewport){
+      window.visualViewport.addEventListener("resize",()=>{if(document.activeElement===input)revealChatInput()});
+    }
+  }
+  try{updateSaveRescueStatus()}catch(e){}
+})();
+</script>
 </body>
 </html>
 <style>
