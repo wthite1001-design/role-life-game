@@ -8693,7 +8693,8 @@ const NPC_EVENT_ACHIEVEMENTS={
   npc_evt_allgoods:{name:"📦 收藏家",desc:"買過神秘商店目前所有商品。",category:"活動",hidden:false},
   npc_evt_relation:{name:"✨ 我們是什麼關係？",desc:"完成第一位 NPC 的最終關係劇情。",category:"活動",hidden:false},
   npc_evt_weird_relation:{name:"❓ 這也算一種關係",desc:"取得特殊或搞笑 NPC 關係結局。",category:"活動",hidden:true},
-  npc_evt_master:{name:"🏆 店裡的老面孔",desc:"完成本次 NPC 登場活動指定成就。",category:"活動",hidden:false}
+  npc_evt_master:{name:"🏆 店裡的老面孔",desc:"完成本次 NPC 登場活動指定成就。",category:"活動",hidden:false},
+  npc_evt_all_notes:{name:"📝 留在盒子裡的話",desc:"蒐集熟客小盒中的全部店長紙條。",category:"活動",hidden:true}
 };
 
 function ensureNpcActivityAchievements(){
@@ -9180,13 +9181,57 @@ const NPC_ITEM_EFFECTS={
   },
   npc_regular_box:{
     name:"🎁 熟客小盒",
-    use:"可開啟。隨機獲得金幣、一般道具、好感禮物，低機率特殊收藏品。"
+    use:"可開啟。以店長紙條與高價值一般獎勵為主；已讀紙條不會重複出現。蒐集全部紙條會解鎖活動隱藏成就。"
   },
   npc_under_counter:{
     name:"🔐 櫃檯下的黑盒",
     use:"一次性隱藏收藏。不能丟棄、不能轉送，符合條件後會觸發秘密劇情。"
   }
 };
+
+const NPC_REGULAR_BOX_NOTES=[
+  {id:"note_01",title:"紙條・今天也來了",text:"「今天也來了啊。……我沒有在等你，只是剛好記得而已。」"},
+  {id:"note_02",title:"紙條・店貓的告狀",text:"「店貓今天一直看門口。一定不是在等你，牠只是很閒。」"},
+  {id:"note_03",title:"紙條・偷偷留貨",text:"「你常買的那個我先留了一份。別誤會，是怕你又站在櫃檯前猶豫很久。」"},
+  {id:"note_04",title:"紙條・雨天",text:"「下雨的話就晚點走。店裡沒有趕客人的規定。」"},
+  {id:"note_05",title:"紙條・別太晚",text:"「晚上回去小心一點。……這只是店長對熟客的基本關心。」"},
+  {id:"note_06",title:"紙條・糖果",text:"「櫃檯上的糖果少了一顆。我知道是誰。這次先不抓。」"},
+  {id:"note_07",title:"紙條・休息",text:"「累了就坐一下。你不買東西也沒關係。」"},
+  {id:"note_08",title:"紙條・奇怪的習慣",text:"「好像已經習慣你推門進來的聲音了。真麻煩。」"},
+  {id:"note_09",title:"紙條・店長的秘密",text:"「有些事情現在還不能告訴你。但如果你一直來……也許有一天會說。」"},
+  {id:"note_10",title:"紙條・最後一張",text:"「如果你真的把這些紙條全部收好了，那就當作我承認——你不是普通的客人。」"}
+];
+
+function npcRegularBoxCollectedNotes(c=cur()){
+  c.npcRegularBoxNotes??=[];
+  return c.npcRegularBoxNotes;
+}
+function npcRegularBoxUnreadNotes(c=cur()){
+  const got=new Set(npcRegularBoxCollectedNotes(c));
+  return NPC_REGULAR_BOX_NOTES.filter(x=>!got.has(x.id));
+}
+function grantNpcRegularBoxNote(c){
+  const unread=npcRegularBoxUnreadNotes(c);
+  if(!unread.length)return null;
+  const note=unread[Math.floor(Math.random()*unread.length)];
+  c.npcRegularBoxNotes??=[];
+  c.npcRegularBoxNotes.push(note.id);
+  return note;
+}
+function checkNpcRegularBoxNoteAchievement(c=cur()){
+  if(!c)return false;
+  const got=new Set(npcRegularBoxCollectedNotes(c));
+  if(NPC_REGULAR_BOX_NOTES.every(x=>got.has(x.id))){
+    c.achievements??={};
+    if(!c.achievements.npc_evt_all_notes){
+      c.achievements.npc_evt_all_notes=Date.now();
+      try{achievementPopup?.(NPC_EVENT_ACHIEVEMENTS.npc_evt_all_notes)}catch(e){}
+      try{toast?.("🏆 隱藏成就解鎖：留在盒子裡的話",5000)}catch(e){}
+    }
+    return true;
+  }
+  return false;
+}
 function useNpcShopItem(itemId){
   let c=cur();if(!c)return toast("請先進入角色。");
   c.inventory??={};
@@ -9204,32 +9249,46 @@ function useNpcShopItem(itemId){
 
   if(itemId==="npc_regular_box"){
     c.inventory[itemId]=n-1;
+
+    const unread=npcRegularBoxUnreadNotes(c);
     const roll=Math.random();
-    if(roll<0.35){
-      let gain=80+Math.floor(Math.random()*121);
-      c.money=safeMoney(Number(c.money||0)+gain);
-      toast(`🎁 熟客小盒：🪙 +${gain}`,3500);
-    }else if(roll<0.7){
-      const ids=["snack","coffee","tea","lunch","drink","cake"];
-      let id=ids[Math.floor(Math.random()*ids.length)];
-      c.inventory[id]=(c.inventory[id]||0)+1;
-      toast(`🎁 熟客小盒：獲得 ${itemDisplayName(id)}`,3500);
-    }else if(roll<0.93){
-      const ids=["gift_candy","gift_keychain","gift_flower","gift_letter","gift_plush","gift_music"];
-      let id=ids[Math.floor(Math.random()*ids.length)];
-      c.inventory[id]=(c.inventory[id]||0)+1;
-      toast(`🎁 熟客小盒：獲得 ${itemDisplayName(id)}`,3500);
+
+    // 紙條是熟客小盒的主要收藏：尚有未讀紙條時 55% 開到紙條。
+    // 已經拿過的紙條永遠不會再抽到。
+    if(unread.length && roll<0.55){
+      const note=grantNpcRegularBoxNote(c);
+      const got=npcRegularBoxCollectedNotes(c).length;
+      npcChoice(
+        `📝 ${note.title}`,
+        `${note.text}<br><br><span class="small">紙條收藏 ${got}/${NPC_REGULAR_BOX_NOTES.length}</span>`,
+        [{label:"收好紙條",fn:()=>{}}]
+      );
+      checkNpcRegularBoxNoteAchievement(c);
     }else{
-      const ids=["oldkey","letter","dryflower","musicbox","ticket","ribbon","picnic","flowers"];
-      let id=ids[Math.floor(Math.random()*ids.length)];
-      c.inventory[id]=(c.inventory[id]||0)+1;
-      toast(`✨ 熟客小盒：獲得特殊收藏 ${itemDisplayName(id)}`,4500);
+      // 紙條之外只給有價值的一般獎勵；完全排除限定商品、限定抽獎券、限定鈴鐺與限定徽章。
+      const valueRoll=Math.random();
+      if(valueRoll<0.34){
+        const gain=260+Math.floor(Math.random()*241); // 260~500
+        c.money=safeMoney(Number(c.money||0)+gain);
+        toast(`🎁 熟客小盒：🪙 +${gain}`,3500);
+      }else if(valueRoll<0.67){
+        const ids=["gift_keychain","gift_flower","gift_letter","gift_plush","gift_music"];
+        const id=ids[Math.floor(Math.random()*ids.length)];
+        const qty=Math.random()<0.25?2:1;
+        c.inventory[id]=(c.inventory[id]||0)+qty;
+        toast(`🎁 熟客小盒：獲得 ${itemDisplayName(id)} ×${qty}`,3800);
+      }else{
+        const ids=["cake","lunch","coffee","tea"];
+        const id=ids[Math.floor(Math.random()*ids.length)];
+        const qty=2+Math.floor(Math.random()*2); // 2~3
+        c.inventory[id]=(c.inventory[id]||0)+qty;
+        toast(`🎁 熟客小盒：獲得 ${itemDisplayName(id)} ×${qty}`,3800);
+      }
     }
-    if(Math.random()<0.08){
-      let st=npcState();st.affection=Math.min(100,Number(st.affection||0)+3);saveNpcState(st);
-      npcChoice("🎁 熟客小盒","盒子裡只有一張紙。<br><br>「不要一直買這個，笨蛋。」",[{label:"……",fn:()=>{}}]);
-    }
-    saveLocal();renderGame?.();renderNpcShop();
+
+    saveLocal();
+    renderGame?.();
+    renderNpcShop();
     return;
   }
 
@@ -9604,7 +9663,7 @@ function npcRenderShop(st){
     {id:"npc_cat_cookie",name:"🐾 貓掌餅乾",desc:"可餵店貓・店貓親密度 +8。",price:60},
     {id:"npc_lucky_bell",name:"🔔 小幸運鈴【限定贈禮】",desc:"限定贈禮・送給關係人後共同羈絆 +5・每日限購 3 個。",price:140}
   ];
-  if(st.loyalty>=10)items.push({id:"npc_regular_box",name:"🎁 熟客小盒",desc:"可開啟・隨機金幣、道具、好感禮物或特殊收藏。",price:220,secret:true});
+  if(st.loyalty>=10)items.push({id:"npc_regular_box",name:"🎁 熟客小盒",desc:"可開啟・紙條機率較高，且已讀紙條不重複；其餘皆為有價值的一般獎勵。",price:220,secret:true});
   if(st.loyalty>=30)items.push({id:"npc_under_counter",name:"🔐 櫃檯下的黑盒",desc:"一次性隱藏收藏・用途？？？",price:666,secret:true});
   return `<div class="small" style="margin-bottom:8px">每買 1 件商品熟客度 +1；每累積購買 5 件，貓貓好感額外 +1。</div>`+
     items.map(x=>`<div class="npcShopItem"><div><b>${x.name} ${x.secret?'<span class="npcSecretTag">隱藏</span>':""}</b><div class="small">${x.desc}</div></div><button data-npc-buy="${x.id}">🪙${x.price}</button></div>`).join("");
@@ -9623,8 +9682,12 @@ function npcRenderItems(){
   c.inventory??={};
   const ids=Object.keys(NPC_ITEM_EFFECTS);
   let owned=ids.filter(id=>Number(c.inventory[id]||0)>0);
-  if(!owned.length)return `<div class="npcDialogue"><b>🎒 NPC 專屬道具</b><div class="small">目前沒有持有任何神秘商店專屬道具。</div></div>`;
-  return owned.map(id=>{
+  const collected=new Set(Array.isArray(c.npcRegularBoxNotes)?c.npcRegularBoxNotes:[]);
+  const noteHtml=`<div class="npcDialogue"><b>📝 熟客小盒紙條 ${collected.size}/${NPC_REGULAR_BOX_NOTES.length}</b><div class="small">${
+    NPC_REGULAR_BOX_NOTES.map(x=>collected.has(x.id)?`✓ ${x.title}`:"❔ ???").join("<br>")
+  }</div></div>`;
+  if(!owned.length)return noteHtml+`<div class="npcDialogue"><b>🎒 NPC 專屬道具</b><div class="small">目前沒有持有任何神秘商店專屬道具。</div></div>`;
+  return noteHtml+owned.map(id=>{
     let d=NPC_ITEM_EFFECTS[id],n=Number(c.inventory[id]||0);
     return `<div class="npcShopItem">
       <div><b>${d.name}</b><div class="small">${d.use}<br>持有：×${n}</div></div>
@@ -11916,7 +11979,7 @@ body.game-entry-active #npcTownFab{
 })();
 </script>
 <script>
-/* === 3.28.6 FORMAL badge visibility / backfill fix === */
+/* === 3.28.7 FORMAL badge visibility / backfill fix === */
 (function(){
   const LAUNCH_BADGE_BY_CLAIM={
     day1:"launch_newbie",
@@ -11987,7 +12050,7 @@ body.game-entry-active #npcTownFab{
 
 
 <script>
-/* === 3.28.6 FORMAL opening story trigger fix === */
+/* === 3.28.7 FORMAL opening story trigger fix === */
 (function(){
   const OPENING_ID="shop_event_first";
   const OPENING_FLAG="formalOpeningCompleted_3276";
@@ -12071,7 +12134,7 @@ body.game-entry-active #npcTownFab{
 
 
 <script>
-/* === 3.28.6 FORMAL referral activity bindings === */
+/* === 3.28.7 FORMAL referral activity bindings === */
 (function(){
   async function bindFormalInviter(){
     const code=(document.getElementById("formalInviterCodeInput")?.value||"").trim().toUpperCase();
@@ -12124,7 +12187,7 @@ body.game-entry-active #npcTownFab{
 
 
 <script>
-/* === 3.28.6 FORMAL NPC story entry safety ===
+/* === 3.28.7 FORMAL NPC story entry safety ===
    Important: npcTownFab now calls window.openNpcShop dynamically.
    This lets all later wrappers (opening story, milestone repair, event gate) actually execute.
 */
@@ -12143,7 +12206,7 @@ body.game-entry-active #npcTownFab{
 
 
 <script>
-/* === 3.28.6 FORMAL story expression semantic-priority fix === */
+/* === 3.28.7 FORMAL story expression semantic-priority fix === */
 (function(){
   function semanticFaceForFormalStory(line, previous="normal"){
     if(!line)return "normal";
@@ -12219,7 +12282,7 @@ body.game-entry-active #npcTownFab{
           portrait.src=window.NPC_SHOPKEEPER_FACE_DATA[face];
           portrait.dataset.npcFace=face;
         }
-      }catch(e){console.warn("3.28.6 story semantic face",e)}
+      }catch(e){console.warn("3.28.7 story semantic face",e)}
     };
   }
 
@@ -12238,7 +12301,7 @@ body.game-entry-active #npcTownFab{
 </div>
 </div>
 <script>
-/* === 3.28.6 restore original formal-server functions === */
+/* === 3.28.7 restore original formal-server functions === */
 function closeDeepRescueModal(e){
     if(e){ e.preventDefault(); e.stopPropagation(); }
     modal.classList.add("hidden");
@@ -12641,7 +12704,7 @@ function updateSaveRescueStatus(){
 </script>
 
 <script>
-/* === 3.28.6 shopkeeper portrait click: include normal expression === */
+/* === 3.28.7 shopkeeper portrait click: include normal expression === */
 (function(){
   const normalLines=[
     "今天也有好好營業喔。",
@@ -12684,7 +12747,7 @@ function updateSaveRescueStatus(){
 
 
 <script>
-/* === 3.28.6 authoritative shopkeeper image click reaction === */
+/* === 3.28.7 authoritative shopkeeper image click reaction === */
 (function(){
   document.addEventListener("click",e=>{
     const portrait=e.target.closest("#npcShopkeeperImg,#npcShopkeeperPortrait,.npcShopkeeperPortrait,[data-npc-shopkeeper-portrait]");
@@ -12713,7 +12776,7 @@ function updateSaveRescueStatus(){
 
 
 <script>
-/* === 3.28.6 limited shop ends; earned NPC relationship persists === */
+/* === 3.28.7 limited shop ends; earned NPC relationship persists === */
 (function(){
   const NPC_PERSIST_KEY="npcRelationshipUnlocked";
   const EVENT_END=Date.parse("2026-09-11T23:59:59+08:00");
@@ -12806,7 +12869,7 @@ function updateSaveRescueStatus(){
 
 
 <script>
-/* === 3.28.6 activity item display + chip conversion compatibility === */
+/* === 3.28.7 activity item display + chip conversion compatibility === */
 (function(){
   const activityItemNames={
     future_limited_item_ticket:"🎟️ 限定物品抽獎券",
