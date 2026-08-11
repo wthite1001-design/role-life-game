@@ -1,0 +1,19 @@
+
+.guideCard{max-height:88vh;overflow:hidden}
+.guideTabs,.achievementCategoryTabs{
+  display:flex;gap:20px;overflow-x:auto;white-space:nowrap;padding:4px 4px 0;
+  border-bottom:1px solid #ece5ef;scrollbar-width:none;-webkit-overflow-scrolling:touch
+}
+.guideTabs::-webkit-scrollbar,.achievementCategoryTabs::-webkit-scrollbar{display:none}
+.guideTab,.achievementCategoryTab{
+  flex:0 0 auto;border:0;background:transparent;padding:13px 3px 11px;
+  font-weight:800;color:#817687;position:relative;border-radius:0
+}
+.guideTab.active,.achievementCategoryTab.active{color:#3e3345}
+.guideTab.active:after,.achievementCategoryTab.active:after{
+  content:"";position:absolute;left:0;right:0;bottom:-1px;height:3px;
+  border-radius:3px;background:#3e3345
+}
+.guideBody{overflow:auto;max-height:65vh;padding:14px 4px 24px;line-height:1.75}
+.guideBody h3{margin:14px 0 7px}.guideBody p{margin:6px 0}
+.guideTip{padding:12px 14px;background:#f7effa;border-radius:16px;margin:10px 0}
