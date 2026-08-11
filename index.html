@@ -11676,14 +11676,14 @@ body.game-entry-active #npcTownFab{
 <script>
 /* === 3.27 FORMAL final activity/controller === */
 (function(){
-  const FORMAL_EVENT_START=Date.parse("2026-08-12T00:00:00+08:00");
+  const FORMAL_EVENT_START=Date.parse("2026-08-11T22:47:00+08:00");
   const FORMAL_EVENT_END=Date.parse("2026-09-11T23:59:59+08:00");
   function formalEventActive(){
     const n=Date.now(); return n>=FORMAL_EVENT_START && n<=FORMAL_EVENT_END;
   }
   window.npcEventIsActive=formalEventActive;
   window.launchEventIsActive=formalEventActive;
-  window.npcEventPeriodText=()=>"🎊 限定 NPC 活動：2026/08/12 ～ 2026/09/11";
+  window.npcEventPeriodText=()=>"🎊 限定 NPC 活動：2026/08/11 ～ 2026/09/11";
   window.refreshNpcEventPeriodHint=function(){
     const el=document.getElementById('npcEventPeriodHint');
     if(!el)return;
@@ -11730,7 +11730,78 @@ body.game-entry-active #npcTownFab{
   setTimeout(window.enforceEventVisibility,300);
   setInterval(()=>{ if(!document.hidden)window.enforceEventVisibility(); },5000);
 })();
-</script></body>
+</script>
+<script>
+/* === 3.27.4 FORMAL badge visibility / backfill fix === */
+(function(){
+  const LAUNCH_BADGE_BY_CLAIM={
+    day1:"launch_newbie",
+    day7:"launch_story_start",
+    duo_complete:"launch_first_bond",
+    invite3:"launch_inviter",
+    hidden_companion:"launch_first_companion"
+  };
+  const NPC_FINAL_BADGE="badge_npc_shopkeeper_memory";
+
+  function formalSyncEarnedBadges(){
+    try{
+      if(typeof ensureBadges==="function")ensureBadges();
+      local.sharedBadges??={};
+
+      // 已領過活動獎勵的舊/目前存檔補回徽章。
+      if(typeof launchState==="function"){
+        const st=launchState()||{};
+        const claimed=st.claimed||{};
+        for(const [claim,badge] of Object.entries(LAUNCH_BADGE_BY_CLAIM)){
+          if(claimed[claim])local.sharedBadges[badge]=1;
+        }
+      }
+
+      // 已取得店長最終關係者補回限定 NPC 徽章。
+      const c=typeof cur==="function"?cur():null;
+      if(c && typeof getNpcRelationship==="function"){
+        const rel=getNpcRelationship(c,"shopkeeper_cat");
+        if(rel)local.sharedBadges[NPC_FINAL_BADGE]=1;
+      }
+
+      if(typeof saveLocal==="function")saveLocal();
+      if(c && typeof renderBadges==="function")renderBadges(c);
+    }catch(e){console.warn("formal badge sync",e)}
+  }
+
+  // 活動徽章一發放就立刻重畫，不必關掉頁面再開。
+  if(typeof window.launchGiveBadge==="function"){
+    const oldGive=window.launchGiveBadge;
+    window.launchGiveBadge=function(id){
+      const r=oldGive.apply(this,arguments);
+      setTimeout(formalSyncEarnedBadges,0);
+      return r;
+    };
+  }
+
+  // 活動整體結算後再同步一次，處理舊流程/自動領取。
+  if(typeof window.evaluateLaunchActivity==="function"){
+    const oldEval=window.evaluateLaunchActivity;
+    window.evaluateLaunchActivity=async function(){
+      const r=await oldEval.apply(this,arguments);
+      formalSyncEarnedBadges();
+      return r;
+    };
+  }
+
+  // 成就頁開啟或切回遊戲時補同步。
+  document.addEventListener("click",e=>{
+    if(e.target.closest('[data-page="achievements"],#openBadgeManager,#refreshBadgeCabinet')){
+      setTimeout(formalSyncEarnedBadges,20);
+    }
+  },true);
+
+  document.addEventListener("DOMContentLoaded",()=>setTimeout(formalSyncEarnedBadges,350),{once:true});
+  setTimeout(formalSyncEarnedBadges,700);
+})();
+</script>
+
+</body>
 </html>
 <style>
 /* === 3.26.21 Desktop RPG responsive layout === */
