@@ -1465,6 +1465,43 @@ body.npcStoryRunning .draggableFab{
 <link href="icon-192.png" rel="icon" sizes="192x192" type="image/png"/>
 <link href="icon-192.png" rel="apple-touch-icon" sizes="192x192"/>
 <link href="manifest.json" rel="manifest"/>
+
+<style>
+/* === 3.29.3 NPC relation sheet stable layer === */
+#extraNpcRelations{
+  position:fixed!important;
+  inset:0!important;
+  z-index:230!important;
+  width:100%!important;
+  height:100dvh!important;
+  max-height:100dvh!important;
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  background:var(--bg,#fbf6ff)!important;
+  contain:layout paint!important;
+  transform:translateZ(0)!important;
+  backface-visibility:hidden!important;
+  -webkit-backface-visibility:hidden!important;
+  overscroll-behavior:contain!important;
+}
+#extraNpcRelations.hidden{
+  display:none!important;
+}
+#extraNpcRelations .sheetHead{
+  position:sticky!important;
+  top:0!important;
+  z-index:3!important;
+}
+#npcRelationshipList{
+  min-height:120px;
+}
+#npcEventPeriodHint{
+  min-height:24px;
+  line-height:24px;
+  white-space:nowrap;
+}
+</style>
+
 </head>
 <body>
 
@@ -9653,30 +9690,35 @@ function npcGiveGift(){
   if(!c)return toast("請先進入角色。",3000);
   c.inventory??={};
 
-  // 正式版：只顯示這位角色背包目前真的持有的道具。
-  // 黑盒屬於 NPC 劇情關鍵收藏，不允許誤送；其餘背包道具皆可作為心意送出。
-  const blocked=new Set(["npc_under_counter"]);
+  // 3.29.3：店長只接受「親密／好感禮物」。
+  // 直接沿用真人關係送禮的 affectionGiftInfo() 判定，避免活動材料或一般補給混進來。
   const items=Object.entries(c.inventory)
-    .filter(([id,n])=>!blocked.has(id)&&Number(n||0)>0)
+    .filter(([id,n])=>Number(n||0)>0 && typeof affectionGiftInfo==="function" && !!affectionGiftInfo(id))
     .map(([id,n])=>{
-      const info=typeof affectionGiftInfo==="function"?affectionGiftInfo(id):null;
-      let a=info?Math.max(1,Number(info.affinity||1)):1;
-      if(id==="npc_lucky_bell")a=5;
-      const cat=/cat|fish|罐頭/i.test(id)?5:0;
-      return {id,qty:Number(n||0),name:typeof itemDisplayName==="function"?itemDisplayName(id):id,a,cat};
+      const info=affectionGiftInfo(id);
+      const a=Math.max(1,Number(info?.affinity||1));
+      return {
+        id,
+        qty:Number(n||0),
+        name:info?.n || (typeof itemDisplayName==="function"?itemDisplayName(id):id),
+        a,
+        cat:0
+      };
     })
     .sort((a,b)=>String(a.name).localeCompare(String(b.name),"zh-Hant"));
 
-  if(!items.length)return toast("🎒 背包裡目前沒有可以送給店長的東西。",3500);
+  if(!items.length)return toast("🎒 背包裡目前沒有可以送給店長的親密道具。",3500);
 
   npcChoice(
     "🎁 送禮物",
-    "從背包挑一樣你實際持有的東西送給她。<br><span class='small'>送出後會直接從背包消耗 1 個；每天最多送 2 次。劇情關鍵收藏不能贈送。</span>",
+    "只能從背包挑選「親密／好感禮物」送給她。<br><span class='small'>一般補給、活動材料、限定收藏與特殊道具都不能贈送；送出後直接消耗 1 個，每天最多 2 次。</span>",
     items.map(g=>({
       label:`${g.name} ×${g.qty}`,
       fn:()=>{
         const ch=typeof cur==="function"?cur():null;if(!ch)return;
         ch.inventory??={};
+        if(typeof affectionGiftInfo!=="function" || !affectionGiftInfo(g.id))
+          return toast("🎁 店長只接受親密／好感禮物。",3200);
         if(Number(ch.inventory[g.id]||0)<=0)return toast("這個道具已經不在背包裡了。",3000);
         let x=npcState();npcEnsureDaily(x);
         if(x.daily.gift>=2)return toast("🎁 今天已經送過兩次禮物了。",3200);
@@ -12018,8 +12060,10 @@ body.game-entry-active #npcTownFab{
     const el=document.getElementById('npcEventPeriodHint');
     if(!el)return;
     const remain=Math.max(0,FORMAL_EVENT_END-Date.now());
-    const d=Math.floor(remain/86400000),h=Math.floor((remain%86400000)/3600000);
-    el.textContent=formalEventActive()?`🎊 限定活動進行中・剩餘 ${d} 天 ${h} 小時`:'⏳ 限定活動目前未開放或已結束';
+    const d=Math.ceil(remain/86400000);
+    const next=formalEventActive()?`🎊 限定活動進行中・剩餘 ${d} 天`:'';
+    if(el.textContent!==next)el.textContent=next;
+    el.classList.toggle("hidden",!formalEventActive());
   };
   function gameOpen(){const g=document.getElementById('game');return !!g&&!g.classList.contains('hidden');}
   window.enforceEventVisibility=function(){
@@ -12062,7 +12106,7 @@ body.game-entry-active #npcTownFab{
 })();
 </script>
 <script>
-/* === 3.29.1 FORMAL badge visibility / backfill fix === */
+/* === 3.29.3 FORMAL badge visibility / backfill fix === */
 (function(){
   const LAUNCH_BADGE_BY_CLAIM={
     day1:"launch_newbie",
@@ -12133,7 +12177,7 @@ body.game-entry-active #npcTownFab{
 
 
 <script>
-/* === 3.29.1 FORMAL opening story trigger fix === */
+/* === 3.29.3 FORMAL opening story trigger fix === */
 (function(){
   const OPENING_ID="shop_event_first";
   const OPENING_FLAG="formalOpeningCompleted_3276";
@@ -12217,7 +12261,7 @@ body.game-entry-active #npcTownFab{
 
 
 <script>
-/* === 3.29.1 FORMAL referral activity bindings === */
+/* === 3.29.3 FORMAL referral activity bindings === */
 (function(){
   async function bindFormalInviter(){
     const code=(document.getElementById("formalInviterCodeInput")?.value||"").trim().toUpperCase();
@@ -12270,7 +12314,7 @@ body.game-entry-active #npcTownFab{
 
 
 <script>
-/* === 3.29.1 FORMAL NPC story entry safety ===
+/* === 3.29.3 FORMAL NPC story entry safety ===
    Important: npcTownFab now calls window.openNpcShop dynamically.
    This lets all later wrappers (opening story, milestone repair, event gate) actually execute.
 */
@@ -12289,7 +12333,7 @@ body.game-entry-active #npcTownFab{
 
 
 <script>
-/* === 3.29.1 FORMAL story expression semantic-priority fix === */
+/* === 3.29.3 FORMAL story expression semantic-priority fix === */
 (function(){
   function semanticFaceForFormalStory(line, previous="normal"){
     if(!line)return "normal";
@@ -12365,7 +12409,7 @@ body.game-entry-active #npcTownFab{
           portrait.src=window.NPC_SHOPKEEPER_FACE_DATA[face];
           portrait.dataset.npcFace=face;
         }
-      }catch(e){console.warn("3.29.1 story semantic face",e)}
+      }catch(e){console.warn("3.29.3 story semantic face",e)}
     };
   }
 
@@ -12384,7 +12428,7 @@ body.game-entry-active #npcTownFab{
 </div>
 </div>
 <script>
-/* === 3.29.1 restore original formal-server functions === */
+/* === 3.29.3 restore original formal-server functions === */
 function closeDeepRescueModal(e){
     if(e){ e.preventDefault(); e.stopPropagation(); }
     modal.classList.add("hidden");
@@ -12789,7 +12833,7 @@ function updateSaveRescueStatus(){
 </script>
 
 <script>
-/* === 3.29.1 shopkeeper portrait click: include normal expression === */
+/* === 3.29.3 shopkeeper portrait click: include normal expression === */
 (function(){
   const normalLines=[
     "今天也有好好營業喔。",
@@ -12832,7 +12876,7 @@ function updateSaveRescueStatus(){
 
 
 <script>
-/* === 3.29.1 authoritative shopkeeper image click reaction === */
+/* === 3.29.3 authoritative shopkeeper image click reaction === */
 (function(){
   document.addEventListener("click",e=>{
     const portrait=e.target.closest("#npcShopkeeperImg,#npcShopkeeperPortrait,.npcShopkeeperPortrait,[data-npc-shopkeeper-portrait]");
@@ -12861,7 +12905,7 @@ function updateSaveRescueStatus(){
 
 
 <script>
-/* === 3.29.1 limited shop ends; earned NPC relationship persists === */
+/* === 3.29.3 limited shop ends; earned NPC relationship persists === */
 (function(){
   const NPC_PERSIST_KEY="npcRelationshipUnlocked";
   const EVENT_END=Date.parse("2026-09-11T23:59:59+08:00");
@@ -12954,7 +12998,7 @@ function updateSaveRescueStatus(){
 
 
 <script>
-/* === 3.29.1 activity item display + chip conversion compatibility === */
+/* === 3.29.3 activity item display + chip conversion compatibility === */
 (function(){
   const activityItemNames={
     future_limited_item_ticket:"🎟️ 限定物品抽獎券",
@@ -12997,7 +13041,7 @@ function updateSaveRescueStatus(){
 
 
 <script>
-/* === 3.29.1 pending event card navigation safety === */
+/* === 3.29.3 pending event card navigation safety === */
 (function(){
   document.addEventListener("click",e=>{
     const card=e.target.closest("#pendingEventList .pendingEventCard");
@@ -13011,7 +13055,7 @@ function updateSaveRescueStatus(){
 
 
 <script>
-/* === 3.29.1 authoritative shopkeeper normal image === */
+/* === 3.29.3 authoritative shopkeeper normal image === */
 (function(){
   const NORMAL_SRC="cat_shopkeeper_normal.png";
 
@@ -13070,7 +13114,7 @@ function updateSaveRescueStatus(){
 
 
 <script>
-/* === 3.29.1 activity expiry cleanup + NPC relationship anti-flicker === */
+/* === 3.29.3 activity expiry cleanup + NPC relationship anti-flicker === */
 (function(){
   function active(){
     try{
@@ -13130,9 +13174,10 @@ function updateSaveRescueStatus(){
     if(!el)return;
     if(!active()){ hide(el); return; }
 
-    const remain=Math.max(0,(typeof FORMAL_EVENT_END!=="undefined"?FORMAL_EVENT_END:Date.now())-Date.now());
-    const d=Math.floor(remain/86400000),h=Math.floor((remain%86400000)/3600000);
-    const next=`🎊 限定活動進行中・剩餘 ${d} 天 ${h} 小時`;
+    const end=(typeof FORMAL_EVENT_END!=="undefined"?FORMAL_EVENT_END:Date.now());
+    const remain=Math.max(0,end-Date.now());
+    const d=Math.ceil(remain/86400000);
+    const next=`🎊 限定活動進行中・剩餘 ${d} 天`;
     if(el.textContent!==next)el.textContent=next;
     show(el);
   };
@@ -13158,7 +13203,7 @@ function updateSaveRescueStatus(){
     if(document.hidden)return;
     syncExpiry();
     if(active())window.refreshNpcEventPeriodHint?.();
-  },30000);
+  },3600000);
 
   document.addEventListener("visibilitychange",()=>{
     if(!document.hidden){
@@ -13166,6 +13211,33 @@ function updateSaveRescueStatus(){
       if(active())window.refreshNpcEventPeriodHint?.();
     }
   });
+})();
+</script>
+
+
+<script>
+/* === 3.29.3 NPC relation sheet stable open/close === */
+(function(){
+  const sheet=document.getElementById("extraNpcRelations");
+  if(!sheet)return;
+
+  const observer=new MutationObserver(()=>{
+    if(!sheet.classList.contains("hidden")){
+      try{window.refreshNpcEventPeriodHint?.()}catch(e){}
+    }
+  });
+  observer.observe(sheet,{attributes:true,attributeFilter:["class"]});
+
+  // While NPC relationship sheet is open, do not let generic game rerenders
+  // briefly hide or reposition the sheet.
+  const keepStable=()=>{
+    if(sheet.classList.contains("hidden"))return;
+    sheet.style.setProperty("position","fixed","important");
+    sheet.style.setProperty("inset","0","important");
+    sheet.style.setProperty("z-index","230","important");
+    sheet.style.setProperty("display","block","important");
+  };
+  setInterval(keepStable,1000);
 })();
 </script>
 
