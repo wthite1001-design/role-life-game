@@ -1467,7 +1467,7 @@ body.npcStoryRunning .draggableFab{
 <link href="manifest.json" rel="manifest"/>
 
 <style>
-/* === 3.29.6 NPC relation sheet stable layer === */
+/* === 3.29.7 NPC relation sheet stable layer === */
 #extraNpcRelations:not(.active){
   display:none!important;
 }
@@ -3884,37 +3884,54 @@ async function claimOfficialGift(id){
     const rawId=String(c.id||"");
     const shortId=displayCharacterId(c).toUpperCase();
 
-    // 3.26.14：改由 Supabase SECURITY DEFINER RPC 原子領取。
-    // 不再讓一般玩家直接 PATCH gm_gifts，避免 RLS 導致「看得到、領不到」。
-    let result=await api("/rpc/claim_test_gm_gift",{
-      method:"POST",
-      body:JSON.stringify({
-        p_gift_id:String(id),
-        p_character_id:rawId,
-        p_character_short_id:shortId
-      })
-    });
+    // 3.29.7：先直接讀這份禮物，避免 RPC 對短代碼/角色 ID 判定不同步。
+    let rows=await api(`/gm_gifts?id=eq.${encodeURIComponent(id)}&select=id,target_char,gift_type,gift_value,gift_count,message,claimed,created_at`);
+    let g=Array.isArray(rows)?rows[0]:rows;
 
-    // PostgREST RPC 可能回 object / array / null。
-    let g=Array.isArray(result)?result[0]:result;
-    if(!g || !g.id){
-      return toast("這份禮物已經領取、不是寄給目前角色，或不存在。",5500);
+    if(!g||!g.id)return toast("這份禮物不存在。",4200);
+    if(g.claimed)return toast("這份禮物已經領取。",4200);
+
+    const target=String(g.target_char||"").trim();
+    const targetUpper=target.toUpperCase();
+    const targetMatches =
+      target===rawId ||
+      targetUpper===shortId ||
+      targetUpper===shortId.replace(/^CHR-/,"");
+
+    if(!targetMatches){
+      return toast("這份禮物不是寄給目前角色。",4500);
     }
 
     let count=Math.max(1,Number(g.gift_count||1));
+
+    // 先套用到目前角色。
     if(g.gift_type==="money"){
       c.money=safeMoney((c.money||0)+(Number(g.gift_value)||0)*count);
     }else if(g.gift_type==="item"){
       c.inventory??={};
       c.inventory[g.gift_value]=(c.inventory[g.gift_value]||0)+count;
+
+      // 紫晶碎片照正式服規則：10 個自動轉 1 張限定抽獎券。
       if(g.gift_value==="npc_crystal_chip"){
         const converted=typeof convertCrystalChipsAfterOfficialGift==="function"
           ?convertCrystalChipsAfterOfficialGift(c):0;
-        if(converted>0)setTimeout(()=>toast(`💎 紫晶碎片已自動轉換：🎟️ 限定物品抽獎券 ×${converted}`,4200),120);
+        if(converted>0){
+          setTimeout(()=>toast(`💎 紫晶碎片已自動轉換：🎟️ 限定物品抽獎券 ×${converted}`,4200),120);
+        }
       }
     }else if(g.gift_type==="badge"){
       await ensureBadgeOwnedAndDefined(g.gift_value);
     }
+
+    // 本機成功後才標記雲端已領取。
+    await api(`/gm_gifts?id=eq.${encodeURIComponent(id)}&claimed=eq.false`,{
+      method:"PATCH",
+      headers:{"Prefer":"return=representation"},
+      body:JSON.stringify({
+        claimed:true,
+        claimed_at:new Date().toISOString()
+      })
+    });
 
     logJournal(c,"領取了一份官方禮物","🎁");
     saveLocal();
@@ -3923,11 +3940,7 @@ async function claimOfficialGift(id){
     toast(`✅ 已領取：${giftReceivedText(g)}`,5000);
     await loadMailbox(c);
   }catch(e){
-    let msg=String(e?.message||e||"未知錯誤");
-    if(/claim_test_gm_gift|function|rpc/i.test(msg)){
-      msg+="｜請先執行 3.26.14 的 Supabase RPC SQL。";
-    }
-    toast("領取失敗："+msg,9000);
+    toast("領取失敗："+String(e?.message||e||"未知錯誤"),9000);
   }
 }
 
@@ -9722,7 +9735,7 @@ function npcGiveGift(){
   if(!c)return toast("請先進入角色。",3000);
   c.inventory??={};
 
-  // 3.29.6：店長只接受「親密／好感禮物」。
+  // 3.29.7：店長只接受「親密／好感禮物」。
   // 直接沿用真人關係送禮的 affectionGiftInfo() 判定，避免活動材料或一般補給混進來。
   const items=Object.entries(c.inventory)
     .filter(([id,n])=>Number(n||0)>0 && typeof affectionGiftInfo==="function" && !!affectionGiftInfo(id))
@@ -12098,7 +12111,7 @@ body.game-entry-active #npcTownFab{
       return;
     }
 
-    // 3.29.6：以「台灣本地日期」計算，整天固定同一個數字。
+    // 3.29.7：以「台灣本地日期」計算，整天固定同一個數字。
     // 8/12 ~ 9/11 採首尾日都包含，因此 8/12 固定顯示 31 天。
     const now=new Date();
     const today=new Date(now.getFullYear(),now.getMonth(),now.getDate()).getTime();
@@ -12153,7 +12166,7 @@ body.game-entry-active #npcTownFab{
 })();
 </script>
 <script>
-/* === 3.29.6 FORMAL badge visibility / backfill fix === */
+/* === 3.29.7 FORMAL badge visibility / backfill fix === */
 (function(){
   const LAUNCH_BADGE_BY_CLAIM={
     day1:"launch_newbie",
@@ -12224,7 +12237,7 @@ body.game-entry-active #npcTownFab{
 
 
 <script>
-/* === 3.29.6 FORMAL opening story trigger fix === */
+/* === 3.29.7 FORMAL opening story trigger fix === */
 (function(){
   const OPENING_ID="shop_event_first";
   const OPENING_FLAG="formalOpeningCompleted_3276";
@@ -12308,7 +12321,7 @@ body.game-entry-active #npcTownFab{
 
 
 <script>
-/* === 3.29.6 FORMAL referral activity bindings === */
+/* === 3.29.7 FORMAL referral activity bindings === */
 (function(){
   async function bindFormalInviter(){
     const code=(document.getElementById("formalInviterCodeInput")?.value||"").trim().toUpperCase();
@@ -12361,7 +12374,7 @@ body.game-entry-active #npcTownFab{
 
 
 <script>
-/* === 3.29.6 FORMAL NPC story entry safety ===
+/* === 3.29.7 FORMAL NPC story entry safety ===
    Important: npcTownFab now calls window.openNpcShop dynamically.
    This lets all later wrappers (opening story, milestone repair, event gate) actually execute.
 */
@@ -12380,7 +12393,7 @@ body.game-entry-active #npcTownFab{
 
 
 <script>
-/* === 3.29.6 FORMAL story expression semantic-priority fix === */
+/* === 3.29.7 FORMAL story expression semantic-priority fix === */
 (function(){
   function semanticFaceForFormalStory(line, previous="normal"){
     if(!line)return "normal";
@@ -12456,7 +12469,7 @@ body.game-entry-active #npcTownFab{
           portrait.src=window.NPC_SHOPKEEPER_FACE_DATA[face];
           portrait.dataset.npcFace=face;
         }
-      }catch(e){console.warn("3.29.6 story semantic face",e)}
+      }catch(e){console.warn("3.29.7 story semantic face",e)}
     };
   }
 
@@ -12475,7 +12488,7 @@ body.game-entry-active #npcTownFab{
 </div>
 </div>
 <script>
-/* === 3.29.6 restore original formal-server functions === */
+/* === 3.29.7 restore original formal-server functions === */
 function closeDeepRescueModal(e){
     if(e){ e.preventDefault(); e.stopPropagation(); }
     modal.classList.add("hidden");
@@ -12880,7 +12893,7 @@ function updateSaveRescueStatus(){
 </script>
 
 <script>
-/* === 3.29.6 shopkeeper portrait click: include normal expression === */
+/* === 3.29.7 shopkeeper portrait click: include normal expression === */
 (function(){
   const normalLines=[
     "今天也有好好營業喔。",
@@ -12923,7 +12936,7 @@ function updateSaveRescueStatus(){
 
 
 <script>
-/* === 3.29.6 authoritative shopkeeper image click reaction === */
+/* === 3.29.7 authoritative shopkeeper image click reaction === */
 (function(){
   document.addEventListener("click",e=>{
     const portrait=e.target.closest("#npcShopkeeperImg,#npcShopkeeperPortrait,.npcShopkeeperPortrait,[data-npc-shopkeeper-portrait]");
@@ -12952,7 +12965,7 @@ function updateSaveRescueStatus(){
 
 
 <script>
-/* === 3.29.6 limited shop ends; earned NPC relationship persists === */
+/* === 3.29.7 limited shop ends; earned NPC relationship persists === */
 (function(){
   const NPC_PERSIST_KEY="npcRelationshipUnlocked";
   const EVENT_END=Date.parse("2026-09-11T23:59:59+08:00");
@@ -13045,7 +13058,7 @@ function updateSaveRescueStatus(){
 
 
 <script>
-/* === 3.29.6 activity item display + chip conversion compatibility === */
+/* === 3.29.7 activity item display + chip conversion compatibility === */
 (function(){
   const activityItemNames={
     future_limited_item_ticket:"🎟️ 限定物品抽獎券",
@@ -13088,7 +13101,7 @@ function updateSaveRescueStatus(){
 
 
 <script>
-/* === 3.29.6 pending event card navigation safety === */
+/* === 3.29.7 pending event card navigation safety === */
 (function(){
   document.addEventListener("click",e=>{
     const card=e.target.closest("#pendingEventList .pendingEventCard");
@@ -13102,7 +13115,7 @@ function updateSaveRescueStatus(){
 
 
 <script>
-/* === 3.29.6 authoritative shopkeeper normal image === */
+/* === 3.29.7 authoritative shopkeeper normal image === */
 (function(){
   const NORMAL_SRC="cat_shopkeeper_normal.png";
 
@@ -13161,7 +13174,7 @@ function updateSaveRescueStatus(){
 
 
 <script>
-/* === 3.29.6 activity expiry cleanup + NPC relationship anti-flicker === */
+/* === 3.29.7 activity expiry cleanup + NPC relationship anti-flicker === */
 (function(){
   function active(){
     try{
@@ -13215,7 +13228,7 @@ function updateSaveRescueStatus(){
   }
 
   // Do not rewrite identical countdown text: prevents visible text flashing/reflow.
-  // 3.29.6：不再覆寫正式倒數函式；固定天數由 FORMAL controller 唯一管理。
+  // 3.29.7：不再覆寫正式倒數函式；固定天數由 FORMAL controller 唯一管理。
   // Coalesce bursts of repeated renders into one paint.
   let raf=0;
   const oldRender=window.renderNpcRelationships;
@@ -13261,7 +13274,7 @@ function updateSaveRescueStatus(){
 
 
 <script>
-/* === 3.29.6 NPC relation sheet: show only when explicitly opened === */
+/* === 3.29.7 NPC relation sheet: show only when explicitly opened === */
 (function(){
   const sheet=document.getElementById("extraNpcRelations");
   if(!sheet)return;
@@ -13286,7 +13299,7 @@ function updateSaveRescueStatus(){
 
 
 <script>
-/* === 3.29.6 GM activity item gifting === */
+/* === 3.29.7 GM activity item gifting === */
 (function(){
   const GM_ACTIVITY_ITEMS=new Set([
     "npc_crystal_chip",
