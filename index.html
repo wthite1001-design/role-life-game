@@ -9091,15 +9091,15 @@ function setNpcRelationship(c,npcId,type,note=""){
 function npcRelationClass(type){
   return type==="lover"?"lover":type==="bestfriend"?"bestfriend":type==="confidant"?"confidant":"";
 }
+let npcRelationshipLastHtml="";
 function renderNpcRelationships(){
   syncNpcDebugVisibility();
-  refreshNpcEventPeriodHint?.();
   let box=document.getElementById("npcRelationshipList"),c=cur();
   if(!box||!c)return;
   ensureNpcRelationships(c);
   let st=npcState();
   let defs=Object.values(NPC_RELATION_REGISTRY);
-  box.innerHTML=defs.map(def=>{
+  const nextHtml=defs.map(def=>{
     let rel=getNpcRelationship(c,def.id);
     let unlocked=def.id!=="shopkeeper_cat"||st.affection>=100;
     let status=rel?NPC_RELATION_LABELS[rel.type]:"尚未建立特殊關係";
@@ -9125,6 +9125,13 @@ function renderNpcRelationships(){
       </div>
     </div>`;
   }).join("");
+
+  // Avoid destroying/recreating the same NPC card on every poll/render.
+  // This was the visible "flash" in the NPC relationship sheet.
+  if(nextHtml!==npcRelationshipLastHtml || box.innerHTML!==nextHtml){
+    box.innerHTML=nextHtml;
+    npcRelationshipLastHtml=nextHtml;
+  }
 }
 
 function judgeShopkeeperRelation(){
@@ -12055,7 +12062,7 @@ body.game-entry-active #npcTownFab{
 })();
 </script>
 <script>
-/* === 3.29.0 FORMAL badge visibility / backfill fix === */
+/* === 3.29.1 FORMAL badge visibility / backfill fix === */
 (function(){
   const LAUNCH_BADGE_BY_CLAIM={
     day1:"launch_newbie",
@@ -12126,7 +12133,7 @@ body.game-entry-active #npcTownFab{
 
 
 <script>
-/* === 3.29.0 FORMAL opening story trigger fix === */
+/* === 3.29.1 FORMAL opening story trigger fix === */
 (function(){
   const OPENING_ID="shop_event_first";
   const OPENING_FLAG="formalOpeningCompleted_3276";
@@ -12210,7 +12217,7 @@ body.game-entry-active #npcTownFab{
 
 
 <script>
-/* === 3.29.0 FORMAL referral activity bindings === */
+/* === 3.29.1 FORMAL referral activity bindings === */
 (function(){
   async function bindFormalInviter(){
     const code=(document.getElementById("formalInviterCodeInput")?.value||"").trim().toUpperCase();
@@ -12263,7 +12270,7 @@ body.game-entry-active #npcTownFab{
 
 
 <script>
-/* === 3.29.0 FORMAL NPC story entry safety ===
+/* === 3.29.1 FORMAL NPC story entry safety ===
    Important: npcTownFab now calls window.openNpcShop dynamically.
    This lets all later wrappers (opening story, milestone repair, event gate) actually execute.
 */
@@ -12282,7 +12289,7 @@ body.game-entry-active #npcTownFab{
 
 
 <script>
-/* === 3.29.0 FORMAL story expression semantic-priority fix === */
+/* === 3.29.1 FORMAL story expression semantic-priority fix === */
 (function(){
   function semanticFaceForFormalStory(line, previous="normal"){
     if(!line)return "normal";
@@ -12358,7 +12365,7 @@ body.game-entry-active #npcTownFab{
           portrait.src=window.NPC_SHOPKEEPER_FACE_DATA[face];
           portrait.dataset.npcFace=face;
         }
-      }catch(e){console.warn("3.29.0 story semantic face",e)}
+      }catch(e){console.warn("3.29.1 story semantic face",e)}
     };
   }
 
@@ -12377,7 +12384,7 @@ body.game-entry-active #npcTownFab{
 </div>
 </div>
 <script>
-/* === 3.29.0 restore original formal-server functions === */
+/* === 3.29.1 restore original formal-server functions === */
 function closeDeepRescueModal(e){
     if(e){ e.preventDefault(); e.stopPropagation(); }
     modal.classList.add("hidden");
@@ -12782,7 +12789,7 @@ function updateSaveRescueStatus(){
 </script>
 
 <script>
-/* === 3.29.0 shopkeeper portrait click: include normal expression === */
+/* === 3.29.1 shopkeeper portrait click: include normal expression === */
 (function(){
   const normalLines=[
     "今天也有好好營業喔。",
@@ -12825,7 +12832,7 @@ function updateSaveRescueStatus(){
 
 
 <script>
-/* === 3.29.0 authoritative shopkeeper image click reaction === */
+/* === 3.29.1 authoritative shopkeeper image click reaction === */
 (function(){
   document.addEventListener("click",e=>{
     const portrait=e.target.closest("#npcShopkeeperImg,#npcShopkeeperPortrait,.npcShopkeeperPortrait,[data-npc-shopkeeper-portrait]");
@@ -12854,7 +12861,7 @@ function updateSaveRescueStatus(){
 
 
 <script>
-/* === 3.29.0 limited shop ends; earned NPC relationship persists === */
+/* === 3.29.1 limited shop ends; earned NPC relationship persists === */
 (function(){
   const NPC_PERSIST_KEY="npcRelationshipUnlocked";
   const EVENT_END=Date.parse("2026-09-11T23:59:59+08:00");
@@ -12947,7 +12954,7 @@ function updateSaveRescueStatus(){
 
 
 <script>
-/* === 3.29.0 activity item display + chip conversion compatibility === */
+/* === 3.29.1 activity item display + chip conversion compatibility === */
 (function(){
   const activityItemNames={
     future_limited_item_ticket:"🎟️ 限定物品抽獎券",
@@ -12990,7 +12997,7 @@ function updateSaveRescueStatus(){
 
 
 <script>
-/* === 3.29.0 pending event card navigation safety === */
+/* === 3.29.1 pending event card navigation safety === */
 (function(){
   document.addEventListener("click",e=>{
     const card=e.target.closest("#pendingEventList .pendingEventCard");
@@ -13004,7 +13011,7 @@ function updateSaveRescueStatus(){
 
 
 <script>
-/* === 3.29.0 authoritative shopkeeper normal image === */
+/* === 3.29.1 authoritative shopkeeper normal image === */
 (function(){
   const NORMAL_SRC="cat_shopkeeper_normal.png";
 
@@ -13058,6 +13065,107 @@ function updateSaveRescueStatus(){
   }else{
     applyNormalSource();
   }
+})();
+</script>
+
+
+<script>
+/* === 3.29.1 activity expiry cleanup + NPC relationship anti-flicker === */
+(function(){
+  function active(){
+    try{
+      if(typeof formalEventActive==="function")return !!formalEventActive();
+      if(typeof window.npcEventIsActive==="function")return !!window.npcEventIsActive();
+    }catch(e){}
+    return true;
+  }
+
+  function hide(el){
+    if(!el)return;
+    el.classList.add("hidden");
+    el.hidden=true;
+    el.style.setProperty("display","none","important");
+    el.style.pointerEvents="none";
+    el.setAttribute("aria-hidden","true");
+  }
+
+  function show(el){
+    if(!el)return;
+    el.hidden=false;
+    el.style.removeProperty("display");
+    el.style.pointerEvents="";
+    el.setAttribute("aria-hidden","false");
+  }
+
+  function syncExpiry(){
+    const isActive=active();
+
+    // Limited activity entry points disappear completely after expiry.
+    ["launchActivityFab","npcTownFab"].forEach(id=>{
+      const el=document.getElementById(id);
+      if(isActive)show(el); else hide(el);
+    });
+
+    if(!isActive){
+      // Close limited activity screens if the deadline passes while a player has one open.
+      ["launchActivityModal","npcShopModal"].forEach(id=>{
+        const el=document.getElementById(id);
+        if(el)el.classList.add("hidden");
+      });
+
+      // The countdown/status is an activity-only element; remove it after expiry.
+      hide(document.getElementById("npcEventPeriodHint"));
+
+      // Permanent NPC relationship collection stays available.
+      // Do NOT delete shopkeeper_cat relationship, badge, ending, or relationship card.
+    }else{
+      show(document.getElementById("npcEventPeriodHint"));
+    }
+  }
+
+  // Do not rewrite identical countdown text: prevents visible text flashing/reflow.
+  const oldHint=window.refreshNpcEventPeriodHint;
+  window.refreshNpcEventPeriodHint=function(){
+    const el=document.getElementById("npcEventPeriodHint");
+    if(!el)return;
+    if(!active()){ hide(el); return; }
+
+    const remain=Math.max(0,(typeof FORMAL_EVENT_END!=="undefined"?FORMAL_EVENT_END:Date.now())-Date.now());
+    const d=Math.floor(remain/86400000),h=Math.floor((remain%86400000)/3600000);
+    const next=`🎊 限定活動進行中・剩餘 ${d} 天 ${h} 小時`;
+    if(el.textContent!==next)el.textContent=next;
+    show(el);
+  };
+
+  // Coalesce bursts of repeated renders into one paint.
+  let raf=0;
+  const oldRender=window.renderNpcRelationships;
+  if(typeof oldRender==="function"){
+    window.renderNpcRelationships=function(){
+      cancelAnimationFrame(raf);
+      const args=arguments,ctx=this;
+      raf=requestAnimationFrame(()=>oldRender.apply(ctx,args));
+    };
+  }
+
+  document.addEventListener("DOMContentLoaded",()=>{
+    syncExpiry();
+    window.refreshNpcEventPeriodHint?.();
+  },{once:true});
+
+  // Deadline can happen while the page stays open.
+  setInterval(()=>{
+    if(document.hidden)return;
+    syncExpiry();
+    if(active())window.refreshNpcEventPeriodHint?.();
+  },30000);
+
+  document.addEventListener("visibilitychange",()=>{
+    if(!document.hidden){
+      syncExpiry();
+      if(active())window.refreshNpcEventPeriodHint?.();
+    }
+  });
 })();
 </script>
 
