@@ -11918,7 +11918,7 @@ body.game-entry-active #npcTownFab{
 })();
 </script>
 <script>
-/* === 3.28.2 FORMAL badge visibility / backfill fix === */
+/* === 3.28.3 FORMAL badge visibility / backfill fix === */
 (function(){
   const LAUNCH_BADGE_BY_CLAIM={
     day1:"launch_newbie",
@@ -11989,7 +11989,7 @@ body.game-entry-active #npcTownFab{
 
 
 <script>
-/* === 3.28.2 FORMAL opening story trigger fix === */
+/* === 3.28.3 FORMAL opening story trigger fix === */
 (function(){
   const OPENING_ID="shop_event_first";
   const OPENING_FLAG="formalOpeningCompleted_3276";
@@ -12073,7 +12073,7 @@ body.game-entry-active #npcTownFab{
 
 
 <script>
-/* === 3.28.2 FORMAL referral activity bindings === */
+/* === 3.28.3 FORMAL referral activity bindings === */
 (function(){
   async function bindFormalInviter(){
     const code=(document.getElementById("formalInviterCodeInput")?.value||"").trim().toUpperCase();
@@ -12126,7 +12126,7 @@ body.game-entry-active #npcTownFab{
 
 
 <script>
-/* === 3.28.2 FORMAL NPC story entry safety ===
+/* === 3.28.3 FORMAL NPC story entry safety ===
    Important: npcTownFab now calls window.openNpcShop dynamically.
    This lets all later wrappers (opening story, milestone repair, event gate) actually execute.
 */
@@ -12145,7 +12145,7 @@ body.game-entry-active #npcTownFab{
 
 
 <script>
-/* === 3.28.2 FORMAL story expression semantic-priority fix === */
+/* === 3.28.3 FORMAL story expression semantic-priority fix === */
 (function(){
   function semanticFaceForFormalStory(line, previous="normal"){
     if(!line)return "normal";
@@ -12221,7 +12221,7 @@ body.game-entry-active #npcTownFab{
           portrait.src=window.NPC_SHOPKEEPER_FACE_DATA[face];
           portrait.dataset.npcFace=face;
         }
-      }catch(e){console.warn("3.28.2 story semantic face",e)}
+      }catch(e){console.warn("3.28.3 story semantic face",e)}
     };
   }
 
@@ -12240,7 +12240,7 @@ body.game-entry-active #npcTownFab{
 </div>
 </div>
 <script>
-/* === 3.28.2 restore original formal-server functions === */
+/* === 3.28.3 restore original formal-server functions === */
 function closeDeepRescueModal(e){
     if(e){ e.preventDefault(); e.stopPropagation(); }
     modal.classList.add("hidden");
@@ -12641,6 +12641,78 @@ function updateSaveRescueStatus(){
   try{updateSaveRescueStatus()}catch(e){}
 })();
 </script>
+
+<script>
+/* === 3.28.3 shopkeeper portrait click: include normal expression === */
+(function(){
+  const normalLines=[
+    "今天也有好好營業喔。",
+    "嗯？只是想看看我嗎？",
+    "需要什麼就慢慢看吧。",
+    "店貓今天也很有精神。",
+    "歡迎光臨。"
+  ];
+
+  // Add normal into the click-only reaction pool exposed by previous shopkeeper patches.
+  if(Array.isArray(window.NPC_SHOPKEEPER_CLICK_REACTIONS)){
+    const hasNormal=window.NPC_SHOPKEEPER_CLICK_REACTIONS.some(x=>
+      (typeof x==="string"&&x==="normal") || (x&&x.face==="normal")
+    );
+    if(!hasNormal){
+      window.NPC_SHOPKEEPER_CLICK_REACTIONS.unshift({
+        face:"normal",
+        lines:normalLines
+      });
+    }
+  }
+
+  // Shared helper for click handlers: normal is a first-class selectable expression.
+  window.getFormalShopkeeperClickReaction=function(){
+    const faces=["normal","happy","shy","surprised","soft","annoyed"];
+    const face=faces[Math.floor(Math.random()*faces.length)];
+    const linePools={
+      normal:normalLines,
+      happy:["今天心情不錯。","看起來你也很有精神嘛。","歡迎～今天想看看什麼？"],
+      shy:["……別一直盯著我看啦。","你、你靠得有點近。","幹嘛突然看我……"],
+      surprised:["欸？怎麼突然點我？","咦？找我嗎？","啊，嚇我一跳。"],
+      soft:["慢慢來就好。","今天也辛苦了。","有空就多待一下吧。"],
+      annoyed:["……你是在戳我嗎？","再點下去我要收互動費了喔。","你很閒是不是。"]
+    };
+    const pool=linePools[face]||normalLines;
+    return {face,text:pool[Math.floor(Math.random()*pool.length)]};
+  };
+})();
+</script>
+
+
+<script>
+/* === 3.28.3 authoritative shopkeeper image click reaction === */
+(function(){
+  document.addEventListener("click",e=>{
+    const portrait=e.target.closest("#npcShopkeeperImg,#npcShopkeeperPortrait,.npcShopkeeperPortrait,[data-npc-shopkeeper-portrait]");
+    if(!portrait)return;
+
+    // Story player owns its own expression timing.
+    if(e.target.closest("#npcStoryPlayer"))return;
+
+    try{
+      const r=window.getFormalShopkeeperClickReaction?.();
+      if(!r)return;
+
+      if(typeof window.setNpcExpression==="function")window.setNpcExpression(r.face);
+      else if(window.NPC_SHOPKEEPER_FACE_DATA?.[r.face] && portrait.tagName==="IMG"){
+        portrait.src=window.NPC_SHOPKEEPER_FACE_DATA[r.face];
+      }
+
+      const line=document.getElementById("npcShopkeeperLine")
+        ||document.getElementById("npcShopLine")
+        ||document.querySelector("[data-npc-shopkeeper-line]");
+      if(line)line.textContent=r.text;
+    }catch(err){console.warn("shopkeeper click reaction",err)}
+  },true);
+})();
+</script>
+
 </body>
 </html>
 <style>
