@@ -8689,7 +8689,7 @@ setTimeout(initDraggableFloatingButtons,0);
 <button class="x" id="closeNpcShop" type="button">×</button>
 </div>
 <div class="npcHero">
-<img alt="店長・貓貓" src="assets/npc/shopkeeper_cat/normal.png"/><span class="npcExpressionBadge face-normal"></span>
+<img alt="店長・貓貓" src="cat_shopkeeper_normal.png"/><span class="npcExpressionBadge face-normal"></span>
 <div class="npcHeroShade">
 <div>
 <b>店長・貓貓</b>
@@ -9040,7 +9040,7 @@ const NPC_RELATION_REGISTRY={
   shopkeeper_cat:{
     id:"shopkeeper_cat",
     name:"神秘店長",
-    image:"assets/npc/shopkeeper_cat/normal.png",
+    image:"cat_shopkeeper_normal.png",
     source:"貓貓商店",
     allowed:["lover","bestfriend","confidant","bickering","catfriend","regular"]
   }
@@ -9918,7 +9918,7 @@ document.getElementById("npcDetailBody")?.addEventListener("click",e=>{
 <div class="npcStoryStage">
 <button class="npcStoryClose" id="closeNpcStoryPlayer" type="button">×</button>
 <div class="npcStoryPortraitWrap">
-<img alt="" id="npcStoryPortrait" src="assets/npc/shopkeeper_cat/normal.png"/><span class="npcExpressionBadge face-normal"></span>
+<img alt="" id="npcStoryPortrait" src="cat_shopkeeper_normal.png"/><span class="npcExpressionBadge face-normal"></span>
 </div>
 <div class="npcStoryDialogue" id="npcStoryDialogue">
 <div class="npcStorySpeaker" id="npcStorySpeaker">？？？</div>
@@ -10666,7 +10666,7 @@ document.getElementById("closeNpcStoryPlayer")?.addEventListener("click",e=>{e.s
 
   // 2) 店長表情：目前沒額外圖片也能運作；之後把同名圖片放進資料夾就會自動切換。
   const NPC_FACE_IMAGES={
-    normal:"assets/npc/shopkeeper_cat/normal.png",
+    normal:"cat_shopkeeper_normal.png",
     happy:"assets/npc/shopkeeper_cat/happy.png",
     shy:"assets/npc/shopkeeper_cat/shy.png",
     annoyed:"assets/npc/shopkeeper_cat/annoyed.png",
@@ -10752,7 +10752,7 @@ document.getElementById("closeNpcStoryPlayer")?.addEventListener("click",e=>{e.s
     annoyed:"assets/npc/shopkeeper_cat/annoyed.png",
     shy:"assets/npc/shopkeeper_cat/shy.png",
     happy:"assets/npc/shopkeeper_cat/happy.png",
-    normal:"assets/npc/shopkeeper_cat/normal.png",
+    normal:"cat_shopkeeper_normal.png",
     soft:"assets/npc/shopkeeper_cat/soft.png",
     surprised:"assets/npc/shopkeeper_cat/surprised.png"
   };
@@ -11000,7 +11000,7 @@ document.getElementById("closeNpcStoryPlayer")?.addEventListener("click",e=>{e.s
 /* === 3.25 RPG 台詞情緒自動表情切換 === */
 (function(){
   const FACE_PATHS={
-    normal:"assets/npc/shopkeeper_cat/normal.png",
+    normal:"cat_shopkeeper_normal.png",
     happy:"assets/npc/shopkeeper_cat/happy.png",
     shy:"assets/npc/shopkeeper_cat/shy.png",
     annoyed:"assets/npc/shopkeeper_cat/annoyed.png",
@@ -11500,7 +11500,7 @@ body.game-entry-active #npcTownFab{
 <script>
 /* === 3.26.10 店長平時立繪 + 強化情緒 + 限定鈴鐺贈禮 === */
 (function(){
-  const NORMAL_FACE='assets/npc/shopkeeper_cat/normal.png';
+  const NORMAL_FACE='cat_shopkeeper_normal.png';
   const EMOTION_FACE={
     happy:"assets/npc/shopkeeper_cat/happy.png",
     shy:"assets/npc/shopkeeper_cat/shy.png",
@@ -11603,7 +11603,7 @@ body.game-entry-active #npcTownFab{
 /* === 3.26.18 店長六表情最終強制切換：在 window capture 階段攔截舊監聽器 === */
 (function(){
   const faces=[
-    {face:"normal",src:"assets/npc/shopkeeper_cat/normal.png",line:"「歡迎光臨～今天想買點什麼？」"},
+    {face:"normal",src:"cat_shopkeeper_normal.png",line:"「歡迎光臨～今天想買點什麼？」"},
     {face:"happy",src:"assets/npc/shopkeeper_cat/happy.png",line:"「嘿嘿，看到你來，今天心情好像更好了。」"},
     {face:"shy",src:"assets/npc/shopkeeper_cat/shy.png",line:"「你、你一直盯著我看做什麼啦……」"},
     {face:"annoyed",src:"assets/npc/shopkeeper_cat/annoyed.png",line:"「再戳我，我就要收你『騷擾店長費』了喔。」"},
@@ -11749,7 +11749,7 @@ body.game-entry-active #npcTownFab{
 /* === 3.26.20 final hotfix: stable 6-face pointer cycle + story emotions + real-player gifting === */
 (function(){
   const FACE={
-    normal:'assets/npc/shopkeeper_cat/normal.png',
+    normal:'cat_shopkeeper_normal.png',
     happy:'assets/npc/shopkeeper_cat/happy.png',
     shy:'assets/npc/shopkeeper_cat/shy.png',
     annoyed:'assets/npc/shopkeeper_cat/annoyed.png',
@@ -12055,7 +12055,7 @@ body.game-entry-active #npcTownFab{
 })();
 </script>
 <script>
-/* === 3.28.9 FORMAL badge visibility / backfill fix === */
+/* === 3.29.0 FORMAL badge visibility / backfill fix === */
 (function(){
   const LAUNCH_BADGE_BY_CLAIM={
     day1:"launch_newbie",
@@ -12126,7 +12126,7 @@ body.game-entry-active #npcTownFab{
 
 
 <script>
-/* === 3.28.9 FORMAL opening story trigger fix === */
+/* === 3.29.0 FORMAL opening story trigger fix === */
 (function(){
   const OPENING_ID="shop_event_first";
   const OPENING_FLAG="formalOpeningCompleted_3276";
@@ -12210,7 +12210,7 @@ body.game-entry-active #npcTownFab{
 
 
 <script>
-/* === 3.28.9 FORMAL referral activity bindings === */
+/* === 3.29.0 FORMAL referral activity bindings === */
 (function(){
   async function bindFormalInviter(){
     const code=(document.getElementById("formalInviterCodeInput")?.value||"").trim().toUpperCase();
@@ -12263,7 +12263,7 @@ body.game-entry-active #npcTownFab{
 
 
 <script>
-/* === 3.28.9 FORMAL NPC story entry safety ===
+/* === 3.29.0 FORMAL NPC story entry safety ===
    Important: npcTownFab now calls window.openNpcShop dynamically.
    This lets all later wrappers (opening story, milestone repair, event gate) actually execute.
 */
@@ -12282,7 +12282,7 @@ body.game-entry-active #npcTownFab{
 
 
 <script>
-/* === 3.28.9 FORMAL story expression semantic-priority fix === */
+/* === 3.29.0 FORMAL story expression semantic-priority fix === */
 (function(){
   function semanticFaceForFormalStory(line, previous="normal"){
     if(!line)return "normal";
@@ -12358,7 +12358,7 @@ body.game-entry-active #npcTownFab{
           portrait.src=window.NPC_SHOPKEEPER_FACE_DATA[face];
           portrait.dataset.npcFace=face;
         }
-      }catch(e){console.warn("3.28.9 story semantic face",e)}
+      }catch(e){console.warn("3.29.0 story semantic face",e)}
     };
   }
 
@@ -12377,7 +12377,7 @@ body.game-entry-active #npcTownFab{
 </div>
 </div>
 <script>
-/* === 3.28.9 restore original formal-server functions === */
+/* === 3.29.0 restore original formal-server functions === */
 function closeDeepRescueModal(e){
     if(e){ e.preventDefault(); e.stopPropagation(); }
     modal.classList.add("hidden");
@@ -12782,7 +12782,7 @@ function updateSaveRescueStatus(){
 </script>
 
 <script>
-/* === 3.28.9 shopkeeper portrait click: include normal expression === */
+/* === 3.29.0 shopkeeper portrait click: include normal expression === */
 (function(){
   const normalLines=[
     "今天也有好好營業喔。",
@@ -12825,7 +12825,7 @@ function updateSaveRescueStatus(){
 
 
 <script>
-/* === 3.28.9 authoritative shopkeeper image click reaction === */
+/* === 3.29.0 authoritative shopkeeper image click reaction === */
 (function(){
   document.addEventListener("click",e=>{
     const portrait=e.target.closest("#npcShopkeeperImg,#npcShopkeeperPortrait,.npcShopkeeperPortrait,[data-npc-shopkeeper-portrait]");
@@ -12854,7 +12854,7 @@ function updateSaveRescueStatus(){
 
 
 <script>
-/* === 3.28.9 limited shop ends; earned NPC relationship persists === */
+/* === 3.29.0 limited shop ends; earned NPC relationship persists === */
 (function(){
   const NPC_PERSIST_KEY="npcRelationshipUnlocked";
   const EVENT_END=Date.parse("2026-09-11T23:59:59+08:00");
@@ -12947,7 +12947,7 @@ function updateSaveRescueStatus(){
 
 
 <script>
-/* === 3.28.9 activity item display + chip conversion compatibility === */
+/* === 3.29.0 activity item display + chip conversion compatibility === */
 (function(){
   const activityItemNames={
     future_limited_item_ticket:"🎟️ 限定物品抽獎券",
@@ -12990,7 +12990,7 @@ function updateSaveRescueStatus(){
 
 
 <script>
-/* === 3.28.9 pending event card navigation safety === */
+/* === 3.29.0 pending event card navigation safety === */
 (function(){
   document.addEventListener("click",e=>{
     const card=e.target.closest("#pendingEventList .pendingEventCard");
@@ -12999,6 +12999,65 @@ function updateSaveRescueStatus(){
     const btn=card.querySelector("[data-pending-open]");
     if(btn)btn.click();
   },true);
+})();
+</script>
+
+
+<script>
+/* === 3.29.0 authoritative shopkeeper normal image === */
+(function(){
+  const NORMAL_SRC="cat_shopkeeper_normal.png";
+
+  // Existing face registry used by story / click interactions.
+  if(window.NPC_SHOPKEEPER_FACE_DATA){
+    window.NPC_SHOPKEEPER_FACE_DATA.normal=NORMAL_SRC;
+  }
+
+  // Force current visible neutral portraits to the actual uploaded root file.
+  function applyNormalSource(){
+    document.querySelectorAll(
+      '.npcHero img[data-npc-face="normal"],' +
+      '#npcStoryPortrait[data-npc-face="normal"],' +
+      '.npcHero img:not([data-npc-face]),' +
+      '#npcStoryPortrait:not([data-npc-face])'
+    ).forEach(img=>{
+      if(img && (!img.dataset.npcFace || img.dataset.npcFace==="normal")){
+        img.src=NORMAL_SRC;
+        img.dataset.npcFace="normal";
+      }
+    });
+  }
+
+  const oldSet=window.setNpcExpression;
+  if(typeof oldSet==="function"){
+    window.setNpcExpression=function(face="normal"){
+      const r=oldSet.apply(this,arguments);
+      if(face==="normal"){
+        const hero=document.querySelector(".npcHero img");
+        const story=document.getElementById("npcStoryPortrait");
+        [hero,story].forEach(img=>{
+          if(img){
+            img.src=NORMAL_SRC;
+            img.dataset.npcFace="normal";
+          }
+        });
+      }
+      return r;
+    };
+  }
+
+  // NPC relationship registry / portrait source.
+  try{
+    if(window.NPC_RELATION_REGISTRY?.shopkeeper_cat){
+      window.NPC_RELATION_REGISTRY.shopkeeper_cat.image=NORMAL_SRC;
+    }
+  }catch(e){}
+
+  if(document.readyState==="loading"){
+    document.addEventListener("DOMContentLoaded",applyNormalSource);
+  }else{
+    applyNormalSource();
+  }
 })();
 </script>
 
@@ -13088,7 +13147,7 @@ function updateSaveRescueStatus(){
 /* === 3.26.22 final: speaker visibility + synchronized shop faces + richer story emotion === */
 (function(){
   const FACE={
-    normal:'assets/npc/shopkeeper_cat/normal.png',
+    normal:'cat_shopkeeper_normal.png',
     happy:'assets/npc/shopkeeper_cat/happy.png',
     shy:'assets/npc/shopkeeper_cat/shy.png',
     annoyed:'assets/npc/shopkeeper_cat/annoyed.png',
