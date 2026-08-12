@@ -1600,9 +1600,9 @@ body.npcStoryRunning .draggableFab{
 <button class="primary" id="exportSaveBtn" type="button">💾 匯出存檔</button>
 <button id="importSaveBtn" type="button">📂 匯入存檔</button>
 <button id="rescueSaveBtn" type="button">🛟 搜尋可救援存檔</button>
-<button id="deepRescueBtn" type="button">🔎 深度救援</button>
+<button id="deepRescueBtn" type="button" onclick="showDeepRescue()">🔎 深度救援</button>
 <button id="makeBackupNowBtn" type="button">🧷 立即建立備份</button>
-<input accept=".json,application/json" class="hidden" id="importSaveFile" type="file"/>
+<input accept=".json,application/json,text/json" id="importSaveFile" type="file" aria-label="選擇 JSON 存檔" style="position:fixed!important;left:-10000px!important;top:0!important;width:1px!important;height:1px!important;opacity:0!important;display:block!important;pointer-events:auto!important"/>
 </div>
 <div id="saveRescueStatus" class="small" style="margin-top:8px">系統會自動保留最近兩份本機備份；「🔎 深度救援」還會掃描這個網站底下可讀到的舊角色資料。</div>
 </div>
@@ -4193,8 +4193,27 @@ document.getElementById("gmSendGift")?.addEventListener("click",gmSendOfficialGi
 document.getElementById("gmRefreshLog")?.addEventListener("click",loadGMLog);
 document.getElementById("gmGiftInbox")?.addEventListener("click",e=>{let b=e.target.closest("[data-claim-gm]");if(b)claimOfficialGift(b.dataset.claimGm)});
 document.getElementById("exportSaveBtn")?.addEventListener("click",exportGameSave);
-document.getElementById("importSaveBtn")?.addEventListener("click",()=>document.getElementById("importSaveFile")?.click());
-document.getElementById("importSaveFile")?.addEventListener("change",e=>importGameSaveFile(e.target.files?.[0]));
+// 手機瀏覽器相容：file input 不可使用 display:none，否則部分 Android WebView/瀏覽器不會叫出檔案選擇器。
+const importSaveBtn=document.getElementById("importSaveBtn");
+const importSaveFile=document.getElementById("importSaveFile");
+if(importSaveBtn&&importSaveFile){
+  importSaveBtn.addEventListener("click",function(ev){
+    ev.preventDefault();
+    // 允許連續選同一個 JSON 檔案時仍觸發 change。
+    importSaveFile.value="";
+    try{
+      if(typeof importSaveFile.showPicker==="function") importSaveFile.showPicker();
+      else importSaveFile.click();
+    }catch(err){
+      // showPicker 在部分瀏覽器可能不支援，退回原生 click。
+      try{ importSaveFile.click(); }catch(_e){ alert("無法開啟檔案選擇器，請改用 Chrome／Safari 後再試一次。"); }
+    }
+  });
+  importSaveFile.addEventListener("change",function(e){
+    const file=e.target.files&&e.target.files[0];
+    if(file) importGameSaveFile(file);
+  });
+}
 
 document.getElementById("createChar").onclick=()=>{
   try{
@@ -12627,6 +12646,8 @@ function deepRestore(index){
   }
 }
 
+let saveRecoveryNotice="";
+
 function deepScanLocalStorage(){
   let results=[];
   const knownMainKeys=new Set([
@@ -12905,6 +12926,7 @@ function showDeepRescue(){
     }).join("");
   }
 
+  modal.style.zIndex="9999";
   modal.classList.remove("hidden");
 }
 
@@ -12954,6 +12976,14 @@ function updateSaveRescueStatus(){
   }
   try{updateSaveRescueStatus()}catch(e){}
 })();
+
+// deepRescueDelegatedFallback: survives dynamic re-rendering of the settings card.
+document.addEventListener("click",function deepRescueDelegatedFallback(e){
+  const b=e.target&&e.target.closest?e.target.closest("#deepRescueBtn"):null;
+  if(!b)return;
+  try{ showDeepRescue(); }catch(err){ alert("深度救援啟動失敗："+(err?.message||err)); }
+});
+
 </script>
 
 <script>
