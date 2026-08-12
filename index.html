@@ -13411,6 +13411,122 @@ function updateSaveRescueStatus(){
   },8000);
 })();
 </script>
+<script>
+/* === 3.29.7 FORMAL shopkeeper event-story autoplay repair === */
+(function(){
+  const EVENT_DEFS=[
+    {id:'shop_event_candy',title:'🎊 櫃檯糖果事件',ok:(st,c)=>Number(st.candyCount||0)>=1},
+    {id:'shop_event_cat',title:'🎊 店貓的小秘密',ok:(st,c)=>Number(st.cat||0)>=70},
+    {id:'shop_event_blackbox',title:'🎊 黑盒',ok:(st,c)=>Number(c?.inventory?.npc_under_counter||0)>0||!!st.flags?.blackBoxOwned},
+    {id:'shop_event_night',title:'🎊 閉店之後',ok:(st,c)=>!!st.flags?.nightEvent}
+  ];
+
+  // Give the five activity memories full scenes rather than one-line unlock cards.
+  if(window.NPC_RPG_STORIES){
+    NPC_RPG_STORIES.shop_event_candy=[
+      {speaker:'旁白',text:'櫃檯旁那只透明糖罐今天被放得格外靠近你。'},
+      {speaker:'你',text:'「這個……是可以拿的吧？」'},
+      {speaker:'貓貓',text:'「你問出口的時候，手不是已經伸進去了嗎？」'},
+      {speaker:'旁白',text:'你的指尖停在糖紙上。她明明低著頭整理帳本，嘴角卻像是早就知道。'},
+      {speaker:'你',text:'「那我放回去？」'},
+      {speaker:'貓貓',text:'「拿都拿了。」'},
+      {speaker:'旁白',text:'她從另一邊又推來一顆，若無其事地補了一句。'},
+      {speaker:'貓貓',text:'「下次記得先跟店長打招呼。偷拿只能算第一次免費。」'},
+      {speaker:'你',text:'「所以真的有第二次？」'},
+      {speaker:'貓貓',text:'「……你不要得寸進尺。」'}
+    ];
+    NPC_RPG_STORIES.shop_event_cat=[
+      {speaker:'旁白',text:'今天的店貓沒有窩在熟悉的櫃檯角落，而是一路走到後門前。'},
+      {speaker:'旁白',text:'牠回頭看你，尾巴輕輕一勾，像是在催促。'},
+      {speaker:'你',text:'「牠是在叫我跟上去？」'},
+      {speaker:'貓貓',text:'「奇怪……牠平常不帶客人去那邊。」'},
+      {speaker:'旁白',text:'後門旁藏著一只小木盒，裡面塞滿褪色的緞帶、舊鈴鐺和幾張小照片。'},
+      {speaker:'貓貓',text:'「啊……原來牠把這些藏在這裡。」'},
+      {speaker:'你',text:'「都是牠以前的東西？」'},
+      {speaker:'貓貓',text:'「嗯。牠剛來店裡的時候，比現在怕生很多。」'},
+      {speaker:'旁白',text:'店貓蹭了蹭你的腳踝。貓貓看著牠，又看了你一眼。'},
+      {speaker:'貓貓',text:'「看來牠是真的把你當自己人了。」'}
+    ];
+    NPC_RPG_STORIES.shop_event_blackbox=[
+      {speaker:'旁白',text:'那只沒有商品編號的黑盒落進你手裡，比想像中更沉。'},
+      {speaker:'你',text:'「妳真的要賣我這個？」'},
+      {speaker:'貓貓',text:'「是你自己堅持要買的。」'},
+      {speaker:'旁白',text:'她的語氣和平常一樣，手卻在碰到盒蓋時停了一瞬。'},
+      {speaker:'你',text:'「所以裡面到底是什麼？」'},
+      {speaker:'貓貓',text:'「現在不要開。」'},
+      {speaker:'你',text:'「危險品？」'},
+      {speaker:'貓貓',text:'「不是。」'},
+      {speaker:'旁白',text:'她沉默了一會，目光難得避開你。'},
+      {speaker:'貓貓',text:'「只是……有些東西，被別人知道以前，要先確定那個人會不會留下來。」'},
+      {speaker:'旁白',text:'她把黑盒往你懷裡推回去。'},
+      {speaker:'貓貓',text:'「先替我保管。等真的到了那一天，我會自己告訴你。」'}
+    ];
+    NPC_RPG_STORIES.shop_event_night=[
+      {speaker:'旁白',text:'營業牌翻成「休息中」後，最後一位客人也離開了。'},
+      {speaker:'旁白',text:'水晶燈只剩最靠櫃檯的一盞還亮著。'},
+      {speaker:'貓貓',text:'「你怎麼還沒走？」'},
+      {speaker:'你',text:'「不是妳說今天可以晚一點？」'},
+      {speaker:'貓貓',text:'「我只是隨口說說。」'},
+      {speaker:'旁白',text:'嘴上這麼說，她還是把另一杯熱飲放到你面前。'},
+      {speaker:'貓貓',text:'「白天一直有人，我其實很少有時間什麼都不做。」'},
+      {speaker:'你',text:'「那現在呢？」'},
+      {speaker:'貓貓',text:'「現在……還可以。」'},
+      {speaker:'旁白',text:'店貓在你們中間蜷成一團。沒有客人的店裡安靜得只剩呼吸聲。'},
+      {speaker:'貓貓',text:'「明天也會來嗎？」'},
+      {speaker:'你',text:'「妳希望我來？」'},
+      {speaker:'旁白',text:'她別開視線，指尖慢慢摩挲杯緣。'},
+      {speaker:'貓貓',text:'「……你自己決定。」'}
+    ];
+  }
+
+  function playerBusy(){
+    const p=document.getElementById('npcStoryPlayer');
+    return !!(p && !p.classList.contains('hidden')) || !!window.npcStoryPlayerState;
+  }
+  function shopOpen(){
+    const m=document.getElementById('npcShopModal');
+    return !!(m && !m.classList.contains('hidden'));
+  }
+  function nextEligible(){
+    let c=typeof cur==='function'?cur():null;if(!c)return null;
+    let st=typeof npcState==='function'?npcState():null;if(!st)return null;
+    st.storyCollection??={};
+    return EVENT_DEFS.find(x=>!st.storyCollection[x.id] && x.ok(st,c))||null;
+  }
+  function playNext(){
+    if(!shopOpen()||playerBusy())return false;
+    const ev=nextEligible();if(!ev)return false;
+    const lines=window.NPC_RPG_STORIES?.[ev.id];
+    if(!Array.isArray(lines)||!lines.length)return false;
+    window.startNpcRpgStory?.({title:ev.title,storyId:ev.id,lines});
+    return true;
+  }
+
+  // Existing saves may already satisfy a condition. Opening the shop repairs the missing playback.
+  const priorOpen=window.openNpcShop;
+  if(typeof priorOpen==='function'){
+    window.openNpcShop=function(){
+      const r=priorOpen.apply(this,arguments);
+      setTimeout(playNext,620);
+      return r;
+    };
+  }
+
+  // New conditions can be reached while the shop is already open (candy, cat, black box, night event).
+  setInterval(()=>{try{playNext()}catch(e){console.warn('shop event story autoplay',e)}},900);
+
+  // When one event scene ends, allow the next eligible memory to play after the UI settles.
+  const priorFinish=window.finishNpcRpgStory;
+  if(typeof priorFinish==='function'){
+    window.finishNpcRpgStory=function(){
+      const r=priorFinish.apply(this,arguments);
+      setTimeout(playNext,420);
+      return r;
+    };
+  }
+})();
+</script>
+
 </body>
 </html>
 <style>
