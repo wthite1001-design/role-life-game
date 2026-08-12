@@ -1210,8 +1210,9 @@ body:not(.launch-game-open) #launchActivityFab{display:none!important}
 .npcRelationStatus.confidant{background:#e8f2ff;color:#476b9a}
 .npcRelationActions{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
 .npcRelationActions button{min-height:36px;padding:6px 9px;font-size:11px}
+.npcRelationCard{position:relative;padding-right:132px!important}
 .npcRelationActions button[data-npc-rel-meet]{
-  position:absolute;top:10px;right:10px;
+  position:absolute;top:12px;right:12px;z-index:3;
   min-height:36px;margin:0;padding:6px 9px;
   font-size:11px;font-weight:700;border-radius:10px;
   box-shadow:none;
@@ -12943,6 +12944,11 @@ body.game-entry-active #npcTownFab{
       {id:'tidy',icon:'🧹',name:'順手幫忙',desc:'熟門熟路幫她整理。',xp:2,face:'normal',lines:['「你明明是客人，怎麼又在幫忙。」','「那邊放錯了——算了，我來。」','「下次請你喝東西，算工資。」']},
       {id:'tea',icon:'🍵',name:'打烊喝茶',desc:'最後一位客人走後也不急著離開。',xp:3,face:'soft',lines:['「門鎖好了，你可以慢慢喝。」','「今天有點累……還好你有來。」','「熟客的待遇，大概就是這樣吧。」']}]}
   };
+  RELATION_PLANS.blacksecret={title:'🔐 甜蜜共犯相處',intro:'知道她藏起來的那些事之後，你仍然選擇留下。這條線更偏向只有彼此知道的默契與信任。',plans:[
+    {id:'keepsecret',icon:'🔐',name:'替她保守秘密',desc:'有些事只留在你們之間。',xp:3,face:'soft',lines:['「……這件事，只准你知道。」','她看了你一眼，確認你仍然沒有離開。','「謝謝你沒有追問。」']},
+    {id:'stayclose',icon:'🌙',name:'打烊後留下',desc:'知道一切後，仍和平常一樣陪著她。',xp:3,face:'shy',lines:['「你真的還要留下來喔……」','「知道那些以後，你居然還跟平常一樣。」','她悄悄把椅子往你這邊挪近了一點。']},
+    {id:'promise',icon:'🤝',name:'只有兩人的約定',desc:'不用說得太明白，你們都懂。',xp:2,face:'soft',lines:['「說好了，不可以反悔。」','「這算是……我們兩個的約定。」','她勾住你的手指，很快又假裝若無其事地移開視線。']}
+  ]};
   window.NPC_MEET_RELATION_PLANS=RELATION_PLANS;
 
   const MOODS={
@@ -12956,6 +12962,8 @@ body.game-entry-active #npcTownFab{
     catfriend:{normal:['「你是來看我，還是來看貓？」'],happy:['「牠一看到你就跑過去了。」'],shy:['「偶爾也看看店長本人好不好……」'],annoyed:['「你又只摸牠！」'],surprised:['「牠居然把肚子給你摸！？」'],soft:['「牠喜歡你……那我也放心。」']},
     regular:{normal:['「歡迎光臨，老位置幫你留著。」'],happy:['「我就知道你今天會來。」'],shy:['「記得客人的喜好很正常啦……」'],annoyed:['「熟客也不能一直戳店長。」'],surprised:['「欸？今天居然換你推薦給我？」'],soft:['「你不來的日子，店裡好像會安靜一點。」']}
   };
+
+  MOOD_LINES.blacksecret={normal:['「今天也來啦？……嗯，我知道你會來。」'],happy:['「你還是跟以前一樣，真奇怪……但我很開心。」'],shy:['「知道那麼多以後，不准突然講這種話啦……」'],annoyed:['「都說是我們的秘密了，還故意逗我。」'],surprised:['「欸？你居然還記得那個約定？」'],soft:['「你知道真正的我，卻還在這裡……這樣就夠了。」']};
 
   function state(c=typeof cur==='function'?cur():null,npcId='shopkeeper_cat'){
     if(!c)return null;c.npcMeetProgress??={};c.npcMeetProgress[npcId]??={level:1,xp:0,date:'',used:0,total:0,plans:{},dailyPlans:{},gameDate:'',gameUsed:0,gameWins:0,moodIndex:0};
@@ -13033,6 +13041,30 @@ body.game-entry-active #npcTownFab{
       ['她問你最近怎麼少來了一天。',['告訴她昨天的事','說不關她的事','故意不回答'],0,'shy'],
       ['她準備關店，卻問你要不要帶杯熱飲走。',['收下並向她道謝','嫌棄口味','要求免費加倍'],0,'happy']]
   };
+  const EXTRA_GAME={
+    lover:[['她把圍巾往你這邊分了一半。',['靠近她一起用','說自己不冷走開','把圍巾全拿走'],0,'shy'],['她問你今天最想和她做什麼。',['一起慢慢散步','叫她繼續工作','說隨便都沒差'],0,'happy'],['她偷偷替你留了最後一份甜點。',['和她一人一半','問能不能再拿一份','嫌棄口味'],0,'shy'],['她靠著櫃檯打了個小哈欠。',['讓她休息並陪著她','催她快點服務','笑她很懶'],0,'soft'],['她問：「如果今天不開店呢？」',['陪她偷閒一天','叫她別做夢','自己先離開'],0,'happy'],['她伸手整理了一下你的衣領。',['笑著讓她整理','立刻拍開她的手','問她是不是嫌棄你'],0,'shy']],
+    bestfriend:[['她突然丟了一包零食給你。',['拆開一起吃','全部藏起來','丟回去'],0,'happy'],['她問你要不要一起整理新貨。',['邊聊邊一起整理','叫她自己弄','故意弄亂'],0,'happy'],['她拿出一張超醜的舊照片。',['一起笑彼此黑歷史','搶來公開','真的嘲笑她'],0,'happy'],['她今天難得有點沒精神。',['陪她聊些輕鬆的事','說她很掃興','直接走'],0,'soft'],['她問你晚餐吃什麼。',['一起決定去吃','叫她自己想','說不關她的事'],0,'normal'],['她說想試一個奇怪的新點子。',['陪她試試看','立刻否定','叫別人來做'],0,'happy']],
+    confidant:[['她把一封沒寄出的信放在桌上。',['等她願意時再說','直接拆開看','拿去問別人'],0,'soft'],['她問你會不會討厭真正的她。',['告訴她你在意的是她','立刻問她藏了什麼','開玩笑說會'],0,'shy'],['她沉默很久才叫你的名字。',['安靜回應她','催她快說','裝沒聽到'],0,'soft'],['她說有些事情自己也還沒想明白。',['告訴她不用急','替她直接下結論','說那就別想'],0,'soft'],['她把黑盒往你這邊推了一點又收回去。',['不逼她，等她準備好','伸手搶過來','嘲笑她膽小'],0,'shy'],['她問你能不能替她守一件秘密。',['認真答應','先問有沒有好處','說一定會告訴別人'],0,'soft']],
+    bickering:[['她故意把找零放得離你很遠。',['笑著伸手去拿順便吐槽','真的發火','直接不要了'],0,'happy'],['她說你今天看起來「勉強還行」。',['回敬一句她也不差','真的記仇','立刻離開'],0,'shy'],['她搶先坐了你平常的位置。',['坐旁邊繼續鬥嘴','把她拉起來','轉身走人'],0,'happy'],['她挑眉問你敢不敢再比一次。',['接受挑戰','說她很煩','故意破壞規則'],0,'annoyed'],['她輸了卻說剛才不算。',['笑著答應再來','一直嘲笑她','直接翻臉'],0,'annoyed'],['她嘴硬地問你明天來不來。',['故意逗她後答應','說再也不來','完全不回應'],0,'shy']],
+    catfriend:[['店貓窩在她腿上睡著了。',['小聲陪她一起看','硬把貓抱走','故意吵醒牠'],0,'soft'],['她拿出店貓最喜歡的零食。',['一起餵牠','全部自己拿走','一次餵太多'],0,'happy'],['店貓今天一直跟著你。',['叫她也一起來','故意炫耀','把貓趕走'],0,'happy'],['她正在替店貓梳毛。',['坐下幫忙','嫌毛很多','用力亂梳'],0,'soft'],['店貓跳上櫃檯碰倒小東西。',['一起收拾再摸摸牠','大聲責罵牠','假裝沒看到'],0,'normal'],['她問你覺得店貓最喜歡誰。',['說牠喜歡你們兩個','故意只說自己','說誰都不喜歡'],0,'shy']],
+    regular:[['她看到你進門就拿出熟悉的杯子。',['笑著接過並道謝','要求換新的','說她多管閒事'],0,'happy'],['她問你最近是不是很忙。',['和她聊聊近況','叫她別問','敷衍後離開'],0,'soft'],['她替你留了一件剛到的商品。',['相信她眼光看看','嫌她擅自留貨','要求免費送'],0,'happy'],['你比平常晚到，她還沒關店。',['問她是不是在等你','抱怨她快關門','什麼都不說就走'],0,'shy'],['她說今天可以讓你試新品。',['認真給她感想','只問能不能免費拿','直接嫌棄'],0,'happy'],['她把你的老位置擦得很乾淨。',['坐下陪她聊一會兒','要求更多服務','故意換去別桌'],0,'soft']]
+  };
+  Object.keys(EXTRA_GAME).forEach(k=>{if(GAME[k])GAME[k].push(...EXTRA_GAME[k])});
+  GAME.blacksecret=[
+    ['她把黑盒放在桌上，這次沒有立刻收回去。',['等她自己決定要不要說','伸手直接打開','催她快一點'],0,'soft'],
+    ['她問：「知道那些事以後，你真的不介意？」',['告訴她你在意的是現在的她','說其實很介意','轉移話題裝沒聽到'],0,'shy'],
+    ['她提到一件不太願意回想的往事。',['安靜聽完，不急著評價','追問所有細節','拿這件事開玩笑'],0,'soft'],
+    ['她把一張舊紙條折好放回盒裡。',['尊重她不想說的部分','搶過來看','問能不能丟掉'],0,'normal'],
+    ['她低聲說：「這些事不能告訴別人。」',['認真答應替她保密','問說出去會怎樣','立刻說想告訴朋友'],0,'soft'],
+    ['她看著你，像是在確認你會不會離開。',['像平常一樣坐到她旁邊','故意走到門口嚇她','真的轉身離開'],0,'shy'],
+    ['打烊後她難得沒有催你回去。',['留下來陪她收店','問能不能拿免費商品','說很無聊先走'],0,'happy'],
+    ['她說：「你是不是知道太多了？」',['笑著說那就一起保密','說她很可怕','假裝完全忘記'],0,'shy'],
+    ['她今天看起來有點不安。',['告訴她不用勉強裝沒事','逼她馬上解釋','說她很麻煩'],0,'soft'],
+    ['她問你為什麼還願意來店裡。',['因為在意的是她本人','因為商品便宜','只是剛好路過'],0,'shy'],
+    ['她把熱飲推給你，小聲說了句謝謝。',['收下並陪她慢慢喝','問謝什麼然後逼問','嫌棄飲料'],0,'happy'],
+    ['她伸出小指，像是想做一個只有兩人的約定。',['勾住她的小指','笑她幼稚不理','故意把手藏起來'],0,'shy']
+  ];
+
   let currentGame=null;
   function startGame(){const info=routeInfo();if(!info)return;const {c,rel}=info,st=state(c);if(st.gameUsed>=3)return toast('🎮 今天的小遊戲已玩 3 次。');const pool=GAME[rel.type]||GAME.regular;currentGame=pool[Math.floor(Math.random()*pool.length)];document.getElementById('npcMeetGamePrompt').textContent=currentGame[0];const box=document.getElementById('npcMeetGameChoices');box.innerHTML=currentGame[1].map((x,i)=>`<button data-npc-game-choice="${i}">${esc(x)}</button>`).join('');box.classList.remove('hidden');document.getElementById('npcMeetGameStart').disabled=true;document.getElementById('npcMeetGameResult').textContent='';}
   function chooseGame(i){if(!currentGame)return;const info=routeInfo();if(!info)return;const {c,rel}=info,st=state(c);st.gameUsed++;const ok=Number(i)===Number(currentGame[2]),gain=ok?3:1;st.xp+=gain;if(ok)st.gameWins++;const up=applyLevel(c,st);showMood(rel.type,ok?currentGame[3]:'annoyed',ok?'「嗯，這個答案我喜歡。」':'「……你真的懂我嗎？」');saveLocal();document.getElementById('npcMeetGameChoices').classList.add('hidden');document.getElementById('npcMeetGameResult').innerHTML=`${ok?'✨ 默契成功！':'😾 好像選錯了。'} 感情 EXP +${gain}${up?`・提升到 Lv.${st.level}`:''}`;document.getElementById('npcMeetGameToday').textContent=`今日 ${st.gameUsed}/3`;document.getElementById('npcMeetGameStart').disabled=st.gameUsed>=3;currentGame=null;setTimeout(()=>render(),1200);}
@@ -13051,6 +13083,103 @@ body.game-entry-active #npcTownFab{
   document.getElementById('npcMeetModal')?.addEventListener('click',e=>{if(e.target.id==='npcMeetModal')e.currentTarget.classList.add('hidden')});
 })();
 </script>
+
+<style>
+/* === TEST final cleanup: no launch/invite campaign; permanent cat event; compact meet button === */
+#launchActivityFab,#launchActivityModal{display:none!important;visibility:hidden!important;pointer-events:none!important}
+.npcRelationCard{position:relative;padding-right:132px!important}
+.npcRelationActions button[data-npc-rel-meet]{position:absolute!important;top:12px!important;right:12px!important;z-index:3!important;min-height:36px!important;padding:6px 9px!important;font-size:11px!important;margin:0!important;width:auto!important;max-width:116px!important}
+@media(max-width:390px){.npcRelationCard{padding-right:118px!important}.npcRelationActions button[data-npc-rel-meet]{right:8px!important;max-width:106px!important;padding:6px 7px!important}}
+</style>
+<script>
+(function(){
+  /* 7日開服活動與邀請碼活動：測試服完全移除。 */
+  function removeOldCampaigns(){
+    document.getElementById('launchActivityFab')?.remove();
+    document.getElementById('launchActivityModal')?.remove();
+    ['testInviterCodeInput','testInviteCode','inviteCodeInput'].forEach(id=>document.getElementById(id)?.closest('.card,.modal,.section,div')?.remove());
+  }
+  removeOldCampaigns();
+  document.addEventListener('DOMContentLoaded',removeOldCampaigns,{once:true});
+  setTimeout(removeOldCampaigns,100);setTimeout(removeOldCampaigns,800);
+
+  /* 貓貓活動改為永久內容：不再有開始/結束日期。 */
+  window.npcEventIsActive=function(){return true};
+  window.npcEventPeriodText=function(){return '🎊 貓貓活動・永久開放'};
+  function keepCatOpen(){
+    window.npcEventIsActive=function(){return true};
+    const npc=document.getElementById('npcTownFab');
+    const game=document.getElementById('game');
+    const on=!!game&&!game.classList.contains('hidden');
+    if(npc){npc.classList.remove('hidden');npc.classList.toggle('activityEntryVisible',on);npc.style.setProperty('display',on?'flex':'none','important');npc.style.setProperty('visibility',on?'visible':'hidden','important');npc.style.setProperty('opacity',on?'1':'0','important');npc.style.setProperty('pointer-events',on?'auto':'none','important')}
+    const hint=document.getElementById('npcEventPeriod')||document.getElementById('npcEventHint');
+    if(hint)hint.textContent='🎊 貓貓活動・永久開放';
+  }
+  keepCatOpen();setInterval(()=>{removeOldCampaigns();keepCatOpen()},2500);
+
+  /* 培養小遊戲擴充題庫：每條特殊關係再加入 6 題，合計至少 12 題。 */
+  const extra={
+    lover:[
+      ['她把圍巾往你這邊分了一半。',['靠近她一起用','說自己不冷走開','把圍巾全拿走'],0,'shy'],
+      ['她問你今天最想和她做什麼。',['一起慢慢散步','叫她繼續工作','說隨便都沒差'],0,'happy'],
+      ['她偷偷替你留了最後一份甜點。',['和她一人一半','問能不能再拿一份','嫌棄口味'],0,'shy'],
+      ['她靠著櫃檯打了個小哈欠。',['讓她休息並陪著她','催她快點服務','笑她很懶'],0,'soft'],
+      ['她問：「如果今天不開店呢？」',['陪她偷閒一天','叫她別做夢','自己先離開'],0,'happy'],
+      ['她伸手整理了一下你的衣領。',['笑著讓她整理','立刻拍開她的手','問她是不是嫌棄你'],0,'shy']],
+    bestfriend:[
+      ['她突然丟了一包零食給你。',['拆開一起吃','全部藏起來','丟回去'],0,'happy'],
+      ['她問你要不要一起整理新貨。',['邊聊邊一起整理','叫她自己弄','故意弄亂'],0,'happy'],
+      ['她拿出一張超醜的舊照片。',['一起笑彼此黑歷史','搶來公開','真的嘲笑她'],0,'happy'],
+      ['她今天難得有點沒精神。',['陪她聊些輕鬆的事','說她很掃興','直接走'],0,'soft'],
+      ['她問你晚餐吃什麼。',['一起決定去吃','叫她自己想','說不關她的事'],0,'normal'],
+      ['她說想試一個奇怪的新點子。',['陪她試試看','立刻否定','叫別人來做'],0,'happy']],
+    confidant:[
+      ['她把一封沒寄出的信放在桌上。',['等她願意時再說','直接拆開看','拿去問別人'],0,'soft'],
+      ['她問你會不會討厭真正的她。',['告訴她你在意的是她','立刻問她藏了什麼','開玩笑說會'],0,'shy'],
+      ['她沉默很久才叫你的名字。',['安靜回應她','催她快說','裝沒聽到'],0,'soft'],
+      ['她說有些事情自己也還沒想明白。',['告訴她不用急','替她直接下結論','說那就別想'],0,'soft'],
+      ['她把黑盒往你這邊推了一點又收回去。',['不逼她，等她準備好','伸手搶過來','嘲笑她膽小'],0,'shy'],
+      ['她問你能不能替她守一件秘密。',['認真答應','先問有沒有好處','說一定會告訴別人'],0,'soft']],
+    bickering:[
+      ['她故意把找零放得離你很遠。',['笑著伸手去拿順便吐槽','真的發火','直接不要了'],0,'happy'],
+      ['她說你今天看起來「勉強還行」。',['回敬一句她也不差','真的記仇','立刻離開'],0,'shy'],
+      ['她搶先坐了你平常的位置。',['坐旁邊繼續鬥嘴','把她拉起來','轉身走人'],0,'happy'],
+      ['她挑眉問你敢不敢再比一次。',['接受挑戰','說她很煩','故意破壞規則'],0,'annoyed'],
+      ['她輸了卻說剛才不算。',['笑著答應再來','一直嘲笑她','直接翻臉'],0,'annoyed'],
+      ['她嘴硬地問你明天來不來。',['故意逗她後答應','說再也不來','完全不回應'],0,'shy']],
+    catfriend:[
+      ['店貓窩在她腿上睡著了。',['小聲陪她一起看','硬把貓抱走','故意吵醒牠'],0,'soft'],
+      ['她拿出店貓最喜歡的零食。',['一起餵牠','全部自己拿走','一次餵太多'],0,'happy'],
+      ['店貓今天一直跟著你。',['叫她也一起來','故意炫耀','把貓趕走'],0,'happy'],
+      ['她正在替店貓梳毛。',['坐下幫忙','嫌毛很多','用力亂梳'],0,'soft'],
+      ['店貓跳上櫃檯碰倒小東西。',['一起收拾再摸摸牠','大聲責罵牠','假裝沒看到'],0,'normal'],
+      ['她問你覺得店貓最喜歡誰。',['說牠喜歡你們兩個','故意只說自己','說誰都不喜歡'],0,'shy']],
+    regular:[
+      ['她看到你進門就拿出熟悉的杯子。',['笑著接過並道謝','要求換新的','說她多管閒事'],0,'happy'],
+      ['她問你最近是不是很忙。',['和她聊聊近況','叫她別問','敷衍後離開'],0,'soft'],
+      ['她替你留了一件剛到的商品。',['相信她眼光看看','嫌她擅自留貨','要求免費送'],0,'happy'],
+      ['你比平常晚到，她還沒關店。',['問她是不是在等你','抱怨她快關門','什麼都不說就走'],0,'shy'],
+      ['她說今天可以讓你試新品。',['認真給她感想','只問能不能免費拿','直接嫌棄'],0,'happy'],
+      ['她把你的老位置擦得很乾淨。',['坐下陪她聊一會兒','要求更多服務','故意換去別桌'],0,'soft']]
+  };
+  function addQuestions(){
+    try{
+      /* GAME 是原培養 IIFE 的區域變數，無法直接存取時，改以包裝開始按鈕前的資料來源。 */
+      if(window.__npcMeetExtraInstalled)return;
+      window.__npcMeetExtraInstalled=true;
+      window.NPC_MEET_EXTRA_GAME=extra;
+    }catch(e){}
+  }
+  addQuestions();
+
+  /* 小遊戲啟動保險：避免舊的全域 click handler 吃掉按鈕。 */
+  const start=document.getElementById('npcMeetGameStart');
+  if(start){
+    start.style.pointerEvents='auto';start.style.position='relative';start.style.zIndex='2';
+  }
+})();
+</script>
+
 </body>
 </html>
 
