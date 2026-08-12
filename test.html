@@ -9339,6 +9339,11 @@ function openNpcDetail(npcId){
       <div class="small">🐈 店貓親密：${st.cat}/100</div>
       <div class="small">💬 聊天：${st.chatCount||0} 次・💼 顧店：${st.helpCount||0} 次・🛒 購買：${st.purchaseCount||0} 件</div>
     </div>
+    ${rel?`<div class="npcDetailSection npcMeetSection">
+      <h3>💞 關係互動</h3>
+      <div class="small">特殊關係已解鎖，可以隨時來找她。你們已見面 ${Number(rel.meetCount||0)} 次。</div>
+      <button type="button" class="primary" data-npc-meet="${def.id}" style="width:100%;margin-top:8px">💞 和她見面</button>
+    </div>`:""}
     <div class="npcDetailSection">
       <h3>📖 個人故事 ${pc}/${stories.personal.length}</h3>
       <div class="npcStoryCollect">
@@ -9511,7 +9516,7 @@ function renderNpcRelationships(){
               :"與這位 NPC 的故事還沒有走到最終章。"
         }</div>
         <div class="npcRelationActions">
-          ${rel?`<button data-npc-rel-view="${def.id}">📖 關係資訊</button>`:""}
+          ${rel?`<button data-npc-meet="${def.id}" class="primary">💞 和她見面</button><button data-npc-rel-view="${def.id}">📖 關係資訊</button>`:""}
         </div>
       </div>
     </div>`;
@@ -9597,7 +9602,81 @@ function viewNpcRelationship(npcId){
     [{label:"知道了",fn:()=>{}}]
   );
 }
+
+function meetNpcAfterRelation(npcId){
+  let c=cur(),def=NPC_RELATION_REGISTRY[npcId],rel=getNpcRelationship(c,npcId);
+  if(!c||!def)return;
+  if(!rel)return toast("🔒 先完成這位 NPC 的特殊關係劇情，才能和她見面。");
+
+  const scenes={
+    lover:[
+      {speaker:"旁白",text:"你推開店門時，她明明正在整理櫃檯，卻幾乎立刻抬起頭。"},
+      {speaker:"店長",text:"「……你來啦。今天不是來買東西的吧？」"},
+      {speaker:"你",text:"「嗯，今天只是來見妳。」"},
+      {speaker:"旁白",text:"她嘴角忍不住揚起來，默默把『休息中』的小牌子翻到了門外。"}
+    ],
+    bestfriend:[
+      {speaker:"店長",text:"「來得正好，幫我顧一下櫃檯。」"},
+      {speaker:"你",text:"「我才剛進門耶？」"},
+      {speaker:"店長",text:"「就是因為是你，我才敢直接使喚。」"},
+      {speaker:"旁白",text:"你熟練地走進櫃檯後方，像回到一個早已熟悉的位置。"}
+    ],
+    confidant:[
+      {speaker:"旁白",text:"她看見你後，沒有像平常一樣先問要買什麼。"},
+      {speaker:"店長",text:"「今天有空嗎？我有件事……只想跟你說。」"},
+      {speaker:"你",text:"「有啊，我聽著。」"},
+      {speaker:"旁白",text:"店裡的聲音慢慢安靜下來，只剩你們之間不需要防備的談話。"}
+    ],
+    bickering:[
+      {speaker:"店長",text:"「先說好，今天不准偷拿櫃檯上的糖。」"},
+      {speaker:"你",text:"「妳這樣講，我本來沒想拿都想拿了。」"},
+      {speaker:"店長",text:"「……你果然是故意來氣我的吧？」"},
+      {speaker:"旁白",text:"她嘴上嫌棄，卻還是把你常吃的口味放到了你面前。"}
+    ],
+    catfriend:[
+      {speaker:"旁白",text:"你才剛踏進店裡，店貓就先一步跑來蹭你的腿。"},
+      {speaker:"店長",text:"「很好，我現在確定你不是來找我的。」"},
+      {speaker:"你",text:"「我可以先找牠，再找妳。」"},
+      {speaker:"店長",text:"「順序是不是反了？」"}
+    ],
+    blacksecret:[
+      {speaker:"旁白",text:"她確認店裡沒有其他人後，才把門邊的簾子拉上。"},
+      {speaker:"店長",text:"「那件事後來有一點新的消息。」"},
+      {speaker:"你",text:"「妳只告訴我？」"},
+      {speaker:"店長",text:"「不然呢？共犯可是你自己選的。」"}
+    ],
+    regular:[
+      {speaker:"店長",text:"「今天也是老樣子？」"},
+      {speaker:"你",text:"「今天不買東西，只來坐一下。」"},
+      {speaker:"店長",text:"「……那也算老樣子吧。」"},
+      {speaker:"旁白",text:"她替你留的位置一直都在，連招呼都變成了日常的一部分。"}
+    ]
+  };
+
+  rel.meetCount=Number(rel.meetCount||0)+1;
+  rel.lastMetAt=new Date().toISOString();
+  saveLocal();
+  const lines=scenes[rel.type]||scenes.regular;
+  if(document.getElementById("npcDetailModal"))document.getElementById("npcDetailModal").classList.add("hidden");
+  startNpcRpgStory({
+    title:`和${def.name}見面`,
+    lines,
+    onComplete:()=>{
+      renderNpcRelationships?.();
+      toast(`💞 和${def.name}見面了・累計 ${rel.meetCount} 次`,3000);
+    }
+  });
+}
+window.meetNpcAfterRelation=meetNpcAfterRelation;
+
+document.getElementById("npcDetailBody")?.addEventListener("click",e=>{
+  let b=e.target.closest("[data-npc-meet]");
+  if(b){e.stopPropagation();return meetNpcAfterRelation(b.dataset.npcMeet);}
+});
+
 document.getElementById("npcRelationshipList")?.addEventListener("click",e=>{
+  let meet=e.target.closest("[data-npc-meet]");
+  if(meet){e.stopPropagation();return meetNpcAfterRelation(meet.dataset.npcMeet);}
   let b=e.target.closest("[data-npc-rel-view]");
   if(b){e.stopPropagation();return openNpcDetail(b.dataset.npcRelView);}
   let card=e.target.closest("[data-npc-detail]");
