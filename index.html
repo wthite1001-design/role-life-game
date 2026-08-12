@@ -8994,13 +8994,7 @@ function npcState(){
   }catch(e){return{affection:0,loyalty:0,cat:0,flags:{},daily:{},chatCount:0,gifts:0,helpCount:0,purchaseCount:0}}
 }
 function saveNpcState(x){localStorage.setItem(NPC_SHOP_KEY,JSON.stringify(x||{}))}
-function npcToday(){
-  const d=new Date();
-  const y=d.getFullYear();
-  const m=String(d.getMonth()+1).padStart(2,"0");
-  const day=String(d.getDate()).padStart(2,"0");
-  return `${y}-${m}-${day}`;
-}
+function npcToday(){return new Date().toISOString().slice(0,10)}
 function npcEnsureDaily(st){
   if(st.daily?.date!==npcToday())st.daily={date:npcToday(),talk:0,gift:0,cat:0,help:0,candy:0};
 }
