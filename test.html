@@ -1578,73 +1578,50 @@ body.npcStoryRunning .draggableFab{
 }
 </style>
 
-<style id="qixiGalaxyWindowsV4">
-/* === 七夕 v4：全域視窗星河主題（貓貓店長商店、七日登入除外） === */
+<style id="qixiGalaxyWindowsV5Safe">
+/* 七夕 v5：只改視覺，不碰任何顯示/定位/點擊/層級邏輯 */
 :root{
-  --qixi-deep:#22153f;
-  --qixi-mid:#35205f;
-  --qixi-soft:#5b3f88;
-  --qixi-line:rgba(211,190,255,.28);
-  --qixi-text:#fffaff;
-  --qixi-muted:#d8ccf4;
+ --qixi-deep:#21163d;--qixi-mid:#342058;--qixi-text:#fffaff;--qixi-muted:#d9cff0;--qixi-line:rgba(218,200,255,.3);
 }
-
-/* 專用頁面：NPC 關係 / 信箱 / 成就 / GM / 關係等，統一星河背景 */
-.pageCard.active{
-  position:relative!important;
-  overflow:auto!important;
-  color:var(--qixi-text)!important;
-  background:
-    radial-gradient(circle at 16% 12%, rgba(255,255,255,.95) 0 1px, transparent 1.6px),
-    radial-gradient(circle at 82% 18%, rgba(219,199,255,.9) 0 1.2px, transparent 1.8px),
-    radial-gradient(circle at 70% 72%, rgba(255,255,255,.8) 0 1px, transparent 1.7px),
-    radial-gradient(ellipse at 48% 8%, rgba(164,120,255,.28), transparent 42%),
-    radial-gradient(ellipse at 90% 88%, rgba(96,76,190,.32), transparent 44%),
-    linear-gradient(160deg,#1c1337 0%,#302052 42%,#432b6d 100%)!important;
-  background-size:180px 180px,230px 230px,260px 260px,100% 100%,100% 100%,100% 100%!important;
-  border-color:var(--qixi-line)!important;
-  box-shadow:0 18px 50px rgba(18,7,40,.28)!important;
+/* 功能專頁：只改背景/顏色，不改 position/display/z-index/overflow */
+.pageCard.active:not(#npcShopModal):not(#launchActivityModal){
+ color:var(--qixi-text)!important;
+ background:
+  radial-gradient(circle at 14% 12%,rgba(255,255,255,.9) 0 1px,transparent 1.6px),
+  radial-gradient(circle at 84% 20%,rgba(215,198,255,.85) 0 1.2px,transparent 1.8px),
+  radial-gradient(ellipse at 48% 4%,rgba(144,102,230,.25),transparent 44%),
+  linear-gradient(155deg,#1c1335 0%,#322154 48%,#4b3074 100%)!important;
+ border-color:var(--qixi-line)!important;
 }
-.pageCard.active::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  background:linear-gradient(115deg,transparent 0 35%,rgba(231,218,255,.08) 48%,transparent 62%);
-  mix-blend-mode:screen;
-}
-.pageCard.active > *{position:relative;z-index:1}
 .pageCard.active .small,.pageCard.active .muted{color:var(--qixi-muted)!important}
-.pageCard.active .section,.pageCard.active h2,.pageCard.active h3,.pageCard.active b{color:#fff!important}
-.pageCard.active .npcRelationIntro,
-.pageCard.active .gmPanel,
-.pageCard.active .relationCard,
-.pageCard.active .mailItem,
-.pageCard.active .badgeCard,
-.pageCard.active .card,
-.pageCard.active .panel,
-.pageCard.active .storyCard{
-  background:linear-gradient(145deg,rgba(80,56,122,.72),rgba(47,31,84,.76))!important;
-  border:1px solid var(--qixi-line)!important;
-  color:var(--qixi-text)!important;
-  box-shadow:0 8px 24px rgba(12,5,30,.18)!important;
+.pageCard.active h2,.pageCard.active h3,.pageCard.active b{color:#fff!important}
+.pageCard.active .npcRelationIntro,.pageCard.active .gmPanel,.pageCard.active .relationCard,
+.pageCard.active .mailItem,.pageCard.active .badgeCard,.pageCard.active .card,
+.pageCard.active .panel,.pageCard.active .storyCard{
+ background:linear-gradient(145deg,rgba(88,64,129,.72),rgba(47,33,80,.76))!important;
+ border-color:var(--qixi-line)!important;
+ color:var(--qixi-text)!important;
 }
-
-/* 一般彈窗改成和星河頁面一致；兩個例外完全不套用 */
+/* NPC 關係頁再更接近先前生圖的深紫玻璃感 */
+#extraNpcRelations.pageCard.active{
+ background:
+  radial-gradient(circle at 12% 10%,rgba(255,255,255,.95) 0 1.1px,transparent 1.8px),
+  radial-gradient(circle at 84% 16%,rgba(220,202,255,.92) 0 1.3px,transparent 2px),
+  radial-gradient(ellipse at 52% 14%,rgba(145,98,233,.34),transparent 42%),
+  linear-gradient(160deg,#1d1238 0%,#302052 46%,#4d3179 100%)!important;
+}
+#extraNpcRelations .npcRelationIntro{background:rgba(77,55,119,.7)!important;color:#faf6ff!important;border-color:rgba(220,204,255,.28)!important}
+/* 一般彈窗只改卡片表面，不碰 .modal 本體，避免再次阻斷點擊 */
 .modal:not(#npcShopModal):not(#launchActivityModal) .modalBox,
 .modal:not(#npcShopModal):not(#launchActivityModal) .modalCard{
-  color:var(--qixi-text)!important;
-  background:
-    radial-gradient(circle at 12% 14%, rgba(255,255,255,.9) 0 1px, transparent 1.6px),
-    radial-gradient(circle at 86% 22%, rgba(219,199,255,.9) 0 1.2px, transparent 1.8px),
-    radial-gradient(ellipse at 45% 0%, rgba(155,115,245,.28), transparent 44%),
-    linear-gradient(155deg,rgba(31,21,59,.98),rgba(67,43,107,.98))!important;
-  background-size:180px 180px,230px 230px,100% 100%,100% 100%!important;
-  border:1px solid var(--qixi-line)!important;
-  box-shadow:0 22px 60px rgba(13,5,31,.42)!important;
-}
-.modal:not(#npcShopModal):not(#launchActivityModal) .modalHead{
-  border-bottom-color:rgba(225,210,255,.18)!important;
+ color:var(--qixi-text)!important;
+ background:
+  radial-gradient(circle at 12% 14%,rgba(255,255,255,.88) 0 1px,transparent 1.6px),
+  radial-gradient(circle at 86% 22%,rgba(219,199,255,.86) 0 1.2px,transparent 1.8px),
+  radial-gradient(ellipse at 45% 0%,rgba(155,115,245,.24),transparent 44%),
+  linear-gradient(155deg,rgba(31,21,59,.985),rgba(67,43,107,.985))!important;
+ border-color:var(--qixi-line)!important;
+ box-shadow:0 22px 60px rgba(13,5,31,.38)!important;
 }
 .modal:not(#npcShopModal):not(#launchActivityModal) .small,
 .modal:not(#npcShopModal):not(#launchActivityModal) .muted{color:var(--qixi-muted)!important}
@@ -1653,40 +1630,10 @@ body.npcStoryRunning .draggableFab{
 .modal:not(#npcShopModal):not(#launchActivityModal) h3{color:#fff!important}
 .modal:not(#npcShopModal):not(#launchActivityModal) input,
 .modal:not(#npcShopModal):not(#launchActivityModal) select,
-.modal:not(#npcShopModal):not(#launchActivityModal) textarea{
-  background:rgba(255,255,255,.93)!important;
-  color:#36204f!important;
-  border-color:rgba(220,201,255,.55)!important;
-}
-.modal:not(#npcShopModal):not(#launchActivityModal) button:not(.danger){
-  border-color:rgba(222,204,255,.35)!important;
-}
-
-/* NPC 關係專頁加強成「生圖」那種深紫玻璃感 */
-#extraNpcRelations.pageCard.active{
-  background:
-    radial-gradient(circle at 12% 10%, rgba(255,255,255,.95) 0 1.1px, transparent 1.8px),
-    radial-gradient(circle at 84% 16%, rgba(220,202,255,.95) 0 1.3px, transparent 2px),
-    radial-gradient(circle at 72% 68%, rgba(255,255,255,.8) 0 1px, transparent 1.7px),
-    radial-gradient(ellipse at 52% 14%, rgba(145,98,233,.38), transparent 40%),
-    linear-gradient(160deg,#1d1238 0%,#302052 46%,#4d3179 100%)!important;
-}
-#extraNpcRelations .npcRelationIntro{
-  background:rgba(79,55,122,.68)!important;
-  border:1px solid rgba(221,204,255,.26)!important;
-  color:#f8f2ff!important;
-}
-#extraNpcRelations button{
-  box-shadow:0 5px 18px rgba(19,8,42,.16);
-}
-
-/* 例外：貓貓店長商店與七日登入維持原樣，不被上面規則吃掉 */
-#npcShopModal .modalCard,#npcShopModal .modalBox,
-#launchActivityModal .modalCard,#launchActivityModal .modalBox{
-  color:initial;
-}
+.modal:not(#npcShopModal):not(#launchActivityModal) textarea{background:rgba(255,255,255,.94)!important;color:#36204f!important;border-color:rgba(220,201,255,.55)!important}
+/* 明確保留兩個例外原樣 */
+#npcShopModal .modalBox,#npcShopModal .modalCard,#launchActivityModal .modalBox,#launchActivityModal .modalCard{filter:none!important}
 </style>
-
 </head>
 <body>
 
