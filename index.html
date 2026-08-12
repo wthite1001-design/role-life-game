@@ -1239,6 +1239,8 @@ body:not(.launch-game-open) #launchActivityFab{display:none!important}
 
 
 /* === NPC RPG dialogue story player === */
+
+#npcDetailModal{z-index:250!important;}
 #npcStoryPlayer{
   z-index:260!important;
   background:#17111fb3!important;
@@ -9039,11 +9041,11 @@ function cancelNpcRpgStory(){
 const NPC_STORY_LIBRARY={
   shopkeeper_cat:{
     personal:[
-      {id:"shop_story_01",title:"第一章・常來的客人",unlock:st=>st.affection>=20,text:"她已經能在你進門前認出你的腳步聲。"},
-      {id:"shop_story_02",title:"第二章・河堤的傳聞",unlock:st=>st.affection>=40,text:"她第一次主動告訴你城鎮裡的秘密。"},
-      {id:"shop_story_03",title:"第三章・打烊之後",unlock:st=>st.affection>=60||!!st.flags?.nightEvent,text:"有些話，只有店門關起來後，她才願意說。"},
-      {id:"shop_story_04",title:"第四章・店長的秘密",unlock:st=>st.affection>=80,text:"櫃檯後那張從沒被翻過去的照片，似乎與她的過去有關。"},
-      {id:"shop_story_05",title:"終章・不只是客人",unlock:(st,c)=>!!getNpcRelationship(c,"shopkeeper_cat"),text:"一路以來的選擇，最後成為了只屬於你們的關係。"}
+      {id:"shop_story_01",title:"第一章・初次遇見",unlock:st=>st.affection>=20,text:"她已經能在你進門前認出你的腳步聲。"},
+      {id:"shop_story_02",title:"第二章・店主的日常",unlock:st=>st.affection>=40,text:"她第一次主動告訴你城鎮裡的秘密。"},
+      {id:"shop_story_03",title:"第三章・信任的開始",unlock:st=>st.affection>=60||!!st.flags?.nightEvent,text:"有些話，只有店門關起來後，她才願意說。"},
+      {id:"shop_story_04",title:"第四章・藏起來的秘密",unlock:st=>st.affection>=80,text:"櫃檯後那張從沒被翻過去的照片，似乎與她的過去有關。"},
+      {id:"shop_story_05",title:"第五章・我們的關係",unlock:(st,c)=>!!getNpcRelationship(c,"shopkeeper_cat"),text:"一路以來的選擇，最後成為了只屬於你們的關係。"}
     ],
     event:[
       {id:"shop_event_first",title:"🎊 初次相遇",unlock:st=>!!st.flags?.visited,text:"你第一次走進這間店，與她打了照面。"},
@@ -9073,12 +9075,13 @@ function openNpcDetail(npcId){
   let st=npcState(),rel=getNpcRelationship(c,npcId);
   let stories=npcStoryCollection(npcId,c);
   let pc=stories.personal.filter(x=>x.unlocked).length,ec=stories.event.filter(x=>x.unlocked).length;
-  document.getElementById("npcDetailName").textContent=def.name;
+  const displayNpcName=rel?"貓貓店長-貓貓":def.name;
+  document.getElementById("npcDetailName").textContent=displayNpcName;
   document.getElementById("npcDetailBody").innerHTML=`
     <div class="npcDetailHero">
       <img src="${esc(def.image)}" alt="">
       <div>
-        <b style="font-size:18px">${esc(def.name)}</b>
+        <b style="font-size:18px">${esc(displayNpcName)}</b>
         <div class="small">NPC 關係收藏</div>
         <div class="npcRelationStatus ${npcRelationClass(rel?.type)}" style="margin-top:7px">
           ${esc(rel?NPC_RELATION_LABELS[rel.type]:"尚未取得最終關係")}
@@ -9098,7 +9101,7 @@ function openNpcDetail(npcId){
     <div class="npcDetailSection">
       <h3>📖 個人故事 ${pc}/${stories.personal.length}</h3>
       <div class="npcStoryCollect">
-        ${stories.personal.map(x=>`<button class="${x.unlocked?"":"locked"}" data-npc-story="personal|${x.id}">${x.unlocked?esc(x.title):"🔒 ???"}</button>`).join("")}
+        ${stories.personal.map((x,i)=>`<button class="${x.unlocked?"":"locked"}" data-npc-story="personal|${x.id}">${x.unlocked?esc(x.title):(i<3?esc(x.title):`🔒 ${i===3?"第四章":"第五章"}・未解鎖`)}</button>`).join("")}
       </div>
     </div>
     <div class="npcDetailSection">
@@ -9185,11 +9188,12 @@ function renderNpcRelationships(){
     let rel=getNpcRelationship(c,def.id);
     let unlocked=def.id!=="shopkeeper_cat"||st.affection>=100;
     let status=rel?NPC_RELATION_LABELS[rel.type]:"尚未建立特殊關係";
+    let displayNpcName=rel?"貓貓店長-貓貓":def.name;
     let since=rel?.since?new Date(rel.since).toLocaleDateString("zh-TW"):"";
     return `<div class="npcRelationCard ${unlocked?"":"npcRelationLocked"}" data-npc-detail="${def.id}" style="cursor:pointer">
       <div class="npcRelationPic"><img src="${esc(def.image)}" alt=""></div>
       <div class="npcRelationMeta">
-        <b>${esc(def.name)}</b>
+        <b>${esc(displayNpcName)}</b>
         <div class="small">單人 NPC 關係・不占真人關係名額</div>
         <span class="npcRelationStatus ${npcRelationClass(rel?.type)}">${esc(status)}</span>
         ${since?`<div class="small">建立於 ${esc(since)}</div>`:""}
@@ -9869,13 +9873,13 @@ function npcRenderItems(){
 
 function npcRenderStory(st){
   const nodes=[
-    {n:"第一章・常來的客人",ok:st.affection>=20,text:"她已經能在你進門前認出你的腳步聲。"},
-    {n:"第二章・河堤的傳聞",ok:st.affection>=40,text:"貓貓第一次主動告訴你城鎮裡的秘密。"},
-    {n:"第三章・打烊之後",ok:st.affection>=60,text:"有些話只有店門關起來後，她才願意說。"},
-    {n:"第四章・店長的秘密",ok:st.affection>=80,text:"櫃檯後那張從沒被翻過去的照片，似乎與她的過去有關。"},
-    {n:"終章・不只是客人",ok:st.affection>=100,text:(()=>{let c=cur(),r=c?getNpcRelationship(c,"shopkeeper_cat"):null;return r?`你們已建立「${NPC_RELATION_LABELS[r.type]}」關係。`:"你似乎已經站在某條關係的門口。"})()}
+    {n:"第一章・初次遇見",ok:st.affection>=20,text:"她已經能在你進門前認出你的腳步聲。"},
+    {n:"第二章・店主的日常",ok:st.affection>=40,text:"貓貓第一次主動告訴你城鎮裡的秘密。"},
+    {n:"第三章・信任的開始",ok:st.affection>=60,text:"有些話只有店門關起來後，她才願意說。"},
+    {n:"第四章・藏起來的秘密",ok:st.affection>=80,text:"櫃檯後那張從沒被翻過去的照片，似乎與她的過去有關。"},
+    {n:"第五章・我們的關係",ok:st.affection>=100,text:(()=>{let c=cur(),r=c?getNpcRelationship(c,"shopkeeper_cat"):null;return r?`你們已建立「${NPC_RELATION_LABELS[r.type]}」關係。`:"你似乎已經站在某條關係的門口。"})()}
   ];
-  return nodes.map(x=>`<div class="npcStoryNode ${x.ok?"":"locked"}"><b>${x.ok?x.n:"🔒 ???"}</b><div class="small">${x.ok?x.text:"好感尚未達到。"}</div></div>`).join("");
+  return nodes.map((x,i)=>`<div class="npcStoryNode ${x.ok?"":"locked"}"><b>${x.ok?x.n:(i<3?x.n:`🔒 ${i===3?"第四章":"第五章"}・未解鎖`)}</b><div class="small">${x.ok?x.text:"好感尚未達到。"}</div></div>`).join("");
 }
 function renderNpcShop(){
   let st=npcState();npcEnsureDaily(st);saveNpcState(st);reconcileNpcEventAchievements();updateNpcStats();
