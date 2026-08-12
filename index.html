@@ -9101,7 +9101,7 @@ function openNpcDetail(npcId){
     <div class="npcDetailSection">
       <h3>📖 個人故事 ${pc}/${stories.personal.length}</h3>
       <div class="npcStoryCollect">
-        ${stories.personal.map((x,i)=>`<button class="${x.unlocked?"":"locked"}" data-npc-story="personal|${x.id}">${x.unlocked?esc(x.title):(i<3?esc(x.title):`🔒 ${i===3?"第四章":"第五章"}・未解鎖`)}</button>`).join("")}
+        ${stories.personal.map((x,i)=>`<button class="${x.unlocked?"":"locked"}" data-npc-story="personal|${x.id}">${x.unlocked?esc(x.title):`🔒 ${["第一章","第二章","第三章","第四章","第五章"][i]||`第${i+1}章`}・未解鎖`}</button>`).join("")}
       </div>
     </div>
     <div class="npcDetailSection">
