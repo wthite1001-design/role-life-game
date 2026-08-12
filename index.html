@@ -13527,6 +13527,91 @@ function updateSaveRescueStatus(){
 })();
 </script>
 
+
+<script>
+/* === 3.29.7 FORMAL shopkeeper 5 event stories: authoritative autoplay fix v2 === */
+(function(){
+  // Top-level const does not automatically become window.NPC_RPG_STORIES.
+  // Expose it explicitly because several late compatibility patches expect window.*.
+  try{ if(typeof NPC_RPG_STORIES!=="undefined") window.NPC_RPG_STORIES=NPC_RPG_STORIES; }catch(e){}
+
+  const defs=[
+    {id:"shop_event_first",title:"🎊 初次相遇",ok:(st,c)=>!!st.flags?.visited},
+    {id:"shop_event_candy",title:"🎊 櫃檯糖果事件",ok:(st,c)=>Number(st.candyCount||0)>=1},
+    {id:"shop_event_cat",title:"🎊 店貓的小秘密",ok:(st,c)=>Number(st.cat||0)>=70},
+    {id:"shop_event_blackbox",title:"🎊 黑盒",ok:(st,c)=>Number(c?.inventory?.npc_under_counter||0)>0||!!st.flags?.blackBoxOwned},
+    {id:"shop_event_night",title:"🎊 閉店之後",ok:(st,c)=>!!st.flags?.nightEvent}
+  ];
+
+  function getState(){
+    const c=typeof cur==="function"?cur():null;
+    const st=c&&typeof npcState==="function"?npcState(c):null;
+    if(st){ st.flags??={}; st.storyCollection??={}; }
+    return {c,st};
+  }
+  function isShopOpen(){
+    const m=document.getElementById("npcShopModal");
+    return !!(m&&!m.classList.contains("hidden"));
+  }
+  function isStoryBusy(){
+    const p=document.getElementById("npcStoryPlayer");
+    return !!window.npcStoryPlayerState || !!(p&&!p.classList.contains("hidden"));
+  }
+  function nextStory(){
+    const {c,st}=getState(); if(!c||!st)return null;
+    return defs.find(d=>!st.storyCollection?.[d.id] && d.ok(st,c))||null;
+  }
+  function markPlayed(id){
+    const {st}=getState(); if(!st)return;
+    st.storyCollection??={};
+    st.storyCollection[id]=st.storyCollection[id]||new Date().toISOString();
+    try{ saveNpcState(st); }catch(e){}
+    try{ renderNpcShop?.(); }catch(e){}
+  }
+  function playEligible(){
+    if(!isShopOpen()||isStoryBusy())return false;
+    const d=nextStory(); if(!d)return false;
+    const lines=(typeof NPC_RPG_STORIES!=="undefined"&&NPC_RPG_STORIES[d.id])||window.NPC_RPG_STORIES?.[d.id];
+    if(!Array.isArray(lines)||!lines.length)return false;
+    if(typeof startNpcRpgStory!=="function")return false;
+    startNpcRpgStory({
+      title:d.title,
+      lines,
+      onComplete:()=>{
+        markPlayed(d.id);
+        setTimeout(playEligible,380);
+      }
+    });
+    return true;
+  }
+
+  // Opening the shop must always re-check old saves that already satisfy a condition.
+  const oldOpen=window.openNpcShop;
+  if(typeof oldOpen==="function"){
+    window.openNpcShop=function(){
+      const r=oldOpen.apply(this,arguments);
+      setTimeout(playEligible,500);
+      setTimeout(playEligible,1100);
+      return r;
+    };
+  }
+
+  // Also react immediately after the actions that can satisfy the four later conditions.
+  ["npcCandy","npcTouchCat","npcBuyItem","npcRandomEvent","npcHelpShop"].forEach(name=>{
+    const fn=window[name];
+    if(typeof fn!=="function")return;
+    window[name]=function(){
+      const r=fn.apply(this,arguments);
+      setTimeout(playEligible,320);
+      return r;
+    };
+  });
+
+  // Fallback while the shop is open, so no event depends on which legacy handler ran.
+  setInterval(()=>{ try{ playEligible(); }catch(e){} },700);
+  window.__playShopkeeperEventStoryNow=playEligible;
+})();
+</script>
 </body>
 </html>
 <style>
