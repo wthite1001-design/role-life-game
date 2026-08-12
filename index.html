@@ -9525,7 +9525,7 @@ function npcToday(){
   return `${tw.getUTCFullYear()}-${String(tw.getUTCMonth()+1).padStart(2,"0")}-${String(tw.getUTCDate()).padStart(2,"0")}`;
 }
 function npcEnsureDaily(st){
-  if(st.daily?.date!==npcToday())st.daily={date:npcToday(),talk:0,gift:0,cat:0,help:0,candy:0};
+  if(st.daily?.date!==npcToday())st.daily={date:npcToday(),talk:0,gift:0,cat:0,help:0,candy:0,night:0};
 }
 
 function npcRelationScore(kind,n=1){
@@ -9854,7 +9854,7 @@ function npcRenderTalk(st){
     {icon:"🍬",name:"偷拿櫃檯糖果",desc:"你真的要這樣做嗎？",fn:"candy"},
     {icon:"💼",name:"幫忙顧店",desc:`今天 ${st.daily.help||0}/1 次・隨機事件`,fn:"help"}
   ];
-  if((hour>=22||hour<5)&&st.affection>=60)cards.push({icon:"🌙",name:"打烊後留下",desc:"只有深夜與高好感時出現。",fn:"night"});
+  if((hour>=22||hour<5)&&st.affection>=60){const nightUsed=Number(st.daily?.night||0);cards.push({icon:"🌙",name:"打烊後留下",desc:nightUsed>=1?"今天 1/1 次・明天再來":"今天 0/1 次・只有深夜與高好感時出現。",fn:"night"});}
   if(st.affection>=100){
     let c=cur(),rel=c?getNpcRelationship(c,"shopkeeper_cat"):null;
     cards.push({
@@ -9964,7 +9964,7 @@ document.getElementById("npcShopBody")?.addEventListener("click",e=>{
     if(k==="cat")npcPetCat();
     if(k==="candy")npcStealCandy();
     if(k==="help")npcHelpShop();
-    if(k==="night"){let x=npcState();x.flags.nightEvent=1;saveNpcState(x);npcRelationScore("romance",1);npcRelationScore("trust",1);reconcileNpcEventAchievements();npcChoice("🌙 打烊後","店裡只剩你、貓貓和趴在櫃檯上的店貓。<br><br>「今天……可以晚一點再走。」",[{label:"留下陪她",fn:()=>npcGain("affection",3,"貓貓好感")}]);}
+    if(k==="night"){let x=npcState();npcEnsureDaily(x);if(Number(x.daily?.night||0)>=1){toast("🌙 今天已經陪貓貓留到打烊後了，明天再來吧。",3200);renderNpcShop();return;}x.daily.night=Number(x.daily.night||0)+1;x.flags.nightEvent=1;saveNpcState(x);npcRelationScore("romance",1);npcRelationScore("trust",1);reconcileNpcEventAchievements();npcChoice("🌙 打烊後","店裡只剩你、貓貓和趴在櫃檯上的店貓。<br><br>「今天……可以晚一點再走。」",[{label:"留下陪她",fn:()=>npcGain("affection",3,"貓貓好感")}]);}
     if(k==="confess")npcConfess();
     return;
   }
@@ -11103,7 +11103,7 @@ document.getElementById("closeNpcStoryPlayer")?.addEventListener("click",e=>{e.s
       {icon:'🍬',name:'偷拿櫃檯糖果',desc:'你真的要這樣做嗎？',fn:'candy'},
       {icon:'💼',name:'幫忙顧店',desc:`今天 ${st.daily?.help||0}/1 次・隨機事件`,fn:'help'}
     ];
-    if((hour>=22||hour<5)&&st.affection>=60)cards.push({icon:'🌙',name:'打烊後留下',desc:'只有深夜與高好感時出現。',fn:'night'});
+    if((hour>=22||hour<5)&&st.affection>=60){const nightUsed=Number(st.daily?.night||0);cards.push({icon:'🌙',name:'打烊後留下',desc:nightUsed>=1?'今天 1/1 次・明天再來':'今天 0/1 次・只有深夜與高好感時出現。',fn:'night',disabled:nightUsed>=1});}
     if(Number(st.affection||0)>=100){
       const c=typeof cur==='function'?cur():null;
       const rel=c?getNpcRelationship(c,'shopkeeper_cat'):null;
