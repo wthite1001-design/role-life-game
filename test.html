@@ -9432,7 +9432,23 @@ function runNpcDebug(action){
     renderNpcDebug();renderNpcRelationships();toast("♻️ NPC 測試資料已重置",3000);return;
   }
   saveNpcState(st);reconcileNpcEventAchievements();saveLocal();
-  if(action==="final"){document.getElementById("npcDebugModal").classList.add("hidden");finalizeShopkeeperRelation();return}
+  if(action==="final"){
+    document.getElementById("npcDebugModal").classList.add("hidden");
+    // 測試最終結局要能重跑：先清掉目前角色已收藏的店長關係，避免被導向 NPC 資料頁。
+    try{
+      ensureNpcRelationships(c);
+      delete c.npcRelationships.shopkeeper_cat;
+      let x=npcState();
+      x.flags??={};
+      delete x.flags.npcRelationFinalized;
+      saveNpcState(x);
+      saveLocal();
+      renderNpcRelationships?.();
+    }catch(e){console.warn("reset npc relation before final test",e)}
+    if(typeof window.finalizeShopkeeperRelation==="function")window.finalizeShopkeeperRelation();
+    else finalizeShopkeeperRelation();
+    return
+  }
   renderNpcDebug();renderNpcRelationships();toast("🧪 測試數值已更新",2200);
 }
 
@@ -11564,10 +11580,8 @@ document.getElementById("closeNpcStoryPlayer")?.addEventListener("click",e=>{e.s
   }
   function testNow(){ return new Date(testNowMs()); }
   function activityActive(){
-    // 3.26.7: temporary extension must follow the real Taiwan clock.
-    // A previously saved date-simulator value must not make the live activity look expired.
-    const n=Date.now();
-    return n>=EVENT_START && n<EVENT_END;
+    // 測試服：貓貓商店已改為永久內容，不再受舊限時日期控制。
+    return true;
   }
   window.testNowMs=testNowMs;
   window.testNow=testNow;
@@ -11866,7 +11880,7 @@ document.getElementById("closeNpcStoryPlayer")?.addEventListener("click",e=>{e.s
   }
 
   /* Replace visible date text in NPC helper. */
-  window.npcEventPeriodText=function(){return "🧪 限定 NPC 活動：測試開放至 2026/08/12 00:00";};
+  window.npcEventPeriodText=function(){return "🎊 貓貓活動・永久開放";};
   window.refreshNpcEventPeriodHint=function(){enforceEventVisibility();};
 
   /* Poll only for visibility/date simulation; does not award anything. */
@@ -13112,7 +13126,7 @@ body.game-entry-active #npcTownFab{
     const game=document.getElementById('game');
     const on=!!game&&!game.classList.contains('hidden');
     if(npc){npc.classList.remove('hidden');npc.classList.toggle('activityEntryVisible',on);npc.style.setProperty('display',on?'flex':'none','important');npc.style.setProperty('visibility',on?'visible':'hidden','important');npc.style.setProperty('opacity',on?'1':'0','important');npc.style.setProperty('pointer-events',on?'auto':'none','important')}
-    const hint=document.getElementById('npcEventPeriod')||document.getElementById('npcEventHint');
+    const hint=document.getElementById('npcEventPeriodHint')||document.getElementById('npcEventPeriod')||document.getElementById('npcEventHint');
     if(hint)hint.textContent='🎊 貓貓活動・永久開放';
   }
   keepCatOpen();setInterval(()=>{removeOldCampaigns();keepCatOpen()},2500);
