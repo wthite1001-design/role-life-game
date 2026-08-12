@@ -9479,7 +9479,13 @@ function npcState(){
   }catch(e){return{affection:0,loyalty:0,cat:0,flags:{},daily:{},chatCount:0,gifts:0,helpCount:0,purchaseCount:0}}
 }
 function saveNpcState(x){localStorage.setItem(NPC_SHOP_KEY,JSON.stringify(x||{}))}
-function npcToday(){return new Date().toISOString().slice(0,10)}
+function npcToday(){
+  // NPC 店長「每日次數」以台灣時間 00:00（UTC+8）為跨日判定；
+  // 只影響每日重置 key，不改活動倒數、深夜事件或其他遊戲時間。
+  const now=new Date();
+  const tw=new Date(now.getTime()+8*60*60*1000);
+  return `${tw.getUTCFullYear()}-${String(tw.getUTCMonth()+1).padStart(2,"0")}-${String(tw.getUTCDate()).padStart(2,"0")}`;
+}
 function npcEnsureDaily(st){
   if(st.daily?.date!==npcToday())st.daily={date:npcToday(),talk:0,gift:0,cat:0,help:0,candy:0};
 }
