@@ -12824,8 +12824,9 @@ body.game-entry-active #npcTownFab{
 /* === 3.26.21 TEST：貓貓活動常駐 + 特殊關係培養 5 級 + 情緒互動 + 小遊戲 === */
 #npcMeetModal{z-index:10060!important}
 #npcMeetModal .modalBox{max-height:91dvh;overflow:auto;max-width:780px}
-.npcMeetHero{position:relative;display:grid;grid-template-columns:118px 1fr;gap:14px;align-items:center;padding:14px;border:1px solid rgba(120,80,150,.16);border-radius:20px;background:linear-gradient(135deg,rgba(255,255,255,.78),rgba(244,231,250,.72))}
-.npcMeetHero img{width:118px;height:118px;object-fit:cover;border-radius:20px;box-shadow:0 8px 24px rgba(89,53,114,.15);cursor:pointer;touch-action:manipulation}
+.npcMeetHero{position:relative;display:block;padding:0 0 14px;border:1px solid rgba(120,80,150,.16);border-radius:20px;background:linear-gradient(135deg,rgba(255,255,255,.78),rgba(244,231,250,.72));overflow:hidden}
+.npcMeetHero img{display:block;width:100%;height:245px;object-fit:cover;object-position:center 27%;cursor:pointer;touch-action:manipulation}
+.npcMeetHero>div{padding:12px 14px 0}
 .npcMeetTapHint{font-size:12px;color:#8d7c96;margin-top:5px}
 .npcMeetBubble{margin-top:8px;padding:10px 12px;border-radius:15px;background:rgba(255,255,255,.72);line-height:1.55;min-height:44px}
 .npcMeetMoodPill{display:inline-flex;align-items:center;gap:5px;padding:4px 9px;border-radius:999px;background:#efe2f5;font-size:12px;font-weight:800;margin-bottom:6px}
@@ -12840,7 +12841,8 @@ body.game-entry-active #npcTownFab{
 .npcMeetGameChoices button{padding:11px 8px;border-radius:14px;min-height:58px}
 .npcMeetGameResult{margin-top:9px;line-height:1.55}
 .npcMeetRecordBox{max-height:180px;overflow:auto}
-@media(max-width:560px){.npcMeetHero{grid-template-columns:92px 1fr}.npcMeetHero img{width:92px;height:92px}#npcMeetPlanGrid{grid-template-columns:1fr}.npcMeetGameChoices{grid-template-columns:1fr}}
+@media(max-width:560px){.npcMeetHero img{height:245px}#npcMeetPlanGrid{grid-template-columns:1fr}.npcMeetGameChoices{grid-template-columns:1fr}}
+@media(max-width:380px){.npcMeetHero img{height:210px}}
 </style>
 
 <div class="modal hidden" id="npcMeetModal">
@@ -12869,7 +12871,7 @@ body.game-entry-active #npcTownFab{
     <div class="npcActionGrid" id="npcMeetPlanGrid"></div>
     <div class="npcMeetMiniGame">
       <div style="display:flex;justify-content:space-between;gap:10px;align-items:center"><b>🎮 互動小遊戲・猜她現在想要什麼</b><span class="small" id="npcMeetGameToday"></span></div>
-      <div class="small" id="npcMeetGamePrompt" style="margin-top:6px">按開始後，依照她的反應選一個最適合的互動。</div>
+      <div class="small" id="npcMeetGamePrompt" style="margin-top:6px">每天最多 3 局。按開始後，依照她的反應選一個最適合的互動。</div>
       <button type="button" id="npcMeetGameStart" style="width:100%;margin-top:10px">🎲 開始一局</button>
       <div class="npcMeetGameChoices hidden" id="npcMeetGameChoices"></div>
       <div class="npcMeetGameResult small" id="npcMeetGameResult"></div>
@@ -12894,29 +12896,29 @@ body.game-entry-active #npcTownFab{
 
   const RELATION_PLANS={
     lover:{title:'💗 戀人相處',intro:'戀人線會更偏向約會、撒嬌與只有兩人的時間。',plans:[
-      {id:'date',icon:'🌙',name:'打烊後約會',desc:'一起離開商店散步。',xp:10,face:'shy',lines:['「今天想去哪？……你決定就好。」','「走慢一點啦，我又沒有要跑掉。」','「只有我們兩個的話，晚一點回去也沒關係。」']},
-      {id:'hug',icon:'🫶',name:'靠近一點',desc:'今天想更黏她一點。',xp:9,face:'shy',lines:['「你、你突然靠這麼近做什麼……」','她嘴上嫌棄，卻沒有真的躲開。','「……只准一下喔。」']},
-      {id:'heart',icon:'💞',name:'交換心事',desc:'把今天最想說的話告訴她。',xp:11,face:'soft',lines:['「這些話，我只想聽你說。」','「嗯，我有在聽。你慢慢講。」','「那今天換我告訴你一件秘密。」']}]},
+      {id:'date',icon:'🌙',name:'打烊後約會',desc:'一起離開商店散步。',xp:3,face:'shy',lines:['「今天想去哪？……你決定就好。」','「走慢一點啦，我又沒有要跑掉。」','「只有我們兩個的話，晚一點回去也沒關係。」']},
+      {id:'hug',icon:'🫶',name:'靠近一點',desc:'今天想更黏她一點。',xp:2,face:'shy',lines:['「你、你突然靠這麼近做什麼……」','她嘴上嫌棄，卻沒有真的躲開。','「……只准一下喔。」']},
+      {id:'heart',icon:'💞',name:'交換心事',desc:'把今天最想說的話告訴她。',xp:3,face:'soft',lines:['「這些話，我只想聽你說。」','「嗯，我有在聽。你慢慢講。」','「那今天換我告訴你一件秘密。」']}]},
     bestfriend:{title:'🌟 摯友相處',intro:'摯友線會更像熟到不需要客套的日常搭檔。',plans:[
-      {id:'walk',icon:'🛍️',name:'一起亂逛',desc:'沒有目的也能聊一路。',xp:9,face:'happy',lines:['「走啦，今天不要一直待在店裡。」','「你看那個，好像很適合你。」','「跟你出門果然不用特別計畫。」']},
-      {id:'stock',icon:'📦',name:'一起盤點',desc:'邊整理邊互相吐槽。',xp:8,face:'normal',lines:['「那排交給你，我相信你喔。」','「欸，你比我記得還清楚耶。」','「有你幫忙，今天可以偷懶一點了。」']},
-      {id:'laugh',icon:'😂',name:'聊到笑不停',desc:'把今天最好笑的事說給她聽。',xp:10,face:'happy',lines:['「不行，等一下，我笑到肚子痛。」','「你真的很會講奇怪的事欸。」','「下次有這種事還是要第一個告訴我。」']}]},
+      {id:'walk',icon:'🛍️',name:'一起亂逛',desc:'沒有目的也能聊一路。',xp:2,face:'happy',lines:['「走啦，今天不要一直待在店裡。」','「你看那個，好像很適合你。」','「跟你出門果然不用特別計畫。」']},
+      {id:'stock',icon:'📦',name:'一起盤點',desc:'邊整理邊互相吐槽。',xp:2,face:'normal',lines:['「那排交給你，我相信你喔。」','「欸，你比我記得還清楚耶。」','「有你幫忙，今天可以偷懶一點了。」']},
+      {id:'laugh',icon:'😂',name:'聊到笑不停',desc:'把今天最好笑的事說給她聽。',xp:3,face:'happy',lines:['「不行，等一下，我笑到肚子痛。」','「你真的很會講奇怪的事欸。」','「下次有這種事還是要第一個告訴我。」']}]},
     confidant:{title:'🌸 知己相處',intro:'知己線更重視安靜陪伴、秘密與信任。',plans:[
-      {id:'night',icon:'🌌',name:'深夜談心',desc:'只留一盞小燈。',xp:11,face:'soft',lines:['「今天……可以再坐久一點嗎？」','「有些話白天不太想說。」','「你不用回答，聽著就好。」']},
-      {id:'secret',icon:'🔐',name:'交換秘密',desc:'一人說一件只有彼此知道的事。',xp:10,face:'shy',lines:['「這個真的不能跟別人說。」','「那換你了，我不會笑。」','「原來你也有這種秘密喔……」']},
-      {id:'quiet',icon:'☕',name:'安靜陪伴',desc:'不說話也很舒服。',xp:8,face:'soft',lines:['她把熱飲推到你面前，沒有多問。','店裡很安靜，但一點也不空。','「……這樣就很好。」']}]},
+      {id:'night',icon:'🌌',name:'深夜談心',desc:'只留一盞小燈。',xp:3,face:'soft',lines:['「今天……可以再坐久一點嗎？」','「有些話白天不太想說。」','「你不用回答，聽著就好。」']},
+      {id:'secret',icon:'🔐',name:'交換秘密',desc:'一人說一件只有彼此知道的事。',xp:3,face:'shy',lines:['「這個真的不能跟別人說。」','「那換你了，我不會笑。」','「原來你也有這種秘密喔……」']},
+      {id:'quiet',icon:'☕',name:'安靜陪伴',desc:'不說話也很舒服。',xp:2,face:'soft',lines:['她把熱飲推到你面前，沒有多問。','店裡很安靜，但一點也不空。','「……這樣就很好。」']}]},
     bickering:{title:'💢 歡喜冤家相處',intro:'歡喜冤家線就是鬥嘴、搶東西，最後還是會留下來。',plans:[
-      {id:'battle',icon:'⚡',name:'互嗆挑戰',desc:'誰先接不上話誰輸。',xp:10,face:'annoyed',lines:['「你先開始啊，怕了？」','「這句昨天講過了，換新的。」','「可惡，再來一次！」']},
-      {id:'candy',icon:'🍬',name:'搶最後糖果',desc:'櫃檯只剩最後一顆。',xp:9,face:'annoyed',lines:['「先看到的是我！」','「你幾歲了還跟我搶糖？」','「……一人一半，不能再多。」']},
-      {id:'makeup',icon:'🙄',name:'嘴硬和好',desc:'誰都不肯先低頭。',xp:10,face:'soft',lines:['「我沒有在等你道歉。」','「……所以你明天還會來吧？」','「好了啦，算扯平。」']}]},
+      {id:'battle',icon:'⚡',name:'互嗆挑戰',desc:'誰先接不上話誰輸。',xp:3,face:'annoyed',lines:['「你先開始啊，怕了？」','「這句昨天講過了，換新的。」','「可惡，再來一次！」']},
+      {id:'candy',icon:'🍬',name:'搶最後糖果',desc:'櫃檯只剩最後一顆。',xp:2,face:'annoyed',lines:['「先看到的是我！」','「你幾歲了還跟我搶糖？」','「……一人一半，不能再多。」']},
+      {id:'makeup',icon:'🙄',name:'嘴硬和好',desc:'誰都不肯先低頭。',xp:3,face:'soft',lines:['「我沒有在等你道歉。」','「……所以你明天還會來吧？」','「好了啦，算扯平。」']}]},
     catfriend:{title:'🐈 貓友相處',intro:'貓友線大半時間都圍著店貓轉，她嘴上會吃醋。',plans:[
-      {id:'playcat',icon:'🧶',name:'陪店貓玩',desc:'今天牠把玩具分你。',xp:9,face:'happy',lines:['「牠今天看到你比看到我還開心。」','店貓把玩具推到了你腳邊。','「到底誰才是店長啦。」']},
-      {id:'catwalk',icon:'🐾',name:'貓咪散步',desc:'一起帶店貓出去走走。',xp:10,face:'normal',lines:['「抓好牽繩，牠看到鳥會衝喔。」','店貓每走幾步就回頭看你們。','「牠真的把你算成自己人了。」']},
-      {id:'photo',icon:'📷',name:'拍貓日常',desc:'努力拍一張不糊的照片。',xp:8,face:'annoyed',lines:['「等等，那張一定糊了。」','「這張不錯，傳給我。」','「你手機裡牠的照片是不是比我的多？」']}]},
+      {id:'playcat',icon:'🧶',name:'陪店貓玩',desc:'今天牠把玩具分你。',xp:2,face:'happy',lines:['「牠今天看到你比看到我還開心。」','店貓把玩具推到了你腳邊。','「到底誰才是店長啦。」']},
+      {id:'catwalk',icon:'🐾',name:'貓咪散步',desc:'一起帶店貓出去走走。',xp:3,face:'normal',lines:['「抓好牽繩，牠看到鳥會衝喔。」','店貓每走幾步就回頭看你們。','「牠真的把你算成自己人了。」']},
+      {id:'photo',icon:'📷',name:'拍貓日常',desc:'努力拍一張不糊的照片。',xp:2,face:'annoyed',lines:['「等等，那張一定糊了。」','「這張不錯，傳給我。」','「你手機裡牠的照片是不是比我的多？」']}]},
     regular:{title:'🛍️ 特別常客相處',intro:'特別常客線還是保留客人與店長的距離，但她會記得你的一切習慣。',plans:[
-      {id:'recommend',icon:'🎁',name:'今日推薦',desc:'完全交給她幫你選。',xp:8,face:'happy',lines:['「今天不用看菜單，我幫你選。」','「我猜你會喜歡這個。」','「看吧，我就說我記得。」']},
-      {id:'tidy',icon:'🧹',name:'順手幫忙',desc:'熟門熟路幫她整理。',xp:9,face:'normal',lines:['「你明明是客人，怎麼又在幫忙。」','「那邊放錯了——算了，我來。」','「下次請你喝東西，算工資。」']},
-      {id:'tea',icon:'🍵',name:'打烊喝茶',desc:'最後一位客人走後也不急著離開。',xp:10,face:'soft',lines:['「門鎖好了，你可以慢慢喝。」','「今天有點累……還好你有來。」','「熟客的待遇，大概就是這樣吧。」']}]}
+      {id:'recommend',icon:'🎁',name:'今日推薦',desc:'完全交給她幫你選。',xp:2,face:'happy',lines:['「今天不用看菜單，我幫你選。」','「我猜你會喜歡這個。」','「看吧，我就說我記得。」']},
+      {id:'tidy',icon:'🧹',name:'順手幫忙',desc:'熟門熟路幫她整理。',xp:2,face:'normal',lines:['「你明明是客人，怎麼又在幫忙。」','「那邊放錯了——算了，我來。」','「下次請你喝東西，算工資。」']},
+      {id:'tea',icon:'🍵',name:'打烊喝茶',desc:'最後一位客人走後也不急著離開。',xp:3,face:'soft',lines:['「門鎖好了，你可以慢慢喝。」','「今天有點累……還好你有來。」','「熟客的待遇，大概就是這樣吧。」']}]}
   };
   window.NPC_MEET_RELATION_PLANS=RELATION_PLANS;
 
@@ -12938,7 +12940,7 @@ body.game-entry-active #npcTownFab{
     if(st.date!==today){st.date=today;st.used=0}if(st.gameDate!==today){st.gameDate=today;st.gameUsed=0}
     st.level=Math.max(1,Math.min(5,Number(st.level||1)));st.xp=Math.max(0,Number(st.xp||0));st.used=Math.max(0,Number(st.used||0));st.total=Math.max(0,Number(st.total||0));st.gameUsed=Math.max(0,Number(st.gameUsed||0));st.gameWins=Math.max(0,Number(st.gameWins||0));st.plans??={};return st;
   }
-  function need(level){return [0,20,28,36,46,0][Math.max(1,Math.min(5,Number(level||1)))]||0}
+  function need(level){return [0,30,45,60,80,0][Math.max(1,Math.min(5,Number(level||1)))]||0}
   function awardMax(c,st){
     if(st.level<5)return;try{if(typeof ensureSharedAchievements==='function')ensureSharedAchievements()}catch(e){}
     c.achievements??=(window.local?.sharedAchievements||{});const fresh=!c.achievements.npc_cultivation_max;c.achievements.npc_cultivation_max=1;
@@ -12950,13 +12952,13 @@ body.game-entry-active #npcTownFab{
   function showMood(relType,face,line){const m=MOODS[face]||MOODS.normal;const img=document.getElementById('npcMeetPortrait');if(img)img.src=faceSrc(m.face);const pill=document.getElementById('npcMeetMoodPill');if(pill)pill.textContent=m.label;const l=document.getElementById('npcMeetMoodLine');if(l)l.textContent=line||MOOD_LINES[relType]?.[face]?.[0]||'「今天也來啦？」'}
   function render(){
     const info=routeInfo();if(!info||!info.route)return toast('這段 NPC 特殊關係尚未建立。');const {c,rel,route}=info,st=state(c);
-    document.getElementById('npcMeetRelationName').textContent='貓貓店長-貓貓';document.getElementById('npcMeetRelationLabel').textContent=NPC_RELATION_LABELS[rel.type]||rel.type;document.getElementById('npcMeetSubtitle').textContent=route.title;document.getElementById('npcMeetToday').textContent=`今日互動 ${st.used}/3・小遊戲 ${st.gameUsed}/2・累積相處 ${st.total} 次`;
+    document.getElementById('npcMeetRelationName').textContent='貓貓店長-貓貓';document.getElementById('npcMeetRelationLabel').textContent=NPC_RELATION_LABELS[rel.type]||rel.type;document.getElementById('npcMeetSubtitle').textContent=route.title;document.getElementById('npcMeetToday').textContent=`今日互動 ${st.used}/3・小遊戲 ${st.gameUsed}/3・累積相處 ${st.total} 次`;
     document.getElementById('npcMeetIntroTitle').textContent=route.title;document.getElementById('npcMeetIntroText').textContent=route.intro;
     const n=need(st.level);document.getElementById('npcMeetLevel').textContent=`感情 Lv.${st.level}${st.level>=5?' MAX':''}`;document.getElementById('npcMeetExpText').textContent=st.level>=5?'MAX':`${st.xp} / ${n} EXP`;document.getElementById('npcMeetExpBar').style.width=st.level>=5?'100%':`${Math.min(100,st.xp/n*100)}%`;document.getElementById('npcMeetLevelDots').innerHTML=[1,2,3,4,5].map(x=>`<i class="npcMeetLevelDot ${x<=st.level?'on':''}"></i>`).join('');document.getElementById('npcMeetMaxHint').textContent=st.level>=5?'🏆 已達滿等，成就「貓貓的特別之人」已解鎖。':'Lv.5 MAX 會解鎖專屬成就。';
     document.getElementById('npcMeetPlanGrid').innerHTML=route.plans.map(p=>`<button class="npcActionCard" data-npc-meet-plan="${esc(p.id)}" ${st.used>=3?'disabled':''}><b>${p.icon} ${esc(p.name)}</b><span class="small">${esc(p.desc)}<br>感情 EXP +${p.xp}<br>已互動 ${Number(st.plans[p.id]||0)} 次</span></button>`).join('');
     document.getElementById('npcMeetRecords').innerHTML=route.plans.map(p=>`${p.icon} ${esc(p.name)}：${Number(st.plans[p.id]||0)} 次`).join('<br>')+`<br>🎮 小遊戲成功：${st.gameWins} 次`;
-    document.getElementById('npcMeetGameToday').textContent=`今日 ${st.gameUsed}/2`;
-    document.getElementById('npcMeetGameChoices').classList.add('hidden');document.getElementById('npcMeetGameResult').textContent='';document.getElementById('npcMeetGamePrompt').textContent='按開始後，依照她的反應選一個最適合的互動。';document.getElementById('npcMeetGameStart').disabled=st.gameUsed>=2;
+    document.getElementById('npcMeetGameToday').textContent=`今日 ${st.gameUsed}/3`;
+    document.getElementById('npcMeetGameChoices').classList.add('hidden');document.getElementById('npcMeetGameResult').textContent='';document.getElementById('npcMeetGamePrompt').textContent='每天最多 3 局。按開始後，依照她的反應選一個最適合的互動。';document.getElementById('npcMeetGameStart').disabled=st.gameUsed>=3;
     const keys=['normal','happy','shy','annoyed','surprised','soft'],idx=Number(st.moodIndex||0)%keys.length;showMood(rel.type,keys[idx],MOOD_LINES[rel.type]?.[keys[idx]]?.[0]);document.getElementById('npcMeetModal').classList.remove('hidden');
   }
   window.openNpcMeet=function(){render()};
@@ -12965,16 +12967,52 @@ body.game-entry-active #npcTownFab{
   function cycleMood(){const info=routeInfo();if(!info)return;const {c,rel}=info,st=state(c);const keys=['normal','happy','shy','annoyed','surprised','soft'];st.moodIndex=(Number(st.moodIndex||0)+1)%keys.length;const f=keys[st.moodIndex],arr=MOOD_LINES[rel.type]?.[f]||['「……？」'];showMood(rel.type,f,arr[Math.floor(Math.random()*arr.length)]);saveLocal();}
 
   const GAME={
-    lover:[['她把店門鎖好後看著你，像是在等你開口。',['牽她的手','問今天營收','先回家'],0,'shy'],['她突然安靜下來，偷偷看了你一眼。',['誇她今天很好看','故意裝沒看到','問店貓去哪'],0,'shy']],
-    bestfriend:[['她抱著一疊貨物，一臉「你懂吧」的表情。',['接過一半一起搬','站旁邊加油','拍照留念'],0,'happy'],['她笑到停不下來，還指著你。',['一起笑回去','認真生氣','立刻離店'],0,'happy']],
-    confidant:[['她把聲音壓得很低，像是有話只想跟你說。',['安靜聽她說完','立刻追問細節','轉移話題'],0,'soft'],['她把一杯熱飲推給你，沒有說話。',['陪她安靜坐著','一直問怎麼了','拿起手機離開'],0,'soft']],
-    bickering:[['她抱著最後一顆糖，挑釁地看著你。',['跟她猜拳決勝負','直接搶走','說不吃了'],0,'annoyed'],['她嘴上說「隨便你」，眼神卻一直往你這邊飄。',['故意逗她再和好','真的轉身走','完全不理她'],0,'shy']],
-    catfriend:[['店貓叼著玩具跑到你腳邊，店長在旁邊盯著。',['陪貓玩也邀她一起','只顧著拍貓','把玩具藏起來'],0,'happy'],['店長小聲抱怨你今天只看貓。',['也摸摸她的頭','繼續只看貓','說店長不可愛'],0,'shy']],
-    regular:[['她沒問你要什麼，直接開始準備。',['相信她的推薦','一直改單','說今天不買'],0,'happy'],['打烊後她沒有趕你走，只添了一杯茶。',['留下來陪她喝完','立刻離開','問能不能打折'],0,'soft']]
+    lover:[
+      ['她把店門鎖好後看著你，像是在等你開口。',['牽她的手','問今天營收','先回家'],0,'shy'],
+      ['她突然安靜下來，偷偷看了你一眼。',['誇她今天很好看','故意裝沒看到','問店貓去哪'],0,'shy'],
+      ['她說今天有點累，卻沒有要你先走。',['陪她坐一下','催她快收店','自己滑手機'],0,'soft'],
+      ['她拿出兩杯飲料，問你想坐哪裡。',['坐她旁邊','坐最遠的位置','說不喝了'],0,'happy'],
+      ['她整理到一半突然問：「你明天還來嗎？」',['答應會來','故意不回答','說最近都不來'],0,'shy'],
+      ['她把一小袋點心塞到你手裡。',['分她一半一起吃','全部收走不理她','問能不能換錢'],0,'happy']],
+    bestfriend:[
+      ['她抱著一疊貨物，一臉「你懂吧」的表情。',['接過一半一起搬','站旁邊加油','拍照留念'],0,'happy'],
+      ['她笑到停不下來，還指著你。',['一起笑回去','認真生氣','立刻離店'],0,'happy'],
+      ['她說今天發生一件超荒謬的事。',['立刻搬椅子聽八卦','叫她別說','轉頭離開'],0,'happy'],
+      ['她拿出兩包零食，故意把喜歡的那包藏起來。',['跟她交換著吃','全部搶走','說都不好吃'],0,'annoyed'],
+      ['她問你要不要一起翹掉整理工作。',['先偷懶五分鐘再做','直接把店丟著','叫她自己做'],0,'happy'],
+      ['她突然模仿你平常說話的樣子。',['也模仿她反擊','真的翻臉','完全不回應'],0,'happy']],
+    confidant:[
+      ['她把聲音壓得很低，像是有話只想跟你說。',['安靜聽她說完','立刻追問細節','轉移話題'],0,'soft'],
+      ['她把一杯熱飲推給你，沒有說話。',['陪她安靜坐著','一直問怎麼了','拿起手機離開'],0,'soft'],
+      ['她看著窗外發呆，似乎心情有點沉。',['先陪著，等她想說','逼她馬上解釋','假裝沒看到離開'],0,'soft'],
+      ['她問：「如果我有件事一直沒說，你會生氣嗎？」',['告訴她可以慢慢說','立刻逼問內容','說一定會生氣'],0,'shy'],
+      ['她把一本舊筆記推到你面前。',['先問她能不能看','直接翻到底','嫌它很舊'],0,'soft'],
+      ['她說今天不太想講話。',['安靜留下陪她','不停找話題','說無聊就走'],0,'soft']],
+    bickering:[
+      ['她抱著最後一顆糖，挑釁地看著你。',['跟她猜拳決勝負','直接搶走','說不吃了'],0,'annoyed'],
+      ['她嘴上說「隨便你」，眼神卻一直往你這邊飄。',['故意逗她再和好','真的轉身走','完全不理她'],0,'shy'],
+      ['她說你今天一定贏不了她。',['笑著接受挑戰','直接認輸走人','說她很幼稚'],0,'annoyed'],
+      ['她故意把你常坐的位置占走。',['跟她鬥嘴搶位置','真的生氣離開','站著不說話'],0,'happy'],
+      ['她做錯事卻死不承認。',['先吐槽再幫她收拾','一直罵到她閉嘴','直接告狀'],0,'annoyed'],
+      ['她小聲說了一句像是稱讚你的話。',['抓住機會逗她','假裝嫌棄她','立刻走掉'],0,'shy']],
+    catfriend:[
+      ['店貓叼著玩具跑到你腳邊，店長在旁邊盯著。',['陪貓玩也邀她一起','只顧著拍貓','把玩具藏起來'],0,'happy'],
+      ['店長小聲抱怨你今天只看貓。',['也關心一下店長','繼續只看貓','說店長不可愛'],0,'shy'],
+      ['店貓突然趴在你的腿上不走了。',['輕輕摸牠並叫店長來看','立刻把牠推走','故意抱走不還'],0,'happy'],
+      ['店長拿出新買的逗貓棒。',['一起試玩','嫌它很醜','搶走不給她'],0,'happy'],
+      ['店貓躲進紙箱，只露出一雙眼睛。',['蹲下慢慢等牠出來','伸手硬抓','踢一下紙箱'],0,'soft'],
+      ['她問你手機裡是不是全都是店貓照片。',['也拍一張她和店貓','說她不重要','把手機藏起來'],0,'shy']],
+    regular:[
+      ['她沒問你要什麼，直接開始準備。',['相信她的推薦','一直改單','說今天不買'],0,'happy'],
+      ['打烊後她沒有趕你走，只添了一杯茶。',['留下來陪她喝完','立刻離開','問能不能打折'],0,'soft'],
+      ['她一看到你就把常買的東西拿出來。',['笑著說她記性真好','嫌她自作主張','什麼都不買'],0,'happy'],
+      ['今天店裡很忙，她看起來有點手忙腳亂。',['順手幫她整理一下','一直催自己的單','站旁邊抱怨'],0,'soft'],
+      ['她問你最近怎麼少來了一天。',['告訴她昨天的事','說不關她的事','故意不回答'],0,'shy'],
+      ['她準備關店，卻問你要不要帶杯熱飲走。',['收下並向她道謝','嫌棄口味','要求免費加倍'],0,'happy']]
   };
   let currentGame=null;
-  function startGame(){const info=routeInfo();if(!info)return;const {c,rel}=info,st=state(c);if(st.gameUsed>=2)return toast('🎮 今天的小遊戲已玩 2 次。');const pool=GAME[rel.type]||GAME.regular;currentGame=pool[Math.floor(Math.random()*pool.length)];document.getElementById('npcMeetGamePrompt').textContent=currentGame[0];const box=document.getElementById('npcMeetGameChoices');box.innerHTML=currentGame[1].map((x,i)=>`<button data-npc-game-choice="${i}">${esc(x)}</button>`).join('');box.classList.remove('hidden');document.getElementById('npcMeetGameStart').disabled=true;document.getElementById('npcMeetGameResult').textContent='';}
-  function chooseGame(i){if(!currentGame)return;const info=routeInfo();if(!info)return;const {c,rel}=info,st=state(c);st.gameUsed++;const ok=Number(i)===Number(currentGame[2]),gain=ok?10:4;st.xp+=gain;if(ok)st.gameWins++;const up=applyLevel(c,st);showMood(rel.type,ok?currentGame[3]:'annoyed',ok?'「嗯，這個答案我喜歡。」':'「……你真的懂我嗎？」');saveLocal();document.getElementById('npcMeetGameChoices').classList.add('hidden');document.getElementById('npcMeetGameResult').innerHTML=`${ok?'✨ 默契成功！':'😾 好像選錯了。'} 感情 EXP +${gain}${up?`・提升到 Lv.${st.level}`:''}`;document.getElementById('npcMeetGameToday').textContent=`今日 ${st.gameUsed}/2`;document.getElementById('npcMeetGameStart').disabled=st.gameUsed>=2;currentGame=null;setTimeout(()=>render(),1200);}
+  function startGame(){const info=routeInfo();if(!info)return;const {c,rel}=info,st=state(c);if(st.gameUsed>=3)return toast('🎮 今天的小遊戲已玩 3 次。');const pool=GAME[rel.type]||GAME.regular;currentGame=pool[Math.floor(Math.random()*pool.length)];document.getElementById('npcMeetGamePrompt').textContent=currentGame[0];const box=document.getElementById('npcMeetGameChoices');box.innerHTML=currentGame[1].map((x,i)=>`<button data-npc-game-choice="${i}">${esc(x)}</button>`).join('');box.classList.remove('hidden');document.getElementById('npcMeetGameStart').disabled=true;document.getElementById('npcMeetGameResult').textContent='';}
+  function chooseGame(i){if(!currentGame)return;const info=routeInfo();if(!info)return;const {c,rel}=info,st=state(c);st.gameUsed++;const ok=Number(i)===Number(currentGame[2]),gain=ok?3:1;st.xp+=gain;if(ok)st.gameWins++;const up=applyLevel(c,st);showMood(rel.type,ok?currentGame[3]:'annoyed',ok?'「嗯，這個答案我喜歡。」':'「……你真的懂我嗎？」');saveLocal();document.getElementById('npcMeetGameChoices').classList.add('hidden');document.getElementById('npcMeetGameResult').innerHTML=`${ok?'✨ 默契成功！':'😾 好像選錯了。'} 感情 EXP +${gain}${up?`・提升到 Lv.${st.level}`:''}`;document.getElementById('npcMeetGameToday').textContent=`今日 ${st.gameUsed}/3`;document.getElementById('npcMeetGameStart').disabled=st.gameUsed>=3;currentGame=null;setTimeout(()=>render(),1200);}
 
   /* 成就註冊到原成就瀏覽器。 */
   try{if(Array.isArray(window.protoAch||protoAch)&&!(window.protoAch||protoAch).some(x=>x[0]==='npc_cultivation_max'))(window.protoAch||protoAch).push(['npc_cultivation_max','💜','貓貓的特別之人','與貓貓店長的特殊關係感情培養達 Lv.5 MAX','關係']);}catch(e){}
