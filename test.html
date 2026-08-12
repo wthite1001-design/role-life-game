@@ -1186,6 +1186,7 @@ body:not(.launch-game-open) #launchActivityFab{display:none!important}
   margin-bottom:10px;
 }
 .npcRelationCard{
+  position:relative;
   display:grid;
   grid-template-columns:82px 1fr;
   gap:11px;
@@ -1209,6 +1210,13 @@ body:not(.launch-game-open) #launchActivityFab{display:none!important}
 .npcRelationStatus.confidant{background:#e8f2ff;color:#476b9a}
 .npcRelationActions{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
 .npcRelationActions button{min-height:36px;padding:6px 9px;font-size:11px}
+.npcRelationActions button[data-npc-rel-meet]{
+  position:absolute;top:10px;right:10px;
+  min-height:36px;margin:0;padding:6px 9px;
+  font-size:11px;font-weight:700;border-radius:10px;
+  box-shadow:none;
+}
+.npcRelationActions button[data-npc-rel-meet]::before{content:""}
 .npcRelationLocked{opacity:.55}
 
 
@@ -9511,7 +9519,7 @@ function renderNpcRelationships(){
               :"與這位 NPC 的故事還沒有走到最終章。"
         }</div>
         <div class="npcRelationActions">
-          ${rel?`<button data-npc-rel-view="${def.id}">📖 關係資訊</button><button data-npc-rel-meet="${def.id}">💬 和她見面・培養</button>`:""}
+          ${rel?`<button data-npc-rel-view="${def.id}">📖 關係資訊</button><button data-npc-rel-meet="${def.id}">💬 和她見面</button>`:""}
         </div>
       </div>
     </div>`;
@@ -12950,10 +12958,10 @@ body.game-entry-active #npcTownFab{
   };
 
   function state(c=typeof cur==='function'?cur():null,npcId='shopkeeper_cat'){
-    if(!c)return null;c.npcMeetProgress??={};c.npcMeetProgress[npcId]??={level:1,xp:0,date:'',used:0,total:0,plans:{},gameDate:'',gameUsed:0,gameWins:0,moodIndex:0};
+    if(!c)return null;c.npcMeetProgress??={};c.npcMeetProgress[npcId]??={level:1,xp:0,date:'',used:0,total:0,plans:{},dailyPlans:{},gameDate:'',gameUsed:0,gameWins:0,moodIndex:0};
     const st=c.npcMeetProgress[npcId],today=new Date().toLocaleDateString('sv-SE');
-    if(st.date!==today){st.date=today;st.used=0}if(st.gameDate!==today){st.gameDate=today;st.gameUsed=0}
-    st.level=Math.max(1,Math.min(5,Number(st.level||1)));st.xp=Math.max(0,Number(st.xp||0));st.used=Math.max(0,Number(st.used||0));st.total=Math.max(0,Number(st.total||0));st.gameUsed=Math.max(0,Number(st.gameUsed||0));st.gameWins=Math.max(0,Number(st.gameWins||0));st.plans??={};return st;
+    if(st.date!==today){st.date=today;st.used=0;st.dailyPlans={}}if(st.gameDate!==today){st.gameDate=today;st.gameUsed=0}
+    st.level=Math.max(1,Math.min(5,Number(st.level||1)));st.xp=Math.max(0,Number(st.xp||0));st.used=Math.max(0,Number(st.used||0));st.total=Math.max(0,Number(st.total||0));st.gameUsed=Math.max(0,Number(st.gameUsed||0));st.gameWins=Math.max(0,Number(st.gameWins||0));st.plans??={};st.dailyPlans??={};return st;
   }
   function need(level){return [0,30,45,60,80,0][Math.max(1,Math.min(5,Number(level||1)))]||0}
   function awardMax(c,st){
@@ -12967,17 +12975,17 @@ body.game-entry-active #npcTownFab{
   function showMood(relType,face,line){const m=MOODS[face]||MOODS.normal;const img=document.getElementById('npcMeetPortrait');if(img)img.src=faceSrc(m.face);const pill=document.getElementById('npcMeetMoodPill');if(pill)pill.textContent=m.label;const l=document.getElementById('npcMeetMoodLine');if(l)l.textContent=line||MOOD_LINES[relType]?.[face]?.[0]||'「今天也來啦？」'}
   function render(){
     const info=routeInfo();if(!info||!info.route)return toast('這段 NPC 特殊關係尚未建立。');const {c,rel,route}=info,st=state(c);
-    document.getElementById('npcMeetRelationName').textContent='貓貓店長-貓貓';document.getElementById('npcMeetRelationLabel').textContent=NPC_RELATION_LABELS[rel.type]||rel.type;document.getElementById('npcMeetSubtitle').textContent=route.title;document.getElementById('npcMeetToday').textContent=`今日互動 ${st.used}/3・小遊戲 ${st.gameUsed}/3・累積相處 ${st.total} 次`;
+    document.getElementById('npcMeetRelationName').textContent='貓貓店長-貓貓';document.getElementById('npcMeetRelationLabel').textContent=NPC_RELATION_LABELS[rel.type]||rel.type;document.getElementById('npcMeetSubtitle').textContent=route.title;document.getElementById('npcMeetToday').textContent=`每項互動今日最多 3 次・小遊戲 ${st.gameUsed}/3・累積相處 ${st.total} 次`;
     document.getElementById('npcMeetIntroTitle').textContent=route.title;document.getElementById('npcMeetIntroText').textContent=route.intro;
     const n=need(st.level);document.getElementById('npcMeetLevel').textContent=`感情 Lv.${st.level}${st.level>=5?' MAX':''}`;document.getElementById('npcMeetExpText').textContent=st.level>=5?'MAX':`${st.xp} / ${n} EXP`;document.getElementById('npcMeetExpBar').style.width=st.level>=5?'100%':`${Math.min(100,st.xp/n*100)}%`;document.getElementById('npcMeetLevelDots').innerHTML=[1,2,3,4,5].map(x=>`<i class="npcMeetLevelDot ${x<=st.level?'on':''}"></i>`).join('');document.getElementById('npcMeetMaxHint').textContent=st.level>=5?'🏆 已達滿等，成就「貓貓的特別之人」已解鎖。':'Lv.5 MAX 會解鎖專屬成就。';
-    document.getElementById('npcMeetPlanGrid').innerHTML=route.plans.map(p=>`<button class="npcActionCard" data-npc-meet-plan="${esc(p.id)}" ${st.used>=3?'disabled':''}><b>${p.icon} ${esc(p.name)}</b><span class="small">${esc(p.desc)}<br>感情 EXP +${p.xp}<br>已互動 ${Number(st.plans[p.id]||0)} 次</span></button>`).join('');
+    document.getElementById('npcMeetPlanGrid').innerHTML=route.plans.map(p=>{const todayUsed=Number(st.dailyPlans[p.id]||0);return `<button class="npcActionCard" data-npc-meet-plan="${esc(p.id)}" ${todayUsed>=3?'disabled':''}><b>${p.icon} ${esc(p.name)}</b><span class="small">${esc(p.desc)}<br>感情 EXP +${p.xp}<br>今日 ${todayUsed}/3 次・累積 ${Number(st.plans[p.id]||0)} 次</span></button>`}).join('');
     document.getElementById('npcMeetRecords').innerHTML=route.plans.map(p=>`${p.icon} ${esc(p.name)}：${Number(st.plans[p.id]||0)} 次`).join('<br>')+`<br>🎮 小遊戲成功：${st.gameWins} 次`;
     document.getElementById('npcMeetGameToday').textContent=`今日 ${st.gameUsed}/3`;
     document.getElementById('npcMeetGameChoices').classList.add('hidden');document.getElementById('npcMeetGameResult').textContent='';document.getElementById('npcMeetGamePrompt').textContent='每天最多 3 局。按開始後，依照她的反應選一個最適合的互動。';document.getElementById('npcMeetGameStart').disabled=st.gameUsed>=3;
     const keys=['normal','happy','shy','annoyed','surprised','soft'],idx=Number(st.moodIndex||0)%keys.length;showMood(rel.type,keys[idx],MOOD_LINES[rel.type]?.[keys[idx]]?.[0]);document.getElementById('npcMeetModal').classList.remove('hidden');
   }
   window.openNpcMeet=function(){render()};
-  function doPlan(id){const info=routeInfo();if(!info)return;const {c,rel,route}=info,st=state(c),p=route.plans.find(x=>x.id===id);if(!p)return;if(st.used>=3)return toast('💞 今天已經互動 3 次了，明天再來。');st.used++;st.total++;st.plans[id]=Number(st.plans[id]||0)+1;st.xp+=p.xp;const up=applyLevel(c,st);showMood(rel.type,p.face,p.lines[(st.plans[id]-1)%p.lines.length]);saveLocal();toast(`${p.icon} ${p.name}・感情 EXP +${p.xp}${up?`・升到 Lv.${st.level}`:''}`,3300);render();}
+  function doPlan(id){const info=routeInfo();if(!info)return;const {c,rel,route}=info,st=state(c),p=route.plans.find(x=>x.id===id);if(!p)return;const todayUsed=Number(st.dailyPlans[id]||0);if(todayUsed>=3)return toast(`💞「${p.name}」今天已經互動 3 次了，明天再來。`);st.dailyPlans[id]=todayUsed+1;st.used=Object.values(st.dailyPlans).reduce((a,b)=>a+Number(b||0),0);st.total++;st.plans[id]=Number(st.plans[id]||0)+1;st.xp+=p.xp;const up=applyLevel(c,st);showMood(rel.type,p.face,p.lines[(st.plans[id]-1)%p.lines.length]);saveLocal();toast(`${p.icon} ${p.name}・今日 ${st.dailyPlans[id]}/3・感情 EXP +${p.xp}${up?`・升到 Lv.${st.level}`:''}`,3300);render();}
 
   function cycleMood(){const info=routeInfo();if(!info)return;const {c,rel}=info,st=state(c);const keys=['normal','happy','shy','annoyed','surprised','soft'];st.moodIndex=(Number(st.moodIndex||0)+1)%keys.length;const f=keys[st.moodIndex],arr=MOOD_LINES[rel.type]?.[f]||['「……？」'];showMood(rel.type,f,arr[Math.floor(Math.random()*arr.length)]);saveLocal();}
 
