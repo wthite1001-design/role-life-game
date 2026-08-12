@@ -7506,6 +7506,31 @@ function launchUnlockedDay(now=Date.now()){
 
 // 正式服邀請碼活動：正式 RPC 優先，舊版 RPC 作相容 fallback。
 let testReferralInfo=null;
+function referralCountFromInfo(raw){
+  let info=Array.isArray(raw)?(raw[0]||{}):(raw||{});
+  const direct=[
+    info.successful_invites,info.successful_invite_count,info.invite_count,info.invited_count,
+    info.invitee_count,info.invitees_count,info.referral_count,info.referred_count,
+    info.completed_referrals,info.total_invites,info.total_referrals
+  ].map(Number).filter(Number.isFinite);
+  let best=direct.length?Math.max(...direct):0;
+  for(const [k,v] of Object.entries(info)){
+    const key=String(k).toLowerCase();
+    if(Array.isArray(v)&&/(invite|referr)/.test(key))best=Math.max(best,v.length);
+    if(typeof v==='number'&&/(invite|referr)/.test(key)&&/(count|total|success|complete|number)/.test(key))best=Math.max(best,v);
+  }
+  return Math.max(0,Math.floor(best||0));
+}
+function mergeReferralInfo(list){
+  const rows=list.map(x=>Array.isArray(x)?(x[0]||{}):(x||{})).filter(x=>x&&typeof x==='object');
+  if(!rows.length)return {};
+  const out=Object.assign({},...rows);
+  out.successful_invites=Math.max(0,...rows.map(referralCountFromInfo));
+  out.pending_coins=Math.max(0,...rows.map(x=>Number(x.pending_coins??x.unclaimed_coins??x.reward_coins??0)||0));
+  out.invite_code=rows.map(x=>x.invite_code||x.referral_code||x.code).find(Boolean)||out.invite_code;
+  out.bound_inviter_code=rows.map(x=>x.bound_inviter_code||x.inviter_code||x.referred_by_code).find(Boolean)||out.bound_inviter_code;
+  return out;
+}
 async function formalReferralRpc(name,args={}){
   const candidates={
     get:["get_referral_info","get_test_referral_info"],
@@ -7513,6 +7538,15 @@ async function formalReferralRpc(name,args={}){
     claim:["claim_referral_coins","claim_test_referral_coins"]
   }[name]||[];
   let lastErr=null;
+  if(name==='get'){
+    const ok=[];
+    for(const rpc of candidates){
+      try{ok.push(await api("/rpc/"+rpc,{method:"POST",body:JSON.stringify(args)}))}
+      catch(e){lastErr=e}
+    }
+    if(ok.length)return mergeReferralInfo(ok);
+    throw lastErr||new Error("邀請系統尚未設定");
+  }
   for(const rpc of candidates){
     try{return await api("/rpc/"+rpc,{method:"POST",body:JSON.stringify(args)})}
     catch(e){lastErr=e}
@@ -7528,7 +7562,7 @@ async function loadTestReferralPanel(){
     if(Array.isArray(info))info=info[0]||{};
     testReferralInfo=info||{};
     codeEl.textContent=String(info?.invite_code||"—");
-    launchReferralCount=Math.max(0,Number(info?.successful_invites??info?.invite_count??info?.referred_count??info?.completed_referrals??0));
+    launchReferralCount=referralCountFromInfo(info);
     const bound=document.getElementById("formalBoundInviterStatus");
     const bindBox=document.getElementById("formalBindInviterBox");
     if(info?.bound_inviter_code){
@@ -7554,7 +7588,7 @@ async function refreshLaunchReferralCount(){
     let info=await formalReferralRpc("get",{p_player_id:playerId});
     if(Array.isArray(info))info=info[0]||{};
     testReferralInfo=info||{};
-    launchReferralCount=Math.max(0,Number(info?.successful_invites??info?.invite_count??info?.referred_count??info?.completed_referrals??0));
+    launchReferralCount=referralCountFromInfo(info);
   }catch(e){launchReferralCount=0}
 }
 function saveLaunchState(x){localStorage.setItem(LAUNCH_EVENT_KEY,JSON.stringify(x||{}))}
