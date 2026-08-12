@@ -13419,3 +13419,45 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opa
   setTimeout(syncNpcStoryDesktopBg,100);
 })();
 </script>
+<style id="qixiReadabilityV3">
+/* 七夕 v3：白色內容卡文字可讀性 + NPC 視窗柔和星河化 */
+#home .save,
+#home .liveStat,
+#home .createBox{
+  color:#3d3343!important;
+}
+#home .save .saveName{color:#3d3343!important;text-shadow:none!important}
+#home .save .muted,#home .liveStat span,#home .createBox .createHint{color:#786b82!important;text-shadow:none!important}
+#home .liveStat b{color:#6f4f91!important;text-shadow:none!important}
+#home .save button.danger{background:#f4e9f7!important;color:#684979!important}
+
+/* NPC 關係頁不要整片黑紫，改成較柔和、仍有七夕感的半透明淡紫視窗 */
+#extraNpcRelations.pageCard.active{
+  background:linear-gradient(180deg,rgba(241,232,249,.97),rgba(226,214,243,.97))!important;
+  color:#3d3343!important;
+  border:1px solid rgba(201,177,224,.7)!important;
+}
+#extraNpcRelations .sheetHead{
+  background:rgba(239,229,248,.98)!important;
+  color:#3d3343!important;
+  border-bottom:1px solid rgba(196,171,220,.5)!important;
+}
+#extraNpcRelations .sheetHead b{color:#3d3343!important}
+#extraNpcRelations .sheetHead .small{color:#75677f!important}
+#extraNpcRelations .npcRelationIntro{
+  background:rgba(255,250,255,.76)!important;
+  color:#6f6278!important;
+  border-color:rgba(193,168,216,.55)!important;
+}
+#extraNpcRelations .npcRelationCard{
+  background:rgba(255,252,255,.94)!important;
+  color:#3d3343!important;
+  border-color:rgba(193,168,216,.55)!important;
+  box-shadow:0 8px 22px rgba(64,39,91,.08)!important;
+}
+#extraNpcRelations .npcRelationCard .small,
+#extraNpcRelations .npcRelationCard .muted{color:#75677f!important}
+#extraNpcRelations #npcEventPeriodHint{color:#74677f!important}
+#extraNpcRelations button:not(.primary){background:#eee3f6!important;color:#604474!important}
+#extraNpcRelations .sheetClose{background:#eadcf4!important;color:#654879!important}
+</style>
