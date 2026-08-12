@@ -13303,6 +13303,60 @@ body.game-entry-active #npcTownFab{
 })();
 </script>
 
+
+<style id="qixiFullThemeFix">
+/* === 七夕初始版 v2：全頁星河、滿版、可讀性修正 === */
+:root{
+ --bg:#120d2d;--card:rgba(255,252,255,.94);--text:#382d45;--muted:#74677f;
+ --line:rgba(173,145,205,.34);--accent:#7557b5;--pink:#d486b5;--soft:#eee5f7;
+}
+html,body{width:100%;min-height:100%;background:#120d2d!important;overflow-x:hidden}
+body{
+ background:
+  radial-gradient(circle at 14% 12%,rgba(255,255,255,.75) 0 1px,transparent 1.8px),
+  radial-gradient(circle at 82% 22%,rgba(255,225,171,.7) 0 1px,transparent 1.8px),
+  radial-gradient(circle at 68% 7%,rgba(211,196,255,.9) 0 1.2px,transparent 2px),
+  linear-gradient(180deg,#100a2b 0%,#18113d 34%,#2c1953 70%,#4b2862 100%)!important;
+ background-attachment:fixed!important;
+}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.42;background-image:radial-gradient(circle,rgba(255,255,255,.85) 0 1px,transparent 1.5px),radial-gradient(circle,rgba(203,185,255,.72) 0 1px,transparent 1.5px);background-size:71px 71px,119px 119px;background-position:13px 9px,37px 51px}
+.wrap{position:relative;z-index:1;max-width:500px;width:100%;margin:0 auto;padding:0 12px calc(22px + env(safe-area-inset-bottom));background:transparent!important}
+#home{margin:0 -12px!important;width:calc(100% + 24px)!important;min-height:100dvh!important;border-radius:0!important;padding:18px 12px 36px!important}
+#game{margin:0 -12px!important;width:calc(100% + 24px)!important;min-height:100dvh!important;padding:0 12px 34px!important;background:linear-gradient(180deg,rgba(16,10,43,.18),rgba(75,40,98,.24))!important}
+#game .top{margin:0 -12px 12px!important;padding:10px 12px!important;background:rgba(24,15,57,.9)!important;border-bottom-color:rgba(220,205,255,.22)!important;color:#fff!important}
+#game .top h1,#game .top b,#game .top .title{color:#fff!important}
+#game .card,#game .notice,#game .event,#game .now,#game .stat,#game .partner,#game .relItem{
+ background:rgba(255,251,255,.93)!important;border-color:rgba(199,177,218,.46)!important;box-shadow:0 8px 24px rgba(8,4,30,.12)
+}
+#game button:not(.primary):not(.danger){background:#eee4f6;color:#604474}
+#game .primary,#game button.primary{background:linear-gradient(135deg,#7758b7,#bd70a8)!important;color:#fff!important}
+#home .homeHero h1{font-size:clamp(30px,9vw,42px)!important;line-height:1.12!important;white-space:normal!important;overflow:visible!important;word-break:keep-all!important;letter-spacing:.02em!important}
+#home .homeHero{padding-left:18px!important;padding-right:18px!important}
+#home .homeTagline,#home .homeVersion,#home .homePanel,#home .homePanel *{text-shadow:none!important}
+#home .homePanel .small,#home .homePanel .muted{color:#ddd3ee!important}
+#home .homePanel button:not(.primary){background:rgba(251,245,255,.96)!important;color:#604474!important}
+#home .homePanel input,#home .homePanel select{color:#382d45!important;background:#fffafd!important;opacity:1!important}
+#home .homePanel input::placeholder{color:#8a7b96!important;opacity:1!important}
+/* 測試服不保留七日/邀請好友活動。測試資格入口本身不受影響。 */
+#launchActivityFab,#launchActivityModal,#testReferralPanel{display:none!important;visibility:hidden!important;pointer-events:none!important}
+@media(max-width:420px){
+ #home .homeHero h1{font-size:clamp(28px,8.6vw,36px)!important}
+ #home .homeHero{padding-left:14px!important;padding-right:14px!important}
+}
+</style>
+<script id="qixiCampaignCleanupV2">
+(function(){
+ function clean(){
+  document.getElementById('launchActivityFab')?.remove();
+  document.getElementById('launchActivityModal')?.remove();
+  document.getElementById('testReferralPanel')?.remove();
+ }
+ clean();
+ document.addEventListener('DOMContentLoaded',clean,{once:true});
+ setTimeout(clean,50);setTimeout(clean,500);setTimeout(clean,1500);
+})();
+</script>
+
 </body>
 </html>
 
