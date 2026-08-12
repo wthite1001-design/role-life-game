@@ -6805,6 +6805,11 @@ function renderExtras(c){
    let view=protoAch.filter(a=>{
      let cat=achCategory(a);
      if(achievementFilter!=="全部"&&cat!==achievementFilter)return false;
+     // 限時 NPC 活動已結束後：未達成且已無法再取得的活動成就不再顯示。
+     // 已經達成的成就永久保留在成就頁。
+     if(cat==="活動" && String(a[0]||"").startsWith("npc_evt_") && !c.achievements[a[0]]){
+       if(typeof npcEventIsActive==="function" && !npcEventIsActive())return false;
+     }
      if(cat==="關係"){
        let rt=relationAchievementType(a[0]);
        if(rt&&!ownedTypes.has(rt)&&!c.achievements[a[0]])return false;
