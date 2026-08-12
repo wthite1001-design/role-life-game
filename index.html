@@ -185,7 +185,8 @@ h1{font-size:20px;margin:0}
 #extraShop.active #specialShopStatus{display:block!important}
 
 .backupGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.backupGrid button{min-height:44px}
+.backupGrid button,.backupGrid .importSaveLabel{min-height:44px}
+.backupGrid .importSaveLabel{display:flex;align-items:center;justify-content:center;box-sizing:border-box;border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--ink);font-weight:800;cursor:pointer;padding:10px 12px;user-select:none;-webkit-tap-highlight-color:transparent}
 
 #achievementFilters.achievementCategoryTabs{
   display:flex!important;
@@ -1598,11 +1599,11 @@ body.npcStoryRunning .draggableFab{
 <div class="homePanelTitle"><span>💾 存檔備份</span><span class="muted">JSON</span></div>
 <div class="backupGrid">
 <button class="primary" id="exportSaveBtn" type="button">💾 匯出存檔</button>
-<button id="importSaveBtn" type="button">📂 匯入存檔</button>
+<label id="importSaveBtn" class="importSaveLabel" for="importSaveFile" role="button" tabindex="0">📂 匯入存檔</label>
 <button id="rescueSaveBtn" type="button">🛟 搜尋可救援存檔</button>
 <button id="deepRescueBtn" type="button" onclick="showDeepRescue()">🔎 深度救援</button>
 <button id="makeBackupNowBtn" type="button">🧷 立即建立備份</button>
-<input accept=".json,application/json,text/json" id="importSaveFile" type="file" aria-label="選擇 JSON 存檔" style="position:fixed!important;left:-10000px!important;top:0!important;width:1px!important;height:1px!important;opacity:0!important;display:block!important;pointer-events:auto!important"/>
+<input accept=".json,application/json,text/json,*/*" id="importSaveFile" type="file" aria-label="選擇 JSON 存檔" style="position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important;opacity:0.01!important"/>
 </div>
 <div id="saveRescueStatus" class="small" style="margin-top:8px">系統會自動保留最近兩份本機備份；「🔎 深度救援」還會掃描這個網站底下可讀到的舊角色資料。</div>
 </div>
@@ -2929,11 +2930,22 @@ function validateImportedSave(payload){
   }
   return {data,version};
 }
+function readFileAsTextCompat(file){
+  if(file && typeof file.text==="function") return file.text();
+  return new Promise((resolve,reject)=>{
+    try{
+      const reader=new FileReader();
+      reader.onload=()=>resolve(String(reader.result||""));
+      reader.onerror=()=>reject(reader.error||new Error("手機瀏覽器無法讀取這個檔案。"));
+      reader.readAsText(file,"UTF-8");
+    }catch(e){reject(e)}
+  });
+}
 async function importGameSaveFile(file){
   if(!file)return;
   let oldLocal=deepClone(local);
   try{
-    const parsed=JSON.parse(await file.text());
+    const parsed=JSON.parse(await readFileAsTextCompat(file));
     const checked=validateImportedSave(parsed);
     const incoming=checked.data;
     const fromVersion=checked.version;
@@ -4193,27 +4205,22 @@ document.getElementById("gmSendGift")?.addEventListener("click",gmSendOfficialGi
 document.getElementById("gmRefreshLog")?.addEventListener("click",loadGMLog);
 document.getElementById("gmGiftInbox")?.addEventListener("click",e=>{let b=e.target.closest("[data-claim-gm]");if(b)claimOfficialGift(b.dataset.claimGm)});
 document.getElementById("exportSaveBtn")?.addEventListener("click",exportGameSave);
-// 手機瀏覽器相容：file input 不可使用 display:none，否則部分 Android WebView/瀏覽器不會叫出檔案選擇器。
+// 手機版匯入：使用原生 <label for="importSaveFile"> 直接喚起系統檔案選擇器，
+// 避免 Android WebView 阻擋程式化 click()/showPicker()。
 const importSaveBtn=document.getElementById("importSaveBtn");
 const importSaveFile=document.getElementById("importSaveFile");
 if(importSaveBtn&&importSaveFile){
-  importSaveBtn.addEventListener("click",function(ev){
-    ev.preventDefault();
-    // 允許連續選同一個 JSON 檔案時仍觸發 change。
-    importSaveFile.value="";
-    try{
-      if(typeof importSaveFile.showPicker==="function") importSaveFile.showPicker();
-      else importSaveFile.click();
-    }catch(err){
-      // showPicker 在部分瀏覽器可能不支援，退回原生 click。
-      try{ importSaveFile.click(); }catch(_e){ alert("無法開啟檔案選擇器，請改用 Chrome／Safari 後再試一次。"); }
-    }
+  // 鍵盤操作仍可使用 Enter / Space。
+  importSaveBtn.addEventListener("keydown",e=>{
+    if(e.key==="Enter"||e.key===" "){e.preventDefault(); importSaveFile.value=""; importSaveFile.click();}
   });
+  importSaveFile.addEventListener("click",()=>{ importSaveFile.value=""; });
   importSaveFile.addEventListener("change",function(e){
     const file=e.target.files&&e.target.files[0];
     if(file) importGameSaveFile(file);
   });
 }
+
 
 document.getElementById("createChar").onclick=()=>{
   try{
@@ -12575,7 +12582,8 @@ body.game-entry-active #npcTownFab{
 /* === 3.29.7 restore original formal-server functions === */
 function closeDeepRescueModal(e){
     if(e){ e.preventDefault(); e.stopPropagation(); }
-    modal.classList.add("hidden");
+    const modal=document.getElementById("deepRescueModal");
+    if(modal)modal.classList.add("hidden");
   }
 
 function deepPreview(index){
@@ -12647,7 +12655,7 @@ function deepRestore(index){
   }
 }
 
-let saveRecoveryNotice="";
+window.saveRecoveryNotice = window.saveRecoveryNotice || "";
 
 function deepScanLocalStorage(){
   let results=[];
@@ -12933,8 +12941,8 @@ function showDeepRescue(){
 
 function updateSaveRescueStatus(){
   let box=document.getElementById("saveRescueStatus");if(!box)return;
-  if(saveRecoveryNotice){
-    box.innerHTML=`<div class="saveRescueFound"><b>🛟 已啟動存檔救援</b>${esc(saveRecoveryNotice)}</div>`;
+  if(window.saveRecoveryNotice){
+    box.innerHTML=`<div class="saveRescueFound"><b>🛟 已啟動存檔救援</b>${esc(window.saveRecoveryNotice)}</div>`;
     return;
   }
   let saves=scanRecoverableSaves();
