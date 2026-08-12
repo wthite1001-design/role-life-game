@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#9a76c4">
-<title>關係進行式 TEST・3.26.10-店長立繪與限定鈴鐺</title>
+<title>關係進行式 TEST・3.26.17-店長六表情點擊切換</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -1459,20 +1459,6 @@ body.npcStoryRunning .draggableFab{
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png">
 <link rel="manifest" href="manifest.json">
-<style>
-/* === NPC 特殊關係：培養功能（加在原 3.23 / NPC 數值可調測試服） === */
-#npcCultivateModal{z-index:13050!important}
-#npcCultivateModal .modalBox{max-width:760px;max-height:88dvh;overflow:auto}
-.npcCultivateHero{display:flex;gap:12px;align-items:center;padding:12px;border:1px solid rgba(120,80,150,.16);border-radius:18px;background:rgba(255,255,255,.6)}
-.npcCultivateHero img{width:86px;height:86px;border-radius:18px;object-fit:cover;flex:0 0 auto}
-.npcCultivateGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}
-.npcCultivateCard{min-height:104px;text-align:left;padding:13px;border-radius:16px}
-.npcCultivateCard b{display:block;margin-bottom:6px}
-.npcCultivateTrack{height:9px;border-radius:999px;background:#eadff0;overflow:hidden;margin-top:7px}
-.npcCultivateTrack>i{display:block;height:100%;width:0;background:linear-gradient(90deg,#9870c8,#df8ab5)}
-#npcCultivateBtn{width:100%;margin-top:10px}
-@media(max-width:520px){.npcCultivateGrid{grid-template-columns:1fr}}
-</style>
 </head>
 <body>
 
@@ -1537,7 +1523,7 @@ body.npcStoryRunning .draggableFab{
     <div class="homeLogo">🧪</div>
     <h1>關係進行式 TEST</h1>
     <div class="homeTagline">測試中的每一段關係，都可能被重置。</div>
-    <div class="homeVersion">3.26.15・測試服</div>
+    <div class="homeVersion">3.26.16・測試服</div>
   </div>
 
   
@@ -1870,17 +1856,41 @@ body.npcStoryRunning .draggableFab{
 
     <div class="gmPanel">
 <b>🧪 NPC／秘密線數值測試</b>
-<div class="small" style="margin:6px 0 10px">數值全部自己填；只改目前角色。</div>
+<div class="small" style="margin:6px 0 10px">
+  這裡直接對應目前實際判定用的 NPC v2 數值。空白欄位不修改；可自己輸入任意數字。
+</div>
 <div class="gmGrid">
-<label>💕 戀愛值<input id="gmNpcRomance" type="number"></label>
-<label>🤝 信任值<input id="gmNpcTrust" type="number"></label>
-<label>🔐 秘密值<input id="gmNpcSecret" type="number"></label>
-<label>😼 惡作劇值<input id="gmNpcTease" type="number"></label>
-<label>🐾 貓線值<input id="gmNpcCat" type="number"></label>
-<label>💜 店長好感<input id="gmNpcAffinity" type="number"></label>
-<label>🐱 店貓好感<input id="gmNpcCatAffinity" type="number"></label>
-<div class="full actions"><button id="gmLoadNpcValues">讀取目前數值</button><button id="gmApplyNpcValues" class="primary">套用我填的數值</button><button id="gmGiveBlackBox">＋黑盒</button><button id="gmClearNpcValues" class="danger">全部歸零</button></div>
-</div><div id="gmNpcValueStatus" class="small" style="margin-top:8px"></div></div>
+<label>💗 店長好感（最終章需 100）
+  <input id="gmNpcAffection" type="number" min="0" max="100" step="1">
+</label>
+<label>🐈 店貓好感
+  <input id="gmNpcCatAffinity" type="number" min="0" max="100" step="1">
+</label>
+<label>💕 戀愛值（戀人門檻 12）
+  <input id="gmNpcRomance" type="number" step="1">
+</label>
+<label>🤝 信任值（摯友門檻 12）
+  <input id="gmNpcTrust" type="number" step="1">
+</label>
+<label>🔐 秘密值（知己／黑盒線門檻 12）
+  <input id="gmNpcSecret" type="number" step="1">
+</label>
+<label>😼 惡作劇值（歡喜冤家門檻 10）
+  <input id="gmNpcTease" type="number" step="1">
+</label>
+<label>🐾 貓線選擇值（貓友門檻 10）
+  <input id="gmNpcCatChoice" type="number" step="1">
+</label>
+<div class="full actions">
+  <button id="gmLoadNpcValues" type="button">讀取目前數值</button>
+  <button id="gmApplyNpcValues" class="primary" type="button">套用我填的數值</button>
+  <button id="gmGiveBlackBox" type="button">＋黑盒</button>
+  <button id="gmRemoveBlackBox" type="button">－黑盒</button>
+  <button id="gmClearNpcValues" class="danger" type="button">全部歸零</button>
+</div>
+</div>
+<div id="gmNpcValueStatus" class="small" style="margin-top:8px;line-height:1.65"></div>
+</div>
 <div class="gmPanel">
       <b>🎁 發送官方禮物</b>
       <div class="gmGrid" style="margin-top:9px">
@@ -3795,11 +3805,115 @@ function addCurrentGMGiftToCart(){
 }
 
 
-function gmNpcInputs(){return {romance:document.getElementById("gmNpcRomance"),trust:document.getElementById("gmNpcTrust"),secret:document.getElementById("gmNpcSecret"),tease:document.getElementById("gmNpcTease"),cat:document.getElementById("gmNpcCat"),affinity:document.getElementById("gmNpcAffinity"),catAffinity:document.getElementById("gmNpcCatAffinity")};}
-function loadGMNpcValues(){let c=cur();if(!c)return toast("請先進入角色");let st=npcState(c);st.relationScore??={romance:0,trust:0,secret:0,tease:0,cat:0};let e=gmNpcInputs();for(let k of ["romance","trust","secret","tease","cat"])e[k].value=Number(st.relationScore[k]||0);e.affinity.value=Number(st.affinity||0);e.catAffinity.value=Number(st.catAffinity||0);let s=document.getElementById("gmNpcValueStatus");if(s)s.textContent=`目前：戀愛 ${e.romance.value}｜信任 ${e.trust.value}｜秘密 ${e.secret.value}｜惡作劇 ${e.tease.value}｜貓線 ${e.cat.value}｜店長 ${e.affinity.value}｜店貓 ${e.catAffinity.value}`;}
-function applyGMNpcValues(){let c=cur();if(!c)return toast("請先進入角色");let st=npcState(c);st.relationScore??={romance:0,trust:0,secret:0,tease:0,cat:0};let e=gmNpcInputs(),v=(x,o)=>x&&x.value!==""?Number(x.value):Number(o||0);for(let k of ["romance","trust","secret","tease","cat"])st.relationScore[k]=v(e[k],st.relationScore[k]);st.affinity=v(e.affinity,st.affinity);st.catAffinity=v(e.catAffinity,st.catAffinity);saveNpcState(st);saveLocal();renderNpcShop();loadGMNpcValues();toast("🧪 已套用你填的 NPC 數值");}
-function gmGiveNpcBlackBox(){let c=cur();if(!c)return toast("請先進入角色");c.inventory??={};c.inventory.npc_under_counter=Math.max(1,Number(c.inventory.npc_under_counter||0));let st=npcState(c);st.flags??={};st.flags.blackBoxOwned=true;saveNpcState(st);saveLocal();renderNpcShop();toast("🔐 已加入黑盒");}
-function clearGMNpcValues(){let c=cur();if(!c)return toast("請先進入角色");if(!confirm("確定全部歸零？"))return;let st=npcState(c);st.relationScore={romance:0,trust:0,secret:0,tease:0,cat:0};st.affinity=0;st.catAffinity=0;saveNpcState(st);saveLocal();renderNpcShop();loadGMNpcValues();toast("已全部歸零");}
+function gmNpcInputs(){
+  return {
+    affection:document.getElementById("gmNpcAffection"),
+    cat:document.getElementById("gmNpcCatAffinity"),
+    romance:document.getElementById("gmNpcRomance"),
+    trust:document.getElementById("gmNpcTrust"),
+    secret:document.getElementById("gmNpcSecret"),
+    tease:document.getElementById("gmNpcTease"),
+    catChoice:document.getElementById("gmNpcCatChoice")
+  };
+}
+
+function gmNpcRoutePreview(st){
+  st=st||npcState();
+  st.relationScore??={};
+  const sc=st.relationScore;
+  const hasBlack=Number(cur()?.inventory?.npc_under_counter||0)>0||!!st.flags?.blackBoxOwned;
+  const routes=[];
+  if(Number(sc.romance||0)>=12)routes.push("💗 戀人");
+  if(Number(sc.trust||0)>=12)routes.push("🌟 摯友");
+  if(Number(sc.secret||0)>=12)routes.push("🌸 知己");
+  if(Number(sc.tease||0)>=10)routes.push("💢 歡喜冤家");
+  if(Number(sc.catChoice||0)>=10 && Number(st.cat||0)>=70)routes.push("🐈 貓友");
+  if(hasBlack && Number(sc.secret||0)>=12)routes.push("🔐 秘密共犯");
+  return routes.length?routes.join("、"):"尚無特殊關係選項";
+}
+
+function loadGMNpcValues(){
+  let c=cur();if(!c)return toast("請先進入角色");
+  let st=npcState(c);
+  st.flags??={};
+  st.relationScore??={romance:0,trust:0,secret:0,tease:0,catChoice:0};
+
+  let e=gmNpcInputs();
+  e.affection.value=Number(st.affection||0);
+  e.cat.value=Number(st.cat||0);
+  e.romance.value=Number(st.relationScore.romance||0);
+  e.trust.value=Number(st.relationScore.trust||0);
+  e.secret.value=Number(st.relationScore.secret||0);
+  e.tease.value=Number(st.relationScore.tease||0);
+  e.catChoice.value=Number(st.relationScore.catChoice||0);
+
+  const hasBlack=Number(c.inventory?.npc_under_counter||0)>0||!!st.flags.blackBoxOwned;
+  let s=document.getElementById("gmNpcValueStatus");
+  if(s){
+    s.innerHTML=
+      `目前：💗好感 ${e.affection.value}/100｜🐈店貓 ${e.cat.value}/100<br>`+
+      `💕戀愛 ${e.romance.value}｜🤝信任 ${e.trust.value}｜🔐秘密 ${e.secret.value}｜😼惡作劇 ${e.tease.value}｜🐾貓線 ${e.catChoice.value}<br>`+
+      `黑盒：${hasBlack?"✅ 持有":"❌ 未持有"}<br>`+
+      `現在可選結局：<b>${gmNpcRoutePreview(st)}</b>`;
+  }
+}
+
+function applyGMNpcValues(){
+  let c=cur();if(!c)return toast("請先進入角色");
+  let st=npcState(c);
+  st.flags??={};
+  st.relationScore??={romance:0,trust:0,secret:0,tease:0,catChoice:0};
+  let e=gmNpcInputs();
+  const v=(x,old)=>x&&x.value!==""?Number(x.value):Number(old||0);
+
+  st.affection=Math.max(0,Math.min(100,v(e.affection,st.affection)));
+  st.cat=Math.max(0,Math.min(100,v(e.cat,st.cat)));
+  st.relationScore.romance=v(e.romance,st.relationScore.romance);
+  st.relationScore.trust=v(e.trust,st.relationScore.trust);
+  st.relationScore.secret=v(e.secret,st.relationScore.secret);
+  st.relationScore.tease=v(e.tease,st.relationScore.tease);
+  st.relationScore.catChoice=v(e.catChoice,st.relationScore.catChoice);
+
+  saveNpcState(st);
+  saveLocal();
+  renderNpcShop?.();
+  renderNpcRelationships?.();
+  loadGMNpcValues();
+  toast("🧪 已套用，現在完全同步實際關係判定");
+}
+
+function gmGiveNpcBlackBox(){
+  let c=cur();if(!c)return toast("請先進入角色");
+  c.inventory??={};
+  c.inventory.npc_under_counter=Math.max(1,Number(c.inventory.npc_under_counter||0));
+  let st=npcState(c);st.flags??={};st.flags.blackBoxOwned=true;
+  saveNpcState(st);saveLocal();
+  renderNpcShop?.();loadGMNpcValues();
+  toast("🔐 已加入黑盒");
+}
+
+function gmRemoveNpcBlackBox(){
+  let c=cur();if(!c)return toast("請先進入角色");
+  c.inventory??={};
+  delete c.inventory.npc_under_counter;
+  let st=npcState(c);st.flags??={};delete st.flags.blackBoxOwned;
+  saveNpcState(st);saveLocal();
+  renderNpcShop?.();loadGMNpcValues();
+  toast("🔓 已移除黑盒");
+}
+
+function clearGMNpcValues(){
+  let c=cur();if(!c)return toast("請先進入角色");
+  if(!confirm("確定把目前角色的 NPC 關係測試數值全部歸零？"))return;
+  let st=npcState(c);
+  st.relationScore={romance:0,trust:0,secret:0,tease:0,catChoice:0};
+  st.affection=0;
+  st.cat=0;
+  saveNpcState(st);saveLocal();
+  renderNpcShop?.();renderNpcRelationships?.();loadGMNpcValues();
+  toast("已全部歸零");
+}
+
 async function gmSendOfficialGift(){
   if(!gmProfile)return toast("請先登入 GM 帳號");
   let typed=document.getElementById("gmTargetChar")?.value.trim()||"";
@@ -4137,6 +4251,7 @@ document.getElementById("gmTestInviteList")?.addEventListener("click",async e=>{
 document.getElementById("gmLoadNpcValues")?.addEventListener("click",loadGMNpcValues);
 document.getElementById("gmApplyNpcValues")?.addEventListener("click",applyGMNpcValues);
 document.getElementById("gmGiveBlackBox")?.addEventListener("click",gmGiveNpcBlackBox);
+document.getElementById("gmRemoveBlackBox")?.addEventListener("click",gmRemoveNpcBlackBox);
 document.getElementById("gmClearNpcValues")?.addEventListener("click",clearGMNpcValues);
 document.getElementById("gmAddGiftToCart")?.addEventListener("click",addCurrentGMGiftToCart);
 document.getElementById("gmGiftCart")?.addEventListener("click",e=>{
@@ -9254,7 +9369,7 @@ function renderNpcDebug(){
     <div class="npcDebugStat">
       💗 ${st.affection}/100　🛍️ ${st.loyalty}　🐈 ${st.cat}/100<br>
       💬 ${st.chatCount||0}　💼 ${st.helpCount||0}　🛒 ${st.purchaseCount||0}<br>
-      戀愛 ${st.relationScore?.romance||0}・信任 ${st.relationScore?.trust||0}・惡作劇 ${st.relationScore?.tease||0}・貓線 ${st.relationScore?.catChoice||0}<br>
+      戀愛 ${st.relationScore?.romance||0}・信任 ${st.relationScore?.trust||0}・秘密 ${st.relationScore?.secret||0}・惡作劇 ${st.relationScore?.tease||0}・貓線 ${st.relationScore?.catChoice||0}<br>
       最終關係：${c&&getNpcRelationship(c,"shopkeeper_cat")?NPC_RELATION_LABELS[getNpcRelationship(c,"shopkeeper_cat").type]:"未判定"}
     </div>
     <div class="npcDebugGrid">
@@ -9396,7 +9511,7 @@ function renderNpcRelationships(){
               :"與這位 NPC 的故事還沒有走到最終章。"
         }</div>
         <div class="npcRelationActions">
-          ${rel?`<button data-npc-rel-view="${def.id}">📖 關係資訊</button>`:""}
+          ${rel?`<button data-npc-rel-view="${def.id}">📖 關係資訊</button><button data-npc-rel-meet="${def.id}">💬 和她見面・培養</button>`:""}
         </div>
       </div>
     </div>`;
@@ -12278,13 +12393,53 @@ body.game-entry-active #npcTownFab{
     document.querySelectorAll(".npcExpressionBadge").forEach(x=>{x.textContent="";x.className=`npcExpressionBadge face-${face}`;});
   };
 
-  // 商店待機不再依好感自動變成 soft / happy，永遠回到指定平時立繪。
+  // 商店待機平時使用普通立繪；若玩家正在手動點店長切表情，就保留目前表情。
+  let npcShopManualFace=false;
   const _update=window.updateNpcStats;
   window.updateNpcStats=function(){
     const r=_update?.apply(this,arguments);
-    if(!document.body.classList.contains("npcStoryRunning"))window.setNpcExpression("normal");
+    if(!document.body.classList.contains("npcStoryRunning")&&!npcShopManualFace)window.setNpcExpression("normal");
     return r;
   };
+
+  // 點擊店長立繪：6 種表情 + 對應台詞循環切換。
+  const SHOPKEEPER_CLICK_FACES=[
+    {face:"normal",line:"「歡迎光臨～今天想買點什麼？」"},
+    {face:"happy",line:"「嘿嘿，看到你來，今天心情好像更好了。」"},
+    {face:"shy",line:"「你、你一直盯著我看做什麼啦……」"},
+    {face:"annoyed",line:"「再戳我，我就要收你『騷擾店長費』了喔。」"},
+    {face:"surprised",line:"「欸！？你怎麼突然點我！」"},
+    {face:"soft",line:"「……其實，你願意常來，我還滿開心的。」"}
+  ];
+  let shopkeeperClickIndex=0;
+  function resetShopkeeperClickFace(){
+    npcShopManualFace=false;
+    shopkeeperClickIndex=0;
+    window.setNpcExpression("normal");
+    const mood=document.getElementById("npcShopMood");
+    if(mood)mood.textContent=SHOPKEEPER_CLICK_FACES[0].line;
+  }
+  function bindShopkeeperHeroClick(){
+    const hero=document.querySelector("#npcShopModal .npcHero");
+    if(!hero||hero.dataset.faceClickBound)return;
+    hero.dataset.faceClickBound="1";
+    hero.style.cursor="pointer";
+    hero.style.touchAction="manipulation";
+    hero.setAttribute("title","點店長切換表情");
+    hero.addEventListener("click",e=>{
+      // 不讓點擊陰影上的文字造成其他行為，整張立繪都視為切換。
+      e.preventDefault();
+      npcShopManualFace=true;
+      shopkeeperClickIndex=(shopkeeperClickIndex+1)%SHOPKEEPER_CLICK_FACES.length;
+      const item=SHOPKEEPER_CLICK_FACES[shopkeeperClickIndex];
+      window.setNpcExpression(item.face);
+      const mood=document.getElementById("npcShopMood");
+      if(mood)mood.textContent=item.line;
+    });
+  }
+  bindShopkeeperHeroClick();
+  document.getElementById("npcTownFab")?.addEventListener("click",()=>setTimeout(()=>{resetShopkeeperClickFace();bindShopkeeperHeroClick();},0));
+  document.getElementById("closeNpcShop")?.addEventListener("click",()=>{npcShopManualFace=false;});
 
   // 情緒判定加強：讓真正有波動的台詞更容易切換，而普通台詞維持 normal。
   const _infer=window.inferNpcStoryFace;
@@ -12317,121 +12472,583 @@ body.game-entry-active #npcTownFab{
   setTimeout(()=>{try{window.setNpcExpression("normal")}catch(e){}},250);
 })();
 </script>
-<div class="modal hidden" id="npcCultivateModal">
-  <div class="modalBox">
-    <div class="modalHead"><b>🌱 關係培養・和她見面</b><button id="closeNpcCultivate" type="button">×</button></div>
-    <div class="npcCultivateHero">
-      <img id="npcCultivatePortrait" alt="">
-      <div><b id="npcCultivateName">貓貓店長-貓貓</b><div class="small" id="npcCultivateRelation"></div><div class="small" id="npcCultivateToday"></div></div>
-    </div>
-    <div class="npcDialogue" style="margin-top:12px">
-      <div style="display:flex;justify-content:space-between;gap:10px"><b id="npcCultivateLevel">培養 Lv.1</b><span class="small" id="npcCultivateExpText">0 / 20 EXP</span></div>
-      <div class="npcCultivateTrack"><i id="npcCultivateExpBar"></i></div>
-    </div>
-    <div class="npcDialogue"><b id="npcCultivateRouteTitle">今日相處</b><div class="small" id="npcCultivateRouteIntro"></div></div>
-    <div class="npcCultivateGrid" id="npcCultivateGrid"></div>
-    <div class="npcDialogue"><b>最近培養紀錄</b><div class="small" id="npcCultivateRecords">尚無紀錄。</div></div>
-  </div>
-</div>
 
 
 <script>
-/* === NPC 特殊關係培養功能：保留原本 GM/NPC 自填數值工具 === */
+/* === 3.26.18 店長六表情最終強制切換：在 window capture 階段攔截舊監聽器 === */
 (function(){
-  const ROUTES={
-    lover:{title:"💗 戀人培養",intro:"特殊關係成立後，可以繼續累積只屬於你們的相處經驗。",plans:[
-      ["date","🌙","打烊後約會","一起離開店裡，到附近走走。",15],
-      ["wait","🕯️","等她下班","留在熟悉的位置等她收店。",12],
-      ["heart","💞","私下談心","不談商品，只談彼此。",14]]},
-    bestfriend:{title:"🌟 摯友培養",intro:"已經不用客套，日常相處也會累積你們的默契。",plans:[
-      ["walk","🛍️","一起出門","難得一起離開商店逛逛。",13],
-      ["stock","📦","幫忙盤點","一邊整理貨架一邊聊天。",12],
-      ["tease","😂","互相吐槽","最後總會一起笑出來。",14]]},
-    confidant:{title:"🌸 知己培養",intro:"她願意把沒有寫進故事裡的事情告訴你。",plans:[
-      ["night","🌌","深夜談心","關燈後只留櫃檯的小燈。",15],
-      ["secret","🔐","分享秘密","交換一件平常不會告訴別人的事。",14],
-      ["quiet","☕","安靜陪伴","不說話也不會尷尬。",12]]},
-    bickering:{title:"💢 歡喜冤家培養",intro:"見面三句就鬥嘴，但誰都沒有真的想走。",plans:[
-      ["battle","⚡","互嗆挑戰","今天誰先接不上話就算輸。",15],
-      ["candy","🍬","搶最後糖果","櫃檯只剩最後一顆。",13],
-      ["makeup","🙄","嘴硬和好","明明沒生氣，卻誰都不先低頭。",14]]},
-    catfriend:{title:"🐈 貓友培養",intro:"你來店裡有一半時間也許真的是為了貓。",plans:[
-      ["playcat","🧶","陪店貓玩","今天店貓願意把玩具分你。",13],
-      ["catwalk","🐾","貓咪散步","一起帶店貓到店外走走。",15],
-      ["catphoto","📷","拍貓日常","挑戰拍到一張不糊的照片。",12]]},
-    regular:{title:"🛍️ 特別常客培養",intro:"仍然是客人，卻已經是她會主動留位置的那一個。",plans:[
-      ["recommend","🎁","今日推薦","讓她依照對你的了解挑一樣東西。",12],
-      ["tidy","🧹","幫忙整理","順手幫忙，最後一起忙到打烊。",13],
-      ["tea","🍵","打烊喝茶","最後一位客人離開後，她沒有催你走。",14]]}
-  };
-  function dayKey(){return new Date().toLocaleDateString("sv-SE")}
-  function state(c,npcId){
-    c.npcCultivation??={};
-    c.npcCultivation[npcId]??={level:1,xp:0,date:"",used:0,total:0,records:[]};
-    const st=c.npcCultivation[npcId];
-    if(st.date!==dayKey()){st.date=dayKey();st.used=0}
-    st.level=Math.max(1,Math.min(10,Number(st.level||1)));
-    st.xp=Math.max(0,Number(st.xp||0));st.used=Math.max(0,Number(st.used||0));st.total=Math.max(0,Number(st.total||0));
-    st.records=Array.isArray(st.records)?st.records:[];
-    return st;
+  const faces=[
+    {face:"normal",src:"assets/npc/shopkeeper_cat/normal.png",line:"「歡迎光臨～今天想買點什麼？」"},
+    {face:"happy",src:"assets/npc/shopkeeper_cat/happy.png",line:"「嘿嘿，看到你來，今天心情好像更好了。」"},
+    {face:"shy",src:"assets/npc/shopkeeper_cat/shy.png",line:"「你、你一直盯著我看做什麼啦……」"},
+    {face:"annoyed",src:"assets/npc/shopkeeper_cat/annoyed.png",line:"「再戳我，我就要收你『騷擾店長費』了喔。」"},
+    {face:"surprised",src:"assets/npc/shopkeeper_cat/surprised.png",line:"「欸！？你怎麼突然點我！」"},
+    {face:"soft",src:"assets/npc/shopkeeper_cat/soft.png",line:"「……其實，你願意常來，我還滿開心的。」"}
+  ];
+  let idx=0;
+
+  function applyFace(item){
+    const heroImg=document.querySelector("#npcShopModal .npcHero > img");
+    if(!heroImg)return;
+    heroImg.src=item.src;
+    heroImg.dataset.npcFace=item.face;
+    heroImg.style.display="block";
+    const badge=document.querySelector("#npcShopModal .npcExpressionBadge");
+    if(badge){badge.textContent="";badge.className="npcExpressionBadge face-"+item.face;}
+    const mood=document.getElementById("npcShopMood");
+    if(mood)mood.textContent=item.line;
   }
-  function need(lv){return 20+(Math.max(1,Number(lv||1))-1)*12}
-  function levelUp(st){let n=0;while(st.level<10&&st.xp>=need(st.level)){st.xp-=need(st.level);st.level++;n++}if(st.level>=10)st.xp=0;return n}
-  function render(npcId="shopkeeper_cat"){
-    const c=typeof cur==="function"?cur():null; if(!c)return;
-    const rel=typeof getNpcRelationship==="function"?getNpcRelationship(c,npcId):null;
-    const def=window.NPC_RELATION_REGISTRY?.[npcId]||NPC_RELATION_REGISTRY?.[npcId];
-    if(!rel||!def)return;
-    const route=ROUTES[rel.type];if(!route)return;
-    const st=state(c,npcId), n=need(st.level);
-    const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v};
-    const img=document.getElementById("npcCultivatePortrait");if(img)img.src=def.image||"assets/npc/shopkeeper_cat/normal.png";
-    set("npcCultivateName",rel?"貓貓店長-貓貓":def.name);
-    set("npcCultivateRelation",(window.NPC_RELATION_LABELS||NPC_RELATION_LABELS)[rel.type]||rel.type);
-    set("npcCultivateToday",`今日培養 ${st.used}/3・累積 ${st.total} 次`);
-    set("npcCultivateLevel",`培養 Lv.${st.level}${st.level>=10?" MAX":""}`);
-    set("npcCultivateExpText",st.level>=10?"MAX":`${st.xp} / ${n} EXP`);
-    set("npcCultivateRouteTitle",route.title);set("npcCultivateRouteIntro",route.intro);
-    const bar=document.getElementById("npcCultivateExpBar");if(bar)bar.style.width=(st.level>=10?100:Math.min(100,st.xp/n*100))+"%";
-    const grid=document.getElementById("npcCultivateGrid");
-    if(grid)grid.innerHTML=route.plans.map(p=>`<button class="npcCultivateCard" data-cultivate-plan="${p[0]}"><b>${p[1]} ${p[2]}</b><span class="small">${p[3]}<br>培養 EXP +${p[4]}</span></button>`).join("");
-    const rec=document.getElementById("npcCultivateRecords");if(rec)rec.innerHTML=st.records.length?st.records.slice(0,6).map(x=>`• ${x}`).join("<br>"):"尚無紀錄。";
-    if(typeof saveLocal==="function")saveLocal();
-  }
-  window.openNpcCultivation=function(npcId="shopkeeper_cat"){
-    const c=typeof cur==="function"?cur():null;
-    const rel=c&&typeof getNpcRelationship==="function"?getNpcRelationship(c,npcId):null;
-    if(!rel)return typeof toast==="function"?toast("🔒 先取得這位 NPC 的特殊關係。",2800):null;
-    render(npcId);document.getElementById("npcCultivateModal")?.classList.remove("hidden");
+
+  // 提供唯一、穩定的平時切圖函式，普通表情也統一回 assets 路徑。
+  window.setNpcExpression=function(face="normal"){
+    const item=faces.find(x=>x.face===face)||faces[0];
+    const heroImg=document.querySelector("#npcShopModal .npcHero > img");
+    const storyImg=document.getElementById("npcStoryPortrait");
+    [heroImg,storyImg].forEach(img=>{if(img){img.src=item.src;img.dataset.npcFace=item.face;}});
+    document.querySelectorAll(".npcExpressionBadge").forEach(b=>{b.textContent="";b.className="npcExpressionBadge face-"+item.face;});
   };
-  document.getElementById("closeNpcCultivate")?.addEventListener("click",()=>document.getElementById("npcCultivateModal")?.classList.add("hidden"));
-  document.getElementById("npcCultivateGrid")?.addEventListener("click",e=>{
-    const b=e.target.closest("[data-cultivate-plan]");if(!b)return;
-    const c=typeof cur==="function"?cur():null;if(!c)return;const npcId="shopkeeper_cat";
-    const rel=getNpcRelationship(c,npcId);if(!rel)return;const route=ROUTES[rel.type];const p=route?.plans.find(x=>x[0]===b.dataset.cultivatePlan);if(!p)return;
-    const st=state(c,npcId);if(st.used>=3)return toast?.("🌙 今天已經培養 3 次了，明天 00:00 再來。",3200);
-    st.used++;st.total++;st.xp+=Number(p[4]||0);const ups=levelUp(st);
-    st.records.unshift(`${new Date().toLocaleDateString("zh-TW")}・${p[1]} ${p[2]}（+${p[4]} EXP）`);st.records=st.records.slice(0,20);
-    saveLocal?.();render(npcId);toast?.(ups?`✨ 培養提升到 Lv.${st.level}`:`🌱 ${p[2]}・培養 EXP +${p[4]}`,3000);
+
+  // window capture 比檔案裡所有 document capture 舊監聽器更早執行。
+  window.addEventListener("click",function(ev){
+    const hero=ev.target?.closest?.("#npcShopModal .npcHero");
+    if(!hero)return;
+    if(ev.target.closest?.("button,a,input,select,textarea"))return;
+    ev.preventDefault();
+    ev.stopPropagation();
+    ev.stopImmediatePropagation();
+    idx=(idx+1)%faces.length;
+    applyFace(faces[idx]);
+  },true);
+
+  // 每次開商店都從普通表情開始；延後到舊 render 完成後再覆蓋一次。
+  const open=document.getElementById("npcTownFab");
+  open?.addEventListener("click",function(){
+    idx=0;
+    setTimeout(()=>applyFace(faces[0]),0);
+    setTimeout(()=>applyFace(faces[0]),80);
   });
-  // 不取代原本 3.23 的 NPC 數值調整功能，只在已取得特殊關係的詳細資料底部加培養入口。
-  const originalOpen=window.openNpcDetail;
-  if(typeof originalOpen==="function"){
-    window.openNpcDetail=function(npcId){
-      const r=originalOpen.apply(this,arguments);
+
+  // 首次載入也校正普通圖路徑。
+  setTimeout(()=>{
+    const modal=document.getElementById("npcShopModal");
+    if(modal && !modal.classList.contains("hidden"))applyFace(faces[0]);
+  },300);
+})();
+</script>
+
+
+<!-- === 3.26.19 NPC 好感里程碑故事觸發修正 === -->
+<script>
+(function(){
+  let milestoneTimer=0;
+
+  function npcMilestoneStoryPending(){
+    try{
+      if(window.npcStoryPlayerState)return false;
+      if(document.body.classList.contains("npcStoryRunning"))return false;
+      if(typeof window.npcEventIsActive==="function"&&!window.npcEventIsActive())return false;
+      const st=typeof window.npcState==="function"?window.npcState():null;
+      if(!st)return false;
+      st.storyCollection??={};
+      return [["shop_story_01",20],["shop_story_02",40],["shop_story_03",60],["shop_story_04",80]]
+        .some(([id,need])=>Number(st.affection||0)>=need&&!st.storyCollection[id]);
+    }catch(e){return false}
+  }
+
+  function scheduleNpcMilestoneStory(delay=140){
+    clearTimeout(milestoneTimer);
+    milestoneTimer=setTimeout(()=>{
       try{
-        const c=cur(),rel=getNpcRelationship(c,npcId),body=document.getElementById("npcDetailBody");
-        if(rel&&body&&!body.querySelector("#npcCultivateBtn")){
-          const box=document.createElement("div");box.className="npcDetailSection";
-          box.innerHTML=`<h3>🌱 特殊關係培養</h3><div class="small">特殊關係已成立，可以繼續培養相處等級。</div><button id="npcCultivateBtn" class="primary" type="button">💬 和她見面・開始培養</button>`;
-          body.appendChild(box);
-          box.querySelector("#npcCultivateBtn")?.addEventListener("click",()=>window.openNpcCultivation(npcId));
+        if(!npcMilestoneStoryPending())return;
+        if(typeof window.maybePlayNpcMilestoneStory==="function"){
+          window.maybePlayNpcMilestoneStory();
         }
-      }catch(e){console.warn("npc cultivation entry",e)}
+      }catch(e){console.warn("NPC milestone story trigger",e)}
+    },delay);
+  }
+
+  // 好感 / 熟客 / 店貓數值變動後都重新檢查故事門檻。
+  if(typeof window.npcGain==="function"){
+    const oldNpcGain=window.npcGain;
+    window.npcGain=function(){
+      const r=oldNpcGain.apply(this,arguments);
+      scheduleNpcMilestoneStory(120);
       return r;
     };
   }
+
+  // 所有直接改數值（GM、購買、顧店、送禮等）最後都會經過這裡，補上故事判定。
+  if(typeof window.npcCheckUnlocks==="function"){
+    const oldNpcCheckUnlocks=window.npcCheckUnlocks;
+    window.npcCheckUnlocks=function(){
+      const r=oldNpcCheckUnlocks.apply(this,arguments);
+      scheduleNpcMilestoneStory(150);
+      return r;
+    };
+  }
+
+  // 已經達標的舊測試存檔，重新打開商店時也能補播未收藏章節。
+  if(typeof window.updateNpcStats==="function"){
+    const oldUpdateNpcStats=window.updateNpcStats;
+    window.updateNpcStats=function(){
+      const r=oldUpdateNpcStats.apply(this,arguments);
+      scheduleNpcMilestoneStory(180);
+      return r;
+    };
+  }
+
+  // 一章真正播放完後，再檢查下一個已達標但尚未收藏的章節。
+  if(typeof window.finishNpcRpgStory==="function"){
+    const oldFinishNpcRpgStory=window.finishNpcRpgStory;
+    window.finishNpcRpgStory=function(){
+      const r=oldFinishNpcRpgStory.apply(this,arguments);
+      scheduleNpcMilestoneStory(260);
+      return r;
+    };
+  }
+
+  // 開店後做一次補判定，處理「數值早就到了但故事以前漏播」的測試存檔。
+  if(typeof window.openNpcShop==="function"){
+    const oldOpenNpcShop=window.openNpcShop;
+    window.openNpcShop=function(){
+      const r=oldOpenNpcShop.apply(this,arguments);
+      scheduleNpcMilestoneStory(420);
+      return r;
+    };
+  }
+
+  window.forceCheckNpcMilestoneStory=function(){
+    scheduleNpcMilestoneStory(20);
+  };
+})();
+</script>
+
+<script>
+/* === 3.26.20 final hotfix: stable 6-face pointer cycle + story emotions + real-player gifting === */
+(function(){
+  const FACE={
+    normal:'assets/npc/shopkeeper_cat/normal.png',
+    happy:'assets/npc/shopkeeper_cat/happy.png',
+    shy:'assets/npc/shopkeeper_cat/shy.png',
+    annoyed:'assets/npc/shopkeeper_cat/annoyed.png',
+    surprised:'assets/npc/shopkeeper_cat/surprised.png',
+    soft:'assets/npc/shopkeeper_cat/soft.png'
+  };
+  const CYCLE=[
+    ['normal','「歡迎光臨～今天想買點什麼？」'],
+    ['happy','「嘿嘿，看到你來，今天心情好像更好了。」'],
+    ['shy','「你、你一直盯著我看做什麼啦……」'],
+    ['annoyed','「再戳我，我就要收你『騷擾店長費』了喔。」'],
+    ['surprised','「欸！？你怎麼突然點我！」'],
+    ['soft','「……其實，你願意常來，我還滿開心的。」']
+  ];
+  let cycleIndex=0, lastPointerAt=0;
+
+  function setImg(img,face){
+    if(!img)return;
+    face=FACE[face]?face:'normal';
+    const src=FACE[face];
+    img.dataset.npcFace=face;
+    if(img.getAttribute('src')!==src)img.setAttribute('src',src);
+    img.style.display='block';
+  }
+  function setHeroFace(face,line){
+    setImg(document.querySelector('#npcShopModal .npcHero > img'),face);
+    const mood=document.getElementById('npcShopMood');
+    if(mood&&line)mood.textContent=line;
+  }
+  function setStoryOnly(face){
+    setImg(document.getElementById('npcStoryPortrait'),face);
+    const b=document.querySelector('#npcStoryPlayer .npcExpressionBadge');
+    if(b){b.textContent='';b.className='npcExpressionBadge face-'+(FACE[face]?face:'normal');}
+  }
+
+  // Canonical expression setter. Story portrait and shop portrait can still be addressed together
+  // by old code, while the final story renderer below always corrects the story portrait afterwards.
+  window.setNpcExpression=function(face='normal'){
+    face=FACE[face]?face:'normal';
+    setImg(document.querySelector('#npcShopModal .npcHero > img'),face);
+    setImg(document.getElementById('npcStoryPortrait'),face);
+    document.querySelectorAll('.npcExpressionBadge').forEach(b=>{b.textContent='';b.className='npcExpressionBadge face-'+face;});
+  };
+
+  // Use pointerup in WINDOW capture. Suppress the synthetic click so none of the many legacy
+  // click handlers can advance a second time or overwrite the selected face.
+  window.addEventListener('pointerup',function(ev){
+    const hero=ev.target?.closest?.('#npcShopModal .npcHero');
+    if(!hero || ev.target?.closest?.('button,a,input,select,textarea'))return;
+    lastPointerAt=Date.now();
+    ev.preventDefault();
+    ev.stopPropagation();
+    ev.stopImmediatePropagation();
+    cycleIndex=(cycleIndex+1)%CYCLE.length;
+    const [face,line]=CYCLE[cycleIndex];
+    setHeroFace(face,line);
+  },true);
+  window.addEventListener('click',function(ev){
+    const hero=ev.target?.closest?.('#npcShopModal .npcHero');
+    if(!hero)return;
+    if(Date.now()-lastPointerAt<900){
+      ev.preventDefault();ev.stopPropagation();ev.stopImmediatePropagation();
+    }
+  },true);
+
+  // Reset only when the shop is newly opened.
+  document.getElementById('npcTownFab')?.addEventListener('pointerup',()=>{
+    cycleIndex=0;
+    setTimeout(()=>setHeroFace('normal',CYCLE[0][1]),80);
+  });
+
+  function inferStoryFace(line,prev='normal'){
+    if(!line)return prev;
+    if(line.face&&FACE[line.face])return line.face;
+    const sp=String(line.speaker||'');
+    const t=String(line.text||'');
+    if(sp==='旁白'||sp==='你')return prev;
+    if(/！？|！！|\?!|!\?|咦|欸[？！!?]|什麼|真的嗎|等等|嚇|震驚|突然/.test(t))return 'surprised';
+    if(/生氣|笨蛋|討厭|煩|出去|閉嘴|不准|瞪|抓包|參觀費|騷擾/.test(t))return 'annoyed';
+    if(/害羞|臉紅|別開|才不是|別想太多|心跳|喜歡你|想見你|盯著|一直看/.test(t))return 'shy';
+    if(/哈哈|笑|開心|太好了|歡迎回來|謝謝|很適合|期待|記得你/.test(t))return 'happy';
+    if(/難過|寂寞|秘密|相信|陪我|留下|捨不得|溫柔|過去|沒關係|晚一點/.test(t))return 'soft';
+    try{return window.inferNpcStoryFace?.(line,prev)||'normal'}catch(e){return 'normal'}
+  }
+
+  // Final story renderer: render text FIRST, then force the story portrait for the current line.
+  // This makes later/older wrappers unable to leave the portrait one line behind.
+  const storyBase=window.renderNpcRpgLine;
+  if(typeof storyBase==='function'){
+    window.renderNpcRpgLine=function(){
+      const r=storyBase.apply(this,arguments);
+      try{
+        const st=window.npcStoryPlayerState;
+        const line=st?.lines?.[st.index];
+        const prev=document.getElementById('npcStoryPortrait')?.dataset?.npcFace||'normal';
+        setStoryOnly(inferStoryFace(line,prev));
+      }catch(e){console.warn('story face hotfix',e)}
+      return r;
+    };
+  }
+
+  // Real-player relation gift: ONE cloud row is the source of truth.
+  // GIFT_BOND already carries sender, receiver, item/count/name/affinity and refreshBond consumes it.
+  async function sendRelationGiftFinal(){
+    const c=typeof cur==='function'?cur():null;
+    if(!c||!room||!partner)return toast('請先開啟一段已有真人對方的關係');
+    const itemId=document.getElementById('relationGiftItem')?.value;
+    const count=Math.max(1,Math.min(5,Number(document.getElementById('relationGiftCount')?.value)||1));
+    if(!itemId)return toast('請選擇要送的好感禮物');
+    const giftInfo=typeof affectionGiftInfo==='function'?affectionGiftInfo(itemId):null;
+    if(!giftInfo)return toast('只有「好感禮物」可以送給關係人。');
+    if(Number(c.inventory?.[itemId]||0)<count)return toast('好感禮物數量不足');
+    if(typeof giftSendLeft==='function'&&giftSendLeft(c)<=0)return toast('今天已經送過 5 次禮物了，明天 00:00 恢復。');
+
+    const target=room.host_char===c.id?room.guest_char:room.host_char;
+    if(!target)return toast('找不到真人關係對方的角色 ID，請重新進入這段關係。');
+    const itemName=giftInfo.n||(typeof itemDisplayName==='function'?itemDisplayName(itemId):itemId);
+    const affinity=Math.max(0,Number(giftInfo.affinity||0));
+    const totalAffinity=affinity*count;
+    if(!confirm(`確定要送給 ${partner.name||'對方'}？\n\n${itemName} ×${count}${totalAffinity?`\n共同羈絆 +${totalAffinity}`:''}`))return;
+
+    let posted;
+    try{
+      posted=await api('/test_interactions',{
+        method:'POST',
+        headers:{'Prefer':'return=representation'},
+        body:JSON.stringify({
+          room_code:room.code,
+          from_char:c.id,
+          to_char:target,
+          text:`GIFT_BOND|${itemId}|${count}|${encodeURIComponent(itemName)}|${affinity}`
+        })
+      });
+    }catch(e){
+      toast('送禮物失敗：'+(e?.message||'真人關係雲端寫入失敗'),5200);
+      return;
+    }
+
+    const before=Number(c.inventory?.[itemId]||0);
+    c.inventory??={};
+    c.inventory[itemId]=Math.max(0,before-count);
+    if(c.inventory[itemId]<=0)delete c.inventory[itemId];
+    const ctr=typeof ensureGiftSendCounter==='function'?ensureGiftSendCounter(c):(c.dailyGiftSend??={date:'',used:0});
+    ctr.used=Number(ctr.used||0)+1;
+    c.stats??={};c.stats.giftsSent=Number(c.stats.giftsSent||0)+1;
+    c.achievements??={};
+    if(c.stats.giftsSent>=1)c.achievements.gift1=1;
+    if(c.stats.giftsSent>=10)c.achievements.gift10=1;
+    c.relationshipEvents??={};c.relationshipEvents[room.code]??=[];
+    c.relationshipEvents[room.code].push({
+      id:`gift-${Date.now()}-${itemId}`,title:`送給 ${partner.name||'對方'}「${itemName}」`,
+      choice:`${itemName} ×${count}`,result:totalAffinity?`共同羈絆 +${totalAffinity}`:'送出了一份禮物',
+      icon:'🎁',createdAt:new Date().toISOString(),time:new Date().toLocaleString('zh-TW')
+    });
+    c.relationshipEvents[room.code]=c.relationshipEvents[room.code].slice(-50);
+    try{logJournal?.(c,`送給 ${partner.name||'對方'}：${itemName} ×${count}${totalAffinity?`・共同羈絆 +${totalAffinity}`:''}`,'🎁')}catch(e){}
+    if(typeof saveLocal==='function'&&!saveLocal()){
+      c.inventory[itemId]=before;
+      ctr.used=Math.max(0,Number(ctr.used||0)-1);
+      toast('⚠️ 雲端已送出，但本機存檔失敗；道具已先恢復。',5200);
+      return;
+    }
+    try{await refreshBond?.(room.code)}catch(e){console.warn('gift refreshBond',e)}
+    try{renderRelationGiftPanel?.(c)}catch(e){}
+    try{renderRelationEventLog?.()}catch(e){}
+    try{renderExtras?.(c)}catch(e){}
+    toast(`🎁 已送給 ${partner.name||'對方'}：${itemName} ×${count}${totalAffinity?`・共同羈絆 +${totalAffinity}`:''}`,4600);
+  }
+  window.sendRelationGiftFinal=sendRelationGiftFinal;
+
+  // Capture the button before its legacy listener (which performs two POSTs).
+  window.addEventListener('click',function(ev){
+    const b=ev.target?.closest?.('#sendRelationGift');
+    if(!b)return;
+    ev.preventDefault();ev.stopPropagation();ev.stopImmediatePropagation();
+    sendRelationGiftFinal();
+  },true);
+
+  setTimeout(()=>{
+    try{
+      if(!document.getElementById('npcShopModal')?.classList.contains('hidden'))setHeroFace('normal',CYCLE[0][1]);
+      if(window.npcStoryPlayerState)window.renderNpcRpgLine?.();
+    }catch(e){}
+  },300);
+})();
+</script>
+
+
+
+
+
+
+<style>
+/* === 3.26.21 TEST：貓貓活動常駐 + 特殊關係培養 5 級 + 情緒互動 + 小遊戲 === */
+#npcMeetModal{z-index:10060!important}
+#npcMeetModal .modalBox{max-height:91dvh;overflow:auto;max-width:780px}
+.npcMeetHero{position:relative;display:grid;grid-template-columns:118px 1fr;gap:14px;align-items:center;padding:14px;border:1px solid rgba(120,80,150,.16);border-radius:20px;background:linear-gradient(135deg,rgba(255,255,255,.78),rgba(244,231,250,.72))}
+.npcMeetHero img{width:118px;height:118px;object-fit:cover;border-radius:20px;box-shadow:0 8px 24px rgba(89,53,114,.15);cursor:pointer;touch-action:manipulation}
+.npcMeetTapHint{font-size:12px;color:#8d7c96;margin-top:5px}
+.npcMeetBubble{margin-top:8px;padding:10px 12px;border-radius:15px;background:rgba(255,255,255,.72);line-height:1.55;min-height:44px}
+.npcMeetMoodPill{display:inline-flex;align-items:center;gap:5px;padding:4px 9px;border-radius:999px;background:#efe2f5;font-size:12px;font-weight:800;margin-bottom:6px}
+.npcMeetLevelCard{margin-top:12px;padding:13px;border-radius:18px;background:#faf4fc;border:1px solid #eadff0}
+.npcMeetLevelDots{display:flex;gap:7px;margin-top:9px}
+.npcMeetLevelDot{flex:1;height:8px;border-radius:999px;background:#e9dfed}.npcMeetLevelDot.on{background:linear-gradient(90deg,#9b72cb,#df8ab5)}
+#npcMeetPlanGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:12px 0}
+#npcMeetPlanGrid .npcActionCard{text-align:left;padding:13px;border-radius:16px;min-height:98px}
+#npcMeetPlanGrid .npcActionCard b{display:block;margin-bottom:6px}
+.npcMeetMiniGame{padding:13px;border-radius:18px;background:#fff9fe;border:1px solid #eadff0;margin:12px 0}
+.npcMeetGameChoices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}
+.npcMeetGameChoices button{padding:11px 8px;border-radius:14px;min-height:58px}
+.npcMeetGameResult{margin-top:9px;line-height:1.55}
+.npcMeetRecordBox{max-height:180px;overflow:auto}
+@media(max-width:560px){.npcMeetHero{grid-template-columns:92px 1fr}.npcMeetHero img{width:92px;height:92px}#npcMeetPlanGrid{grid-template-columns:1fr}.npcMeetGameChoices{grid-template-columns:1fr}}
+</style>
+
+<div class="modal hidden" id="npcMeetModal">
+  <div class="modalBox">
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+      <div><h3 style="margin:0">💞 貓貓關係培養</h3><div class="small" id="npcMeetSubtitle"></div></div>
+      <button type="button" id="closeNpcMeetModal">✕</button>
+    </div>
+    <div class="npcMeetHero" style="margin-top:12px">
+      <img id="npcMeetPortrait" src="cat_shopkeeper_normal.png" alt="貓貓店長">
+      <div>
+        <b id="npcMeetRelationName">貓貓店長-貓貓</b>
+        <div class="small" id="npcMeetRelationLabel"></div>
+        <div class="small" id="npcMeetToday"></div>
+        <div class="npcMeetTapHint">👆 戳店長可以切換心情圖片與對話</div>
+        <div class="npcMeetBubble"><span class="npcMeetMoodPill" id="npcMeetMoodPill">🙂 平常</span><div id="npcMeetMoodLine">「今天也來啦？」</div></div>
+      </div>
+    </div>
+    <div class="npcMeetLevelCard">
+      <div style="display:flex;justify-content:space-between;gap:10px;align-items:center"><b id="npcMeetLevel">感情 Lv.1</b><span class="small" id="npcMeetExpText">0 / 20 EXP</span></div>
+      <div style="height:9px;border-radius:999px;background:#eadff0;overflow:hidden;margin-top:7px"><div id="npcMeetExpBar" style="height:100%;width:0%;background:linear-gradient(90deg,#9870c8,#df8ab5)"></div></div>
+      <div class="npcMeetLevelDots" id="npcMeetLevelDots"></div>
+      <div class="small" id="npcMeetMaxHint" style="margin-top:7px"></div>
+    </div>
+    <div class="npcDialogue" style="margin-top:12px"><b id="npcMeetIntroTitle">今日相處</b><div class="small" id="npcMeetIntroText"></div></div>
+    <div class="npcActionGrid" id="npcMeetPlanGrid"></div>
+    <div class="npcMeetMiniGame">
+      <div style="display:flex;justify-content:space-between;gap:10px;align-items:center"><b>🎮 互動小遊戲・猜她現在想要什麼</b><span class="small" id="npcMeetGameToday"></span></div>
+      <div class="small" id="npcMeetGamePrompt" style="margin-top:6px">按開始後，依照她的反應選一個最適合的互動。</div>
+      <button type="button" id="npcMeetGameStart" style="width:100%;margin-top:10px">🎲 開始一局</button>
+      <div class="npcMeetGameChoices hidden" id="npcMeetGameChoices"></div>
+      <div class="npcMeetGameResult small" id="npcMeetGameResult"></div>
+    </div>
+    <div class="npcDialogue npcMeetRecordBox"><b>相處紀錄</b><div class="small" id="npcMeetRecords"></div></div>
+  </div>
+</div>
+
+<script>
+/* === 3.26.21 TEST authoritative cat activity / relationship cultivation === */
+(function(){
+  /* 測試服：貓貓活動永遠開啟，不再受舊日期模擬器或過期攔截影響。 */
+  window.npcEventIsActive=function(){return true};
+  window.launchEventIsActive=function(){return true};
+  function forceCatActivityOpen(){
+    const game=document.getElementById('game');
+    const on=!!game&&!game.classList.contains('hidden');
+    const npc=document.getElementById('npcTownFab');
+    if(npc){npc.classList.remove('hidden');npc.classList.toggle('activityEntryVisible',on);npc.style.setProperty('display',on?'flex':'none','important');npc.style.setProperty('visibility',on?'visible':'hidden','important');npc.style.setProperty('opacity',on?'1':'0','important');npc.style.setProperty('pointer-events',on?'auto':'none','important')}
+  }
+  setTimeout(forceCatActivityOpen,0);setTimeout(forceCatActivityOpen,400);setInterval(()=>{if(!document.hidden)forceCatActivityOpen()},4000);
+
+  const RELATION_PLANS={
+    lover:{title:'💗 戀人相處',intro:'戀人線會更偏向約會、撒嬌與只有兩人的時間。',plans:[
+      {id:'date',icon:'🌙',name:'打烊後約會',desc:'一起離開商店散步。',xp:10,face:'shy',lines:['「今天想去哪？……你決定就好。」','「走慢一點啦，我又沒有要跑掉。」','「只有我們兩個的話，晚一點回去也沒關係。」']},
+      {id:'hug',icon:'🫶',name:'靠近一點',desc:'今天想更黏她一點。',xp:9,face:'shy',lines:['「你、你突然靠這麼近做什麼……」','她嘴上嫌棄，卻沒有真的躲開。','「……只准一下喔。」']},
+      {id:'heart',icon:'💞',name:'交換心事',desc:'把今天最想說的話告訴她。',xp:11,face:'soft',lines:['「這些話，我只想聽你說。」','「嗯，我有在聽。你慢慢講。」','「那今天換我告訴你一件秘密。」']}]},
+    bestfriend:{title:'🌟 摯友相處',intro:'摯友線會更像熟到不需要客套的日常搭檔。',plans:[
+      {id:'walk',icon:'🛍️',name:'一起亂逛',desc:'沒有目的也能聊一路。',xp:9,face:'happy',lines:['「走啦，今天不要一直待在店裡。」','「你看那個，好像很適合你。」','「跟你出門果然不用特別計畫。」']},
+      {id:'stock',icon:'📦',name:'一起盤點',desc:'邊整理邊互相吐槽。',xp:8,face:'normal',lines:['「那排交給你，我相信你喔。」','「欸，你比我記得還清楚耶。」','「有你幫忙，今天可以偷懶一點了。」']},
+      {id:'laugh',icon:'😂',name:'聊到笑不停',desc:'把今天最好笑的事說給她聽。',xp:10,face:'happy',lines:['「不行，等一下，我笑到肚子痛。」','「你真的很會講奇怪的事欸。」','「下次有這種事還是要第一個告訴我。」']}]},
+    confidant:{title:'🌸 知己相處',intro:'知己線更重視安靜陪伴、秘密與信任。',plans:[
+      {id:'night',icon:'🌌',name:'深夜談心',desc:'只留一盞小燈。',xp:11,face:'soft',lines:['「今天……可以再坐久一點嗎？」','「有些話白天不太想說。」','「你不用回答，聽著就好。」']},
+      {id:'secret',icon:'🔐',name:'交換秘密',desc:'一人說一件只有彼此知道的事。',xp:10,face:'shy',lines:['「這個真的不能跟別人說。」','「那換你了，我不會笑。」','「原來你也有這種秘密喔……」']},
+      {id:'quiet',icon:'☕',name:'安靜陪伴',desc:'不說話也很舒服。',xp:8,face:'soft',lines:['她把熱飲推到你面前，沒有多問。','店裡很安靜，但一點也不空。','「……這樣就很好。」']}]},
+    bickering:{title:'💢 歡喜冤家相處',intro:'歡喜冤家線就是鬥嘴、搶東西，最後還是會留下來。',plans:[
+      {id:'battle',icon:'⚡',name:'互嗆挑戰',desc:'誰先接不上話誰輸。',xp:10,face:'annoyed',lines:['「你先開始啊，怕了？」','「這句昨天講過了，換新的。」','「可惡，再來一次！」']},
+      {id:'candy',icon:'🍬',name:'搶最後糖果',desc:'櫃檯只剩最後一顆。',xp:9,face:'annoyed',lines:['「先看到的是我！」','「你幾歲了還跟我搶糖？」','「……一人一半，不能再多。」']},
+      {id:'makeup',icon:'🙄',name:'嘴硬和好',desc:'誰都不肯先低頭。',xp:10,face:'soft',lines:['「我沒有在等你道歉。」','「……所以你明天還會來吧？」','「好了啦，算扯平。」']}]},
+    catfriend:{title:'🐈 貓友相處',intro:'貓友線大半時間都圍著店貓轉，她嘴上會吃醋。',plans:[
+      {id:'playcat',icon:'🧶',name:'陪店貓玩',desc:'今天牠把玩具分你。',xp:9,face:'happy',lines:['「牠今天看到你比看到我還開心。」','店貓把玩具推到了你腳邊。','「到底誰才是店長啦。」']},
+      {id:'catwalk',icon:'🐾',name:'貓咪散步',desc:'一起帶店貓出去走走。',xp:10,face:'normal',lines:['「抓好牽繩，牠看到鳥會衝喔。」','店貓每走幾步就回頭看你們。','「牠真的把你算成自己人了。」']},
+      {id:'photo',icon:'📷',name:'拍貓日常',desc:'努力拍一張不糊的照片。',xp:8,face:'annoyed',lines:['「等等，那張一定糊了。」','「這張不錯，傳給我。」','「你手機裡牠的照片是不是比我的多？」']}]},
+    regular:{title:'🛍️ 特別常客相處',intro:'特別常客線還是保留客人與店長的距離，但她會記得你的一切習慣。',plans:[
+      {id:'recommend',icon:'🎁',name:'今日推薦',desc:'完全交給她幫你選。',xp:8,face:'happy',lines:['「今天不用看菜單，我幫你選。」','「我猜你會喜歡這個。」','「看吧，我就說我記得。」']},
+      {id:'tidy',icon:'🧹',name:'順手幫忙',desc:'熟門熟路幫她整理。',xp:9,face:'normal',lines:['「你明明是客人，怎麼又在幫忙。」','「那邊放錯了——算了，我來。」','「下次請你喝東西，算工資。」']},
+      {id:'tea',icon:'🍵',name:'打烊喝茶',desc:'最後一位客人走後也不急著離開。',xp:10,face:'soft',lines:['「門鎖好了，你可以慢慢喝。」','「今天有點累……還好你有來。」','「熟客的待遇，大概就是這樣吧。」']}]}
+  };
+  window.NPC_MEET_RELATION_PLANS=RELATION_PLANS;
+
+  const MOODS={
+    normal:{label:'🙂 平常',face:'normal'},happy:{label:'😄 開心',face:'happy'},shy:{label:'😳 害羞',face:'shy'},annoyed:{label:'😾 鬧脾氣',face:'annoyed'},surprised:{label:'😮 驚訝',face:'surprised'},soft:{label:'🥺 溫柔',face:'soft'}
+  };
+  const MOOD_LINES={
+    lover:{normal:['「今天也來陪我？」'],happy:['「看到你就覺得今天會很好。」'],shy:['「你不要一直盯著我啦……戀人也不行。」'],annoyed:['「哼，戀人就可以一直戳我嗎？」'],surprised:['「欸！？突然靠這麼近！」'],soft:['「……你在的話，我就不急著關店。」']},
+    bestfriend:{normal:['「來得正好，幫我一下。」'],happy:['「我剛好有超多事想跟你講！」'],shy:['「幹嘛突然誇我，我們不是很熟嗎……」'],annoyed:['「你今天真的很欠吐槽欸。」'],surprised:['「等一下，你居然真的做了！？」'],soft:['「跟你待著，不講話也不尷尬。」']},
+    confidant:{normal:['「今天想聊點什麼？」'],happy:['「你來了啊……那我就放心了。」'],shy:['「這種事我只跟你說，你不准笑。」'],annoyed:['「我都說是秘密了，還逗我。」'],surprised:['「你居然還記得那件事？」'],soft:['「不用說什麼，坐在這裡就好。」']},
+    bickering:{normal:['「喔？今天又來找我吵架？」'],happy:['「哈哈，你這次真的輸得很慘。」'],shy:['「誰、誰在意你有沒有來啊！」'],annoyed:['「你再戳一次試試看！」'],surprised:['「欸！？你居然讓我贏？」'],soft:['「……明天也要來，不然我會很無聊。」']},
+    catfriend:{normal:['「你是來看我，還是來看貓？」'],happy:['「牠一看到你就跑過去了。」'],shy:['「偶爾也看看店長本人好不好……」'],annoyed:['「你又只摸牠！」'],surprised:['「牠居然把肚子給你摸！？」'],soft:['「牠喜歡你……那我也放心。」']},
+    regular:{normal:['「歡迎光臨，老位置幫你留著。」'],happy:['「我就知道你今天會來。」'],shy:['「記得客人的喜好很正常啦……」'],annoyed:['「熟客也不能一直戳店長。」'],surprised:['「欸？今天居然換你推薦給我？」'],soft:['「你不來的日子，店裡好像會安靜一點。」']}
+  };
+
+  function state(c=typeof cur==='function'?cur():null,npcId='shopkeeper_cat'){
+    if(!c)return null;c.npcMeetProgress??={};c.npcMeetProgress[npcId]??={level:1,xp:0,date:'',used:0,total:0,plans:{},gameDate:'',gameUsed:0,gameWins:0,moodIndex:0};
+    const st=c.npcMeetProgress[npcId],today=new Date().toLocaleDateString('sv-SE');
+    if(st.date!==today){st.date=today;st.used=0}if(st.gameDate!==today){st.gameDate=today;st.gameUsed=0}
+    st.level=Math.max(1,Math.min(5,Number(st.level||1)));st.xp=Math.max(0,Number(st.xp||0));st.used=Math.max(0,Number(st.used||0));st.total=Math.max(0,Number(st.total||0));st.gameUsed=Math.max(0,Number(st.gameUsed||0));st.gameWins=Math.max(0,Number(st.gameWins||0));st.plans??={};return st;
+  }
+  function need(level){return [0,20,28,36,46,0][Math.max(1,Math.min(5,Number(level||1)))]||0}
+  function awardMax(c,st){
+    if(st.level<5)return;try{if(typeof ensureSharedAchievements==='function')ensureSharedAchievements()}catch(e){}
+    c.achievements??=(window.local?.sharedAchievements||{});const fresh=!c.achievements.npc_cultivation_max;c.achievements.npc_cultivation_max=1;
+    if(fresh)toast('🏆 成就解鎖：貓貓的特別之人',4800);
+  }
+  function applyLevel(c,st){let up=0;while(st.level<5){const n=need(st.level);if(st.xp<n)break;st.xp-=n;st.level++;up++}if(st.level>=5){st.level=5;st.xp=0;awardMax(c,st)}return up}
+  function routeInfo(){const c=cur(),rel=c?getNpcRelationship(c,'shopkeeper_cat'):null;return rel?{c,rel,route:RELATION_PLANS[rel.type]}:null}
+  function faceSrc(face){const map=window.NPC_SHOPKEEPER_FACE_DATA||{};return map[face]||map.normal||'cat_shopkeeper_normal.png'}
+  function showMood(relType,face,line){const m=MOODS[face]||MOODS.normal;const img=document.getElementById('npcMeetPortrait');if(img)img.src=faceSrc(m.face);const pill=document.getElementById('npcMeetMoodPill');if(pill)pill.textContent=m.label;const l=document.getElementById('npcMeetMoodLine');if(l)l.textContent=line||MOOD_LINES[relType]?.[face]?.[0]||'「今天也來啦？」'}
+  function render(){
+    const info=routeInfo();if(!info||!info.route)return toast('這段 NPC 特殊關係尚未建立。');const {c,rel,route}=info,st=state(c);
+    document.getElementById('npcMeetRelationName').textContent='貓貓店長-貓貓';document.getElementById('npcMeetRelationLabel').textContent=NPC_RELATION_LABELS[rel.type]||rel.type;document.getElementById('npcMeetSubtitle').textContent=route.title;document.getElementById('npcMeetToday').textContent=`今日互動 ${st.used}/3・小遊戲 ${st.gameUsed}/2・累積相處 ${st.total} 次`;
+    document.getElementById('npcMeetIntroTitle').textContent=route.title;document.getElementById('npcMeetIntroText').textContent=route.intro;
+    const n=need(st.level);document.getElementById('npcMeetLevel').textContent=`感情 Lv.${st.level}${st.level>=5?' MAX':''}`;document.getElementById('npcMeetExpText').textContent=st.level>=5?'MAX':`${st.xp} / ${n} EXP`;document.getElementById('npcMeetExpBar').style.width=st.level>=5?'100%':`${Math.min(100,st.xp/n*100)}%`;document.getElementById('npcMeetLevelDots').innerHTML=[1,2,3,4,5].map(x=>`<i class="npcMeetLevelDot ${x<=st.level?'on':''}"></i>`).join('');document.getElementById('npcMeetMaxHint').textContent=st.level>=5?'🏆 已達滿等，成就「貓貓的特別之人」已解鎖。':'Lv.5 MAX 會解鎖專屬成就。';
+    document.getElementById('npcMeetPlanGrid').innerHTML=route.plans.map(p=>`<button class="npcActionCard" data-npc-meet-plan="${esc(p.id)}" ${st.used>=3?'disabled':''}><b>${p.icon} ${esc(p.name)}</b><span class="small">${esc(p.desc)}<br>感情 EXP +${p.xp}<br>已互動 ${Number(st.plans[p.id]||0)} 次</span></button>`).join('');
+    document.getElementById('npcMeetRecords').innerHTML=route.plans.map(p=>`${p.icon} ${esc(p.name)}：${Number(st.plans[p.id]||0)} 次`).join('<br>')+`<br>🎮 小遊戲成功：${st.gameWins} 次`;
+    document.getElementById('npcMeetGameToday').textContent=`今日 ${st.gameUsed}/2`;
+    document.getElementById('npcMeetGameChoices').classList.add('hidden');document.getElementById('npcMeetGameResult').textContent='';document.getElementById('npcMeetGamePrompt').textContent='按開始後，依照她的反應選一個最適合的互動。';document.getElementById('npcMeetGameStart').disabled=st.gameUsed>=2;
+    const keys=['normal','happy','shy','annoyed','surprised','soft'],idx=Number(st.moodIndex||0)%keys.length;showMood(rel.type,keys[idx],MOOD_LINES[rel.type]?.[keys[idx]]?.[0]);document.getElementById('npcMeetModal').classList.remove('hidden');
+  }
+  window.openNpcMeet=function(){render()};
+  function doPlan(id){const info=routeInfo();if(!info)return;const {c,rel,route}=info,st=state(c),p=route.plans.find(x=>x.id===id);if(!p)return;if(st.used>=3)return toast('💞 今天已經互動 3 次了，明天再來。');st.used++;st.total++;st.plans[id]=Number(st.plans[id]||0)+1;st.xp+=p.xp;const up=applyLevel(c,st);showMood(rel.type,p.face,p.lines[(st.plans[id]-1)%p.lines.length]);saveLocal();toast(`${p.icon} ${p.name}・感情 EXP +${p.xp}${up?`・升到 Lv.${st.level}`:''}`,3300);render();}
+
+  function cycleMood(){const info=routeInfo();if(!info)return;const {c,rel}=info,st=state(c);const keys=['normal','happy','shy','annoyed','surprised','soft'];st.moodIndex=(Number(st.moodIndex||0)+1)%keys.length;const f=keys[st.moodIndex],arr=MOOD_LINES[rel.type]?.[f]||['「……？」'];showMood(rel.type,f,arr[Math.floor(Math.random()*arr.length)]);saveLocal();}
+
+  const GAME={
+    lover:[['她把店門鎖好後看著你，像是在等你開口。',['牽她的手','問今天營收','先回家'],0,'shy'],['她突然安靜下來，偷偷看了你一眼。',['誇她今天很好看','故意裝沒看到','問店貓去哪'],0,'shy']],
+    bestfriend:[['她抱著一疊貨物，一臉「你懂吧」的表情。',['接過一半一起搬','站旁邊加油','拍照留念'],0,'happy'],['她笑到停不下來，還指著你。',['一起笑回去','認真生氣','立刻離店'],0,'happy']],
+    confidant:[['她把聲音壓得很低，像是有話只想跟你說。',['安靜聽她說完','立刻追問細節','轉移話題'],0,'soft'],['她把一杯熱飲推給你，沒有說話。',['陪她安靜坐著','一直問怎麼了','拿起手機離開'],0,'soft']],
+    bickering:[['她抱著最後一顆糖，挑釁地看著你。',['跟她猜拳決勝負','直接搶走','說不吃了'],0,'annoyed'],['她嘴上說「隨便你」，眼神卻一直往你這邊飄。',['故意逗她再和好','真的轉身走','完全不理她'],0,'shy']],
+    catfriend:[['店貓叼著玩具跑到你腳邊，店長在旁邊盯著。',['陪貓玩也邀她一起','只顧著拍貓','把玩具藏起來'],0,'happy'],['店長小聲抱怨你今天只看貓。',['也摸摸她的頭','繼續只看貓','說店長不可愛'],0,'shy']],
+    regular:[['她沒問你要什麼，直接開始準備。',['相信她的推薦','一直改單','說今天不買'],0,'happy'],['打烊後她沒有趕你走，只添了一杯茶。',['留下來陪她喝完','立刻離開','問能不能打折'],0,'soft']]
+  };
+  let currentGame=null;
+  function startGame(){const info=routeInfo();if(!info)return;const {c,rel}=info,st=state(c);if(st.gameUsed>=2)return toast('🎮 今天的小遊戲已玩 2 次。');const pool=GAME[rel.type]||GAME.regular;currentGame=pool[Math.floor(Math.random()*pool.length)];document.getElementById('npcMeetGamePrompt').textContent=currentGame[0];const box=document.getElementById('npcMeetGameChoices');box.innerHTML=currentGame[1].map((x,i)=>`<button data-npc-game-choice="${i}">${esc(x)}</button>`).join('');box.classList.remove('hidden');document.getElementById('npcMeetGameStart').disabled=true;document.getElementById('npcMeetGameResult').textContent='';}
+  function chooseGame(i){if(!currentGame)return;const info=routeInfo();if(!info)return;const {c,rel}=info,st=state(c);st.gameUsed++;const ok=Number(i)===Number(currentGame[2]),gain=ok?10:4;st.xp+=gain;if(ok)st.gameWins++;const up=applyLevel(c,st);showMood(rel.type,ok?currentGame[3]:'annoyed',ok?'「嗯，這個答案我喜歡。」':'「……你真的懂我嗎？」');saveLocal();document.getElementById('npcMeetGameChoices').classList.add('hidden');document.getElementById('npcMeetGameResult').innerHTML=`${ok?'✨ 默契成功！':'😾 好像選錯了。'} 感情 EXP +${gain}${up?`・提升到 Lv.${st.level}`:''}`;document.getElementById('npcMeetGameToday').textContent=`今日 ${st.gameUsed}/2`;document.getElementById('npcMeetGameStart').disabled=st.gameUsed>=2;currentGame=null;setTimeout(()=>render(),1200);}
+
+  /* 成就註冊到原成就瀏覽器。 */
+  try{if(Array.isArray(window.protoAch||protoAch)&&!(window.protoAch||protoAch).some(x=>x[0]==='npc_cultivation_max'))(window.protoAch||protoAch).push(['npc_cultivation_max','💜','貓貓的特別之人','與貓貓店長的特殊關係感情培養達 Lv.5 MAX','關係']);}catch(e){}
+
+  document.addEventListener('click',e=>{
+    const meet=e.target.closest('[data-npc-rel-meet]');if(meet){e.preventDefault();e.stopPropagation();render();return}
+    const plan=e.target.closest('[data-npc-meet-plan]');if(plan){e.preventDefault();doPlan(plan.dataset.npcMeetPlan);return}
+    if(e.target.closest('#npcMeetPortrait')){e.preventDefault();cycleMood();return}
+    if(e.target.closest('#npcMeetGameStart')){e.preventDefault();startGame();return}
+    const ch=e.target.closest('[data-npc-game-choice]');if(ch){e.preventDefault();chooseGame(ch.dataset.npcGameChoice);return}
+  },true);
+  document.getElementById('closeNpcMeetModal')?.addEventListener('click',()=>document.getElementById('npcMeetModal')?.classList.add('hidden'));
+  document.getElementById('npcMeetModal')?.addEventListener('click',e=>{if(e.target.id==='npcMeetModal')e.currentTarget.classList.add('hidden')});
 })();
 </script>
 </body>
 </html>
+
+<style>
+/* === 3.26.21 Desktop RPG responsive layout === */
+@media (min-width: 900px) and (min-aspect-ratio: 4/3){
+  #npcStoryPlayer{background:#120c18!important;}
+  .npcStoryStage{
+    width:100vw!important;height:100dvh!important;
+    overflow:hidden!important;background:#120c18!important;
+  }
+  .npcStoryPortraitWrap{
+    position:absolute!important;inset:0!important;
+    display:flex!important;align-items:center!important;justify-content:center!important;
+    background:#120c18!important;
+  }
+  .npcStoryPortraitWrap img{
+    width:100%!important;height:100%!important;
+    object-fit:contain!important;
+    object-position:center center!important;
+    display:block!important;
+  }
+  /* blurred background fills side bars while the real CG remains uncropped */
+  .npcStoryPortraitWrap::before{
+    content:"";position:absolute;inset:-24px;z-index:0;
+    background-image:var(--npc-story-bg,none);
+    background-size:cover;background-position:center;
+    filter:blur(20px) brightness(.42);transform:scale(1.05);
+    opacity:.75;
+  }
+  .npcStoryPortraitWrap img{position:relative;z-index:1;}
+  .npcStoryDialogue{
+    left:clamp(24px,4vw,72px)!important;
+    right:clamp(24px,4vw,72px)!important;
+    bottom:clamp(18px,3vh,34px)!important;
+    min-height:118px!important;max-height:32vh!important;
+    padding:22px 22px 24px!important;border-radius:18px!important;
+    overflow-y:auto!important;
+  }
+  .npcStoryText{font-size:17px!important;line-height:1.7!important;min-height:48px!important;}
+  .npcStorySpeaker{font-size:14px!important;min-width:100px!important;}
+  .npcStoryClose{right:24px!important;top:20px!important;}
+}
+</style>
+<script>
+/* Keep desktop blurred backdrop synchronized with the current emotion portrait. */
+(function(){
+  function syncNpcStoryDesktopBg(){
+    const wrap=document.querySelector('.npcStoryPortraitWrap');
+    const img=document.getElementById('npcStoryPortrait');
+    if(!wrap||!img)return;
+    const src=img.currentSrc||img.src||img.getAttribute('src')||'';
+    if(src)wrap.style.setProperty('--npc-story-bg',`url("${String(src).replace(/"/g,'\\"')}")`);
+  }
+  const img=document.getElementById('npcStoryPortrait');
+  img?.addEventListener('load',syncNpcStoryDesktopBg);
+  const obs=img?new MutationObserver(syncNpcStoryDesktopBg):null;
+  if(img)obs?.observe(img,{attributes:true,attributeFilter:['src']});
+  window.addEventListener('resize',syncNpcStoryDesktopBg);
+  setTimeout(syncNpcStoryDesktopBg,100);
+})();
+</script>
