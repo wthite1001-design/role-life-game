@@ -1468,6 +1468,115 @@ body.npcStoryRunning .draggableFab{
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png">
 <link rel="manifest" href="manifest.json">
+
+<style id="qixiHomeTheme">
+/* === 七夕初始版：只調整首頁視覺，不碰功能邏輯 === */
+#home{
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  min-height:100vh;
+  padding:18px 14px 36px;
+  border-radius:0 0 26px 26px;
+  background:
+    radial-gradient(circle at 18% 12%, rgba(154,124,255,.24) 0 2px, transparent 3px),
+    radial-gradient(circle at 79% 18%, rgba(255,230,170,.72) 0 1.5px, transparent 2.5px),
+    radial-gradient(circle at 65% 9%, rgba(255,255,255,.72) 0 1px, transparent 2px),
+    radial-gradient(circle at 32% 28%, rgba(255,255,255,.55) 0 1px, transparent 2px),
+    radial-gradient(ellipse at 52% 4%, rgba(130,106,255,.22), transparent 42%),
+    linear-gradient(180deg,#100b32 0%,#1a1550 34%,#352064 68%,#5a346f 100%);
+}
+#home::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:-2;
+  pointer-events:none;
+  opacity:.92;
+  background-image:
+    radial-gradient(circle,rgba(255,255,255,.95) 0 1px,transparent 1.6px),
+    radial-gradient(circle,rgba(210,196,255,.8) 0 1px,transparent 1.5px),
+    radial-gradient(circle,rgba(255,226,180,.76) 0 1px,transparent 1.6px);
+  background-size:67px 67px,103px 103px,149px 149px;
+  background-position:9px 13px,31px 8px,18px 49px;
+}
+#home::after{
+  content:"";
+  position:absolute;
+  left:-18%;right:-18%;top:88px;height:170px;
+  z-index:-1;
+  pointer-events:none;
+  transform:rotate(-7deg);
+  filter:blur(18px);
+  background:linear-gradient(90deg,transparent 6%,rgba(123,100,255,.08) 20%,rgba(201,177,255,.32) 47%,rgba(255,214,240,.22) 56%,rgba(125,127,255,.08) 80%,transparent 94%);
+}
+#home .homeHero{
+  position:relative;
+  overflow:hidden;
+  border:1px solid rgba(230,220,255,.34)!important;
+  background:linear-gradient(145deg,rgba(34,25,84,.88),rgba(91,48,119,.74))!important;
+  box-shadow:0 16px 38px rgba(8,4,35,.26),inset 0 1px 0 rgba(255,255,255,.14);
+  color:#fff;
+}
+#home .homeHero::before{
+  content:"🌙   ✦   ⋆   ✧";
+  position:absolute;
+  top:10px;left:16px;right:16px;
+  text-align:center;
+  letter-spacing:17px;
+  font-size:13px;
+  opacity:.62;
+}
+#home .homeHero::after{
+  content:"鵲橋星河・今夜相逢";
+  display:block;
+  margin-top:9px;
+  color:#eadfff;
+  font-size:12px;
+  letter-spacing:3px;
+}
+#home .homeLogo{filter:drop-shadow(0 0 10px rgba(245,220,255,.8))}
+#home .homeHero h1{color:#fff;text-shadow:0 2px 14px rgba(195,163,255,.55)}
+#home .homeTagline{color:#e6dcf7!important}
+#home .homeVersion{
+  color:#f8efff;
+  background:rgba(255,255,255,.1)!important;
+  border-color:rgba(255,255,255,.24)!important;
+  backdrop-filter:blur(10px);
+}
+#home .homePanel{
+  color:#f7f3ff;
+  border:1px solid rgba(224,214,255,.23)!important;
+  background:linear-gradient(145deg,rgba(26,20,65,.82),rgba(58,34,90,.72))!important;
+  box-shadow:0 10px 26px rgba(8,4,35,.16),inset 0 1px 0 rgba(255,255,255,.07);
+  backdrop-filter:blur(12px);
+}
+#home .homePanelTitle{color:#fff}
+#home .small,#home .muted{color:#d7cdea!important}
+#home .chip{
+  color:#f6edff!important;
+  background:rgba(163,127,255,.18)!important;
+  border-color:rgba(222,205,255,.28)!important;
+}
+#home input,#home select,#home textarea{
+  background:rgba(255,255,255,.92)!important;
+  color:#34274c!important;
+  border-color:rgba(220,207,255,.72)!important;
+}
+#home button{
+  border-color:rgba(230,215,255,.34)!important;
+  box-shadow:0 4px 12px rgba(10,5,35,.12);
+}
+#home .primary,#home button.primary{
+  background:linear-gradient(135deg,#8f73dc,#c16fb4)!important;
+  color:#fff!important;
+}
+@media(max-width:600px){
+  #home{padding:12px 10px 30px}
+  #home .homeHero{padding-top:30px}
+  #home .homeHero::before{letter-spacing:10px}
+}
+</style>
 </head>
 <body>
 
@@ -1532,7 +1641,7 @@ body.npcStoryRunning .draggableFab{
     <div class="homeLogo">🧪</div>
     <h1>關係進行式 TEST</h1>
     <div class="homeTagline">測試中的每一段關係，都可能被重置。</div>
-    <div class="homeVersion">3.26.16・測試服</div>
+    <div class="homeVersion">3.26.21・測試服｜七夕初始版</div>
   </div>
 
   
