@@ -10252,13 +10252,14 @@ document.getElementById("closeNpcStoryPlayer")?.addEventListener("click",e=>{e.s
 (function(){
   const NPC_CHAT_DAILY_LIMIT=10;
   const NPC_CAT_COOKIE_DAILY_BUY_LIMIT=2;
+  // 最終關係選項解鎖門檻：降低門檻，避免自由選項玩家大量只剩「熟客」。
   const NPC_ROUTE_THRESHOLDS={
-    lover:12,
-    bestfriend:12,
-    confidant:12,
-    bickering:10,
-    catfriend:10,
-    secret:12
+    lover:8,
+    bestfriend:8,
+    confidant:8,
+    bickering:7,
+    catfriend:7,
+    secret:8
   };
   const NPC_REMOTE_RESET_ITEM="__npc_reset_shopkeeper_v2__";
 
