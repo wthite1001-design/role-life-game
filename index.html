@@ -10517,10 +10517,10 @@ document.getElementById("closeNpcStoryPlayer")?.addEventListener("click",e=>{e.s
   window.npcRouteAvailability=routeAvailability;
 
   if(typeof NPC_RELATION_LABELS!=="undefined"){
-    NPC_RELATION_LABELS.blacksecret="🔐 秘密共犯";
+    NPC_RELATION_LABELS.blacksecret="🔐 甜蜜共犯";
   }
   if(typeof NPC_RELATION_NOTES!=="undefined"){
-    NPC_RELATION_NOTES.blacksecret="你們共同知道一件沒有被寫進任何帳本裡的事。";
+    NPC_RELATION_NOTES.blacksecret="你知道她不願示人的過去，卻依然選擇在意她、留在她身邊。";
   }
   if(typeof NPC_RELATION_REGISTRY!=="undefined" && NPC_RELATION_REGISTRY.shopkeeper_cat){
     const arr=NPC_RELATION_REGISTRY.shopkeeper_cat.allowed||[];
@@ -10576,12 +10576,27 @@ document.getElementById("closeNpcStoryPlayer")?.addEventListener("click",e=>{e.s
       {speaker:"？？？",text:"「……勉強接受。」"}
     ],
     blacksecret:[
-      {speaker:"旁白",text:"你把黑盒放到她面前，沒有立刻開口。"},
-      {speaker:"？？？",text:"她看著盒子，又看了看你。"},
-      {speaker:"？？？",text:"「原來最後還是被你走到這裡了。」"},
-      {speaker:"你",text:"「妳後悔讓我知道嗎？」"},
-      {speaker:"？？？",text:"她輕輕搖頭。「如果是你的話，不會。」"},
-      {speaker:"旁白",text:"那成了一個只屬於你們兩個人的秘密。"}
+      {speaker:"旁白",text:"你把黑盒放到她面前。這一次，貓貓沒有把它收回櫃檯底下。"},
+      {speaker:"貓貓",text:"「你不是一直很好奇這裡面是什麼嗎？」"},
+      {speaker:"旁白",text:"她的指尖停在鎖扣上好一會兒，最後還是親手打開了黑盒。"},
+      {speaker:"貓貓",text:"「先說好。看完以後……你可能就不會像現在這樣看我了。」"},
+      {speaker:"旁白",text:"盒子裡沒有寶物。只有舊照片、泛黃的紙張、折過很多次的信，以及她從未向任何人提起的過去。"},
+      {speaker:"旁白",text:"她第一次把那些做錯過的選擇、後悔過的事情，還有最不願讓別人看見的自己，一件一件告訴了你。"},
+      {speaker:"貓貓",text:"「……差不多就是這樣。是不是跟你想的不太一樣？」"},
+      {speaker:"旁白",text:"你沒有追問，只是替她把其中一件東西輕輕放回盒子裡。"},
+      {speaker:"貓貓",text:"「你不問我嗎？」"},
+      {speaker:"你",text:"「妳想說的，已經說了。」"},
+      {speaker:"貓貓",text:"「那你……不介意？」"},
+      {speaker:"你",text:"「我在意的是妳。」"},
+      {speaker:"你",text:"「以前發生過什麼，跟我現在還想待在妳身邊，又不衝突。」"},
+      {speaker:"旁白",text:"貓貓安靜了很久。她把東西慢慢收回黑盒，這一次卻沒有重新上鎖。"},
+      {speaker:"貓貓",text:"「既然全部都知道了，還不打算跑……那你以後就別想裝作不知道了。」"},
+      {speaker:"旁白",text:"她伸出手，悄悄勾住你的手指。"},
+      {speaker:"你",text:"「這算威脅？」"},
+      {speaker:"貓貓",text:"「不是。」"},
+      {speaker:"貓貓",text:"「我的秘密，你知道。我的過去，你也知道。可是知道這些以後……你還是選了我。」"},
+      {speaker:"貓貓",text:"「那就替我保密吧。這些事……只准你知道。」"},
+      {speaker:"旁白",text:"她沒有鬆開勾著你的手。那些沒有說出口的心意，就這樣留在只有你們知道的秘密裡。"}
     ],
     regular:[
       {speaker:"？？？",text:"「你明天還會來吧？」"},
@@ -10628,7 +10643,7 @@ document.getElementById("closeNpcStoryPlayer")?.addEventListener("click",e=>{e.s
           title:"最終章",
           lines:[
             ...(ENDING_LINES[type]||ENDING_LINES.regular),
-            {speaker:"旁白",text:`【NPC 關係收藏】${NPC_RELATION_LABELS[type]||type}`}
+            {speaker:"旁白",text:type==="blacksecret"?"【結局】🔐 甜蜜共犯\n【NPC 關係收藏】🔐 甜蜜共犯":`【NPC 關係收藏】${NPC_RELATION_LABELS[type]||type}`}
           ],
           onComplete:()=>commitNpcEnding(type)
         });
