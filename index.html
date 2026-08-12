@@ -13356,6 +13356,61 @@ function updateSaveRescueStatus(){
 })();
 </script>
 
+<script>
+/* === 3.29.7 FORMAL live counter/referral sync hotfix === */
+(function(){
+  // NPC shop: daily counters must repaint immediately after every interaction.
+  document.getElementById('npcShopBody')?.addEventListener('click',function(ev){
+    if(!ev.target?.closest?.('[data-npc-action],[data-npc-buy],[data-npc-use]'))return;
+    setTimeout(()=>{ try{ if(!document.getElementById('npcShopModal')?.classList.contains('hidden')) renderNpcShop?.(); }catch(e){} },0);
+    setTimeout(()=>{ try{ if(!document.getElementById('npcShopModal')?.classList.contains('hidden')) renderNpcShop?.(); }catch(e){} },250);
+  },true);
+  // Choice-based NPC actions can change counters/state after the first click.
+  document.getElementById('npcChoiceButtons')?.addEventListener('click',function(){
+    setTimeout(()=>{ try{ renderNpcShop?.(); }catch(e){} },0);
+  },true);
+  document.getElementById('npcStoryChoices')?.addEventListener('click',function(){
+    setTimeout(()=>{ try{ renderNpcShop?.(); }catch(e){} },0);
+  },true);
+
+  // Real-player relation gift: force both remaining gift count and bond UI to repaint.
+  document.addEventListener('click',function(ev){
+    if(!ev.target?.closest?.('#sendRelationGift'))return;
+    let tries=0;
+    const timer=setInterval(async()=>{
+      tries++;
+      try{
+        const c=typeof cur==='function'?cur():null;
+        if(c) renderRelationGiftPanel?.(c);
+        if(activeRoomCode) await refreshBond?.(activeRoomCode);
+        if(c&&activeRoomCode) updateInteractionLimit?.(c,activeRoomCode);
+      }catch(e){}
+      if(tries>=4)clearInterval(timer);
+    },350);
+  },true);
+
+  // Referral activity is cloud-owned. Refresh while the activity panel is open and
+  // whenever the app regains focus, so the inviter sees a newly-bound invitee without reload.
+  let referralRefreshing=false;
+  async function liveRefreshReferral(){
+    if(referralRefreshing)return;
+    const codeEl=document.getElementById('formalMyReferralCode');
+    if(!codeEl)return;
+    referralRefreshing=true;
+    try{
+      await loadTestReferralPanel?.();
+      if(typeof evaluateLaunchActivity==='function')await evaluateLaunchActivity(false);
+      if(typeof renderLaunchActivity==='function')renderLaunchActivity();
+    }catch(e){console.warn('referral live refresh',e)}finally{referralRefreshing=false}
+  }
+  window.addEventListener('focus',liveRefreshReferral);
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden)liveRefreshReferral()});
+  setInterval(()=>{
+    const hasPanel=document.getElementById('formalMyReferralCode');
+    if(hasPanel)liveRefreshReferral();
+  },8000);
+})();
+</script>
 </body>
 </html>
 <style>
@@ -13855,4 +13910,5 @@ function updateSaveRescueStatus(){
   setTimeout(installMeetButton,300);
 })();
 </script>
+
 
