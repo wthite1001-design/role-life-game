@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#9a76c4" name="theme-color"/>
-<title>關係進行式・3.30.9</title>
+<title>關係進行式・3.31.3</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -1585,6 +1585,128 @@ html[data-formal-theme="maidCafe"] button.primary{background:linear-gradient(135
 }
 @media(max-width:520px){.formalPaidGrid,.formalAppearanceGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.formalPaidCard{padding:11px 8px}}
 </style>
+
+<style id="formal3313MaidTitleRibbon">
+/* 3.31.0：女僕咖啡廳限定－「關係進行式」緞帶招牌 */
+html[data-formal-theme="maidCafe"] .homeHero h1{
+  position:relative;
+  width:max-content;
+  max-width:calc(100% - 92px);
+  margin-left:auto!important;
+  margin-right:auto!important;
+  padding:0 12px 13px;
+  color:#fff8fa!important;
+  text-shadow:0 2px 0 rgba(74,39,52,.35),0 4px 12px rgba(60,30,42,.22);
+}
+html[data-formal-theme="maidCafe"] .homeHero h1::before,
+html[data-formal-theme="maidCafe"] .homeHero h1::after{
+  content:"";
+  position:absolute;
+  top:50%;
+  width:25px;
+  height:18px;
+  transform:translateY(-68%) rotate(45deg);
+  border-radius:50% 12% 50% 12%;
+  background:linear-gradient(135deg,#ffd5e2,#c96f8d);
+  border:2px solid rgba(255,241,246,.82);
+  box-shadow:
+    11px -11px 0 -2px #e68eaa,
+    11px -11px 0 0 rgba(255,241,246,.78),
+    7px -3px 0 -5px #7d4358,
+    0 4px 8px rgba(71,34,48,.22);
+}
+html[data-formal-theme="maidCafe"] .homeHero h1::before{
+  left:-38px;
+  transform:translateY(-68%) rotate(45deg);
+}
+html[data-formal-theme="maidCafe"] .homeHero h1::after{
+  right:-38px;
+  transform:translateY(-68%) rotate(225deg);
+}
+/* 標題下方的小蕾絲線 */
+html[data-formal-theme="maidCafe"] .homeHero h1{
+  background:
+    radial-gradient(circle at 7px calc(100% - 3px),transparent 5px,#f8d5df 5.5px 7px,transparent 7.5px) 0 100%/14px 10px repeat-x;
+}
+/* 小螢幕縮小蝴蝶結，避免壓到標題 */
+@media(max-width:420px){
+  html[data-formal-theme="maidCafe"] .homeHero h1{
+    max-width:calc(100% - 70px);
+    padding-left:5px;padding-right:5px;
+  }
+  html[data-formal-theme="maidCafe"] .homeHero h1::before{left:-30px}
+  html[data-formal-theme="maidCafe"] .homeHero h1::after{right:-30px}
+  html[data-formal-theme="maidCafe"] .homeHero h1::before,
+  html[data-formal-theme="maidCafe"] .homeHero h1::after{
+    width:20px;height:15px;
+  }
+}
+</style>
+
+
+<style id="formal3313MaidRibbonControls">
+/* 女僕咖啡廳：按鈕改成緞帶/糖霜招牌效果；只作用於 maidCafe */
+html[data-formal-theme="maidCafe"] button:not(.npcStoryClose):not(.npcStoryNext),
+html[data-formal-theme="maidCafe"] .chip,
+html[data-formal-theme="maidCafe"] .shopTab,
+html[data-formal-theme="maidCafe"] .navBtn{
+  position:relative;
+  overflow:hidden;
+  border:1px solid rgba(117,58,78,.20)!important;
+  background:linear-gradient(180deg,#fff9fb 0%,#f7d9e3 52%,#e8b6c7 100%)!important;
+  color:#603648!important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.92),
+    inset 0 -2px 0 rgba(128,65,87,.08),
+    0 5px 12px rgba(87,45,60,.12)!important;
+}
+html[data-formal-theme="maidCafe"] button:not(.npcStoryClose):not(.npcStoryNext)::before,
+html[data-formal-theme="maidCafe"] .shopTab::before,
+html[data-formal-theme="maidCafe"] .navBtn::before{
+  content:"";
+  position:absolute;
+  left:8px;right:8px;top:4px;height:42%;
+  border-radius:999px;
+  background:linear-gradient(180deg,rgba(255,255,255,.58),rgba(255,255,255,0));
+  pointer-events:none;
+}
+html[data-formal-theme="maidCafe"] button.primary,
+html[data-formal-theme="maidCafe"] .shopTab.active,
+html[data-formal-theme="maidCafe"] .navBtn.active{
+  background:linear-gradient(135deg,#a95e7a 0%,#7a4358 56%,#5c3344 100%)!important;
+  color:#fff9fb!important;
+  border-color:#dca6b8!important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.30),
+    0 6px 14px rgba(75,37,52,.24)!important;
+}
+/* 小緞帶尾巴：主要/選中按鈕 */
+html[data-formal-theme="maidCafe"] button.primary::after,
+html[data-formal-theme="maidCafe"] .shopTab.active::after,
+html[data-formal-theme="maidCafe"] .navBtn.active::after{
+  content:"";
+  position:absolute;
+  right:-5px;top:50%;
+  width:17px;height:17px;
+  transform:translateY(-50%) rotate(45deg);
+  background:rgba(255,216,229,.72);
+  border-radius:3px;
+  box-shadow:-5px 5px 0 rgba(121,61,82,.22);
+  pointer-events:none;
+}
+/* 女僕主題卡片增加細蕾絲邊，不影響原始主題 */
+html[data-formal-theme="maidCafe"] .homePanel,
+html[data-formal-theme="maidCafe"] .pageCard.active,
+html[data-formal-theme="maidCafe"] .modalBox{
+  box-shadow:0 8px 22px rgba(82,42,57,.12)!important;
+}
+html[data-formal-theme="maidCafe"] .formalPaidCard,
+html[data-formal-theme="maidCafe"] .formalAppearanceCard{
+  background:linear-gradient(145deg,#fffdfc,#f8e2e9)!important;
+  border-color:#dfb4c3!important;
+}
+</style>
+
 </head>
 <body>
 
@@ -1627,7 +1749,7 @@ html[data-formal-theme="maidCafe"] button.primary{background:linear-gradient(135
 <div class="homeLogo">💞</div>
 <h1>關係進行式</h1>
 <div class="homeTagline">每一段關係，都還在進行中。</div>
-<div class="homeVersion">第3.30.9版・解除重綁突破重置</div>
+<div class="homeVersion">第3.31.3版・課金徽章資料修正</div>
 </div>
 <div id="playerAccountHomePanel" class="homePanel accountHomePanel">
 <div class="homePanelTitle"><span>☁️ 玩家帳號</span><span id="playerAccountChip" class="chip">未登入</span></div>
@@ -1645,7 +1767,7 @@ html[data-formal-theme="maidCafe"] button.primary{background:linear-gradient(135
 <div class="gmStatus" id="gmHomeStatus"></div>
 </div>
 <div class="homePanel">
-<div class="homePanelTitle"><span>📢 更新公告</span><span class="chip">第3.29.10版</span></div>
+<div class="homePanelTitle"><span>📢 更新公告</span><span class="chip">第3.31.3版</span></div>
 <div class="small">查看本次新增功能與修正內容。</div>
 <button id="openUpdateNotice" style="width:100%;margin-top:8px" type="button">查看更新內容</button>
 </div>
@@ -2068,28 +2190,39 @@ html[data-formal-theme="maidCafe"] button.primary{background:linear-gradient(135
 </div>
 <div class="drawerShade hidden" id="drawerShade"></div><aside class="drawer hidden" id="drawer"><div style="padding:8px"><b id="drawerName">角色</b><div class="muted">功能選單</div></div><button class="navBtn" data-nav="life" type="button">🏠 角色生活</button><button class="navBtn" data-nav="daily" type="button">📋 今日小事</button><button class="navBtn" data-nav="work" type="button">💼 打工賺錢</button><button class="navBtn" data-nav="journal" type="button">📖 今日生活日誌</button><button class="navBtn" data-nav="routine" type="button">🕒 角色作息</button><button class="navBtn" data-nav="outing" type="button">🗺️ 外出 <span class="navDot hidden" data-dot="outing"></span></button><button class="navBtn" data-nav="relations" type="button">💞 關係 <span class="navDot hidden" data-dot="relations"></span></button><button class="navBtn" data-nav="npcrelations" type="button">✨ NPC 關係</button><button class="navBtn" data-nav="mailbox" type="button">📬 信箱 <span class="navDot hidden" data-dot="mailbox"></span></button><button class="navBtn" id="playerAccountDrawerBtn" type="button">☁️ 玩家帳號</button><button class="navBtn" id="gmDrawerLoginBtn" type="button">👑 管理員登入</button><button class="navBtn hidden" data-nav="gm" id="gmNavBtn" type="button">🛠️ GM 操作台</button><div class="navSep"></div><button class="navBtn" data-nav="bag" type="button">🎒 背包</button><button class="navBtn" data-nav="shop" type="button">🏪 商店</button><button class="navBtn" data-nav="memory" type="button">📖 回憶</button><button class="navBtn" data-nav="achievements" type="button">🏆 成就</button><div class="navSep"></div><div style="padding:8px"><b>🎵 悠閒 BGM</b><div class="actions"><button id="bgmToggle">▶ 播放</button><input id="bgmVolume" max="1" min="0" step=".05" type="range" value=".25"/></div><div class="small">把 bgm.mp3 和 index.html 放同一資料夾。</div></div><audio autoplay="" id="bgm" loop="" playsinline="" preload="auto"><source src="bgm.mp3" type="audio/mpeg"/></audio><button class="navBtn" id="back" type="button">💾 返回存檔首頁</button></aside><div class="modal hidden" id="updateNoticeModal">
 <div class="modalBox">
-<div class="modalHead"><b>📢 第3.23版更新公告</b><button id="closeUpdateNotice">×</button></div>
+<div class="modalHead"><b>📢 第3.31.3版更新公告</b><button id="closeUpdateNotice">×</button></div>
 <div class="updateNoticeBody">
-  <h3>🎊 第3.27版・開服活動正式上線</h3>
-  <p>限定活動期間：2026/08/11 ～ 2026/09/11。</p>
+  <h3>🎀 女僕咖啡廳主題</h3>
+  <p>新增女僕咖啡廳限定外觀。解鎖後可在「外觀更改」中自由切換原始外觀與女僕咖啡廳，選擇會保留。</p>
 
-  <h3>📅 七日開服活動</h3>
-  <p>活動內容會依實際天數逐日解鎖。還沒到的天數會顯示「???」，即使提前完成條件也無法先行解鎖。</p>
+  <h3>☕ 貓貓商店限定兌換</h3>
+  <p>持有「請店長喝咖啡券」後，可在貓貓商店兌換女僕咖啡廳主題，並解鎖限定特殊劇情與女僕 CG。</p>
 
-  <h3>🏪 貓貓商店登場</h3>
-  <p>全新 NPC「店長・貓貓」正式加入。可以聊天、探索傳聞、解鎖個人故事、提升好感與店貓親密度。</p>
+  <h3>🎀 女僕招牌裝飾</h3>
+  <p>使用女僕咖啡廳主題時，「關係進行式」首頁標題會換上緞帶蝴蝶結與蕾絲裝飾；切回原始外觀後會恢復原本樣式。</p>
 
-  <h3>🎁 店長贈禮</h3>
-  <p>送禮改為從角色背包中選擇實際持有的可贈送物品；送出後會直接消耗背包數量。</p>
+  <h3>🏆 羈絆第 7 階</h3>
+  <p>頂級突破正式追加第 7 階專屬名稱：戀人「此生唯一」、摯友「此生知己」、家人「血脈之外」、搭檔「生死與共」、宿敵「命定之敵」、仇敵「至死方休」。</p>
 
-  <h3>🎭 店長表情與劇情演出</h3>
-  <p>店長加入 6 種表情變化，商店互動與劇情會依台詞情緒切換；桌機版劇情畫面也已調整顯示比例。</p>
+  <h3>🛍️ 突破道具防誤買</h3>
+  <p>目前關係已購買突破道具或完成突破後，對應商品會顯示售罄。解除關係後重新建立的新關係不會繼承舊第 7 階，可重新培養並購買突破道具。</p>
 
-  <h3>🏅 限定徽章與收藏</h3>
-  <p>活動與 NPC 關係可取得限定徽章。已符合條件但先前未正常顯示的徽章，會自動補回收藏。</p>
+  <h3>🏅 成就提示修正</h3>
+  <p>補強成就解鎖通知。部分先前已成功觸發、卻沒有跳出提示的成就，現在會正確顯示解鎖通知；歷史突破成就與徽章在解除關係後仍會保留。</p>
+
+  <h3>⚡ 載入與劇情優化</h3>
+  <p>優化主題與常用圖片載入方式，首頁優先顯示，再於背景預載貓貓店長與女僕劇情圖片，減少等待與圖片延遲切換。</p>
+
+  <h3>🎀 女僕介面細節</h3>
+  <p>女僕咖啡廳主題的按鈕、分頁與選單加入緞帶、糖霜高光與咖啡莓果配色；原始主題不受影響。</p>
+  <h3>🏅 課金紀念物改為徽章</h3>
+  <p>「店長的小禮物」、「小小應援」、「開發者應援」現在正式作為限定徽章收藏。舊存檔若仍有 paid_gift_60 等內部背包物品，會自動轉換成徽章並從背包移除。</p>
+
+  <h3>🎒 付費道具名稱修正</h3>
+  <p>背包不再直接顯示 paid_gift_60 等內部代碼，會改為「店長的小禮物」等正式中文名稱。</p>
 
   <h3>🔧 本次修正</h3>
-  <p>修正活動時間判定、徽章顯示、店長圖片路徑、劇情表情同步與部分正式服介面問題。</p>
+  <p>修正突破成功卻誤顯示失敗、突破狀態同步、解除後重綁、貓貓商店女僕兌換入口，以及部分版本號仍顯示舊版本的問題。</p>
 </div></div>
 <button class="primary" id="updateNoticeOk" style="width:100%;margin-top:12px">知道了</button>
 </div>
@@ -6494,7 +6627,10 @@ const badgeDefs={
  badge_partner:{icon:"🛡️",name:"生死與共",desc:"搭檔第 7 階突破"},
  badge_rival:{icon:"⚡",name:"命定之敵",desc:"宿敵第 7 階突破"},
  badge_enemy:{icon:"⛓️",name:"至死方休",desc:"仇敵第 7 階突破"},
- badge_all:{icon:"🏆",name:"關係的盡頭",desc:"完成六種頂級關係"}
+ badge_all:{icon:"🏆",name:"關係的盡頭",desc:"完成六種頂級關係"},
+  paid_badge_gift_60:{icon:"🐾",name:"店長的小禮物",desc:"支持貓貓商店的限定徽章"},
+  paid_badge_support_100:{icon:"🎀",name:"小小應援",desc:"小小贊助包限定徽章"},
+  paid_badge_dev_150:{icon:"✨",name:"開發者應援",desc:"開發者應援包限定徽章"}
 };
 function ensureBadges(){
  local.sharedBadges??={};
@@ -6982,7 +7118,7 @@ function renderExtras(c){
  safeCall(()=>renderWork(c),"打工");
  safeCall(()=>renderJournal(c),"生活日誌");
  safeCall(()=>renderShop(c),"商店");
- let bl=document.getElementById('bagList');if(bl){let a=Object.entries(c.inventory).filter(x=>x[1]>0);bl.className=a.length?"itemGrid":"";bl.innerHTML=a.length?a.map(([id,n])=>{let i=protoShop.find(x=>x.id===id);let ni=NPC_ITEM_EFFECTS?.[id];let nm=i?.n||ni?.name||id;return `<button class="tile" data-bag="${id}"><div class="ico">${nm.split(" ")[0]||"🎁"}</div><b>${nm.includes(" ")?nm.substring(nm.indexOf(" ")+1):nm}</b><div class="small">×${n}</div></button>`}).join(''):'<div class="muted">背包目前是空的。</div>'}
+ let bl=document.getElementById('bagList');if(bl){let a=Object.entries(c.inventory).filter(x=>x[1]>0);bl.className=a.length?"itemGrid":"";bl.innerHTML=a.length?a.map(([id,n])=>{let i=protoShop.find(x=>x.id===id);let ni=NPC_ITEM_EFFECTS?.[id];let nm=i?.n||ni?.name||(typeof itemDisplayName==="function"?itemDisplayName(id):id);return `<button class="tile" data-bag="${id}"><div class="ico">${nm.split(" ")[0]||"🎁"}</div><b>${nm.includes(" ")?nm.substring(nm.indexOf(" ")+1):nm}</b><div class="small">×${n}</div></button>`}).join(''):'<div class="muted">背包目前是空的。</div>'}
  let ml=document.getElementById('memoryList');if(ml)ml.innerHTML=c.memories.length?c.memories.map(x=>`<div class="itemRow"><b>${x.t}</b><div class="small">${x.d}</div></div>`).join(''):'<div class="muted">還沒有特殊回憶。</div>';
  if(day(c)>=7)c.achievements.week=1;if(day(c)>=30)c.achievements.month=1;c.achievements.start=1;if((c.stats?.workCount||0)>=1)c.achievements.work1=1;if((c.stats?.workCount||0)>=10)c.achievements.work10=1;if((c.stats?.workEarned||0)>=1000)c.achievements.earn1000=1;if(c.roomCodes.length)c.achievements.relation=1;if(c.roomCodes.length>=3)c.achievements.three=1;
  if((c.stats?.messages||0)>=1)c.achievements.msg1=1;if((c.stats?.messages||0)>=10)c.achievements.msg10=1;if((c.stats?.messages||0)>=50)c.achievements.msg50=1;
@@ -13476,7 +13612,9 @@ document.addEventListener("click",function deepRescueDelegatedFallback(e){
     npc_cat_cookie:"🐾 貓掌餅乾",
     npc_lucky_bell:"🔔 小幸運鈴【限定贈禮】",
     npc_regular_box:"🎁 熟客小盒",
-    npc_under_counter:"🔐 櫃檯下的黑盒"
+    npc_under_counter:"🔐 櫃檯下的黑盒",
+    npc_maid_cafe_coffee_voucher:"☕ 請店長喝咖啡券",
+    paid_coffee_50:"☕ 請店長喝咖啡券"
   };
 
   const oldItemDisplayName=window.itemDisplayName;
@@ -14154,7 +14292,7 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 
 <script id="formal3298MaidCommerce">
 (function(){
- const BUILD='3.30.9';
+ const BUILD='3.31.3';
  const THEME_KEY='role_life_formal_theme_v1';
  const VOUCHER='npc_maid_cafe_coffee_voucher';
 
@@ -14365,7 +14503,7 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 })();
 </script>
 
-<script id="formal3309InstantAssetRuntime">
+<script id="formal3313InstantAssetRuntime">
 (function(){
  const CACHE='relationship-game-formal-critical-v1';
  const CRITICAL=[
@@ -14421,12 +14559,12 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 </script>
 
 
-<script id="formal3309VersionGuard">
+<script id="formal3313VersionGuard">
 (function(){
  function apply(){
-  document.querySelectorAll('.homeVersion').forEach(x=>x.textContent='第3.30.9版・解除重綁突破重置');
-  document.querySelectorAll('.chip').forEach(x=>{if(/^第?3\.\d+(?:\.\d+)?版?$/.test((x.textContent||'').trim()))x.textContent='第3.30.9版'});
-  document.title='關係進行式・3.30.9';
+  document.querySelectorAll('.homeVersion').forEach(x=>x.textContent='第3.31.3版・課金徽章資料修正');
+  document.querySelectorAll('.chip').forEach(x=>{if(/^第?3\.\d+(?:\.\d+)?版?$/.test((x.textContent||'').trim()))x.textContent='第3.31.1版'});
+  document.title='關係進行式・3.31.3';
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',apply,{once:true});else apply();
  window.addEventListener('pageshow',apply);
@@ -14434,7 +14572,7 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 </script>
 
 
-<script id="formal3309AchievementPopupGuard">
+<script id="formal3313AchievementPopupGuard">
 (function(){
   let sweeping=false;
 
@@ -14480,7 +14618,7 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 </script>
 
 
-<script id="formal3309NewRelationBreakthroughReset">
+<script id="formal3313NewRelationBreakthroughReset">
 (function(){
   const seenKey='role_life_formal_seen_roomcodes_v3309';
   function readSeen(){try{return new Set(JSON.parse(localStorage.getItem(seenKey)||'[]'))}catch(_){return new Set()}}
@@ -14511,6 +14649,64 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
   document.addEventListener('click',e=>{
     if(e.target.closest?.('[data-create-relation],[data-accept-relation],[data-room-accept],#acceptRelationBtn,#createRelationBtn'))setTimeout(scan,1500);
   },true);
+})();
+</script>
+
+
+<script id="formal3313PaidBadgeMigration">
+(function(){
+  const LEGACY={
+    paid_gift_60:"paid_badge_gift_60",
+    paid_support_100:"paid_badge_support_100",
+    paid_dev_150:"paid_badge_dev_150"
+  };
+
+  function migrate(c){
+    if(!c)return false;
+    c.inventory=c.inventory&&typeof c.inventory==="object"?c.inventory:{};
+    let changed=false;
+
+    try{
+      if(typeof ensureSharedBadges==="function")ensureSharedBadges();
+      else{
+        window.local=window.local||{};
+        local.sharedBadges=local.sharedBadges&&typeof local.sharedBadges==="object"?local.sharedBadges:{};
+      }
+    }catch(_){
+      window.local=window.local||{};
+      local.sharedBadges=local.sharedBadges&&typeof local.sharedBadges==="object"?local.sharedBadges:{};
+    }
+
+    for(const [oldId,badgeId] of Object.entries(LEGACY)){
+      if(Number(c.inventory[oldId]||0)>0){
+        local.sharedBadges[badgeId]=1;
+        delete c.inventory[oldId];
+        changed=true;
+      }
+    }
+
+    if(changed){
+      try{saveLocal?.()}catch(_){}
+      try{renderBadges?.()}catch(_){}
+      try{renderAchievements?.()}catch(_){}
+    }
+    return changed;
+  }
+
+  function run(){
+    try{
+      const c=typeof cur==="function"?cur():null;
+      if(c)migrate(c);
+      const chars=window.local?.characters||[];
+      for(const ch of chars)migrate(ch);
+    }catch(e){console.warn("paid badge migration",e)}
+  }
+
+  if(document.readyState==="loading"){
+    document.addEventListener("DOMContentLoaded",()=>setTimeout(run,250),{once:true});
+  }else setTimeout(run,0);
+
+  window.migrateLegacyPaidBadges=run;
 })();
 </script>
 
