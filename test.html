@@ -13292,10 +13292,28 @@ body.game-entry-active #npcTownFab{
   function removeOldCampaigns(){
     document.getElementById('launchActivityFab')?.remove();
     document.getElementById('launchActivityModal')?.remove();
-    ['testInviterCodeInput','testInviteCode','inviteCodeInput'].forEach(id=>document.getElementById(id)?.closest('.card,.modal,.section,div')?.remove());
+    /* 只移除舊的「邀請好友活動」區塊，絕對不要碰測試服登入用的 testInviteCodeInput。 */
+    document.getElementById('testReferralPanel')?.remove();
+    ['testInviterCodeInput','inviteCodeInput'].forEach(id=>{
+      const el=document.getElementById(id);
+      const panel=el?.closest('#testReferralPanel,.testReferralPanel,[data-test-referral-panel]');
+      if(panel) panel.remove();
+    });
   }
   removeOldCampaigns();
-  document.addEventListener('DOMContentLoaded',removeOldCampaigns,{once:true});
+  /* 測試服入口安全檢查：登入輸入框必須保留。 */
+  function keepTestGateAlive(){
+    const gate=document.getElementById('testAccessGate');
+    const input=document.getElementById('testInviteCodeInput');
+    const redeem=document.getElementById('testRedeemBtn');
+    if(gate && input && redeem){
+      gate.style.removeProperty('display');
+      input.disabled=false;
+      redeem.disabled=false;
+    }
+  }
+  keepTestGateAlive();
+  document.addEventListener('DOMContentLoaded',()=>{removeOldCampaigns();keepTestGateAlive()},{once:true});
   setTimeout(removeOldCampaigns,100);setTimeout(removeOldCampaigns,800);
 
   /* 貓貓活動改為永久內容：不再有開始/結束日期。 */
