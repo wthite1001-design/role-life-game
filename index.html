@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#9a76c4" name="theme-color"/>
-<title>關係進行式・3.26.17-店長六表情點擊切換</title>
+<title>關係進行式・3.29.8-Egress省流量修正版</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -2775,7 +2775,7 @@ function publicState(c){
     updated:Date.now()
   }
 }
-const ONLINE_TIMEOUT_MS=20000;
+const ONLINE_TIMEOUT_MS=90000; // 省流量版：presence 每 60 秒同步，90 秒內視為在線
 function isOnlineState(state){
   if(!state||!state.updated)return false;
   return (Date.now()-Number(state.updated))<=ONLINE_TIMEOUT_MS;
@@ -3005,7 +3005,7 @@ async function refreshPublicStats(){
 function startPublicStats(){
   clearInterval(publicStatsTimer);
   refreshPublicStats();
-  publicStatsTimer=setInterval(()=>{if(!document.getElementById("home")?.classList.contains("hidden"))refreshPublicStats()},30000);
+  publicStatsTimer=setInterval(()=>{if(!document.getElementById("home")?.classList.contains("hidden"))refreshPublicStats()},120000);
 }
 
 
@@ -5207,31 +5207,59 @@ function processLevelUps(c){
   logJournal(c,`升級到 Lv.${last.lv}`,"✨");
 }
 let pollBusy=false;
+let lastRelationshipCloudPoll=0,lastBondCloudPoll=0,lastAllBondsCloudPoll=0,lastPresenceCloudPoll=0,lastInboxCloudPoll=0;
 function startPolling(){
   stopPolling();
   pollBusy=false;
+  lastRelationshipCloudPoll=lastBondCloudPoll=lastAllBondsCloudPoll=lastPresenceCloudPoll=lastInboxCloudPoll=0;
   pollTimer=setInterval(async()=>{
     if(pollBusy || document.hidden)return;
     pollBusy=true;
     try{
       let c=cur();if(!c)return;
       ensureRelations(c);
-      await refreshRelationships();
-      await refreshAllBondSummaries(c);
+      const now=Date.now();
+
+      // 關係總表不需要每 15 秒整包下載；60 秒一次即可。
+      if(now-lastRelationshipCloudPoll>=60000){
+        await refreshRelationships();
+        lastRelationshipCloudPoll=now;
+      }
+
       if(activeRoomCode){
-        try{
-          if(!room||String(room.code)!==String(activeRoomCode)){
-            let rs=await api(`/rooms?code=eq.${encodeURIComponent(activeRoomCode)}&select=*`);
-            if(rs.length){room=rs[0];relationshipSummaries[String(activeRoomCode)]=room}
+        // refreshRelationships 已帶回最新 room；優先直接使用快取，避免 loadRoom() 再重抓同一列。
+        const cached=relationshipSummaries?.[String(activeRoomCode)];
+        if(cached){
+          room=cached;
+          partner=room.host_char===c.id?room.guest_state:room.host_state;
+        }
+
+        // 在線狀態 60 秒上傳一次，避免每輪 PATCH 整份 state。
+        if(room&&now-lastPresenceCloudPoll>=60000){
+          try{await syncState()}catch(e){console.warn("presence sync",e)}
+          lastPresenceCloudPoll=now;
+        }
+
+        // 羈絆只刷新目前開啟的房間；全部房間改成較低頻背景刷新。
+        if(now-lastBondCloudPoll>=60000){
+          await refreshBond(String(activeRoomCode)).catch(e=>console.warn("bond poll",e));
+          if(now-lastAllBondsCloudPoll>=120000 && (c.roomCodes||[]).length>1){
+            await refreshAllBondSummaries(c);
+            lastAllBondsCloudPoll=now;
           }
-          if(room)await syncState();
-        }catch(e){console.warn("presence sync",e)}
-        await loadRoom(activeRoomCode);
-        await Promise.allSettled([loadInbox(),checkDirectGamePopups()]);
+          lastBondCloudPoll=now;
+        }
+
+        // 關係事件通知一分鐘一次；小遊戲邀請另由全域事件輪詢處理。
+        if(now-lastInboxCloudPoll>=60000){
+          await loadInbox().catch(e=>console.warn("inbox poll",e));
+          lastInboxCloudPoll=now;
+        }
+        safeRenderGame();
       }
     }catch(e){console.warn(e)}
     finally{pollBusy=false}
-  },15000);
+  },30000);
 }
 function stopPolling(){if(pollTimer)clearInterval(pollTimer);pollTimer=null}
 
@@ -5977,7 +6005,7 @@ setInterval(async()=>{
   const expMultiplier=1+relationMultipliers.reduce((sum,x)=>sum+(x-1),0);
   c.exp+=1*expMultiplier;c.hunger=Math.max(0,c.hunger-.18);c.energy=Math.max(0,Math.min(100,c.energy+(new Date().getHours()<7?.8:-.1)));c.mood=Math.max(0,Math.min(100,c.mood+.15));
   processLevelUps(c)
-  saveLocal();try{await syncState()}catch(e){console.warn(e)};maybeEvent();renderGame();
+  saveLocal();if(!document.hidden){try{await syncState()}catch(e){console.warn(e)}};maybeEvent();renderGame();
 },60000);
 
 
@@ -7928,7 +7956,7 @@ setTimeout(()=>startPublicStats(),1800);
 document.addEventListener("visibilitychange",()=>{if(!document.hidden&&bgmEnabled)tryStartBgm()});
 const launchActivityAutoTimer=setInterval(()=>{
   if(!document.hidden)evaluateLaunchActivity(false).catch(()=>{});
-},20000);
+},60000);
 
 </script>
 <div class="modal hidden" id="guideModal">
@@ -8174,32 +8202,45 @@ document.getElementById("sendRelationGift")?.addEventListener("click",sendRelati
 async function fetchPendingEvents(c){
   if(!c)return [];
   let rows=[];
-  for(const code of c.roomCodes||[]){
-    try{
-      let ints=await api(`/interactions?room_code=eq.${encodeURIComponent(code)}&to_char=eq.${encodeURIComponent(c.id)}&select=*&order=created_at.desc&limit=30`);
+  const codes=[...new Set((c.roomCodes||[]).map(String).filter(Boolean))];
+  try{
+    if(codes.length){
+      // 省流量：原本每一段關係各抓 interactions + messages（2N 個 request），
+      // 現在一次抓完所有房間，只需 2 個 request。
+      const inList=codes.map(x=>`"${String(x).replace(/"/g,'')}"`).join(',');
+      const [ints,msgs]=await Promise.all([
+        api(`/interactions?room_code=in.(${encodeURIComponent(inList)})&to_char=eq.${encodeURIComponent(c.id)}&select=*&order=created_at.desc&limit=${Math.max(60,codes.length*30)}`),
+        api(`/messages?room_code=in.(${encodeURIComponent(inList)})&select=*&order=created_at.desc&limit=${Math.max(30,codes.length*10)}`)
+      ]);
+
       for(const x of ints||[]){
-        let text=String(x.text||"");
-        const persistentRelationDecision=text.startsWith("RELATION_SLOT_REQUEST|")||text.startsWith("RELATION_SLOT_RESULT|");
+        const code=String(x.room_code||'');
+        if(!codes.includes(code))continue;
+        let text=String(x.text||'');
+        const persistentRelationDecision=text.startsWith('RELATION_SLOT_REQUEST|')||text.startsWith('RELATION_SLOT_RESULT|');
         if(!persistentRelationDecision&&!isFreshCreatedAt(x.created_at))continue;
-        if(text.startsWith("OUTING_INVITE|"))rows.push({kind:"outing",id:x.id,code:String(code),created_at:x.created_at,row:x});
-        if(text.startsWith("GAME_INVITE|"))rows.push({kind:"game",id:x.id,code:String(code),created_at:x.created_at,row:x});
-        if(text.startsWith("RELATION_SLOT_REQUEST|"))rows.push({kind:"slot_request",id:x.id,code:String(code),created_at:x.created_at,row:x});
-        if(text.startsWith("RELATION_SLOT_RESULT|"))rows.push({kind:"slot_result",id:x.id,code:String(code),created_at:x.created_at,row:x});
-        // GIFT_SEND 是已消耗的好感禮物通知，不需要對方領取。
+        if(text.startsWith('OUTING_INVITE|'))rows.push({kind:'outing',id:x.id,code,created_at:x.created_at,row:x});
+        if(text.startsWith('GAME_INVITE|'))rows.push({kind:'game',id:x.id,code,created_at:x.created_at,row:x});
+        if(text.startsWith('RELATION_SLOT_REQUEST|'))rows.push({kind:'slot_request',id:x.id,code,created_at:x.created_at,row:x});
+        if(text.startsWith('RELATION_SLOT_RESULT|'))rows.push({kind:'slot_result',id:x.id,code,created_at:x.created_at,row:x});
       }
-      let msgs=await api(`/messages?room_code=eq.${encodeURIComponent(code)}&select=*&order=created_at.desc&limit=10`);
-      let incoming=(msgs||[]).filter(x=>x.from_char!==c.id&&isFreshCreatedAt(x.created_at));
-      if(incoming.length){
-        let latest=incoming[0];
-        let seen=Number(c.pendingMessageSeen?.[String(code)]||0);
-        let ts=Date.parse(latest.created_at||"");
-        if(ts>seen)rows.push({kind:"message",id:latest.id||`${code}-${ts}`,code:String(code),created_at:latest.created_at,row:latest});
+
+      const newestByRoom=new Map();
+      for(const x of msgs||[]){
+        const code=String(x.room_code||'');
+        if(!codes.includes(code)||String(x.from_char||'')===String(c.id)||!isFreshCreatedAt(x.created_at))continue;
+        const prev=newestByRoom.get(code);
+        if(!prev||Date.parse(x.created_at||'')>Date.parse(prev.created_at||''))newestByRoom.set(code,x);
       }
-    }catch(e){console.warn("pending events room",code,e)}
-  }
+      for(const [code,latest] of newestByRoom){
+        let seen=Number(c.pendingMessageSeen?.[code]||0);
+        let ts=Date.parse(latest.created_at||'');
+        if(ts>seen)rows.push({kind:'message',id:latest.id||`${code}-${ts}`,code,created_at:latest.created_at,row:latest});
+      }
+    }
+  }catch(e){console.warn('pending events batch',e)}
+
   ensureTransformState(c);
-  // A "再想想" relation transform stays pending. When the bond enters a new stage,
-  // the old pending choice is replaced by a fresh current-stage choice.
   for(const [key,p] of Object.entries(c.pendingRelationTransforms||{})){
     let current=currentTransformStage(p.code);
     if(current!==Number(p.stage)){
@@ -8213,7 +8254,7 @@ async function fetchPendingEvents(c){
       saveLocal();
       continue;
     }
-    rows.push({kind:"transform",id:key,code:String(p.code),created_at:p.createdAt||new Date().toISOString(),transform:p});
+    rows.push({kind:'transform',id:key,code:String(p.code),created_at:p.createdAt||new Date().toISOString(),transform:p});
   }
   rows.sort((a,b)=>Date.parse(b.created_at)-Date.parse(a.created_at));
   return rows;
@@ -8381,14 +8422,17 @@ document.getElementById("gmGiftInbox")?.addEventListener("click",e=>{
     outingChoiceModal.classList.remove("hidden");
   }
 });
-setInterval(pollGlobalRealtime,2500);
+setInterval(()=>{if(!document.hidden)pollGlobalRealtime()},15000);
 
 let mailboxBackgroundTimer=setInterval(()=>{
   try{
     let c=cur();
-    if(c&&!document.getElementById("game")?.classList.contains("hidden"))loadMailbox(c);
+    if(!c||document.hidden)return;
+    const mailboxOpen=document.getElementById("extraMailbox")?.classList.contains("active");
+    // 信箱開著時每分鐘同步；沒開時不為了紅點反覆抓三張表。
+    if(mailboxOpen)loadMailbox(c);
   }catch(e){}
-},12000);
+},60000);
 
 document.getElementById("badgeList")?.addEventListener("click",async e=>{
   let c=cur();if(!c)return;
@@ -13484,9 +13528,9 @@ document.addEventListener("click",function deepRescueDelegatedFallback(e){
   window.addEventListener('focus',liveRefreshReferral);
   document.addEventListener('visibilitychange',()=>{if(!document.hidden)liveRefreshReferral()});
   setInterval(()=>{
-    const hasPanel=document.getElementById('formalMyReferralCode');
-    if(hasPanel)liveRefreshReferral();
-  },8000);
+    const modal=document.getElementById('launchActivityModal');
+    if(modal&&!modal.classList.contains('hidden')&&!document.hidden)liveRefreshReferral();
+  },30000);
 })();
 </script>
 <script>
