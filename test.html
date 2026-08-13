@@ -16,11 +16,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#9a76c4">
-<meta name="x-test-build" content="3.26.76">
+<meta name="x-test-build" content="3.26.77">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>關係進行式 TEST・3.26.76-單一版本與商店診斷</title>
+<title>關係進行式 TEST・3.26.77-單一版本與商店診斷</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -1489,20 +1489,9 @@ body.npcStoryRunning .draggableFab{
 
 
 
-<link rel="preload" as="image" href="assets/npc/shopkeeper_cat/maid_cafe_special_1.png">
-<link rel="preload" as="image" href="assets/npc/shopkeeper_cat/maid_cafe_special_2.png">
-<script id="v32676MaidCgPreload">
-(function(){
-  for(const src of [
-    'assets/npc/shopkeeper_cat/maid_cafe_special_1.png',
-    'assets/npc/shopkeeper_cat/maid_cafe_special_2.png'
-  ]){
-    const img=new Image();
-    img.decoding='async';
-    img.src=src;
-  }
-})();
-</script>
+
+<link rel="preload" as="image" href="assets/npc/shopkeeper_cat/maid_cafe_special_1.png" fetchpriority="high">
+<link rel="preload" as="image" href="assets/npc/shopkeeper_cat/maid_cafe_special_2.png" fetchpriority="high">
 
 </head>
 <body>
@@ -1556,7 +1545,7 @@ body.npcStoryRunning .draggableFab{
   </div>
 </div>
 
-<div id="testServerRibbon" class="testServerRibbon hidden">🧪 TEST・3.26.76-beta</div>
+<div id="testServerRibbon" class="testServerRibbon hidden">🧪 TEST・3.26.77-beta</div>
 <button id="returnProdBtn" class="returnProdBtn hidden" type="button">💞 回正式服</button>
 
 <!-- GM-MAILBOX-BUILD-3-NATIVE-NAV -->
@@ -1568,7 +1557,7 @@ body.npcStoryRunning .draggableFab{
     <div class="homeLogo">🧪</div>
     <h1>關係進行式 TEST</h1>
     <div class="homeTagline">測試中的每一段關係，都可能被重置。</div>
-    <div class="homeVersion">3.26.76・測試服｜單一版本與商店診斷</div>
+    <div class="homeVersion">3.26.77・測試服｜單一版本與商店診斷</div>
   </div>
 
   <div id="playerAccountHomePanel" class="homePanel accountHomePanel">
@@ -2881,7 +2870,7 @@ function show(id){
   document.getElementById("home").classList.toggle("hidden",id!=="home");
   document.getElementById("game").classList.toggle("hidden",id!=="game");
   document.body.classList.toggle("game-entry-active",id==="game");
-  /* 3.26.76: 進入角色頁時直接恢復活動/NPC入口，不再交給舊活動期限控制器。 */
+  /* 3.26.77: 進入角色頁時直接恢復活動/NPC入口，不再交給舊活動期限控制器。 */
   const showEntries=id==="game";
   const launch=document.getElementById("launchActivityFab");
   const npc=document.getElementById("npcTownFab");
@@ -4025,7 +4014,7 @@ async function gmSendOfficialGift(){
   }catch(e){
     let msg=String(e?.message||e||"未知錯誤");
     let col=(msg.match(/null value in column "([^"]+)"/i)||[])[1];
-    if(col)msg=`test_gm_gifts 的「${col}」欄位是 NOT NULL，但沒有預設值。請執行 3.26.76 SQL 修正。原始錯誤：${msg}`;
+    if(col)msg=`test_gm_gifts 的「${col}」欄位是 NOT NULL，但沒有預設值。請執行 3.26.77 SQL 修正。原始錯誤：${msg}`;
     toast("GM 發送失敗："+msg,10000);
   }
 }
@@ -4055,7 +4044,7 @@ async function claimOfficialGift(id){
     const rawId=String(c.id||"");
     const shortId=displayCharacterId(c).toUpperCase();
 
-    // 3.26.76：改由 Supabase SECURITY DEFINER RPC 原子領取。
+    // 3.26.77：改由 Supabase SECURITY DEFINER RPC 原子領取。
     // 不再讓一般玩家直接 PATCH test_gm_gifts，避免 RLS 導致「看得到、領不到」。
     let result=await api("/rpc/claim_test_gm_gift",{
       method:"POST",
@@ -4091,7 +4080,7 @@ async function claimOfficialGift(id){
   }catch(e){
     let msg=String(e?.message||e||"未知錯誤");
     if(/claim_test_gm_gift|function|rpc/i.test(msg)){
-      msg+="｜請先執行 3.26.76 的 Supabase RPC SQL。";
+      msg+="｜請先執行 3.26.77 的 Supabase RPC SQL。";
     }
     toast("領取失敗："+msg,9000);
   }
@@ -4374,7 +4363,7 @@ document.getElementById("saveList").onclick=async e=>{
 async function openChar(id){
   clearFatal();
 
-  // 3.26.76M: character opening is now 100% local-first.
+  // 3.26.77M: character opening is now 100% local-first.
   // No cloud request is allowed to block the first game render.
   rememberOpenSheet("");
   document.querySelectorAll(".pageCard").forEach(x=>x.classList.remove("active"));
@@ -11697,10 +11686,10 @@ document.getElementById("closeNpcStoryPlayer")?.addEventListener("click",e=>{e.s
     EVENT_START=Date.now();
     localStorage.setItem(EVENT_WINDOW_KEY,String(EVENT_START));
   }
-  // 3.26.76: temporary test deadline extended to tonight 00:00 (Taiwan time).
+  // 3.26.77: temporary test deadline extended to tonight 00:00 (Taiwan time).
   const EVENT_END=Date.parse("2026-08-12T00:00:00+08:00");
   const TEST_TIME_KEY="role_life_test_fake_now_v1";
-  // 3.26.76: clear stale simulated dates left by earlier testing sessions.
+  // 3.26.77: clear stale simulated dates left by earlier testing sessions.
   try{ localStorage.removeItem(TEST_TIME_KEY); }catch(e){}
 
   function testNowMs(){
@@ -12077,7 +12066,7 @@ document.getElementById("closeNpcStoryPlayer")?.addEventListener("click",e=>{e.s
 
 
 <style>
-/* === 3.26.76 single floating-entry visibility owner === */
+/* === 3.26.77 single floating-entry visibility owner === */
 #launchActivityFab.activityEntryVisible,
 #npcTownFab.activityEntryVisible{
   display:flex!important;
@@ -12092,7 +12081,7 @@ body:not(.launch-game-open) #launchActivityFab.activityEntryVisible{
 }
 </style>
 <script>
-/* === 3.26.76 activity-entry flicker fix === */
+/* === 3.26.77 activity-entry flicker fix === */
 (function(){
   const TEST_TIME_KEY="role_life_test_fake_now_v1";
   const DEFAULT_TEST_DATE="2026-08-18T12:00:00+08:00";
@@ -12186,7 +12175,7 @@ body:not(.launch-game-open) #launchActivityFab.activityEntryVisible{
 
 
 <script>
-/* === 3.26.76 TEST restore patch: story emotion + exact hero dialogue + 5h expiry === */
+/* === 3.26.77 TEST restore patch: story emotion + exact hero dialogue + 5h expiry === */
 (function(){
   const taps=[
     ["happy","你來啦。今天想看看什麼？"],
@@ -12308,7 +12297,7 @@ body:not(.launch-game-open) #launchActivityFab.activityEntryVisible{
 
 
 <script>
-/* 3.26.76M mobile crash guard */
+/* 3.26.77M mobile crash guard */
 window.addEventListener("unhandledrejection",function(ev){
   try{
     const msg=String(ev?.reason?.message||ev?.reason||"");
@@ -12323,12 +12312,12 @@ window.addEventListener("unhandledrejection",function(ev){
 
 
 <style>
-/* === 3.26.76 hotfix: restore launch/NPC entry buttons in test build === */
+/* === 3.26.77 hotfix: restore launch/NPC entry buttons in test build === */
 #launchActivityFab.activityEntryVisible,
 #npcTownFab.activityEntryVisible{display:flex!important}
 </style>
 <script>
-/* === 3.26.76 hotfix: test build entry routes must remain available while in game === */
+/* === 3.26.77 hotfix: test build entry routes must remain available while in game === */
 (function(){
   function gameIsOpen(){
     const game=document.getElementById("game");
@@ -12404,7 +12393,7 @@ window.addEventListener("unhandledrejection",function(ev){
 </script>
 
 <style>
-/* === 3.26.76 final entrance guard: game route is the only visibility source === */
+/* === 3.26.77 final entrance guard: game route is the only visibility source === */
 body.game-entry-active #launchActivityFab,
 body.game-entry-active #npcTownFab{
   display:flex!important;
@@ -12414,7 +12403,7 @@ body.game-entry-active #npcTownFab{
 }
 </style>
 <script>
-/* === 3.26.76 route-driven floating entrances === */
+/* === 3.26.77 route-driven floating entrances === */
 (function(){
   function forceGameEntries(){
     const game=document.getElementById("game");
@@ -12456,7 +12445,7 @@ body.game-entry-active #npcTownFab{
 
 
 <script>
-/* === 3.26.76 店長平時立繪 + 強化情緒 + 限定鈴鐺贈禮 === */
+/* === 3.26.77 店長平時立繪 + 強化情緒 + 限定鈴鐺贈禮 === */
 (function(){
   const NORMAL_FACE='cat_shopkeeper_normal.png';
   const EMOTION_FACE={
@@ -12560,7 +12549,7 @@ body.game-entry-active #npcTownFab{
 
 
 <script>
-/* === 3.26.76 店長六表情最終強制切換：在 window capture 階段攔截舊監聽器 === */
+/* === 3.26.77 店長六表情最終強制切換：在 window capture 階段攔截舊監聽器 === */
 (function(){
   const faces=[
     {face:"normal",src:"cat_shopkeeper_normal.png",line:"「歡迎光臨～今天想買點什麼？」"},
@@ -12708,7 +12697,7 @@ body.game-entry-active #npcTownFab{
 </script>
 
 <script>
-/* === 3.26.76 final hotfix: stable 6-face pointer cycle + story emotions + real-player gifting === */
+/* === 3.26.77 final hotfix: stable 6-face pointer cycle + story emotions + real-player gifting === */
 (function(){
   const FACE={
     normal:'cat_shopkeeper_normal.png',
@@ -12909,7 +12898,7 @@ body.game-entry-active #npcTownFab{
 
 
 <style>
-/* === 3.26.76 TEST：貓貓活動常駐 + 特殊關係培養 5 級 + 情緒互動 + 小遊戲 === */
+/* === 3.26.77 TEST：貓貓活動常駐 + 特殊關係培養 5 級 + 情緒互動 + 小遊戲 === */
 #npcMeetModal{z-index:10060!important}
 #npcMeetModal .modalBox{max-height:91dvh;overflow:auto;max-width:780px}
 .npcMeetHero{position:relative;display:block;padding:0 0 14px;border:1px solid rgba(120,80,150,.16);border-radius:20px;background:linear-gradient(135deg,rgba(255,255,255,.78),rgba(244,231,250,.72));overflow:hidden}
@@ -12969,7 +12958,7 @@ body.game-entry-active #npcTownFab{
 </div>
 
 <script>
-/* === 3.26.76 TEST authoritative cat activity / relationship cultivation === */
+/* === 3.26.77 TEST authoritative cat activity / relationship cultivation === */
 (function(){
   /* 測試服：貓貓活動永遠開啟，不再受舊日期模擬器或過期攔截影響。 */
   window.npcEventIsActive=function(){return true};
@@ -13289,140 +13278,11 @@ body.game-entry-active #npcTownFab{
  </div>
 </div>
 
-<script id="v32676FiveSecondEntry">
-(function(){
-  const CLOUD_LIMIT=5000;
-  let entering=false,lastPointerEntryAt=0;
-
-  function timeout(p,ms=CLOUD_LIMIT){
-    return Promise.race([
-      Promise.resolve(p),
-      new Promise((_,reject)=>setTimeout(()=>reject(new Error('cloud-timeout')),ms))
-    ]);
-  }
-
-  async function backgroundCloud(c){
-    try{
-      await timeout((async()=>{
-        try{await refreshCustomBadgeDefs?.()}catch(_){}
-        if(!(c.roomCodes||[]).length)return;
-        await refreshRelationships?.();
-        await refreshAllBondSummaries?.(c);
-        activeRoomCode=activeRoomCode||c.roomCodes?.[0]||'';
-        if(activeRoomCode){
-          await loadRoom?.(activeRoomCode);
-          await Promise.allSettled([
-            Promise.resolve(loadMessages?.()),
-            Promise.resolve(loadInbox?.()),
-            Promise.resolve(checkDirectGamePopups?.())
-          ]);
-        }
-      })(),CLOUD_LIMIT);
-      if(cur()?.id===c.id){
-        try{safeRenderGame?.()}catch(_){}
-      }
-    }catch(e){
-      if(e?.message==='cloud-timeout') console.warn('cloud >5s; keep local UI');
-      else console.warn('background cloud',e);
-    }
-  }
-
-  async function enter(id){
-    if(entering)return;
-    entering=true;
-    try{
-      clearFatal?.();
-      const chars=(typeof local!=='undefined'&&Array.isArray(local.characters))?local.characters:[];
-      const c=chars.find(x=>String(x.id)===String(id));
-      if(!c){alert('找不到這個角色存檔。請重新整理頁面後再試。');return;}
-
-      activeId=c.id;
-      room=null;partner=null;
-      activeRoomCode=(Array.isArray(c.roomCodes)?c.roomCodes:[])[0]||'';
-
-      try{rememberOpenSheet?.('')}catch(_){}
-      try{document.querySelectorAll('.pageCard').forEach(x=>x.classList.remove('active'))}catch(_){}
-      try{if(typeof pageTitle!=='undefined'&&pageTitle)pageTitle.textContent='角色生活'}catch(_){}
-
-      try{window.applyPaidAppearance?.(c)}catch(_){}
-      try{show('game')}catch(_){
-        document.getElementById('home')?.classList.add('hidden');
-        document.getElementById('game')?.classList.remove('hidden');
-      }
-
-      try{
-        const set=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v};
-        set('charName',c.name||'角色');
-        set('level',Number(c.level||1));
-        set('energy',Math.floor(Number(c.energy??100)));
-        set('mood',Math.floor(Number(c.mood??80)));
-        set('hunger',Math.floor(Number(c.hunger??85)));
-        set('moneyTop',Number(c.money??300));
-        set('day',typeof day==='function'?day(c):1);
-      }catch(_){}
-
-      setTimeout(()=>{
-        if(cur()?.id!==c.id)return;
-        try{ensureRelations?.(c)}catch(_){}
-        try{ensureMeta?.(c)}catch(_){}
-        try{restoreBadgeShowcaseBackup?.(c)}catch(_){}
-        try{resetDailyIfNeeded?.(c)}catch(_){}
-      },80);
-
-      if(typeof mobileEntryDeferredTimer!=='undefined'&&mobileEntryDeferredTimer)clearTimeout(mobileEntryDeferredTimer);
-      mobileEntryLightRender=true;
-      mobileEntryDeferredTimer=setTimeout(()=>{
-        if(cur()?.id!==c.id)return;
-        mobileEntryLightRender=false;
-        try{safeRenderGame?.()}catch(e){console.warn('fast local render',e)}
-        try{window.applyPaidAppearance?.(c)}catch(_){}
-        try{saveLocal?.()}catch(_){}
-      },450);
-
-      setTimeout(()=>{
-        if(cur()?.id!==c.id)return;
-        try{startPolling?.()}catch(_){}
-      },900);
-
-      void backgroundCloud(c);
-
-      setTimeout(()=>{
-        if(cur()?.id!==c.id)return;
-        try{maybeEvent?.()}catch(_){}
-      },1100);
-
-    }catch(err){
-      console.error('3.26.76 entry failed',err);
-      alert('角色進入失敗：'+(err?.message||'未知錯誤'));
-    }finally{
-      setTimeout(()=>{entering=false},500);
-    }
-  }
-
-  document.addEventListener('click',function(e){
-    const btn=e.target.closest?.('#saveList [data-open]');
-    if(!btn)return;
-    e.preventDefault();e.stopImmediatePropagation();
-    if(Date.now()-lastPointerEntryAt<800)return;
-    void enter(btn.dataset.open);
-  },true);
-
-  document.addEventListener('pointerup',function(e){
-    const btn=e.target.closest?.('#saveList [data-open]');
-    if(!btn)return;
-    e.preventDefault();e.stopImmediatePropagation();
-    lastPointerEntryAt=Date.now();
-    void enter(btn.dataset.open);
-  },true);
-})();
-</script>
-
-
 </body>
 </html>
 
 <style>
-/* === 3.26.76 Desktop RPG responsive layout === */
+/* === 3.26.77 Desktop RPG responsive layout === */
 @media (min-width: 900px) and (min-aspect-ratio: 4/3){
   #npcStoryPlayer{background:#120c18!important;}
   .npcStoryStage{
@@ -13685,7 +13545,7 @@ body.game-entry-active #npcTownFab{
 @media(max-width:360px){#shopPaidPanel .paidShopList{grid-template-columns:1fr!important}}
 </style>
 <style id="v32623HotfixStyle">
-/* 3.26.76：付款固定兩欄格子；星河外觀；NPC 故事可點擊 */
+/* 3.26.77：付款固定兩欄格子；星河外觀；NPC 故事可點擊 */
 #shopPaidPanel .paidShopList{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important;align-items:stretch!important}
 #shopPaidPanel .paidProduct{display:flex!important;flex-direction:column!important;justify-content:space-between!important;align-items:stretch!important;text-align:center!important;min-width:0!important;min-height:188px!important;padding:14px 10px!important;border-radius:16px!important;background:#fffafd!important;color:#3d3343!important;border:1px solid #ddcfe6!important}
 #shopPaidPanel .paidProductIcon{font-size:30px;line-height:1;margin:2px 0 8px}
@@ -13744,7 +13604,7 @@ body.theme-qixi-paid #game>.top .chip{background:rgba(255,255,255,.92)!important
 
 <script id="v32642NpcShopStability">
 (function(){
- const BUILD='3.26.76';
+ const BUILD='3.26.77';
  function refreshVersion(){
    
    
@@ -13753,8 +13613,8 @@ body.theme-qixi-paid #game>.top .chip{background:rgba(255,255,255,.92)!important
  }
  refreshVersion();setTimeout(refreshVersion,250);setTimeout(refreshVersion,1000);
 
- /* Previous 3.26.76 observer rewrote shop DOM recursively and could lock Android when a product was tapped.
-    3.26.76 uses no DOM-wide MutationObserver. Refresh only at safe UI entry points. */
+ /* Previous 3.26.77 observer rewrote shop DOM recursively and could lock Android when a product was tapped.
+    3.26.77 uses no DOM-wide MutationObserver. Refresh only at safe UI entry points. */
  const safeRefresh=()=>{
    try{document.body?.classList.remove('theme-qixi-paid')}catch(_){ }
  };
@@ -13911,7 +13771,7 @@ body.theme-qixi-paid button.primary{color:#fff!important}
 
 <script id="v32669CoreCommerceAppearanceScript">
 (function(){
- const BUILD='3.26.76';
+ const BUILD='3.26.77';
  const VOUCHER='npc_maid_cafe_coffee_voucher';
  const RESET_ONCE='v32669_maid_flow_reset_once';
 
@@ -14144,7 +14004,7 @@ body.theme-qixi-paid button.primary{color:#fff!important}
 
 <script id="v32671MaidReplayAndCG">
 (function(){
- const VERSION='3.26.76';
+ const VERSION='3.26.77';
  const STORY_ID='paid_maid_cafe_story';
 
  function c(){try{return typeof cur==='function'?cur():null}catch(_){return null}}
@@ -14240,35 +14100,28 @@ body.theme-qixi-paid button.primary{color:#fff!important}
 
 
 
-<script id="v32675FastLocalFirstBoot">
+
+
+<script id="v32677InstantRuntime">
 (function(){
-  const BUILD='3.26.76';
-  const SNAP_KEY='role_life_fast_snapshot_v32675';
-  const THEME_KEY='role_life_test_active_theme_v1';
-  const HEARTBEAT_KEY='relationship_game_last_heartbeat';
+  const BUILD='3.26.77';
+  const SNAP='role_life_instant_snapshot_v32677';
+  const THEME='role_life_test_active_theme_v1';
+  const ASSET_CACHE='relationship-game-critical-v1';
+  let entering=false;
+  let realtimeChannel=null;
+  let fallbackTimer=null;
+  let renderQueued=false;
 
-  function safeJSON(s){try{return JSON.parse(s)}catch(_){return null}}
+  const criticalAssets=[
+    'assets/npc/shopkeeper_cat/maid_cafe_special_1.png',
+    'assets/npc/shopkeeper_cat/maid_cafe_special_2.png'
+  ];
 
-  function readSnapshot(){
-    const s=safeJSON(localStorage.getItem(SNAP_KEY)||'null');
-    return s&&typeof s==='object'?s:null;
-  }
+  function j(s){try{return JSON.parse(s)}catch(_){return null}}
+  function current(){try{return typeof cur==='function'?cur():null}catch(_){return null}}
 
-  function writeSnapshot(c){
-    if(!c)return;
-    try{
-      localStorage.setItem(SNAP_KEY,JSON.stringify({
-        id:c.id||'',
-        activePaidTheme:c.activePaidTheme||'',
-        paidCosmetics:c.paidCosmetics||{},
-        paidStoryFlags:c.paidStoryFlags||{},
-        npcState:(typeof npcState==='function'?npcState():null),
-        savedAt:Date.now()
-      }));
-    }catch(_){}
-  }
-
-  function paintThemeImmediate(mode){
+  function paintTheme(mode){
     mode=['maidCafe','qixiGalaxy'].includes(mode)?mode:'default';
     document.documentElement.setAttribute('data-paid-theme',mode);
     if(!document.body)return;
@@ -14277,94 +14130,254 @@ body.theme-qixi-paid button.primary{color:#fff!important}
     if(mode==='qixiGalaxy')document.body.classList.add('theme-qixi-paid');
   }
 
-  /* 第一幀：先用 theme cache / snapshot 畫面，不等 Supabase。 */
   function firstPaint(){
-    let mode='default';
+    let mode=j(localStorage.getItem(THEME)||'null')?.mode||'default';
+    const s=j(localStorage.getItem(SNAP)||'null');
+    if(mode==='default' && s?.activePaidTheme)mode=s.activePaidTheme;
+    paintTheme(mode);
+  }
+
+  function snapshot(c){
+    if(!c)return;
     try{
-      mode=safeJSON(localStorage.getItem(THEME_KEY)||'null')?.mode||'default';
-    }catch(_){}
-    const snap=readSnapshot();
-    if((!mode||mode==='default')&&snap?.activePaidTheme)mode=snap.activePaidTheme;
-    paintThemeImmediate(mode);
-  }
-  firstPaint();
-
-  /* 本機角色資料可用時，立刻補快照，不等待雲端。 */
-  function cacheCurrent(){
-    try{
-      const c=typeof cur==='function'?cur():null;
-      if(!c)return;
-      writeSnapshot(c);
-      const mode=(c.activePaidTheme==='maidCafe'&&c.paidCosmetics?.maidCafe)?'maidCafe':
-                 (c.activePaidTheme==='qixiGalaxy'&&c.paidCosmetics?.qixiGalaxy)?'qixiGalaxy':'default';
-      try{localStorage.setItem(THEME_KEY,JSON.stringify({mode,charId:String(c.id||''),savedAt:Date.now()}))}catch(_){}
-      paintThemeImmediate(mode);
+      localStorage.setItem(SNAP,JSON.stringify({
+        id:c.id||'',
+        name:c.name||'',
+        level:c.level||1,
+        energy:c.energy??100,
+        mood:c.mood??80,
+        hunger:c.hunger??85,
+        money:c.money??300,
+        activePaidTheme:c.activePaidTheme||'',
+        paidCosmetics:c.paidCosmetics||{},
+        paidStoryFlags:c.paidStoryFlags||{},
+        savedAt:Date.now()
+      }));
     }catch(_){}
   }
 
-  /* 包住 saveLocal：任何本機保存完成，順便刷新快照。 */
-  function hookSaveLocal(){
-    const old=window.saveLocal;
-    if(typeof old!=='function'||old.__fastSnapshot32675)return;
-    const wrapped=function(){
-      const r=old.apply(this,arguments);
-      cacheCurrent();
-      return r;
-    };
-    wrapped.__fastSnapshot32675=true;
-    window.saveLocal=wrapped;
-  }
-
-  /* Supabase heartbeat 完全 fire-and-forget，不參與初始化。 */
-  function heartbeatAsync(){
-    const now=Date.now();
-    const last=Number(localStorage.getItem(HEARTBEAT_KEY)||0);
-    if(now-last<6*60*60*1000)return;
-    queueMicrotask(async()=>{
+  function preloadCritical(){
+    for(const src of criticalAssets){
+      const img=new Image();
+      img.decoding='async';
+      img.fetchPriority='high';
+      img.src=src;
+    }
+    if(!('caches' in window))return;
+    /* Cache API is opportunistic: it never blocks the game. */
+    Promise.resolve().then(async()=>{
       try{
-        if(!window.sb?.auth)return;
-        const {data}=await sb.auth.getUser();
-        const uid=data?.user?.id;if(!uid)return;
-        const res=await sb.from('profiles').update({last_active_at:new Date().toISOString()}).eq('id',uid);
-        if(!res.error)localStorage.setItem(HEARTBEAT_KEY,String(now));
+        const cache=await caches.open(ASSET_CACHE);
+        await Promise.allSettled(criticalAssets.map(async src=>{
+          const hit=await cache.match(src);
+          if(!hit)await cache.add(src);
+        }));
       }catch(_){}
     });
   }
 
-  /* 雲端同步不再阻塞角色畫面。若原本有 cloud load promise，讓 UI 先走。 */
-  function deferKnownCloudLoads(){
-    const names=['loadCloudState','syncCloudState','loadCloudGame','loadCloudCharacter','loadRemoteState','syncFromCloud'];
-    for(const name of names){
-      const old=window[name];
-      if(typeof old!=='function'||old.__background32675)continue;
-      const wrapped=function(){
-        const args=arguments,ctx=this;
-        Promise.resolve().then(()=>old.apply(ctx,args)).then(()=>{
-          cacheCurrent();
-          try{renderGame?.()}catch(_){}
-        }).catch(e=>console.warn(name,e));
-        return Promise.resolve(null);
-      };
-      wrapped.__background32675=true;
-      window[name]=wrapped;
+  function minimalRender(c){
+    const set=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v};
+    set('charName',c.name||'角色');
+    set('level',Number(c.level||1));
+    set('energy',Math.floor(Number(c.energy??100)));
+    set('mood',Math.floor(Number(c.mood??80)));
+    set('hunger',Math.floor(Number(c.hunger??85)));
+    set('moneyTop',Number(c.money??300));
+    try{set('day',typeof day==='function'?day(c):1)}catch(_){}
+  }
+
+  function queueLocalRender(){
+    if(renderQueued)return;
+    renderQueued=true;
+    requestAnimationFrame(()=>{
+      renderQueued=false;
+      const c=current();if(!c)return;
+      try{safeRenderGame?.()}catch(e){console.warn('instant render',e)}
+      try{window.applyPaidAppearance?.(c)}catch(_){}
+      snapshot(c);
+    });
+  }
+
+  function unsubscribeRealtime(){
+    if(fallbackTimer){clearInterval(fallbackTimer);fallbackTimer=null}
+    if(realtimeChannel && window.sb?.removeChannel){
+      try{sb.removeChannel(realtimeChannel)}catch(_){}
+    }
+    realtimeChannel=null;
+  }
+
+  function subscribeRealtime(c){
+    unsubscribeRealtime();
+    if(!window.sb?.channel || !c)return;
+
+    const uid=String(c.user_id||c.owner_id||'');
+    const cid=String(c.id||'');
+    const roomCodes=Array.isArray(c.roomCodes)?c.roomCodes.filter(Boolean):[];
+
+    try{
+      let ch=sb.channel('game-live-'+cid);
+
+      /* Listen only to tables that exist in this game's current runtime.
+         Postgres Changes filters are kept narrow when a usable owner id exists. */
+      const refresh=()=>queueLocalRender();
+
+      if(uid){
+        ch=ch.on('postgres_changes',
+          {event:'*',schema:'public',table:'profiles',filter:'id=eq.'+uid},
+          refresh);
+      }
+
+      /* Relationship/message/invite updates are pushed; existing loaders merge data.
+         If a table is absent, Supabase simply won't emit for it. */
+      for(const table of ['relationships','messages','invites','notifications']){
+        ch=ch.on('postgres_changes',
+          {event:'*',schema:'public',table:table},
+          payload=>{
+            /* Avoid a full blocking boot: refresh existing lightweight loaders in background. */
+            Promise.resolve().then(async()=>{
+              try{
+                if(table==='relationships')await refreshRelationships?.();
+                if(table==='messages' && roomCodes.length)await loadMessages?.();
+                if((table==='invites'||table==='notifications'))await loadInbox?.();
+              }catch(_){}
+              queueLocalRender();
+            });
+          });
+      }
+
+      realtimeChannel=ch.subscribe(status=>{
+        if(status==='SUBSCRIBED'){
+          if(fallbackTimer){clearInterval(fallbackTimer);fallbackTimer=null}
+        }
+      });
+    }catch(e){
+      console.warn('realtime subscribe',e);
+    }
+
+    /* Slow fallback only. It does not gate UI and stops when realtime subscribes. */
+    fallbackTimer=setInterval(()=>{
+      if(document.hidden)return;
+      Promise.resolve().then(async()=>{
+        try{
+          await Promise.allSettled([
+            Promise.resolve(refreshRelationships?.()),
+            Promise.resolve(loadInbox?.())
+          ]);
+        }catch(_){}
+      });
+    },30000);
+  }
+
+  async function backgroundInitialSync(c){
+    /* No await from entry path. Each task is independent and updates only when ready. */
+    const tasks=[
+      ()=>refreshCustomBadgeDefs?.(),
+      ()=>refreshRelationships?.(),
+      ()=>refreshAllBondSummaries?.(c),
+      ()=>loadInbox?.()
+    ];
+    for(const task of tasks){
+      Promise.resolve().then(task).then(queueLocalRender).catch(()=>{});
+    }
+
+    const code=(c.roomCodes||[])[0]||'';
+    if(code){
+      activeRoomCode=activeRoomCode||code;
+      Promise.resolve().then(()=>loadRoom?.(code))
+        .then(()=>Promise.allSettled([
+          Promise.resolve(loadMessages?.()),
+          Promise.resolve(checkDirectGamePopups?.())
+        ]))
+        .then(queueLocalRender).catch(()=>{});
     }
   }
 
-  function boot(){
-    hookSaveLocal();
-    deferKnownCloudLoads();
-    cacheCurrent();
-    heartbeatAsync();
-    document.querySelectorAll('.testServerRibbon').forEach(x=>x.textContent='🧪 TEST・'+BUILD+'-beta');
-    const hv=document.querySelector('.homeVersion');
-    if(hv)hv.textContent=BUILD+'・測試服｜5秒載入上限';
-    document.title='關係進行式 TEST・'+BUILD+'-5秒載入上限';
+  function enter(id){
+    if(entering)return;
+    entering=true;
+    try{
+      clearFatal?.();
+      const chars=(typeof local!=='undefined'&&Array.isArray(local.characters))?local.characters:[];
+      const c=chars.find(x=>String(x.id)===String(id));
+      if(!c){alert('找不到這個角色存檔。');return}
+
+      activeId=c.id;
+      room=null;partner=null;
+      activeRoomCode=(c.roomCodes||[])[0]||'';
+
+      try{window.applyPaidAppearance?.(c)}catch(_){}
+      try{show('game')}catch(_){}
+      minimalRender(c);
+
+      /* Full local UI on the very next animation frame. */
+      requestAnimationFrame(()=>{
+        try{
+          ensureRelations?.(c);
+          ensureMeta?.(c);
+          resetDailyIfNeeded?.(c);
+        }catch(_){}
+        queueLocalRender();
+      });
+
+      /* Network never blocks entry. */
+      subscribeRealtime(c);
+      backgroundInitialSync(c);
+
+      setTimeout(()=>{try{maybeEvent?.()}catch(_){}},300);
+    }catch(e){
+      console.error('instant entry',e);
+      alert('角色進入失敗：'+(e?.message||'未知錯誤'));
+    }finally{
+      entering=false;
+    }
   }
 
+  /* Capture phase replaces old entry behavior instead of adding another delayed path. */
+  document.addEventListener('pointerup',e=>{
+    const btn=e.target.closest?.('#saveList [data-open]');
+    if(!btn)return;
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    enter(btn.dataset.open);
+  },true);
+
+  document.addEventListener('click',e=>{
+    const btn=e.target.closest?.('#saveList [data-open]');
+    if(!btn)return;
+    e.preventDefault();
+    e.stopImmediatePropagation();
+  },true);
+
+  function hookSave(){
+    const old=window.saveLocal;
+    if(typeof old!=='function'||old.__instant3277)return;
+    const fn=function(){
+      const r=old.apply(this,arguments);
+      const c=current();
+      snapshot(c);
+      return r;
+    };
+    fn.__instant3277=true;
+    window.saveLocal=fn;
+  }
+
+  function boot(){
+    hookSave();
+    firstPaint();
+    preloadCritical();
+    const c=current();
+    if(c){snapshot(c);subscribeRealtime(c)}
+    document.querySelectorAll('.testServerRibbon').forEach(x=>x.textContent='🧪 TEST・'+BUILD+'-beta');
+    const hv=document.querySelector('.homeVersion');
+    if(hv)hv.textContent=BUILD+'・測試服｜即時本機＋Realtime';
+    document.title='關係進行式 TEST・'+BUILD+'-即時本機＋Realtime';
+  }
+
+  firstPaint();
+  preloadCritical();
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});
   else boot();
-
-  window.addEventListener('pageshow',()=>{firstPaint();cacheCurrent();heartbeatAsync()});
-  document.addEventListener('visibilitychange',()=>{if(!document.hidden){firstPaint();heartbeatAsync()}});
+  window.addEventListener('beforeunload',unsubscribeRealtime);
 })();
 </script>
