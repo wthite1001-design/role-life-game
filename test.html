@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#9a76c4">
-<title>關係進行式 TEST・3.26.29-付費咖啡券女僕劇情外觀</title>
+<title>關係進行式 TEST・3.26.30-角色進入修復</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -1698,7 +1698,7 @@ body.npcStoryRunning .draggableFab{
     <div class="homeLogo">🧪</div>
     <h1>關係進行式 TEST</h1>
     <div class="homeTagline">測試中的每一段關係，都可能被重置。</div>
-    <div class="homeVersion">3.26.29・測試服｜付費咖啡券・女僕劇情・外觀測試</div>
+    <div class="homeVersion">3.26.30・測試服｜角色進入修復</div>
   </div>
 
   <div id="playerAccountHomePanel" class="homePanel accountHomePanel">
@@ -13645,6 +13645,75 @@ body.theme-maid-cafe #game>.top .chip{background:rgba(255,248,251,.94)!important
  function boot(){installDrawer();const c=current();if(c){ensure(c);applyAllThemes(c)}renderPaidV324();renderAppearance();injectMaidRedeem();injectPaidStorySection();observer.observe(document.body,{childList:true,subtree:true});}
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(boot,200));else setTimeout(boot,200);
  window.applyPaidAppearance=applyAllThemes;
+})();
+</script>
+
+<script>
+/* === 3.26.30 TEST：角色「進入」強制本機優先修復 ===
+   使用 capture phase 接管角色卡的進入按鈕，避免舊 listener、雲端同步、
+   或後續新增模組在 Android 上吃掉點擊/阻塞第一幀。 */
+(function(){
+  async function forceLocalCharacterEntry(id){
+    try{
+      if(typeof clearFatal==='function')clearFatal();
+      const chars=(typeof local!=='undefined'&&Array.isArray(local.characters))?local.characters:[];
+      const c=chars.find(x=>String(x.id)===String(id));
+      if(!c){alert('找不到這個角色存檔。請重新整理頁面後再試。');return;}
+
+      activeId=c.id;
+      try{if(typeof ensureRelations==='function')ensureRelations(c)}catch(err){console.warn('entry ensureRelations',err)}
+      try{if(typeof ensureMeta==='function')ensureMeta(c)}catch(err){console.warn('entry ensureMeta',err)}
+      try{if(typeof resetDailyIfNeeded==='function')resetDailyIfNeeded(c)}catch(err){console.warn('entry daily',err)}
+      try{if(typeof saveLocal==='function')saveLocal()}catch(err){console.warn('entry save',err)}
+
+      room=null; partner=null;
+      activeRoomCode=(c.roomCodes||[])[0]||'';
+      try{if(typeof rememberOpenSheet==='function')rememberOpenSheet('')}catch(_){ }
+      try{document.querySelectorAll('.pageCard').forEach(x=>x.classList.remove('active'))}catch(_){ }
+      try{if(typeof pageTitle!=='undefined'&&pageTitle)pageTitle.textContent='角色生活'}catch(_){ }
+
+      /* 先只切畫面：即使任何 render 模組壞掉，玩家也能真的進角色。 */
+      try{
+        document.getElementById('home')?.classList.add('hidden');
+        document.getElementById('game')?.classList.remove('hidden');
+        document.body.classList.add('game-entry-active');
+      }catch(_){ }
+
+      mobileEntryLightRender=true;
+      try{if(typeof restoreBadgeShowcaseBackup==='function')restoreBadgeShowcaseBackup(c)}catch(_){ }
+      try{if(typeof safeRenderGame==='function')safeRenderGame();else if(typeof renderGame==='function')renderGame()}catch(err){console.warn('entry first render',err)}
+
+      setTimeout(()=>{
+        if(typeof cur==='function'&&cur()?.id!==c.id)return;
+        mobileEntryLightRender=false;
+        try{if(typeof safeRenderGame==='function')safeRenderGame()}catch(err){console.warn('entry deferred render',err)}
+        try{if(typeof maybeEvent==='function')maybeEvent()}catch(err){console.warn('entry event',err)}
+      },900);
+
+      /* 雲端全部延後，而且任何失敗都不能把角色頁關掉。 */
+      setTimeout(()=>{
+        try{if(typeof startPolling==='function')startPolling()}catch(err){console.warn('entry polling',err)}
+      },3500);
+    }catch(err){
+      console.error('3.26.30 forced local entry failed',err);
+      alert('角色進入失敗：'+(err?.message||'未知錯誤'));
+    }
+  }
+
+  document.addEventListener('click',function(e){
+    const btn=e.target.closest?.('#saveList [data-open]');
+    if(!btn)return;
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    forceLocalCharacterEntry(btn.dataset.open);
+  },true);
+
+  document.addEventListener('pointerup',function(e){
+    const btn=e.target.closest?.('#saveList [data-open]');
+    if(!btn)return;
+    /* click 事件才真正執行，pointerup 僅避免舊 capture handler 搶先處理。 */
+    e.stopImmediatePropagation();
+  },true);
 })();
 </script>
 </body>
