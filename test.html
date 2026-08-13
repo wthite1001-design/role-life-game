@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#9a76c4">
-<title>關係進行式 TEST・3.26.18-付費商城測試</title>
+<title>關係進行式 TEST・3.26.19-帳號同步＋付費文字修正</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -1698,11 +1698,18 @@ body.npcStoryRunning .draggableFab{
     <div class="homeLogo">🧪</div>
     <h1>關係進行式 TEST</h1>
     <div class="homeTagline">測試中的每一段關係，都可能被重置。</div>
-    <div class="homeVersion">3.26.21・測試服｜七夕初始版</div>
+    <div class="homeVersion">3.26.19・測試服｜帳號同步測試</div>
   </div>
 
-  
-  
+  <div id="playerAccountHomePanel" class="homePanel accountHomePanel">
+    <div class="homePanelTitle"><span>☁️ 玩家帳號</span><span id="playerAccountChip" class="chip">未登入</span></div>
+    <div id="playerAccountSummary" class="small">登入後可把舊角色綁定到帳號，並在手機／電腦之間手動同步。</div>
+    <div class="actions">
+      <button id="openPlayerAccountBtn" type="button" class="primary">🔐 登入／註冊</button>
+      <button id="playerQuickUploadBtn" type="button" class="hidden">☁️ 上傳本機進度</button>
+    </div>
+  </div>
+
   <div class="homePanel">
     <div class="homePanelTitle"><span>👑 管理員</span><span id="gmHomeChip" class="chip">未登入</span></div>
     <div class="small">一般玩家不需要登入。只有管理員帳號登入後才會解鎖 GM 操作台。</div>
@@ -2226,7 +2233,7 @@ body.npcStoryRunning .draggableFab{
 </section>
 </div>
 
-<div id="drawerShade" class="drawerShade hidden"></div><aside id="drawer" class="drawer hidden"><div style="padding:8px"><b id="drawerName">角色</b><div class="muted">功能選單</div></div><button type="button" class="navBtn" data-nav="life">🏠 角色生活</button><button type="button" class="navBtn" data-nav="daily">📋 今日小事</button><button type="button" class="navBtn" data-nav="work">💼 打工賺錢</button><button type="button" class="navBtn" data-nav="journal">📖 今日生活日誌</button><button type="button" class="navBtn" data-nav="routine">🕒 角色作息</button><button type="button" class="navBtn" data-nav="outing">🗺️ 外出 <span class="navDot hidden" data-dot="outing"></span></button><button type="button" class="navBtn" data-nav="relations">💞 關係 <span class="navDot hidden" data-dot="relations"></span></button><button type="button" class="navBtn" data-nav="npcrelations">✨ NPC 關係</button><button type="button" class="navBtn" data-nav="mailbox">📬 信箱 <span class="navDot hidden" data-dot="mailbox"></span></button><button type="button" class="navBtn" id="gmDrawerLoginBtn">👑 管理員登入</button><button type="button" class="navBtn hidden" id="gmNavBtn" data-nav="gm">🛠️ GM 操作台</button><div class="navSep"></div><button type="button" class="navBtn" data-nav="bag">🎒 背包</button><button type="button" class="navBtn" data-nav="shop">🏪 商店</button><button type="button" class="navBtn" data-nav="memory">📖 回憶</button><button type="button" class="navBtn" data-nav="achievements">🏆 成就</button><div class="navSep"></div><div style="padding:8px"><b>🎵 悠閒 BGM</b><div class="actions"><button id="bgmToggle">▶ 播放</button><input id="bgmVolume" type="range" min="0" max="1" step=".05" value=".25"></div><div class="small">把 bgm.mp3 和 index.html 放同一資料夾。</div></div><audio id="bgm" loop preload="auto" autoplay playsinline><source src="bgm.mp3" type="audio/mpeg"></audio><button type="button" class="navBtn" id="back">💾 返回存檔首頁</button></aside><div id="updateNoticeModal" class="modal hidden">
+<div id="drawerShade" class="drawerShade hidden"></div><aside id="drawer" class="drawer hidden"><div style="padding:8px"><b id="drawerName">角色</b><div class="muted">功能選單</div></div><button type="button" class="navBtn" data-nav="life">🏠 角色生活</button><button type="button" class="navBtn" data-nav="daily">📋 今日小事</button><button type="button" class="navBtn" data-nav="work">💼 打工賺錢</button><button type="button" class="navBtn" data-nav="journal">📖 今日生活日誌</button><button type="button" class="navBtn" data-nav="routine">🕒 角色作息</button><button type="button" class="navBtn" data-nav="outing">🗺️ 外出 <span class="navDot hidden" data-dot="outing"></span></button><button type="button" class="navBtn" data-nav="relations">💞 關係 <span class="navDot hidden" data-dot="relations"></span></button><button type="button" class="navBtn" data-nav="npcrelations">✨ NPC 關係</button><button type="button" class="navBtn" data-nav="mailbox">📬 信箱 <span class="navDot hidden" data-dot="mailbox"></span></button><button type="button" class="navBtn" id="playerAccountDrawerBtn">☁️ 玩家帳號</button><button type="button" class="navBtn" id="gmDrawerLoginBtn">👑 管理員登入</button><button type="button" class="navBtn hidden" id="gmNavBtn" data-nav="gm">🛠️ GM 操作台</button><div class="navSep"></div><button type="button" class="navBtn" data-nav="bag">🎒 背包</button><button type="button" class="navBtn" data-nav="shop">🏪 商店</button><button type="button" class="navBtn" data-nav="memory">📖 回憶</button><button type="button" class="navBtn" data-nav="achievements">🏆 成就</button><div class="navSep"></div><div style="padding:8px"><b>🎵 悠閒 BGM</b><div class="actions"><button id="bgmToggle">▶ 播放</button><input id="bgmVolume" type="range" min="0" max="1" step=".05" value=".25"></div><div class="small">把 bgm.mp3 和 index.html 放同一資料夾。</div></div><audio id="bgm" loop preload="auto" autoplay playsinline><source src="bgm.mp3" type="audio/mpeg"></audio><button type="button" class="navBtn" id="back">💾 返回存檔首頁</button></aside><div id="updateNoticeModal" class="modal hidden">
   <div class="modalBox">
     <div class="modalHead"><b>📢 第3.23版更新公告</b><button id="closeUpdateNotice">×</button></div>
     <div class="updateNoticeBody">
@@ -3101,6 +3108,39 @@ const SAVE_BACKUP_VERSION=2;
 
 function deepClone(v){return JSON.parse(JSON.stringify(v));}
 
+/* === 3.26.20 匯入防竄改 ===
+   JSON 備份只負責可攜式角色進度；金幣與付費內容不再信任外部 JSON。
+   同裝置匯入時保留目前可信值；新裝置匯入時回到安全預設，應改用帳號雲端同步。 */
+const PROTECTED_PAID_ITEM_PREFIX='paid_';
+function protectedCharacterState(c){
+  c=c||{};
+  const paidInventory={};
+  for(const [k,v] of Object.entries(c.inventory||{})){
+    if(String(k).startsWith(PROTECTED_PAID_ITEM_PREFIX)) paidInventory[k]=Math.max(0,Math.floor(Number(v)||0));
+  }
+  return {
+    money:safeMoney(c.money),
+    paidOrders:Array.isArray(c.paidOrders)?deepClone(c.paidOrders):[],
+    paidInventory
+  };
+}
+function applyProtectedCharacterState(c, trusted){
+  if(!c)return c;
+  trusted=trusted||{money:300,paidOrders:[],paidInventory:{}};
+  c.money=safeMoney(trusted.money);
+  c.paidOrders=Array.isArray(trusted.paidOrders)?deepClone(trusted.paidOrders):[];
+  c.inventory=(c.inventory&&typeof c.inventory==='object')?c.inventory:{};
+  // 外部 JSON 不能自行塞入任何 paid_* 收藏品。
+  for(const k of Object.keys(c.inventory)) if(String(k).startsWith(PROTECTED_PAID_ITEM_PREFIX)) delete c.inventory[k];
+  for(const [k,v] of Object.entries(trusted.paidInventory||{})) c.inventory[k]=Math.max(0,Math.floor(Number(v)||0));
+  return c;
+}
+function currentProtectedStateMap(){
+  const map={};
+  for(const c of (local?.characters||[])) if(c?.id) map[String(c.id)]=protectedCharacterState(c);
+  return map;
+}
+
 /* 新版本匯入舊存檔時，先以「目前版本的預設資料」為骨架，
    再把玩家舊資料覆蓋回去。如此新版新增欄位會保留，新舊進度也能沿用。 */
 function mergeSaveDefaults(defaults,oldValue){
@@ -3172,6 +3212,7 @@ function makeSaveBackup(){
     version:SAVE_BACKUP_VERSION,
     exportedAt:new Date().toISOString(),
     localKey:LOCAL_KEY,
+    securityNotice:"money / paidOrders / paid_* items are protected on import and are not trusted from edited JSON",
     data:local
   };
 }
@@ -3214,6 +3255,7 @@ function validateImportedSave(payload){
 async function importGameSaveFile(file){
   if(!file)return;
   let oldLocal=deepClone(local);
+  const trustedBeforeImport=currentProtectedStateMap();
   try{
     const parsed=JSON.parse(await file.text());
     const checked=validateImportedSave(parsed);
@@ -3224,13 +3266,17 @@ async function importGameSaveFile(file){
     const versionNote=fromVersion<SAVE_BACKUP_VERSION
       ?`\n\n♻️ 舊存檔 v${fromVersion} → 會自動升級為目前格式 v${SAVE_BACKUP_VERSION}，新版新增內容會保留。`
       :"\n\n✅ 存檔格式與目前版本相容。";
-    if(!confirm(`準備匯入存檔。\n\n角色數：${count}\n角色：${names}${versionNote}\n\n角色進度、背包、成就等舊資料會沿用；新版新增的欄位會自動補上。\n\n確定繼續嗎？`))return;
+    if(!confirm(`準備匯入存檔。\n\n角色數：${count}\n角色：${names}${versionNote}\n\n🔐 防竄改保護：金幣、付費訂單與 paid_* 限定收藏品不會採用 JSON 內的數字。\n同一角色會保留這台裝置目前的可信值；新裝置請使用帳號雲端同步。\n\n其他角色進度、背包、成就等舊資料仍會沿用。\n\n確定繼續嗎？`))return;
 
     createPreImportBackup();
     const migrated=migrateImportedSave(incoming,fromVersion);
     local=migrated;
     local.characters??=[];
-    local.characters.forEach(c=>ensureRelations(c));
+    local.characters.forEach(c=>{
+      ensureRelations(c);
+      const trusted=trustedBeforeImport[String(c.id)] || {money:300,paidOrders:[],paidInventory:{}};
+      applyProtectedCharacterState(c,trusted);
+    });
     ensureSharedAchievements();
     ensureBadges();
 
@@ -3242,7 +3288,7 @@ async function importGameSaveFile(file){
 
     activeId="";activeRoomCode="";room=null;partner=null;stopPolling();
     renderHome();show("home");
-    toast(`📂 匯入成功：${count} 個角色${fromVersion<SAVE_BACKUP_VERSION?"・已自動升級存檔":""}`,5000);
+    toast(`📂 匯入成功：${count} 個角色・金幣/付費內容已套用防竄改保護${fromVersion<SAVE_BACKUP_VERSION?"・已自動升級存檔":""}`,6000);
   }catch(err){
     console.error("import save failed",err);
     try{local=oldLocal;saveLocal();renderHome();}catch(e){}
@@ -13565,3 +13611,195 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opa
 #extraNpcRelations button:not(.primary){background:#eee3f6!important;color:#604474!important}
 #extraNpcRelations .sheetClose{background:#eadcf4!important;color:#654879!important}
 </style>
+
+<style id="paidReadabilityAndAccountV2">
+/* 付費商城：七夕深色背景下，白卡文字固定使用可讀色，不再吃到全域淡字。 */
+#shopPaidPanel .paidShopNotice{background:#fffafd!important;color:#3d3343!important;border-color:#ccb6db!important}
+#shopPaidPanel .paidShopNotice b{color:#4b3858!important}
+#shopPaidPanel .paidShopNotice .small{color:#75677f!important;opacity:1!important}
+#shopPaidPanel .paidProduct{background:#fffafd!important;color:#3d3343!important;border-color:#ddcfe6!important}
+#shopPaidPanel .paidProductTitle{color:#3d3343!important;opacity:1!important}
+#shopPaidPanel .paidProduct .small{color:#75677f!important;opacity:1!important}
+#shopPaidPanel .paidPrice{color:#6b477f!important;opacity:1!important}
+#shopPaidPanel .paidOrderRow{color:#66576f!important}
+
+.accountHomePanel{color:#3d3343!important}
+.accountHomePanel .small{color:#75677f!important}
+#playerAccountModal{z-index:10050!important;background:rgba(22,13,35,.38)!important}
+#playerAccountModal .modalBox{max-height:92dvh;overflow-y:auto;background:#fffdfd!important;color:#3d3343!important}
+.playerAccountTabs{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin:10px 0}
+.playerAccountTabs button.active{background:#8f70bd!important;color:#fff!important}
+.playerAccountForm{display:grid;gap:8px}
+.playerAccountForm label{font-size:12px;font-weight:800;color:#66576f}
+.playerAccountForm .small{color:#75677f!important}
+.accountStatusBox{padding:10px 11px;border-radius:13px;background:#f7effa;border:1px solid #e4d5ed;color:#5f4b69;line-height:1.5;margin:8px 0}
+.accountSyncGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:9px}
+.accountSyncGrid button{min-height:52px}
+.accountDangerNote{padding:9px 10px;border-radius:12px;background:#fff4e6;border:1px solid #efd7ac;color:#7a5a31;font-size:11px;line-height:1.5;margin-top:8px}
+.accountLinkBtn{background:transparent!important;color:#76558b!important;padding:4px!important;min-height:30px!important;text-decoration:underline}
+#playerRecoveryPanel{border-top:1px solid #eadfee;margin-top:10px;padding-top:10px}
+</style>
+
+<div id="playerAccountModal" class="modal hidden"><div class="modalBox">
+  <div class="modalHead"><b>☁️ 玩家帳號</b><button id="closePlayerAccountModal" type="button">×</button></div>
+  <div id="playerAccountLoggedOut">
+    <div class="playerAccountTabs">
+      <button id="playerLoginTab" type="button" class="active">登入</button>
+      <button id="playerRegisterTab" type="button">註冊</button>
+    </div>
+    <div id="playerLoginPane" class="playerAccountForm">
+      <label>帳號（Email）</label>
+      <input id="playerLoginEmail" type="email" autocomplete="email" placeholder="you@example.com">
+      <label>密碼</label>
+      <input id="playerLoginPassword" type="password" autocomplete="current-password" placeholder="輸入密碼">
+      <button id="playerLoginSubmit" type="button" class="primary">🔐 登入</button>
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+        <button id="playerForgotPasswordBtn" type="button" class="accountLinkBtn">忘記密碼？</button>
+        <button id="playerForgotAccountBtn" type="button" class="accountLinkBtn">忘記帳號？</button>
+      </div>
+    </div>
+    <div id="playerRegisterPane" class="playerAccountForm hidden">
+      <label>Email（之後就是登入帳號）</label>
+      <input id="playerRegisterEmail" type="email" autocomplete="email" placeholder="you@example.com">
+      <label>設定密碼</label>
+      <input id="playerRegisterPassword" type="password" autocomplete="new-password" placeholder="至少 6 個字元">
+      <label>再輸入一次密碼</label>
+      <input id="playerRegisterPassword2" type="password" autocomplete="new-password" placeholder="確認密碼">
+      <button id="playerRegisterSubmit" type="button" class="primary">✨ 建立帳號</button>
+      <div class="small">舊角色不會因為註冊消失。登入成功後，再由你按「綁定並上傳本機角色」。</div>
+    </div>
+    <div id="playerForgotPane" class="playerAccountForm hidden">
+      <b>🔑 找回密碼</b>
+      <div class="small">輸入註冊 Email，Supabase 會寄出密碼重設信。</div>
+      <input id="playerForgotEmail" type="email" autocomplete="email" placeholder="註冊時使用的 Email">
+      <button id="playerForgotSubmit" type="button" class="primary">✉️ 寄出重設密碼信</button>
+      <button id="playerForgotBack" type="button">← 回登入</button>
+    </div>
+  </div>
+  <div id="playerAccountLoggedIn" class="hidden">
+    <div id="playerAccountStatusBox" class="accountStatusBox"></div>
+    <div class="accountSyncGrid">
+      <button id="playerClaimUploadBtn" type="button" class="primary">☁️ 綁定並上傳本機角色</button>
+      <button id="playerDownloadCloudBtn" type="button">📥 從雲端同步到這台</button>
+      <button id="playerUploadCloudBtn" type="button">⬆️ 上傳目前進度</button>
+      <button id="playerLogoutBtn" type="button">🚪 登出</button>
+    </div>
+    <div class="accountDangerNote">下載雲端進度會覆蓋這台裝置目前的角色資料；執行前會自動留一份本機備份。真人關係房間碼會跟角色資料一起保留。</div>
+  </div>
+  <div id="playerRecoveryPanel" class="hidden">
+    <b>🔒 設定新密碼</b>
+    <div class="small" style="margin:5px 0 8px">你是從密碼重設信回來的。設定新密碼後即可重新登入。</div>
+    <input id="playerRecoveryPassword" type="password" autocomplete="new-password" placeholder="新密碼（至少 6 個字元）">
+    <input id="playerRecoveryPassword2" type="password" autocomplete="new-password" placeholder="再輸入一次新密碼" style="margin-top:7px">
+    <button id="playerRecoverySubmit" type="button" class="primary" style="width:100%;margin-top:8px">更新密碼</button>
+  </div>
+  <div id="playerAccountMessage" class="small" style="margin-top:9px"></div>
+</div></div>
+
+<script id="playerAccountSyncV1">
+(()=>{
+ const SESSION_KEY='role_life_test_player_auth_v1';
+ const CLOUD_BACKUP_PREFIX='role_life_test_precloud_';
+ let authSession=null;
+ const $=id=>document.getElementById(id);
+ const msg=(text,bad=false)=>{const el=$('playerAccountMessage');if(el){el.textContent=text||'';el.style.color=bad?'#a65f70':'#668f70';}};
+ function saveSession(v){authSession=v||null;try{if(v)localStorage.setItem(SESSION_KEY,JSON.stringify(v));else localStorage.removeItem(SESSION_KEY)}catch(_){}}
+ function loadSession(){try{return JSON.parse(localStorage.getItem(SESSION_KEY)||'null')}catch(_){return null}}
+ function authHeaders(token,json=true){return {'apikey':SUPABASE_KEY,...(token?{'Authorization':'Bearer '+token}:{}),...(json?{'Content-Type':'application/json'}:{})};}
+ async function parseResponse(res){const t=await res.text();let d=null;if(t){try{d=JSON.parse(t)}catch(_){d=t}}if(!res.ok)throw new Error(d?.msg||d?.message||d?.error_description||d?.error||`HTTP ${res.status}`);return d;}
+ async function refreshSessionIfNeeded(){
+   let s=authSession||loadSession(); if(!s)return null;
+   const exp=Number(s.expires_at||0)*1000;
+   if(exp && Date.now()<exp-60000){authSession=s;return s;}
+   if(!s.refresh_token){saveSession(null);return null;}
+   try{
+     const r=await fetch(AUTH_API+'/token?grant_type=refresh_token',{method:'POST',headers:authHeaders(),body:JSON.stringify({refresh_token:s.refresh_token})});
+     const d=await parseResponse(r);d.expires_at=Math.floor(Date.now()/1000)+Number(d.expires_in||3600);saveSession(d);return d;
+   }catch(e){saveSession(null);return null;}
+ }
+ async function authUser(){const s=await refreshSessionIfNeeded();if(!s?.access_token)return null;try{const r=await fetch(AUTH_API+'/user',{headers:authHeaders(s.access_token,false)});const u=await parseResponse(r);s.user=u;saveSession(s);return u}catch(_){saveSession(null);return null}}
+ function render(){
+   const logged=!!authSession?.access_token;
+   $('playerAccountLoggedOut')?.classList.toggle('hidden',logged);
+   $('playerAccountLoggedIn')?.classList.toggle('hidden',!logged);
+   const email=authSession?.user?.email||authSession?.email||'';
+   if($('playerAccountChip'))$('playerAccountChip').textContent=logged?'已登入':'未登入';
+   if($('playerAccountSummary'))$('playerAccountSummary').textContent=logged?`已登入：${email||'玩家帳號'}。可以手動同步角色進度。`:'登入後可把舊角色綁定到帳號，並在手機／電腦之間手動同步。';
+   $('playerQuickUploadBtn')?.classList.toggle('hidden',!logged);
+   if($('playerAccountStatusBox'))$('playerAccountStatusBox').innerHTML=logged?`<b>✅ 已登入</b><br>${escapeHtml(email||'玩家帳號')}<br><span class="small">UID：${escapeHtml(authSession?.user?.id||'讀取中')}</span>`:'';
+ }
+ function escapeHtml(x){return String(x??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
+ function openModal(){ $('playerAccountModal')?.classList.remove('hidden');render();msg(''); }
+ function closeModal(){ $('playerAccountModal')?.classList.add('hidden'); }
+ function showLogin(){ $('playerLoginPane')?.classList.remove('hidden');$('playerRegisterPane')?.classList.add('hidden');$('playerForgotPane')?.classList.add('hidden');$('playerLoginTab')?.classList.add('active');$('playerRegisterTab')?.classList.remove('active');msg(''); }
+ function showRegister(){ $('playerLoginPane')?.classList.add('hidden');$('playerRegisterPane')?.classList.remove('hidden');$('playerForgotPane')?.classList.add('hidden');$('playerRegisterTab')?.classList.add('active');$('playerLoginTab')?.classList.remove('active');msg(''); }
+ async function login(){
+   const email=$('playerLoginEmail')?.value.trim(),password=$('playerLoginPassword')?.value||'';if(!email||!password)return msg('請輸入 Email 和密碼。',true);
+   msg('登入中……');try{const r=await fetch(AUTH_API+'/token?grant_type=password',{method:'POST',headers:authHeaders(),body:JSON.stringify({email,password})});const d=await parseResponse(r);d.expires_at=Math.floor(Date.now()/1000)+Number(d.expires_in||3600);saveSession(d);await authUser();render();msg('登入成功。');}catch(e){msg('登入失敗：'+e.message,true)}
+ }
+ async function register(){
+   const email=$('playerRegisterEmail')?.value.trim(),p1=$('playerRegisterPassword')?.value||'',p2=$('playerRegisterPassword2')?.value||'';
+   if(!email)return msg('請輸入 Email。',true);if(p1.length<6)return msg('密碼至少 6 個字元。',true);if(p1!==p2)return msg('兩次密碼不一致。',true);
+   msg('建立帳號中……');try{const r=await fetch(AUTH_API+'/signup',{method:'POST',headers:authHeaders(),body:JSON.stringify({email,password:p1})});const d=await parseResponse(r);
+     if(d?.access_token){d.expires_at=Math.floor(Date.now()/1000)+Number(d.expires_in||3600);saveSession(d);await authUser();render();msg('帳號建立完成並已登入。現在可以綁定舊角色。');}
+     else{msg('帳號已建立。請到信箱完成 Email 驗證後再登入。');showLogin();if($('playerLoginEmail'))$('playerLoginEmail').value=email;}
+   }catch(e){msg('註冊失敗：'+e.message,true)}
+ }
+ async function forgot(){
+   const email=$('playerForgotEmail')?.value.trim();if(!email)return msg('請輸入註冊 Email。',true);
+   const redirect=location.origin+location.pathname;
+   msg('正在寄送……');try{const r=await fetch(AUTH_API+'/recover?redirect_to='+encodeURIComponent(redirect),{method:'POST',headers:authHeaders(),body:JSON.stringify({email})});await parseResponse(r);msg('重設密碼信已寄出，請檢查收件匣與垃圾郵件。');}catch(e){msg('寄送失敗：'+e.message,true)}
+ }
+ function captureCloudSave(){
+   try{if(typeof saveLocal==='function')saveLocal()}catch(_){ }
+   let base={characters:[]};try{base=JSON.parse(localStorage.getItem(LOCAL_KEY)||'{"characters":[]}')||base}catch(_){ }
+   const getJson=k=>{try{return JSON.parse(localStorage.getItem(k)||'null')}catch(_){return null}};
+   base.__cloudExtra={npcShop:getJson(typeof NPC_SHOP_KEY!=='undefined'?NPC_SHOP_KEY:'role_life_test_npc_shopkeeper_cat_v1'),badgeShowcase:getJson(typeof BADGE_SHOWCASE_KEY!=='undefined'?BADGE_SHOWCASE_KEY:'role_life_test_badge_showcase_v1'),launchEvent:getJson(typeof LAUNCH_EVENT_KEY!=='undefined'?LAUNCH_EVENT_KEY:'role_life_test_launch_event_2026_v1')};
+   return base;
+ }
+ function restoreCloudSave(data){
+   if(!data||!Array.isArray(data.characters))throw new Error('雲端存檔格式不正確');
+   const stamp=Date.now();
+   try{localStorage.setItem(CLOUD_BACKUP_PREFIX+stamp,localStorage.getItem(LOCAL_KEY)||'{"characters":[]}')}catch(_){ }
+   const copy=JSON.parse(JSON.stringify(data)),extra=copy.__cloudExtra||{};delete copy.__cloudExtra;
+   localStorage.setItem(LOCAL_KEY,JSON.stringify(copy));
+   const setJson=(k,v)=>{if(v!==null&&v!==undefined)localStorage.setItem(k,JSON.stringify(v));};
+   setJson(typeof NPC_SHOP_KEY!=='undefined'?NPC_SHOP_KEY:'role_life_test_npc_shopkeeper_cat_v1',extra.npcShop);
+   setJson(typeof BADGE_SHOWCASE_KEY!=='undefined'?BADGE_SHOWCASE_KEY:'role_life_test_badge_showcase_v1',extra.badgeShowcase);
+   setJson(typeof LAUNCH_EVENT_KEY!=='undefined'?LAUNCH_EVENT_KEY:'role_life_test_launch_event_2026_v1',extra.launchEvent);
+ }
+ async function api(path,opt={}){const s=await refreshSessionIfNeeded();if(!s?.access_token)throw new Error('請先登入玩家帳號');const r=await fetch(API+path,{...opt,headers:{...authHeaders(s.access_token),...(opt.headers||{})}});return parseResponse(r);}
+ async function claimUpload(){
+   const s=await refreshSessionIfNeeded();if(!s)return msg('請先登入。',true);const data=captureCloudSave();if(!data.characters.length&&!confirm('目前這台沒有角色。仍要建立空的雲端存檔嗎？'))return;
+   if(!confirm(`要把這台的 ${data.characters.length} 位角色綁定到目前帳號並上傳嗎？\n\n角色 ID 與真人關係房間碼都會保留。`))return;
+   msg('正在綁定並上傳……');try{const d=await api('/rpc/test_claim_old_save',{method:'POST',body:JSON.stringify({p_save_data:data,p_device_id:localStorage.getItem('role_life_test_device_id_v1')||navigator.userAgent.slice(0,80)})});msg(`✅ 已綁定並上傳 ${d?.character_count??data.characters.length} 位角色。`);}catch(e){msg('綁定失敗：'+e.message,true)}
+ }
+ async function upload(){
+   const data=captureCloudSave();if(!confirm(`上傳目前進度到雲端？\n角色：${data.characters.length} 位\n\n雲端舊進度會被這台目前進度取代。`))return;
+   msg('上傳中……');try{const d=await api('/rpc/test_claim_old_save',{method:'POST',body:JSON.stringify({p_save_data:data,p_device_id:navigator.userAgent.slice(0,80)})});msg(`✅ 上傳完成（${d?.character_count??data.characters.length} 位角色）。`);}catch(e){msg('上傳失敗：'+e.message,true)}
+ }
+ async function download(){
+   msg('讀取雲端進度……');try{const u=await authUser();if(!u)throw new Error('登入已失效');const rows=await api(`/test_player_saves?select=save_data,save_version,updated_at&user_id=eq.${encodeURIComponent(u.id)}&limit=1`,{method:'GET',body:undefined,headers:{'Content-Type':'application/json'}});if(!rows?.length)throw new Error('這個帳號目前沒有雲端存檔');const row=rows[0],count=row.save_data?.characters?.length||0;
+     if(!confirm(`找到雲端存檔：${count} 位角色\n更新時間：${row.updated_at||'未知'}\n\n下載後會覆蓋這台目前的角色資料，並先建立本機備份。是否繼續？`))return;
+     restoreCloudSave(row.save_data);alert('✅ 雲端進度已下載。頁面將重新載入。');location.reload();
+   }catch(e){msg('下載失敗：'+e.message,true)}
+ }
+ async function logout(){saveSession(null);authSession=null;render();showLogin();msg('已登出。');}
+ function parseRecovery(){
+   const hp=new URLSearchParams((location.hash||'').replace(/^#/,''));
+   const type=hp.get('type'),access=hp.get('access_token'),refresh=hp.get('refresh_token');
+   if(type==='recovery'&&access){authSession={access_token:access,refresh_token:refresh||'',expires_in:Number(hp.get('expires_in')||3600),expires_at:Math.floor(Date.now()/1000)+Number(hp.get('expires_in')||3600),user:null,recovery:true};saveSession(authSession);history.replaceState(null,'',location.pathname+location.search);$('playerRecoveryPanel')?.classList.remove('hidden');openModal();msg('請設定新的登入密碼。');return true;}return false;
+ }
+ async function updateRecoveryPassword(){const p1=$('playerRecoveryPassword')?.value||'',p2=$('playerRecoveryPassword2')?.value||'';if(p1.length<6)return msg('新密碼至少 6 個字元。',true);if(p1!==p2)return msg('兩次新密碼不一致。',true);const s=await refreshSessionIfNeeded();if(!s?.access_token)return msg('重設連結已失效，請重新寄送密碼信。',true);msg('更新密碼中……');try{const r=await fetch(AUTH_API+'/user',{method:'PUT',headers:authHeaders(s.access_token),body:JSON.stringify({password:p1})});await parseResponse(r);$('playerRecoveryPanel')?.classList.add('hidden');await authUser();render();msg('✅ 密碼已更新，這台裝置目前已登入。');}catch(e){msg('更新失敗：'+e.message,true)}}
+ function wire(){
+   $('openPlayerAccountBtn')?.addEventListener('click',openModal);$('playerAccountDrawerBtn')?.addEventListener('click',()=>{try{typeof closeDrawer==='function'&&closeDrawer()}catch(_){ }openModal()});$('closePlayerAccountModal')?.addEventListener('click',closeModal);
+   $('playerLoginTab')?.addEventListener('click',showLogin);$('playerRegisterTab')?.addEventListener('click',showRegister);$('playerLoginSubmit')?.addEventListener('click',login);$('playerRegisterSubmit')?.addEventListener('click',register);
+   $('playerForgotPasswordBtn')?.addEventListener('click',()=>{$('playerLoginPane')?.classList.add('hidden');$('playerRegisterPane')?.classList.add('hidden');$('playerForgotPane')?.classList.remove('hidden');$('playerLoginTab')?.classList.remove('active');$('playerRegisterTab')?.classList.remove('active');if($('playerForgotEmail'))$('playerForgotEmail').value=$('playerLoginEmail')?.value||'';msg('');});
+   $('playerForgotAccountBtn')?.addEventListener('click',()=>alert('你的登入帳號就是註冊時使用的 Email。若忘記是哪個 Email，請查看你曾收到的「關係進行式 / Supabase」驗證或重設密碼郵件。'));
+   $('playerForgotBack')?.addEventListener('click',showLogin);$('playerForgotSubmit')?.addEventListener('click',forgot);$('playerClaimUploadBtn')?.addEventListener('click',claimUpload);$('playerUploadCloudBtn')?.addEventListener('click',upload);$('playerQuickUploadBtn')?.addEventListener('click',upload);$('playerDownloadCloudBtn')?.addEventListener('click',download);$('playerLogoutBtn')?.addEventListener('click',logout);$('playerRecoverySubmit')?.addEventListener('click',updateRecoveryPassword);
+   $('playerAccountModal')?.addEventListener('click',e=>{if(e.target===$('playerAccountModal'))closeModal()});
+ }
+ async function init(){wire();authSession=loadSession();const recovery=parseRecovery();if(!recovery&&authSession){await authUser();authSession=loadSession();}render();}
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();
+</script>
