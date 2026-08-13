@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#9a76c4" name="theme-color"/>
-<title>關係進行式・3.29.10</title>
+<title>關係進行式・3.26.17-店長六表情點擊切換</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -1509,24 +1509,68 @@ body.npcStoryRunning .draggableFab{
 }
 </style>
 
+<link rel="preload" as="image" href="assets/npc/shopkeeper_cat/maid_cafe_special_1.png" fetchpriority="high">
+<link rel="preload" as="image" href="assets/npc/shopkeeper_cat/maid_cafe_special_2.png" fetchpriority="high">
 
-<style id="formalPlayerAccountStyles">
-.accountHomePanel{color:#3d3343!important}
-.accountHomePanel .small{color:#75677f!important}
-#playerAccountModal{z-index:10050!important;background:rgba(22,13,35,.38)!important}
-#playerAccountModal .modalBox{max-height:92dvh;overflow-y:auto;background:#fffdfd!important;color:#3d3343!important}
-.playerAccountTabs{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin:10px 0}
-.playerAccountTabs button.active{background:#8f70bd!important;color:#fff!important}
-.playerAccountForm{display:grid;gap:8px}
-.playerAccountForm label{font-size:12px;font-weight:800;color:#66576f}
-.playerAccountForm .small{color:#75677f!important}
-.accountStatusBox{padding:10px 11px;border-radius:13px;background:#f7effa;border:1px solid #e4d5ed;color:#5f4b69;line-height:1.5;margin:8px 0}
-.accountSyncGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:9px}
-.accountSyncGrid button{min-height:52px}
-.accountDangerNote{padding:9px 10px;border-radius:12px;background:#fff4e6;border:1px solid #efd7ac;color:#7a5a31;font-size:11px;line-height:1.5;margin-top:8px}
-.accountLinkBtn{background:transparent!important;color:#76558b!important;padding:4px!important;min-height:30px!important;text-decoration:underline}
-#playerRecoveryPanel{border-top:1px solid #eadfee;margin-top:10px;padding-top:10px}
+<style id="formal3298MaidCommerceStyle">
+.formalPaidGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.formalPaidCard{border:1px solid var(--line);border-radius:17px;background:#fffafd;padding:14px;text-align:center}
+.formalPaidIcon{font-size:34px}.formalPaidName{font-weight:900;font-size:16px;margin:7px 0}
+.formalPaidPrice{font-size:25px;font-weight:900;color:#765080;margin:10px 0}
+.formalPaidCard button{width:100%;opacity:.55;cursor:not-allowed}
+.formalAppearanceGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.formalAppearanceCard{border:1px solid var(--line);border-radius:16px;background:#fffafd;padding:12px;text-align:center}
+.formalAppearancePreview{height:86px;border-radius:13px;margin-bottom:9px;border:1px solid #ffffff90}
+.formalAppearancePreview.default{background:linear-gradient(135deg,#efe6f4,#fff8fb)}
+.formalAppearancePreview.maid{background:linear-gradient(135deg,#59323f,#b96f89)}
+.formalMaidRedeem{display:grid;grid-template-columns:1fr auto;gap:9px;align-items:center;margin-top:10px;padding:12px;border:1px solid #d6aab9;border-radius:15px;background:linear-gradient(145deg,#fff9f6,#f2d5df)}
+.formalMaidRedeem .small{margin-top:4px}
+
+html[data-formal-theme="maidCafe"] body,
+html[data-formal-theme="maidCafe"] #home,
+html[data-formal-theme="maidCafe"] #game{
+  background:linear-gradient(180deg,#4d2b38 0 110px,#b8728a 110px,#e7b5c5 35%,#f8e8ec 100%) fixed!important;
+  color:#4b2d35!important
+}
+html[data-formal-theme="maidCafe"] .homeHero{
+  background:linear-gradient(145deg,#54303e,#8d5067 58%,#b97189)!important;
+  border-color:#d8a0b2!important
+}
+html[data-formal-theme="maidCafe"] .homeHero h1,
+html[data-formal-theme="maidCafe"] .homeHero .homeTagline,
+html[data-formal-theme="maidCafe"] .homeHero .homeVersion{color:#fff7fa!important;text-shadow:0 2px 10px rgba(42,20,28,.25)!important}
+html[data-formal-theme="maidCafe"] .homeHero .homeVersion{background:rgba(255,255,255,.14)!important;border-color:rgba(255,255,255,.25)!important}
+html[data-formal-theme="maidCafe"] .pageCard.active,
+html[data-formal-theme="maidCafe"] .modalBox,
+html[data-formal-theme="maidCafe"] .homePanel{
+  background:linear-gradient(155deg,#fff9f6,#f2d2dc)!important;color:#4b2d35!important;border-color:#ddb1c0!important
+}
+html[data-formal-theme="maidCafe"] .tile,
+html[data-formal-theme="maidCafe"] .itemRow,
+html[data-formal-theme="maidCafe"] .relItem,
+html[data-formal-theme="maidCafe"] .npcRelationCard,
+html[data-formal-theme="maidCafe"] .npcShopItem{
+  background:linear-gradient(145deg,#fffdfb,#f7dfe7)!important;color:#54333f!important;border-color:#dfb4c3!important
+}
+html[data-formal-theme="maidCafe"] .top,
+html[data-formal-theme="maidCafe"] .sheetHead,
+html[data-formal-theme="maidCafe"] .modalHead{background:linear-gradient(90deg,#56313f,#92546b)!important;color:#fff!important}
+html[data-formal-theme="maidCafe"] .small,
+html[data-formal-theme="maidCafe"] .muted{color:#80616b!important;opacity:1!important}
+html[data-formal-theme="maidCafe"] button.primary{background:linear-gradient(135deg,#a85f79,#734254)!important;color:#fff!important}
+
+#npcStoryPlayer.formalMaidStory{background:#180f15!important}
+#npcStoryPlayer.formalMaidStory .npcStoryStage{width:100vw!important;height:100dvh!important;max-width:none!important;max-height:none!important;margin:0!important;overflow:hidden!important;background:#180f15!important}
+#npcStoryPlayer.formalMaidStory .npcStoryPortraitWrap{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;overflow:hidden!important;background:#180f15!important}
+#npcStoryPlayer.formalMaidStory #npcStoryPortrait{width:100%!important;height:100%!important;object-fit:cover!important;object-position:center!important}
+#npcStoryPlayer.formalMaidStory .npcStoryDialogue{left:10px!important;right:10px!important;bottom:calc(10px + env(safe-area-inset-bottom))!important}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+  #npcStoryPlayer.formalMaidStory .npcStoryPortraitWrap::before{content:"";position:absolute;inset:-32px;background-image:var(--formal-maid-bg);background-size:cover;background-position:center;filter:blur(24px) brightness(.48);transform:scale(1.08)}
+  #npcStoryPlayer.formalMaidStory #npcStoryPortrait{position:relative;z-index:1;object-fit:contain!important}
+}
+@media(max-width:520px){.formalPaidGrid,.formalAppearanceGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.formalPaidCard{padding:11px 8px}}
 </style>
+
 </head>
 <body>
 
@@ -1569,15 +1613,7 @@ body.npcStoryRunning .draggableFab{
 <div class="homeLogo">💞</div>
 <h1>關係進行式</h1>
 <div class="homeTagline">每一段關係，都還在進行中。</div>
-<div class="homeVersion">第3.29.10版・貨幣權限保護</div>
-</div>
-<div id="playerAccountHomePanel" class="homePanel accountHomePanel">
-<div class="homePanelTitle"><span>☁️ 玩家帳號</span><span id="playerAccountChip" class="chip">未登入</span></div>
-<div id="playerAccountSummary" class="small">登入後可把角色綁定到帳號，並在手機／電腦之間同步。</div>
-<div class="actions">
-<button id="openPlayerAccountBtn" type="button" class="primary">🔐 登入／註冊</button>
-<button id="playerQuickUploadBtn" type="button" class="hidden">☁️ 上傳目前進度</button>
-</div>
+<div class="homeVersion">第3.30.0版・藍新金流通路預埋</div>
 </div>
 <div class="homePanel">
 <div class="homePanelTitle"><span>👑 管理員</span><span class="chip" id="gmHomeChip">未登入</span></div>
@@ -1587,7 +1623,7 @@ body.npcStoryRunning .draggableFab{
 <div class="gmStatus" id="gmHomeStatus"></div>
 </div>
 <div class="homePanel">
-<div class="homePanelTitle"><span>📢 更新公告</span><span class="chip">第3.29.10版</span></div>
+<div class="homePanelTitle"><span>📢 更新公告</span><span class="chip">第3.27版</span></div>
 <div class="small">查看本次新增功能與修正內容。</div>
 <button id="openUpdateNotice" style="width:100%;margin-top:8px" type="button">查看更新內容</button>
 </div>
@@ -1620,6 +1656,18 @@ body.npcStoryRunning .draggableFab{
 <button class="primary" id="createChar">＋ 開始新的角色生活</button>
 <div class="createHint">頭像可進入角色後更換・時間活動會自動顯示 Emoji</div>
 </div>
+</div>
+<div class="homePanel">
+<div class="homePanelTitle"><span>💾 存檔備份</span><span class="muted">JSON</span></div>
+<div class="backupGrid">
+<button class="primary" id="exportSaveBtn" type="button">💾 匯出存檔</button>
+<label id="importSaveBtn" class="importSaveLabel" for="importSaveFile" role="button" tabindex="0">📂 匯入存檔</label>
+<button id="rescueSaveBtn" type="button">🛟 搜尋可救援存檔</button>
+<button id="deepRescueBtn" type="button" onclick="showDeepRescue()">🔎 深度救援</button>
+<button id="makeBackupNowBtn" type="button">🧷 立即建立備份</button>
+<input accept=".json,application/json,text/json,*/*" id="importSaveFile" type="file" aria-label="選擇 JSON 存檔" style="position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important;opacity:0.01!important"/>
+</div>
+<div id="saveRescueStatus" class="small" style="margin-top:8px">系統會自動保留最近兩份本機備份；「🔎 深度救援」還會掃描這個網站底下可讀到的舊角色資料。</div>
 </div>
 <div class="homePanel">
 <div class="homePanelTitle"><span>🎵 背景音樂</span><span class="chip" id="net">雲端待命</span></div>
@@ -1796,6 +1844,7 @@ body.npcStoryRunning .draggableFab{
 <div class="shopTabs">
 <button class="shopTab active" data-shop-tab="normal" type="button">🛍️ 一般商品</button>
 <button class="shopTab" data-shop-tab="gift" type="button">🎁 好感禮物</button>
+<button class="shopTab" data-shop-tab="paid" type="button">💳 付費</button>
 </div>
 <div id="shopNormalPanel">
 <div class="small" id="specialShopStatus" style="margin-bottom:8px"></div>
@@ -1804,6 +1853,10 @@ body.npcStoryRunning .draggableFab{
 <div class="hidden" id="shopGiftPanel">
 <div class="small" style="margin-bottom:8px">好感禮物是消耗型關係道具：成功送出後直接消耗並立即增加少量共同羈絆，不會進入對方背包。每天最多送 5 次。</div>
 <div class="itemGrid" id="affectionGiftList"></div>
+</div>
+<div class="hidden" id="shopPaidPanel">
+  <div class="small" style="margin-bottom:10px">付費商品目前僅展示，尚未開放付款。此頁沒有付款連結，也不會自動扣款或發放獎勵。</div>
+  <div class="formalPaidGrid" id="formalPaidShopList"></div>
 </div>
 </div>
 <div class="card pageCard" id="extraBag"><div class="section">🎒 背包</div><div id="bagList"></div></div>
@@ -2008,7 +2061,7 @@ body.npcStoryRunning .draggableFab{
 </div>
 </section>
 </div>
-<div class="drawerShade hidden" id="drawerShade"></div><aside class="drawer hidden" id="drawer"><div style="padding:8px"><b id="drawerName">角色</b><div class="muted">功能選單</div></div><button class="navBtn" data-nav="life" type="button">🏠 角色生活</button><button class="navBtn" data-nav="daily" type="button">📋 今日小事</button><button class="navBtn" data-nav="work" type="button">💼 打工賺錢</button><button class="navBtn" data-nav="journal" type="button">📖 今日生活日誌</button><button class="navBtn" data-nav="routine" type="button">🕒 角色作息</button><button class="navBtn" data-nav="outing" type="button">🗺️ 外出 <span class="navDot hidden" data-dot="outing"></span></button><button class="navBtn" data-nav="relations" type="button">💞 關係 <span class="navDot hidden" data-dot="relations"></span></button><button class="navBtn" data-nav="npcrelations" type="button">✨ NPC 關係</button><button class="navBtn" data-nav="mailbox" type="button">📬 信箱 <span class="navDot hidden" data-dot="mailbox"></span></button><button class="navBtn" id="playerAccountDrawerBtn" type="button">☁️ 玩家帳號</button><button class="navBtn" id="gmDrawerLoginBtn" type="button">👑 管理員登入</button><button class="navBtn hidden" data-nav="gm" id="gmNavBtn" type="button">🛠️ GM 操作台</button><div class="navSep"></div><button class="navBtn" data-nav="bag" type="button">🎒 背包</button><button class="navBtn" data-nav="shop" type="button">🏪 商店</button><button class="navBtn" data-nav="memory" type="button">📖 回憶</button><button class="navBtn" data-nav="achievements" type="button">🏆 成就</button><div class="navSep"></div><div style="padding:8px"><b>🎵 悠閒 BGM</b><div class="actions"><button id="bgmToggle">▶ 播放</button><input id="bgmVolume" max="1" min="0" step=".05" type="range" value=".25"/></div><div class="small">把 bgm.mp3 和 index.html 放同一資料夾。</div></div><audio autoplay="" id="bgm" loop="" playsinline="" preload="auto"><source src="bgm.mp3" type="audio/mpeg"/></audio><button class="navBtn" id="back" type="button">💾 返回存檔首頁</button></aside><div class="modal hidden" id="updateNoticeModal">
+<div class="drawerShade hidden" id="drawerShade"></div><aside class="drawer hidden" id="drawer"><div style="padding:8px"><b id="drawerName">角色</b><div class="muted">功能選單</div></div><button class="navBtn" data-nav="life" type="button">🏠 角色生活</button><button class="navBtn" data-nav="daily" type="button">📋 今日小事</button><button class="navBtn" data-nav="work" type="button">💼 打工賺錢</button><button class="navBtn" data-nav="journal" type="button">📖 今日生活日誌</button><button class="navBtn" data-nav="routine" type="button">🕒 角色作息</button><button class="navBtn" data-nav="outing" type="button">🗺️ 外出 <span class="navDot hidden" data-dot="outing"></span></button><button class="navBtn" data-nav="relations" type="button">💞 關係 <span class="navDot hidden" data-dot="relations"></span></button><button class="navBtn" data-nav="npcrelations" type="button">✨ NPC 關係</button><button class="navBtn" data-nav="mailbox" type="button">📬 信箱 <span class="navDot hidden" data-dot="mailbox"></span></button><button class="navBtn" id="gmDrawerLoginBtn" type="button">👑 管理員登入</button><button class="navBtn hidden" data-nav="gm" id="gmNavBtn" type="button">🛠️ GM 操作台</button><div class="navSep"></div><button class="navBtn" data-nav="bag" type="button">🎒 背包</button><button class="navBtn" data-nav="shop" type="button">🏪 商店</button><button class="navBtn" data-nav="memory" type="button">📖 回憶</button><button class="navBtn" data-nav="achievements" type="button">🏆 成就</button><button class="navBtn" id="formalAppearanceBtn" type="button">🎨 外觀更改</button><div class="navSep"></div><div style="padding:8px"><b>🎵 悠閒 BGM</b><div class="actions"><button id="bgmToggle">▶ 播放</button><input id="bgmVolume" max="1" min="0" step=".05" type="range" value=".25"/></div><div class="small">把 bgm.mp3 和 index.html 放同一資料夾。</div></div><audio autoplay="" id="bgm" loop="" playsinline="" preload="auto"><source src="bgm.mp3" type="audio/mpeg"/></audio><button class="navBtn" id="back" type="button">💾 返回存檔首頁</button></aside><div class="modal hidden" id="updateNoticeModal">
 <div class="modalBox">
 <div class="modalHead"><b>📢 第3.23版更新公告</b><button id="closeUpdateNotice">×</button></div>
 <div class="updateNoticeBody">
@@ -2046,6 +2099,15 @@ body.npcStoryRunning .draggableFab{
 <div class="small" id="gmLoginStatus" style="margin-top:8px"></div>
 </div>
 </div>
+
+<div class="modal hidden" id="formalAppearanceModal">
+  <div class="modalBox">
+    <div class="modalHead"><b>🎨 外觀更改</b><button id="closeFormalAppearance" type="button">×</button></div>
+    <div class="small" style="margin:8px 0 12px">已持有的主題可以隨時切換。未解鎖主題不會顯示為可使用。</div>
+    <div class="formalAppearanceGrid" id="formalAppearanceGrid"></div>
+  </div>
+</div>
+
 <div class="modal hidden" id="infoModal"><div class="modalBox"><h3 id="infoTitle"></h3><div id="infoBody"></div><button class="primary" id="closeInfo" style="width:100%;margin-top:12px">知道了</button></div></div>
 <div class="modal hidden" id="itemModal"><div class="modalBox"><h3 id="itemTitle"></h3><div id="itemBody"></div><div class="actions" id="itemActions"></div><button id="closeItem" style="width:100%;margin-top:10px">關閉</button></div></div>
 <div class="modal hidden" id="personalResultModal">
@@ -2631,28 +2693,9 @@ let mobileEntryLightRender=false;
 let mobileEntryDeferredTimer=null;
 
 function loadLocal(){try{return JSON.parse(localStorage.getItem(LOCAL_KEY))||{characters:[]}}catch(e){return{characters:[]}}}
-
-/* === 3.29.10 money permission guard ===
-   All normal currency changes must pass secureMoneySet/secureMoneyAdd.
-   Direct runtime edits are rolled back before saving/rendering.
-   GM/server-side grants still use their own authenticated flows and then call this guard locally. */
-const MONEY_GUARD=(()=>{
-  const approved=new WeakMap();
-  function norm(v){return Math.max(0,Math.floor(Number(v)||0))}
-  function trust(c){if(c&&typeof c==='object'&&!approved.has(c))approved.set(c,norm(c.money));return c?approved.get(c):0}
-  function set(c,v,reason='game'){if(!c||typeof c!=='object')return 0;const n=norm(v);approved.set(c,n);c.money=n;return n}
-  function add(c,delta,reason='game'){return set(c,trust(c)+Number(delta||0),reason)}
-  function verify(c){if(!c||typeof c!=='object')return 0;const ok=trust(c),now=norm(c.money);if(now!==ok){console.warn('[money-guard] blocked direct currency edit', {from:ok,to:now});c.money=ok;}return ok}
-  function reset(c){if(c&&typeof c==='object')approved.set(c,norm(c.money))}
-  return {trust,set,add,verify,reset};
-})();
-function secureMoneySet(c,v,reason){return MONEY_GUARD.set(c,v,reason)}
-function secureMoneyAdd(c,delta,reason){return MONEY_GUARD.add(c,delta,reason)}
-function verifyMoney(c){return MONEY_GUARD.verify(c)}
-
 function saveLocal(){
   local.characters?.forEach(c=>{normalizeWholeStats(c);saveBadgeShowcaseBackup(c)});
-  try{let c=cur();if(c)verifyMoney(c)}catch(e){}
+  try{let c=cur();if(c)c.money=safeMoney(c.money)}catch(e){}
 
   try{
     // Avoid storing the same shared achievement object inside every character.
@@ -2702,9 +2745,18 @@ function ensureRelations(c){
   c.energy=Number.isFinite(Number(c.energy))?Number(c.energy):90;
   c.mood=Number.isFinite(Number(c.mood))?Number(c.mood):82;
   c.hunger=Number.isFinite(Number(c.hunger))?Number(c.hunger):85;
-  c.money=safeMoney(Number.isFinite(Number(c.money))?Number(c.money):300);MONEY_GUARD.reset(c);
+  c.money=safeMoney(Number.isFinite(Number(c.money))?Number(c.money):300);
   c.events=Array.isArray(c.events)?c.events:[];
   c.inventory=c.inventory&&typeof c.inventory==="object"?c.inventory:{};
+  /* 正式服 3.29.8：付費商品 ID 不屬於背包；只保留真正遊戲道具。 */
+  delete c.inventory.paid_gift_60;
+  delete c.inventory.paid_support_100;
+  delete c.inventory.paid_dev_150;
+  c.paidCosmetics=c.paidCosmetics&&typeof c.paidCosmetics==="object"?c.paidCosmetics:{};
+  c.paidEntitlements=c.paidEntitlements&&typeof c.paidEntitlements==="object"?c.paidEntitlements:{};
+  c.paidStoryFlags=c.paidStoryFlags&&typeof c.paidStoryFlags==="object"?c.paidStoryFlags:{};
+  c.paidOrders=Array.isArray(c.paidOrders)?c.paidOrders:[];
+  c.activePaidTheme=(c.activePaidTheme==="maidCafe")?"maidCafe":"";
   c.memories=Array.isArray(c.memories)?c.memories:[];
   c.start=c.start||new Date().toISOString().slice(0,10);
   ensureSharedAchievements();
@@ -2808,7 +2860,7 @@ function publicState(c){
     updated:Date.now()
   }
 }
-const ONLINE_TIMEOUT_MS=90000; // 省流量版：presence 每 60 秒同步，90 秒內視為在線
+const ONLINE_TIMEOUT_MS=20000;
 function isOnlineState(state){
   if(!state||!state.updated)return false;
   return (Date.now()-Number(state.updated))<=ONLINE_TIMEOUT_MS;
@@ -3038,7 +3090,7 @@ async function refreshPublicStats(){
 function startPublicStats(){
   clearInterval(publicStatsTimer);
   refreshPublicStats();
-  publicStatsTimer=setInterval(()=>{if(!document.getElementById("home")?.classList.contains("hidden"))refreshPublicStats()},120000);
+  publicStatsTimer=setInterval(()=>{if(!document.getElementById("home")?.classList.contains("hidden"))refreshPublicStats()},30000);
 }
 
 
@@ -3338,7 +3390,7 @@ async function claimMailAttachment(c,m){
     if(existing?.[0]?.claimed_at)return toast("這份附件已經領取過。");
     let count=Math.max(1,Number(m.gift_count||1));
     if(m.gift_type==="money"){
-      secureMoneyAdd(c,(Number(m.gift_value)||0)*count,"mail-gift");
+      c.money=safeMoney((c.money||0)+(Number(m.gift_value)||0)*count);
     }else if(m.gift_type==="item"){
       c.inventory??={};
       c.inventory[m.gift_value]=(c.inventory[m.gift_value]||0)+count;
@@ -3953,7 +4005,7 @@ async function claimOfficialGift(id){
 
     // 先套用到目前角色。
     if(g.gift_type==="money"){
-      secureMoneyAdd(c,(Number(g.gift_value)||0)*count,"gm-gift");
+      c.money=safeMoney((c.money||0)+(Number(g.gift_value)||0)*count);
     }else if(g.gift_type==="item"){
       c.inventory??={};
       c.inventory[g.gift_value]=(c.inventory[g.gift_value]||0)+count;
@@ -4321,6 +4373,7 @@ async function openChar(id){
 
   room=null; partner=null;
   activeRoomCode=(c.roomCodes||[])[0]||"";
+  try{window.applyFormalPaidAppearance?.(c)}catch(e){}
 
   // FIRST: display only the essential local character UI.
   // Heavy panels (achievements/shop/journal/pending cloud events) are deferred so Android
@@ -4947,6 +5000,12 @@ async function refreshBond(code){
   if(!code)return;
   try{
     let rows=await api(`/interactions?room_code=eq.${encodeURIComponent(code)}&select=id,text,from_char,to_char,created_at&limit=1000`);
+    /* 3.30.0：頂級突破標記獨立查詢。
+       不再依賴一般互動的 1000 筆上限，避免老關係突破紀錄被擠掉。 */
+    let breakRows=[];
+    try{
+      breakRows=await api(`/interactions?room_code=eq.${encodeURIComponent(code)}&text=like.RELATION_BREAK%25&select=id,text,from_char,to_char,created_at&order=created_at.desc&limit=1`);
+    }catch(e){console.warn("breakthrough marker lookup",e)}
     // 同步「送了什麼」到接收方的兩人事件紀錄；禮物本身不進背包。
     try{
       let me=cur();
@@ -5012,7 +5071,7 @@ async function refreshBond(code){
       return true;
     });
     let info=bondInfoFromCount(code,normal.length,giftBonus);
-    let marker=rows.find(x=>String(x.text||"").startsWith("RELATION_BREAK|"));
+    let marker=(breakRows||[])[0]||rows.find(x=>String(x.text||"").startsWith("RELATION_BREAK|"));
     if(marker){
       let p=String(marker.text).split("|"),rel=p[1],title=p[2]||topRelations[rel]?.title||"頂級關係";
       info.broken=true;info.topTitle=title;
@@ -5185,7 +5244,7 @@ const levelMilestoneRewards={
 function levelNeed(level){return 60+level*25}
 function grantLevelMilestone(c,lv){
   let r=levelMilestoneRewards[lv];if(!r)return null;
-  secureMoneyAdd(c,(r.money||0),"level-reward");
+  c.money=(c.money||0)+(r.money||0);
   if(r.energy)c.energy=Math.min(100,(c.energy||0)+r.energy);
   if(r.mood)c.mood=Math.min(100,(c.mood||0)+r.mood);
   if(r.item){c.inventory??={};c.inventory[r.item]=(c.inventory[r.item]||0)+(r.count||1)}
@@ -5240,59 +5299,31 @@ function processLevelUps(c){
   logJournal(c,`升級到 Lv.${last.lv}`,"✨");
 }
 let pollBusy=false;
-let lastRelationshipCloudPoll=0,lastBondCloudPoll=0,lastAllBondsCloudPoll=0,lastPresenceCloudPoll=0,lastInboxCloudPoll=0;
 function startPolling(){
   stopPolling();
   pollBusy=false;
-  lastRelationshipCloudPoll=lastBondCloudPoll=lastAllBondsCloudPoll=lastPresenceCloudPoll=lastInboxCloudPoll=0;
   pollTimer=setInterval(async()=>{
     if(pollBusy || document.hidden)return;
     pollBusy=true;
     try{
       let c=cur();if(!c)return;
       ensureRelations(c);
-      const now=Date.now();
-
-      // 關係總表不需要每 15 秒整包下載；60 秒一次即可。
-      if(now-lastRelationshipCloudPoll>=60000){
-        await refreshRelationships();
-        lastRelationshipCloudPoll=now;
-      }
-
+      await refreshRelationships();
+      await refreshAllBondSummaries(c);
       if(activeRoomCode){
-        // refreshRelationships 已帶回最新 room；優先直接使用快取，避免 loadRoom() 再重抓同一列。
-        const cached=relationshipSummaries?.[String(activeRoomCode)];
-        if(cached){
-          room=cached;
-          partner=room.host_char===c.id?room.guest_state:room.host_state;
-        }
-
-        // 在線狀態 60 秒上傳一次，避免每輪 PATCH 整份 state。
-        if(room&&now-lastPresenceCloudPoll>=60000){
-          try{await syncState()}catch(e){console.warn("presence sync",e)}
-          lastPresenceCloudPoll=now;
-        }
-
-        // 羈絆只刷新目前開啟的房間；全部房間改成較低頻背景刷新。
-        if(now-lastBondCloudPoll>=60000){
-          await refreshBond(String(activeRoomCode)).catch(e=>console.warn("bond poll",e));
-          if(now-lastAllBondsCloudPoll>=120000 && (c.roomCodes||[]).length>1){
-            await refreshAllBondSummaries(c);
-            lastAllBondsCloudPoll=now;
+        try{
+          if(!room||String(room.code)!==String(activeRoomCode)){
+            let rs=await api(`/rooms?code=eq.${encodeURIComponent(activeRoomCode)}&select=*`);
+            if(rs.length){room=rs[0];relationshipSummaries[String(activeRoomCode)]=room}
           }
-          lastBondCloudPoll=now;
-        }
-
-        // 關係事件通知一分鐘一次；小遊戲邀請另由全域事件輪詢處理。
-        if(now-lastInboxCloudPoll>=60000){
-          await loadInbox().catch(e=>console.warn("inbox poll",e));
-          lastInboxCloudPoll=now;
-        }
-        safeRenderGame();
+          if(room)await syncState();
+        }catch(e){console.warn("presence sync",e)}
+        await loadRoom(activeRoomCode);
+        await Promise.allSettled([loadInbox(),checkDirectGamePopups()]);
       }
     }catch(e){console.warn(e)}
     finally{pollBusy=false}
-  },30000);
+  },15000);
 }
 function stopPolling(){if(pollTimer)clearInterval(pollTimer);pollTimer=null}
 
@@ -5323,7 +5354,9 @@ async function refreshAllBondSummaries(c){
 function renderGame(){
   normalizeWholeStats(cur());
 
-  let c=cur();if(!c)return;resetDailyIfNeeded(c);let r=routine(c);
+  let c=cur();if(!c)return;
+  try{window.applyFormalPaidAppearance?.(c,false)}catch(e){}
+  resetDailyIfNeeded(c);let r=routine(c);
   document.getElementById("day").textContent=day(c);
   document.getElementById("charName").textContent=c.name;
   let cid=document.getElementById("charIdCode");
@@ -5441,7 +5474,7 @@ function renderGame(){
         c.mood=wholeNumber(Math.max(0,Math.min(100,Number(c.mood||0)+mood)));
         c.exp=wholeNumber(Math.max(0,Number(c.exp||0)+xp));
         processLevelUps(c);
-        secureMoneyAdd(c,money,"event-choice");
+        c.money=wholeNumber(safeMoney(Number(c.money||0)+money));
         c.stats.events=(c.stats.events||0)+1;c.stats.personalEvents=(c.stats.personalEvents||0)+1;
         if(ch.memory)c.memories.unshift({t:`🎭 ${ch.memory}`,d:new Date().toLocaleDateString("zh-TW")});
         logJournal(c,`個人事件「${ev.title}」：${ch.label||ch[0]}`,"🎭");
@@ -6038,7 +6071,7 @@ setInterval(async()=>{
   const expMultiplier=1+relationMultipliers.reduce((sum,x)=>sum+(x-1),0);
   c.exp+=1*expMultiplier;c.hunger=Math.max(0,c.hunger-.18);c.energy=Math.max(0,Math.min(100,c.energy+(new Date().getHours()<7?.8:-.1)));c.mood=Math.max(0,Math.min(100,c.mood+.15));
   processLevelUps(c)
-  saveLocal();if(!document.hidden){try{await syncState()}catch(e){console.warn(e)}};maybeEvent();renderGame();
+  saveLocal();try{await syncState()}catch(e){console.warn(e)};maybeEvent();renderGame();
 },60000);
 
 
@@ -6223,7 +6256,7 @@ function checkDailyReward(c){
   let st=dailyStatus(c);
   if(st.all&&!c.dailyRewardClaimed){
     c.dailyRewardClaimed=true;
-    secureMoneyAdd(c,80,"event-reward");c.exp=(c.exp||0)+25;
+    c.money=(c.money||0)+80;c.exp=(c.exp||0)+25;
     processLevelUps(c);
     c.stats.dailyCompleted=(c.stats.dailyCompleted||0)+1;
     if(c.stats.dailyCompleted>=1)c.achievements.daily1=1;
@@ -6527,7 +6560,7 @@ function handleDailyLogin(c){
  let diff=prev?Math.round((new Date(k+"T00:00:00")-prev)/86400000):99;
  c.dailyLogin.streak=diff===1?(c.dailyLogin.streak||0)+1:1;c.dailyLogin.last=k;
  if(c.dailyLogin.streak>=3)c.achievements.login3=1;if(c.dailyLogin.streak>=7)c.achievements.login7=1;if(c.dailyLogin.streak>=14)c.achievements.login14=1;
- secureMoneyAdd(c,(c.dailyLogin.streak%7===0?80:20),"daily-login");
+ c.money=(c.money||0)+(c.dailyLogin.streak%7===0?80:20);
  let events=[
   ["☀️","窗邊的好天氣","角色拉開窗簾，覺得今天似乎會有些好事發生。",5,0],
   ["🐦","意外的訪客","一隻小鳥停在窗邊看了很久。角色的心情變好了。",8,0],
@@ -6536,7 +6569,7 @@ function handleDailyLogin(c){
   ["🌿","慢下來的一刻","角色難得什麼都沒急著做，只是安靜休息了一會。",6,0]
  ];
  let seed=[...k+c.id].reduce((a,x)=>a+x.charCodeAt(0),0),ev=events[seed%events.length];
- c.mood=Math.min(100,(c.mood||80)+ev[3]);secureMoneyAdd(c,ev[4],"daily-event");
+ c.mood=Math.min(100,(c.mood||80)+ev[3]);c.money=(c.money||0)+ev[4];
  c.dailyLogin.event={date:k,title:`${ev[0]} ${ev[1]}`,text:ev[2]};
  logJournal(c,`今日登入事件：${ev[1]}`,"✨");saveLocal();
  setTimeout(()=>{if(cur()?.id===c.id){infoTitle.textContent=ev[0]+" 今日的小事件";infoBody.innerHTML=`<b>${ev[1]}</b><p>${ev[2]}</p><div class="small">連續登入 ${c.dailyLogin.streak} 天・今日登入獎勵已領取。</div>`;infoModal.classList.remove("hidden")}},500);
@@ -6688,7 +6721,7 @@ async function doWork(id){
   let lucky=Math.random()<.1;
   if(lucky)earned+=30;
   ctr.used=(ctr.used||0)+1;
-  secureMoneyAdd(c,earned,"work");c.energy=Math.max(0,c.energy-w.energy);
+  c.money=(c.money||0)+earned;c.energy=Math.max(0,c.energy-w.energy);
   c.stats??={};c.stats.workCount=(c.stats.workCount||0)+1;c.stats.workEarned=(c.stats.workEarned||0)+earned;
   logJournal(c,`${w.name}，賺到 🪙${earned}`,"💼");
   saveLocal();renderGame();
@@ -6769,6 +6802,17 @@ function reconcileAchievements(c){
  let mx=infos.reduce((m,x)=>Math.max(m,Number(x.b.lv||1)),1);
  [[5,"bond5"],[10,"bond10"],[15,"bond15"],[20,"bond20"],[25,"bond25"],[26,"bond6"],[30,"bondmax"]].forEach(([n,a])=>{if(mx>=n)c.achievements[a]=1});
  infos.forEach(x=>{let p=mp[x.rr.relation],st=Number(x.b.stage||0);if(p&&st>=2)c.achievements[p+"_stage3"]=1;if(p&&st>=5)c.achievements[p+"_stage6"]=1});
+
+ /* 頂級突破隱藏成就補判：
+    - 任一 bond cache 已確認 broken
+    - 任一頂級關係成就已存在
+    - 任一頂級關係徽章已取得
+    任一條件成立都代表玩家確實完成過突破。 */
+ let topDefs=Object.values(typeof topRelations==="object"&&topRelations?topRelations:{});
+ let hasBroken=infos.some(x=>!!x.b?.broken);
+ let hasTopAch=topDefs.some(t=>t?.ach&&!!c.achievements?.[t.ach]);
+ let hasTopBadge=topDefs.some(t=>t?.badge&&!!local.sharedBadges?.[t.badge]);
+ if(hasBroken||hasTopAch||hasTopBadge)c.achievements.break=1;
 }
 
 
@@ -7002,7 +7046,7 @@ function openItem(i,mode){
      return;
    }
    if(c.money<i.p)return alert("金幣不夠。");
-   secureMoneyAdd(c,-i.p,"shop-purchase");c.inventory??={};c.inventory[i.id]=(c.inventory[i.id]||0)+1;
+   c.money=safeMoney((c.money||0)-(i.p));c.inventory??={};c.inventory[i.id]=(c.inventory[i.id]||0)+1;
    if(i.type==="special"&&c.specialShopState?.date===todayKey()&&c.specialShopState.ids?.includes(i.id)){
      c.specialShopState.hadSoldOut=true;
      // Buying today's item creates a sold-out situation for this same day's rotation.
@@ -7689,7 +7733,7 @@ function launchTargetChar(){
 }
 function launchGiveCoins(c,n){
   if(!c)return false;
-  secureMoneyAdd(c,Number(n||0),"launch-reward");
+  c.money=safeMoney(Number(c.money||0)+Number(n||0));
   return true;
 }
 function launchGiveItem(c,id,n=1){
@@ -7989,7 +8033,7 @@ setTimeout(()=>startPublicStats(),1800);
 document.addEventListener("visibilitychange",()=>{if(!document.hidden&&bgmEnabled)tryStartBgm()});
 const launchActivityAutoTimer=setInterval(()=>{
   if(!document.hidden)evaluateLaunchActivity(false).catch(()=>{});
-},60000);
+},20000);
 
 </script>
 <div class="modal hidden" id="guideModal">
@@ -8235,45 +8279,32 @@ document.getElementById("sendRelationGift")?.addEventListener("click",sendRelati
 async function fetchPendingEvents(c){
   if(!c)return [];
   let rows=[];
-  const codes=[...new Set((c.roomCodes||[]).map(String).filter(Boolean))];
-  try{
-    if(codes.length){
-      // 省流量：原本每一段關係各抓 interactions + messages（2N 個 request），
-      // 現在一次抓完所有房間，只需 2 個 request。
-      const inList=codes.map(x=>`"${String(x).replace(/"/g,'')}"`).join(',');
-      const [ints,msgs]=await Promise.all([
-        api(`/interactions?room_code=in.(${encodeURIComponent(inList)})&to_char=eq.${encodeURIComponent(c.id)}&select=*&order=created_at.desc&limit=${Math.max(60,codes.length*30)}`),
-        api(`/messages?room_code=in.(${encodeURIComponent(inList)})&select=*&order=created_at.desc&limit=${Math.max(30,codes.length*10)}`)
-      ]);
-
+  for(const code of c.roomCodes||[]){
+    try{
+      let ints=await api(`/interactions?room_code=eq.${encodeURIComponent(code)}&to_char=eq.${encodeURIComponent(c.id)}&select=*&order=created_at.desc&limit=30`);
       for(const x of ints||[]){
-        const code=String(x.room_code||'');
-        if(!codes.includes(code))continue;
-        let text=String(x.text||'');
-        const persistentRelationDecision=text.startsWith('RELATION_SLOT_REQUEST|')||text.startsWith('RELATION_SLOT_RESULT|');
+        let text=String(x.text||"");
+        const persistentRelationDecision=text.startsWith("RELATION_SLOT_REQUEST|")||text.startsWith("RELATION_SLOT_RESULT|");
         if(!persistentRelationDecision&&!isFreshCreatedAt(x.created_at))continue;
-        if(text.startsWith('OUTING_INVITE|'))rows.push({kind:'outing',id:x.id,code,created_at:x.created_at,row:x});
-        if(text.startsWith('GAME_INVITE|'))rows.push({kind:'game',id:x.id,code,created_at:x.created_at,row:x});
-        if(text.startsWith('RELATION_SLOT_REQUEST|'))rows.push({kind:'slot_request',id:x.id,code,created_at:x.created_at,row:x});
-        if(text.startsWith('RELATION_SLOT_RESULT|'))rows.push({kind:'slot_result',id:x.id,code,created_at:x.created_at,row:x});
+        if(text.startsWith("OUTING_INVITE|"))rows.push({kind:"outing",id:x.id,code:String(code),created_at:x.created_at,row:x});
+        if(text.startsWith("GAME_INVITE|"))rows.push({kind:"game",id:x.id,code:String(code),created_at:x.created_at,row:x});
+        if(text.startsWith("RELATION_SLOT_REQUEST|"))rows.push({kind:"slot_request",id:x.id,code:String(code),created_at:x.created_at,row:x});
+        if(text.startsWith("RELATION_SLOT_RESULT|"))rows.push({kind:"slot_result",id:x.id,code:String(code),created_at:x.created_at,row:x});
+        // GIFT_SEND 是已消耗的好感禮物通知，不需要對方領取。
       }
-
-      const newestByRoom=new Map();
-      for(const x of msgs||[]){
-        const code=String(x.room_code||'');
-        if(!codes.includes(code)||String(x.from_char||'')===String(c.id)||!isFreshCreatedAt(x.created_at))continue;
-        const prev=newestByRoom.get(code);
-        if(!prev||Date.parse(x.created_at||'')>Date.parse(prev.created_at||''))newestByRoom.set(code,x);
+      let msgs=await api(`/messages?room_code=eq.${encodeURIComponent(code)}&select=*&order=created_at.desc&limit=10`);
+      let incoming=(msgs||[]).filter(x=>x.from_char!==c.id&&isFreshCreatedAt(x.created_at));
+      if(incoming.length){
+        let latest=incoming[0];
+        let seen=Number(c.pendingMessageSeen?.[String(code)]||0);
+        let ts=Date.parse(latest.created_at||"");
+        if(ts>seen)rows.push({kind:"message",id:latest.id||`${code}-${ts}`,code:String(code),created_at:latest.created_at,row:latest});
       }
-      for(const [code,latest] of newestByRoom){
-        let seen=Number(c.pendingMessageSeen?.[code]||0);
-        let ts=Date.parse(latest.created_at||'');
-        if(ts>seen)rows.push({kind:'message',id:latest.id||`${code}-${ts}`,code,created_at:latest.created_at,row:latest});
-      }
-    }
-  }catch(e){console.warn('pending events batch',e)}
-
+    }catch(e){console.warn("pending events room",code,e)}
+  }
   ensureTransformState(c);
+  // A "再想想" relation transform stays pending. When the bond enters a new stage,
+  // the old pending choice is replaced by a fresh current-stage choice.
   for(const [key,p] of Object.entries(c.pendingRelationTransforms||{})){
     let current=currentTransformStage(p.code);
     if(current!==Number(p.stage)){
@@ -8287,7 +8318,7 @@ async function fetchPendingEvents(c){
       saveLocal();
       continue;
     }
-    rows.push({kind:'transform',id:key,code:String(p.code),created_at:p.createdAt||new Date().toISOString(),transform:p});
+    rows.push({kind:"transform",id:key,code:String(p.code),created_at:p.createdAt||new Date().toISOString(),transform:p});
   }
   rows.sort((a,b)=>Date.parse(b.created_at)-Date.parse(a.created_at));
   return rows;
@@ -8455,17 +8486,14 @@ document.getElementById("gmGiftInbox")?.addEventListener("click",e=>{
     outingChoiceModal.classList.remove("hidden");
   }
 });
-setInterval(()=>{if(!document.hidden)pollGlobalRealtime()},15000);
+setInterval(pollGlobalRealtime,2500);
 
 let mailboxBackgroundTimer=setInterval(()=>{
   try{
     let c=cur();
-    if(!c||document.hidden)return;
-    const mailboxOpen=document.getElementById("extraMailbox")?.classList.contains("active");
-    // 信箱開著時每分鐘同步；沒開時不為了紅點反覆抓三張表。
-    if(mailboxOpen)loadMailbox(c);
+    if(c&&!document.getElementById("game")?.classList.contains("hidden"))loadMailbox(c);
   }catch(e){}
-},60000);
+},12000);
 
 document.getElementById("badgeList")?.addEventListener("click",async e=>{
   let c=cur();if(!c)return;
@@ -8687,7 +8715,9 @@ document.querySelectorAll("[data-shop-tab]").forEach(btn=>btn.addEventListener("
   document.querySelectorAll("[data-shop-tab]").forEach(x=>x.classList.toggle("active",x===btn));
   document.getElementById("shopNormalPanel")?.classList.toggle("hidden",currentShopTab!=="normal");
   document.getElementById("shopGiftPanel")?.classList.toggle("hidden",currentShopTab!=="gift");
+  document.getElementById("shopPaidPanel")?.classList.toggle("hidden",currentShopTab!=="paid");
   let c=cur();if(c){renderShop(c);renderAffectionGiftShop(c)}
+  if(currentShopTab==="paid")window.renderFormalPaidShop?.();
 }));
 </script>
 
@@ -9155,6 +9185,28 @@ function renderNpcRpgLine(){
     choiceBox.innerHTML="";
     hint.classList.remove("hidden");
   }
+
+  const player=document.getElementById("npcStoryPlayer");
+  const portrait=document.getElementById("npcStoryPortrait");
+  const maid=String(st.title||"").includes("女僕咖啡廳");
+  const stage=maid?Number(line.maidStage||0):0;
+  if(player&&portrait&&maid&&stage>=1){
+    if(!portrait.dataset.formalBeforeMaid)portrait.dataset.formalBeforeMaid=portrait.getAttribute("src")||"cat_shopkeeper_normal.png";
+    portrait.dataset.maidCgLocked="1";
+    player.classList.add("formalMaidStory");
+    const target=stage>=2
+      ?"assets/npc/shopkeeper_cat/maid_cafe_special_2.png"
+      :"assets/npc/shopkeeper_cat/maid_cafe_special_1.png";
+    if(portrait.getAttribute("src")!==target)portrait.setAttribute("src",target);
+    player.style.setProperty("--formal-maid-bg",`url("${target}")`);
+  }else if(player&&portrait&&!maid){
+    player.classList.remove("formalMaidStory");
+    delete portrait.dataset.maidCgLocked;
+    if(portrait.dataset.formalBeforeMaid){
+      portrait.setAttribute("src",portrait.dataset.formalBeforeMaid);
+      delete portrait.dataset.formalBeforeMaid;
+    }
+  }
 }
 function advanceNpcRpgStory(){
   let st=npcStoryPlayerState;if(!st)return;
@@ -9170,13 +9222,33 @@ function advanceNpcRpgStory(){
 function finishNpcRpgStory(){
   let st=npcStoryPlayerState;if(!st||st.finished)return;
   st.finished=true;
-  document.getElementById("npcStoryPlayer")?.classList.add("hidden");
+  const player=document.getElementById("npcStoryPlayer");
+  const portrait=document.getElementById("npcStoryPortrait");
+  player?.classList.add("hidden");
+  player?.classList.remove("formalMaidStory");
+  if(portrait){
+    delete portrait.dataset.maidCgLocked;
+    if(portrait.dataset.formalBeforeMaid){
+      portrait.setAttribute("src",portrait.dataset.formalBeforeMaid);
+      delete portrait.dataset.formalBeforeMaid;
+    }
+  }
   let done=st.onComplete;
   npcStoryPlayerState=null;
   if(typeof done==="function")done();
 }
 function cancelNpcRpgStory(){
-  document.getElementById("npcStoryPlayer")?.classList.add("hidden");
+  const player=document.getElementById("npcStoryPlayer");
+  const portrait=document.getElementById("npcStoryPortrait");
+  player?.classList.add("hidden");
+  player?.classList.remove("formalMaidStory");
+  if(portrait){
+    delete portrait.dataset.maidCgLocked;
+    if(portrait.dataset.formalBeforeMaid){
+      portrait.setAttribute("src",portrait.dataset.formalBeforeMaid);
+      delete portrait.dataset.formalBeforeMaid;
+    }
+  }
   npcStoryPlayerState=null;
 }
 
@@ -9194,7 +9266,8 @@ const NPC_STORY_LIBRARY={
       {id:"shop_event_candy",title:"🎊 櫃檯糖果事件",unlock:st=>(st.candyCount||0)>=1,text:"你曾經對櫃檯上的糖果伸出手。至於有沒有被發現……只有你們知道。"},
       {id:"shop_event_cat",title:"🎊 店貓的小秘密",unlock:st=>(st.cat||0)>=70,text:"那隻總待在店裡的貓，似乎比想像中知道更多事情。"},
       {id:"shop_event_blackbox",title:"🎊 黑盒",unlock:(st,c)=>Number(c?.inventory?.npc_under_counter||0)>0||!!st.flags?.blackBoxOwned,text:"你買下了那個本來不該出現在商品架上的黑盒。"},
-      {id:"shop_event_night",title:"🎊 閉店之後",unlock:st=>!!st.flags?.nightEvent,text:"打烊後的店裡，比白天安靜得多。她也比平時更願意說真話。"}
+      {id:"shop_event_night",title:"🎊 閉店之後",unlock:st=>!!st.flags?.nightEvent,text:"打烊後的店裡，比白天安靜得多。她也比平時更願意說真話。"},
+      {id:"paid_maid_cafe_story",title:"🎀 女僕咖啡廳",unlock:(st,c)=>!!c?.paidStoryFlags?.paid_maid_cafe_story,text:"你曾用咖啡券換來一次只屬於你的特別招待。"}
     ]
   }
 };
@@ -9209,6 +9282,10 @@ function openNpcStory(npcId,kind,id){
   let groups=npcStoryCollection(npcId,c);
   let story=(groups[kind]||[]).find(x=>x.id===id);
   if(!story||!story.unlocked)return toast("🔒 這段故事尚未收藏。");
+  if(id==="paid_maid_cafe_story"&&typeof window.playFormalMaidCafeStory==="function"){
+    window.playFormalMaidCafeStory(true);
+    return;
+  }
   let lines=NPC_RPG_STORIES[id]||[{speaker:"旁白",text:story.text||"這段回憶仍然很清晰。"}];
   startNpcRpgStory({title:story.title,lines});
 }
@@ -9556,7 +9633,7 @@ function useNpcShopItem(itemId){
       const valueRoll=Math.random();
       if(valueRoll<0.34){
         const gain=260+Math.floor(Math.random()*241); // 260~500
-        secureMoneyAdd(c,gain,"npc-reward");
+        c.money=safeMoney(Number(c.money||0)+gain);
         toast(`🎁 熟客小盒：🪙 +${gain}`,3500);
       }else if(valueRoll<0.67){
         const ids=["gift_keychain","gift_flower","gift_letter","gift_plush","gift_music"];
@@ -9714,13 +9791,7 @@ function reconcileNpcEventAchievements(){
   if((st.helpCount||0)>=1)set("npc_evt_help1");
   if((st.helpCount||0)>=10)set("npc_evt_help10");
   if(st.flags?.nightEvent)set("npc_evt_night");
-  if(st.flags?.paperStarRumor||st.flags?.aff40||Number(st.affection||0)>=40)set("npc_evt_paperstar");
-  try{
-    if(typeof NPC_REGULAR_BOX_NOTES!=="undefined"){
-      const gotNotes=new Set(Array.isArray(c.npcRegularBoxNotes)?c.npcRegularBoxNotes:[]);
-      if(NPC_REGULAR_BOX_NOTES.every(x=>gotNotes.has(x.id)))set("npc_evt_all_notes");
-    }
-  }catch(_){ }
+  if(st.flags?.paperStarRumor)set("npc_evt_paperstar");
   if((c.inventory?.npc_under_counter||0)>0)set("npc_evt_blackbox");
   const shopIds=["npc_crystal_chip","npc_cat_cookie","npc_lucky_bell","npc_regular_box","npc_under_counter"];
   if(shopIds.every(id=>(st.purchasedIds||[]).includes(id)))set("npc_evt_allgoods");
@@ -9786,7 +9857,7 @@ function npcTalk(){
       npcChoice("今日推薦","「今天的話……星辰之淚吧。雖然我也不知道你拿去要幹嘛。」<br><br>她偷偷把一個紫色小盒子往你這邊推。",[{label:"記住了。",fn:()=>{}}]);
     }},
     {label:"「最近城鎮有什麼怪事嗎？」",locked:st.affection<40,fn:()=>{
-      st.flags.paperStarRumor=1;saveNpcState(st);try{reconcileNpcEventAchievements();saveLocal();renderAchievements?.();}catch(_){ }
+      st.flags.paperStarRumor=1;saveNpcState(st);
       npcChoice("會消失的紙星星","「最近每天早上，門口都會多一顆紙星星。」<br><br>「我明明收進抽屜了，晚上它又會不見。」<br><br>「如果你哪天比我早到……幫我看看是誰放的？」",[{label:"記下這個傳聞",fn:()=>{toast("🗺️ 已記錄：會消失的紙星星",3500)}}]);
     }},
     {label:"「妳下班後都做什麼？」",locked:st.affection<60,fn:()=>{
@@ -9953,7 +10024,7 @@ function npcBuy(item){
   if(Number(c.money||0)<price)return toast("🪙 金幣不夠。");
   c.inventory??={};
   if(item.id==="npc_under_counter" && Number(c.inventory[item.id]||0)>0)return toast("🔐 黑盒只能購買一次。");
-  secureMoneyAdd(c,-price,"npc-shop");
+  c.money=safeMoney(Number(c.money||0)-price);
   c.inventory[item.id]=(c.inventory[item.id]||0)+1;
   let st=npcState();st.purchaseCount++;st.loyalty++;st.purchasedIds??=[];if(!st.purchasedIds.includes(item.id))st.purchasedIds.push(item.id);if(st.purchaseCount%5===0)st.affection=Math.min(100,st.affection+1);saveNpcState(st);
   saveLocal();renderGame?.();npcCheckUnlocks(st);renderNpcShop();
@@ -9988,8 +10059,26 @@ function npcRenderShop(st){
   ];
   if(st.loyalty>=10)items.push({id:"npc_regular_box",name:"🎁 熟客小盒",desc:"可開啟・紙條機率較高，且已讀紙條不重複；其餘皆為有價值的一般獎勵。",price:220,secret:true});
   if(st.loyalty>=30)items.push({id:"npc_under_counter",name:"🔐 櫃檯下的黑盒",desc:"一次性隱藏收藏・用途？？？",price:666,secret:true});
-  return `<div class="small" style="margin-bottom:8px">每買 1 件商品熟客度 +1；每累積購買 5 件，貓貓好感額外 +1。</div>`+
+  let html=`<div class="small" style="margin-bottom:8px">每買 1 件商品熟客度 +1；每累積購買 5 件，貓貓好感額外 +1。</div>`+
     items.map(x=>`<div class="npcShopItem"><div><b>${x.name} ${x.secret?'<span class="npcSecretTag">隱藏</span>':""}</b><div class="small">${x.desc}</div></div><button data-npc-buy="${x.id}">🪙${x.price}</button></div>`).join("");
+
+  const c=typeof cur==="function"?cur():null;
+  if(c){
+    c.inventory=c.inventory&&typeof c.inventory==="object"?c.inventory:{};
+    c.paidCosmetics=c.paidCosmetics&&typeof c.paidCosmetics==="object"?c.paidCosmetics:{};
+    const voucher=Number(c.inventory.npc_maid_cafe_coffee_voucher||0);
+    const owned=!!c.paidCosmetics.maidCafe;
+    html+=`<div class="formalMaidRedeem">
+      <div>
+        <b>☕ 請店長喝咖啡券 → 女僕咖啡廳主題</b>
+        <div class="small">持有：${voucher} 張。使用 1 張可永久解鎖女僕咖啡廳主題，並播放限定特殊劇情。</div>
+      </div>
+      <button type="button" data-formal-redeem-maid ${owned||voucher<=0?"disabled":""}>
+        ${owned?"✓ 已解鎖":voucher>0?"使用咖啡券 ×1":"🔒 尚無咖啡券"}
+      </button>
+    </div>`;
+  }
+  return html;
 }
 function npcRenderRumor(st){
   const rumors=[
@@ -10958,7 +11047,10 @@ document.getElementById("closeNpcStoryPlayer")?.addEventListener("click",e=>{e.s
     const hero=document.querySelector(".npcHero img");
     const story=document.getElementById("npcStoryPortrait");
     const src=existingCache[face]?NPC_FACE_IMAGES[face]:NPC_FACE_IMAGES.normal;
-    [hero,story].forEach(img=>{if(img&&img.getAttribute("src")!==src)img.src=src});
+    [hero,story].forEach(img=>{
+      if(img===story&&story?.dataset?.maidCgLocked)return;
+      if(img&&img.getAttribute("src")!==src)img.src=src;
+    });
     document.querySelectorAll(".npcExpressionBadge").forEach(x=>{
       x.textContent=NPC_FACE_EMOJI[face]||"";
       x.className=`npcExpressionBadge face-${face}`;
@@ -11279,6 +11371,7 @@ document.getElementById("closeNpcStoryPlayer")?.addEventListener("click",e=>{e.s
   function setStoryFace(face){
     if(!FACE_PATHS[face]) face="normal";
     const img=document.getElementById("npcStoryPortrait");
+    if(img?.dataset?.maidCgLocked)return;
     if(img){
       const target=FACE_PATHS[face];
       if(!img.src.endsWith(target)) img.src=target;
@@ -11553,7 +11646,7 @@ document.getElementById("closeNpcStoryPlayer")?.addEventListener("click",e=>{e.s
     if(id==="npc_crystal_chip" && !Number.isFinite(Number(st.crystalPurchaseCount))){
       st.crystalPurchaseCount=Math.max(0,Number(c.inventory[id]||0));
     }
-    secureMoneySet(c,Math.max(0,Math.min(999999999,money-item.price)),"shopkeeper-purchase");
+    c.money=Math.max(0,Math.min(999999999,money-item.price));
     c.inventory[id]=Math.max(0,Number(c.inventory[id]||0))+1;
 
     let crystalTicketsGranted=0;
@@ -12523,7 +12616,7 @@ body.game-entry-active #npcTownFab{
       if(claimed&&typeof claimed==="object")claimed=claimed.amount??claimed.coins??claimed.claimed_coins??0;
       claimed=Math.max(0,Number(claimed||0));
       if(claimed<=0)return toast("這份邀請獎勵已經領取過了");
-      secureMoneyAdd(c,claimed,"referral-reward");
+      c.money=safeMoney(Number(c.money||0)+claimed);
       if(typeof logJournal==="function")logJournal(c,`領取邀請獎勵 🪙${claimed}`,"🤝");
       if(!saveLocal())return toast("⚠️ 雲端已標記領取，但本機存檔失敗，請聯絡 GM。",5500);
       toast(`🎁 ${c.name} 已領取邀請獎勵 🪙${claimed}`,4500);
@@ -13567,9 +13660,9 @@ document.addEventListener("click",function deepRescueDelegatedFallback(e){
   window.addEventListener('focus',liveRefreshReferral);
   document.addEventListener('visibilitychange',()=>{if(!document.hidden)liveRefreshReferral()});
   setInterval(()=>{
-    const modal=document.getElementById('launchActivityModal');
-    if(modal&&!modal.classList.contains('hidden')&&!document.hidden)liveRefreshReferral();
-  },30000);
+    const hasPanel=document.getElementById('formalMyReferralCode');
+    if(hasPanel)liveRefreshReferral();
+  },8000);
 })();
 </script>
 <script>
@@ -13772,95 +13865,6 @@ document.addEventListener("click",function deepRescueDelegatedFallback(e){
   setInterval(()=>{ try{ playEligible(); }catch(e){} },700);
   window.__playShopkeeperEventStoryNow=playEligible;
 })();
-</script>
-
-<div id="playerAccountModal" class="modal hidden"><div class="modalBox">
-  <div class="modalHead"><b>☁️ 玩家帳號</b><button id="closePlayerAccountModal" type="button">×</button></div>
-  <div id="playerAccountLoggedOut">
-    <div class="playerAccountTabs"><button id="playerLoginTab" type="button" class="active">登入</button><button id="playerRegisterTab" type="button">註冊</button></div>
-    <div id="playerLoginPane" class="playerAccountForm">
-      <label>帳號（Email）</label><input id="playerLoginEmail" type="email" autocomplete="email" placeholder="you@example.com">
-      <label>密碼</label><input id="playerLoginPassword" type="password" autocomplete="current-password" placeholder="輸入密碼">
-      <button id="playerLoginSubmit" type="button" class="primary">🔐 登入</button>
-      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap"><button id="playerForgotPasswordBtn" type="button" class="accountLinkBtn">忘記密碼？</button><button id="playerForgotAccountBtn" type="button" class="accountLinkBtn">忘記帳號？</button></div>
-    </div>
-    <div id="playerRegisterPane" class="playerAccountForm hidden">
-      <label>Email（之後就是登入帳號）</label><input id="playerRegisterEmail" type="email" autocomplete="email" placeholder="you@example.com">
-      <label>設定密碼</label><input id="playerRegisterPassword" type="password" autocomplete="new-password" placeholder="至少 6 個字元">
-      <label>再輸入一次密碼</label><input id="playerRegisterPassword2" type="password" autocomplete="new-password" placeholder="確認密碼">
-      <button id="playerRegisterSubmit" type="button" class="primary">✨ 建立帳號</button>
-      <div class="small">舊角色不會因為註冊消失。登入後可綁定並上傳目前角色。</div>
-    </div>
-    <div id="playerForgotPane" class="playerAccountForm hidden">
-      <b>🔑 找回密碼</b><div class="small">輸入註冊 Email，系統會寄出密碼重設信。</div>
-      <input id="playerForgotEmail" type="email" autocomplete="email" placeholder="註冊時使用的 Email">
-      <button id="playerForgotSubmit" type="button" class="primary">✉️ 寄出重設密碼信</button><button id="playerForgotBack" type="button">← 回登入</button>
-    </div>
-  </div>
-  <div id="playerAccountLoggedIn" class="hidden">
-    <div id="playerAccountStatusBox" class="accountStatusBox"></div>
-    <div class="accountSyncGrid">
-      <button id="playerClaimUploadBtn" type="button" class="primary">☁️ 綁定並上傳目前角色</button>
-      <button id="playerDownloadCloudBtn" type="button">📥 從雲端同步到這台</button>
-      <button id="playerUploadCloudBtn" type="button">⬆️ 上傳目前進度</button>
-      <button id="playerLogoutBtn" type="button">🚪 登出</button>
-    </div>
-    <div class="accountDangerNote">下載雲端進度會覆蓋這台裝置目前角色資料；執行前會自動保留一份本機安全備份。真人關係資料會一起保留。</div>
-  </div>
-  <div id="playerRecoveryPanel" class="hidden">
-    <b>🔒 設定新密碼</b><div class="small" style="margin:5px 0 8px">從密碼重設信回來後，在這裡設定新密碼。</div>
-    <input id="playerRecoveryPassword" type="password" autocomplete="new-password" placeholder="新密碼（至少 6 個字元）"><input id="playerRecoveryPassword2" type="password" autocomplete="new-password" placeholder="再輸入一次新密碼" style="margin-top:7px">
-    <button id="playerRecoverySubmit" type="button" class="primary" style="width:100%;margin-top:8px">更新密碼</button>
-  </div>
-  <div id="playerAccountMessage" class="small" style="margin-top:9px"></div>
-</div></div>
-
-<script id="formalPlayerAccountSyncV1">
-(()=>{
- const SESSION_KEY='role_life_formal_player_auth_v1';
- const CLOUD_BACKUP_PREFIX='role_life_formal_precloud_';
- let authSession=null;
- const $=id=>document.getElementById(id);
- const msg=(text,bad=false)=>{const el=$('playerAccountMessage');if(el){el.textContent=text||'';el.style.color=bad?'#a65f70':'#668f70';}};
- function saveSession(v){authSession=v||null;try{if(v)localStorage.setItem(SESSION_KEY,JSON.stringify(v));else localStorage.removeItem(SESSION_KEY)}catch(_){}}
- function loadSession(){try{return JSON.parse(localStorage.getItem(SESSION_KEY)||'null')}catch(_){return null}}
- function authHeaders(token,json=true){return {'apikey':SUPABASE_KEY,...(token?{'Authorization':'Bearer '+token}:{}),...(json?{'Content-Type':'application/json'}:{})};}
- async function parseResponse(res){const t=await res.text();let d=null;if(t){try{d=JSON.parse(t)}catch(_){d=t}}if(!res.ok)throw new Error(d?.msg||d?.message||d?.error_description||d?.error||`HTTP ${res.status}`);return d;}
- async function refreshSessionIfNeeded(){let s=authSession||loadSession();if(!s)return null;const exp=Number(s.expires_at||0)*1000;if(exp&&Date.now()<exp-60000){authSession=s;return s;}if(!s.refresh_token){saveSession(null);return null;}try{const r=await fetch(AUTH_API+'/token?grant_type=refresh_token',{method:'POST',headers:authHeaders(),body:JSON.stringify({refresh_token:s.refresh_token})});const d=await parseResponse(r);d.expires_at=Math.floor(Date.now()/1000)+Number(d.expires_in||3600);saveSession(d);return d;}catch(e){saveSession(null);return null;}}
- async function authUser(){const s=await refreshSessionIfNeeded();if(!s?.access_token)return null;try{const r=await fetch(AUTH_API+'/user',{headers:authHeaders(s.access_token,false)});const u=await parseResponse(r);s.user=u;saveSession(s);return u}catch(_){saveSession(null);return null}}
- function escapeHtml(x){return String(x??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
- function render(){const logged=!!authSession?.access_token;$('playerAccountLoggedOut')?.classList.toggle('hidden',logged);$('playerAccountLoggedIn')?.classList.toggle('hidden',!logged);const email=authSession?.user?.email||authSession?.email||'';if($('playerAccountChip'))$('playerAccountChip').textContent=logged?'已登入':'未登入';if($('playerAccountSummary'))$('playerAccountSummary').textContent=logged?`已登入：${email||'玩家帳號'}。角色進度可同步到雲端。`:'登入後可把角色綁定到帳號，並在手機／電腦之間同步。';$('playerQuickUploadBtn')?.classList.toggle('hidden',!logged);if($('playerAccountStatusBox'))$('playerAccountStatusBox').innerHTML=logged?`<b>✅ 已登入</b><br>${escapeHtml(email||'玩家帳號')}<br><span class="small">UID：${escapeHtml(authSession?.user?.id||'讀取中')}</span>`:'';}
- function openModal(){$('playerAccountModal')?.classList.remove('hidden');render();msg('');} function closeModal(){$('playerAccountModal')?.classList.add('hidden');}
- function showLogin(){$('playerLoginPane')?.classList.remove('hidden');$('playerRegisterPane')?.classList.add('hidden');$('playerForgotPane')?.classList.add('hidden');$('playerLoginTab')?.classList.add('active');$('playerRegisterTab')?.classList.remove('active');msg('');}
- function showRegister(){$('playerLoginPane')?.classList.add('hidden');$('playerRegisterPane')?.classList.remove('hidden');$('playerForgotPane')?.classList.add('hidden');$('playerRegisterTab')?.classList.add('active');$('playerLoginTab')?.classList.remove('active');msg('');}
- async function login(){const email=$('playerLoginEmail')?.value.trim(),password=$('playerLoginPassword')?.value||'';if(!email||!password)return msg('請輸入 Email 和密碼。',true);msg('登入中……');try{const r=await fetch(AUTH_API+'/token?grant_type=password',{method:'POST',headers:authHeaders(),body:JSON.stringify({email,password})});const d=await parseResponse(r);d.expires_at=Math.floor(Date.now()/1000)+Number(d.expires_in||3600);saveSession(d);await authUser();render();msg('登入成功。');}catch(e){msg('登入失敗：'+e.message,true)}}
- async function register(){const email=$('playerRegisterEmail')?.value.trim(),p1=$('playerRegisterPassword')?.value||'',p2=$('playerRegisterPassword2')?.value||'';if(!email)return msg('請輸入 Email。',true);if(p1.length<6)return msg('密碼至少 6 個字元。',true);if(p1!==p2)return msg('兩次密碼不一致。',true);msg('建立帳號中……');try{const r=await fetch(AUTH_API+'/signup',{method:'POST',headers:authHeaders(),body:JSON.stringify({email,password:p1})});const d=await parseResponse(r);if(d?.access_token){d.expires_at=Math.floor(Date.now()/1000)+Number(d.expires_in||3600);saveSession(d);await authUser();render();msg('帳號建立完成並已登入。');}else{msg('帳號已建立。請到信箱完成 Email 驗證後再登入。');showLogin();if($('playerLoginEmail'))$('playerLoginEmail').value=email;}}catch(e){msg('註冊失敗：'+e.message,true)}}
- async function forgot(){const email=$('playerForgotEmail')?.value.trim();if(!email)return msg('請輸入註冊 Email。',true);const redirect=location.origin+location.pathname;msg('正在寄送……');try{const r=await fetch(AUTH_API+'/recover?redirect_to='+encodeURIComponent(redirect),{method:'POST',headers:authHeaders(),body:JSON.stringify({email})});await parseResponse(r);msg('重設密碼信已寄出，請檢查收件匣與垃圾郵件。');}catch(e){msg('寄送失敗：'+e.message,true)}}
- function captureCloudSave(){try{if(typeof saveLocal==='function')saveLocal()}catch(_){ }let base={characters:[]};try{base=JSON.parse(localStorage.getItem(LOCAL_KEY)||'{"characters":[]}')||base}catch(_){ }const getJson=k=>{try{return JSON.parse(localStorage.getItem(k)||'null')}catch(_){return null}};base.__cloudExtra={npcShop:getJson(typeof NPC_SHOP_KEY!=='undefined'?NPC_SHOP_KEY:'role_life_npc_shopkeeper_cat_v1'),badgeShowcase:getJson(typeof BADGE_SHOWCASE_KEY!=='undefined'?BADGE_SHOWCASE_KEY:'role_life_badge_showcase_v1'),launchEvent:getJson(typeof LAUNCH_EVENT_KEY!=='undefined'?LAUNCH_EVENT_KEY:'role_life_launch_event_2026_v1')};return base;}
- function restoreCloudSave(data){if(!data||!Array.isArray(data.characters))throw new Error('雲端存檔格式不正確');const stamp=Date.now();try{localStorage.setItem(CLOUD_BACKUP_PREFIX+stamp,localStorage.getItem(LOCAL_KEY)||'{"characters":[]}')}catch(_){ }const copy=JSON.parse(JSON.stringify(data)),extra=copy.__cloudExtra||{};delete copy.__cloudExtra;localStorage.setItem(LOCAL_KEY,JSON.stringify(copy));const setJson=(k,v)=>{if(v!==null&&v!==undefined)localStorage.setItem(k,JSON.stringify(v));};setJson(typeof NPC_SHOP_KEY!=='undefined'?NPC_SHOP_KEY:'role_life_npc_shopkeeper_cat_v1',extra.npcShop);setJson(typeof BADGE_SHOWCASE_KEY!=='undefined'?BADGE_SHOWCASE_KEY:'role_life_badge_showcase_v1',extra.badgeShowcase);setJson(typeof LAUNCH_EVENT_KEY!=='undefined'?LAUNCH_EVENT_KEY:'role_life_launch_event_2026_v1',extra.launchEvent);}
- async function authedFetch(path,opt={}){const s=await refreshSessionIfNeeded();if(!s?.access_token)throw new Error('請先登入玩家帳號');const r=await fetch(API+path,{...opt,headers:{...authHeaders(s.access_token),...(opt.headers||{})}});return {r,s};}
- async function apiJson(path,opt={}){const {r}=await authedFetch(path,opt);return parseResponse(r);}
- async function saveToCloud(data){let lastErr=null;for(const endpoint of ['/rpc/formal_claim_old_save','/rpc/test_claim_old_save']){try{return await apiJson(endpoint,{method:'POST',body:JSON.stringify({p_save_data:data,p_device_id:localStorage.getItem('role_life_formal_device_id_v1')||navigator.userAgent.slice(0,80)})})}catch(e){lastErr=e;if(!/404|not found|function|schema cache/i.test(String(e.message||e)))throw e;}}throw lastErr||new Error('雲端存檔服務目前不可用');}
- async function loadFromCloud(uid){let lastErr=null;for(const table of ['formal_player_saves','test_player_saves']){try{return await apiJson(`/${table}?select=save_data,save_version,updated_at&user_id=eq.${encodeURIComponent(uid)}&limit=1`,{method:'GET',body:undefined,headers:{'Content-Type':'application/json'}})}catch(e){lastErr=e;if(!/404|not found|relation|schema cache/i.test(String(e.message||e)))throw e;}}throw lastErr||new Error('雲端存檔服務目前不可用');}
- async function claimUpload(){const s=await refreshSessionIfNeeded();if(!s)return msg('請先登入。',true);const data=captureCloudSave();if(!data.characters.length&&!confirm('目前這台沒有角色。仍要建立空的雲端存檔嗎？'))return;if(!confirm(`要把這台的 ${data.characters.length} 位角色綁定到目前帳號並上傳嗎？\\n\\n角色 ID 與真人關係資料都會保留。`))return;msg('正在綁定並上傳……');try{const d=await saveToCloud(data);msg(`✅ 已綁定並上傳 ${d?.character_count??data.characters.length} 位角色。`);}catch(e){msg('綁定失敗：'+e.message,true)}}
- async function upload(){const data=captureCloudSave();if(!confirm(`上傳目前進度到雲端？\\n角色：${data.characters.length} 位\\n\\n雲端舊進度會被這台目前進度取代。`))return;msg('上傳中……');try{const d=await saveToCloud(data);msg(`✅ 上傳完成（${d?.character_count??data.characters.length} 位角色）。`);}catch(e){msg('上傳失敗：'+e.message,true)}}
- async function download(){msg('讀取雲端進度……');try{const u=await authUser();if(!u)throw new Error('登入已失效');const rows=await loadFromCloud(u.id);if(!rows?.length)throw new Error('這個帳號目前沒有雲端存檔');const row=rows[0],count=row.save_data?.characters?.length||0;if(!confirm(`找到雲端存檔：${count} 位角色\\n更新時間：${row.updated_at||'未知'}\\n\\n下載後會覆蓋這台目前角色資料，並先建立本機安全備份。是否繼續？`))return;restoreCloudSave(row.save_data);alert('✅ 雲端進度已下載。頁面將重新載入。');location.reload();}catch(e){msg('下載失敗：'+e.message,true)}}
- async function logout(){saveSession(null);authSession=null;render();showLogin();msg('已登出。');}
- function parseRecovery(){const hp=new URLSearchParams((location.hash||'').replace(/^#/,''));const type=hp.get('type'),access=hp.get('access_token'),refresh=hp.get('refresh_token');if(type==='recovery'&&access){authSession={access_token:access,refresh_token:refresh||'',expires_in:Number(hp.get('expires_in')||3600),expires_at:Math.floor(Date.now()/1000)+Number(hp.get('expires_in')||3600),user:null,recovery:true};saveSession(authSession);history.replaceState(null,'',location.pathname+location.search);$('playerRecoveryPanel')?.classList.remove('hidden');openModal();msg('請設定新的登入密碼。');return true;}return false;}
- async function updateRecoveryPassword(){const p1=$('playerRecoveryPassword')?.value||'',p2=$('playerRecoveryPassword2')?.value||'';if(p1.length<6)return msg('新密碼至少 6 個字元。',true);if(p1!==p2)return msg('兩次新密碼不一致。',true);const s=await refreshSessionIfNeeded();if(!s?.access_token)return msg('重設連結已失效，請重新寄送密碼信。',true);msg('更新密碼中……');try{const r=await fetch(AUTH_API+'/user',{method:'PUT',headers:authHeaders(s.access_token),body:JSON.stringify({password:p1})});await parseResponse(r);$('playerRecoveryPanel')?.classList.add('hidden');await authUser();render();msg('✅ 密碼已更新，這台裝置目前已登入。');}catch(e){msg('更新失敗：'+e.message,true)}}
- function wire(){$('openPlayerAccountBtn')?.addEventListener('click',openModal);$('playerAccountDrawerBtn')?.addEventListener('click',()=>{try{typeof closeDrawer==='function'&&closeDrawer()}catch(_){ }openModal()});$('closePlayerAccountModal')?.addEventListener('click',closeModal);$('playerLoginTab')?.addEventListener('click',showLogin);$('playerRegisterTab')?.addEventListener('click',showRegister);$('playerLoginSubmit')?.addEventListener('click',login);$('playerRegisterSubmit')?.addEventListener('click',register);$('playerForgotPasswordBtn')?.addEventListener('click',()=>{$('playerLoginPane')?.classList.add('hidden');$('playerRegisterPane')?.classList.add('hidden');$('playerForgotPane')?.classList.remove('hidden');$('playerLoginTab')?.classList.remove('active');$('playerRegisterTab')?.classList.remove('active');if($('playerForgotEmail'))$('playerForgotEmail').value=$('playerLoginEmail')?.value||'';msg('');});$('playerForgotAccountBtn')?.addEventListener('click',()=>alert('登入帳號就是註冊時使用的 Email。若忘記是哪個 Email，請查看曾收到的驗證或重設密碼郵件。'));$('playerForgotBack')?.addEventListener('click',showLogin);$('playerForgotSubmit')?.addEventListener('click',forgot);$('playerClaimUploadBtn')?.addEventListener('click',claimUpload);$('playerUploadCloudBtn')?.addEventListener('click',upload);$('playerQuickUploadBtn')?.addEventListener('click',upload);$('playerDownloadCloudBtn')?.addEventListener('click',download);$('playerLogoutBtn')?.addEventListener('click',logout);$('playerRecoverySubmit')?.addEventListener('click',updateRecoveryPassword);$('playerAccountModal')?.addEventListener('click',e=>{if(e.target===$('playerAccountModal'))closeModal()});}
- async function init(){wire();authSession=loadSession();const recovery=parseRecovery();if(!recovery&&authSession){await authUser();authSession=loadSession();}render();}
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
-})();
-</script>
-<script id="formalAccountRateLimitUX">
-(()=>{const el=document.getElementById('playerAccountMessage');if(!el)return;const translate=()=>{const t=String(el.textContent||'');if(/email rate limit exceeded|rate limit/i.test(t)){el.textContent='註冊暫時被郵件額度限制，並不是帳號或密碼填錯。請稍後再試。';el.style.color='#a65f70';}};new MutationObserver(translate).observe(el,{childList:true,subtree:true,characterData:true});translate();})();
-</script>
-
-
-<script>
-/* 3.29.10: passive anti-tamper check while the game is open. */
-setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney(c)}catch(_){ }},1200);
 </script>
 </body>
 </html>
@@ -14363,3 +14367,232 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 </script>
 
 
+
+
+<script id="dbHousekeepingHeartbeat">
+(function(){
+  const KEY='relationship_game_last_heartbeat';
+  async function beat(){
+    try{
+      if(!window.sb?.auth)return;
+      const now=Date.now(),last=Number(localStorage.getItem(KEY)||0);
+      if(now-last<6*60*60*1000)return; // 每裝置最多每 6 小時一次，避免廢寫入
+      const {data}=await sb.auth.getUser();
+      const uid=data?.user?.id;if(!uid)return;
+      const {error}=await sb.from('profiles').update({last_active_at:new Date().toISOString()}).eq('id',uid);
+      if(!error)localStorage.setItem(KEY,String(now));
+    }catch(_){}
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(beat,1200),{once:true});
+  else setTimeout(beat,1200);
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden)beat()});
+})();
+</script>
+
+
+<script id="formal3298MaidCommerce">
+(function(){
+ const BUILD='3.30.0';
+ const THEME_KEY='role_life_formal_theme_v1';
+ const VOUCHER='npc_maid_cafe_coffee_voucher';
+
+ const PRODUCTS=[
+  {icon:'☕',name:'請店長喝咖啡',price:50,desc:'未來開放後：300 金幣＋☕ 請店長喝咖啡券 ×1；咖啡券可到貓貓商店兌換女僕咖啡廳主題。'},
+  {icon:'🐾',name:'店長的小禮物',price:60,desc:'未來開放後：700 金幣＋🎁 熟客小盒 ×1＋🐾「店長的小禮物」徽章。'},
+  {icon:'🎀',name:'小小贊助包',price:100,desc:'未來開放後：1,200 金幣＋💎 紫晶碎片 ×5＋🎁 熟客小盒 ×1＋🎀「小小應援」徽章。'},
+  {icon:'✨',name:'開發者應援包',price:150,desc:'未來開放後：2,000 金幣＋💎 紫晶碎片 ×10＋🎁 熟客小盒 ×2＋🔔 小幸運鈴 ×1＋✨「開發者應援」徽章。'}
+ ];
+
+ function c(){try{return typeof cur==='function'?cur():null}catch(_){return null}}
+ function ensure(x){
+  if(!x)return;
+  x.inventory??={};x.paidCosmetics??={};x.paidEntitlements??={};x.paidStoryFlags??={};x.memories??=[];
+  if(x.activePaidTheme!=='maidCafe')x.activePaidTheme='';
+ }
+ function paint(mode){
+  mode=mode==='maidCafe'?'maidCafe':'default';
+  document.documentElement.setAttribute('data-formal-theme',mode);
+ }
+ function saveTheme(mode,x){
+  try{localStorage.setItem(THEME_KEY,JSON.stringify({mode,charId:String(x?.id||''),savedAt:Date.now()}))}catch(_){}
+ }
+ function apply(x=c(),write=true){
+  let mode='default';
+  if(x){ensure(x);if(x.activePaidTheme==='maidCafe'&&x.paidCosmetics.maidCafe)mode='maidCafe'}
+  else{try{mode=JSON.parse(localStorage.getItem(THEME_KEY)||'null')?.mode||'default'}catch(_){}}
+  paint(mode);if(x&&write)saveTheme(mode,x);return mode;
+ }
+ window.applyFormalPaidAppearance=apply;
+
+ let paymentConfig={enabled:false,reason:'尚未開放'};
+ let paymentConfigLoaded=false;
+
+ async function loadPaymentConfig(){
+  if(paymentConfigLoaded)return paymentConfig;
+  paymentConfigLoaded=true;
+  try{
+   const base=String(window.SUPABASE_EDGE_BASE||'').replace(/\/$/,'');
+   const anon=String(window.SUPABASE_ANON_KEY||window.SUPABASE_KEY||'');
+   if(!base){paymentConfig={enabled:false,reason:'尚未開放'};return paymentConfig}
+   const r=await fetch(base+'/payment-config',{
+    headers:anon?{Authorization:'Bearer '+anon,apikey:anon}:{}
+   });
+   if(!r.ok)throw new Error('config '+r.status);
+   const j=await r.json();
+   paymentConfig={enabled:!!j.enabled,reason:j.reason||'',gatewayMode:j.gatewayMode||''};
+  }catch(_){
+   paymentConfig={enabled:false,reason:'尚未開放'};
+  }
+  return paymentConfig;
+ }
+
+ window.renderFormalPaidShop=async function(){
+  const box=document.getElementById('formalPaidShopList');if(!box)return;
+  const cfg=await loadPaymentConfig();
+  box.innerHTML=PRODUCTS.map((p,i)=>`<div class="formalPaidCard">
+    <div class="formalPaidIcon">${p.icon}</div>
+    <div class="formalPaidName">${p.name}</div>
+    <div class="small">${p.desc}</div>
+    <div class="formalPaidPrice">NT$${p.price}</div>
+    <button type="button" ${cfg.enabled?'data-formal-pay="'+i+'"':'disabled'}>
+      ${cfg.enabled?'前往付款':'🔒 尚未開放'}
+    </button>
+  </div>`).join('');
+ };
+
+ async function startFormalPayment(productIndex){
+  const p=PRODUCTS[Number(productIndex)];
+  const x=c();
+  if(!p||!x)return;
+  const cfg=await loadPaymentConfig();
+  if(!cfg.enabled)return toast?.('💳 付款功能尚未開放。',2200);
+
+  const base=String(window.SUPABASE_EDGE_BASE||'').replace(/\/$/,'');
+  const anon=String(window.SUPABASE_ANON_KEY||window.SUPABASE_KEY||'');
+  if(!base)return toast?.('付款服務尚未設定。',2600);
+
+  try{
+   const headers={'Content-Type':'application/json'};
+   if(anon){headers.Authorization='Bearer '+anon;headers.apikey=anon}
+   const r=await fetch(base+'/newebpay-create-order',{
+    method:'POST',
+    headers,
+    body:JSON.stringify({
+      productId:['coffee50','gift60','support100','dev150'][Number(productIndex)],
+      characterId:String(x.id||'')
+    })
+   });
+   const data=await r.json().catch(()=>({}));
+   if(!r.ok||!data?.gateway||!data?.fields)throw new Error(data?.error||'建立訂單失敗');
+
+   const form=document.createElement('form');
+   form.method='POST';
+   form.action=data.gateway;
+   form.style.display='none';
+   for(const [k,v] of Object.entries(data.fields)){
+    const input=document.createElement('input');
+    input.type='hidden';input.name=k;input.value=String(v??'');
+    form.appendChild(input);
+   }
+   document.body.appendChild(form);
+   form.submit();
+  }catch(e){
+   console.error('payment start',e);
+   toast?.('⚠️ 暫時無法建立付款訂單，請稍後再試。',3200);
+  }
+ }
+
+ window.renderFormalAppearance=function(){
+  const box=document.getElementById('formalAppearanceGrid'),x=c();if(!box)return;
+  if(!x){box.innerHTML='<div class="small">請先進入角色。</div>';return}
+  ensure(x);
+  const rows=[
+   {id:'default',name:'一般背景',cls:'default',owned:true,active:!x.activePaidTheme},
+   {id:'maidCafe',name:'☕ 女僕咖啡廳',cls:'maid',owned:!!x.paidCosmetics.maidCafe,active:x.activePaidTheme==='maidCafe'}
+  ];
+  box.innerHTML=rows.map(r=>`<div class="formalAppearanceCard" style="${r.owned?'':'opacity:.55'}">
+    <div class="formalAppearancePreview ${r.cls}"></div><b>${r.name}</b>
+    <div class="small">${r.owned?'已持有，可隨時切換':'🔒 尚未解鎖'}</div>
+    <button type="button" data-formal-theme-choice="${r.id}" ${r.owned?'':'disabled'} class="${r.active?'primary':''}" style="width:100%;margin-top:8px">${r.active?'✓ 使用中':r.owned?'套用':'🔒 未持有'}</button>
+  </div>`).join('');
+ };
+
+ function choose(id){
+  const x=c();if(!x)return;ensure(x);
+  if(id==='default')x.activePaidTheme='';
+  else if(id==='maidCafe'&&x.paidCosmetics.maidCafe)x.activePaidTheme='maidCafe';
+  else return;
+  const mode=id==='maidCafe'?'maidCafe':'default';
+  paint(mode);saveTheme(mode,x);saveLocal?.();window.renderFormalAppearance();
+ }
+
+ function maidLines(){
+  return [
+   {speaker:'旁白',maidStage:0,text:'你把「請店長喝咖啡券」交到櫃檯前。貓貓看著那張券，沉默了幾秒。'},
+   {speaker:'貓貓',maidStage:0,text:'「……所以你真的拿來用了。」'},
+   {speaker:'旁白',maidStage:0,text:'她把店門的牌子翻到「休息中」，轉身走進後面的房間。'},
+   {speaker:'貓貓',maidStage:0,text:'「先說好，這是特別招待。你不准笑。」'},
+   {speaker:'旁白',maidStage:1,text:'過了一會兒，她換上女僕咖啡廳的制服重新出現在你面前。'},
+   {speaker:'貓貓',maidStage:1,text:'「歡、歡迎回來……主人。」'},
+   {speaker:'旁白',maidStage:1,text:'她端著咖啡站在你面前，明明耳根都紅了，卻還努力裝作若無其事。'},
+   {speaker:'貓貓',maidStage:2,text:'「看夠了沒有？咖啡再不喝就要涼了。」'},
+   {speaker:'你',maidStage:2,text:'「所以這張券真的可以讓店長親自招待？」'},
+   {speaker:'貓貓',maidStage:2,text:'「只有今天。還有——不准拿去跟別人炫耀。」'},
+   {speaker:'旁白',maidStage:2,text:'她把咖啡輕輕推到你面前。'},
+   {speaker:'貓貓',maidStage:2,text:'「這個主題也給你。以後想起今天，就把它換上吧。」'}
+  ];
+ }
+ window.playFormalMaidCafeStory=function(replay=false){
+  const x=c();if(!x)return;ensure(x);
+  startNpcRpgStory?.({
+    title:'🎀 特殊劇情・女僕咖啡廳',
+    lines:maidLines(),
+    onComplete:()=>{
+      if(!replay){
+       x.paidStoryFlags.paid_maid_cafe_story=true;
+       if(!x.memories.some(m=>m?.t==='🎀 付費劇情・女僕咖啡廳'))x.memories.unshift({t:'🎀 付費劇情・女僕咖啡廳',d:new Date().toLocaleDateString('zh-TW')});
+       saveLocal?.();
+      }
+    }
+  });
+ };
+
+ function redeem(){
+  const x=c();if(!x)return;ensure(x);
+  const n=Number(x.inventory[VOUCHER]||0);
+  if(x.paidCosmetics.maidCafe)return toast?.('🎀 女僕咖啡廳主題已經解鎖。');
+  if(n<=0)return toast?.('☕ 目前沒有請店長喝咖啡券。');
+  x.inventory[VOUCHER]=n-1;
+  x.paidCosmetics.maidCafe=true;
+  x.paidEntitlements.maidCafeCoffeeRedeemed=true;
+  x.activePaidTheme='maidCafe';
+  paint('maidCafe');saveTheme('maidCafe',x);saveLocal?.();
+  try{renderNpcShop?.()}catch(_){}
+  setTimeout(()=>window.playFormalMaidCafeStory(false),80);
+ }
+
+ /* 第一幀主題：只讀正式服 key，完全沒有星河。 */
+ apply(null,false);
+ for(const src of ['assets/npc/shopkeeper_cat/maid_cafe_special_1.png','assets/npc/shopkeeper_cat/maid_cafe_special_2.png']){
+  const img=new Image();img.decoding='async';img.src=src;
+ }
+
+ document.addEventListener('click',e=>{
+  if(e.target.closest?.('#formalAppearanceBtn')){
+   e.preventDefault();closeDrawer?.();window.renderFormalAppearance();document.getElementById('formalAppearanceModal')?.classList.remove('hidden');return;
+  }
+  if(e.target.closest?.('#closeFormalAppearance')){document.getElementById('formalAppearanceModal')?.classList.add('hidden');return}
+  const t=e.target.closest?.('[data-formal-theme-choice]');if(t){e.preventDefault();choose(t.dataset.formalThemeChoice);return}
+  if(e.target.closest?.('[data-formal-redeem-maid]')){e.preventDefault();redeem();return}
+  const pay=e.target.closest?.('[data-formal-pay]');
+  if(pay){e.preventDefault();startFormalPayment(pay.dataset.formalPay);return}
+ },true);
+
+ function version(){
+  const hv=document.querySelector('.homeVersion');if(hv)hv.textContent='第3.30.0版・藍新金流通路預埋';
+ }
+ function boot(){version();void window.renderFormalPaidShop();apply(c(),true)}
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
+ window.addEventListener('pageshow',()=>{version();apply(c(),false)});
+})();
+</script>
