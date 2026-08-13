@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#9a76c4">
-<meta name="x-test-build" content="3.26.65">
+<meta name="x-test-build" content="3.26.67">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>關係進行式 TEST・3.26.65-單一版本與商店診斷</title>
+<title>關係進行式 TEST・3.26.67-單一版本與商店診斷</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -1528,7 +1528,7 @@ body.npcStoryRunning .draggableFab{
   </div>
 </div>
 
-<div id="testServerRibbon" class="testServerRibbon hidden">🧪 TEST・3.26.65-beta</div>
+<div id="testServerRibbon" class="testServerRibbon hidden">🧪 TEST・3.26.67-beta</div>
 <button id="returnProdBtn" class="returnProdBtn hidden" type="button">💞 回正式服</button>
 
 <!-- GM-MAILBOX-BUILD-3-NATIVE-NAV -->
@@ -1540,7 +1540,7 @@ body.npcStoryRunning .draggableFab{
     <div class="homeLogo">🧪</div>
     <h1>關係進行式 TEST</h1>
     <div class="homeTagline">測試中的每一段關係，都可能被重置。</div>
-    <div class="homeVersion">3.26.65・測試服｜單一版本與商店診斷</div>
+    <div class="homeVersion">3.26.67・測試服｜單一版本與商店診斷</div>
   </div>
 
   <div id="playerAccountHomePanel" class="homePanel accountHomePanel">
@@ -13224,7 +13224,7 @@ body.theme-maid-cafe #game>.top .chip{background:rgba(255,248,251,.94)!important
       const c=chars.find(x=>String(x.id)===String(id));
       if(!c){alert('找不到這個角色存檔。請重新整理頁面後再試。');return;}
 
-      /* 3.26.65 Android hard fix:
+      /* 3.26.67 Android hard fix:
          切畫面一定要早於任何存檔序列化、每日重置、完整 render 或雲端工作。
          舊版在 show(game) 前呼叫 saveLocal()，大型存檔在 Android WebView 會長時間堵塞，
          甚至被系統直接殺掉。 */
@@ -13268,7 +13268,7 @@ body.theme-maid-cafe #game>.top .chip{background:rgba(255,248,251,.94)!important
         try{if(typeof ensureRelations==='function')ensureRelations(c)}catch(err){console.warn('entry ensureRelations',err)}
         try{if(typeof ensureMeta==='function')ensureMeta(c)}catch(err){console.warn('entry ensureMeta',err)}
         try{if(typeof restoreBadgeShowcaseBackup==='function')restoreBadgeShowcaseBackup(c)}catch(err){console.warn('entry badge restore',err)}
-        /* 3.26.65: 第一階段禁止呼叫 renderGame。renderGame 內仍包含每日判定、關係卡與多個大型 DOM 建立。 */
+        /* 3.26.67: 第一階段禁止呼叫 renderGame。renderGame 內仍包含每日判定、關係卡與多個大型 DOM 建立。 */
         try{
           const cid=document.getElementById('charIdCode');if(cid&&typeof displayCharacterId==='function')cid.textContent=displayCharacterId(c);
           const gb=document.getElementById('genderBadge');if(gb){gb.textContent=c.gender==='male'?'♂ 男':'♀ 女';gb.classList.toggle('hidden',!c.gender)}
@@ -13305,7 +13305,7 @@ body.theme-maid-cafe #game>.top .chip{background:rgba(255,248,251,.94)!important
         try{if(typeof startPolling==='function')startPolling()}catch(err){console.warn('entry polling',err)}
       },12000);
     }catch(err){
-      console.error('3.26.65 forced local entry failed',err);
+      console.error('3.26.67 forced local entry failed',err);
       alert('角色進入失敗：'+(err?.message||'未知錯誤'));
     }
   }
@@ -13334,7 +13334,7 @@ body.theme-maid-cafe #game>.top .chip{background:rgba(255,248,251,.94)!important
 </script>
 
 
-<!-- === 3.26.65 Maid Cafe full-interface theme + NT$50 coffee-ticket redeem === -->
+<!-- === 3.26.67 Maid Cafe full-interface theme + NT$50 coffee-ticket redeem === -->
 
 
 </body>
@@ -13663,7 +13663,7 @@ body.theme-qixi-paid #game>.top .chip{background:rgba(255,255,255,.92)!important
 
 <script id="v32642NpcShopStability">
 (function(){
- const BUILD='3.26.65';
+ const BUILD='3.26.67';
  function refreshVersion(){
    
    
@@ -13672,8 +13672,8 @@ body.theme-qixi-paid #game>.top .chip{background:rgba(255,255,255,.92)!important
  }
  refreshVersion();setTimeout(refreshVersion,250);setTimeout(refreshVersion,1000);
 
- /* Previous 3.26.65 observer rewrote shop DOM recursively and could lock Android when a product was tapped.
-    3.26.65 uses no DOM-wide MutationObserver. Refresh only at safe UI entry points. */
+ /* Previous 3.26.67 observer rewrote shop DOM recursively and could lock Android when a product was tapped.
+    3.26.67 uses no DOM-wide MutationObserver. Refresh only at safe UI entry points. */
  const safeRefresh=()=>{
    try{document.body?.classList.remove('theme-qixi-paid')}catch(_){ }
  };
@@ -13696,16 +13696,16 @@ body.theme-qixi-paid #game>.top .chip{background:rgba(255,255,255,.92)!important
 </script>
 
 
-<!-- === 3.26.65 FINAL: one NT$50 coffee product -> coffee voucher -> maid theme === -->
+<!-- === 3.26.67 FINAL: one NT$50 coffee product -> coffee voucher -> maid theme === -->
 
 
-<!-- === 3.26.65 TEST APPEARANCE OVERRIDE === -->
+<!-- === 3.26.67 TEST APPEARANCE OVERRIDE === -->
 
 
 
 
 
-<!-- === 3.26.65 Maid Cafe special story CG === -->
+<!-- === 3.26.67 Maid Cafe special story CG === -->
 <style id="v32645MaidStoryCGStyle">
 #npcStoryPlayer.maidCafeSpecialStory .npcStoryPortraitWrap{
   background:#24151c!important;
@@ -13734,7 +13734,7 @@ body.theme-qixi-paid #game>.top .chip{background:rgba(255,255,255,.92)!important
 
 
 <style id="v32647UnifiedThemeSystem">
-/* === 3.26.65 ONE authoritative test theme system === */
+/* === 3.26.67 ONE authoritative test theme system === */
 :root{
  --base-text:#3d3343;--base-card:#fffdfd;--base-line:#eadfee;
 }
@@ -13984,12 +13984,12 @@ html[data-test-theme="maid"] #home button.primary{color:#fff!important}
  window.addEventListener('pageshow',()=>{install();applyMode()});
 
  /* Authoritative owner: legacy scripts may still touch classes, but this immediately restores the selected test theme. */
- /* 3.26.65: removed continuous theme polling for Android stability */
+ /* 3.26.67: removed continuous theme polling for Android stability */
 })();
 </script>
 
 
-<!-- === 3.26.65 embedded maid CG + authoritative story image switch === -->
+<!-- === 3.26.67 embedded maid CG + authoritative story image switch === -->
 <style id="v32650ExternalMaidStoryCGStyle">
 #npcStoryPlayer.maidCafeSpecialStory .npcStoryPortraitWrap{
   background:#24151c!important;
@@ -14081,7 +14081,7 @@ html[data-test-theme="maid"] #home button.primary{color:#fff!important}
      if(typeof fixBagLabels==='function')fixBagLabels();
      if(typeof isolateMaidReplayButton==='function')isolateMaidReplayButton();
    }catch(e){
-     console.warn('3.26.65 one-shot UI refresh',e);
+     console.warn('3.26.67 one-shot UI refresh',e);
    }finally{
      setTimeout(()=>{busy=false},80);
    }
@@ -14416,7 +14416,7 @@ body.theme-qixi-paid textarea{
 
 
 <style id="v32659OwnedThemeFinalFix">
-/* 3.26.65：正式持有外觀切換，不使用任何測試 theme attribute。 */
+/* 3.26.67：正式持有外觀切換，不使用任何測試 theme attribute。 */
 #themeQuick32655,#themeTestFab32647,#themeTestPanel32647,#appearanceTestPanel32653{
  display:none!important;
 }
@@ -14460,7 +14460,7 @@ html[data-owned-theme32659="qixi"] button.primary{color:#fff!important}
 
 <script id="v32659OwnedThemeFinalOwner">
 (function(){
- const VERSION='3.26.65';
+ const VERSION='3.26.67';
 
  function current(){
    try{return typeof cur==='function'?cur():null}catch(_){return null}
@@ -14536,13 +14536,7 @@ html[data-owned-theme32659="qixi"] button.primary{color:#fff!important}
  },true);
 
  function version(){
-   /* legacy version ribbon write removed */
-   });
-   const hv=document.querySelector('.homeVersion');
-   /* legacy homeVersion write removed */
-   const meta=document.querySelector('meta[name="x-test-build"]');
-   /* legacy meta build write removed */
-   /* legacy title write removed */
+   /* 3.26.67：舊版本文字 writer 已停用。 */
  }
 
  function boot(){
@@ -14640,7 +14634,7 @@ html[data-owned-theme32659="qixi"] button.primary{color:#fff!important}
 (function(){
  const CG1='assets/npc/shopkeeper_cat/maid_cafe_special_1.png';
  const CG2='assets/npc/shopkeeper_cat/maid_cafe_special_2.png';
- const VERSION='3.26.65';
+ const VERSION='3.26.67';
 
  function state(){
    const st=window.npcStoryPlayerState;
@@ -14819,7 +14813,7 @@ html[data-owned-theme32659="qixi"] button.primary{color:#fff!important}
 
 <script id="v32664UnifiedPaidCommerce">
 (function(){
-  const BUILD='3.26.65';
+  const BUILD='3.26.67';
   const VOUCHER='npc_maid_cafe_coffee_voucher';
 
   const PRODUCTS=[
@@ -14907,7 +14901,7 @@ html[data-owned-theme32659="qixi"] button.primary{color:#fff!important}
     if(!box)return;
     if(!c){box.innerHTML='<div class="paidOrdersBlock">請先進入角色。</div>';return;}
     ensure(c);
-    box.innerHTML='<div id="paidBuildMarker32665" style="grid-column:1/-1;padding:8px 10px;border-radius:12px;background:#f6e5ec;color:#63414e;font-size:11px;font-weight:800">🧪 付費商店核心：3.26.65</div>'+PRODUCTS.map(p=>{
+    box.innerHTML='<div id="paidBuildMarker32665" style="grid-column:1/-1;padding:8px 10px;border-radius:12px;background:#f6e5ec;color:#63414e;font-size:11px;font-weight:800">🧪 付費商店核心：3.26.67</div>'+PRODUCTS.map(p=>{
       const isSold=sold(c,p);
       return `<div class="paidProduct ${isSold?'soldOut32653':''}">
         <div class="paidProductIcon">${p.icon}</div>
@@ -14969,7 +14963,7 @@ html[data-owned-theme32659="qixi"] button.primary{color:#fff!important}
 
 <script id="v32665SingleBuildOwner">
 (function(){
- const BUILD='3.26.65';
+ const BUILD='3.26.67';
  function lock(){
    document.querySelectorAll('.testServerRibbon').forEach(x=>x.textContent='🧪 TEST・'+BUILD+'-beta');
    const hv=document.querySelector('.homeVersion');
@@ -14985,5 +14979,162 @@ html[data-owned-theme32659="qixi"] button.primary{color:#fff!important}
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
  window.addEventListener('pageshow',lock);
+})();
+</script>
+
+<script id="v32666SyntaxFixVersion">
+(function(){
+ const VERSION='3.26.67';
+ function apply(){
+   document.querySelectorAll('.testServerRibbon').forEach(x=>x.textContent='🧪 TEST・'+VERSION+'-beta');
+   const hv=document.querySelector('.homeVersion');
+   if(hv)hv.textContent=VERSION+'・測試服｜語法錯誤修復';
+   const meta=document.querySelector('meta[name="x-test-build"]');
+   if(meta)meta.content=VERSION;
+   document.title='關係進行式 TEST・'+VERSION+'-語法錯誤修復';
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',apply,{once:true});
+ else apply();
+ window.addEventListener('pageshow',apply);
+})();
+</script>
+
+
+<script id="v32667FullMaidFlowReset">
+(function(){
+ const VERSION='3.26.67';
+ const RESET_KEY='v32667_maid_flow_reset_once';
+
+ function current(){try{return typeof cur==='function'?cur():null}catch(_){return null}}
+ function ensure(c){
+   if(!c)return;
+   c.inventory??={};
+   c.paidOrders??=[];
+   c.paidEntitlements??={};
+   c.paidCollectibles??={};
+   c.paidCosmetics??={};
+   c.paidVoucherFlags??={};
+   c.paidStoryFlags??={};
+ }
+
+ function resetMaidFlow(c){
+   if(!c)return;
+   ensure(c);
+
+   /* 清掉所有歷史上用過的 NT$50 / 女僕咖啡廳購買紀錄 */
+   c.paidOrders=(c.paidOrders||[]).filter(o=>{
+     const id=String(o.productId||'');
+     const name=String(o.name||'');
+     const price=Number(o.price||0);
+     return !(
+       price===50 ||
+       /maidCafe50|support30|coffee/i.test(id) ||
+       /請店長喝|女僕咖啡廳/.test(name)
+     );
+   });
+
+   /* 清掉付款資格、兌換、劇情、主題持有 */
+   [
+     'maidCafeVoucher','maidCafeCoffeeRedeemed','maidCafe',
+     'paid_maid_cafe_story','coffee'
+   ].forEach(k=>{
+     delete c.paidEntitlements[k];
+     delete c.paidVoucherFlags[k];
+     delete c.paidStoryFlags[k];
+     delete c.paidCosmetics[k];
+   });
+
+   /* 清掉不同歷史版本曾使用的咖啡券 inventory key */
+   [
+     'npc_maid_cafe_coffee_voucher',
+     'maidCafeVoucher',
+     'maid_cafe_voucher',
+     'paid_support_30',
+     'paid_support_50'
+   ].forEach(k=>{ delete c.inventory[k]; });
+
+   /* 回到一般背景 */
+   c.activePaidTheme='';
+   c.activeTheme='';
+   c.theme='';
+   try{document.documentElement.removeAttribute('data-theme')}catch(_){}
+   try{document.body?.removeAttribute('data-theme')}catch(_){}
+   try{document.body?.classList.remove('theme-maid-cafe','maid-cafe-preview')}catch(_){}
+
+   /* 清掉常見的劇情完成旗標 */
+   Object.keys(c).forEach(k=>{
+     if(/maid.*(story|cafe)|paid_maid_cafe_story/i.test(k) &&
+        !['paidStoryFlags','paidCosmetics'].includes(k)){
+       if(typeof c[k]==='boolean') c[k]=false;
+     }
+   });
+
+   try{saveLocal?.()}catch(_){}
+ }
+
+ function applyNormalTheme(){
+   const c=current();
+   if(c){
+     c.activePaidTheme='';
+     try{saveLocal?.()}catch(_){}
+   }
+   document.documentElement.removeAttribute('data-theme');
+   document.body?.removeAttribute('data-theme');
+   document.body?.classList.remove('theme-maid-cafe','maid-cafe-preview');
+ }
+
+ function resetOnce(){
+   const c=current();
+   if(!c)return false;
+   let done=false;
+   try{done=sessionStorage.getItem(RESET_KEY)==='1'}catch(_){}
+   if(done)return false;
+   resetMaidFlow(c);
+   try{sessionStorage.setItem(RESET_KEY,'1')}catch(_){}
+   return true;
+ }
+
+ function boot(){
+   applyNormalTheme();
+   if(resetOnce()){
+     try{renderGame?.()}catch(_){}
+     try{renderPaidShop?.()}catch(_){}
+     setTimeout(()=>toast?.('🧪 已初始化女僕咖啡廳測試流程：請從 NT$50 購買開始。',4200),300);
+   }
+   document.querySelectorAll('.testServerRibbon').forEach(n=>n.textContent='🧪 TEST・'+VERSION+'-beta');
+   const hv=document.querySelector('.homeVersion');
+   if(hv)hv.textContent=VERSION+'・測試服｜女僕咖啡廳完整流程重跑';
+ }
+
+ /* 額外提供測試重置按鈕，跑完一次後可再重跑，不必重建角色。 */
+ function addResetButton(){
+   if(document.getElementById('v32667ResetMaidFlow'))return;
+   const host=document.querySelector('.homeVersion')?.parentElement || document.body;
+   const b=document.createElement('button');
+   b.id='v32667ResetMaidFlow';
+   b.type='button';
+   b.textContent='🧪 重置女僕咖啡廳測試流程';
+   b.style.cssText='margin:10px auto;padding:10px 14px;border-radius:16px;border:1px solid #d9b9c8;background:#fff7fa;color:#63394b;font-weight:700;display:block;';
+   b.onclick=()=>{
+     const c=current();
+     if(!c){toast?.('請先進入角色。',2200);return;}
+     resetMaidFlow(c);
+     try{sessionStorage.setItem(RESET_KEY,'1')}catch(_){}
+     try{renderGame?.()}catch(_){}
+     try{renderPaidShop?.()}catch(_){}
+     toast?.('🧪 已重置：NT$50 → 貓貓商店兌換 → 劇情 → 背景切換，可重新跑一次。',4200);
+   };
+   host.appendChild(b);
+ }
+
+ if(document.readyState==='loading'){
+   document.addEventListener('DOMContentLoaded',()=>{setTimeout(()=>{boot();addResetButton()},120)},{once:true});
+ }else setTimeout(()=>{boot();addResetButton()},120);
+
+ window.resetMaidCafeTestFlow32667=function(){
+   const c=current(); resetMaidFlow(c);
+   try{renderGame?.()}catch(_){}
+   try{renderPaidShop?.()}catch(_){}
+ };
 })();
 </script>
