@@ -8,7 +8,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>關係進行式 TEST・3.26.43-女僕咖啡券與全頁配色修復</title>
+<title>關係進行式 TEST・3.26.46-首頁文字對比修復</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -14027,7 +14027,7 @@ input,select,textarea{background:#fffdfb!important;color:var(--maid-espresso)!im
  function current(){try{return typeof cur==='function'?cur():null}catch(_){return null}}
  function ensure(c){if(!c)return;c.paidOrders??=[];c.paidVoucherFlags??={};c.paidCosmetics??={};c.paidEntitlements??={}}
  function refreshVersion(){
-   document.title='關係進行式 TEST・3.26.43-女僕咖啡券與全頁配色修復';
+   document.title='關係進行式 TEST・3.26.46-首頁文字對比修復';
    const hv=document.querySelector('.homeVersion');if(hv)hv.textContent='3.26.42・測試服｜NPC視窗與商店當機修復';
    document.querySelectorAll('.testServerRibbon').forEach(el=>el.textContent='🧪 TEST・3.26.42-beta');
    const m=document.querySelector('meta[name="x-test-build"]');if(m)m.content=BUILD;
@@ -14893,7 +14893,7 @@ body.maid-cafe-preview #npcDetailModal [class*="Card"]{
 (function(){
  const BUILD='3.26.42';
  function refreshVersion(){
-   document.title='關係進行式 TEST・3.26.43-女僕咖啡券與全頁配色修復';
+   document.title='關係進行式 TEST・3.26.46-首頁文字對比修復';
    document.querySelectorAll('.testServerRibbon').forEach(x=>x.textContent='☕ TEST・3.26.42-beta');
    const hv=document.querySelector('.homeVersion');if(hv)hv.textContent='3.26.42・測試服｜NPC視窗與商店當機修復';
    const m=document.querySelector('meta[name="x-test-build"]');if(m)m.content=BUILD;
@@ -15052,7 +15052,7 @@ html[data-theme="maid-cafe"] .npcShopTab.active{
 
 <script id="v32643OneCoffeeVoucherFlow">
 (function(){
- const BUILD='3.26.43';
+ const BUILD='3.26.45';
  const VOUCHER='npc_maid_cafe_coffee_voucher';
  const LEGACY='paid_support_30';
  const MAID_COS='maidCafe';
@@ -15177,10 +15177,10 @@ html[data-theme="maid-cafe"] .npcShopTab.active{
    document.documentElement.setAttribute('data-theme','maid-cafe');
    document.body?.classList.add('maid-cafe-preview','theme-maid-cafe');
    document.body?.classList.remove('theme-qixi-paid');
-   document.querySelectorAll('.testServerRibbon').forEach(x=>x.textContent='☕ TEST・3.26.43-beta');
-   const hv=document.querySelector('.homeVersion');if(hv)hv.textContent='3.26.43・測試服｜女僕咖啡券與全頁配色修復';
+   document.querySelectorAll('.testServerRibbon').forEach(x=>x.textContent='☕ TEST・3.26.46-beta');
+   const hv=document.querySelector('.homeVersion');if(hv)hv.textContent='3.26.46・測試服｜首頁文字對比修復';
    const meta=document.querySelector('meta[name="x-test-build"]');if(meta)meta.content=BUILD;
-   document.title='關係進行式 TEST・3.26.43-女僕咖啡券與全頁配色修復';
+   document.title='關係進行式 TEST・3.26.46-首頁文字對比修復';
  }
  function boot(){
    const c=current();if(c){migrate(c);save(c)}
@@ -15189,5 +15189,495 @@ html[data-theme="maid-cafe"] .npcShopTab.active{
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
  window.addEventListener('pageshow',()=>{forceTheme();const c=current();if(c){migrate(c);save(c)}});
+})();
+</script>
+
+
+<!-- === 3.26.44 TEST APPEARANCE OVERRIDE === -->
+<style id="v32644TestThemeOverride">
+/* test-theme is independent from unlock/save state */
+html[data-test-theme="maid"] body,
+html[data-test-theme="maid"] #game,
+html[data-test-theme="maid"] #home{
+  background:linear-gradient(180deg,#5a3341 0 96px,#d99aae 96px,#f7dfe6 100%) fixed!important;
+  background-image:linear-gradient(180deg,#5a3341 0 96px,#d99aae 96px,#f7dfe6 100%)!important;
+  color:#4b2d34!important;
+}
+html[data-test-theme="maid"] .pageCard.active,
+html[data-test-theme="maid"] #extraShop.pageCard.active,
+html[data-test-theme="maid"] #extraBag.pageCard.active,
+html[data-test-theme="maid"] #extraRelations.pageCard.active,
+html[data-test-theme="maid"] #extraNpcRelations.pageCard.active,
+html[data-test-theme="maid"] #extraAchievements.pageCard.active,
+html[data-test-theme="maid"] #extraChat.pageCard.active,
+html[data-test-theme="maid"] #extraMailbox.pageCard.active,
+html[data-test-theme="maid"] #extraGM.pageCard.active{
+  background:#f7dfe6!important;
+  background-image:linear-gradient(180deg,#fff9f6,#f4d4df)!important;
+  color:#4b2d34!important;
+  border-color:#dfb3c2!important;
+  box-shadow:none!important;
+}
+html[data-test-theme="maid"] .pageCard.active::before,
+html[data-test-theme="maid"] .pageCard.active::after{content:none!important;display:none!important}
+html[data-test-theme="maid"] .pageCard.active .tile,
+html[data-test-theme="maid"] .pageCard.active .relItem,
+html[data-test-theme="maid"] .pageCard.active .npcRelationCard,
+html[data-test-theme="maid"] .pageCard.active .itemRow,
+html[data-test-theme="maid"] .pageCard.active .card,
+html[data-test-theme="maid"] #npcShopModal .npcShopItem,
+html[data-test-theme="maid"] #npcShopModal .npcDialogue{
+  background:linear-gradient(145deg,#fffdfb,#f7e1e8)!important;
+  color:#553440!important;border-color:#dfb5c4!important;
+  text-shadow:none!important;
+}
+html[data-test-theme="maid"] .pageCard.active b,
+html[data-test-theme="maid"] .pageCard.active .title,
+html[data-test-theme="maid"] .pageCard.active .saveName,
+html[data-test-theme="maid"] .pageCard.active .money,
+html[data-test-theme="maid"] .pageCard.active label{
+  color:#573542!important;text-shadow:none!important;
+}
+html[data-test-theme="maid"] .pageCard.active .small,
+html[data-test-theme="maid"] .pageCard.active .muted{
+  color:#866873!important;opacity:1!important;text-shadow:none!important;
+}
+html[data-test-theme="maid"] .sheetHead,
+html[data-test-theme="maid"] .modalHead{
+  background:linear-gradient(90deg,#66394a,#9d5c76)!important;color:#fff!important;
+  border-color:#deb2c1!important;
+}
+html[data-test-theme="maid"] .sheetHead b,
+html[data-test-theme="maid"] .sheetHead .small,
+html[data-test-theme="maid"] .modalHead b,
+html[data-test-theme="maid"] .modalHead .small{color:#fff!important}
+html[data-test-theme="maid"] .modalBox,
+html[data-test-theme="maid"] .npcShopCard,
+html[data-test-theme="maid"] .npcDetailCard{
+  background:linear-gradient(160deg,#fff9f6,#f3d4de)!important;
+  color:#4b2d34!important;border-color:#dfb2c1!important;
+}
+html[data-test-theme="maid"] .modal:not(.hidden){background:rgba(55,28,37,.45)!important}
+html[data-test-theme="maid"] .shopTab.active,
+html[data-test-theme="maid"] .npcShopTab.active,
+html[data-test-theme="maid"] button.primary{
+  background:linear-gradient(135deg,#ac617d,#754456)!important;color:#fff!important
+}
+html[data-test-theme="maid"] button:not(.primary){
+  background:linear-gradient(135deg,#f3d2dd,#e7b2c3)!important;color:#694050!important
+}
+html[data-test-theme="maid"] input,
+html[data-test-theme="maid"] select,
+html[data-test-theme="maid"] textarea{background:#fffdfb!important;color:#4b2d34!important;border-color:#ddb4c3!important}
+
+/* qixi test mode */
+html[data-test-theme="qixi"] body,
+html[data-test-theme="qixi"] #game,
+html[data-test-theme="qixi"] #home{
+  background:
+    radial-gradient(circle at 14% 12%,rgba(255,255,255,.7) 0 1px,transparent 2px),
+    radial-gradient(circle at 82% 22%,rgba(255,225,171,.7) 0 1px,transparent 2px),
+    linear-gradient(180deg,#100a2b 0%,#18113d 34%,#2c1953 70%,#4b2862 100%) fixed!important;
+  color:#eee8fa!important;
+}
+html[data-test-theme="qixi"] .pageCard.active{
+  background:linear-gradient(180deg,#1c133f,#3f2562)!important;color:#f5efff!important;
+}
+html[data-test-theme="qixi"] .pageCard.active .tile,
+html[data-test-theme="qixi"] .pageCard.active .relItem,
+html[data-test-theme="qixi"] .pageCard.active .itemRow,
+html[data-test-theme="qixi"] .pageCard.active .npcRelationCard{
+  background:rgba(255,250,255,.94)!important;color:#3e3345!important;
+}
+html[data-test-theme="qixi"] .modalBox{background:linear-gradient(160deg,#211744,#4a2d69)!important;color:#fff!important}
+html[data-test-theme="qixi"] .modalHead{background:linear-gradient(90deg,#251748,#5c3674)!important;color:#fff!important}
+
+/* default test mode: explicitly neutralize paid themes */
+html[data-test-theme="default"] body,
+html[data-test-theme="default"] #game,
+html[data-test-theme="default"] #home{
+  background:linear-gradient(#eee5f6,#fbf7fa)!important;color:#3d3343!important;
+}
+html[data-test-theme="default"] .pageCard.active{
+  background:#fffdfd!important;color:#3d3343!important;
+}
+html[data-test-theme="default"] .modalBox{background:#fff!important;color:#3d3343!important}
+
+/* test controls */
+.testAppearancePanel32644{
+  margin:0 0 12px;padding:12px;border:1px dashed #c99aad;border-radius:16px;
+  background:linear-gradient(145deg,#fffaf7,#f4d9e2);
+}
+.testAppearancePanel32644 b{display:block;margin-bottom:5px}
+.testAppearanceGrid32644{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:9px}
+.testAppearanceGrid32644 button{min-height:46px;padding:8px 6px;font-size:12px}
+.testAppearanceGrid32644 button.on{outline:2px solid #8f516b}
+</style>
+
+<script id="v32644TestThemeScript">
+(function(){
+ const KEY='role_life_test_theme_preview_v32644';
+ function mode(){return localStorage.getItem(KEY)||'maid'}
+ function setMode(m){
+   if(!['default','qixi','maid'].includes(m))m='maid';
+   localStorage.setItem(KEY,m);
+   apply();
+   try{renderAppearance?.()}catch(_){}
+   toast?.('🧪 測試外觀：'+({default:'一般原版',qixi:'鵲橋星河',maid:'女僕咖啡廳'}[m]),2200);
+ }
+ function apply(){
+   const m=mode();
+   const html=document.documentElement;
+   html.setAttribute('data-test-theme',m);
+   html.setAttribute('data-theme',m==='maid'?'maid-cafe':m==='qixi'?'qixi':'default');
+   const b=document.body;if(!b)return;
+   b.classList.toggle('maid-cafe-preview',m==='maid');
+   b.classList.toggle('theme-maid-cafe',m==='maid');
+   b.classList.toggle('theme-qixi-paid',m==='qixi');
+   if(m==='default'){b.classList.remove('theme-maid-cafe','maid-cafe-preview','theme-qixi-paid')}
+   document.querySelectorAll('.testServerRibbon').forEach(x=>x.textContent='🧪 TEST・3.26.46-beta');
+   const hv=document.querySelector('.homeVersion');if(hv)hv.textContent='3.26.46・測試服｜首頁文字對比修復';
+   const meta=document.querySelector('meta[name="x-test-build"]');if(meta)meta.content='3.26.44';
+   document.title='關係進行式 TEST・3.26.46-首頁文字對比修復';
+   syncButtons();
+ }
+ function syncButtons(){
+   const m=mode();
+   document.querySelectorAll('[data-test-theme-32644]').forEach(b=>b.classList.toggle('on',b.dataset.testTheme32644===m));
+ }
+ function inject(){
+   const grid=document.getElementById('appearanceGrid');
+   if(!grid)return;
+   let p=document.getElementById('testAppearancePanel32644');
+   if(!p){
+     p=document.createElement('div');
+     p.id='testAppearancePanel32644';
+     p.className='testAppearancePanel32644';
+     p.innerHTML=`<b>🧪 測試服外觀預覽</b>
+       <div class="small">不需要解鎖、不會改角色的正式外觀持有資料；只用來檢查測試服畫面。</div>
+       <div class="testAppearanceGrid32644">
+        <button type="button" data-test-theme-32644="default">一般原版</button>
+        <button type="button" data-test-theme-32644="qixi">🌌 鵲橋星河</button>
+        <button type="button" data-test-theme-32644="maid">☕ 女僕咖啡廳</button>
+       </div>`;
+     grid.parentNode.insertBefore(p,grid);
+   }
+   syncButtons();
+ }
+ document.addEventListener('click',e=>{
+   const b=e.target.closest?.('[data-test-theme-32644]');
+   if(b){e.preventDefault();e.stopImmediatePropagation();setMode(b.dataset.testTheme32644);return}
+   if(e.target.closest?.('#appearanceDrawerBtn'))setTimeout(()=>{inject();apply()},30);
+ },true);
+
+ const old=window.renderAppearance;
+ if(typeof old==='function'){
+   window.renderAppearance=function(){
+     const r=old.apply(this,arguments);
+     setTimeout(()=>{inject();apply()},0);
+     return r;
+   };
+ }
+ function boot(){apply();setTimeout(inject,200)}
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
+ window.addEventListener('pageshow',apply);
+ /* keep old theme scripts from taking control back; no DOM observer */
+ setInterval(apply,1200);
+})();
+</script>
+
+
+<!-- === 3.26.45 Maid Cafe special story CG === -->
+<style id="v32645MaidStoryCGStyle">
+#npcStoryPlayer.maidCafeSpecialStory .npcStoryPortraitWrap{
+  background:#24151c!important;
+}
+#npcStoryPlayer.maidCafeSpecialStory #npcStoryPortrait{
+  width:100%!important;
+  height:100%!important;
+  object-fit:contain!important;
+  object-position:center center!important;
+  display:block!important;
+}
+#npcStoryPlayer.maidCafeSpecialStory .npcStoryDialogue{
+  background:linear-gradient(180deg,rgba(255,250,247,.96),rgba(244,210,221,.97))!important;
+  color:#4b2d34!important;
+  border-color:#dcaabd!important;
+}
+#npcStoryPlayer.maidCafeSpecialStory .npcStorySpeaker{
+  background:#7c475c!important;
+  color:#fff!important;
+}
+</style>
+
+<script id="v32645MaidStoryCGScript">
+(function(){
+ const STORY_ID='paid_maid_cafe_story';
+ const CG='assets/npc/shopkeeper_cat/maid_cafe_special.png';
+
+ function current(){try{return typeof cur==='function'?cur():null}catch(_){return null}}
+ function npcStateSafe(){try{return typeof npcState==='function'?npcState():null}catch(_){return null}}
+
+ function maidLines(){
+  return [
+   {speaker:'旁白',text:'你把「請店長喝咖啡券」交到櫃檯前。貓貓看著那張券，沉默了幾秒。'},
+   {speaker:'貓貓',text:'「……所以你真的拿來用了。」'},
+   {speaker:'旁白',text:'她把店門的牌子翻到「休息中」，轉身走進後面的房間。'},
+   {speaker:'貓貓',text:'「先說好，這是特別招待。你不准笑。」'},
+   {speaker:'旁白',cg:true,text:'過了一會兒，她換上女僕咖啡廳的制服重新出現在你面前。'},
+   {speaker:'貓貓',cg:true,text:'「歡、歡迎回來……主人。」'},
+   {speaker:'旁白',cg:true,text:'她端著咖啡站在你面前，明明耳根都紅了，卻還努力裝作若無其事。'},
+   {speaker:'貓貓',cg:true,text:'「看夠了沒有？咖啡再不喝就要涼了。」'},
+   {speaker:'你',cg:true,text:'「所以這張券真的可以讓店長親自招待？」'},
+   {speaker:'貓貓',cg:true,text:'「只有今天。還有——不准拿去跟別人炫耀。」'},
+   {speaker:'旁白',cg:true,text:'她把咖啡輕輕推到你面前，又把一張寫著「女僕咖啡廳」的主題卡放在杯子旁。'},
+   {speaker:'貓貓',cg:true,text:'「這個也給你。以後想起今天，就把它換上吧。」'}
+  ];
+ }
+
+ function setStoryCG(on){
+  const player=document.getElementById('npcStoryPlayer');
+  const img=document.getElementById('npcStoryPortrait');
+  if(!player||!img)return;
+  player.classList.toggle('maidCafeSpecialStory',!!on);
+  if(on){
+    if(img.dataset.maidCafeOldSrc===undefined) img.dataset.maidCafeOldSrc=img.getAttribute('src')||'cat_shopkeeper_normal.png';
+    img.src=CG;
+    img.dataset.npcFace='maidCafeSpecial';
+  }else if(player.classList.contains('hidden')){
+    const old=img.dataset.maidCafeOldSrc;
+    if(old){img.src=old;delete img.dataset.maidCafeOldSrc;}
+  }
+ }
+
+ function playMaidStory(markComplete=true){
+  const c=current();if(!c)return;
+  c.paidStoryFlags??={};
+  const st=npcStateSafe();
+  const done=()=>{
+    setStoryCG(false);
+    if(markComplete){
+      c.paidStoryFlags[STORY_ID]=true;
+      c.paidCosmetics??={};c.paidCosmetics.maidCafe=true;c.activePaidTheme='maidCafe';
+      if(st){st.flags??={};st.flags.paidMaidCafeStory=1;try{saveNpcState?.(st)}catch(_){}}
+      c.memories??=[];
+      if(!c.memories.some(x=>x.t==='🎀 付費劇情・女僕咖啡廳'))
+        c.memories.unshift({t:'🎀 付費劇情・女僕咖啡廳',d:new Date().toLocaleDateString('zh-TW')});
+      try{saveLocal?.();window.applyPaidAppearance?.(c);renderGame?.();renderAppearance?.()}catch(_){}
+      toast?.('🎀 女僕咖啡廳特殊劇情已收藏，可隨時重看。',4000);
+    }
+  };
+  if(typeof startNpcRpgStory==='function'){
+    startNpcRpgStory({title:'🎀 特殊劇情・女僕咖啡廳',lines:maidLines(),onComplete:done});
+    setTimeout(()=>{setStoryCG(false);},0);
+  }else{
+    alert('🎀 特殊劇情・女僕咖啡廳');
+    done();
+  }
+ }
+ window.playMaidCafeSpecialStory32645=playMaidStory;
+
+ /* Use CG only from the reveal scene onward. */
+ const oldRender=window.renderNpcRpgLine;
+ if(typeof oldRender==='function'&&!oldRender.__maidCG32645){
+   const wrapped=function(){
+     const st=window.npcStoryPlayerState;
+     const isMaid=String(st?.title||'').includes('女僕咖啡廳');
+     const line=st?.lines?.[st?.index||0];
+     setStoryCG(!!(isMaid&&line?.cg));
+     return oldRender.apply(this,arguments);
+   };
+   wrapped.__maidCG32645=true;
+   window.renderNpcRpgLine=wrapped;
+ }
+
+ const oldFinish=window.finishNpcRpgStory;
+ if(typeof oldFinish==='function'&&!oldFinish.__maidCG32645){
+   const wrapped=function(){
+     const r=oldFinish.apply(this,arguments);
+     setTimeout(()=>setStoryCG(false),0);
+     return r;
+   };
+   wrapped.__maidCG32645=true;
+   window.finishNpcRpgStory=wrapped;
+ }
+
+ /* After the NT$50 coffee voucher successfully redeems the theme, play this story once. */
+ document.addEventListener('click',function(e){
+   const b=e.target.closest?.('[data-redeem-coffee-theme-32643]');
+   if(!b)return;
+   const before=current();
+   const already=!!before?.paidStoryFlags?.[STORY_ID];
+   setTimeout(()=>{
+     const c=current();
+     if(!already && c?.paidCosmetics?.maidCafe && !c?.paidStoryFlags?.[STORY_ID]){
+       playMaidStory(true);
+     }
+   },180);
+ },true);
+
+ /* Replay from the existing paid-story collection always uses the new CG version. */
+ document.addEventListener('click',function(e){
+   const b=e.target.closest?.('[data-replay-paid-maid-story]');
+   if(!b)return;
+   e.preventDefault();e.stopImmediatePropagation();
+   playMaidStory(false);
+ },true);
+
+ function version(){
+   document.querySelectorAll('.testServerRibbon').forEach(x=>x.textContent='🧪 TEST・3.26.46-beta');
+   const hv=document.querySelector('.homeVersion');
+   if(hv)hv.textContent='3.26.46・測試服｜首頁文字對比修復';
+   const meta=document.querySelector('meta[name="x-test-build"]');if(meta)meta.content='3.26.46';
+   document.title='關係進行式 TEST・3.26.46-首頁文字對比修復';
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',version,{once:true});else version();
+ window.addEventListener('pageshow',version);
+})();
+</script>
+
+
+<style id="v32646HomeContrastFix">
+/* === 3.26.46 首頁文字對比修復 === */
+
+/* 首頁卡片背景稍微加深，避免白字/淡字消失 */
+#home .homePanel,
+#home .card,
+#home .save,
+#home .createBox,
+#home .homeMusic,
+#home .liveStat,
+#home [class*="Panel"],
+#home [class*="panel"]{
+  background:linear-gradient(155deg,#fff8f5 0%,#f2ceda 100%)!important;
+  color:#4b2d34!important;
+  border-color:#ddb0c0!important;
+}
+
+/* 首頁所有一般文字固定深色 */
+#home,
+#home p,
+#home div,
+#home span,
+#home label,
+#home .small,
+#home .muted,
+#home .gmStatus,
+#home .createHint,
+#home .homePanel .small,
+#home .homePanel .muted,
+#home .card .small,
+#home .card .muted{
+  color:#6a4a55!important;
+  opacity:1!important;
+  text-shadow:none!important;
+}
+
+/* 標題、卡片標題再深一階 */
+#home b,
+#home strong,
+#home h2,
+#home h3,
+#home .homePanelTitle,
+#home .saveName{
+  color:#4f303b!important;
+  opacity:1!important;
+  text-shadow:none!important;
+}
+
+/* 狀態膠囊 */
+#home .chip,
+#home .badgeDisplay,
+#home .presencePill{
+  background:#e9bccb!important;
+  color:#5c3544!important;
+  border-color:#cf96aa!important;
+  font-weight:800!important;
+}
+
+/* 一般按鈕文字 */
+#home button,
+#home .gmGateBtn,
+#home .save button,
+#home .createBox button{
+  color:#5a3442!important;
+  font-weight:800!important;
+}
+
+/* 主按鈕仍維持白字，確保深底可讀 */
+#home button.primary,
+#home .primary,
+#home #playerAccountOpenBtn{
+  color:#fff!important;
+}
+
+/* 首頁主視覺才保留白字 */
+#home .homeHero,
+#home .homeHero h1,
+#home .homeHero .homeTagline,
+#home .homeHero .homeVersion,
+#home .homeHero::before,
+#home .homeHero::after{
+  color:#fff6f9!important;
+  text-shadow:0 2px 12px rgba(58,29,39,.32)!important;
+}
+
+/* 登入狀態／管理員狀態不能再淡到看不到 */
+#playerAccountChip,
+#gmStatusChip,
+#gmStatus,
+#playerAccountSummary,
+#playerAccountHomePanel .small,
+#gmHomePanel .small{
+  color:#5f3d49!important;
+  opacity:1!important;
+}
+
+/* 更新公告內容 */
+#home .updateNoticeBody,
+#home .updateNoticeBody *,
+#home [id*="update"] .small,
+#home [id*="Update"] .small{
+  color:#62424d!important;
+  opacity:1!important;
+}
+
+/* 特別壓掉舊七夕/主題留下的白字 */
+body.maid-cafe-preview #home .homePanel *,
+body.theme-maid-cafe #home .homePanel *,
+html[data-test-theme="maid"] #home .homePanel *,
+html[data-theme="maid-cafe"] #home .homePanel *{
+  color:#5f3d49!important;
+  text-shadow:none!important;
+  opacity:1!important;
+}
+body.maid-cafe-preview #home .homePanel b,
+body.theme-maid-cafe #home .homePanel b,
+html[data-test-theme="maid"] #home .homePanel b,
+html[data-theme="maid-cafe"] #home .homePanel b{
+  color:#4b2d34!important;
+}
+
+/* 例外：主按鈕 */
+body.maid-cafe-preview #home .homePanel button.primary,
+body.theme-maid-cafe #home .homePanel button.primary,
+html[data-test-theme="maid"] #home .homePanel button.primary,
+html[data-theme="maid-cafe"] #home .homePanel button.primary{
+  color:#fff!important;
+}
+</style>
+
+<script id="v32646VersionFix">
+(function(){
+ function apply(){
+   document.querySelectorAll('.testServerRibbon').forEach(x=>x.textContent='☕ TEST・3.26.46-beta');
+   const hv=document.querySelector('.homeVersion');
+   if(hv)hv.textContent='3.26.46・測試服｜首頁文字對比修復';
+   const meta=document.querySelector('meta[name="x-test-build"]');
+   if(meta)meta.content='3.26.46';
+   document.title='關係進行式 TEST・3.26.46-首頁文字對比修復';
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',apply,{once:true});else apply();
+ window.addEventListener('pageshow',apply);
 })();
 </script>
