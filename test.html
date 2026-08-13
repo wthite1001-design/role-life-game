@@ -16,11 +16,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#9a76c4">
-<meta name="x-test-build" content="3.26.77">
+<meta name="x-test-build" content="3.26.79">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>關係進行式 TEST・3.26.77-單一版本與商店診斷</title>
+<title>關係進行式 TEST・3.26.79-單一版本與商店診斷</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -1545,7 +1545,7 @@ body.npcStoryRunning .draggableFab{
   </div>
 </div>
 
-<div id="testServerRibbon" class="testServerRibbon hidden">🧪 TEST・3.26.77-beta</div>
+<div id="testServerRibbon" class="testServerRibbon hidden">🧪 TEST・3.26.79-beta</div>
 <button id="returnProdBtn" class="returnProdBtn hidden" type="button">💞 回正式服</button>
 
 <!-- GM-MAILBOX-BUILD-3-NATIVE-NAV -->
@@ -1557,7 +1557,7 @@ body.npcStoryRunning .draggableFab{
     <div class="homeLogo">🧪</div>
     <h1>關係進行式 TEST</h1>
     <div class="homeTagline">測試中的每一段關係，都可能被重置。</div>
-    <div class="homeVersion">3.26.77・測試服｜單一版本與商店診斷</div>
+    <div class="homeVersion">3.26.79・測試服｜單一版本與商店診斷</div>
   </div>
 
   <div id="playerAccountHomePanel" class="homePanel accountHomePanel">
@@ -2822,6 +2822,11 @@ function ensureRelations(c){
   c.money=safeMoney(Number.isFinite(Number(c.money))?Number(c.money):300);
   c.events=Array.isArray(c.events)?c.events:[];
   c.inventory=c.inventory&&typeof c.inventory==="object"?c.inventory:{};
+  /* 付費商品 ID 只用於 paidOrders / 權益判定，不是遊戲道具。
+     清掉舊版曾誤塞進背包的內部 ID；真正獎勵不受影響。 */
+  delete c.inventory.paid_gift_60;
+  delete c.inventory.paid_support_100;
+  delete c.inventory.paid_dev_150;
   c.memories=Array.isArray(c.memories)?c.memories:[];
   c.start=c.start||new Date().toISOString().slice(0,10);
   ensureSharedAchievements();
@@ -2870,7 +2875,7 @@ function show(id){
   document.getElementById("home").classList.toggle("hidden",id!=="home");
   document.getElementById("game").classList.toggle("hidden",id!=="game");
   document.body.classList.toggle("game-entry-active",id==="game");
-  /* 3.26.77: 進入角色頁時直接恢復活動/NPC入口，不再交給舊活動期限控制器。 */
+  /* 3.26.79: 進入角色頁時直接恢復活動/NPC入口，不再交給舊活動期限控制器。 */
   const showEntries=id==="game";
   const launch=document.getElementById("launchActivityFab");
   const npc=document.getElementById("npcTownFab");
@@ -4014,7 +4019,7 @@ async function gmSendOfficialGift(){
   }catch(e){
     let msg=String(e?.message||e||"未知錯誤");
     let col=(msg.match(/null value in column "([^"]+)"/i)||[])[1];
-    if(col)msg=`test_gm_gifts 的「${col}」欄位是 NOT NULL，但沒有預設值。請執行 3.26.77 SQL 修正。原始錯誤：${msg}`;
+    if(col)msg=`test_gm_gifts 的「${col}」欄位是 NOT NULL，但沒有預設值。請執行 3.26.79 SQL 修正。原始錯誤：${msg}`;
     toast("GM 發送失敗："+msg,10000);
   }
 }
@@ -4044,7 +4049,7 @@ async function claimOfficialGift(id){
     const rawId=String(c.id||"");
     const shortId=displayCharacterId(c).toUpperCase();
 
-    // 3.26.77：改由 Supabase SECURITY DEFINER RPC 原子領取。
+    // 3.26.79：改由 Supabase SECURITY DEFINER RPC 原子領取。
     // 不再讓一般玩家直接 PATCH test_gm_gifts，避免 RLS 導致「看得到、領不到」。
     let result=await api("/rpc/claim_test_gm_gift",{
       method:"POST",
@@ -4080,7 +4085,7 @@ async function claimOfficialGift(id){
   }catch(e){
     let msg=String(e?.message||e||"未知錯誤");
     if(/claim_test_gm_gift|function|rpc/i.test(msg)){
-      msg+="｜請先執行 3.26.77 的 Supabase RPC SQL。";
+      msg+="｜請先執行 3.26.79 的 Supabase RPC SQL。";
     }
     toast("領取失敗："+msg,9000);
   }
@@ -4363,7 +4368,7 @@ document.getElementById("saveList").onclick=async e=>{
 async function openChar(id){
   clearFatal();
 
-  // 3.26.77M: character opening is now 100% local-first.
+  // 3.26.79M: character opening is now 100% local-first.
   // No cloud request is allowed to block the first game render.
   rememberOpenSheet("");
   document.querySelectorAll(".pageCard").forEach(x=>x.classList.remove("active"));
@@ -6906,7 +6911,7 @@ function renderExtras(c){
  safeCall(()=>renderWork(c),"打工");
  safeCall(()=>renderJournal(c),"生活日誌");
  safeCall(()=>renderShop(c),"商店");
- let bl=document.getElementById('bagList');if(bl){let a=Object.entries(c.inventory).filter(x=>x[1]>0);bl.className=a.length?"itemGrid":"";bl.innerHTML=a.length?a.map(([id,n])=>{let i=protoShop.find(x=>x.id===id);let ni=NPC_ITEM_EFFECTS?.[id];let nm=i?.n||ni?.name||id;return `<button class="tile" data-bag="${id}"><div class="ico">${nm.split(" ")[0]||"🎁"}</div><b>${nm.includes(" ")?nm.substring(nm.indexOf(" ")+1):nm}</b><div class="small">×${n}</div></button>`}).join(''):'<div class="muted">背包目前是空的。</div>'}
+ let bl=document.getElementById('bagList');if(bl){const internalPaidIds=new Set(['paid_gift_60','paid_support_100','paid_dev_150']);let a=Object.entries(c.inventory).filter(([id,n])=>n>0&&!internalPaidIds.has(id));bl.className=a.length?"itemGrid":"";bl.innerHTML=a.length?a.map(([id,n])=>{let i=protoShop.find(x=>x.id===id);let ni=NPC_ITEM_EFFECTS?.[id];let nm=i?.n||ni?.name||id;return `<button class="tile" data-bag="${id}"><div class="ico">${nm.split(" ")[0]||"🎁"}</div><b>${nm.includes(" ")?nm.substring(nm.indexOf(" ")+1):nm}</b><div class="small">×${n}</div></button>`}).join(''):'<div class="muted">背包目前是空的。</div>'}
  let ml=document.getElementById('memoryList');if(ml)ml.innerHTML=c.memories.length?c.memories.map(x=>`<div class="itemRow"><b>${x.t}</b><div class="small">${x.d}</div></div>`).join(''):'<div class="muted">還沒有特殊回憶。</div>';
  if(day(c)>=7)c.achievements.week=1;if(day(c)>=30)c.achievements.month=1;c.achievements.start=1;if((c.stats?.workCount||0)>=1)c.achievements.work1=1;if((c.stats?.workCount||0)>=10)c.achievements.work10=1;if((c.stats?.workEarned||0)>=1000)c.achievements.earn1000=1;if(c.roomCodes.length)c.achievements.relation=1;if(c.roomCodes.length>=3)c.achievements.three=1;
  if((c.stats?.messages||0)>=1)c.achievements.msg1=1;if((c.stats?.messages||0)>=10)c.achievements.msg10=1;if((c.stats?.messages||0)>=50)c.achievements.msg50=1;
@@ -11686,10 +11691,10 @@ document.getElementById("closeNpcStoryPlayer")?.addEventListener("click",e=>{e.s
     EVENT_START=Date.now();
     localStorage.setItem(EVENT_WINDOW_KEY,String(EVENT_START));
   }
-  // 3.26.77: temporary test deadline extended to tonight 00:00 (Taiwan time).
+  // 3.26.79: temporary test deadline extended to tonight 00:00 (Taiwan time).
   const EVENT_END=Date.parse("2026-08-12T00:00:00+08:00");
   const TEST_TIME_KEY="role_life_test_fake_now_v1";
-  // 3.26.77: clear stale simulated dates left by earlier testing sessions.
+  // 3.26.79: clear stale simulated dates left by earlier testing sessions.
   try{ localStorage.removeItem(TEST_TIME_KEY); }catch(e){}
 
   function testNowMs(){
@@ -12066,7 +12071,7 @@ document.getElementById("closeNpcStoryPlayer")?.addEventListener("click",e=>{e.s
 
 
 <style>
-/* === 3.26.77 single floating-entry visibility owner === */
+/* === 3.26.79 single floating-entry visibility owner === */
 #launchActivityFab.activityEntryVisible,
 #npcTownFab.activityEntryVisible{
   display:flex!important;
@@ -12081,7 +12086,7 @@ body:not(.launch-game-open) #launchActivityFab.activityEntryVisible{
 }
 </style>
 <script>
-/* === 3.26.77 activity-entry flicker fix === */
+/* === 3.26.79 activity-entry flicker fix === */
 (function(){
   const TEST_TIME_KEY="role_life_test_fake_now_v1";
   const DEFAULT_TEST_DATE="2026-08-18T12:00:00+08:00";
@@ -12175,7 +12180,7 @@ body:not(.launch-game-open) #launchActivityFab.activityEntryVisible{
 
 
 <script>
-/* === 3.26.77 TEST restore patch: story emotion + exact hero dialogue + 5h expiry === */
+/* === 3.26.79 TEST restore patch: story emotion + exact hero dialogue + 5h expiry === */
 (function(){
   const taps=[
     ["happy","你來啦。今天想看看什麼？"],
@@ -12297,7 +12302,7 @@ body:not(.launch-game-open) #launchActivityFab.activityEntryVisible{
 
 
 <script>
-/* 3.26.77M mobile crash guard */
+/* 3.26.79M mobile crash guard */
 window.addEventListener("unhandledrejection",function(ev){
   try{
     const msg=String(ev?.reason?.message||ev?.reason||"");
@@ -12312,12 +12317,12 @@ window.addEventListener("unhandledrejection",function(ev){
 
 
 <style>
-/* === 3.26.77 hotfix: restore launch/NPC entry buttons in test build === */
+/* === 3.26.79 hotfix: restore launch/NPC entry buttons in test build === */
 #launchActivityFab.activityEntryVisible,
 #npcTownFab.activityEntryVisible{display:flex!important}
 </style>
 <script>
-/* === 3.26.77 hotfix: test build entry routes must remain available while in game === */
+/* === 3.26.79 hotfix: test build entry routes must remain available while in game === */
 (function(){
   function gameIsOpen(){
     const game=document.getElementById("game");
@@ -12393,7 +12398,7 @@ window.addEventListener("unhandledrejection",function(ev){
 </script>
 
 <style>
-/* === 3.26.77 final entrance guard: game route is the only visibility source === */
+/* === 3.26.79 final entrance guard: game route is the only visibility source === */
 body.game-entry-active #launchActivityFab,
 body.game-entry-active #npcTownFab{
   display:flex!important;
@@ -12403,7 +12408,7 @@ body.game-entry-active #npcTownFab{
 }
 </style>
 <script>
-/* === 3.26.77 route-driven floating entrances === */
+/* === 3.26.79 route-driven floating entrances === */
 (function(){
   function forceGameEntries(){
     const game=document.getElementById("game");
@@ -12445,7 +12450,7 @@ body.game-entry-active #npcTownFab{
 
 
 <script>
-/* === 3.26.77 店長平時立繪 + 強化情緒 + 限定鈴鐺贈禮 === */
+/* === 3.26.79 店長平時立繪 + 強化情緒 + 限定鈴鐺贈禮 === */
 (function(){
   const NORMAL_FACE='cat_shopkeeper_normal.png';
   const EMOTION_FACE={
@@ -12549,7 +12554,7 @@ body.game-entry-active #npcTownFab{
 
 
 <script>
-/* === 3.26.77 店長六表情最終強制切換：在 window capture 階段攔截舊監聽器 === */
+/* === 3.26.79 店長六表情最終強制切換：在 window capture 階段攔截舊監聽器 === */
 (function(){
   const faces=[
     {face:"normal",src:"cat_shopkeeper_normal.png",line:"「歡迎光臨～今天想買點什麼？」"},
@@ -12697,7 +12702,7 @@ body.game-entry-active #npcTownFab{
 </script>
 
 <script>
-/* === 3.26.77 final hotfix: stable 6-face pointer cycle + story emotions + real-player gifting === */
+/* === 3.26.79 final hotfix: stable 6-face pointer cycle + story emotions + real-player gifting === */
 (function(){
   const FACE={
     normal:'cat_shopkeeper_normal.png',
@@ -12898,7 +12903,7 @@ body.game-entry-active #npcTownFab{
 
 
 <style>
-/* === 3.26.77 TEST：貓貓活動常駐 + 特殊關係培養 5 級 + 情緒互動 + 小遊戲 === */
+/* === 3.26.79 TEST：貓貓活動常駐 + 特殊關係培養 5 級 + 情緒互動 + 小遊戲 === */
 #npcMeetModal{z-index:10060!important}
 #npcMeetModal .modalBox{max-height:91dvh;overflow:auto;max-width:780px}
 .npcMeetHero{position:relative;display:block;padding:0 0 14px;border:1px solid rgba(120,80,150,.16);border-radius:20px;background:linear-gradient(135deg,rgba(255,255,255,.78),rgba(244,231,250,.72));overflow:hidden}
@@ -12958,7 +12963,7 @@ body.game-entry-active #npcTownFab{
 </div>
 
 <script>
-/* === 3.26.77 TEST authoritative cat activity / relationship cultivation === */
+/* === 3.26.79 TEST authoritative cat activity / relationship cultivation === */
 (function(){
   /* 測試服：貓貓活動永遠開啟，不再受舊日期模擬器或過期攔截影響。 */
   window.npcEventIsActive=function(){return true};
@@ -13282,7 +13287,7 @@ body.game-entry-active #npcTownFab{
 </html>
 
 <style>
-/* === 3.26.77 Desktop RPG responsive layout === */
+/* === 3.26.79 Desktop RPG responsive layout === */
 @media (min-width: 900px) and (min-aspect-ratio: 4/3){
   #npcStoryPlayer{background:#120c18!important;}
   .npcStoryStage{
@@ -13545,7 +13550,7 @@ body.game-entry-active #npcTownFab{
 @media(max-width:360px){#shopPaidPanel .paidShopList{grid-template-columns:1fr!important}}
 </style>
 <style id="v32623HotfixStyle">
-/* 3.26.77：付款固定兩欄格子；星河外觀；NPC 故事可點擊 */
+/* 3.26.79：付款固定兩欄格子；星河外觀；NPC 故事可點擊 */
 #shopPaidPanel .paidShopList{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important;align-items:stretch!important}
 #shopPaidPanel .paidProduct{display:flex!important;flex-direction:column!important;justify-content:space-between!important;align-items:stretch!important;text-align:center!important;min-width:0!important;min-height:188px!important;padding:14px 10px!important;border-radius:16px!important;background:#fffafd!important;color:#3d3343!important;border:1px solid #ddcfe6!important}
 #shopPaidPanel .paidProductIcon{font-size:30px;line-height:1;margin:2px 0 8px}
@@ -13604,7 +13609,7 @@ body.theme-qixi-paid #game>.top .chip{background:rgba(255,255,255,.92)!important
 
 <script id="v32642NpcShopStability">
 (function(){
- const BUILD='3.26.77';
+ const BUILD='3.26.79';
  function refreshVersion(){
    
    
@@ -13613,8 +13618,8 @@ body.theme-qixi-paid #game>.top .chip{background:rgba(255,255,255,.92)!important
  }
  refreshVersion();setTimeout(refreshVersion,250);setTimeout(refreshVersion,1000);
 
- /* Previous 3.26.77 observer rewrote shop DOM recursively and could lock Android when a product was tapped.
-    3.26.77 uses no DOM-wide MutationObserver. Refresh only at safe UI entry points. */
+ /* Previous 3.26.79 observer rewrote shop DOM recursively and could lock Android when a product was tapped.
+    3.26.79 uses no DOM-wide MutationObserver. Refresh only at safe UI entry points. */
  const safeRefresh=()=>{
    try{document.body?.classList.remove('theme-qixi-paid')}catch(_){ }
  };
@@ -13654,9 +13659,11 @@ body.theme-qixi-paid #game>.top .chip{background:rgba(255,255,255,.92)!important
 html[data-paid-theme="maidCafe"] body,
 html[data-paid-theme="maidCafe"] #game,
 html[data-paid-theme="maidCafe"] #home,
+html[data-paid-theme="maidCafe"] .homeHero,
 body.theme-maid-cafe,
 body.theme-maid-cafe #game,
-body.theme-maid-cafe #home{
+body.theme-maid-cafe #home,
+body.theme-maid-cafe .homeHero{
   background:linear-gradient(180deg,#4f2d39 0 96px,#bb738c 96px,#e9b9c8 34%,#f8e6ea 100%) fixed!important;
   color:#4b2d34!important
 }
@@ -13685,6 +13692,28 @@ body.theme-maid-cafe .modalHead{
 body.theme-maid-cafe .small,
 body.theme-maid-cafe .muted{color:#80616b!important;opacity:1!important}
 body.theme-maid-cafe button.primary{background:linear-gradient(135deg,#aa607b,#734254)!important;color:#fff!important}
+
+
+html[data-paid-theme="maidCafe"] .homeHero,
+body.theme-maid-cafe .homeHero{
+  background:linear-gradient(145deg,#55313f,#8f5168 58%,#ba748d)!important;
+  border-color:#d79caf!important;
+  box-shadow:0 18px 40px rgba(78,36,53,.20)!important;
+}
+html[data-paid-theme="maidCafe"] .homeHero h1,
+html[data-paid-theme="maidCafe"] .homeHero .homeTagline,
+html[data-paid-theme="maidCafe"] .homeHero .homeVersion,
+body.theme-maid-cafe .homeHero h1,
+body.theme-maid-cafe .homeHero .homeTagline,
+body.theme-maid-cafe .homeHero .homeVersion{
+  color:#fff7fa!important;
+  text-shadow:0 2px 10px rgba(45,20,30,.24)!important;
+}
+html[data-paid-theme="maidCafe"] .homeHero .homeVersion,
+body.theme-maid-cafe .homeHero .homeVersion{
+  background:rgba(255,246,249,.16)!important;
+  border-color:rgba(255,255,255,.28)!important;
+}
 
 /* ===== 星河主題：深色字 ===== */
 html[data-paid-theme="qixiGalaxy"] body,
@@ -13715,6 +13744,28 @@ body.theme-qixi-paid .appearanceCard *{
   color:#4b3e50!important;text-shadow:none!important;opacity:1!important
 }
 body.theme-qixi-paid button.primary{color:#fff!important}
+
+
+html[data-paid-theme="qixiGalaxy"] .homeHero,
+body.theme-qixi-paid .homeHero{
+  background:linear-gradient(145deg,#171033,#35215a 62%,#674178)!important;
+  border-color:#7e67a8!important;
+  box-shadow:0 18px 40px rgba(14,8,38,.34)!important;
+}
+html[data-paid-theme="qixiGalaxy"] .homeHero h1,
+html[data-paid-theme="qixiGalaxy"] .homeHero .homeTagline,
+html[data-paid-theme="qixiGalaxy"] .homeHero .homeVersion,
+body.theme-qixi-paid .homeHero h1,
+body.theme-qixi-paid .homeHero .homeTagline,
+body.theme-qixi-paid .homeHero .homeVersion{
+  color:#f8efff!important;
+  text-shadow:0 2px 12px rgba(0,0,0,.28)!important;
+}
+html[data-paid-theme="qixiGalaxy"] .homeHero .homeVersion,
+body.theme-qixi-paid .homeHero .homeVersion{
+  background:rgba(255,255,255,.12)!important;
+  border-color:rgba(255,255,255,.24)!important;
+}
 
 /* ===== 貓貓商店女僕兌換 ===== */
 .maidThemeRedeemCard{
@@ -13771,7 +13822,7 @@ body.theme-qixi-paid button.primary{color:#fff!important}
 
 <script id="v32669CoreCommerceAppearanceScript">
 (function(){
- const BUILD='3.26.77';
+ const BUILD='3.26.79';
  const VOUCHER='npc_maid_cafe_coffee_voucher';
  const RESET_ONCE='v32669_maid_flow_reset_once';
 
@@ -14004,7 +14055,7 @@ body.theme-qixi-paid button.primary{color:#fff!important}
 
 <script id="v32671MaidReplayAndCG">
 (function(){
- const VERSION='3.26.77';
+ const VERSION='3.26.79';
  const STORY_ID='paid_maid_cafe_story';
 
  function c(){try{return typeof cur==='function'?cur():null}catch(_){return null}}
@@ -14104,7 +14155,7 @@ body.theme-qixi-paid button.primary{color:#fff!important}
 
 <script id="v32677InstantRuntime">
 (function(){
-  const BUILD='3.26.77';
+  const BUILD='3.26.79';
   const SNAP='role_life_instant_snapshot_v32677';
   const THEME='role_life_test_active_theme_v1';
   const ASSET_CACHE='relationship-game-critical-v1';
@@ -14370,8 +14421,8 @@ body.theme-qixi-paid button.primary{color:#fff!important}
     if(c){snapshot(c);subscribeRealtime(c)}
     document.querySelectorAll('.testServerRibbon').forEach(x=>x.textContent='🧪 TEST・'+BUILD+'-beta');
     const hv=document.querySelector('.homeVersion');
-    if(hv)hv.textContent=BUILD+'・測試服｜即時本機＋Realtime';
-    document.title='關係進行式 TEST・'+BUILD+'-即時本機＋Realtime';
+    if(hv)hv.textContent=BUILD+'・測試服｜即時店長互動＋完整主題';
+    document.title='關係進行式 TEST・'+BUILD+'-即時店長互動＋完整主題';
   }
 
   firstPaint();
@@ -14379,5 +14430,89 @@ body.theme-qixi-paid button.primary{color:#fff!important}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});
   else boot();
   window.addEventListener('beforeunload',unsubscribeRealtime);
+})();
+</script>
+
+
+<script id="v32679InstantShopkeeperPoke">
+(function(){
+ const BUILD='3.26.79';
+ let syncing=false;
+
+ function state(){
+   try{return typeof npcState==='function'?npcState():null}catch(_){return null}
+ }
+ function save(st){
+   try{saveNpcState?.(st)}catch(_){}
+   try{saveLocal?.()}catch(_){}
+ }
+ function redraw(){
+   try{updateNpcStats?.()}catch(_){}
+   try{renderNpcShop?.()}catch(_){}
+ }
+
+ function instantPoke(){
+   const st=state(); if(!st)return;
+   st.daily??={};
+   const used=Number(st.daily.poke||st.daily.touch||0);
+   if(used>=3){
+     toast?.('🐈 今天已經戳過店長 3 次了。',2200);
+     return;
+   }
+
+   /* 本機先變：數值與畫面同一幀更新，不等 Supabase。 */
+   st.daily.poke=used+1;
+   st.affection=Math.min(100,Number(st.affection||0)+1);
+   st.catCloseness=Math.min(100,Number(st.catCloseness||st.catAffinity||0)+1);
+   save(st);
+   redraw();
+
+   const lines=[
+     '「……你又戳我做什麼？」',
+     '「手很閒是不是？」',
+     '「再戳的話，我要收服務費了。」'
+   ];
+   toast?.('🐈 '+lines[Math.min(used,lines.length-1)],2200);
+
+   /* 雲端只做背景同步；成功與否都不阻塞 UI。 */
+   if(syncing)return;
+   syncing=true;
+   Promise.resolve().then(async()=>{
+     try{
+       if(typeof syncNpcStateToCloud==='function')await syncNpcStateToCloud(st);
+       else if(typeof saveNpcStateCloud==='function')await saveNpcStateCloud(st);
+       else if(typeof pushNpcState==='function')await pushNpcState(st);
+     }catch(e){console.warn('poke background sync',e)}
+     finally{syncing=false}
+   });
+ }
+
+ document.addEventListener('pointerup',e=>{
+   const btn=e.target.closest?.(
+     '[data-npc-action="poke"],[data-npc-action="touch"],[data-npc-action="pet"],[data-shopkeeper-poke],#npcPokeBtn'
+   );
+   if(!btn)return;
+   e.preventDefault();
+   e.stopImmediatePropagation();
+   instantPoke();
+ },true);
+
+ document.addEventListener('click',e=>{
+   const btn=e.target.closest?.(
+     '[data-npc-action="poke"],[data-npc-action="touch"],[data-npc-action="pet"],[data-shopkeeper-poke],#npcPokeBtn'
+   );
+   if(!btn)return;
+   e.preventDefault();
+   e.stopImmediatePropagation();
+ },true);
+
+ function version(){
+   document.querySelectorAll('.testServerRibbon').forEach(x=>x.textContent='🧪 TEST・'+BUILD+'-beta');
+   const hv=document.querySelector('.homeVersion');
+   if(hv)hv.textContent=BUILD+'・測試服｜即時店長互動＋完整主題';
+   document.title='關係進行式 TEST・'+BUILD+'-即時店長互動＋完整主題';
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',version,{once:true});
+ else version();
 })();
 </script>
