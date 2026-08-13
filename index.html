@@ -1470,7 +1470,7 @@ body.npcStoryRunning .draggableFab{
 <link href="manifest.json" rel="manifest"/>
 
 <style>
-/* === 3.29.7 NPC relation sheet stable layer === */
+/* === 第3.30.3版 NPC relation sheet stable layer === */
 #extraNpcRelations:not(.active){
   display:none!important;
 }
@@ -1640,7 +1640,7 @@ html[data-formal-theme="maidCafe"] button.primary{background:linear-gradient(135
 <div class="homeLogo">💞</div>
 <h1>關係進行式</h1>
 <div class="homeTagline">每一段關係，都還在進行中。</div>
-<div class="homeVersion">第3.30.0版・藍新金流通路預埋</div>
+<div class="homeVersion">第第3.30.3版版・藍新金流通路預埋</div>
 </div>
 
   <div id="playerAccountHomePanel" class="homePanel accountHomePanel">
@@ -1660,7 +1660,7 @@ html[data-formal-theme="maidCafe"] button.primary{background:linear-gradient(135
 <div class="gmStatus" id="gmHomeStatus"></div>
 </div>
 <div class="homePanel">
-<div class="homePanelTitle"><span>📢 更新公告</span><span class="chip">第3.27版</span></div>
+<div class="homePanelTitle"><span>📢 更新公告</span><span class="chip">第第3.30.3版版</span></div>
 <div class="small">查看本次新增功能與修正內容。</div>
 <button id="openUpdateNotice" style="width:100%;margin-top:8px" type="button">查看更新內容</button>
 </div>
@@ -2072,7 +2072,7 @@ html[data-formal-theme="maidCafe"] button.primary{background:linear-gradient(135
 <div class="modalBox">
 <div class="modalHead"><b>📢 第3.23版更新公告</b><button id="closeUpdateNotice">×</button></div>
 <div class="updateNoticeBody">
-  <h3>🎊 第3.27版・開服活動正式上線</h3>
+  <h3>🎊 第第3.30.3版版・開服活動正式上線</h3>
   <p>限定活動期間：2026/08/11 ～ 2026/09/11。</p>
 
   <h3>📅 七日開服活動</h3>
@@ -2755,7 +2755,7 @@ function ensureRelations(c){
   c.money=safeMoney(Number.isFinite(Number(c.money))?Number(c.money):300);
   c.events=Array.isArray(c.events)?c.events:[];
   c.inventory=c.inventory&&typeof c.inventory==="object"?c.inventory:{};
-  /* 正式服 3.29.8：付費商品 ID 不屬於背包；只保留真正遊戲道具。 */
+  /* 正式服 第3.30.3版：付費商品 ID 不屬於背包；只保留真正遊戲道具。 */
   delete c.inventory.paid_gift_60;
   delete c.inventory.paid_support_100;
   delete c.inventory.paid_dev_150;
@@ -3990,7 +3990,7 @@ async function claimOfficialGift(id){
     const rawId=String(c.id||"");
     const shortId=displayCharacterId(c).toUpperCase();
 
-    // 3.29.7：先直接讀這份禮物，避免 RPC 對短代碼/角色 ID 判定不同步。
+    // 第3.30.3版：先直接讀這份禮物，避免 RPC 對短代碼/角色 ID 判定不同步。
     let rows=await api(`/gm_gifts?id=eq.${encodeURIComponent(id)}&select=id,target_char,gift_type,gift_value,gift_count,message,claimed,created_at`);
     let g=Array.isArray(rows)?rows[0]:rows;
 
@@ -5007,7 +5007,7 @@ async function refreshBond(code){
   if(!code)return;
   try{
     let rows=await api(`/interactions?room_code=eq.${encodeURIComponent(code)}&select=id,text,from_char,to_char,created_at&limit=1000`);
-    /* 3.30.0：頂級突破標記獨立查詢。
+    /* 第3.30.3版：頂級突破標記獨立查詢。
        不再依賴一般互動的 1000 筆上限，避免老關係突破紀錄被擠掉。 */
     let breakRows=[];
     try{
@@ -9971,7 +9971,7 @@ function npcGiveGift(){
   if(!c)return toast("請先進入角色。",3000);
   c.inventory??={};
 
-  // 3.29.7：店長只接受「親密／好感禮物」。
+  // 第3.30.3版：店長只接受「親密／好感禮物」。
   // 直接沿用真人關係送禮的 affectionGiftInfo() 判定，避免活動材料或一般補給混進來。
   const items=Object.entries(c.inventory)
     .filter(([id,n])=>Number(n||0)>0 && typeof affectionGiftInfo==="function" && !!affectionGiftInfo(id))
@@ -11519,7 +11519,7 @@ document.getElementById("closeNpcStoryPlayer")?.addEventListener("click",e=>{e.s
 })();
 </script>
 <script>
-/* === 3.27 正式服 Hotfix：商店 / 店長 / 活動期限 / 穩定性 === */
+/* === 第3.30.3版 正式服 Hotfix：商店 / 店長 / 活動期限 / 穩定性 === */
 (function(){
   const EVENT_START=Date.parse("2026-08-11T22:47:00+08:00");
   const EVENT_END=Date.parse("2026-09-11T23:59:59+08:00");
@@ -11837,7 +11837,7 @@ body:not(.launch-game-open) #launchActivityFab.activityEntryVisible{
 
 
 <script>
-/* 3.27 mobile crash guard */
+/* 第3.30.3版 mobile crash guard */
 window.addEventListener("unhandledrejection",function(ev){
   try{
     const msg=String(ev?.reason?.message||ev?.reason||"");
@@ -12365,7 +12365,7 @@ body.game-entry-active #npcTownFab{
 })();
 </script>\n
 <script>
-/* === 3.27 FORMAL final activity/controller === */
+/* === 第3.30.3版 FORMAL final activity/controller === */
 (function(){
   const FORMAL_EVENT_START=Date.parse("2026-08-11T22:47:00+08:00");
   const FORMAL_EVENT_END=Date.parse("2026-09-11T23:59:59+08:00");
@@ -12385,7 +12385,7 @@ body.game-entry-active #npcTownFab{
       return;
     }
 
-    // 3.29.7：以「台灣本地日期」計算，整天固定同一個數字。
+    // 第3.30.3版：以「台灣本地日期」計算，整天固定同一個數字。
     // 8/12 ~ 9/11 採首尾日都包含，因此 8/12 固定顯示 31 天。
     const now=new Date();
     const today=new Date(now.getFullYear(),now.getMonth(),now.getDate()).getTime();
@@ -12440,7 +12440,7 @@ body.game-entry-active #npcTownFab{
 })();
 </script>
 <script>
-/* === 3.29.7 FORMAL badge visibility / backfill fix === */
+/* === 第3.30.3版 FORMAL badge visibility / backfill fix === */
 (function(){
   const LAUNCH_BADGE_BY_CLAIM={
     day1:"launch_newbie",
@@ -12511,7 +12511,7 @@ body.game-entry-active #npcTownFab{
 
 
 <script>
-/* === 3.29.7 FORMAL opening story trigger fix === */
+/* === 第3.30.3版 FORMAL opening story trigger fix === */
 (function(){
   const OPENING_ID="shop_event_first";
   const OPENING_FLAG="formalOpeningCompleted_3276";
@@ -12595,7 +12595,7 @@ body.game-entry-active #npcTownFab{
 
 
 <script>
-/* === 3.29.7 FORMAL referral activity bindings === */
+/* === 第3.30.3版 FORMAL referral activity bindings === */
 (function(){
   async function bindFormalInviter(){
     const code=(document.getElementById("formalInviterCodeInput")?.value||"").trim().toUpperCase();
@@ -12648,7 +12648,7 @@ body.game-entry-active #npcTownFab{
 
 
 <script>
-/* === 3.29.7 FORMAL NPC story entry safety ===
+/* === 第3.30.3版 FORMAL NPC story entry safety ===
    Important: npcTownFab now calls window.openNpcShop dynamically.
    This lets all later wrappers (opening story, milestone repair, event gate) actually execute.
 */
@@ -12667,7 +12667,7 @@ body.game-entry-active #npcTownFab{
 
 
 <script>
-/* === 3.29.7 FORMAL story expression semantic-priority fix === */
+/* === 第3.30.3版 FORMAL story expression semantic-priority fix === */
 (function(){
   function semanticFaceForFormalStory(line, previous="normal"){
     if(!line)return "normal";
@@ -12743,7 +12743,7 @@ body.game-entry-active #npcTownFab{
           portrait.src=window.NPC_SHOPKEEPER_FACE_DATA[face];
           portrait.dataset.npcFace=face;
         }
-      }catch(e){console.warn("3.29.7 story semantic face",e)}
+      }catch(e){console.warn("第3.30.3版 story semantic face",e)}
     };
   }
 
@@ -12762,7 +12762,7 @@ body.game-entry-active #npcTownFab{
 </div>
 </div>
 <script>
-/* === 3.29.7 restore original formal-server functions === */
+/* === 第3.30.3版 restore original formal-server functions === */
 function closeDeepRescueModal(e){
     if(e){ e.preventDefault(); e.stopPropagation(); }
     const modal=document.getElementById("deepRescueModal");
@@ -13179,7 +13179,7 @@ document.addEventListener("click",function deepRescueDelegatedFallback(e){
 </script>
 
 <script>
-/* === 3.29.7 shopkeeper portrait click: include normal expression === */
+/* === 第3.30.3版 shopkeeper portrait click: include normal expression === */
 (function(){
   const normalLines=[
     "今天也有好好營業喔。",
@@ -13222,7 +13222,7 @@ document.addEventListener("click",function deepRescueDelegatedFallback(e){
 
 
 <script>
-/* === 3.29.7 authoritative shopkeeper image click reaction === */
+/* === 第3.30.3版 authoritative shopkeeper image click reaction === */
 (function(){
   document.addEventListener("click",e=>{
     const portrait=e.target.closest("#npcShopkeeperImg,#npcShopkeeperPortrait,.npcShopkeeperPortrait,[data-npc-shopkeeper-portrait]");
@@ -13251,7 +13251,7 @@ document.addEventListener("click",function deepRescueDelegatedFallback(e){
 
 
 <script>
-/* === 3.29.7 limited shop ends; earned NPC relationship persists === */
+/* === 第3.30.3版 limited shop ends; earned NPC relationship persists === */
 (function(){
   const NPC_PERSIST_KEY="npcRelationshipUnlocked";
   const EVENT_END=Date.parse("2026-09-11T23:59:59+08:00");
@@ -13344,7 +13344,7 @@ document.addEventListener("click",function deepRescueDelegatedFallback(e){
 
 
 <script>
-/* === 3.29.7 activity item display + chip conversion compatibility === */
+/* === 第3.30.3版 activity item display + chip conversion compatibility === */
 (function(){
   const activityItemNames={
     future_limited_item_ticket:"🎟️ 限定物品抽獎券",
@@ -13387,7 +13387,7 @@ document.addEventListener("click",function deepRescueDelegatedFallback(e){
 
 
 <script>
-/* === 3.29.7 pending event card navigation safety === */
+/* === 第3.30.3版 pending event card navigation safety === */
 (function(){
   document.addEventListener("click",e=>{
     const card=e.target.closest("#pendingEventList .pendingEventCard");
@@ -13401,7 +13401,7 @@ document.addEventListener("click",function deepRescueDelegatedFallback(e){
 
 
 <script>
-/* === 3.29.7 authoritative shopkeeper normal image === */
+/* === 第3.30.3版 authoritative shopkeeper normal image === */
 (function(){
   const NORMAL_SRC="cat_shopkeeper_normal.png";
 
@@ -13460,7 +13460,7 @@ document.addEventListener("click",function deepRescueDelegatedFallback(e){
 
 
 <script>
-/* === 3.29.7 activity expiry cleanup + NPC relationship anti-flicker === */
+/* === 第3.30.3版 activity expiry cleanup + NPC relationship anti-flicker === */
 (function(){
   function active(){
     try{
@@ -13514,7 +13514,7 @@ document.addEventListener("click",function deepRescueDelegatedFallback(e){
   }
 
   // Do not rewrite identical countdown text: prevents visible text flashing/reflow.
-  // 3.29.7：不再覆寫正式倒數函式；固定天數由 FORMAL controller 唯一管理。
+  // 第3.30.3版：不再覆寫正式倒數函式；固定天數由 FORMAL controller 唯一管理。
   // Coalesce bursts of repeated renders into one paint.
   let raf=0;
   const oldRender=window.renderNpcRelationships;
@@ -13560,7 +13560,7 @@ document.addEventListener("click",function deepRescueDelegatedFallback(e){
 
 
 <script>
-/* === 3.29.7 NPC relation sheet: show only when explicitly opened === */
+/* === 第3.30.3版 NPC relation sheet: show only when explicitly opened === */
 (function(){
   const sheet=document.getElementById("extraNpcRelations");
   if(!sheet)return;
@@ -13585,7 +13585,7 @@ document.addEventListener("click",function deepRescueDelegatedFallback(e){
 
 
 <script>
-/* === 3.29.7 GM activity item gifting === */
+/* === 第3.30.3版 GM activity item gifting === */
 (function(){
   const GM_ACTIVITY_ITEMS=new Set([
     "npc_crystal_chip",
@@ -13618,7 +13618,7 @@ document.addEventListener("click",function deepRescueDelegatedFallback(e){
 </script>
 
 <script>
-/* === 3.29.7 FORMAL live counter/referral sync hotfix === */
+/* === 第3.30.3版 FORMAL live counter/referral sync hotfix === */
 (function(){
   // NPC shop: daily counters must repaint immediately after every interaction.
   document.getElementById('npcShopBody')?.addEventListener('click',function(ev){
@@ -13673,7 +13673,7 @@ document.addEventListener("click",function deepRescueDelegatedFallback(e){
 })();
 </script>
 <script>
-/* === 3.29.7 FORMAL shopkeeper event-story autoplay repair === */
+/* === 第3.30.3版 FORMAL shopkeeper event-story autoplay repair === */
 (function(){
   const EVENT_DEFS=[
     {id:'shop_event_candy',title:'🎊 櫃檯糖果事件',ok:(st,c)=>Number(st.candyCount||0)>=1},
@@ -13790,7 +13790,7 @@ document.addEventListener("click",function deepRescueDelegatedFallback(e){
 
 
 <script>
-/* === 3.29.7 FORMAL shopkeeper 5 event stories: authoritative autoplay fix v2 === */
+/* === 第3.30.3版 FORMAL shopkeeper 5 event stories: authoritative autoplay fix v2 === */
 (function(){
   // Top-level const does not automatically become window.NPC_RPG_STORIES.
   // Expose it explicitly because several late compatibility patches expect window.*.
@@ -14031,10 +14031,77 @@ document.addEventListener("click",function deepRescueDelegatedFallback(e){
    $('playerForgotBack')?.addEventListener('click',showLogin);$('playerForgotSubmit')?.addEventListener('click',forgot);$('playerClaimUploadBtn')?.addEventListener('click',claimUpload);$('playerUploadCloudBtn')?.addEventListener('click',upload);$('playerQuickUploadBtn')?.addEventListener('click',upload);$('playerDownloadCloudBtn')?.addEventListener('click',download);$('playerLogoutBtn')?.addEventListener('click',logout);$('playerRecoverySubmit')?.addEventListener('click',updateRecoveryPassword);
    $('playerAccountModal')?.addEventListener('click',e=>{if(e.target===$('playerAccountModal'))closeModal()});
  }
- async function init(){wire();authSession=loadSession();const recovery=parseRecovery();if(!recovery&&authSession){await authUser();authSession=loadSession();}render();}
+ async function autoRestoreCloudCharactersIfLocalEmpty(){
+   try{
+     /* 正式服 3.30.3：首頁本機角色為空時，登入帳號後自動找回雲端角色。
+        有任何本機角色時完全不覆蓋，避免誤蓋玩家資料。 */
+     const localNow=(typeof local!=='undefined'&&Array.isArray(local.characters))?local.characters:[];
+     if(localNow.length)return false;
+     const u=await authUser();
+     if(!u)return false;
+     const rows=await api(`/player_saves?select=save_data,save_version,updated_at&user_id=eq.${encodeURIComponent(u.id)}&limit=1`,{
+       method:'GET',body:undefined,headers:{'Content-Type':'application/json'}
+     });
+     const row=rows?.[0];
+     if(!row?.save_data||!Array.isArray(row.save_data.characters)||!row.save_data.characters.length)return false;
+
+     /* 留下空本機狀態備份後再恢復雲端；不刪任何雲端內容。 */
+     restoreCloudSave(row.save_data);
+     if(typeof loadLocal==='function'){
+       local=loadLocal();
+       local.characters??=[];
+       local.characters.forEach(c=>{try{ensureRelations?.(c);ensureMeta?.(c)}catch(_){}});
+       try{ensureSharedAchievements?.();ensureBadges?.()}catch(_){}
+       try{renderHome?.()}catch(_){}
+     }
+     msg(`✅ 已從帳號雲端找回 ${row.save_data.characters.length} 位角色。`);
+     return true;
+   }catch(e){
+     console.warn('auto cloud character restore',e);
+     return false;
+   }
+ }
+ async function init(){
+   wire();
+   /* 第一幀先照本機資料渲染，不等網路。 */
+   try{renderHome?.()}catch(_){}
+   authSession=loadSession();
+   const recovery=parseRecovery();
+   if(!recovery&&authSession){
+     await authUser();
+     authSession=loadSession();
+     await autoRestoreCloudCharactersIfLocalEmpty();
+   }
+   render();
+   try{renderHome?.()}catch(_){}
+ }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
 </script>
+
+<script id="formal3302VersionGuard">
+(function(){
+  const LABEL="第3.30.3版";
+  const FULL="第3.30.3版・雲端角色自動找回";
+  function apply(){
+    document.querySelectorAll(".homeVersion").forEach(el=>el.textContent=FULL);
+    document.querySelectorAll(".updateBadge,.versionBadge,[data-version-badge]").forEach(el=>el.textContent=LABEL);
+    document.querySelectorAll(".homePanelTitle .chip").forEach(el=>{
+      if(/^第?3\.\d/.test((el.textContent||"").trim())) el.textContent=LABEL;
+    });
+    // Screenshot showed the announcement badge as a plain chip; catch only chips that are version-shaped.
+    document.querySelectorAll(".chip").forEach(el=>{
+      if(/^第?3\.\d+(?:\.\d+)?版?$/.test((el.textContent||"").trim())) el.textContent=LABEL;
+    });
+  }
+  if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",apply);
+  else apply();
+  window.addEventListener("pageshow",apply);
+  const mo=new MutationObserver(apply);
+  if(document.documentElement) mo.observe(document.documentElement,{childList:true,subtree:true});
+})();
+</script>
+
 </body>
 </html>
 <style>
@@ -14270,7 +14337,7 @@ document.addEventListener("click",function deepRescueDelegatedFallback(e){
 </script>
 
 <style>
-/* === 3.29.7 FORMAL：特殊關係「和她見面」5級培養 + 情緒互動 + 小遊戲 === */
+/* === 第3.30.3版 FORMAL：特殊關係「和她見面」5級培養 + 情緒互動 + 小遊戲 === */
 #npcMeetModal{z-index:10060!important}
 #npcMeetModal .modalBox{max-height:91dvh;overflow:auto;max-width:780px}
 .npcMeetHero{position:relative;display:block;padding:0 0 14px;border:1px solid rgba(120,80,150,.16);border-radius:20px;background:linear-gradient(135deg,rgba(255,255,255,.78),rgba(244,231,250,.72));overflow:hidden}
@@ -14330,7 +14397,7 @@ document.addEventListener("click",function deepRescueDelegatedFallback(e){
 </div>
 
 <script>
-/* === 3.29.7 FORMAL NPC relationship cultivation === */
+/* === 第3.30.3版 FORMAL NPC relationship cultivation === */
 (function(){
   const RELATION_PLANS={
     lover:{title:'💗 戀人相處',intro:'戀人線會更偏向約會、撒嬌與只有兩人的時間。',plans:[
@@ -14501,7 +14568,7 @@ document.addEventListener("click",function deepRescueDelegatedFallback(e){
 
 
 <style>
-/* === 3.29.7 FORMAL meet entry: compact top-right button without covering content === */
+/* === 第3.30.3版 FORMAL meet entry: compact top-right button without covering content === */
 .npcRelationCard{position:relative;padding-right:118px!important}
 .npcRelationActions button[data-npc-rel-meet]{position:absolute!important;top:12px!important;right:12px!important;z-index:3!important;min-height:34px!important;padding:6px 9px!important;font-size:12px!important;margin:0!important;width:auto!important;max-width:108px!important}
 @media(max-width:390px){.npcRelationCard{padding-right:108px!important}.npcRelationActions button[data-npc-rel-meet]{right:8px!important;max-width:98px!important;padding:6px 7px!important;font-size:11px!important}}
@@ -14561,7 +14628,7 @@ document.addEventListener("click",function deepRescueDelegatedFallback(e){
 
 <script id="formal3298MaidCommerce">
 (function(){
- const BUILD='3.30.1';
+ const BUILD='3.30.3';
  const THEME_KEY='role_life_formal_theme_v1';
  const VOUCHER='npc_maid_cafe_coffee_voucher';
 
@@ -14758,7 +14825,7 @@ document.addEventListener("click",function deepRescueDelegatedFallback(e){
  },true);
 
  function version(){
-  const hv=document.querySelector('.homeVersion');if(hv)hv.textContent='第3.30.0版・藍新金流通路預埋';
+  const hv=document.querySelector('.homeVersion');if(hv)hv.textContent='第第3.30.3版版・藍新金流通路預埋';
  }
  function boot(){version();void window.renderFormalPaidShop();apply(c(),true)}
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
@@ -14766,13 +14833,4 @@ document.addEventListener("click",function deepRescueDelegatedFallback(e){
 })();
 </script>
 
-<script id="formal3301VersionLabel">
-(function(){
- function apply(){
-   const v=document.querySelector(".homeVersion");
-   if(v)v.textContent="第3.30.1版・玩家帳密登入恢復";
- }
- if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",apply,{once:true});else apply();
- window.addEventListener("pageshow",apply);
-})();
-</script>
+
