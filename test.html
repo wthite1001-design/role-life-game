@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#9a76c4">
-<title>關係進行式 TEST・3.26.25-帳號雲端存檔版</title>
+<title>關係進行式 TEST・3.26.29-付費咖啡券女僕劇情外觀</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -183,6 +183,8 @@ h1{font-size:20px;margin:0}
 #extraShop.active #shopList{display:grid!important;min-height:120px}
 #extraShop.active #specialShopStatus{display:block!important}
 
+.backupGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.backupGrid button{min-height:44px}
 
 #achievementFilters.achievementCategoryTabs{
   display:flex!important;
@@ -1632,14 +1634,6 @@ body.npcStoryRunning .draggableFab{
 /* 明確保留兩個例外原樣 */
 #npcShopModal .modalBox,#npcShopModal .modalCard,#launchActivityModal .modalBox,#launchActivityModal .modalCard{filter:none!important}
 </style>
-
-<style id="v32626BagPaidCleanupStyle">
-#bagList.bagItemGrid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important}
-#bagList .bagTile{min-width:0!important;width:100%!important;min-height:112px!important;padding:12px 8px!important;overflow:hidden!important}
-#bagList .bagTile .ico{font-size:28px!important;line-height:1.2!important}
-#bagList .bagTile b{display:block!important;font-size:16px!important;line-height:1.35!important;overflow-wrap:anywhere!important;word-break:break-word!important;color:#493650!important}
-#bagList .bagTile .small{font-size:13px!important;color:#8c7d92!important}
-</style>
 </head>
 <body>
 
@@ -1704,7 +1698,7 @@ body.npcStoryRunning .draggableFab{
     <div class="homeLogo">🧪</div>
     <h1>關係進行式 TEST</h1>
     <div class="homeTagline">測試中的每一段關係，都可能被重置。</div>
-    <div class="homeVersion">3.26.25・測試服｜帳號雲端存檔版</div>
+    <div class="homeVersion">3.26.29・測試服｜付費咖啡券・女僕劇情・外觀測試</div>
   </div>
 
   <div id="playerAccountHomePanel" class="homePanel accountHomePanel">
@@ -1792,6 +1786,15 @@ body.npcStoryRunning .draggableFab{
   </div>
 
   
+  <div class="homePanel">
+    <div class="homePanelTitle"><span>💾 存檔備份</span><span class="muted">JSON</span></div>
+    <div class="backupGrid">
+      <button id="exportSaveBtn" class="primary" type="button">💾 匯出存檔</button>
+      <button id="importSaveBtn" type="button">📂 匯入存檔</button>
+      <input id="importSaveFile" type="file" accept=".json,application/json" class="hidden">
+    </div>
+    <div class="small" style="margin-top:8px">支援舊版存檔自動升級。更新版本、換手機或安裝 APK 前仍建議先備份一次。</div>
+  </div>
 <div class="homePanel">
     <div class="homePanelTitle"><span>🎵 背景音樂</span><span class="chip" id="net">雲端待命</span></div>
     <div class="homeMusic">
@@ -3142,9 +3145,119 @@ function normalizeImportedCharacter(oldChar){
   return c;
 }
 
-// 3.26.25：一般玩家手動 JSON 匯入／匯出已移除。
-// 舊角色遷移與跨裝置同步改由玩家帳號雲端流程處理；
-// 雲端下載前的自動本機安全備份仍保留。
+function migrateImportedSave(rawData,fromVersion=0){
+  // 永遠從「目前 local 結構」取得新版欄位，再套入舊存檔。
+  const currentSkeleton=deepClone(local||{});
+  let migrated=mergeSaveDefaults(currentSkeleton,rawData||{});
+  migrated.characters=Array.isArray(rawData?.characters)
+    ?rawData.characters.map(normalizeImportedCharacter)
+    :[];
+  // 共享成就、徽章等舊資料若存在就保留；新版缺的欄位由 ensure 補齊。
+  return migrated;
+}
+
+function createPreImportBackup(){
+  try{
+    const key=`role_life_preimport_${Date.now()}`;
+    localStorage.setItem(key,JSON.stringify({
+      type:SAVE_BACKUP_TYPE,version:SAVE_BACKUP_VERSION,
+      exportedAt:new Date().toISOString(),data:local
+    }));
+    // 只保留最近 3 份匯入前安全備份。
+    const keys=[];
+    for(let i=0;i<localStorage.length;i++){
+      const k=localStorage.key(i);if(k?.startsWith("role_life_test_preimport_"))keys.push(k);
+    }
+    keys.sort().reverse().slice(3).forEach(k=>localStorage.removeItem(k));
+    return key;
+  }catch(e){console.warn("建立匯入前備份失敗",e);return "";}
+}
+
+function makeSaveBackup(){
+  return {
+    type:SAVE_BACKUP_TYPE,
+    version:SAVE_BACKUP_VERSION,
+    exportedAt:new Date().toISOString(),
+    localKey:LOCAL_KEY,
+    data:local
+  };
+}
+function safeFilenamePart(v){
+  return String(v||"save").replace(/[\\/:*?"<>|]+/g,"_").replace(/\s+/g,"_").slice(0,40);
+}
+function exportGameSave(){
+  try{
+    saveLocal();
+    const blob=new Blob([JSON.stringify(makeSaveBackup(),null,2)],{type:"application/json;charset=utf-8"});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement("a");
+    const date=new Date().toISOString().slice(0,10);
+    const names=(local.characters||[]).map(x=>x.name).filter(Boolean).slice(0,2).join("_")||"角色";
+    a.href=url;
+    a.download=`關係進行式_存檔_${safeFilenamePart(names)}_${date}.json`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),1000);
+    toast("💾 存檔已匯出");
+  }catch(err){
+    console.error("export save failed",err);
+    alert("匯出存檔失敗："+(err?.message||"未知錯誤"));
+  }
+}
+function validateImportedSave(payload){
+  if(!payload||typeof payload!=="object")throw new Error("檔案內容不是有效的 JSON 存檔。");
+  const wrapped=payload.type===SAVE_BACKUP_TYPE;
+  const data=wrapped?payload.data:payload;
+  const version=wrapped?Number(payload.version||0):0;
+  if(!data||typeof data!=="object"||!Array.isArray(data.characters)){
+    throw new Error("這不是《關係進行式》的有效存檔。");
+  }
+  if(version>SAVE_BACKUP_VERSION){
+    throw new Error(`這份存檔來自更高的存檔版本（v${version}），請先更新遊戲再匯入。`);
+  }
+  return {data,version};
+}
+async function importGameSaveFile(file){
+  if(!file)return;
+  let oldLocal=deepClone(local);
+  try{
+    const parsed=JSON.parse(await file.text());
+    const checked=validateImportedSave(parsed);
+    const incoming=checked.data;
+    const fromVersion=checked.version;
+    const count=incoming.characters?.length||0;
+    const names=(incoming.characters||[]).map(x=>x.name).filter(Boolean).slice(0,5).join("、")||"無角色";
+    const versionNote=fromVersion<SAVE_BACKUP_VERSION
+      ?`\n\n♻️ 舊存檔 v${fromVersion} → 會自動升級為目前格式 v${SAVE_BACKUP_VERSION}，新版新增內容會保留。`
+      :"\n\n✅ 存檔格式與目前版本相容。";
+    if(!confirm(`準備匯入存檔。\n\n角色數：${count}\n角色：${names}${versionNote}\n\n角色進度、背包、成就等舊資料會沿用；新版新增的欄位會自動補上。\n\n確定繼續嗎？`))return;
+
+    createPreImportBackup();
+    const migrated=migrateImportedSave(incoming,fromVersion);
+    local=migrated;
+    local.characters??=[];
+    local.characters.forEach(c=>ensureRelations(c));
+    ensureSharedAchievements();
+    ensureBadges();
+
+    if(!saveLocal())throw new Error("寫入瀏覽器儲存空間失敗。");
+
+    // 再讀一次確認寫入後仍有角色陣列，失敗就回復匯入前資料。
+    const verify=JSON.parse(localStorage.getItem(LOCAL_KEY)||"null");
+    if(!verify||!Array.isArray(verify.characters))throw new Error("新存檔驗證失敗，已取消匯入。");
+
+    activeId="";activeRoomCode="";room=null;partner=null;stopPolling();
+    renderHome();show("home");
+    toast(`📂 匯入成功：${count} 個角色${fromVersion<SAVE_BACKUP_VERSION?"・已自動升級存檔":""}`,5000);
+  }catch(err){
+    console.error("import save failed",err);
+    try{local=oldLocal;saveLocal();renderHome();}catch(e){}
+    alert("匯入存檔失敗："+(err?.message||"檔案格式不正確")+"\n\n原本的本機存檔已保留。");
+  }finally{
+    const input=document.getElementById("importSaveFile");if(input)input.value="";
+  }
+}
 
 async function refreshPublicStats(){
   try{
@@ -4345,6 +4458,9 @@ document.getElementById("gmGiftCountPresets")?.addEventListener("click",e=>{
 document.getElementById("gmSendGift")?.addEventListener("click",gmSendOfficialGift);
 document.getElementById("gmRefreshLog")?.addEventListener("click",loadGMLog);
 document.getElementById("gmGiftInbox")?.addEventListener("click",e=>{let b=e.target.closest("[data-claim-gm]");if(b)claimOfficialGift(b.dataset.claimGm)});
+document.getElementById("exportSaveBtn")?.addEventListener("click",exportGameSave);
+document.getElementById("importSaveBtn")?.addEventListener("click",()=>document.getElementById("importSaveFile")?.click());
+document.getElementById("importSaveFile")?.addEventListener("change",e=>importGameSaveFile(e.target.files?.[0]));
 
 document.getElementById("createChar").onclick=()=>{
   try{
@@ -4400,6 +4516,7 @@ async function openChar(id){
   activeId=id;
   let c=found;
   ensureRelations(c); ensureMeta(c);
+
   if(!["male","female"].includes(c.gender)){
     let pick=prompt("這是舊角色存檔，請設定角色性別：\n輸入 1＝男\n輸入 2＝女");
     if(pick!=="1"&&pick!=="2")return;
@@ -6925,7 +7042,7 @@ function renderExtras(c){
  safeCall(()=>renderWork(c),"打工");
  safeCall(()=>renderJournal(c),"生活日誌");
  safeCall(()=>renderShop(c),"商店");
- let bl=document.getElementById('bagList');if(bl){if(!c.inventory||typeof c.inventory!=='object'||Array.isArray(c.inventory))c.inventory={};let a=Object.entries(c.inventory).filter(([id,n])=>Number(n)>0&&!String(id).startsWith('paid_'));bl.className=a.length?"itemGrid bagItemGrid":"";bl.innerHTML=a.length?a.map(([id,n])=>{let i=protoShop.find(x=>x.id===id);let ni=(typeof NPC_ITEM_EFFECTS!=='undefined'&&NPC_ITEM_EFFECTS)?NPC_ITEM_EFFECTS[id]:null;let nm=i?.n||ni?.name||id;return `<button class="tile bagTile" data-bag="${id}"><div class="ico">${nm.split(" ")[0]||"🎁"}</div><b>${nm.includes(" ")?nm.substring(nm.indexOf(" ")+1):nm}</b><div class="small">×${n}</div></button>`}).join(''):'<div class="muted">背包目前是空的。</div>'}
+ let bl=document.getElementById('bagList');if(bl){let a=Object.entries(c.inventory).filter(x=>x[1]>0);bl.className=a.length?"itemGrid":"";bl.innerHTML=a.length?a.map(([id,n])=>{let i=protoShop.find(x=>x.id===id);let ni=NPC_ITEM_EFFECTS?.[id];let nm=i?.n||ni?.name||id;return `<button class="tile" data-bag="${id}"><div class="ico">${nm.split(" ")[0]||"🎁"}</div><b>${nm.includes(" ")?nm.substring(nm.indexOf(" ")+1):nm}</b><div class="small">×${n}</div></button>`}).join(''):'<div class="muted">背包目前是空的。</div>'}
  let ml=document.getElementById('memoryList');if(ml)ml.innerHTML=c.memories.length?c.memories.map(x=>`<div class="itemRow"><b>${x.t}</b><div class="small">${x.d}</div></div>`).join(''):'<div class="muted">還沒有特殊回憶。</div>';
  if(day(c)>=7)c.achievements.week=1;if(day(c)>=30)c.achievements.month=1;c.achievements.start=1;if((c.stats?.workCount||0)>=1)c.achievements.work1=1;if((c.stats?.workCount||0)>=10)c.achievements.work10=1;if((c.stats?.workEarned||0)>=1000)c.achievements.earn1000=1;if(c.roomCodes.length)c.achievements.relation=1;if(c.roomCodes.length>=3)c.achievements.three=1;
  if((c.stats?.messages||0)>=1)c.achievements.msg1=1;if((c.stats?.messages||0)>=10)c.achievements.msg10=1;if((c.stats?.messages||0)>=50)c.achievements.msg50=1;
@@ -13338,7 +13455,7 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opa
   c.paidOrders??=[];c.inventory??={};
   const orderNo='TEST'+Date.now().toString(36).toUpperCase()+Math.random().toString(36).slice(2,6).toUpperCase();
   if(c.paidOrders.some(o=>o.orderNo===orderNo))return toast('這筆訂單已經領取過。');
-  c.money=safeMoney(Number(c.money||0)+p.coins);c.paidCollectibles??={};c.paidCollectibles[p.item]=Math.max(1,Number(c.paidCollectibles[p.item]||0));
+  c.money=safeMoney(Number(c.money||0)+p.coins);c.inventory[p.item]=(c.inventory[p.item]||0)+1;
   c.paidOrders.push({orderNo,productId:p.id,name:p.name,price:p.price,coins:p.coins,paidAt:new Date().toISOString(),status:'test_paid',granted:true});
   saveLocal();renderGame();renderPaid();
   alert(`付款成功（測試）\n\n訂單：${orderNo}\n獲得：🪙 ${p.coins} 金幣\n收藏品：${p.itemName}`);
@@ -13353,7 +13470,7 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opa
 
 
 <style id="v32624MaidPaidFlowStyle">
-/* === 3.26.24：付費商店→貓貓商店兌換→NPC付費劇情→贈送女僕咖啡背景 === */
+/* === 3.26.29：付費商店→貓貓商店兌換→NPC付費劇情→贈送女僕咖啡背景 === */
 #appearanceModal .modalBox{max-height:88dvh;overflow:auto}
 .appearanceGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:10px}
 .appearanceCard{border:1px solid #dfd1e7;border-radius:16px;padding:12px;background:#fffafd;text-align:center;min-height:155px;display:flex;flex-direction:column;justify-content:space-between}
@@ -13510,20 +13627,6 @@ body.theme-maid-cafe #game>.top .chip{background:rgba(255,248,251,.94)!important
  function boot(){installDrawer();const c=current();if(c){ensure(c);applyAllThemes(c)}renderPaidV324();renderAppearance();injectMaidRedeem();injectPaidStorySection();observer.observe(document.body,{childList:true,subtree:true});}
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(boot,200));else setTimeout(boot,200);
  window.applyPaidAppearance=applyAllThemes;
-})();
-</script>
-
-
-
-<script id="v32628EntrySafety">
-(function(){
-  function version(){
-    document.querySelectorAll('.homeVersion,#testServerRibbon').forEach(el=>{
-      el.textContent=el.textContent.replace('3.26.19','3.26.28').replace('3.26.2M-beta','3.26.28-beta').replace('3.26.27-beta','3.26.28-beta');
-    });
-  }
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',version); else version();
-  setTimeout(version,500);
 })();
 </script>
 </body>
