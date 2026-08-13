@@ -15000,10 +15000,24 @@ html[data-owned-theme32659="qixi"] button.primary{color:#fff!important}
 </script>
 
 
-<script id="v32667FullMaidFlowReset">
+<style id="v32667PaidFlowResetStyle">
+#paidFlowReset32667{
+  width:100%;
+  margin:10px 0 4px;
+  padding:11px 12px;
+  border-radius:14px;
+  border:1px dashed #caa2b1;
+  background:#fff7fa;
+  color:#6d4655;
+  font-weight:800;
+}
+</style>
+
+<script id="v32667PaidFlowReset">
 (function(){
  const VERSION='3.26.67';
- const RESET_KEY='v32667_maid_flow_reset_once';
+ const ONCE_KEY='paid_flow_reset_32667_once';
+ const VOUCHER='npc_maid_cafe_coffee_voucher';
 
  function current(){try{return typeof cur==='function'?cur():null}catch(_){return null}}
  function ensure(c){
@@ -15015,126 +15029,130 @@ html[data-owned-theme32659="qixi"] button.primary{color:#fff!important}
    c.paidCosmetics??={};
    c.paidVoucherFlags??={};
    c.paidStoryFlags??={};
+   c.memories??=[];
  }
 
- function resetMaidFlow(c){
-   if(!c)return;
+ function clearMaidFlow(c){
    ensure(c);
 
-   /* 清掉所有歷史上用過的 NT$50 / 女僕咖啡廳購買紀錄 */
+   /* 1. 購買紀錄：只清掉 NT$50 / 咖啡券 / 女僕主題相關訂單。 */
    c.paidOrders=(c.paidOrders||[]).filter(o=>{
-     const id=String(o.productId||'');
-     const name=String(o.name||'');
-     const price=Number(o.price||0);
+     const id=String(o?.productId||'');
+     const name=String(o?.name||'');
+     const price=Number(o?.price||0);
      return !(
-       price===50 ||
-       /maidCafe50|support30|coffee/i.test(id) ||
-       /請店長喝|女僕咖啡廳/.test(name)
+       id==='coffee' ||
+       id==='support30' ||
+       id==='maidCafe50' ||
+       id==='maidCafe' ||
+       id==='maidCafeVoucher' ||
+       (price===50 && /請店長喝|女僕咖啡廳|coffee/i.test(name+' '+id))
      );
    });
 
-   /* 清掉付款資格、兌換、劇情、主題持有 */
-   [
-     'maidCafeVoucher','maidCafeCoffeeRedeemed','maidCafe',
-     'paid_maid_cafe_story','coffee'
-   ].forEach(k=>{
-     delete c.paidEntitlements[k];
-     delete c.paidVoucherFlags[k];
-     delete c.paidStoryFlags[k];
-     delete c.paidCosmetics[k];
-   });
+   /* 2. 背包券與舊版相容 key。 */
+   delete c.inventory[VOUCHER];
+   delete c.inventory.paid_support_30;
+   delete c.paidCollectibles.paid_support_30;
 
-   /* 清掉不同歷史版本曾使用的咖啡券 inventory key */
-   [
-     'npc_maid_cafe_coffee_voucher',
-     'maidCafeVoucher',
-     'maid_cafe_voucher',
-     'paid_support_30',
-     'paid_support_50'
-   ].forEach(k=>{ delete c.inventory[k]; });
+   /* 3. 女僕主題持有 / 兌換 / 劇情狀態。 */
+   delete c.paidCosmetics.maidCafe;
+   delete c.paidEntitlements.maidCafeCoffeeRedeemed;
+   delete c.paidEntitlements.maidCafeVoucherRedeem;
+   delete c.paidEntitlements.maidCafeCoffeeTicket;
+   delete c.paidEntitlements.__legacyCoffeeConverted32643;
+   c.paidVoucherFlags.maidCafeVoucher=false;
+   delete c.paidStoryFlags.paid_maid_cafe_story;
 
-   /* 回到一般背景 */
+   /* 4. 回到一般背景，保留其他已持有主題資料。 */
    c.activePaidTheme='';
-   c.activeTheme='';
-   c.theme='';
-   try{document.documentElement.removeAttribute('data-theme')}catch(_){}
-   try{document.body?.removeAttribute('data-theme')}catch(_){}
-   try{document.body?.classList.remove('theme-maid-cafe','maid-cafe-preview')}catch(_){}
 
-   /* 清掉常見的劇情完成旗標 */
-   Object.keys(c).forEach(k=>{
-     if(/maid.*(story|cafe)|paid_maid_cafe_story/i.test(k) &&
-        !['paidStoryFlags','paidCosmetics'].includes(k)){
-       if(typeof c[k]==='boolean') c[k]=false;
+   /* 5. 女僕劇情收藏記錄清掉，方便完整重跑。 */
+   c.memories=(c.memories||[]).filter(x=>String(x?.t||'')!=='🎀 付費劇情・女僕咖啡廳');
+
+   /* 6. NPC state 的女僕劇情完成旗標清掉；其他 NPC 關係 / 好感完全保留。 */
+   try{
+     const st=typeof npcState==='function'?npcState():null;
+     if(st){
+       st.flags??={};
+       delete st.flags.paidMaidCafeStory;
+       try{saveNpcState?.(st)}catch(_){}
      }
-   });
+   }catch(_){}
 
    try{saveLocal?.()}catch(_){}
+
+   /* 7. 立刻清掉畫面上任何女僕/星河 class，強制一般背景。 */
+   const body=document.body;
+   const html=document.documentElement;
+   body?.classList.remove('theme-maid-cafe','maid-cafe-preview','theme-qixi-paid');
+   html?.setAttribute('data-owned-theme32659','default');
+   html?.removeAttribute('data-test-theme');
+   html?.removeAttribute('data-theme');
+
+   try{
+     renderGame?.();
+     renderAppearance?.();
+     renderPaidShop?.();
+     renderNpcShop?.();
+   }catch(_){}
  }
 
- function applyNormalTheme(){
+ function autoResetOnce(){
    const c=current();
-   if(c){
-     c.activePaidTheme='';
-     try{saveLocal?.()}catch(_){}
+   if(!c)return;
+   const key=ONCE_KEY+'_'+String(c.id||c.name||'char');
+   if(localStorage.getItem(key)==='1')return;
+   clearMaidFlow(c);
+   localStorage.setItem(key,'1');
+   toast?.('🧪 3.26.67：已初始化女僕付費流程，可從 NT$50 購買重新完整測試。',4800);
+ }
+
+ function installManualReset(){
+   const box=document.getElementById('paidShopList');
+   if(!box)return;
+   if(document.getElementById('paidFlowReset32667'))return;
+   const btn=document.createElement('button');
+   btn.id='paidFlowReset32667';
+   btn.type='button';
+   btn.textContent='🧪 重置女僕付費流程';
+   box.parentNode?.insertBefore(btn,box);
+ }
+
+ document.addEventListener('click',e=>{
+   const b=e.target.closest?.('#paidFlowReset32667');
+   if(b){
+     e.preventDefault();e.stopImmediatePropagation();
+     const c=current();
+     if(!c)return toast?.('請先進入角色。',2400);
+     if(!confirm('確定重置目前角色的女僕付費測試流程嗎？\n\n會清除：NT$50 購買紀錄、咖啡券、女僕主題解鎖、兌換狀態、女僕特殊劇情完成紀錄，並切回一般背景。\n\n其他角色資料與 NPC 關係不會清除。'))return;
+     clearMaidFlow(c);
+     toast?.('♻️ 女僕付費流程已重置，可以重新購買並完整跑一次。',4200);
+     setTimeout(()=>{installManualReset();try{renderPaidShop?.()}catch(_){}},50);
+     return;
    }
-   document.documentElement.removeAttribute('data-theme');
-   document.body?.removeAttribute('data-theme');
-   document.body?.classList.remove('theme-maid-cafe','maid-cafe-preview');
- }
+   if(e.target.closest?.('[data-shop-tab="paid"]')){
+     setTimeout(installManualReset,60);
+   }
+ },true);
 
- function resetOnce(){
-   const c=current();
-   if(!c)return false;
-   let done=false;
-   try{done=sessionStorage.getItem(RESET_KEY)==='1'}catch(_){}
-   if(done)return false;
-   resetMaidFlow(c);
-   try{sessionStorage.setItem(RESET_KEY,'1')}catch(_){}
-   return true;
+ function version(){
+   document.querySelectorAll('.testServerRibbon').forEach(x=>x.textContent='🧪 TEST・'+VERSION+'-beta');
+   const hv=document.querySelector('.homeVersion');
+   if(hv)hv.textContent=VERSION+'・測試服｜女僕付費流程重置測試';
+   const meta=document.querySelector('meta[name="x-test-build"]');
+   if(meta)meta.content=VERSION;
+   document.title='關係進行式 TEST・'+VERSION+'-女僕付費流程重置測試';
  }
 
  function boot(){
-   applyNormalTheme();
-   if(resetOnce()){
-     try{renderGame?.()}catch(_){}
-     try{renderPaidShop?.()}catch(_){}
-     setTimeout(()=>toast?.('🧪 已初始化女僕咖啡廳測試流程：請從 NT$50 購買開始。',4200),300);
-   }
-   document.querySelectorAll('.testServerRibbon').forEach(n=>n.textContent='🧪 TEST・'+VERSION+'-beta');
-   const hv=document.querySelector('.homeVersion');
-   if(hv)hv.textContent=VERSION+'・測試服｜女僕咖啡廳完整流程重跑';
+   version();
+   /* 等角色資料真正載入後再做一次性初始化；不使用 observer / interval。 */
+   setTimeout(()=>{autoResetOnce();installManualReset()},650);
  }
 
- /* 額外提供測試重置按鈕，跑完一次後可再重跑，不必重建角色。 */
- function addResetButton(){
-   if(document.getElementById('v32667ResetMaidFlow'))return;
-   const host=document.querySelector('.homeVersion')?.parentElement || document.body;
-   const b=document.createElement('button');
-   b.id='v32667ResetMaidFlow';
-   b.type='button';
-   b.textContent='🧪 重置女僕咖啡廳測試流程';
-   b.style.cssText='margin:10px auto;padding:10px 14px;border-radius:16px;border:1px solid #d9b9c8;background:#fff7fa;color:#63394b;font-weight:700;display:block;';
-   b.onclick=()=>{
-     const c=current();
-     if(!c){toast?.('請先進入角色。',2200);return;}
-     resetMaidFlow(c);
-     try{sessionStorage.setItem(RESET_KEY,'1')}catch(_){}
-     try{renderGame?.()}catch(_){}
-     try{renderPaidShop?.()}catch(_){}
-     toast?.('🧪 已重置：NT$50 → 貓貓商店兌換 → 劇情 → 背景切換，可重新跑一次。',4200);
-   };
-   host.appendChild(b);
- }
-
- if(document.readyState==='loading'){
-   document.addEventListener('DOMContentLoaded',()=>{setTimeout(()=>{boot();addResetButton()},120)},{once:true});
- }else setTimeout(()=>{boot();addResetButton()},120);
-
- window.resetMaidCafeTestFlow32667=function(){
-   const c=current(); resetMaidFlow(c);
-   try{renderGame?.()}catch(_){}
-   try{renderPaidShop?.()}catch(_){}
- };
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});
+ else boot();
+ window.addEventListener('pageshow',()=>{version();setTimeout(installManualReset,120)});
 })();
 </script>
