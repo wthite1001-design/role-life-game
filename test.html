@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#9a76c4">
-<meta name="x-test-build" content="3.26.33">
+<meta name="x-test-build" content="3.26.34">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>關係進行式 TEST・3.26.33-Android即時進入修復</title>
+<title>關係進行式 TEST・3.26.34-Android即時進入修復</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -1702,7 +1702,7 @@ body.npcStoryRunning .draggableFab{
     <div class="homeLogo">🧪</div>
     <h1>關係進行式 TEST</h1>
     <div class="homeTagline">測試中的每一段關係，都可能被重置。</div>
-    <div class="homeVersion">3.26.33・測試服｜Android即時進入修復</div>
+    <div class="homeVersion">3.26.34・測試服｜Android即時進入修復</div>
   </div>
 
   <div id="playerAccountHomePanel" class="homePanel accountHomePanel">
@@ -12300,11 +12300,11 @@ body:not(.launch-game-open) #launchActivityFab.activityEntryVisible{
 
   /* 更新測試服版本顯示，避免入口仍寫 3.24-beta。 */
   const replacements=[
-    ["Ver.3.24-beta","Ver.3.26.33-beta"],
-    ["TEST • 3.24-beta","TEST • 3.26.33-beta"],
-    ["TEST・3.24-beta","TEST・3.26.33-beta"],
-    ["TEST • 3.26.1-beta","TEST • 3.26.33-beta"],
-    ["TEST・3.26.1-beta","TEST・3.26.33-beta"]
+    ["Ver.3.24-beta","Ver.3.26.34-beta"],
+    ["TEST • 3.24-beta","TEST • 3.26.34-beta"],
+    ["TEST・3.24-beta","TEST・3.26.34-beta"],
+    ["TEST • 3.26.1-beta","TEST • 3.26.34-beta"],
+    ["TEST・3.26.1-beta","TEST・3.26.34-beta"]
   ];
   function updateVersionLabels(){
     document.querySelectorAll("body *").forEach(el=>{
@@ -12314,8 +12314,8 @@ body:not(.launch-game-open) #launchActivityFab.activityEntryVisible{
         if(t!==el.textContent)el.textContent=t;
       }
     });
-    if(document.title.includes("3.24-beta"))document.title=document.title.replace("3.24-beta","3.26.33-beta");
-    if(document.title.includes("3.26.1-beta"))document.title=document.title.replace("3.26.1-beta","3.26.33-beta");
+    if(document.title.includes("3.24-beta"))document.title=document.title.replace("3.24-beta","3.26.34-beta");
+    if(document.title.includes("3.26.1-beta"))document.title=document.title.replace("3.26.1-beta","3.26.34-beta");
   }
   updateVersionLabels();
   setTimeout(updateVersionLabels,500);
@@ -13645,8 +13645,42 @@ body.theme-maid-cafe #game>.top .chip{background:rgba(255,248,251,.94)!important
  },true);
 
  const oldRenderPaid=window.renderPaidShop;window.renderPaidShop=renderPaidV324;
- const observer=new MutationObserver(()=>{injectMaidRedeem();injectPaidStorySection()});
- function boot(){installDrawer();const c=current();if(c){ensure(c);applyAllThemes(c)}renderPaidV324();renderAppearance();injectMaidRedeem();injectPaidStorySection();observer.observe(document.body,{childList:true,subtree:true});}
+ /* 3.26.34 FIX:
+    舊版用 MutationObserver 監看整個 document.body，callback 內又會 remove/append
+    npcPaidStorySection，造成 observer -> DOM 修改 -> observer 的無限迴圈。
+    Android WebView 在角色進入開始大量 render 後會因此卡死甚至被系統殺掉。
+    改成事件驅動，只在真正需要的 NPC 畫面更新。 */
+ function refreshPaidNpcUi(){
+  try{injectMaidRedeem()}catch(e){console.warn('paid maid redeem refresh',e)}
+  try{injectPaidStorySection()}catch(e){console.warn('paid story refresh',e)}
+ }
+ function hookNpcPaidUi(){
+  try{
+   if(typeof window.openNpcShop==='function'&&!window.openNpcShop.__paidUiHook){
+    const orig=window.openNpcShop;
+    const wrapped=function(){const r=orig.apply(this,arguments);setTimeout(refreshPaidNpcUi,0);return r};
+    wrapped.__paidUiHook=true;window.openNpcShop=wrapped;
+   }
+  }catch(e){console.warn('hook openNpcShop',e)}
+  try{
+   if(typeof window.openNpcDetail==='function'&&!window.openNpcDetail.__paidUiHook){
+    const orig=window.openNpcDetail;
+    const wrapped=function(){const r=orig.apply(this,arguments);setTimeout(refreshPaidNpcUi,0);return r};
+    wrapped.__paidUiHook=true;window.openNpcDetail=wrapped;
+   }
+  }catch(e){console.warn('hook openNpcDetail',e)}
+  try{
+   if(typeof window.renderNpcShop==='function'&&!window.renderNpcShop.__paidUiHook){
+    const orig=window.renderNpcShop;
+    const wrapped=function(){const r=orig.apply(this,arguments);setTimeout(refreshPaidNpcUi,0);return r};
+    wrapped.__paidUiHook=true;window.renderNpcShop=wrapped;
+   }
+  }catch(e){console.warn('hook renderNpcShop',e)}
+ }
+ function boot(){
+  installDrawer();const c=current();if(c){ensure(c);applyAllThemes(c)}
+  renderPaidV324();renderAppearance();hookNpcPaidUi();refreshPaidNpcUi();
+ }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(boot,200));else setTimeout(boot,200);
  window.applyPaidAppearance=applyAllThemes;
 })();
@@ -13664,7 +13698,7 @@ body.theme-maid-cafe #game>.top .chip{background:rgba(255,248,251,.94)!important
       const c=chars.find(x=>String(x.id)===String(id));
       if(!c){alert('找不到這個角色存檔。請重新整理頁面後再試。');return;}
 
-      /* 3.26.33 Android hard fix:
+      /* 3.26.34 Android hard fix:
          切畫面一定要早於任何存檔序列化、每日重置、完整 render 或雲端工作。
          舊版在 show(game) 前呼叫 saveLocal()，大型存檔在 Android WebView 會長時間堵塞，
          甚至被系統直接殺掉。 */
@@ -13708,7 +13742,7 @@ body.theme-maid-cafe #game>.top .chip{background:rgba(255,248,251,.94)!important
         try{if(typeof ensureRelations==='function')ensureRelations(c)}catch(err){console.warn('entry ensureRelations',err)}
         try{if(typeof ensureMeta==='function')ensureMeta(c)}catch(err){console.warn('entry ensureMeta',err)}
         try{if(typeof restoreBadgeShowcaseBackup==='function')restoreBadgeShowcaseBackup(c)}catch(err){console.warn('entry badge restore',err)}
-        /* 3.26.33: 第一階段禁止呼叫 renderGame。renderGame 內仍包含每日判定、關係卡與多個大型 DOM 建立。 */
+        /* 3.26.34: 第一階段禁止呼叫 renderGame。renderGame 內仍包含每日判定、關係卡與多個大型 DOM 建立。 */
         try{
           const cid=document.getElementById('charIdCode');if(cid&&typeof displayCharacterId==='function')cid.textContent=displayCharacterId(c);
           const gb=document.getElementById('genderBadge');if(gb){gb.textContent=c.gender==='male'?'♂ 男':'♀ 女';gb.classList.toggle('hidden',!c.gender)}
@@ -13745,7 +13779,7 @@ body.theme-maid-cafe #game>.top .chip{background:rgba(255,248,251,.94)!important
         try{if(typeof startPolling==='function')startPolling()}catch(err){console.warn('entry polling',err)}
       },12000);
     }catch(err){
-      console.error('3.26.33 forced local entry failed',err);
+      console.error('3.26.34 forced local entry failed',err);
       alert('角色進入失敗：'+(err?.message||'未知錯誤'));
     }
   }
