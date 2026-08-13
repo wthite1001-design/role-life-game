@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#9a76c4">
-<title>關係進行式 TEST・3.26.30-角色進入修復</title>
+<title>關係進行式 TEST・3.26.31-Android角色進入修復</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -1698,7 +1698,7 @@ body.npcStoryRunning .draggableFab{
     <div class="homeLogo">🧪</div>
     <h1>關係進行式 TEST</h1>
     <div class="homeTagline">測試中的每一段關係，都可能被重置。</div>
-    <div class="homeVersion">3.26.30・測試服｜角色進入修復</div>
+    <div class="homeVersion">3.26.31・測試服｜Android角色進入修復</div>
   </div>
 
   <div id="playerAccountHomePanel" class="homePanel accountHomePanel">
@@ -12296,11 +12296,11 @@ body:not(.launch-game-open) #launchActivityFab.activityEntryVisible{
 
   /* 更新測試服版本顯示，避免入口仍寫 3.24-beta。 */
   const replacements=[
-    ["Ver.3.24-beta","Ver.3.26.2M-beta"],
-    ["TEST • 3.24-beta","TEST • 3.26.2M-beta"],
-    ["TEST・3.24-beta","TEST・3.26.2M-beta"],
-    ["TEST • 3.26.1-beta","TEST • 3.26.2M-beta"],
-    ["TEST・3.26.1-beta","TEST・3.26.2M-beta"]
+    ["Ver.3.24-beta","Ver.3.26.31-beta"],
+    ["TEST • 3.24-beta","TEST • 3.26.31-beta"],
+    ["TEST・3.24-beta","TEST・3.26.31-beta"],
+    ["TEST • 3.26.1-beta","TEST • 3.26.31-beta"],
+    ["TEST・3.26.1-beta","TEST・3.26.31-beta"]
   ];
   function updateVersionLabels(){
     document.querySelectorAll("body *").forEach(el=>{
@@ -12310,8 +12310,8 @@ body:not(.launch-game-open) #launchActivityFab.activityEntryVisible{
         if(t!==el.textContent)el.textContent=t;
       }
     });
-    if(document.title.includes("3.24-beta"))document.title=document.title.replace("3.24-beta","3.26.2M-beta");
-    if(document.title.includes("3.26.1-beta"))document.title=document.title.replace("3.26.1-beta","3.26.2M-beta");
+    if(document.title.includes("3.24-beta"))document.title=document.title.replace("3.24-beta","3.26.31-beta");
+    if(document.title.includes("3.26.1-beta"))document.title=document.title.replace("3.26.1-beta","3.26.31-beta");
   }
   updateVersionLabels();
   setTimeout(updateVersionLabels,500);
@@ -13705,14 +13705,20 @@ body.theme-maid-cafe #game>.top .chip{background:rgba(255,248,251,.94)!important
     if(!btn)return;
     e.preventDefault();
     e.stopImmediatePropagation();
+    if(typeof lastPointerEntryAt!=='undefined' && Date.now()-lastPointerEntryAt<900)return;
     forceLocalCharacterEntry(btn.dataset.open);
   },true);
 
+  let lastPointerEntryAt=0;
   document.addEventListener('pointerup',function(e){
     const btn=e.target.closest?.('#saveList [data-open]');
     if(!btn)return;
-    /* click 事件才真正執行，pointerup 僅避免舊 capture handler 搶先處理。 */
+    /* Android 修復：不能只攔截 pointerup，否則部分手機不會再合成 click。
+       直接在 pointerup 進角色，並吞掉後續重複事件。 */
+    e.preventDefault();
     e.stopImmediatePropagation();
+    lastPointerEntryAt=Date.now();
+    forceLocalCharacterEntry(btn.dataset.open);
   },true);
 })();
 </script>
