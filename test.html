@@ -8,7 +8,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>關係進行式 TEST・3.26.35-Android即時進入修復</title>
+<title>關係進行式 TEST・3.26.34-Android即時進入修復</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -12302,9 +12302,9 @@ body:not(.launch-game-open) #launchActivityFab.activityEntryVisible{
   const replacements=[
     ["Ver.3.24-beta","Ver.3.26.34-beta"],
     ["TEST • 3.24-beta","TEST • 3.26.34-beta"],
-    ["TEST・3.24-beta","TEST・3.26.35-beta"],
+    ["TEST・3.24-beta","TEST・3.26.34-beta"],
     ["TEST • 3.26.1-beta","TEST • 3.26.34-beta"],
-    ["TEST・3.26.1-beta","TEST・3.26.35-beta"]
+    ["TEST・3.26.1-beta","TEST・3.26.34-beta"]
   ];
   function updateVersionLabels(){
     document.querySelectorAll("body *").forEach(el=>{
@@ -13530,27 +13530,24 @@ body.theme-maid-cafe #game>.top .chip{background:rgba(255,248,251,.94)!important
  const MAID_PASS='maidCafeVoucher';
  const MAID_COS='maidCafe';
  const PAID_STORY_ID='paid_maid_cafe_story';
- const PAID_ITEM_NAMES={
-  paid_support_30:'☕ 店長飲料券',paid_gift_60:'🐾 店長小禮物',paid_support_100:'💜 贊助紀念物',paid_dev_150:'✨ 開發者應援紀念物'
- };
  function current(){try{return typeof cur==='function'?cur():null}catch(_){return null}}
  function ensure(c){if(!c)return;c.paidOrders??=[];c.paidEntitlements??={};c.paidCosmetics??={};c.paidStoryFlags??={};c.paidVoucherFlags??={}}
- function toastSafe(msg,ms=2600){try{if(typeof toast==='function')toast(msg,ms);else console.log(msg)}catch(_){}}
  function applyAllThemes(c=current()){
   document.body.classList.toggle('theme-qixi-paid',!!(c&&c.activePaidTheme==='qixiGalaxy'&&c.paidCosmetics?.qixiGalaxy));
   document.body.classList.toggle('theme-maid-cafe',!!(c&&c.activePaidTheme===MAID_COS&&c.paidCosmetics?.[MAID_COS]));
  }
  function setAppearance(id){
-  const c=current();if(!c)return;ensure(c);
+  const c=current();if(!c)return;
+  ensure(c);
   if(id==='default')c.activePaidTheme='';
-  else if(id==='qixiGalaxy'&&!c.paidCosmetics?.qixiGalaxy)return toastSafe('尚未解鎖鵲橋星河背景。');
-  else if(id===MAID_COS&&!c.paidCosmetics?.[MAID_COS])return toastSafe('尚未解鎖女僕咖啡廳背景。請先完成付費咖啡券劇情。',3200);
+  else if(id==='qixiGalaxy'&&!c.paidCosmetics?.qixiGalaxy)return toast?.('尚未解鎖鵲橋星河背景。',2600);
+  else if(id===MAID_COS&&!c.paidCosmetics?.[MAID_COS])return toast?.('尚未解鎖女僕咖啡廳背景。請先完成付費咖啡券劇情。',3200);
   else c.activePaidTheme=id;
-  try{saveLocal?.()}catch(_){} applyAllThemes(c);renderAppearance();try{renderPaidShop?.()}catch(_){} toastSafe('🎨 外觀已更改',2200);
+  saveLocal?.();applyAllThemes(c);renderAppearance();renderPaidShop?.();toast?.('🎨 外觀已更改',2200);
  }
  function renderAppearance(){
   const box=document.getElementById('appearanceGrid'),c=current();if(!box)return;
-  if(!c){box.innerHTML='<div class="small">請先進入角色。</div>';return}ensure(c);
+  if(!c){box.innerHTML='<div class="small">請先進入角色。</div>';return} ensure(c);
   const opts=[
    {id:'default',name:'一般背景',desc:'原本的遊戲背景',preview:'default',owned:true},
    {id:'qixiGalaxy',name:'🌌 鵲橋星河',desc:'七夕星河付費外觀',preview:'qixi',owned:!!c.paidCosmetics?.qixiGalaxy},
@@ -13560,43 +13557,42 @@ body.theme-maid-cafe #game>.top .chip{background:rgba(255,248,251,.94)!important
  }
  function installDrawer(){
   const drawer=document.getElementById('drawer');if(!drawer||document.getElementById('appearanceDrawerBtn'))return;
-  const sep=[...drawer.querySelectorAll('.navSep')].pop();const b=document.createElement('button');b.type='button';b.className='navBtn';b.id='appearanceDrawerBtn';b.textContent='🎨 外觀更改';
+  const sep=[...drawer.querySelectorAll('.navSep')].pop();
+  const b=document.createElement('button');b.type='button';b.className='navBtn';b.id='appearanceDrawerBtn';b.textContent='🎨 外觀更改';
   if(sep)drawer.insertBefore(b,sep);else drawer.appendChild(b);
  }
- function installPaidBagNames(){
-  try{
-   if(typeof protoShop!=='undefined'&&Array.isArray(protoShop)){
-    for(const [id,n] of Object.entries(PAID_ITEM_NAMES))if(!protoShop.some(x=>x.id===id))protoShop.push({id,n,type:'paid',desc:'付費商店限定收藏品。'});
-   }
-  }catch(e){console.warn('paid bag names',e)}
- }
  function renderPaidV324(){
-  const box=document.getElementById('paidShopList'),c=current();if(!box)return; if(c)ensure(c);
-  const legacy=(window.PAID_TEST_PRODUCTS||[]).filter(p=>p.id!==MAID_PRODUCT);
+  const box=document.getElementById('paidShopList'),c=current();if(!box)return;
+  ensure(c);
+  const base=(window.PAID_TEST_PRODUCTS||[]).filter(p=>p.id!==MAID_PRODUCT);
   const maid={id:MAID_PRODUCT,icon:'🎀',name:'女僕咖啡廳體驗券',price:50,desc:'付款後取得「付費咖啡券資格」。請到貓貓商店使用，觀看限定劇情後才會收到女僕咖啡廳背景。'};
-  const all=[...legacy,maid];window.PAID_TEST_PRODUCTS=all;
+  const all=[...base,maid];
+  window.PAID_TEST_PRODUCTS=all;
   if(!c){box.innerHTML='<div class="paidOrdersBlock">請先進入角色。</div>';return}
   const cards=all.map(p=>{
    if(p.id===MAID_PRODUCT){
-    const paid=!!c.paidVoucherFlags?.[MAID_PASS],done=!!c.paidStoryFlags?.[PAID_STORY_ID];
-    const btn=done?'<button disabled>✓ 劇情已完成・背景已解鎖</button>':paid?'<button disabled>✓ 已付款・請到貓貓商店使用</button>':'<button type="button" class="primary" data-paid-maid-buy>模擬付款 NT$50</button>';
-    return `<div class="paidProduct"><div><div class="paidProductTitle">🎀 女僕咖啡廳體驗券</div><div class="small">${maid.desc}</div></div><div class="paidPrice">NT$50</div>${btn}</div>`;
+    const paid=!!c.paidVoucherFlags?.[MAID_PASS],redeemed=!!c.paidStoryFlags?.[PAID_STORY_ID];
+    let btn=redeemed?'<button disabled>✓ 劇情已完成</button>':paid?'<button disabled>✓ 已付款・請到貓貓商店使用</button>':`<button type="button" class="primary" data-paid-maid-buy>模擬付款 NT$50</button>`;
+    return `<div class="paidProduct"><div class="paidProductIcon">${p.icon}</div><div class="paidProductTitle">${p.name}</div><div class="small">${p.desc}</div><div class="paidPrice">NT$50</div>${btn}</div>`;
    }
-   return `<div class="paidProduct"><div><div class="paidProductTitle">${p.icon||'🎁'} ${p.name||p.id}</div><div class="small">${p.desc||('遊戲金幣 '+Number(p.coins||0).toLocaleString()+'＋限定收藏品')}</div></div><div class="paidPrice">NT$${p.price||0}</div><button type="button" class="primary" data-paid-buy="${p.id}">模擬付款 NT$${p.price||0}</button></div>`;
+   const has=p.cosmetic?!!c.paidCosmetics?.[p.cosmetic]:!!c.paidEntitlements?.[p.badgeId];
+   const applied=p.cosmetic&&c.activePaidTheme===p.cosmetic;
+   let btn=p.cosmetic&&has?`<button type="button" class="${applied?'':'primary'}" data-paid-theme="${applied?'off':'on'}">${applied?'✓ 使用中・取消套用':'🌌 套用背景'}</button>`:has?'<button disabled>✓ 已擁有</button>':`<button type="button" class="primary" data-paid-buy-v323="${p.id}">模擬付款 NT$${p.price}</button>`;
+   return `<div class="paidProduct"><div class="paidProductIcon">${p.icon||''}</div><div class="paidProductTitle">${p.name}</div><div class="small">${p.desc||''}</div><div class="paidPrice">NT$${p.price}</div>${btn}</div>`;
   }).join('');
-  box.innerHTML=cards+(c.paidOrders?.length?`<div style="margin-top:5px"><b>最近測試訂單</b>${c.paidOrders.slice(-4).reverse().map(o=>`<div class="paidOrderRow">✅ ${o.orderNo}・${o.name}・NT$${o.price}</div>`).join('')}</div>`:'');
+  box.innerHTML=cards+(c.paidOrders?.length?`<div class="paidOrdersBlock"><b>最近測試訂單</b>${c.paidOrders.slice(-4).reverse().map(o=>`<div class="paidOrderRow">✅ ${o.orderNo}・${o.name}・NT$${o.price}</div>`).join('')}</div>`:'');
  }
  function buyMaid(){
-  const c=current();if(!c)return toastSafe('請先進入角色。');ensure(c);
-  if(c.paidStoryFlags[PAID_STORY_ID])return toastSafe('這段劇情已完成，女僕咖啡廳背景已永久解鎖。',3200);
-  if(c.paidVoucherFlags[MAID_PASS])return toastSafe('已經付款，請到貓貓商店的「商店」頁使用。',3000);
+  const c=current();if(!c)return toast?.('請先進入角色。',2400);ensure(c);
+  if(c.paidVoucherFlags[MAID_PASS])return toast?.('已經付款，請到貓貓商店使用。',3000);
   if(!confirm('【測試付款】\n女僕咖啡廳體驗券 NT$50\n\n付款後不會直接拿到背景，要到貓貓商店使用付費咖啡券並看完特殊劇情。\n\n要模擬付款成功嗎？'))return;
-  const orderNo='TESTMAID'+Date.now().toString(36).toUpperCase();c.paidVoucherFlags[MAID_PASS]=true;
+  const orderNo='TESTMAID'+Date.now().toString(36).toUpperCase();
+  c.paidVoucherFlags[MAID_PASS]=true;
   c.paidOrders.push({orderNo,productId:MAID_PRODUCT,name:'女僕咖啡廳體驗券',price:50,paidAt:new Date().toISOString(),status:'test_paid',granted:true});
-  try{saveLocal?.()}catch(_){} renderPaidV324();toastSafe('🎀 付款成功！請前往貓貓商店 → 商店，使用付費咖啡券。',4200);
+  saveLocal?.();renderPaidV324();toast?.('🎀 付款成功！請前往貓貓商店使用付費咖啡券。',4200);
  }
- function maidStory(c,st,replay=false){
-  ensure(c);if(c.paidStoryFlags[PAID_STORY_ID]&&!replay)return toastSafe('這段付費劇情已經完成，可到「付費劇情」重看。');
+ function maidStory(c,st){
+  ensure(c);if(c.paidStoryFlags[PAID_STORY_ID])return toast?.('這段付費劇情已經完成。',2500);
   const lines=[
    {speaker:'旁白',face:'normal',text:'你把付款後得到的咖啡券遞到櫃檯前。貓貓看了一眼，又抬頭看你。'},
    {speaker:'貓貓',face:'surprised',text:'「……你真的買了這個？」'},
@@ -13609,53 +13605,84 @@ body.theme-maid-cafe #game>.top .chip{background:rgba(255,248,251,.94)!important
    {speaker:'貓貓',face:'soft',text:'「這個送你。下次想起今天，就換上它吧。」'}
   ];
   const done=()=>{
-   if(!replay){
-    c.paidStoryFlags[PAID_STORY_ID]=true;c.paidVoucherFlags[MAID_PASS]=false;c.paidCosmetics[MAID_COS]=true;c.activePaidTheme=MAID_COS;
-    if(st){st.flags??={};st.flags.paidMaidCafeStory=1;try{saveNpcState?.(st)}catch(_){}}
-    c.memories??=[];if(!c.memories.some(x=>x.t==='🎀 付費劇情・女僕咖啡廳'))c.memories.unshift({t:'🎀 付費劇情・女僕咖啡廳',d:new Date().toLocaleDateString('zh-TW')});
-    try{saveLocal?.()}catch(_){} applyAllThemes(c);renderAppearance();renderPaidV324();toastSafe('🎁 已獲得「女僕咖啡廳背景」並自動套用！',4500);
-   }
+   c.paidStoryFlags[PAID_STORY_ID]=true;c.paidVoucherFlags[MAID_PASS]=false;c.paidCosmetics[MAID_COS]=true;c.activePaidTheme=MAID_COS;
+   st.flags??={};st.flags.paidMaidCafeStory=1;saveNpcState?.(st);
+   c.memories??=[];if(!c.memories.some(x=>x.t==='🎀 付費劇情・女僕咖啡廳'))c.memories.unshift({t:'🎀 付費劇情・女僕咖啡廳',d:new Date().toLocaleDateString('zh-TW')});
+   saveLocal?.();applyAllThemes(c);renderGame?.();renderAppearance();renderPaidV324();
+   toast?.('🎁 已獲得「女僕咖啡廳背景」並自動套用！',4500);
   };
   if(typeof startNpcRpgStory==='function')startNpcRpgStory({title:'🎀 付費劇情・女僕咖啡廳',lines,onComplete:done});else{alert('🎀 付費劇情・女僕咖啡廳');done()}
  }
- function activeNpcTab(){return document.querySelector('#npcShopModal [data-npc-tab].active')?.dataset?.npcTab||''}
- function refreshShopPaidUi(){
-  const c=current(),panel=document.getElementById('npcShopBody');if(!c||!panel)return;ensure(c);
-  panel.querySelectorAll('.paidMaidRedeemCard,.paidMaidStoryCard').forEach(x=>x.remove());
-  if(activeNpcTab()==='shop'&&c.paidVoucherFlags[MAID_PASS]&&!c.paidStoryFlags[PAID_STORY_ID]){
+ function injectMaidRedeem(){
+  const c=current();if(!c)return;ensure(c);
+  const panel=document.getElementById('npcShopBody')||document.getElementById('npcShopTabBody')||document.querySelector('.npcShopBody');if(!panel)return;
+  panel.querySelectorAll(`[data-npc-buy="npc_cat_coffee_voucher"]`).forEach(btn=>btn.closest('.npcShopItem')?.remove());
+  panel.querySelectorAll('.paidMaidRedeemCard').forEach(x=>x.remove());
+  if(c.paidVoucherFlags[MAID_PASS]&&!c.paidStoryFlags[PAID_STORY_ID]){
    const div=document.createElement('div');div.className='paidRedeemCard paidMaidRedeemCard';
    div.innerHTML='<div><b>🎀 女僕咖啡廳・付費咖啡券 <span class="tag">已付款</span></b><div class="small">這張券不能用金幣購買。使用後會觸發限定 NPC 付費劇情，完成劇情後贈送「女僕咖啡廳背景」。</div></div><button type="button" class="primary" data-use-paid-maid-voucher style="width:100%;margin-top:8px">☕ 使用付費咖啡券</button>';
    panel.prepend(div);
   }
-  if(activeNpcTab()==='story'){
-   const done=!!c.paidStoryFlags[PAID_STORY_ID],waiting=!!c.paidVoucherFlags[MAID_PASS];
-   const div=document.createElement('div');div.className='paidRedeemCard paidMaidStoryCard';
-   div.innerHTML=`<div class="npcPaidStoryTitle"><b>💳 付費劇情</b><span class="tag">永久收藏</span></div><div style="margin-top:8px"><button type="button" style="width:100%" ${done?'data-replay-paid-maid-story':''} ${done?'':'disabled'}>${done?'🎀 女僕咖啡廳・點擊重看':'🔒 女僕咖啡廳'}</button></div><div class="small" style="margin-top:7px">${done?'已完成，可永久重看；女僕咖啡廳背景已解鎖。':waiting?'已付款：切到「商店」頁使用付費咖啡券即可開始。':'請先到付費商店購買「女僕咖啡廳體驗券」。'}</div>`;
-   panel.appendChild(div);
-  }
  }
- function refreshDetailPaidUi(){
-  const c=current(),body=document.getElementById('npcDetailBody');if(!c||!body||document.getElementById('npcDetailModal')?.classList.contains('hidden'))return;ensure(c);
-  body.querySelectorAll('.npcPaidStorySection32635').forEach(x=>x.remove());
-  const done=!!c.paidStoryFlags[PAID_STORY_ID],waiting=!!c.paidVoucherFlags[MAID_PASS];
-  const wrap=document.createElement('div');wrap.className='npcPaidStorySection32635';
-  wrap.innerHTML=`<div class="npcDetailSection"><div class="npcPaidStoryTitle"><h3>💳 付費劇情 ${done?'1/1':'0/1'}</h3><span class="chip">永久收藏</span></div><div class="npcStoryCollect"><button class="${done?'':'locked'}" ${done?'data-replay-paid-maid-story':''}>${done?'🎀 女僕咖啡廳':'🔒 ???'}</button></div><div class="small" style="margin-top:7px">${done?'已完成，可重看這段特殊劇情。':waiting?'已付款：請到貓貓商店「商店」頁使用付費咖啡券。':'在付費商店購買指定內容後才會解鎖。'}</div></div>`;
-  body.appendChild(wrap);
+ function paidStoryButtonHTML(c){
+  ensure(c);const unlocked=!!c.paidStoryFlags[PAID_STORY_ID];const waiting=!!c.paidVoucherFlags[MAID_PASS];
+  return `<div class="npcDetailSection"><div class="npcPaidStoryTitle"><h3>💳 付費劇情 ${unlocked?'1/1':'0/1'}</h3><span class="chip">永久收藏</span></div><div class="npcStoryCollect"><button class="${unlocked?'':'locked'}" ${unlocked?'data-replay-paid-maid-story':''}>${unlocked?'🎀 女僕咖啡廳':'🔒 ???'}</button></div><div class="small" style="margin-top:7px">${unlocked?'已完成，可重看這段特殊劇情。':waiting?'已付款：請先到貓貓商店使用付費咖啡券。':'在付費商店購買指定內容後才會解鎖。'}</div></div>`;
  }
- function refreshPaidNpcUi(){try{refreshShopPaidUi()}catch(e){console.warn(e)}try{refreshDetailPaidUi()}catch(e){console.warn(e)}}
- function scheduleNpcRefresh(){setTimeout(refreshPaidNpcUi,0);setTimeout(refreshPaidNpcUi,40);setTimeout(refreshPaidNpcUi,140)}
+ function injectPaidStorySection(){
+  const body=document.getElementById('npcDetailBody'),c=current();if(!body||!c)return;
+  body.querySelectorAll('.npcPaidStorySection32624').forEach(x=>x.remove());
+  const wrap=document.createElement('div');wrap.className='npcPaidStorySection32624';wrap.innerHTML=paidStoryButtonHTML(c);body.appendChild(wrap);
+ }
+ function replayMaid(){const c=current(),st=typeof npcState==='function'?npcState():null;if(!c||!st)return;if(!c.paidStoryFlags?.[PAID_STORY_ID])return;const was=c.paidStoryFlags[PAID_STORY_ID];c.paidStoryFlags[PAID_STORY_ID]=false;maidStory(c,st);c.paidStoryFlags[PAID_STORY_ID]=was}
+
  document.addEventListener('click',e=>{
   let b=e.target.closest('[data-paid-maid-buy]');if(b){e.preventDefault();e.stopImmediatePropagation();buyMaid();return}
-  b=e.target.closest('[data-use-paid-maid-voucher]');if(b){e.preventDefault();e.stopImmediatePropagation();const c=current(),st=typeof npcState==='function'?npcState():null;if(c)maidStory(c,st);return}
+  b=e.target.closest('[data-use-paid-maid-voucher]');if(b){e.preventDefault();e.stopImmediatePropagation();const c=current(),st=typeof npcState==='function'?npcState():null;if(c&&st)maidStory(c,st);return}
   b=e.target.closest('[data-appearance-id]');if(b){e.preventDefault();setAppearance(b.dataset.appearanceId);return}
   b=e.target.closest('#appearanceDrawerBtn');if(b){e.preventDefault();document.getElementById('drawer')?.classList.add('hidden');document.getElementById('drawerShade')?.classList.add('hidden');renderAppearance();document.getElementById('appearanceModal')?.classList.remove('hidden');return}
   b=e.target.closest('#closeAppearanceModal');if(b){document.getElementById('appearanceModal')?.classList.add('hidden');return}
-  b=e.target.closest('[data-replay-paid-maid-story]');if(b){e.preventDefault();const c=current(),st=typeof npcState==='function'?npcState():null;if(c)maidStory(c,st,true);return}
-  if(e.target.closest('#npcTownFab,[data-npc-tab],[data-npc-detail],[data-npc-rel-view]'))scheduleNpcRefresh();
+  b=e.target.closest('[data-replay-paid-maid-story]');if(b){e.preventDefault();const c=current(),st=typeof npcState==='function'?npcState():null;if(c&&st){const flag=c.paidStoryFlags[PAID_STORY_ID];c.paidStoryFlags[PAID_STORY_ID]=false;maidStory(c,st);c.paidStoryFlags[PAID_STORY_ID]=flag}return}
  },true);
- function boot(){installDrawer();installPaidBagNames();const c=current();if(c){ensure(c);applyAllThemes(c)}renderPaidV324();renderAppearance();scheduleNpcRefresh()}
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(boot,180));else setTimeout(boot,180);
- window.renderPaidShop=renderPaidV324;window.applyPaidAppearance=applyAllThemes;window.refreshPaidNpcUi=refreshPaidNpcUi;
+
+ const oldRenderPaid=window.renderPaidShop;window.renderPaidShop=renderPaidV324;
+ /* 3.26.34 FIX:
+    舊版用 MutationObserver 監看整個 document.body，callback 內又會 remove/append
+    npcPaidStorySection，造成 observer -> DOM 修改 -> observer 的無限迴圈。
+    Android WebView 在角色進入開始大量 render 後會因此卡死甚至被系統殺掉。
+    改成事件驅動，只在真正需要的 NPC 畫面更新。 */
+ function refreshPaidNpcUi(){
+  try{injectMaidRedeem()}catch(e){console.warn('paid maid redeem refresh',e)}
+  try{injectPaidStorySection()}catch(e){console.warn('paid story refresh',e)}
+ }
+ function hookNpcPaidUi(){
+  try{
+   if(typeof window.openNpcShop==='function'&&!window.openNpcShop.__paidUiHook){
+    const orig=window.openNpcShop;
+    const wrapped=function(){const r=orig.apply(this,arguments);setTimeout(refreshPaidNpcUi,0);return r};
+    wrapped.__paidUiHook=true;window.openNpcShop=wrapped;
+   }
+  }catch(e){console.warn('hook openNpcShop',e)}
+  try{
+   if(typeof window.openNpcDetail==='function'&&!window.openNpcDetail.__paidUiHook){
+    const orig=window.openNpcDetail;
+    const wrapped=function(){const r=orig.apply(this,arguments);setTimeout(refreshPaidNpcUi,0);return r};
+    wrapped.__paidUiHook=true;window.openNpcDetail=wrapped;
+   }
+  }catch(e){console.warn('hook openNpcDetail',e)}
+  try{
+   if(typeof window.renderNpcShop==='function'&&!window.renderNpcShop.__paidUiHook){
+    const orig=window.renderNpcShop;
+    const wrapped=function(){const r=orig.apply(this,arguments);setTimeout(refreshPaidNpcUi,0);return r};
+    wrapped.__paidUiHook=true;window.renderNpcShop=wrapped;
+   }
+  }catch(e){console.warn('hook renderNpcShop',e)}
+ }
+ function boot(){
+  installDrawer();const c=current();if(c){ensure(c);applyAllThemes(c)}
+  renderPaidV324();renderAppearance();hookNpcPaidUi();refreshPaidNpcUi();
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(boot,200));else setTimeout(boot,200);
+ window.applyPaidAppearance=applyAllThemes;
 })();
 </script>
 
