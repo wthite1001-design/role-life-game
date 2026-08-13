@@ -4,7 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#9a76c4">
-<title>關係進行式 TEST・3.26.32-Android角色進入修復</title>
+<meta name="x-test-build" content="3.26.33">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>關係進行式 TEST・3.26.33-Android即時進入修復</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -1698,7 +1702,7 @@ body.npcStoryRunning .draggableFab{
     <div class="homeLogo">🧪</div>
     <h1>關係進行式 TEST</h1>
     <div class="homeTagline">測試中的每一段關係，都可能被重置。</div>
-    <div class="homeVersion">3.26.32・測試服｜Android角色進入修復</div>
+    <div class="homeVersion">3.26.33・測試服｜Android即時進入修復</div>
   </div>
 
   <div id="playerAccountHomePanel" class="homePanel accountHomePanel">
@@ -12296,11 +12300,11 @@ body:not(.launch-game-open) #launchActivityFab.activityEntryVisible{
 
   /* 更新測試服版本顯示，避免入口仍寫 3.24-beta。 */
   const replacements=[
-    ["Ver.3.24-beta","Ver.3.26.32-beta"],
-    ["TEST • 3.24-beta","TEST • 3.26.32-beta"],
-    ["TEST・3.24-beta","TEST・3.26.32-beta"],
-    ["TEST • 3.26.1-beta","TEST • 3.26.32-beta"],
-    ["TEST・3.26.1-beta","TEST・3.26.32-beta"]
+    ["Ver.3.24-beta","Ver.3.26.33-beta"],
+    ["TEST • 3.24-beta","TEST • 3.26.33-beta"],
+    ["TEST・3.24-beta","TEST・3.26.33-beta"],
+    ["TEST • 3.26.1-beta","TEST • 3.26.33-beta"],
+    ["TEST・3.26.1-beta","TEST・3.26.33-beta"]
   ];
   function updateVersionLabels(){
     document.querySelectorAll("body *").forEach(el=>{
@@ -12310,8 +12314,8 @@ body:not(.launch-game-open) #launchActivityFab.activityEntryVisible{
         if(t!==el.textContent)el.textContent=t;
       }
     });
-    if(document.title.includes("3.24-beta"))document.title=document.title.replace("3.24-beta","3.26.32-beta");
-    if(document.title.includes("3.26.1-beta"))document.title=document.title.replace("3.26.1-beta","3.26.32-beta");
+    if(document.title.includes("3.24-beta"))document.title=document.title.replace("3.24-beta","3.26.33-beta");
+    if(document.title.includes("3.26.1-beta"))document.title=document.title.replace("3.26.1-beta","3.26.33-beta");
   }
   updateVersionLabels();
   setTimeout(updateVersionLabels,500);
@@ -13660,7 +13664,7 @@ body.theme-maid-cafe #game>.top .chip{background:rgba(255,248,251,.94)!important
       const c=chars.find(x=>String(x.id)===String(id));
       if(!c){alert('找不到這個角色存檔。請重新整理頁面後再試。');return;}
 
-      /* 3.26.32 Android hard fix:
+      /* 3.26.33 Android hard fix:
          切畫面一定要早於任何存檔序列化、每日重置、完整 render 或雲端工作。
          舊版在 show(game) 前呼叫 saveLocal()，大型存檔在 Android WebView 會長時間堵塞，
          甚至被系統直接殺掉。 */
@@ -13704,22 +13708,25 @@ body.theme-maid-cafe #game>.top .chip{background:rgba(255,248,251,.94)!important
         try{if(typeof ensureRelations==='function')ensureRelations(c)}catch(err){console.warn('entry ensureRelations',err)}
         try{if(typeof ensureMeta==='function')ensureMeta(c)}catch(err){console.warn('entry ensureMeta',err)}
         try{if(typeof restoreBadgeShowcaseBackup==='function')restoreBadgeShowcaseBackup(c)}catch(err){console.warn('entry badge restore',err)}
+        /* 3.26.33: 第一階段禁止呼叫 renderGame。renderGame 內仍包含每日判定、關係卡與多個大型 DOM 建立。 */
         try{
-          if(typeof safeRenderGame==='function')safeRenderGame();
-          else if(typeof renderGame==='function')renderGame();
-        }catch(err){console.warn('entry light render',err)}
+          const cid=document.getElementById('charIdCode');if(cid&&typeof displayCharacterId==='function')cid.textContent=displayCharacterId(c);
+          const gb=document.getElementById('genderBadge');if(gb){gb.textContent=c.gender==='male'?'♂ 男':'♀ 女';gb.classList.toggle('hidden',!c.gender)}
+          const rc=document.getElementById('relationCount');if(rc)rc.textContent=`${Array.isArray(c.roomCodes)?c.roomCodes.length:0}/6`;
+          const dn=document.getElementById('drawerName');if(dn)dn.textContent=c.name||'角色';
+        }catch(err){console.warn('entry tiny hydrate',err)}
       },120);
 
       /* 每日重置與存檔延後，並拆開，不再阻擋角色頁第一幀。 */
       setTimeout(()=>{
         if(typeof cur==='function'&&cur()?.id!==c.id)return;
         try{if(typeof resetDailyIfNeeded==='function')resetDailyIfNeeded(c)}catch(err){console.warn('entry daily',err)}
-      },900);
+      },2500);
 
       setTimeout(()=>{
         if(typeof cur==='function'&&cur()?.id!==c.id)return;
         try{if(typeof saveLocal==='function')saveLocal()}catch(err){console.warn('entry deferred save',err)}
-      },1800);
+      },4500);
 
       /* 完整本機 UI 再晚一點載入，避免同一幀大量 DOM 建立。 */
       if(typeof mobileEntryDeferredTimer!=='undefined' && mobileEntryDeferredTimer)clearTimeout(mobileEntryDeferredTimer);
@@ -13730,15 +13737,15 @@ body.theme-maid-cafe #game>.top .chip{background:rgba(255,248,251,.94)!important
         setTimeout(()=>{
           try{if(typeof maybeEvent==='function' && typeof cur==='function' && cur()?.id===c.id)maybeEvent()}catch(err){console.warn('entry event',err)}
         },500);
-      },2600);
+      },6500);
 
       /* 雲端輪詢最後才啟動。 */
       setTimeout(()=>{
         if(typeof cur==='function'&&cur()?.id!==c.id)return;
         try{if(typeof startPolling==='function')startPolling()}catch(err){console.warn('entry polling',err)}
-      },6000);
+      },12000);
     }catch(err){
-      console.error('3.26.32 forced local entry failed',err);
+      console.error('3.26.33 forced local entry failed',err);
       alert('角色進入失敗：'+(err?.message||'未知錯誤'));
     }
   }
