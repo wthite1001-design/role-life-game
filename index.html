@@ -1571,6 +1571,33 @@ html[data-formal-theme="maidCafe"] button.primary{background:linear-gradient(135
 @media(max-width:520px){.formalPaidGrid,.formalAppearanceGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.formalPaidCard{padding:11px 8px}}
 </style>
 
+<style id="formalPlayerAccountStyle">
+/* 付費商城：七夕深色背景下，白卡文字固定使用可讀色，不再吃到全域淡字。 */
+#shopPaidPanel .paidShopNotice{background:#fffafd!important;color:#3d3343!important;border-color:#ccb6db!important}
+#shopPaidPanel .paidShopNotice b{color:#4b3858!important}
+#shopPaidPanel .paidShopNotice .small{color:#75677f!important;opacity:1!important}
+#shopPaidPanel .paidProduct{background:#fffafd!important;color:#3d3343!important;border-color:#ddcfe6!important}
+#shopPaidPanel .paidProductTitle{color:#3d3343!important;opacity:1!important}
+#shopPaidPanel .paidProduct .small{color:#75677f!important;opacity:1!important}
+#shopPaidPanel .paidPrice{color:#6b477f!important;opacity:1!important}
+#shopPaidPanel .paidOrderRow{color:#66576f!important}
+
+.accountHomePanel{color:#3d3343!important}
+.accountHomePanel .small{color:#75677f!important}
+#playerAccountModal{z-index:10050!important;background:rgba(22,13,35,.38)!important}
+#playerAccountModal .modalBox{max-height:92dvh;overflow-y:auto;background:#fffdfd!important;color:#3d3343!important}
+.playerAccountTabs{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin:10px 0}
+.playerAccountTabs button.active{background:#8f70bd!important;color:#fff!important}
+.playerAccountForm{display:grid;gap:8px}
+.playerAccountForm label{font-size:12px;font-weight:800;color:#66576f}
+.playerAccountForm .small{color:#75677f!important}
+.accountStatusBox{padding:10px 11px;border-radius:13px;background:#f7effa;border:1px solid #e4d5ed;color:#5f4b69;line-height:1.5;margin:8px 0}
+.accountSyncGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:9px}
+.accountSyncGrid button{min-height:52px}
+.accountDangerNote{padding:9px 10px;border-radius:12px;background:#fff4e6;border:1px solid #efd7ac;color:#7a5a31;font-size:11px;line-height:1.5;margin-top:8px}
+.accountLinkBtn{background:transparent!important;color:#76558b!important;padding:4px!important;min-height:30px!important;text-decoration:underline}
+#playerRecoveryPanel{border-top:1px solid #eadfee;margin-top:10px;padding-top:10px}
+</style>
 </head>
 <body>
 
@@ -1615,6 +1642,16 @@ html[data-formal-theme="maidCafe"] button.primary{background:linear-gradient(135
 <div class="homeTagline">每一段關係，都還在進行中。</div>
 <div class="homeVersion">第3.30.0版・藍新金流通路預埋</div>
 </div>
+
+  <div id="playerAccountHomePanel" class="homePanel accountHomePanel">
+    <div class="homePanelTitle"><span>☁️ 玩家帳號</span><span id="playerAccountChip" class="chip">未登入</span></div>
+    <div id="playerAccountSummary" class="small">登入後角色會綁定到玩家帳號，可在手機／電腦之間同步進度。</div>
+    <div class="actions">
+      <button id="openPlayerAccountBtn" type="button" class="primary">🔐 登入／註冊</button>
+      <button id="playerQuickUploadBtn" type="button" class="hidden">☁️ 上傳目前進度</button>
+    </div>
+  </div>
+
 <div class="homePanel">
 <div class="homePanelTitle"><span>👑 管理員</span><span class="chip" id="gmHomeChip">未登入</span></div>
 <div class="small">一般玩家不需要登入。只有管理員帳號登入後才會解鎖 GM 操作台。</div>
@@ -1657,37 +1694,7 @@ html[data-formal-theme="maidCafe"] button.primary{background:linear-gradient(135
 <div class="createHint">頭像可進入角色後更換・時間活動會自動顯示 Emoji</div>
 </div>
 </div>
-<div class="homePanel">
-<div class="homePanelTitle"><span>💾 存檔備份</span><span class="muted">JSON</span></div>
-<div class="backupGrid">
-<button class="primary" id="exportSaveBtn" type="button">💾 匯出存檔</button>
-<label id="importSaveBtn" class="importSaveLabel" for="importSaveFile" role="button" tabindex="0">📂 匯入存檔</label>
-<button id="rescueSaveBtn" type="button">🛟 搜尋可救援存檔</button>
-<button id="deepRescueBtn" type="button" onclick="showDeepRescue()">🔎 深度救援</button>
-<button id="makeBackupNowBtn" type="button">🧷 立即建立備份</button>
-<input accept=".json,application/json,text/json,*/*" id="importSaveFile" type="file" aria-label="選擇 JSON 存檔" style="position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important;opacity:0.01!important"/>
-</div>
-<div id="saveRescueStatus" class="small" style="margin-top:8px">系統會自動保留最近兩份本機備份；「🔎 深度救援」還會掃描這個網站底下可讀到的舊角色資料。</div>
-</div>
-<div class="homePanel">
-<div class="homePanelTitle"><span>🎵 背景音樂</span><span class="chip" id="net">雲端待命</span></div>
-<div class="homeMusic">
-<div class="actions" style="align-items:center">
-<button id="homeBgmToggle" type="button">▶ 播放</button>
-<input id="homeBgmVolume" max="1" min="0" step=".05" style="flex:1" type="range" value=".25"/>
-</div>
-<div class="bgmUnlock hidden" id="bgmUnlockNotice">🎵 瀏覽器需要第一次點擊才能播放聲音；碰一下頁面後會自動開始。</div>
-</div>
-</div>
-</section>
-<section class="hidden" id="game">
-<div class="top"><button class="menuBtn" id="menuBtn">☰</button><b id="pageTitle">角色生活</b><span class="chip">🪙 <b id="moneyTop">0</b></span></div>
-<div class="card">
-<div class="section">🔔 未處理事件 <span class="muted" id="pendingEventCount"></span></div>
-<div class="small" style="margin-bottom:8px">新訊息、外出邀約、小遊戲邀約與待決定的關係轉換會集中在這裡；一般邀約超過 3 小時會自動消失。</div>
-<div id="pendingEventList"><div class="muted">目前沒有未處理事件。</div>
-<div id="gmGiftInbox" style="margin-top:8px"></div>
-</div>
+
 </div>
 <div class="card hero heroV322">
 <div class="heroIdentity">
@@ -13866,6 +13873,168 @@ document.addEventListener("click",function deepRescueDelegatedFallback(e){
   window.__playShopkeeperEventStoryNow=playEligible;
 })();
 </script>
+<div id="playerAccountModal" class="modal hidden"><div class="modalBox">
+  <div class="modalHead"><b>☁️ 玩家帳號</b><button id="closePlayerAccountModal" type="button">×</button></div>
+  <div id="playerAccountLoggedOut">
+    <div class="playerAccountTabs">
+      <button id="playerLoginTab" type="button" class="active">登入</button>
+      <button id="playerRegisterTab" type="button">註冊</button>
+    </div>
+    <div id="playerLoginPane" class="playerAccountForm">
+      <label>帳號（Email）</label>
+      <input id="playerLoginEmail" type="email" autocomplete="email" placeholder="you@example.com">
+      <label>密碼</label>
+      <input id="playerLoginPassword" type="password" autocomplete="current-password" placeholder="輸入密碼">
+      <button id="playerLoginSubmit" type="button" class="primary">🔐 登入</button>
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+        <button id="playerForgotPasswordBtn" type="button" class="accountLinkBtn">忘記密碼？</button>
+        <button id="playerForgotAccountBtn" type="button" class="accountLinkBtn">忘記帳號？</button>
+      </div>
+    </div>
+    <div id="playerRegisterPane" class="playerAccountForm hidden">
+      <label>Email（之後就是登入帳號）</label>
+      <input id="playerRegisterEmail" type="email" autocomplete="email" placeholder="you@example.com">
+      <label>設定密碼</label>
+      <input id="playerRegisterPassword" type="password" autocomplete="new-password" placeholder="至少 6 個字元">
+      <label>再輸入一次密碼</label>
+      <input id="playerRegisterPassword2" type="password" autocomplete="new-password" placeholder="確認密碼">
+      <button id="playerRegisterSubmit" type="button" class="primary">✨ 建立帳號</button>
+      <div class="small">註冊完成後可將目前角色綁定到這個帳號。</div>
+    </div>
+    <div id="playerForgotPane" class="playerAccountForm hidden">
+      <b>🔑 找回密碼</b>
+      <div class="small">輸入註冊 Email，Supabase 會寄出密碼重設信。</div>
+      <input id="playerForgotEmail" type="email" autocomplete="email" placeholder="註冊時使用的 Email">
+      <button id="playerForgotSubmit" type="button" class="primary">✉️ 寄出重設密碼信</button>
+      <button id="playerForgotBack" type="button">← 回登入</button>
+    </div>
+  </div>
+  <div id="playerAccountLoggedIn" class="hidden">
+    <div id="playerAccountStatusBox" class="accountStatusBox"></div>
+    <div class="accountSyncGrid">
+      <button id="playerClaimUploadBtn" type="button" class="primary">☁️ 綁定並上傳本機角色</button>
+      <button id="playerDownloadCloudBtn" type="button">📥 從雲端同步到這台</button>
+      <button id="playerUploadCloudBtn" type="button">⬆️ 上傳目前進度</button>
+      <button id="playerLogoutBtn" type="button">🚪 登出</button>
+    </div>
+    <div class="accountDangerNote">下載雲端進度會同步這個帳號的角色資料；真人關係房間碼會跟角色資料一起保留。</div>
+  </div>
+  <div id="playerRecoveryPanel" class="hidden">
+    <b>🔒 設定新密碼</b>
+    <div class="small" style="margin:5px 0 8px">你是從密碼重設信回來的。設定新密碼後即可重新登入。</div>
+    <input id="playerRecoveryPassword" type="password" autocomplete="new-password" placeholder="新密碼（至少 6 個字元）">
+    <input id="playerRecoveryPassword2" type="password" autocomplete="new-password" placeholder="再輸入一次新密碼" style="margin-top:7px">
+    <button id="playerRecoverySubmit" type="button" class="primary" style="width:100%;margin-top:8px">更新密碼</button>
+  </div>
+  <div id="playerAccountMessage" class="small" style="margin-top:9px"></div>
+</div></div>
+<script id="formalPlayerAccountSyncV1">
+(()=>{
+ const SESSION_KEY='role_life_test_player_auth_v1';
+ const CLOUD_BACKUP_PREFIX='role_life_test_precloud_';
+ let authSession=null;
+ const $=id=>document.getElementById(id);
+ const msg=(text,bad=false)=>{const el=$('playerAccountMessage');if(el){el.textContent=text||'';el.style.color=bad?'#a65f70':'#668f70';}};
+ function saveSession(v){authSession=v||null;try{if(v)localStorage.setItem(SESSION_KEY,JSON.stringify(v));else localStorage.removeItem(SESSION_KEY)}catch(_){}}
+ function loadSession(){try{return JSON.parse(localStorage.getItem(SESSION_KEY)||'null')}catch(_){return null}}
+ function authHeaders(token,json=true){return {'apikey':SUPABASE_KEY,...(token?{'Authorization':'Bearer '+token}:{}),...(json?{'Content-Type':'application/json'}:{})};}
+ async function parseResponse(res){const t=await res.text();let d=null;if(t){try{d=JSON.parse(t)}catch(_){d=t}}if(!res.ok)throw new Error(d?.msg||d?.message||d?.error_description||d?.error||`HTTP ${res.status}`);return d;}
+ async function refreshSessionIfNeeded(){
+   let s=authSession||loadSession(); if(!s)return null;
+   const exp=Number(s.expires_at||0)*1000;
+   if(exp && Date.now()<exp-60000){authSession=s;return s;}
+   if(!s.refresh_token){saveSession(null);return null;}
+   try{
+     const r=await fetch(AUTH_API+'/token?grant_type=refresh_token',{method:'POST',headers:authHeaders(),body:JSON.stringify({refresh_token:s.refresh_token})});
+     const d=await parseResponse(r);d.expires_at=Math.floor(Date.now()/1000)+Number(d.expires_in||3600);saveSession(d);return d;
+   }catch(e){saveSession(null);return null;}
+ }
+ async function authUser(){const s=await refreshSessionIfNeeded();if(!s?.access_token)return null;try{const r=await fetch(AUTH_API+'/user',{headers:authHeaders(s.access_token,false)});const u=await parseResponse(r);s.user=u;saveSession(s);return u}catch(_){saveSession(null);return null}}
+ function render(){
+   const logged=!!authSession?.access_token;
+   $('playerAccountLoggedOut')?.classList.toggle('hidden',logged);
+   $('playerAccountLoggedIn')?.classList.toggle('hidden',!logged);
+   const email=authSession?.user?.email||authSession?.email||'';
+   if($('playerAccountChip'))$('playerAccountChip').textContent=logged?'已登入':'未登入';
+   if($('playerAccountSummary'))$('playerAccountSummary').textContent=logged?`已登入：${email||'玩家帳號'}。可以手動同步角色進度。`:'登入後可把舊角色綁定到帳號，並在手機／電腦之間手動同步。';
+   $('playerQuickUploadBtn')?.classList.toggle('hidden',!logged);
+   if($('playerAccountStatusBox'))$('playerAccountStatusBox').innerHTML=logged?`<b>✅ 已登入</b><br>${escapeHtml(email||'玩家帳號')}<br><span class="small">UID：${escapeHtml(authSession?.user?.id||'讀取中')}</span>`:'';
+ }
+ function escapeHtml(x){return String(x??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
+ function openModal(){ $('playerAccountModal')?.classList.remove('hidden');render();msg(''); }
+ function closeModal(){ $('playerAccountModal')?.classList.add('hidden'); }
+ function showLogin(){ $('playerLoginPane')?.classList.remove('hidden');$('playerRegisterPane')?.classList.add('hidden');$('playerForgotPane')?.classList.add('hidden');$('playerLoginTab')?.classList.add('active');$('playerRegisterTab')?.classList.remove('active');msg(''); }
+ function showRegister(){ $('playerLoginPane')?.classList.add('hidden');$('playerRegisterPane')?.classList.remove('hidden');$('playerForgotPane')?.classList.add('hidden');$('playerRegisterTab')?.classList.add('active');$('playerLoginTab')?.classList.remove('active');msg(''); }
+ async function login(){
+   const email=$('playerLoginEmail')?.value.trim(),password=$('playerLoginPassword')?.value||'';if(!email||!password)return msg('請輸入 Email 和密碼。',true);
+   msg('登入中……');try{const r=await fetch(AUTH_API+'/token?grant_type=password',{method:'POST',headers:authHeaders(),body:JSON.stringify({email,password})});const d=await parseResponse(r);d.expires_at=Math.floor(Date.now()/1000)+Number(d.expires_in||3600);saveSession(d);await authUser();render();msg('登入成功。');}catch(e){msg('登入失敗：'+e.message,true)}
+ }
+ async function register(){
+   const email=$('playerRegisterEmail')?.value.trim(),p1=$('playerRegisterPassword')?.value||'',p2=$('playerRegisterPassword2')?.value||'';
+   if(!email)return msg('請輸入 Email。',true);if(p1.length<6)return msg('密碼至少 6 個字元。',true);if(p1!==p2)return msg('兩次密碼不一致。',true);
+   msg('建立帳號中……');try{const r=await fetch(AUTH_API+'/signup',{method:'POST',headers:authHeaders(),body:JSON.stringify({email,password:p1})});const d=await parseResponse(r);
+     if(d?.access_token){d.expires_at=Math.floor(Date.now()/1000)+Number(d.expires_in||3600);saveSession(d);await authUser();render();msg('帳號建立完成並已登入。現在可以綁定舊角色。');}
+     else{msg('帳號已建立。請到信箱完成 Email 驗證後再登入。');showLogin();if($('playerLoginEmail'))$('playerLoginEmail').value=email;}
+   }catch(e){msg('註冊失敗：'+e.message,true)}
+ }
+ async function forgot(){
+   const email=$('playerForgotEmail')?.value.trim();if(!email)return msg('請輸入註冊 Email。',true);
+   const redirect=location.origin+location.pathname;
+   msg('正在寄送……');try{const r=await fetch(AUTH_API+'/recover?redirect_to='+encodeURIComponent(redirect),{method:'POST',headers:authHeaders(),body:JSON.stringify({email})});await parseResponse(r);msg('重設密碼信已寄出，請檢查收件匣與垃圾郵件。');}catch(e){msg('寄送失敗：'+e.message,true)}
+ }
+ function captureCloudSave(){
+   try{if(typeof saveLocal==='function')saveLocal()}catch(_){ }
+   let base={characters:[]};try{base=JSON.parse(localStorage.getItem(LOCAL_KEY)||'{"characters":[]}')||base}catch(_){ }
+   const getJson=k=>{try{return JSON.parse(localStorage.getItem(k)||'null')}catch(_){return null}};
+   base.__cloudExtra={npcShop:getJson(typeof NPC_SHOP_KEY!=='undefined'?NPC_SHOP_KEY:'role_life_npc_shopkeeper_cat_v1'),badgeShowcase:getJson(typeof BADGE_SHOWCASE_KEY!=='undefined'?BADGE_SHOWCASE_KEY:'role_life_badge_showcase_v1'),launchEvent:getJson(typeof LAUNCH_EVENT_KEY!=='undefined'?LAUNCH_EVENT_KEY:'role_life_launch_event_2026_v1')};
+   return base;
+ }
+ function restoreCloudSave(data){
+   if(!data||!Array.isArray(data.characters))throw new Error('雲端存檔格式不正確');
+   const stamp=Date.now();
+   try{localStorage.setItem(CLOUD_BACKUP_PREFIX+stamp,localStorage.getItem(LOCAL_KEY)||'{"characters":[]}')}catch(_){ }
+   const copy=JSON.parse(JSON.stringify(data)),extra=copy.__cloudExtra||{};delete copy.__cloudExtra;
+   localStorage.setItem(LOCAL_KEY,JSON.stringify(copy));
+   const setJson=(k,v)=>{if(v!==null&&v!==undefined)localStorage.setItem(k,JSON.stringify(v));};
+   setJson(typeof NPC_SHOP_KEY!=='undefined'?NPC_SHOP_KEY:'role_life_npc_shopkeeper_cat_v1',extra.npcShop);
+   setJson(typeof BADGE_SHOWCASE_KEY!=='undefined'?BADGE_SHOWCASE_KEY:'role_life_badge_showcase_v1',extra.badgeShowcase);
+   setJson(typeof LAUNCH_EVENT_KEY!=='undefined'?LAUNCH_EVENT_KEY:'role_life_launch_event_2026_v1',extra.launchEvent);
+ }
+ async function api(path,opt={}){const s=await refreshSessionIfNeeded();if(!s?.access_token)throw new Error('請先登入玩家帳號');const r=await fetch(API+path,{...opt,headers:{...authHeaders(s.access_token),...(opt.headers||{})}});return parseResponse(r);}
+ async function claimUpload(){
+   const s=await refreshSessionIfNeeded();if(!s)return msg('請先登入。',true);const data=captureCloudSave();if(!data.characters.length&&!confirm('目前這台沒有角色。仍要建立空的雲端存檔嗎？'))return;
+   if(!confirm(`要把這台的 ${data.characters.length} 位角色綁定到目前帳號並上傳嗎？\n\n角色 ID 與真人關係房間碼都會保留。`))return;
+   msg('正在綁定並上傳……');try{const d=await api('/rpc/claim_old_save',{method:'POST',body:JSON.stringify({p_save_data:data,p_device_id:localStorage.getItem('role_life_device_id_v1')||navigator.userAgent.slice(0,80)})});msg(`✅ 已綁定並上傳 ${d?.character_count??data.characters.length} 位角色。`);}catch(e){msg('綁定失敗：'+e.message,true)}
+ }
+ async function upload(){
+   const data=captureCloudSave();if(!confirm(`上傳目前進度到雲端？\n角色：${data.characters.length} 位\n\n雲端舊進度會被這台目前進度取代。`))return;
+   msg('上傳中……');try{const d=await api('/rpc/claim_old_save',{method:'POST',body:JSON.stringify({p_save_data:data,p_device_id:navigator.userAgent.slice(0,80)})});msg(`✅ 上傳完成（${d?.character_count??data.characters.length} 位角色）。`);}catch(e){msg('上傳失敗：'+e.message,true)}
+ }
+ async function download(){
+   msg('讀取雲端進度……');try{const u=await authUser();if(!u)throw new Error('登入已失效');const rows=await api(`/player_saves?select=save_data,save_version,updated_at&user_id=eq.${encodeURIComponent(u.id)}&limit=1`,{method:'GET',body:undefined,headers:{'Content-Type':'application/json'}});if(!rows?.length)throw new Error('這個帳號目前沒有雲端存檔');const row=rows[0],count=row.save_data?.characters?.length||0;
+     if(!confirm(`找到雲端存檔：${count} 位角色\n更新時間：${row.updated_at||'未知'}\n\n下載後會覆蓋這台目前的角色資料，並先建立本機備份。是否繼續？`))return;
+     restoreCloudSave(row.save_data);alert('✅ 雲端進度已下載。頁面將重新載入。');location.reload();
+   }catch(e){msg('下載失敗：'+e.message,true)}
+ }
+ async function logout(){saveSession(null);authSession=null;render();showLogin();msg('已登出。');}
+ function parseRecovery(){
+   const hp=new URLSearchParams((location.hash||'').replace(/^#/,''));
+   const type=hp.get('type'),access=hp.get('access_token'),refresh=hp.get('refresh_token');
+   if(type==='recovery'&&access){authSession={access_token:access,refresh_token:refresh||'',expires_in:Number(hp.get('expires_in')||3600),expires_at:Math.floor(Date.now()/1000)+Number(hp.get('expires_in')||3600),user:null,recovery:true};saveSession(authSession);history.replaceState(null,'',location.pathname+location.search);$('playerRecoveryPanel')?.classList.remove('hidden');openModal();msg('請設定新的登入密碼。');return true;}return false;
+ }
+ async function updateRecoveryPassword(){const p1=$('playerRecoveryPassword')?.value||'',p2=$('playerRecoveryPassword2')?.value||'';if(p1.length<6)return msg('新密碼至少 6 個字元。',true);if(p1!==p2)return msg('兩次新密碼不一致。',true);const s=await refreshSessionIfNeeded();if(!s?.access_token)return msg('重設連結已失效，請重新寄送密碼信。',true);msg('更新密碼中……');try{const r=await fetch(AUTH_API+'/user',{method:'PUT',headers:authHeaders(s.access_token),body:JSON.stringify({password:p1})});await parseResponse(r);$('playerRecoveryPanel')?.classList.add('hidden');await authUser();render();msg('✅ 密碼已更新，這台裝置目前已登入。');}catch(e){msg('更新失敗：'+e.message,true)}}
+ function wire(){
+   $('openPlayerAccountBtn')?.addEventListener('click',openModal);$('playerAccountDrawerBtn')?.addEventListener('click',()=>{try{typeof closeDrawer==='function'&&closeDrawer()}catch(_){ }openModal()});$('closePlayerAccountModal')?.addEventListener('click',closeModal);
+   $('playerLoginTab')?.addEventListener('click',showLogin);$('playerRegisterTab')?.addEventListener('click',showRegister);$('playerLoginSubmit')?.addEventListener('click',login);$('playerRegisterSubmit')?.addEventListener('click',register);
+   $('playerForgotPasswordBtn')?.addEventListener('click',()=>{$('playerLoginPane')?.classList.add('hidden');$('playerRegisterPane')?.classList.add('hidden');$('playerForgotPane')?.classList.remove('hidden');$('playerLoginTab')?.classList.remove('active');$('playerRegisterTab')?.classList.remove('active');if($('playerForgotEmail'))$('playerForgotEmail').value=$('playerLoginEmail')?.value||'';msg('');});
+   $('playerForgotAccountBtn')?.addEventListener('click',()=>alert('你的登入帳號就是註冊時使用的 Email。若忘記是哪個 Email，請查看你曾收到的「關係進行式 / Supabase」驗證或重設密碼郵件。'));
+   $('playerForgotBack')?.addEventListener('click',showLogin);$('playerForgotSubmit')?.addEventListener('click',forgot);$('playerClaimUploadBtn')?.addEventListener('click',claimUpload);$('playerUploadCloudBtn')?.addEventListener('click',upload);$('playerQuickUploadBtn')?.addEventListener('click',upload);$('playerDownloadCloudBtn')?.addEventListener('click',download);$('playerLogoutBtn')?.addEventListener('click',logout);$('playerRecoverySubmit')?.addEventListener('click',updateRecoveryPassword);
+   $('playerAccountModal')?.addEventListener('click',e=>{if(e.target===$('playerAccountModal'))closeModal()});
+ }
+ async function init(){wire();authSession=loadSession();const recovery=parseRecovery();if(!recovery&&authSession){await authUser();authSession=loadSession();}render();}
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();
+</script>
 </body>
 </html>
 <style>
@@ -14392,7 +14561,7 @@ document.addEventListener("click",function deepRescueDelegatedFallback(e){
 
 <script id="formal3298MaidCommerce">
 (function(){
- const BUILD='3.30.0';
+ const BUILD='3.30.1';
  const THEME_KEY='role_life_formal_theme_v1';
  const VOUCHER='npc_maid_cafe_coffee_voucher';
 
@@ -14594,5 +14763,16 @@ document.addEventListener("click",function deepRescueDelegatedFallback(e){
  function boot(){version();void window.renderFormalPaidShop();apply(c(),true)}
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
  window.addEventListener('pageshow',()=>{version();apply(c(),false)});
+})();
+</script>
+
+<script id="formal3301VersionLabel">
+(function(){
+ function apply(){
+   const v=document.querySelector(".homeVersion");
+   if(v)v.textContent="第3.30.1版・玩家帳密登入恢復";
+ }
+ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",apply,{once:true});else apply();
+ window.addEventListener("pageshow",apply);
 })();
 </script>
