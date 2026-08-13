@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#9a76c4" name="theme-color"/>
-<title>關係進行式・3.30.8</title>
+<title>關係進行式・3.30.9</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -1627,7 +1627,7 @@ html[data-formal-theme="maidCafe"] button.primary{background:linear-gradient(135
 <div class="homeLogo">💞</div>
 <h1>關係進行式</h1>
 <div class="homeTagline">每一段關係，都還在進行中。</div>
-<div class="homeVersion">第3.30.8版・第七階與成就提示修正</div>
+<div class="homeVersion">第3.30.9版・解除重綁突破重置</div>
 </div>
 <div id="playerAccountHomePanel" class="homePanel accountHomePanel">
 <div class="homePanelTitle"><span>☁️ 玩家帳號</span><span id="playerAccountChip" class="chip">未登入</span></div>
@@ -5552,7 +5552,11 @@ document.getElementById("disconnectRoom").onclick=async()=>{
   const name=partner?.name||"對方";
   if(!confirm(`確定要解除和「${name}」的關係嗎？\n這段關係的房間、聊天、互動與小遊戲資料都會一起刪除。`))return;
   try{
-    await api(`/rooms?code=eq.${encodeURIComponent(activeRoomCode)}`,{method:"DELETE"});
+    await api(`/rooms?code=eq.${encodeURIComponent(activeRoomCode)}`,{method:"DELETE"});;
+        try{
+          const _rel=relationshipSummaries?.[activeRoomCode]?.relation||activeRoomCode===activeRoomCode?relationshipSummaries?.[activeRoomCode]?.relation:null;
+          clearCurrentBreakthroughForRelation(c,activeRoomCode,_rel);
+        }catch(_){}
     c.roomCodes=c.roomCodes.filter(x=>x!==activeRoomCode);
     activeRoomCode=c.roomCodes[0]||"";
     room=null;partner=null;saveLocal();
@@ -6156,6 +6160,24 @@ const breakthroughShop=[
   {id:"break_rival",n:"⚡ 決勝徽章",p:500,type:"breakthrough",rel:"rival",topTitle:"命定之敵"},
   {id:"break_enemy",n:"⛓️ 斷不了的鎖鏈",p:500,type:"breakthrough",rel:"enemy",topTitle:"至死方休"}
 ];
+
+/* 3.30.9：解除關係時只清「目前關係的突破狀態／未使用突破道具」。
+   歷史成就與徽章永久保留。 */
+function clearCurrentBreakthroughForRelation(c,code,relation){
+  try{
+    if(!c)return;
+    const def=breakthroughShop?.find?.(x=>x.rel===relation);
+    if(def&&c.inventory)c.inventory[def.id]=0;
+    if(bondCache&&code)delete bondCache[code];
+    if(relationshipSummaries&&code&&relationshipSummaries[code]){
+      relationshipSummaries[code].broken=false;
+      delete relationshipSummaries[code].topTitle;
+    }
+    /* 不刪 achievements.break / top_* / sharedBadges：它們是歷史紀錄。 */
+    saveLocal?.();
+  }catch(e){console.warn("clear breakthrough relation state",e)}
+}
+
 const protoShop=[...standardShop,...affectionGiftShop,...specialShop,...breakthroughShop];
 
 const places=[["park","🌳","公園"],["cafe","☕","咖啡店"],["bookstore","📚","書店"],["street","🛍️","商店街"],["cinema","🎬","電影院"],["river","🌙","河堤"]];
@@ -6228,10 +6250,11 @@ function shopItemsToday(){
 function isSpecialSoldOut(c,item){
   if(item?.type==="special")return (c?.inventory?.[item.id]||0)>0;
   if(item?.type==="breakthrough"){
-    const owned=(c?.inventory?.[item.id]||0)>0;
     const rr=relationshipSummaries?.[activeRoomCode],b=bondCache?.[activeRoomCode];
-    const alreadyBroken=!!(rr&&rr.relation===item.rel&&b?.broken);
-    return owned||alreadyBroken;
+    const currentMatches=!!(rr&&rr.relation===item.rel);
+    /* 3.30.9：突破道具只對「目前這段關係」售罄。
+       舊關係解除後重新綁定，新的關係可以重新購買。 */
+    return currentMatches&&((c?.inventory?.[item.id]||0)>0||!!b?.broken);
   }
   return false;
 }
@@ -7080,7 +7103,7 @@ function openItem(i,mode){
  ${affinityGift?`<p>🎁 好感禮物。成功送給關係人後，共同羈絆 <b>+${Number(i.affinity||1)}</b>。自己不能使用。</p>`:""}
  ${special?`<p>✨ 特殊收藏品。可能與「${i.story}」的劇情有關；不會被普通使用消耗。</p>`:""}
  ${breakthrough?`<p>🌟 頂級突破道具：用於「${relationLabel(i.rel)}」Lv.30 MAX，突破後成為「${i.topTitle}」。雙方只需其中一人使用。</p>`:""}`;
- let soldOut=mode==="shop"&&((special&&owned>0)||(breakthrough&&(owned>0||bondCache?.[activeRoomCode]?.broken)));
+ let soldOut=mode==="shop"&&((special&&owned>0)||(breakthrough&&relationshipSummaries?.[activeRoomCode]?.relation===i.rel&&(owned>0||bondCache?.[activeRoomCode]?.broken)));
  let label=soldOut?"售罄":mode==="shop"?"購買":special?"🔎 查看／研究":breakthrough?"🌟 使用突破道具":"使用";
  itemActions.innerHTML=`<button class="primary" id="itemDo" ${soldOut?"disabled":""}>${label}</button>`;
  itemModal.classList.remove("hidden");
@@ -7092,7 +7115,7 @@ function openItem(i,mode){
      itemActions.innerHTML=`<button disabled>售罄</button>`;
      return;
    }
-   if(i.type==="breakthrough"&&((c.inventory?.[i.id]||0)>0||bondCache?.[activeRoomCode]?.broken)){
+   if(i.type==="breakthrough"&&relationshipSummaries?.[activeRoomCode]?.relation===i.rel&&((c.inventory?.[i.id]||0)>0||bondCache?.[activeRoomCode]?.broken)){
      itemBody.innerHTML=`<div class="small">持有：${Number(c.inventory?.[i.id]||0)}</div><p>🚫 這件突破道具已購買或目前關係已完成突破，為避免誤買已標記售罄。</p>`;
      itemActions.innerHTML=`<button disabled>售罄</button>`;
      return;
@@ -7537,7 +7560,11 @@ relationTransformModal.addEventListener("click",async e=>{
 
     // Occupant voluntarily releases their current relationship room.
     // Only after the delete succeeds do we tell the initiator to complete the transformation.
-    await api(`/rooms?code=eq.${encodeURIComponent(ev.code)}`,{method:"DELETE"});
+    await api(`/rooms?code=eq.${encodeURIComponent(ev.code)}`,{method:"DELETE"});;
+        try{
+          const _rel=relationshipSummaries?.[ev.code]?.relation||activeRoomCode===ev.code?relationshipSummaries?.[activeRoomCode]?.relation:null;
+          clearCurrentBreakthroughForRelation(c,ev.code,_rel);
+        }catch(_){}
     c.roomCodes=(c.roomCodes||[]).filter(x=>String(x)!==String(ev.code));
     saveLocal();
     await cancelRelationSlotRequest(ev,"accepted");
@@ -14127,7 +14154,7 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 
 <script id="formal3298MaidCommerce">
 (function(){
- const BUILD='3.30.8';
+ const BUILD='3.30.9';
  const THEME_KEY='role_life_formal_theme_v1';
  const VOUCHER='npc_maid_cafe_coffee_voucher';
 
@@ -14338,7 +14365,7 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 })();
 </script>
 
-<script id="formal3308InstantAssetRuntime">
+<script id="formal3309InstantAssetRuntime">
 (function(){
  const CACHE='relationship-game-formal-critical-v1';
  const CRITICAL=[
@@ -14394,12 +14421,12 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 </script>
 
 
-<script id="formal3308VersionGuard">
+<script id="formal3309VersionGuard">
 (function(){
  function apply(){
-  document.querySelectorAll('.homeVersion').forEach(x=>x.textContent='第3.30.8版・第七階與成就提示修正');
-  document.querySelectorAll('.chip').forEach(x=>{if(/^第?3\.\d+(?:\.\d+)?版?$/.test((x.textContent||'').trim()))x.textContent='第3.30.8版'});
-  document.title='關係進行式・3.30.8';
+  document.querySelectorAll('.homeVersion').forEach(x=>x.textContent='第3.30.9版・解除重綁突破重置');
+  document.querySelectorAll('.chip').forEach(x=>{if(/^第?3\.\d+(?:\.\d+)?版?$/.test((x.textContent||'').trim()))x.textContent='第3.30.9版'});
+  document.title='關係進行式・3.30.9';
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',apply,{once:true});else apply();
  window.addEventListener('pageshow',apply);
@@ -14407,7 +14434,7 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 </script>
 
 
-<script id="formal3308AchievementPopupGuard">
+<script id="formal3309AchievementPopupGuard">
 (function(){
   let sweeping=false;
 
@@ -14449,6 +14476,41 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
   }
 
   window.formalSweepAchievementPopups=sweep;
+})();
+</script>
+
+
+<script id="formal3309NewRelationBreakthroughReset">
+(function(){
+  const seenKey='role_life_formal_seen_roomcodes_v3309';
+  function readSeen(){try{return new Set(JSON.parse(localStorage.getItem(seenKey)||'[]'))}catch(_){return new Set()}}
+  function writeSeen(set){try{localStorage.setItem(seenKey,JSON.stringify([...set]))}catch(_){}}
+  function scan(){
+    const c=typeof cur==='function'?cur():null;if(!c)return;
+    const seen=readSeen(),now=new Set(c.roomCodes||[]);
+    let changed=false;
+    for(const code of now){
+      if(seen.has(code))continue;
+      /* 新房間＝新的關係實例，不繼承舊房間的第 7 階狀態。 */
+      try{
+        if(bondCache&&bondCache[code])delete bondCache[code];
+        const rel=relationshipSummaries?.[code]?.relation;
+        const def=breakthroughShop?.find?.(x=>x.rel===rel);
+        if(def&&c.inventory&&Number(c.inventory[def.id]||0)>0){
+          /* 只有當這個道具是舊關係遺留時才清；新房間剛建立時不可能已買該房間專用突破道具。 */
+          c.inventory[def.id]=0;
+        }
+      }catch(_){}
+      seen.add(code);changed=true;
+    }
+    for(const code of [...seen])if(!now.has(code)){seen.delete(code);changed=true}
+    if(changed){writeSeen(seen);try{saveLocal?.()}catch(_){}}
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(scan,1200),{once:true});else setTimeout(scan,1200);
+  window.addEventListener('pageshow',()=>setTimeout(scan,800));
+  document.addEventListener('click',e=>{
+    if(e.target.closest?.('[data-create-relation],[data-accept-relation],[data-room-accept],#acceptRelationBtn,#createRelationBtn'))setTimeout(scan,1500);
+  },true);
 })();
 </script>
 
