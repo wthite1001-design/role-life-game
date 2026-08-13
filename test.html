@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#9a76c4">
-<meta name="x-test-build" content="3.26.40">
+<meta name="x-test-build" content="3.26.41">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>關係進行式 TEST・3.26.40-女僕咖啡廳單券兌換修復</title>
+<title>關係進行式 TEST・3.26.41-女僕咖啡廳全介面主題化</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -13929,6 +13929,180 @@ input,select,textarea{background:rgba(255,253,251,.94)!important;color:var(--mai
 header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{background:linear-gradient(90deg,#55303f,#8c506b)!important;background-image:none!important}
 </style>
 <script id="maid-cafe-preview-32640-js">(function(){function a(){document.documentElement.setAttribute('data-theme','maid-cafe');if(document.body){document.body.classList.add('maid-cafe-preview');document.body.setAttribute('data-theme','maid-cafe')}}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',a,{once:true});else a();window.addEventListener('pageshow',a);window.__applyMaidCafePreview=a})();</script>
+
+
+
+<!-- === 3.26.41 Maid Cafe full-interface theme + NT$50 coffee-ticket redeem === -->
+<style id="v32641MaidCafeFullTheme">
+:root{
+ --maid-espresso:#4b2d34;--maid-cocoa:#69404b;--maid-rose:#b56e8b;--maid-pink:#e8b8c8;
+ --maid-cream:#fff8f4;--maid-milk:#fffdfb;--maid-line:#e8cbd5;--maid-muted:#8c6d77;
+ --bg:#f8e7ec!important;--card:#fffaf7!important;--text:#4b2d34!important;--muted:#8c6d77!important;
+ --line:#e8cbd5!important;--accent:#a8617e!important;--pink:#d990aa!important;--soft:#f7e0e8!important;
+}
+html,body{background:linear-gradient(180deg,#4a2c35 0,#754656 18%,#d58ca5 58%,#f7d9df 100%) fixed!important;color:var(--maid-espresso)!important}
+body::before{content:"☕  ♡  🎀  ♡  ☕  ✦  ♡  🎀";position:fixed;inset:0;z-index:-1;pointer-events:none;padding:26px 18px;font-size:24px;line-height:5.2;letter-spacing:16px;color:rgba(255,255,255,.11);white-space:pre-wrap;overflow:hidden}
+.wrap,#home,#game{background:transparent!important}
+.top,.sheetHead{background:linear-gradient(90deg,rgba(75,45,52,.96),rgba(133,75,98,.96))!important;color:#fff!important;border-color:rgba(255,255,255,.16)!important;box-shadow:0 7px 22px rgba(57,29,38,.18)!important}
+.top .small,.top .muted,.sheetHead .small,.sheetHead .muted{color:#ffeef3!important}
+.menuBtn,.top button,.sheetHead button{background:rgba(255,250,247,.92)!important;color:#73485a!important;border:1px solid rgba(255,255,255,.6)!important}
+
+.card,.homePanel,.homeHero,.save,.now,.stat,.partner,.notice,.event,.relItem,.relEventCard,.dailyTask,.workCard,.pendingEventCard,
+.profileBadgeShelf,.profileBadgeShowcase,.badgeCard,.gmPanel,.gmSearchRow,.gmSentRow,.mailCard,.itemRow,.tile,.relationGiftPanel,.routinePreview,
+.npcMeetLevelCard,.npcMeetBubble,.npcActionCard,.npcUnlockNotice,.npcStats>div,.paidProduct,.paidShopNotice,.paidOrdersBlock,.appearanceCard,
+#extraRelations,#extraNpcRelations,#extraAchievements,#extraChat,#extraShop,#extraMailbox,#extraGM{
+ background:linear-gradient(155deg,rgba(255,253,251,.98),rgba(251,229,236,.97))!important;
+ color:var(--maid-espresso)!important;border-color:var(--maid-line)!important;
+ box-shadow:0 9px 24px rgba(75,45,52,.10)!important;
+}
+.homeHero{background:linear-gradient(145deg,#fffaf7,#f1cbd7)!important}
+.homeLogo{filter:drop-shadow(0 4px 8px rgba(80,42,53,.2))}
+.small,.muted,.createHint,.gmStatus{color:var(--maid-muted)!important}
+.chip,.stageTag,.presencePill,.relMiniBadge,.partnerMiniBadge,.badgeDisplay{background:#f8e2ea!important;color:#714555!important;border-color:#e4bccb!important}
+
+button{background:linear-gradient(135deg,#f7dce5,#edc2d1)!important;color:#68404f!important;border:1px solid rgba(173,98,128,.18)!important}
+button.primary,.primary,[class*="primary"]{background:linear-gradient(135deg,#b66886,#754456)!important;color:#fff!important;border-color:transparent!important;box-shadow:0 5px 14px rgba(102,53,72,.18)!important}
+button.danger,.dangerSoft,.gmDangerBtn{background:#fff0f2!important;color:#9a4255!important;border-color:#efc8d1!important}
+button:disabled{opacity:.48!important;filter:saturate(.7)!important}
+input,select,textarea{background:#fffdfb!important;color:var(--maid-espresso)!important;border-color:#dfbcc9!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.8)!important}
+
+/* Every modal / invitation / relationship popup uses the same maid-cafe shell. */
+.modal:not(.hidden),.drawerShade{background:rgba(52,28,36,.52)!important;backdrop-filter:blur(4px)!important}
+.modalBox,.modalCard,.launchActivityCard,.npcShopCard,.testAccessCard,.drawer,.popupCard,.sheetCard,.dialog-content,.popup-content{
+ background:linear-gradient(160deg,#fffaf7 0%,#f7dce5 100%)!important;color:var(--maid-espresso)!important;
+ border:1px solid #e4bccb!important;box-shadow:0 22px 65px rgba(48,25,32,.30)!important;
+}
+.modalHead{color:#5e3746!important;border-bottom:1px solid rgba(181,110,139,.18)!important;padding-bottom:9px!important}
+#gameWaitModal .modalBox,#gameInviteModal .modalBox,#gameModal .modalBox,#relationTransformModal .modalBox,#outingChoiceModal .modalBox,
+#relationEventModal .modalBox,#npcMeetModal .modalBox,#npcShopModal .modalBox,#npcChoiceModal .modalBox,#appearanceModal .modalBox{
+ background:linear-gradient(155deg,#fffaf7,#f3d2dc)!important;border:1px solid #deb2c1!important;
+}
+#gameWaitModal .modalHead b::before,#gameInviteModal .modalHead b::before,#outingChoiceModal .modalHead b::before,#relationTransformModal .modalHead b::before{content:"🎀 ";}
+.gameInviteActions,.outingChoiceList,.modalChoices,.gameChoices{background:transparent!important}
+.gameResult{background:#f7dce5!important;color:#68404f!important;border:1px dashed #d9a9ba!important}
+
+/* Relationship pages */
+#extraRelations.pageCard.active,#extraNpcRelations.pageCard.active{background:linear-gradient(180deg,#fff8f4,#f7dde5)!important}
+#extraRelations .relItem,#extraNpcRelations .relItem,[data-npc-detail],[data-npc-rel-view]{background:rgba(255,253,251,.88)!important;border-color:#dfbbc9!important}
+#extraRelations .relItem.active{background:#f4d4df!important;border-color:#b66b87!important}
+.bondTrack,.bar,.dailyProgress,.npcTrack{background:#ead7dd!important}
+.bondFill,.fill,.dailyProgress>div,.npcTrack i,.npcMeetLevelDot.on{background:linear-gradient(90deg,#864c64,#d88ea8)!important}
+
+/* NPC shop / meet */
+.npcHero,.npcMeetHero{background:linear-gradient(145deg,#eed0da,#8b5268)!important;border-color:#d8aaba!important}
+.npcHeroShade{background:linear-gradient(transparent,rgba(61,31,42,.88))!important}
+.npcMeetMoodPill{background:#f1ccd9!important;color:#713f51!important}
+.shopTabs .shopTab.active{background:linear-gradient(135deg,#b66886,#754456)!important;color:#fff!important}
+.paidRedeemCard,.maidThemeVoucherCard{background:linear-gradient(145deg,#fffaf7,#f0cbd7)!important;border:1px solid #dcaabd!important;box-shadow:0 8px 20px rgba(89,47,63,.12)!important}
+.maidThemeTitle{color:#704052!important;font-weight:900!important}
+
+/* Appearance preview */
+.appearancePreview.maid{background:radial-gradient(circle at 20% 20%,#fff 0 2px,transparent 3px),linear-gradient(145deg,#4b2d34,#a3617e 48%,#f0c2cf)!important}
+
+/* Drawer */
+.drawer{background:linear-gradient(180deg,#fffaf7,#f5d8e2)!important}
+.navBtn{color:#68404f!important;border:0!important;box-shadow:none!important}
+.navBtn:hover,.navBtn:focus{background:#f1cfd9!important}
+.navSep{background:#ddb7c5!important}
+
+/* Toasts */
+.toastMsg,.achievementToast{background:linear-gradient(135deg,#56313f,#8d536b)!important;color:#fff!important;border-color:#d59aaf!important}
+
+/* Desktop RPG dialogue shell also follows cafe colors while preserving CG. */
+.npcStoryDialogue{background:linear-gradient(180deg,rgba(255,250,247,.96),rgba(244,210,221,.97))!important;color:#4b2d34!important;border-color:#dcaabd!important}
+.npcStorySpeaker{background:#7c475c!important;color:#fff!important}
+
+/* Paid store: make the NT$50 maid product visually unmistakable. */
+#shopPaidPanel .paidProduct{background:linear-gradient(150deg,#fffaf7,#f3d2dc)!important}
+#shopPaidPanel .paidPrice{color:#7a4359!important}
+
+/* Force major full-page sheets away from legacy purple/gray. */
+.pageCard.active{background:linear-gradient(180deg,#fff9f6,#f6dbe3)!important;color:#4b2d34!important}
+</style>
+
+<script id="v32641MaidCafeFlow">
+(function(){
+ const BUILD='3.26.41';
+ const MAID_PRODUCT='maidCafe50', MAID_PASS='maidCafeVoucher', MAID_COS='maidCafe';
+ function current(){try{return typeof cur==='function'?cur():null}catch(_){return null}}
+ function ensure(c){if(!c)return;c.paidOrders??=[];c.paidVoucherFlags??={};c.paidCosmetics??={};c.paidEntitlements??={}}
+ function refreshVersion(){
+   document.title='關係進行式 TEST・3.26.41-女僕咖啡廳全介面主題化';
+   const hv=document.querySelector('.homeVersion');if(hv)hv.textContent='3.26.41・測試服｜女僕咖啡廳全介面主題化';
+   document.querySelectorAll('.testServerRibbon').forEach(el=>el.textContent='🧪 TEST・3.26.41-beta');
+   const m=document.querySelector('meta[name="x-test-build"]');if(m)m.content=BUILD;
+ }
+ function forceMaidLook(){
+   document.documentElement.setAttribute('data-theme','maid-cafe');
+   document.body?.classList.add('maid-cafe-preview','theme-maid-cafe');
+   document.body?.setAttribute('data-theme','maid-cafe');
+ }
+ function rewritePaidCards(){
+   document.querySelectorAll('#shopPaidPanel .paidProduct').forEach(card=>{
+     const t=card.textContent||'';
+     if(t.includes('請店長喝飲料')||t.includes('咖啡應援')) card.style.display='none';
+     if(t.includes('女僕咖啡廳主題')||t.includes('女僕咖啡廳體驗券')||t.includes('女僕咖啡廳咖啡券')){
+       const title=card.querySelector('.paidProductTitle');if(title)title.textContent='☕ 女僕咖啡廳咖啡券';
+       const desc=card.querySelector('.small');if(desc)desc.textContent='NT$50 可取得 ☕ 女僕咖啡廳咖啡券 ×1；請到貓貓商店使用這張券，兌換並永久解鎖女僕咖啡廳主題。';
+       const btn=card.querySelector('button');if(btn&&!btn.disabled&&!/已/.test(btn.textContent||''))btn.textContent='購買咖啡券 NT$50';
+     }
+   });
+ }
+ function rewriteNpcRedeem(){
+   document.querySelectorAll('#maidThemeVoucherCard32639,.maidThemeVoucherCard').forEach(card=>{
+     const title=card.querySelector('.maidThemeTitle');if(title)title.textContent='☕ 咖啡券兌換・女僕咖啡廳主題';
+     const s=card.querySelector('.small');if(s)s.textContent='在付費商店以 NT$50 取得 1 張「女僕咖啡廳咖啡券」後，可在貓貓商店使用 1 張咖啡券永久解鎖主題。';
+     const cost=card.querySelector('.maidThemeCost');if(cost)cost.textContent='☕ ×1';
+     const b=card.querySelector('[data-redeem-maid-theme]');
+     if(b&&!b.disabled)b.textContent='使用 ☕ 咖啡券 ×1 兌換主題';
+     else if(b&&/請先/.test(b.textContent||''))b.textContent='🔒 請先購買 NT$50 咖啡券';
+   });
+ }
+ function refresh(){refreshVersion();forceMaidLook();rewritePaidCards();rewriteNpcRedeem()}
+ const mo=new MutationObserver(()=>{rewritePaidCards();rewriteNpcRedeem();forceMaidLook()});
+ document.addEventListener('DOMContentLoaded',()=>{refresh();mo.observe(document.body,{childList:true,subtree:true})},{once:true});
+ if(document.readyState!=='loading'){refresh();mo.observe(document.body,{childList:true,subtree:true})}
+ setTimeout(refresh,100);setTimeout(refresh,700);setTimeout(refresh,1800);
+ window.addEventListener('pageshow',refresh);
+
+ /* Authoritative purchase wording/result: the existing maidCafe50 purchase still supplies the pass,
+    but 3.26.41 presents that pass to the player as one concrete coffee ticket. */
+ window.addEventListener('click',function(e){
+   const b=e.target.closest?.('[data-paid-maid-buy]');if(!b)return;
+   // Let existing handler perform the save/order, then normalize the UI and ticket state.
+   setTimeout(()=>{
+     const c=current();if(!c)return;ensure(c);
+     if(!c.paidCosmetics[MAID_COS] && c.paidVoucherFlags[MAID_PASS]){
+       c.paidEntitlements.maidCafeCoffeeTicket=1;
+       try{saveLocal?.()}catch(_){ }
+       toast?.('☕ 已取得「女僕咖啡廳咖啡券」×1！請到貓貓商店兌換主題。',4300);
+     }
+     refresh();
+   },20);
+ },true);
+
+ /* Normalize redeem: consume the one NT$50 coffee ticket/pass and unlock permanently. */
+ window.addEventListener('click',function(e){
+   const b=e.target.closest?.('[data-redeem-maid-theme]');if(!b)return;
+   const c=current();if(!c)return;ensure(c);
+   if(c.paidCosmetics[MAID_COS])return;
+   if(!c.paidVoucherFlags[MAID_PASS] && !c.paidEntitlements.maidCafeCoffeeTicket){
+     e.preventDefault();e.stopImmediatePropagation();return toast?.('☕ 你還沒有女僕咖啡廳咖啡券，請先到付費商店購買 NT$50 咖啡券。',3400);
+   }
+   c.paidVoucherFlags[MAID_PASS]=true; // existing redeem handler consumes this.
+   c.paidEntitlements.maidCafeCoffeeTicket=0;
+   setTimeout(()=>{
+     const cc=current();if(!cc)return;ensure(cc);
+     if(cc.paidCosmetics[MAID_COS]){
+       cc.activePaidTheme=MAID_COS;
+       try{saveLocal?.();window.applyPaidAppearance?.(cc);renderGame?.()}catch(_){ }
+       toast?.('🎀 咖啡券已使用！女僕咖啡廳主題已永久解鎖並套用。',4600);
+     }
+     refresh();
+   },30);
+ },true);
+})();
+</script>
 
 </body>
 </html>
