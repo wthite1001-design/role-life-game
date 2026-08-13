@@ -4400,19 +4400,6 @@ async function openChar(id){
   activeId=id;
   let c=found;
   ensureRelations(c); ensureMeta(c);
-  // 3.26.27: clean legacy paid_* bag records safely; never block character entry.
-  try{
-    if(!c.inventory || typeof c.inventory!=='object' || Array.isArray(c.inventory)) c.inventory={};
-    if(!c.paidCollectibles || typeof c.paidCollectibles!=='object' || Array.isArray(c.paidCollectibles)) c.paidCollectibles={};
-    for(const pid of Object.keys(c.inventory)){
-      if(String(pid).startsWith('paid_')){
-        const qty=Number(c.inventory[pid]||0);
-        if(qty>0) c.paidCollectibles[pid]=Math.max(Number(c.paidCollectibles[pid]||0),qty);
-        delete c.inventory[pid];
-      }
-    }
-  }catch(e){ console.warn('paid inventory cleanup skipped',e); }
-
   if(!["male","female"].includes(c.gender)){
     let pick=prompt("這是舊角色存檔，請設定角色性別：\n輸入 1＝男\n輸入 2＝女");
     if(pick!=="1"&&pick!=="2")return;
@@ -13526,30 +13513,17 @@ body.theme-maid-cafe #game>.top .chip{background:rgba(255,248,251,.94)!important
 })();
 </script>
 
-<script id="v32626PaidInventoryCleanup">
+
+
+<script id="v32628EntrySafety">
 (function(){
-  function cleanPaidInventory(){
-    try{
-      const c=typeof cur==='function'?cur():null;if(!c)return;
-      c.inventory??={};c.paidCollectibles??={};
-      let changed=false;
-      for(const id of Object.keys(c.inventory)){
-        if(!String(id).startsWith('paid_'))continue;
-        const n=Number(c.inventory[id]||0);
-        if(n>0)c.paidCollectibles[id]=Math.max(Number(c.paidCollectibles[id]||0),n);
-        delete c.inventory[id];changed=true;
-      }
-      if(changed)try{saveLocal?.()}catch(_){}
-    }catch(_){}
-  }
-  window.cleanPaidInventory=cleanPaidInventory;
-  document.addEventListener('click',e=>{if(e.target.closest('#openBag,[data-nav="bag"],[data-open="bag"]'))setTimeout(cleanPaidInventory,0)},true);
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(cleanPaidInventory,150));else setTimeout(cleanPaidInventory,150);
-  setTimeout(cleanPaidInventory,700);
   function version(){
-    document.querySelectorAll('.homeVersion,#testServerRibbon').forEach(el=>{el.textContent=el.textContent.replace('3.26.19','3.26.27').replace('3.26.2M-beta','3.26.27-beta')});
+    document.querySelectorAll('.homeVersion,#testServerRibbon').forEach(el=>{
+      el.textContent=el.textContent.replace('3.26.19','3.26.28').replace('3.26.2M-beta','3.26.28-beta').replace('3.26.27-beta','3.26.28-beta');
+    });
   }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',version);else version();setTimeout(version,500);
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',version); else version();
+  setTimeout(version,500);
 })();
 </script>
 </body>
