@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#9a76c4">
-<meta name="x-test-build" content="3.26.39">
+<meta name="x-test-build" content="3.26.40">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>關係進行式 TEST・3.26.39-女僕咖啡廳單券兌換修復</title>
+<title>關係進行式 TEST・3.26.40-女僕咖啡廳單券兌換修復</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -1702,7 +1702,7 @@ body.npcStoryRunning .draggableFab{
     <div class="homeLogo">🧪</div>
     <h1>關係進行式 TEST</h1>
     <div class="homeTagline">測試中的每一段關係，都可能被重置。</div>
-    <div class="homeVersion">3.26.39・測試服｜女僕咖啡廳單券兌換修復</div>
+    <div class="homeVersion">3.26.40・測試服｜女僕咖啡廳單券兌換修復</div>
   </div>
 
   <div id="playerAccountHomePanel" class="homePanel accountHomePanel">
@@ -12307,11 +12307,11 @@ body:not(.launch-game-open) #launchActivityFab.activityEntryVisible{
 
   /* 更新測試服版本顯示，避免入口仍寫 3.24-beta。 */
   const replacements=[
-    ["Ver.3.24-beta","Ver.3.26.39-beta"],
-    ["TEST • 3.24-beta","TEST • 3.26.39-beta"],
-    ["TEST・3.24-beta","TEST・3.26.39-beta"],
-    ["TEST • 3.26.1-beta","TEST • 3.26.39-beta"],
-    ["TEST・3.26.1-beta","TEST・3.26.39-beta"]
+    ["Ver.3.24-beta","Ver.3.26.40-beta"],
+    ["TEST • 3.24-beta","TEST • 3.26.40-beta"],
+    ["TEST・3.24-beta","TEST・3.26.40-beta"],
+    ["TEST • 3.26.1-beta","TEST • 3.26.40-beta"],
+    ["TEST・3.26.1-beta","TEST・3.26.40-beta"]
   ];
   function updateVersionLabels(){
     document.querySelectorAll("body *").forEach(el=>{
@@ -12321,8 +12321,8 @@ body:not(.launch-game-open) #launchActivityFab.activityEntryVisible{
         if(t!==el.textContent)el.textContent=t;
       }
     });
-    if(document.title.includes("3.24-beta"))document.title=document.title.replace("3.24-beta","3.26.39-beta");
-    if(document.title.includes("3.26.1-beta"))document.title=document.title.replace("3.26.1-beta","3.26.39-beta");
+    if(document.title.includes("3.24-beta"))document.title=document.title.replace("3.24-beta","3.26.40-beta");
+    if(document.title.includes("3.26.1-beta"))document.title=document.title.replace("3.26.1-beta","3.26.40-beta");
   }
   updateVersionLabels();
   setTimeout(updateVersionLabels,500);
@@ -13653,7 +13653,7 @@ body.theme-maid-cafe #game>.top .chip{background:rgba(255,248,251,.94)!important
  },true);
 
  const oldRenderPaid=window.renderPaidShop;window.renderPaidShop=renderPaidV324;
- /* 3.26.39 FIX:
+ /* 3.26.40 FIX:
     舊版用 MutationObserver 監看整個 document.body，callback 內又會 remove/append
     npcPaidStorySection，造成 observer -> DOM 修改 -> observer 的無限迴圈。
     Android WebView 在角色進入開始大量 render 後會因此卡死甚至被系統殺掉。
@@ -13706,7 +13706,7 @@ body.theme-maid-cafe #game>.top .chip{background:rgba(255,248,251,.94)!important
       const c=chars.find(x=>String(x.id)===String(id));
       if(!c){alert('找不到這個角色存檔。請重新整理頁面後再試。');return;}
 
-      /* 3.26.39 Android hard fix:
+      /* 3.26.40 Android hard fix:
          切畫面一定要早於任何存檔序列化、每日重置、完整 render 或雲端工作。
          舊版在 show(game) 前呼叫 saveLocal()，大型存檔在 Android WebView 會長時間堵塞，
          甚至被系統直接殺掉。 */
@@ -13750,7 +13750,7 @@ body.theme-maid-cafe #game>.top .chip{background:rgba(255,248,251,.94)!important
         try{if(typeof ensureRelations==='function')ensureRelations(c)}catch(err){console.warn('entry ensureRelations',err)}
         try{if(typeof ensureMeta==='function')ensureMeta(c)}catch(err){console.warn('entry ensureMeta',err)}
         try{if(typeof restoreBadgeShowcaseBackup==='function')restoreBadgeShowcaseBackup(c)}catch(err){console.warn('entry badge restore',err)}
-        /* 3.26.39: 第一階段禁止呼叫 renderGame。renderGame 內仍包含每日判定、關係卡與多個大型 DOM 建立。 */
+        /* 3.26.40: 第一階段禁止呼叫 renderGame。renderGame 內仍包含每日判定、關係卡與多個大型 DOM 建立。 */
         try{
           const cid=document.getElementById('charIdCode');if(cid&&typeof displayCharacterId==='function')cid.textContent=displayCharacterId(c);
           const gb=document.getElementById('genderBadge');if(gb){gb.textContent=c.gender==='male'?'♂ 男':'♀ 女';gb.classList.toggle('hidden',!c.gender)}
@@ -13787,7 +13787,7 @@ body.theme-maid-cafe #game>.top .chip{background:rgba(255,248,251,.94)!important
         try{if(typeof startPolling==='function')startPolling()}catch(err){console.warn('entry polling',err)}
       },12000);
     }catch(err){
-      console.error('3.26.39 forced local entry failed',err);
+      console.error('3.26.40 forced local entry failed',err);
       alert('角色進入失敗：'+(err?.message||'未知錯誤'));
     }
   }
@@ -13816,7 +13816,7 @@ body.theme-maid-cafe #game>.top .chip{background:rgba(255,248,251,.94)!important
 </script>
 
 <style id="v32639MaidCafeFinalPreviewStyle">
-/* === 3.26.39 女僕咖啡廳完整預覽＋NT$50 單券兌換 === */
+/* === 3.26.40 女僕咖啡廳完整預覽＋NT$50 單券兌換 === */
 body.maid-cafe-preview,
 body.maid-cafe-preview.theme-qixi-paid,
 body.maid-cafe-preview.theme-maid-cafe{
@@ -13855,7 +13855,7 @@ body.maid-cafe-preview .chip{background:#f8e3e9!important;color:#7d4b60!importan
 </style>
 <script id="v32639MaidCafeFinalPatch">
 (function(){
- const BUILD='3.26.39';
+ const BUILD='3.26.40';
  const MAID_PASS='maidCafeVoucher';
  const MAID_COS='maidCafe';
  function current(){try{return typeof cur==='function'?cur():null}catch(_){return null}}
@@ -13916,6 +13916,19 @@ body.maid-cafe-preview .chip{background:#f8e3e9!important;color:#7d4b60!importan
  document.addEventListener('click',e=>{if(e.target.closest('[data-load]')){setTimeout(()=>{applyPreview();refreshVersion();installNpcShopHook()},0)}},true);
 })();
 </script>
+
+
+<style id="maid-cafe-preview-32640">
+:root{--maid-cream:#fff7f3;--maid-pink:#f4c7d7;--maid-rose:#c97798;--maid-wine:#6d3650;--maid-coffee:#4b302c}
+html,body,#app,#home,#homePage,#game,#gamePage,#main,main,.page,.screen,.view,.app-shell,.game-shell{background:linear-gradient(145deg,#5d3447 0%,#9c5e79 42%,#f1c4d2 100%)!important;background-image:linear-gradient(145deg,#5d3447 0%,#9c5e79 42%,#f1c4d2 100%)!important}
+body::before,body::after,#app::before,#app::after,#home::before,#home::after,#homePage::before,#homePage::after,#game::before,#game::after,#gamePage::before,#gamePage::after,.page::before,.page::after,.screen::before,.screen::after,.app-shell::before,.app-shell::after,.game-shell::before,.game-shell::after{background-image:none!important;box-shadow:none!important}
+#home .card,#homePage .card,#game .card,#gamePage .card,#home .panel,#homePage .panel,#game .panel,#gamePage .panel,#home [class*="card"],#homePage [class*="card"],#game [class*="card"],#gamePage [class*="card"],#game [class*="panel"],#gamePage [class*="panel"],.modal,.modal-content,.dialog,.dialog-content,.popup,.popup-content,.overlay-card,.sheet,.bottom-sheet,.drawer,.toast,.alert,.loading,.loading-box,.loading-modal,.waiting,.waiting-box,[class*="modal"],[class*="dialog"],[class*="popup"],[class*="sheet"],[class*="loading"],[class*="waiting"]{background:linear-gradient(160deg,#fffaf7 0%,#f8dce6 100%)!important;color:var(--maid-coffee)!important;border-color:rgba(201,119,152,.35)!important;box-shadow:0 18px 55px rgba(75,48,44,.22)!important}
+.modal-backdrop,.overlay,.backdrop,[class*="backdrop"]{background:rgba(61,35,42,.48)!important;background-image:none!important}
+.primary,.btn-primary,button.primary,.tab.active,.active-tab{background:linear-gradient(135deg,#b96f91,#7b4560)!important;color:#fff!important}
+input,select,textarea{background:rgba(255,253,251,.94)!important;color:var(--maid-coffee)!important;border-color:rgba(201,119,152,.35)!important}
+header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{background:linear-gradient(90deg,#55303f,#8c506b)!important;background-image:none!important}
+</style>
+<script id="maid-cafe-preview-32640-js">(function(){function a(){document.documentElement.setAttribute('data-theme','maid-cafe');if(document.body){document.body.classList.add('maid-cafe-preview');document.body.setAttribute('data-theme','maid-cafe')}}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',a,{once:true});else a();window.addEventListener('pageshow',a);window.__applyMaidCafePreview=a})();</script>
 
 </body>
 </html>
