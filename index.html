@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#9a76c4" name="theme-color"/>
-<title>關係進行式・3.31.8</title>
+<title>關係進行式・3.31.9</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -1749,7 +1749,7 @@ html[data-formal-theme="maidCafe"] .formalAppearanceCard{
 <div class="homeLogo">💞</div>
 <h1>關係進行式</h1>
 <div class="homeTagline">每一段關係，都還在進行中。</div>
-<div class="homeVersion">第3.31.8版・連續登入天數修正</div>
+<div class="homeVersion">第3.31.9版・跨瀏覽器打工修正</div>
 </div>
 <div id="playerAccountHomePanel" class="homePanel accountHomePanel">
 <div class="homePanelTitle"><span>☁️ 玩家帳號</span><span id="playerAccountChip" class="chip">未登入</span></div>
@@ -2190,7 +2190,7 @@ html[data-formal-theme="maidCafe"] .formalAppearanceCard{
 </div>
 <div class="drawerShade hidden" id="drawerShade"></div><aside class="drawer hidden" id="drawer"><div style="padding:8px"><b id="drawerName">角色</b><div class="muted">功能選單</div></div><button class="navBtn" data-nav="life" type="button">🏠 角色生活</button><button class="navBtn" data-nav="daily" type="button">📋 今日小事</button><button class="navBtn" data-nav="work" type="button">💼 打工賺錢</button><button class="navBtn" data-nav="journal" type="button">📖 今日生活日誌</button><button class="navBtn" data-nav="routine" type="button">🕒 角色作息</button><button class="navBtn" data-nav="outing" type="button">🗺️ 外出 <span class="navDot hidden" data-dot="outing"></span></button><button class="navBtn" data-nav="relations" type="button">💞 關係 <span class="navDot hidden" data-dot="relations"></span></button><button class="navBtn" data-nav="npcrelations" type="button">✨ NPC 關係</button><button class="navBtn" data-nav="mailbox" type="button">📬 信箱 <span class="navDot hidden" data-dot="mailbox"></span></button><button class="navBtn" id="playerAccountDrawerBtn" type="button">☁️ 玩家帳號</button><button class="navBtn" id="gmDrawerLoginBtn" type="button">👑 管理員登入</button><button class="navBtn hidden" data-nav="gm" id="gmNavBtn" type="button">🛠️ GM 操作台</button><div class="navSep"></div><button class="navBtn" data-nav="bag" type="button">🎒 背包</button><button class="navBtn" data-nav="shop" type="button">🏪 商店</button><button class="navBtn" data-nav="memory" type="button">📖 回憶</button><button class="navBtn" data-nav="achievements" type="button">🏆 成就</button><div class="navSep"></div><div style="padding:8px"><b>🎵 悠閒 BGM</b><div class="actions"><button id="bgmToggle">▶ 播放</button><input id="bgmVolume" max="1" min="0" step=".05" type="range" value=".25"/></div><div class="small">把 bgm.mp3 和 index.html 放同一資料夾。</div></div><audio autoplay="" id="bgm" loop="" playsinline="" preload="auto"><source src="bgm.mp3" type="audio/mpeg"/></audio><button class="navBtn" id="back" type="button">💾 返回存檔首頁</button></aside><div class="modal hidden" id="updateNoticeModal">
 <div class="modalBox">
-<div class="modalHead"><b>📢 第3.31.8版更新公告</b><button id="closeUpdateNotice">×</button></div>
+<div class="modalHead"><b>📢 第3.31.9版更新公告</b><button id="closeUpdateNotice">×</button></div>
 <div class="updateNoticeBody">
   <h3>🎀 女僕咖啡廳主題</h3>
   <p>新增女僕咖啡廳限定外觀。解鎖後可在「外觀更改」中自由切換原始外觀與女僕咖啡廳，選擇會保留。</p>
@@ -2232,6 +2232,9 @@ html[data-formal-theme="maidCafe"] .formalAppearanceCard{
 
   <h3>📅 連續登入修正</h3>
   <p>修正每日 00:00 小事件一直顯示「連續登入 1 天」的問題。現在跨日會正確累加連續登入天數；只有真正中斷登入才會重新從 1 天開始，舊玩家既有的較高連續天數也會優先保留。</p>
+
+  <h3>💼 打工跨瀏覽器修正</h3>
+  <p>重新定位到真正原因：舊打工程式依賴瀏覽器把 HTML 元素 id 自動建立成 JavaScript 全域變數。部分 Chrome 環境可用，但 Safari、Firefox 與部分 PWA/WebView 不保證支援，因此會出現「開發者自己能打工、其他玩家按了沒反應」。現在已全面改為 getElementById 與 document 事件委派，不再依賴瀏覽器差異。</p>
 
   <h3>🔧 本次修正</h3>
   <p>修正突破成功卻誤顯示失敗、突破狀態同步、解除後重綁、貓貓商店女僕兌換入口，以及部分版本號仍顯示舊版本的問題。</p>
@@ -6922,9 +6925,17 @@ const workDefs=[
   {id:"commission",icon:"🎨",name:"接小委託",min:50,max:120,energy:10,text:["今天的委託意外很合你的胃口。","改了幾次細節後，委託人終於滿意了。","這次接到一個有點奇怪、但報酬不錯的委託。"]}
 ];
 function renderWork(c){
-  let ctr=ensureWorkCounter(c),used=ctr.used||0,left=Math.max(0,DAILY_WORK_LIMIT-used);
-  workLimit.innerHTML=`<b>今日剩餘次數：${left} / ${DAILY_WORK_LIMIT}</b><div class="small">打工次數每天 00:00 重置。每次會消耗少量體力。</div>`;
-  workList.innerHTML=workDefs.map(w=>`<button type="button" class="workCard" data-work="${w.id}" ${left<=0||c.energy<w.energy?"disabled":""}><b>${w.icon} ${w.name}</b><span class="small">約 🪙${w.min}～${w.max}・體力 -${w.energy}</span></button>`).join("");
+  /* 3.31.9：不可依賴「元素 id 自動變成 window 全域變數」。
+     Chrome 某些環境會自動提供 workList/workLimit，但 Safari、Firefox、
+     部分 PWA/WebView 不保證，因此其他玩家會看到頁面卻沒有可用的打工事件。 */
+  const workLimitEl=document.getElementById("workLimit");
+  const workListEl=document.getElementById("workList");
+  if(!c||!workLimitEl||!workListEl)return;
+
+  try{ensureRelations(c)}catch(_){}
+  let ctr=ensureWorkCounter(c),used=Number(ctr.used||0),left=Math.max(0,DAILY_WORK_LIMIT-used);
+  workLimitEl.innerHTML=`<b>今日剩餘次數：${left} / ${DAILY_WORK_LIMIT}</b><div class="small">打工次數每天 00:00 重置。每次會消耗少量體力。</div>`;
+  workListEl.innerHTML=workDefs.map(w=>`<button type="button" class="workCard" data-work="${w.id}" ${left<=0||Number(c.energy||0)<w.energy?"disabled":""}><b>${w.icon} ${w.name}</b><span class="small">約 🪙${w.min}～${w.max}・體力 -${w.energy}</span></button>`).join("");
 }
 async function doWork(id){
   let c=cur(),w=workDefs.find(x=>x.id===id);if(!c||!w)return false;
@@ -6933,14 +6944,16 @@ async function doWork(id){
   try{MONEY_GUARD.reset(c)}catch(_){}
   resetDailyIfNeeded(c);
   let ctr=ensureWorkCounter(c);if((ctr.used||0)>=DAILY_WORK_LIMIT){
-    infoTitle.textContent="💼 今天已經工作很多了";
-    infoBody.innerHTML="每日最多打工 <b>5 次</b>，明天 00:00 會恢復。";
-    infoModal.classList.remove("hidden");return;
+    const title=document.getElementById("infoTitle"),body=document.getElementById("infoBody"),modal=document.getElementById("infoModal");
+    if(title)title.textContent="💼 今天已經工作很多了";
+    if(body)body.innerHTML="每日最多打工 <b>5 次</b>，明天 00:00 會恢復。";
+    modal?.classList.remove("hidden");return false;
   }
   if(c.energy<w.energy){
-    infoTitle.textContent="⚡ 體力不足";
-    infoBody.textContent="先讓角色休息一下再工作吧。";
-    infoModal.classList.remove("hidden");return;
+    const title=document.getElementById("infoTitle"),body=document.getElementById("infoBody"),modal=document.getElementById("infoModal");
+    if(title)title.textContent="⚡ 體力不足";
+    if(body)body.textContent="先讓角色休息一下再工作吧。";
+    modal?.classList.remove("hidden");return false;
   }
   let earned=Math.floor(w.min+Math.random()*(w.max-w.min+1)),story=w.text[Math.floor(Math.random()*w.text.length)];
   // 10% 小幸運獎金
@@ -6951,37 +6964,50 @@ async function doWork(id){
   c.stats??={};c.stats.workCount=(c.stats.workCount||0)+1;c.stats.workEarned=(c.stats.workEarned||0)+earned;
   logJournal(c,`${w.name}，賺到 🪙${earned}`,"💼");
   saveLocal();renderGame();
-  infoTitle.textContent=`${w.icon} ${w.name}`;
-  infoBody.innerHTML=`${esc(story)}${lucky?"<br><br>🍀 今天運氣很好，多拿到了一點獎金！":""}<br><br><b>收入：🪙${earned}</b><br>⚡ 體力 -${w.energy}<br><span class="small">今日打工 ${ctr.used||0} / ${DAILY_WORK_LIMIT}</span>`;
-  infoModal.classList.remove("hidden");
+  const title=document.getElementById("infoTitle"),body=document.getElementById("infoBody"),modal=document.getElementById("infoModal");
+  if(title)title.textContent=`${w.icon} ${w.name}`;
+  if(body)body.innerHTML=`${esc(story)}${lucky?"<br><br>🍀 今天運氣很好，多拿到了一點獎金！":""}<br><br><b>收入：🪙${earned}</b><br>⚡ 體力 -${w.energy}<br><span class="small">今日打工 ${ctr.used||0} / ${DAILY_WORK_LIMIT}</span>`;
+  modal?.classList.remove("hidden");
   return true;
 }
-// 3.31.7：一般玩家與管理員使用完全相同的打工事件。
+// 3.31.9：跨瀏覽器打工事件。
 (function bindWorkButtons(){
-  const list=document.getElementById("workList");
-  if(!list)return;
-  list.onclick=null;
   let lastPointer=0;
+
   async function run(e){
-    const b=e.target&&e.target.closest?e.target.closest("[data-work]"):null;
-    if(!b||!list.contains(b)||b.disabled)return;
+    const b=e.target&&e.target.closest?e.target.closest("#workList [data-work]"):null;
+    if(!b||b.disabled)return;
+
     if(e.type==="click"&&Date.now()-lastPointer<450)return;
     if(e.type==="pointerup")lastPointer=Date.now();
+
     e.preventDefault();
+    e.stopPropagation();
+
     if(b.dataset.busy==="1")return;
     b.dataset.busy="1";
-    try{await doWork(b.dataset.work)}
-    catch(err){
+    try{
+      const ok=await doWork(b.dataset.work);
+      if(ok===false)console.warn("work rejected",b.dataset.work);
+    }catch(err){
       console.error("work failed",err);
       try{
-        infoTitle.textContent="💼 打工暫時失敗";
-        infoBody.textContent="這次沒有扣除次數或體力，請重新點一次。";
-        infoModal.classList.remove("hidden");
+        const title=document.getElementById("infoTitle");
+        const body=document.getElementById("infoBody");
+        const modal=document.getElementById("infoModal");
+        if(title)title.textContent="💼 打工暫時失敗";
+        if(body)body.textContent="這次沒有扣除次數或體力，請重新點一次。";
+        modal?.classList.remove("hidden");
       }catch(_){}
-    }finally{delete b.dataset.busy}
+    }finally{
+      delete b.dataset.busy;
+    }
   }
-  list.addEventListener("pointerup",run,false);
-  list.addEventListener("click",run,false);
+
+  /* 綁 document，不要求 script 執行當下 #workList 已經存在；
+     動態重新 render 打工卡片也不會把事件綁定洗掉。 */
+  document.addEventListener("pointerup",run,false);
+  document.addEventListener("click",run,false);
 })();
 
 
@@ -14336,7 +14362,7 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 
 <script id="formal3298MaidCommerce">
 (function(){
- const BUILD='3.31.8';
+ const BUILD='3.31.9';
  const THEME_KEY='role_life_formal_theme_v1';
  const VOUCHER='npc_maid_cafe_coffee_voucher';
 
@@ -14614,9 +14640,9 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 <script id="formal3313VersionGuard">
 (function(){
  function apply(){
-  document.querySelectorAll('.homeVersion').forEach(x=>x.textContent='第3.31.8版・連續登入天數修正');
+  document.querySelectorAll('.homeVersion').forEach(x=>x.textContent='第3.31.9版・跨瀏覽器打工修正');
   document.querySelectorAll('.chip').forEach(x=>{if(/^第?3\.\d+(?:\.\d+)?版?$/.test((x.textContent||'').trim()))x.textContent='第3.31.1版'});
-  document.title='關係進行式・3.31.8';
+  document.title='關係進行式・3.31.9';
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',apply,{once:true});else apply();
  window.addEventListener('pageshow',apply);
