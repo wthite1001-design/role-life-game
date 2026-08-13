@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#9a76c4" name="theme-color"/>
-<title>關係進行式・3.31.6</title>
+<title>關係進行式・3.31.8</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -1749,7 +1749,7 @@ html[data-formal-theme="maidCafe"] .formalAppearanceCard{
 <div class="homeLogo">💞</div>
 <h1>關係進行式</h1>
 <div class="homeTagline">每一段關係，都還在進行中。</div>
-<div class="homeVersion">第3.31.6版・課金永久權益帳號共用</div>
+<div class="homeVersion">第3.31.8版・連續登入天數修正</div>
 </div>
 <div id="playerAccountHomePanel" class="homePanel accountHomePanel">
 <div class="homePanelTitle"><span>☁️ 玩家帳號</span><span id="playerAccountChip" class="chip">未登入</span></div>
@@ -1767,7 +1767,7 @@ html[data-formal-theme="maidCafe"] .formalAppearanceCard{
 <div class="gmStatus" id="gmHomeStatus"></div>
 </div>
 <div class="homePanel">
-<div class="homePanelTitle"><span>📢 更新公告</span><span class="chip">第3.31.6版</span></div>
+<div class="homePanelTitle"><span>📢 更新公告</span><span class="chip">第3.31.8版</span></div>
 <div class="small">查看本次新增功能與修正內容。</div>
 <button id="openUpdateNotice" style="width:100%;margin-top:8px" type="button">查看更新內容</button>
 </div>
@@ -2190,7 +2190,7 @@ html[data-formal-theme="maidCafe"] .formalAppearanceCard{
 </div>
 <div class="drawerShade hidden" id="drawerShade"></div><aside class="drawer hidden" id="drawer"><div style="padding:8px"><b id="drawerName">角色</b><div class="muted">功能選單</div></div><button class="navBtn" data-nav="life" type="button">🏠 角色生活</button><button class="navBtn" data-nav="daily" type="button">📋 今日小事</button><button class="navBtn" data-nav="work" type="button">💼 打工賺錢</button><button class="navBtn" data-nav="journal" type="button">📖 今日生活日誌</button><button class="navBtn" data-nav="routine" type="button">🕒 角色作息</button><button class="navBtn" data-nav="outing" type="button">🗺️ 外出 <span class="navDot hidden" data-dot="outing"></span></button><button class="navBtn" data-nav="relations" type="button">💞 關係 <span class="navDot hidden" data-dot="relations"></span></button><button class="navBtn" data-nav="npcrelations" type="button">✨ NPC 關係</button><button class="navBtn" data-nav="mailbox" type="button">📬 信箱 <span class="navDot hidden" data-dot="mailbox"></span></button><button class="navBtn" id="playerAccountDrawerBtn" type="button">☁️ 玩家帳號</button><button class="navBtn" id="gmDrawerLoginBtn" type="button">👑 管理員登入</button><button class="navBtn hidden" data-nav="gm" id="gmNavBtn" type="button">🛠️ GM 操作台</button><div class="navSep"></div><button class="navBtn" data-nav="bag" type="button">🎒 背包</button><button class="navBtn" data-nav="shop" type="button">🏪 商店</button><button class="navBtn" data-nav="memory" type="button">📖 回憶</button><button class="navBtn" data-nav="achievements" type="button">🏆 成就</button><div class="navSep"></div><div style="padding:8px"><b>🎵 悠閒 BGM</b><div class="actions"><button id="bgmToggle">▶ 播放</button><input id="bgmVolume" max="1" min="0" step=".05" type="range" value=".25"/></div><div class="small">把 bgm.mp3 和 index.html 放同一資料夾。</div></div><audio autoplay="" id="bgm" loop="" playsinline="" preload="auto"><source src="bgm.mp3" type="audio/mpeg"/></audio><button class="navBtn" id="back" type="button">💾 返回存檔首頁</button></aside><div class="modal hidden" id="updateNoticeModal">
 <div class="modalBox">
-<div class="modalHead"><b>📢 第3.31.6版更新公告</b><button id="closeUpdateNotice">×</button></div>
+<div class="modalHead"><b>📢 第3.31.8版更新公告</b><button id="closeUpdateNotice">×</button></div>
 <div class="updateNoticeBody">
   <h3>🎀 女僕咖啡廳主題</h3>
   <p>新增女僕咖啡廳限定外觀。解鎖後可在「外觀更改」中自由切換原始外觀與女僕咖啡廳，選擇會保留。</p>
@@ -2226,6 +2226,12 @@ html[data-formal-theme="maidCafe"] .formalAppearanceCard{
 
   <h3>💳 課金永久權益改為帳號共用</h3>
   <p>女僕咖啡廳主題、付費限定劇情與課金徽章改為玩家帳號共用；同一帳號目前所有角色與之後新增角色都會繼承。金幣、紫晶碎片、熟客小盒、限定鈴鐺與咖啡券等角色資源仍只發給付款時選定的角色。</p>
+
+  <h3>💼 全玩家打工修正</h3>
+  <p>修正部分一般玩家從雲端或舊存檔登入後無法正常打工。打工會自行初始化角色與金錢狀態、修復異常每日計數，手機點擊也改為 pointer 與 click 雙重相容。</p>
+
+  <h3>📅 連續登入修正</h3>
+  <p>修正每日 00:00 小事件一直顯示「連續登入 1 天」的問題。現在跨日會正確累加連續登入天數；只有真正中斷登入才會重新從 1 天開始，舊玩家既有的較高連續天數也會優先保留。</p>
 
   <h3>🔧 本次修正</h3>
   <p>修正突破成功卻誤顯示失敗、突破狀態同步、解除後重綁、貓貓商店女僕兌換入口，以及部分版本號仍顯示舊版本的問題。</p>
@@ -6787,7 +6793,7 @@ function handleDailyLogin(c){
  c.mood=Math.min(100,(c.mood||80)+ev[3]);secureMoneyAdd(c,ev[4],"daily-event");
  c.dailyLogin.event={date:k,title:`${ev[0]} ${ev[1]}`,text:ev[2]};
  logJournal(c,`今日登入事件：${ev[1]}`,"✨");saveLocal();
- setTimeout(()=>{if(cur()?.id===c.id){infoTitle.textContent=ev[0]+" 今日的小事件";infoBody.innerHTML=`<b>${ev[1]}</b><p>${ev[2]}</p><div class="small">連續登入 ${c.dailyLogin.streak} 天・今日登入獎勵已領取。</div>`;infoModal.classList.remove("hidden")}},500);
+ setTimeout(()=>{if(cur()?.id===c.id){infoTitle.textContent=ev[0]+" 今日的小事件";infoBody.innerHTML=`<b>${ev[1]}</b><p>${ev[2]}</p><div class="small">連續登入 ${window.getTrueLoginStreak?.()||1} 天・今日登入獎勵已領取。</div>`;infoModal.classList.remove("hidden")}},500);
 }
 function setNavDot(name,count){
  let el=document.querySelector(`[data-dot="${name}"]`);if(!el)return;
@@ -6896,7 +6902,9 @@ function doQuickRest(){
 }
 function ensureWorkCounter(c){
   let k=localDateKey();
-  if(!c.workDaily||c.workDaily.date!==k)c.workDaily={date:k,used:0};
+  if(!c.workDaily||typeof c.workDaily!=="object"||c.workDaily.date!==k)c.workDaily={date:k,used:0};
+  let used=Number(c.workDaily.used);
+  c.workDaily.used=Number.isFinite(used)?Math.max(0,Math.min(DAILY_WORK_LIMIT,Math.floor(used))):0;
   return c.workDaily;
 }
 function ensureRelationCounter(c,code){
@@ -6916,10 +6924,13 @@ const workDefs=[
 function renderWork(c){
   let ctr=ensureWorkCounter(c),used=ctr.used||0,left=Math.max(0,DAILY_WORK_LIMIT-used);
   workLimit.innerHTML=`<b>今日剩餘次數：${left} / ${DAILY_WORK_LIMIT}</b><div class="small">打工次數每天 00:00 重置。每次會消耗少量體力。</div>`;
-  workList.innerHTML=workDefs.map(w=>`<button class="workCard" data-work="${w.id}" ${left<=0||c.energy<w.energy?"disabled":""}><b>${w.icon} ${w.name}</b><span class="small">約 🪙${w.min}～${w.max}・體力 -${w.energy}</span></button>`).join("");
+  workList.innerHTML=workDefs.map(w=>`<button type="button" class="workCard" data-work="${w.id}" ${left<=0||c.energy<w.energy?"disabled":""}><b>${w.icon} ${w.name}</b><span class="small">約 🪙${w.min}～${w.max}・體力 -${w.energy}</span></button>`).join("");
 }
 async function doWork(id){
-  let c=cur(),w=workDefs.find(x=>x.id===id);if(!c||!w)return;
+  let c=cur(),w=workDefs.find(x=>x.id===id);if(!c||!w)return false;
+  /* 一般玩家從雲端/舊存檔進來，也建立完整角色狀態。 */
+  try{ensureRelations(c)}catch(_){}
+  try{MONEY_GUARD.reset(c)}catch(_){}
   resetDailyIfNeeded(c);
   let ctr=ensureWorkCounter(c);if((ctr.used||0)>=DAILY_WORK_LIMIT){
     infoTitle.textContent="💼 今天已經工作很多了";
@@ -6945,31 +6956,32 @@ async function doWork(id){
   infoModal.classList.remove("hidden");
   return true;
 }
-// 3.31.4：手機版打工按鈕改用穩定的事件委派。
+// 3.31.7：一般玩家與管理員使用完全相同的打工事件。
 (function bindWorkButtons(){
   const list=document.getElementById("workList");
   if(!list)return;
   list.onclick=null;
-  list.addEventListener("click",async function(e){
-    const b=e.target.closest?.("[data-work]");
-    if(!b || !list.contains(b) || b.disabled)return;
+  let lastPointer=0;
+  async function run(e){
+    const b=e.target&&e.target.closest?e.target.closest("[data-work]"):null;
+    if(!b||!list.contains(b)||b.disabled)return;
+    if(e.type==="click"&&Date.now()-lastPointer<450)return;
+    if(e.type==="pointerup")lastPointer=Date.now();
     e.preventDefault();
-    e.stopPropagation();
     if(b.dataset.busy==="1")return;
     b.dataset.busy="1";
-    try{
-      await doWork(b.dataset.work);
-    }catch(err){
+    try{await doWork(b.dataset.work)}
+    catch(err){
       console.error("work failed",err);
       try{
         infoTitle.textContent="💼 打工暫時失敗";
-        infoBody.textContent="這次沒有扣除打工次數，也沒有消耗體力，請再點一次。";
+        infoBody.textContent="這次沒有扣除次數或體力，請重新點一次。";
         infoModal.classList.remove("hidden");
       }catch(_){}
-    }finally{
-      delete b.dataset.busy;
-    }
-  });
+    }finally{delete b.dataset.busy}
+  }
+  list.addEventListener("pointerup",run,false);
+  list.addEventListener("click",run,false);
 })();
 
 
@@ -14324,7 +14336,7 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 
 <script id="formal3298MaidCommerce">
 (function(){
- const BUILD='3.31.6';
+ const BUILD='3.31.8';
  const THEME_KEY='role_life_formal_theme_v1';
  const VOUCHER='npc_maid_cafe_coffee_voucher';
 
@@ -14602,9 +14614,9 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 <script id="formal3313VersionGuard">
 (function(){
  function apply(){
-  document.querySelectorAll('.homeVersion').forEach(x=>x.textContent='第3.31.6版・課金永久權益帳號共用');
+  document.querySelectorAll('.homeVersion').forEach(x=>x.textContent='第3.31.8版・連續登入天數修正');
   document.querySelectorAll('.chip').forEach(x=>{if(/^第?3\.\d+(?:\.\d+)?版?$/.test((x.textContent||'').trim()))x.textContent='第3.31.1版'});
-  document.title='關係進行式・3.31.6';
+  document.title='關係進行式・3.31.8';
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',apply,{once:true});else apply();
  window.addEventListener('pageshow',apply);
@@ -15002,6 +15014,145 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
     window.renderHome=wrapped;
   }
   sync();
+})();
+</script>
+
+
+<script id="formal3317WorkSaveRepair">
+(function(){
+  try{
+    const k=localDateKey();
+    let changed=false;
+    for(const c of (local.characters||[])){
+      if(!c.workDaily||typeof c.workDaily!=="object"||c.workDaily.date!==k){
+        c.workDaily={date:k,used:0};changed=true;continue;
+      }
+      const n=Number(c.workDaily.used);
+      if(!Number.isFinite(n)||n<0){c.workDaily.used=0;changed=true}
+      else if(n>DAILY_WORK_LIMIT){c.workDaily.used=DAILY_WORK_LIMIT;changed=true}
+    }
+    if(changed)saveLocal?.();
+  }catch(e){console.warn("work save repair",e)}
+})();
+</script>
+
+
+<script id="formal3318LoginStreakFix">
+(function(){
+  const KEY="role_life_login_streak_v3318";
+
+  function dayKey(d=new Date()){
+    const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,"0"),day=String(d.getDate()).padStart(2,"0");
+    return `${y}-${m}-${day}`;
+  }
+  function previousDayKey(now=new Date()){
+    const d=new Date(now.getFullYear(),now.getMonth(),now.getDate()-1);
+    return dayKey(d);
+  }
+
+  function readState(){
+    try{
+      const x=JSON.parse(localStorage.getItem(KEY)||"null");
+      if(x&&typeof x==="object")return x;
+    }catch(_){}
+    return {lastDate:"",streak:0};
+  }
+  function writeState(st){
+    try{localStorage.setItem(KEY,JSON.stringify(st))}catch(_){}
+  }
+
+  function sync(){
+    const today=dayKey(),yesterday=previousDayKey();
+    let st=readState();
+
+    /* 舊版若角色本身已有更高連續登入紀錄，優先保留，不要降回 1。 */
+    try{
+      const c=typeof cur==="function"?cur():null;
+      const candidates=[
+        Number(c?.loginStreak||0),
+        Number(c?.dailyLoginStreak||0),
+        Number(c?.stats?.loginStreak||0),
+        Number(local?.loginStreak||0),
+        Number(local?.dailyLoginStreak||0)
+      ].filter(Number.isFinite);
+      const legacy=Math.max(0,...candidates);
+      if(legacy>Number(st.streak||0))st.streak=legacy;
+    }catch(_){}
+
+    if(st.lastDate===today){
+      writeState(st);
+      return Math.max(1,Number(st.streak||1));
+    }
+
+    if(st.lastDate===yesterday){
+      st.streak=Math.max(1,Number(st.streak||0)+1);
+    }else if(!st.lastDate){
+      /* 首次升級到 3.31.8：若已有舊 streak，直接沿用，不硬重設成 1。 */
+      st.streak=Math.max(1,Number(st.streak||0)||1);
+    }else{
+      st.streak=1;
+    }
+    st.lastDate=today;
+    writeState(st);
+
+    try{
+      const c=typeof cur==="function"?cur():null;
+      if(c){
+        c.loginStreak=st.streak;
+        c.dailyLoginStreak=st.streak;
+        c.stats=c.stats&&typeof c.stats==="object"?c.stats:{};
+        c.stats.loginStreak=st.streak;
+      }
+      window.local=window.local||{};
+      local.loginStreak=st.streak;
+      local.dailyLoginStreak=st.streak;
+      saveLocal?.();
+    }catch(_){}
+
+    return st.streak;
+  }
+
+  window.getTrueLoginStreak=function(){
+    const st=readState();
+    const today=dayKey();
+    if(st.lastDate!==today)return sync();
+    return Math.max(1,Number(st.streak||1));
+  };
+  window.syncTrueLoginStreak=sync;
+
+  if(document.readyState==="loading"){
+    document.addEventListener("DOMContentLoaded",()=>setTimeout(sync,80),{once:true});
+  }else setTimeout(sync,0);
+  window.addEventListener("pageshow",()=>setTimeout(sync,0));
+})();
+</script>
+
+
+<script id="formal3318DailyEventStreakGuard">
+(function(){
+  function patchText(){
+    const streak=window.getTrueLoginStreak?.()||1;
+    const nodes=[
+      document.getElementById("infoBody"),
+      document.getElementById("dailyEventBody"),
+      document.getElementById("eventBody"),
+      document.querySelector(".dailyEventBody"),
+      document.querySelector(".midnightEventBody")
+    ].filter(Boolean);
+    for(const el of nodes){
+      if(!el||!el.innerHTML)continue;
+      el.innerHTML=el.innerHTML
+        .replace(/連續登入了\s*\d+\s*天/g,`連續登入了 ${streak} 天`)
+        .replace(/連續登入\s*\d+\s*天/g,`連續登入 ${streak} 天`);
+    }
+  }
+
+  const modal=document.getElementById("infoModal");
+  if(modal){
+    new MutationObserver(()=>patchText()).observe(modal,{childList:true,subtree:true,characterData:true});
+  }
+  document.addEventListener("click",()=>setTimeout(patchText,0),true);
+  window.addEventListener("pageshow",()=>setTimeout(patchText,100));
 })();
 </script>
 
