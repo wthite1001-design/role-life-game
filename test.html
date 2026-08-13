@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#9a76c4">
-<meta name="x-test-build" content="3.26.43">
+<meta name="x-test-build" content="3.26.51">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>關係進行式 TEST・3.26.46-首頁文字對比修復</title>
+<title>關係進行式 TEST・3.26.51-首頁文字對比修復</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -1473,171 +1473,9 @@ body.npcStoryRunning .draggableFab{
 <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png">
 <link rel="manifest" href="manifest.json">
 
-<style id="qixiHomeTheme">
-/* === 七夕初始版：只調整首頁視覺，不碰功能邏輯 === */
-#home{
-  position:relative;
-  isolation:isolate;
-  overflow:hidden;
-  min-height:100vh;
-  padding:18px 14px 36px;
-  border-radius:0 0 26px 26px;
-  background:
-    radial-gradient(circle at 18% 12%, rgba(154,124,255,.24) 0 2px, transparent 3px),
-    radial-gradient(circle at 79% 18%, rgba(255,230,170,.72) 0 1.5px, transparent 2.5px),
-    radial-gradient(circle at 65% 9%, rgba(255,255,255,.72) 0 1px, transparent 2px),
-    radial-gradient(circle at 32% 28%, rgba(255,255,255,.55) 0 1px, transparent 2px),
-    radial-gradient(ellipse at 52% 4%, rgba(130,106,255,.22), transparent 42%),
-    linear-gradient(180deg,#100b32 0%,#1a1550 34%,#352064 68%,#5a346f 100%);
-}
-#home::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  z-index:-2;
-  pointer-events:none;
-  opacity:.92;
-  background-image:
-    radial-gradient(circle,rgba(255,255,255,.95) 0 1px,transparent 1.6px),
-    radial-gradient(circle,rgba(210,196,255,.8) 0 1px,transparent 1.5px),
-    radial-gradient(circle,rgba(255,226,180,.76) 0 1px,transparent 1.6px);
-  background-size:67px 67px,103px 103px,149px 149px;
-  background-position:9px 13px,31px 8px,18px 49px;
-}
-#home::after{
-  content:"";
-  position:absolute;
-  left:-18%;right:-18%;top:88px;height:170px;
-  z-index:-1;
-  pointer-events:none;
-  transform:rotate(-7deg);
-  filter:blur(18px);
-  background:linear-gradient(90deg,transparent 6%,rgba(123,100,255,.08) 20%,rgba(201,177,255,.32) 47%,rgba(255,214,240,.22) 56%,rgba(125,127,255,.08) 80%,transparent 94%);
-}
-#home .homeHero{
-  position:relative;
-  overflow:hidden;
-  border:1px solid rgba(230,220,255,.34)!important;
-  background:linear-gradient(145deg,rgba(34,25,84,.88),rgba(91,48,119,.74))!important;
-  box-shadow:0 16px 38px rgba(8,4,35,.26),inset 0 1px 0 rgba(255,255,255,.14);
-  color:#fff;
-}
-#home .homeHero::before{
-  content:"🌙   ✦   ⋆   ✧";
-  position:absolute;
-  top:10px;left:16px;right:16px;
-  text-align:center;
-  letter-spacing:17px;
-  font-size:13px;
-  opacity:.62;
-}
-#home .homeHero::after{
-  content:"鵲橋星河・今夜相逢";
-  display:block;
-  margin-top:9px;
-  color:#eadfff;
-  font-size:12px;
-  letter-spacing:3px;
-}
-#home .homeLogo{filter:drop-shadow(0 0 10px rgba(245,220,255,.8))}
-#home .homeHero h1{color:#fff;text-shadow:0 2px 14px rgba(195,163,255,.55)}
-#home .homeTagline{color:#e6dcf7!important}
-#home .homeVersion{
-  color:#f8efff;
-  background:rgba(255,255,255,.1)!important;
-  border-color:rgba(255,255,255,.24)!important;
-  backdrop-filter:blur(10px);
-}
-#home .homePanel{
-  color:#f7f3ff;
-  border:1px solid rgba(224,214,255,.23)!important;
-  background:linear-gradient(145deg,rgba(26,20,65,.82),rgba(58,34,90,.72))!important;
-  box-shadow:0 10px 26px rgba(8,4,35,.16),inset 0 1px 0 rgba(255,255,255,.07);
-  backdrop-filter:blur(12px);
-}
-#home .homePanelTitle{color:#fff}
-#home .small,#home .muted{color:#d7cdea!important}
-#home .chip{
-  color:#f6edff!important;
-  background:rgba(163,127,255,.18)!important;
-  border-color:rgba(222,205,255,.28)!important;
-}
-#home input,#home select,#home textarea{
-  background:rgba(255,255,255,.92)!important;
-  color:#34274c!important;
-  border-color:rgba(220,207,255,.72)!important;
-}
-#home button{
-  border-color:rgba(230,215,255,.34)!important;
-  box-shadow:0 4px 12px rgba(10,5,35,.12);
-}
-#home .primary,#home button.primary{
-  background:linear-gradient(135deg,#8f73dc,#c16fb4)!important;
-  color:#fff!important;
-}
-@media(max-width:600px){
-  #home{padding:12px 10px 30px}
-  #home .homeHero{padding-top:30px}
-  #home .homeHero::before{letter-spacing:10px}
-}
-</style>
 
-<style id="qixiGalaxyWindowsV5Safe">
-/* 七夕 v5：只改視覺，不碰任何顯示/定位/點擊/層級邏輯 */
-:root{
- --qixi-deep:#21163d;--qixi-mid:#342058;--qixi-text:#fffaff;--qixi-muted:#d9cff0;--qixi-line:rgba(218,200,255,.3);
-}
-/* 功能專頁：只改背景/顏色，不改 position/display/z-index/overflow */
-.pageCard.active:not(#npcShopModal):not(#launchActivityModal){
- color:var(--qixi-text)!important;
- background:
-  radial-gradient(circle at 14% 12%,rgba(255,255,255,.9) 0 1px,transparent 1.6px),
-  radial-gradient(circle at 84% 20%,rgba(215,198,255,.85) 0 1.2px,transparent 1.8px),
-  radial-gradient(ellipse at 48% 4%,rgba(144,102,230,.25),transparent 44%),
-  linear-gradient(155deg,#1c1335 0%,#322154 48%,#4b3074 100%)!important;
- border-color:var(--qixi-line)!important;
-}
-.pageCard.active .small,.pageCard.active .muted{color:var(--qixi-muted)!important}
-.pageCard.active h2,.pageCard.active h3,.pageCard.active b{color:#fff!important}
-.pageCard.active .npcRelationIntro,.pageCard.active .gmPanel,.pageCard.active .relationCard,
-.pageCard.active .mailItem,.pageCard.active .badgeCard,.pageCard.active .card,
-.pageCard.active .panel,.pageCard.active .storyCard{
- background:linear-gradient(145deg,rgba(88,64,129,.72),rgba(47,33,80,.76))!important;
- border-color:var(--qixi-line)!important;
- color:var(--qixi-text)!important;
-}
-/* NPC 關係頁再更接近先前生圖的深紫玻璃感 */
-#extraNpcRelations.pageCard.active{
- background:
-  radial-gradient(circle at 12% 10%,rgba(255,255,255,.95) 0 1.1px,transparent 1.8px),
-  radial-gradient(circle at 84% 16%,rgba(220,202,255,.92) 0 1.3px,transparent 2px),
-  radial-gradient(ellipse at 52% 14%,rgba(145,98,233,.34),transparent 42%),
-  linear-gradient(160deg,#1d1238 0%,#302052 46%,#4d3179 100%)!important;
-}
-#extraNpcRelations .npcRelationIntro{background:rgba(77,55,119,.7)!important;color:#faf6ff!important;border-color:rgba(220,204,255,.28)!important}
-/* 一般彈窗只改卡片表面，不碰 .modal 本體，避免再次阻斷點擊 */
-.modal:not(#npcShopModal):not(#launchActivityModal) .modalBox,
-.modal:not(#npcShopModal):not(#launchActivityModal) .modalCard{
- color:var(--qixi-text)!important;
- background:
-  radial-gradient(circle at 12% 14%,rgba(255,255,255,.88) 0 1px,transparent 1.6px),
-  radial-gradient(circle at 86% 22%,rgba(219,199,255,.86) 0 1.2px,transparent 1.8px),
-  radial-gradient(ellipse at 45% 0%,rgba(155,115,245,.24),transparent 44%),
-  linear-gradient(155deg,rgba(31,21,59,.985),rgba(67,43,107,.985))!important;
- border-color:var(--qixi-line)!important;
- box-shadow:0 22px 60px rgba(13,5,31,.38)!important;
-}
-.modal:not(#npcShopModal):not(#launchActivityModal) .small,
-.modal:not(#npcShopModal):not(#launchActivityModal) .muted{color:var(--qixi-muted)!important}
-.modal:not(#npcShopModal):not(#launchActivityModal) b,
-.modal:not(#npcShopModal):not(#launchActivityModal) h2,
-.modal:not(#npcShopModal):not(#launchActivityModal) h3{color:#fff!important}
-.modal:not(#npcShopModal):not(#launchActivityModal) input,
-.modal:not(#npcShopModal):not(#launchActivityModal) select,
-.modal:not(#npcShopModal):not(#launchActivityModal) textarea{background:rgba(255,255,255,.94)!important;color:#36204f!important;border-color:rgba(220,201,255,.55)!important}
-/* 明確保留兩個例外原樣 */
-#npcShopModal .modalBox,#npcShopModal .modalCard,#launchActivityModal .modalBox,#launchActivityModal .modalCard{filter:none!important}
-</style>
+
+
 </head>
 <body>
 
@@ -1702,7 +1540,7 @@ body.npcStoryRunning .draggableFab{
     <div class="homeLogo">🧪</div>
     <h1>關係進行式 TEST</h1>
     <div class="homeTagline">測試中的每一段關係，都可能被重置。</div>
-    <div class="homeVersion">3.26.40・測試服｜女僕咖啡廳單券兌換修復</div>
+    <div class="homeVersion">3.26.51・測試服｜女僕咖啡廳單券兌換修復</div>
   </div>
 
   <div id="playerAccountHomePanel" class="homePanel accountHomePanel">
@@ -12307,11 +12145,11 @@ body:not(.launch-game-open) #launchActivityFab.activityEntryVisible{
 
   /* 更新測試服版本顯示，避免入口仍寫 3.24-beta。 */
   const replacements=[
-    ["Ver.3.24-beta","Ver.3.26.40-beta"],
-    ["TEST • 3.24-beta","TEST • 3.26.40-beta"],
-    ["TEST・3.24-beta","TEST・3.26.40-beta"],
-    ["TEST • 3.26.1-beta","TEST • 3.26.40-beta"],
-    ["TEST・3.26.1-beta","TEST・3.26.40-beta"]
+    ["Ver.3.24-beta","Ver.3.26.51-beta"],
+    ["TEST • 3.24-beta","TEST • 3.26.51-beta"],
+    ["TEST・3.24-beta","TEST・3.26.51-beta"],
+    ["TEST • 3.26.1-beta","TEST • 3.26.51-beta"],
+    ["TEST・3.26.1-beta","TEST・3.26.51-beta"]
   ];
   function updateVersionLabels(){
     document.querySelectorAll("body *").forEach(el=>{
@@ -12321,8 +12159,8 @@ body:not(.launch-game-open) #launchActivityFab.activityEntryVisible{
         if(t!==el.textContent)el.textContent=t;
       }
     });
-    if(document.title.includes("3.24-beta"))document.title=document.title.replace("3.24-beta","3.26.40-beta");
-    if(document.title.includes("3.26.1-beta"))document.title=document.title.replace("3.26.1-beta","3.26.40-beta");
+    if(document.title.includes("3.24-beta"))document.title=document.title.replace("3.24-beta","3.26.51-beta");
+    if(document.title.includes("3.26.1-beta"))document.title=document.title.replace("3.26.1-beta","3.26.51-beta");
   }
   updateVersionLabels();
   setTimeout(updateVersionLabels,500);
@@ -13405,46 +13243,7 @@ body.game-entry-active #npcTownFab{
 </script>
 
 
-<style id="qixiFullThemeFix">
-/* === 七夕初始版 v2：全頁星河、滿版、可讀性修正 === */
-:root{
- --bg:#120d2d;--card:rgba(255,252,255,.94);--text:#382d45;--muted:#74677f;
- --line:rgba(173,145,205,.34);--accent:#7557b5;--pink:#d486b5;--soft:#eee5f7;
-}
-html,body{width:100%;min-height:100%;background:#120d2d!important;overflow-x:hidden}
-body{
- background:
-  radial-gradient(circle at 14% 12%,rgba(255,255,255,.75) 0 1px,transparent 1.8px),
-  radial-gradient(circle at 82% 22%,rgba(255,225,171,.7) 0 1px,transparent 1.8px),
-  radial-gradient(circle at 68% 7%,rgba(211,196,255,.9) 0 1.2px,transparent 2px),
-  linear-gradient(180deg,#100a2b 0%,#18113d 34%,#2c1953 70%,#4b2862 100%)!important;
- background-attachment:fixed!important;
-}
-body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.42;background-image:radial-gradient(circle,rgba(255,255,255,.85) 0 1px,transparent 1.5px),radial-gradient(circle,rgba(203,185,255,.72) 0 1px,transparent 1.5px);background-size:71px 71px,119px 119px;background-position:13px 9px,37px 51px}
-.wrap{position:relative;z-index:1;max-width:500px;width:100%;margin:0 auto;padding:0 12px calc(22px + env(safe-area-inset-bottom));background:transparent!important}
-#home{margin:0 -12px!important;width:calc(100% + 24px)!important;min-height:100dvh!important;border-radius:0!important;padding:18px 12px 36px!important}
-#game{margin:0 -12px!important;width:calc(100% + 24px)!important;min-height:100dvh!important;padding:0 12px 34px!important;background:linear-gradient(180deg,rgba(16,10,43,.18),rgba(75,40,98,.24))!important}
-#game .top{margin:0 -12px 12px!important;padding:10px 12px!important;background:rgba(24,15,57,.9)!important;border-bottom-color:rgba(220,205,255,.22)!important;color:#fff!important}
-#game .top h1,#game .top b,#game .top .title{color:#fff!important}
-#game .card,#game .notice,#game .event,#game .now,#game .stat,#game .partner,#game .relItem{
- background:rgba(255,251,255,.93)!important;border-color:rgba(199,177,218,.46)!important;box-shadow:0 8px 24px rgba(8,4,30,.12)
-}
-#game button:not(.primary):not(.danger){background:#eee4f6;color:#604474}
-#game .primary,#game button.primary{background:linear-gradient(135deg,#7758b7,#bd70a8)!important;color:#fff!important}
-#home .homeHero h1{font-size:clamp(30px,9vw,42px)!important;line-height:1.12!important;white-space:normal!important;overflow:visible!important;word-break:keep-all!important;letter-spacing:.02em!important}
-#home .homeHero{padding-left:18px!important;padding-right:18px!important}
-#home .homeTagline,#home .homeVersion,#home .homePanel,#home .homePanel *{text-shadow:none!important}
-#home .homePanel .small,#home .homePanel .muted{color:#ddd3ee!important}
-#home .homePanel button:not(.primary){background:rgba(251,245,255,.96)!important;color:#604474!important}
-#home .homePanel input,#home .homePanel select{color:#382d45!important;background:#fffafd!important;opacity:1!important}
-#home .homePanel input::placeholder{color:#8a7b96!important;opacity:1!important}
-/* 測試服不保留七日/邀請好友活動。測試資格入口本身不受影響。 */
-#launchActivityFab,#launchActivityModal,#testReferralPanel{display:none!important;visibility:hidden!important;pointer-events:none!important}
-@media(max-width:420px){
- #home .homeHero h1{font-size:clamp(28px,8.6vw,36px)!important}
- #home .homeHero{padding-left:14px!important;padding-right:14px!important}
-}
-</style>
+
 <script id="qixiCampaignCleanupV2">
 (function(){
  function clean(){
@@ -13653,7 +13452,7 @@ body.theme-maid-cafe #game>.top .chip{background:rgba(255,248,251,.94)!important
  },true);
 
  const oldRenderPaid=window.renderPaidShop;window.renderPaidShop=renderPaidV324;
- /* 3.26.40 FIX:
+ /* 3.26.51 FIX:
     舊版用 MutationObserver 監看整個 document.body，callback 內又會 remove/append
     npcPaidStorySection，造成 observer -> DOM 修改 -> observer 的無限迴圈。
     Android WebView 在角色進入開始大量 render 後會因此卡死甚至被系統殺掉。
@@ -13706,7 +13505,7 @@ body.theme-maid-cafe #game>.top .chip{background:rgba(255,248,251,.94)!important
       const c=chars.find(x=>String(x.id)===String(id));
       if(!c){alert('找不到這個角色存檔。請重新整理頁面後再試。');return;}
 
-      /* 3.26.40 Android hard fix:
+      /* 3.26.51 Android hard fix:
          切畫面一定要早於任何存檔序列化、每日重置、完整 render 或雲端工作。
          舊版在 show(game) 前呼叫 saveLocal()，大型存檔在 Android WebView 會長時間堵塞，
          甚至被系統直接殺掉。 */
@@ -13750,7 +13549,7 @@ body.theme-maid-cafe #game>.top .chip{background:rgba(255,248,251,.94)!important
         try{if(typeof ensureRelations==='function')ensureRelations(c)}catch(err){console.warn('entry ensureRelations',err)}
         try{if(typeof ensureMeta==='function')ensureMeta(c)}catch(err){console.warn('entry ensureMeta',err)}
         try{if(typeof restoreBadgeShowcaseBackup==='function')restoreBadgeShowcaseBackup(c)}catch(err){console.warn('entry badge restore',err)}
-        /* 3.26.40: 第一階段禁止呼叫 renderGame。renderGame 內仍包含每日判定、關係卡與多個大型 DOM 建立。 */
+        /* 3.26.51: 第一階段禁止呼叫 renderGame。renderGame 內仍包含每日判定、關係卡與多個大型 DOM 建立。 */
         try{
           const cid=document.getElementById('charIdCode');if(cid&&typeof displayCharacterId==='function')cid.textContent=displayCharacterId(c);
           const gb=document.getElementById('genderBadge');if(gb){gb.textContent=c.gender==='male'?'♂ 男':'♀ 女';gb.classList.toggle('hidden',!c.gender)}
@@ -13787,7 +13586,7 @@ body.theme-maid-cafe #game>.top .chip{background:rgba(255,248,251,.94)!important
         try{if(typeof startPolling==='function')startPolling()}catch(err){console.warn('entry polling',err)}
       },12000);
     }catch(err){
-      console.error('3.26.40 forced local entry failed',err);
+      console.error('3.26.51 forced local entry failed',err);
       alert('角色進入失敗：'+(err?.message||'未知錯誤'));
     }
   }
@@ -13815,54 +13614,14 @@ body.theme-maid-cafe #game>.top .chip{background:rgba(255,248,251,.94)!important
 })();
 </script>
 
-<style id="v32639MaidCafeFinalPreviewStyle">
-/* === 3.26.40 女僕咖啡廳完整預覽＋NT$50 單券兌換 === */
-body.maid-cafe-preview,
-body.maid-cafe-preview.theme-qixi-paid,
-body.maid-cafe-preview.theme-maid-cafe{
-  --bg:#fff3f5!important;--card:#fffaf8!important;--text:#4c3540!important;--muted:#8b6f79!important;
-  --line:#efd8df!important;--accent:#b86b8c!important;--pink:#db92a8!important;--soft:#f8e7ed!important;
-  background:
-    radial-gradient(circle at 10% 8%,rgba(255,255,255,.92) 0 3px,transparent 4px),
-    radial-gradient(circle at 88% 14%,rgba(255,232,239,.9) 0 4px,transparent 5px),
-    repeating-linear-gradient(135deg,rgba(255,255,255,.13) 0 14px,transparent 14px 28px),
-    linear-gradient(180deg,#6b3d52 0 128px,#f0b8c4 128px 220px,#fff2f1 220px 100%)!important;
-  background-attachment:fixed!important;
-  color:#4c3540!important;
-}
-body.maid-cafe-preview::before{
-  content:"☕   ♡   🎀   ♡   ☕   🎀"!important;
-  position:fixed!important;inset:0!important;z-index:-1!important;pointer-events:none!important;
-  background:none!important;color:rgba(121,67,88,.075)!important;font-size:30px!important;
-  letter-spacing:18px!important;line-height:5.2!important;padding:24px!important;white-space:pre-wrap!important;
-}
-body.maid-cafe-preview #home,
-body.maid-cafe-preview #game,
-body.maid-cafe-preview .wrap{background:transparent!important}
-body.maid-cafe-preview .top{background:rgba(91,49,68,.94)!important;color:#fff!important;border-bottom-color:#f6d8e1!important}
-body.maid-cafe-preview .homeHero{background:linear-gradient(145deg,rgba(255,250,248,.97),rgba(255,228,235,.96))!important;border-color:#e8bdca!important;box-shadow:0 10px 28px rgba(93,50,70,.12)!important}
-body.maid-cafe-preview .homeHero::before{content:"☕ MAID CAFÉ • PREVIEW";display:block;font-size:11px;letter-spacing:2px;color:#a15f7b;margin-bottom:8px;font-weight:900}
-body.maid-cafe-preview .homePanel,
-body.maid-cafe-preview .card,
-body.maid-cafe-preview .pageCard.active,
-body.maid-cafe-preview .modalBox{background:rgba(255,250,248,.97)!important;border-color:#ebd0d8!important}
-body.maid-cafe-preview button.primary{background:linear-gradient(135deg,#a95d7d,#cf809b)!important;color:#fff!important}
-body.maid-cafe-preview .chip{background:#f8e3e9!important;color:#7d4b60!important}
-.maidThemeVoucherCard{border:1px solid #e7c2cf;border-radius:16px;padding:12px;background:linear-gradient(135deg,#fff9f8,#f9e8ee);margin:10px 0;display:grid;grid-template-columns:1fr auto;gap:9px;align-items:center}
-.maidThemeVoucherCard .maidThemeTitle{font-weight:900;font-size:16px}
-.maidThemeVoucherCard .maidThemeCost{font-weight:900;color:#96566f;white-space:nowrap}
-.maidThemeVoucherCard button{grid-column:1/-1;width:100%}
-</style>
+
 <script id="v32639MaidCafeFinalPatch">
 (function(){
- const BUILD='3.26.40';
+ const BUILD='3.26.51';
  const MAID_PASS='maidCafeVoucher';
  const MAID_COS='maidCafe';
  function current(){try{return typeof cur==='function'?cur():null}catch(_){return null}}
- function applyPreview(){
-   document.body.classList.add('maid-cafe-preview');
-   /* 預覽版永遠以女僕咖啡廳視覺壓過星河；不修改玩家原本購買紀錄。 */
- }
+ function applyPreview(){ /* 3.26.51: theme preview is controlled only by unified test switch */ }
  function cleanLegacy(c){
    if(!c)return;c.inventory??={};c.paidCollectibles??={};
    for(const k of Object.keys(c.inventory))if(/^paid_/.test(k)){const n=Number(c.inventory[k]||0);if(n>0)c.paidCollectibles[k]=Math.max(Number(c.paidCollectibles[k]||0),n);delete c.inventory[k]}
@@ -13918,125 +13677,27 @@ body.maid-cafe-preview .chip{background:#f8e3e9!important;color:#7d4b60!importan
 </script>
 
 
-<style id="maid-cafe-preview-32640">
-:root{--maid-cream:#fff7f3;--maid-pink:#f4c7d7;--maid-rose:#c97798;--maid-wine:#6d3650;--maid-coffee:#4b302c}
-html,body,#app,#home,#homePage,#game,#gamePage,#main,main,.page,.screen,.view,.app-shell,.game-shell{background:linear-gradient(145deg,#5d3447 0%,#9c5e79 42%,#f1c4d2 100%)!important;background-image:linear-gradient(145deg,#5d3447 0%,#9c5e79 42%,#f1c4d2 100%)!important}
-body::before,body::after,#app::before,#app::after,#home::before,#home::after,#homePage::before,#homePage::after,#game::before,#game::after,#gamePage::before,#gamePage::after,.page::before,.page::after,.screen::before,.screen::after,.app-shell::before,.app-shell::after,.game-shell::before,.game-shell::after{background-image:none!important;box-shadow:none!important}
-#home .card,#homePage .card,#game .card,#gamePage .card,#home .panel,#homePage .panel,#game .panel,#gamePage .panel,#home [class*="card"],#homePage [class*="card"],#game [class*="card"],#gamePage [class*="card"],#game [class*="panel"],#gamePage [class*="panel"],.modal,.modal-content,.dialog,.dialog-content,.popup,.popup-content,.overlay-card,.sheet,.bottom-sheet,.drawer,.toast,.alert,.loading,.loading-box,.loading-modal,.waiting,.waiting-box,[class*="modal"],[class*="dialog"],[class*="popup"],[class*="sheet"],[class*="loading"],[class*="waiting"]{background:linear-gradient(160deg,#fffaf7 0%,#f8dce6 100%)!important;color:var(--maid-coffee)!important;border-color:rgba(201,119,152,.35)!important;box-shadow:0 18px 55px rgba(75,48,44,.22)!important}
-.modal-backdrop,.overlay,.backdrop,[class*="backdrop"]{background:rgba(61,35,42,.48)!important;background-image:none!important}
-.primary,.btn-primary,button.primary,.tab.active,.active-tab{background:linear-gradient(135deg,#b96f91,#7b4560)!important;color:#fff!important}
-input,select,textarea{background:rgba(255,253,251,.94)!important;color:var(--maid-coffee)!important;border-color:rgba(201,119,152,.35)!important}
-header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{background:linear-gradient(90deg,#55303f,#8c506b)!important;background-image:none!important}
-</style>
-<script id="maid-cafe-preview-32640-js">(function(){function a(){document.documentElement.setAttribute('data-theme','maid-cafe');if(document.body){document.body.classList.add('maid-cafe-preview');document.body.setAttribute('data-theme','maid-cafe')}}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',a,{once:true});else a();window.addEventListener('pageshow',a);window.__applyMaidCafePreview=a})();</script>
 
 
 
-<!-- === 3.26.41 Maid Cafe full-interface theme + NT$50 coffee-ticket redeem === -->
-<style id="v32641MaidCafeFullTheme">
-:root{
- --maid-espresso:#4b2d34;--maid-cocoa:#69404b;--maid-rose:#b56e8b;--maid-pink:#e8b8c8;
- --maid-cream:#fff8f4;--maid-milk:#fffdfb;--maid-line:#e8cbd5;--maid-muted:#8c6d77;
- --bg:#f8e7ec!important;--card:#fffaf7!important;--text:#4b2d34!important;--muted:#8c6d77!important;
- --line:#e8cbd5!important;--accent:#a8617e!important;--pink:#d990aa!important;--soft:#f7e0e8!important;
-}
-html,body{background:linear-gradient(180deg,#4a2c35 0,#754656 18%,#d58ca5 58%,#f7d9df 100%) fixed!important;color:var(--maid-espresso)!important}
-body::before{content:"☕  ♡  🎀  ♡  ☕  ✦  ♡  🎀";position:fixed;inset:0;z-index:-1;pointer-events:none;padding:26px 18px;font-size:24px;line-height:5.2;letter-spacing:16px;color:rgba(255,255,255,.11);white-space:pre-wrap;overflow:hidden}
-.wrap,#home,#game{background:transparent!important}
-.top,.sheetHead{background:linear-gradient(90deg,rgba(75,45,52,.96),rgba(133,75,98,.96))!important;color:#fff!important;border-color:rgba(255,255,255,.16)!important;box-shadow:0 7px 22px rgba(57,29,38,.18)!important}
-.top .small,.top .muted,.sheetHead .small,.sheetHead .muted{color:#ffeef3!important}
-.menuBtn,.top button,.sheetHead button{background:rgba(255,250,247,.92)!important;color:#73485a!important;border:1px solid rgba(255,255,255,.6)!important}
 
-.card,.homePanel,.homeHero,.save,.now,.stat,.partner,.notice,.event,.relItem,.relEventCard,.dailyTask,.workCard,.pendingEventCard,
-.profileBadgeShelf,.profileBadgeShowcase,.badgeCard,.gmPanel,.gmSearchRow,.gmSentRow,.mailCard,.itemRow,.tile,.relationGiftPanel,.routinePreview,
-.npcMeetLevelCard,.npcMeetBubble,.npcActionCard,.npcUnlockNotice,.npcStats>div,.paidProduct,.paidShopNotice,.paidOrdersBlock,.appearanceCard,
-#extraRelations,#extraNpcRelations,#extraAchievements,#extraChat,#extraShop,#extraMailbox,#extraGM{
- background:linear-gradient(155deg,rgba(255,253,251,.98),rgba(251,229,236,.97))!important;
- color:var(--maid-espresso)!important;border-color:var(--maid-line)!important;
- box-shadow:0 9px 24px rgba(75,45,52,.10)!important;
-}
-.homeHero{background:linear-gradient(145deg,#fffaf7,#f1cbd7)!important}
-.homeLogo{filter:drop-shadow(0 4px 8px rgba(80,42,53,.2))}
-.small,.muted,.createHint,.gmStatus{color:var(--maid-muted)!important}
-.chip,.stageTag,.presencePill,.relMiniBadge,.partnerMiniBadge,.badgeDisplay{background:#f8e2ea!important;color:#714555!important;border-color:#e4bccb!important}
 
-button{background:linear-gradient(135deg,#f7dce5,#edc2d1)!important;color:#68404f!important;border:1px solid rgba(173,98,128,.18)!important}
-button.primary,.primary,[class*="primary"]{background:linear-gradient(135deg,#b66886,#754456)!important;color:#fff!important;border-color:transparent!important;box-shadow:0 5px 14px rgba(102,53,72,.18)!important}
-button.danger,.dangerSoft,.gmDangerBtn{background:#fff0f2!important;color:#9a4255!important;border-color:#efc8d1!important}
-button:disabled{opacity:.48!important;filter:saturate(.7)!important}
-input,select,textarea{background:#fffdfb!important;color:var(--maid-espresso)!important;border-color:#dfbcc9!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.8)!important}
+<!-- === 3.26.51 Maid Cafe full-interface theme + NT$50 coffee-ticket redeem === -->
 
-/* Every modal / invitation / relationship popup uses the same maid-cafe shell. */
-.modal:not(.hidden),.drawerShade{background:rgba(52,28,36,.52)!important;backdrop-filter:blur(4px)!important}
-.modalBox,.modalCard,.launchActivityCard,.npcShopCard,.testAccessCard,.drawer,.popupCard,.sheetCard,.dialog-content,.popup-content{
- background:linear-gradient(160deg,#fffaf7 0%,#f7dce5 100%)!important;color:var(--maid-espresso)!important;
- border:1px solid #e4bccb!important;box-shadow:0 22px 65px rgba(48,25,32,.30)!important;
-}
-.modalHead{color:#5e3746!important;border-bottom:1px solid rgba(181,110,139,.18)!important;padding-bottom:9px!important}
-#gameWaitModal .modalBox,#gameInviteModal .modalBox,#gameModal .modalBox,#relationTransformModal .modalBox,#outingChoiceModal .modalBox,
-#relationEventModal .modalBox,#npcMeetModal .modalBox,#npcShopModal .modalBox,#npcChoiceModal .modalBox,#appearanceModal .modalBox{
- background:linear-gradient(155deg,#fffaf7,#f3d2dc)!important;border:1px solid #deb2c1!important;
-}
-#gameWaitModal .modalHead b::before,#gameInviteModal .modalHead b::before,#outingChoiceModal .modalHead b::before,#relationTransformModal .modalHead b::before{content:"🎀 ";}
-.gameInviteActions,.outingChoiceList,.modalChoices,.gameChoices{background:transparent!important}
-.gameResult{background:#f7dce5!important;color:#68404f!important;border:1px dashed #d9a9ba!important}
-
-/* Relationship pages */
-#extraRelations.pageCard.active,#extraNpcRelations.pageCard.active{background:linear-gradient(180deg,#fff8f4,#f7dde5)!important}
-#extraRelations .relItem,#extraNpcRelations .relItem,[data-npc-detail],[data-npc-rel-view]{background:rgba(255,253,251,.88)!important;border-color:#dfbbc9!important}
-#extraRelations .relItem.active{background:#f4d4df!important;border-color:#b66b87!important}
-.bondTrack,.bar,.dailyProgress,.npcTrack{background:#ead7dd!important}
-.bondFill,.fill,.dailyProgress>div,.npcTrack i,.npcMeetLevelDot.on{background:linear-gradient(90deg,#864c64,#d88ea8)!important}
-
-/* NPC shop / meet */
-.npcHero,.npcMeetHero{background:linear-gradient(145deg,#eed0da,#8b5268)!important;border-color:#d8aaba!important}
-.npcHeroShade{background:linear-gradient(transparent,rgba(61,31,42,.88))!important}
-.npcMeetMoodPill{background:#f1ccd9!important;color:#713f51!important}
-.shopTabs .shopTab.active{background:linear-gradient(135deg,#b66886,#754456)!important;color:#fff!important}
-.paidRedeemCard,.maidThemeVoucherCard{background:linear-gradient(145deg,#fffaf7,#f0cbd7)!important;border:1px solid #dcaabd!important;box-shadow:0 8px 20px rgba(89,47,63,.12)!important}
-.maidThemeTitle{color:#704052!important;font-weight:900!important}
-
-/* Appearance preview */
-.appearancePreview.maid{background:radial-gradient(circle at 20% 20%,#fff 0 2px,transparent 3px),linear-gradient(145deg,#4b2d34,#a3617e 48%,#f0c2cf)!important}
-
-/* Drawer */
-.drawer{background:linear-gradient(180deg,#fffaf7,#f5d8e2)!important}
-.navBtn{color:#68404f!important;border:0!important;box-shadow:none!important}
-.navBtn:hover,.navBtn:focus{background:#f1cfd9!important}
-.navSep{background:#ddb7c5!important}
-
-/* Toasts */
-.toastMsg,.achievementToast{background:linear-gradient(135deg,#56313f,#8d536b)!important;color:#fff!important;border-color:#d59aaf!important}
-
-/* Desktop RPG dialogue shell also follows cafe colors while preserving CG. */
-.npcStoryDialogue{background:linear-gradient(180deg,rgba(255,250,247,.96),rgba(244,210,221,.97))!important;color:#4b2d34!important;border-color:#dcaabd!important}
-.npcStorySpeaker{background:#7c475c!important;color:#fff!important}
-
-/* Paid store: make the NT$50 maid product visually unmistakable. */
-#shopPaidPanel .paidProduct{background:linear-gradient(150deg,#fffaf7,#f3d2dc)!important}
-#shopPaidPanel .paidPrice{color:#7a4359!important}
-
-/* Force major full-page sheets away from legacy purple/gray. */
-.pageCard.active{background:linear-gradient(180deg,#fff9f6,#f6dbe3)!important;color:#4b2d34!important}
-</style>
 
 <script id="v32641MaidCafeFlow">
 (function(){
- const BUILD='3.26.41';
+ const BUILD='3.26.51';
  const MAID_PRODUCT='maidCafe50', MAID_PASS='maidCafeVoucher', MAID_COS='maidCafe';
  function current(){try{return typeof cur==='function'?cur():null}catch(_){return null}}
  function ensure(c){if(!c)return;c.paidOrders??=[];c.paidVoucherFlags??={};c.paidCosmetics??={};c.paidEntitlements??={}}
  function refreshVersion(){
-   document.title='關係進行式 TEST・3.26.46-首頁文字對比修復';
-   const hv=document.querySelector('.homeVersion');if(hv)hv.textContent='3.26.42・測試服｜NPC視窗與商店當機修復';
-   document.querySelectorAll('.testServerRibbon').forEach(el=>el.textContent='🧪 TEST・3.26.42-beta');
+   document.title='關係進行式 TEST・3.26.51-首頁文字對比修復';
+   const hv=document.querySelector('.homeVersion');if(hv)hv.textContent='3.26.51・測試服｜NPC視窗與商店當機修復';
+   document.querySelectorAll('.testServerRibbon').forEach(el=>el.textContent='🧪 TEST・3.26.51-beta');
    const m=document.querySelector('meta[name="x-test-build"]');if(m)m.content=BUILD;
  }
- function forceMaidLook(){
-   document.documentElement.setAttribute('data-theme','maid-cafe');
-   document.body?.classList.add('maid-cafe-preview','theme-maid-cafe');
-   document.body?.setAttribute('data-theme','maid-cafe');
- }
+ function forceMaidLook(){ /* 3.26.51: no forced theme */ }
  function rewritePaidCards(){
    document.querySelectorAll('#shopPaidPanel .paidProduct').forEach(card=>{
      const t=card.textContent||'';
@@ -14059,14 +13720,14 @@ input,select,textarea{background:#fffdfb!important;color:var(--maid-espresso)!im
    });
  }
  function refresh(){refreshVersion();forceMaidLook();rewritePaidCards();rewriteNpcRedeem()}
- const mo={observe(){},disconnect(){}}; /* 3.26.42: disabled recursive DOM observer; it could freeze shop clicks */
+ const mo={observe(){},disconnect(){}}; /* 3.26.51: disabled recursive DOM observer; it could freeze shop clicks */
  document.addEventListener('DOMContentLoaded',()=>{refresh();mo.observe(document.body,{childList:true,subtree:true})},{once:true});
  if(document.readyState!=='loading'){refresh();mo.observe(document.body,{childList:true,subtree:true})}
  setTimeout(refresh,100);setTimeout(refresh,700);setTimeout(refresh,1800);
  window.addEventListener('pageshow',refresh);
 
  /* Authoritative purchase wording/result: the existing maidCafe50 purchase still supplies the pass,
-    but 3.26.41 presents that pass to the player as one concrete coffee ticket. */
+    but 3.26.51 presents that pass to the player as one concrete coffee ticket. */
  window.addEventListener('click',function(e){
    const b=e.target.closest?.('[data-paid-maid-buy]');if(!b)return;
    // Let existing handler perform the save/order, then normalize the UI and ticket state.
@@ -14166,48 +13827,7 @@ input,select,textarea{background:#fffdfb!important;color:var(--maid-espresso)!im
   setTimeout(syncNpcStoryDesktopBg,100);
 })();
 </script>
-<style id="qixiReadabilityV3">
-/* 七夕 v3：白色內容卡文字可讀性 + NPC 視窗柔和星河化 */
-#home .save,
-#home .liveStat,
-#home .createBox{
-  color:#3d3343!important;
-}
-#home .save .saveName{color:#3d3343!important;text-shadow:none!important}
-#home .save .muted,#home .liveStat span,#home .createBox .createHint{color:#786b82!important;text-shadow:none!important}
-#home .liveStat b{color:#6f4f91!important;text-shadow:none!important}
-#home .save button.danger{background:#f4e9f7!important;color:#684979!important}
 
-/* NPC 關係頁不要整片黑紫，改成較柔和、仍有七夕感的半透明淡紫視窗 */
-#extraNpcRelations.pageCard.active{
-  background:linear-gradient(180deg,rgba(241,232,249,.97),rgba(226,214,243,.97))!important;
-  color:#3d3343!important;
-  border:1px solid rgba(201,177,224,.7)!important;
-}
-#extraNpcRelations .sheetHead{
-  background:rgba(239,229,248,.98)!important;
-  color:#3d3343!important;
-  border-bottom:1px solid rgba(196,171,220,.5)!important;
-}
-#extraNpcRelations .sheetHead b{color:#3d3343!important}
-#extraNpcRelations .sheetHead .small{color:#75677f!important}
-#extraNpcRelations .npcRelationIntro{
-  background:rgba(255,250,255,.76)!important;
-  color:#6f6278!important;
-  border-color:rgba(193,168,216,.55)!important;
-}
-#extraNpcRelations .npcRelationCard{
-  background:rgba(255,252,255,.94)!important;
-  color:#3d3343!important;
-  border-color:rgba(193,168,216,.55)!important;
-  box-shadow:0 8px 22px rgba(64,39,91,.08)!important;
-}
-#extraNpcRelations .npcRelationCard .small,
-#extraNpcRelations .npcRelationCard .muted{color:#75677f!important}
-#extraNpcRelations #npcEventPeriodHint{color:#74677f!important}
-#extraNpcRelations button:not(.primary){background:#eee3f6!important;color:#604474!important}
-#extraNpcRelations .sheetClose{background:#eadcf4!important;color:#654879!important}
-</style>
 
 <style id="paidReadabilityAndAccountV2">
 /* 付費商城：七夕深色背景下，白卡文字固定使用可讀色，不再吃到全域淡字。 */
@@ -14673,237 +14293,26 @@ body.theme-qixi-paid #game>.top .chip{background:rgba(255,255,255,.92)!important
 </script>
 
 
-<style id="v32641MaidCafeHomeFinalOverride">
-/* === 3.26.41 FINAL: home/account/admin/update/character list must also be Maid Cafe === */
-html,body,#home{
-  background:
-    radial-gradient(circle at 12% 9%,rgba(255,255,255,.22) 0 2px,transparent 3px),
-    radial-gradient(circle at 88% 18%,rgba(255,225,235,.24) 0 3px,transparent 4px),
-    linear-gradient(180deg,#5b3442 0%,#88536a 28%,#d68da5 63%,#f8dde3 100%)!important;
-  color:#4b2d34!important;
-}
-#home{
-  min-height:100dvh!important;
-  padding:18px 14px 36px!important;
-  border-radius:0!important;
-  overflow:visible!important;
-}
-#home::before{
-  content:"☕   ♡   🎀   ✦   ♡   ☕"!important;
-  position:absolute!important;inset:0!important;pointer-events:none!important;z-index:-1!important;
-  padding:18px!important;font-size:20px!important;line-height:6!important;letter-spacing:13px!important;
-  color:rgba(255,255,255,.10)!important;white-space:pre-wrap!important;
-}
-
-#home .homeHero{
-  position:relative!important;
-  background:
-    radial-gradient(circle at 18% 18%,rgba(255,255,255,.18) 0 2px,transparent 3px),
-    linear-gradient(145deg,rgba(77,44,53,.97),rgba(139,78,102,.94))!important;
-  border:1px solid rgba(255,235,242,.34)!important;
-  box-shadow:0 16px 40px rgba(55,28,37,.25),inset 0 1px 0 rgba(255,255,255,.14)!important;
-  color:#fff!important;
-  border-radius:26px!important;
-}
-#home .homeHero::before{
-  content:"☕   ♡   🎀   ♡   ☕"!important;
-  display:block!important;position:static!important;
-  font-size:15px!important;letter-spacing:12px!important;opacity:.78!important;
-  color:#ffdce8!important;margin-bottom:8px!important;
-}
-#home .homeHero::after{
-  content:"MAID CAFÉ・歡迎回來"!important;
-  display:block!important;margin-top:10px!important;
-  color:#ffe5ee!important;font-size:12px!important;letter-spacing:3px!important;
-}
-#home .homeLogo{filter:drop-shadow(0 0 10px rgba(255,213,227,.65))!important}
-#home .homeHero h1{color:#fff!important;text-shadow:0 2px 14px rgba(92,39,61,.48)!important}
-#home .homeTagline{color:#fbe5ec!important}
-#home .homeVersion{
-  background:rgba(255,248,250,.11)!important;color:#fff1f5!important;
-  border:1px solid rgba(255,235,241,.35)!important;
-}
-
-#home .homePanel,#home .card,#home .save,#home .createBox,#home .homeMusic,#home .liveStat,
-#home [class*="Panel"],#home [class*="panel"]{
-  background:linear-gradient(155deg,rgba(255,251,248,.98),rgba(247,220,229,.98))!important;
-  color:#4b2d34!important;border:1px solid #e2b8c6!important;
-  box-shadow:0 12px 30px rgba(69,35,46,.14)!important;
-}
-#home .homePanelTitle,#home .saveName,#home b,#home h2,#home h3{color:#563440!important}
-#home .small,#home .muted,#home .gmStatus,#home .createHint{color:#8a6873!important}
-#home .chip,#home .badgeDisplay,#home .presencePill{
-  background:#f1ccd8!important;color:#744457!important;border:1px solid #daa6b9!important;
-}
-#home button,#home .gmGateBtn,#home .save button,#home .createBox button{
-  background:linear-gradient(135deg,#f0cbd8,#e0a7bb)!important;
-  color:#68404f!important;border:1px solid rgba(164,91,120,.16)!important;
-  box-shadow:none!important;
-}
-#home button.primary,#home .primary,#home #playerAccountOpenBtn{
-  background:linear-gradient(135deg,#b86987,#7b465a)!important;color:#fff!important;
-  border-color:transparent!important;box-shadow:0 6px 16px rgba(83,41,56,.18)!important;
-}
-#home input,#home select,#home textarea{
-  background:#fffdfb!important;color:#4b2d34!important;border-color:#ddb5c3!important;
-}
-
-/* Login/register/account modals */
-#playerAccountModal .modalBox,#playerLoginModal .modalBox,#playerRegisterModal .modalBox,
-[id*="AccountModal"] .modalBox,[id*="LoginModal"] .modalBox,[id*="RegisterModal"] .modalBox{
-  background:linear-gradient(160deg,#fffaf7,#f4d4de)!important;
-  color:#4b2d34!important;border:1px solid #dfb1c1!important;
-}
-
-/* Test ribbon + return button */
-.testServerRibbon{
-  background:linear-gradient(135deg,#8f536c,#5d3545)!important;color:#fff!important;
-  border:1px solid rgba(255,235,241,.30)!important;
-  box-shadow:0 6px 16px rgba(48,24,32,.24)!important;
-}
-.returnProdBtn,#returnProdBtn{
-  background:linear-gradient(135deg,#fffaf7,#f4d8e1)!important;color:#704052!important;
-  border:1px solid #d9a9ba!important;box-shadow:0 5px 14px rgba(58,29,39,.18)!important;
-}
-
-/* Absolutely suppress old Qixi home decorations on this test build. */
-#home .homeHero *{border-color:inherit}
-body.maid-cafe-preview #home .homeHero::after{content:"MAID CAFÉ・歡迎回來"!important}
-body.maid-cafe-preview #home .homeHero::before{content:"☕   ♡   🎀   ♡   ☕"!important}
-#home [style*="#8f73dc"],#home [style*="#c16fb4"]{background:linear-gradient(135deg,#b86987,#7b465a)!important}
-
-@media(max-width:600px){
- #home{padding:12px 10px 30px!important}
- #home .homeHero{padding:28px 16px 22px!important}
- #home .homeHero::before{letter-spacing:8px!important}
-}
-</style>
-<script id="v32641MaidCafeHomeFinalScript">
-(function(){
- function apply(){
-  document.documentElement.setAttribute('data-theme','maid-cafe');
-  document.body?.classList.add('maid-cafe-preview','theme-maid-cafe');
-  document.body?.classList.remove('theme-qixi-paid');
-  const hv=document.querySelector('#home .homeVersion');if(hv)hv.textContent='3.26.42・測試服｜NPC視窗與商店當機修復';
-  document.querySelectorAll('.testServerRibbon').forEach(x=>x.textContent='☕ TEST・3.26.42-beta');
- }
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',apply,{once:true});else apply();
- window.addEventListener('pageshow',apply);
- setTimeout(apply,100);setTimeout(apply,800);
-})();
-</script>
 
 
-<style id="v32642NpcWindowsMaidFinal">
-/* === 3.26.42 FINAL: hard override every NPC/relation/invite window after old Qixi CSS === */
-body.maid-cafe-preview #extraNpcRelations.pageCard.active,
-body.theme-maid-cafe #extraNpcRelations.pageCard.active,
-html[data-theme="maid-cafe"] #extraNpcRelations.pageCard.active{
- background:
-  radial-gradient(circle at 12% 8%,rgba(255,255,255,.32) 0 2px,transparent 3px),
-  linear-gradient(180deg,#f9e9ee 0%,#f3d7e0 42%,#edc9d6 100%)!important;
- color:#4b2d34!important;border:0!important;box-shadow:none!important;
-}
-body.maid-cafe-preview #extraNpcRelations .sheetHead,
-body.theme-maid-cafe #extraNpcRelations .sheetHead{
- background:linear-gradient(90deg,#57313f,#8c5269)!important;color:#fff!important;
- border-bottom:1px solid rgba(255,255,255,.2)!important;
-}
-body.maid-cafe-preview #extraNpcRelations .sheetHead b,
-body.maid-cafe-preview #extraNpcRelations .sheetHead .small{color:#fff!important}
-body.maid-cafe-preview #extraNpcRelations .npcRelationIntro{
- background:linear-gradient(135deg,#fffaf7,#f4d6df)!important;color:#765763!important;
- border:1px solid #dfb5c4!important;box-shadow:0 8px 18px rgba(82,42,57,.08)!important;
-}
-body.maid-cafe-preview #extraNpcRelations .npcRelationCard{
- background:linear-gradient(145deg,#fffdfb,#f7e0e7)!important;color:#4b2d34!important;
- border:1px solid #dfb5c4!important;box-shadow:0 10px 24px rgba(74,38,51,.11)!important;
-}
-body.maid-cafe-preview #extraNpcRelations .npcRelationCard b{color:#563440!important}
-body.maid-cafe-preview #extraNpcRelations .npcRelationCard .small,
-body.maid-cafe-preview #extraNpcRelations .npcRelationCard .muted{color:#846671!important}
-body.maid-cafe-preview #extraNpcRelations .npcRelationStatus,
-body.maid-cafe-preview #extraNpcRelations .npcRelationActions button{
- background:#f2ccd8!important;color:#704253!important;border-color:#d9a5b8!important;
-}
 
-/* NPC detail / relation info / debug / meet */
-body.maid-cafe-preview #npcDetailModal .npcDetailCard,
-body.maid-cafe-preview #npcDebugModal .npcDebugCard,
-body.maid-cafe-preview #npcMeetModal .modalBox,
-body.maid-cafe-preview #npcChoiceModal .modalBox,
-body.maid-cafe-preview #npcShopModal .npcShopCard,
-body.maid-cafe-preview #npcShopModal .modalBox{
- background:linear-gradient(160deg,#fffaf7,#f4d5df)!important;color:#4b2d34!important;
- border:1px solid #dcaebe!important;box-shadow:0 20px 60px rgba(53,26,35,.28)!important;
-}
-body.maid-cafe-preview .npcDetailHero,
-body.maid-cafe-preview .npcDetailSection,
-body.maid-cafe-preview .npcDebugStat,
-body.maid-cafe-preview .npcDialogue,
-body.maid-cafe-preview .npcStoryNode,
-body.maid-cafe-preview .npcShopItem,
-body.maid-cafe-preview .npcActionCard{
- background:linear-gradient(145deg,#fffdfb,#f8e3ea)!important;color:#4b2d34!important;
- border-color:#dfb7c5!important;
-}
-body.maid-cafe-preview .npcDetailSection h3,
-body.maid-cafe-preview .npcDetailHero b,
-body.maid-cafe-preview .npcDialogue b,
-body.maid-cafe-preview .npcShopItem b,
-body.maid-cafe-preview .npcActionCard b{color:#5b3544!important}
-body.maid-cafe-preview .npcShopTabs,
-body.maid-cafe-preview .npcTabs{background:#fff5f7!important;border-color:#dfb7c5!important}
-body.maid-cafe-preview .npcShopTab.active,
-body.maid-cafe-preview .npcTabs button.active{background:linear-gradient(135deg,#b76886,#754456)!important;color:#fff!important}
-body.maid-cafe-preview .npcShopItem button,
-body.maid-cafe-preview .npcActionCard,
-body.maid-cafe-preview .npcStoryCollect button{background:linear-gradient(135deg,#f2d0db,#e5afc0)!important;color:#67404f!important}
-body.maid-cafe-preview .npcShopItem button.primary,
-body.maid-cafe-preview .npcStoryCollect button:not(.locked){background:linear-gradient(135deg,#ad637f,#754456)!important;color:#fff!important}
 
-/* Generic invitation / transformation / relationship-event windows */
-body.maid-cafe-preview #gameWaitModal .modalBox,
-body.maid-cafe-preview #gameInviteModal .modalBox,
-body.maid-cafe-preview #gameModal .modalBox,
-body.maid-cafe-preview #outingChoiceModal .modalBox,
-body.maid-cafe-preview #relationTransformModal .modalBox,
-body.maid-cafe-preview #relationEventModal .modalBox,
-body.maid-cafe-preview #appearanceModal .modalBox{
- background:linear-gradient(160deg,#fffaf7,#f4d5df)!important;color:#4b2d34!important;
- border:1px solid #dcaebe!important;box-shadow:0 20px 60px rgba(53,26,35,.28)!important;
-}
-body.maid-cafe-preview #gameWaitModal .modalHead,
-body.maid-cafe-preview #gameInviteModal .modalHead,
-body.maid-cafe-preview #gameModal .modalHead,
-body.maid-cafe-preview #outingChoiceModal .modalHead,
-body.maid-cafe-preview #relationTransformModal .modalHead,
-body.maid-cafe-preview #relationEventModal .modalHead{color:#5b3544!important}
-body.maid-cafe-preview .modal:not(.hidden){background:rgba(53,27,36,.46)!important;backdrop-filter:blur(5px)!important}
 
-/* Remove lingering deep-purple Qixi colors inside all NPC shells. */
-body.maid-cafe-preview #extraNpcRelations [class*="Card"],
-body.maid-cafe-preview #npcShopModal [class*="Card"],
-body.maid-cafe-preview #npcMeetModal [class*="Card"],
-body.maid-cafe-preview #npcDetailModal [class*="Card"]{
- --qixi-text:#4b2d34!important;--qixi-muted:#846671!important;--qixi-line:#dfb7c5!important;
-}
-</style>
 <script id="v32642NpcShopStability">
 (function(){
- const BUILD='3.26.42';
+ const BUILD='3.26.51';
  function refreshVersion(){
-   document.title='關係進行式 TEST・3.26.46-首頁文字對比修復';
-   document.querySelectorAll('.testServerRibbon').forEach(x=>x.textContent='☕ TEST・3.26.42-beta');
-   const hv=document.querySelector('.homeVersion');if(hv)hv.textContent='3.26.42・測試服｜NPC視窗與商店當機修復';
+   document.title='關係進行式 TEST・3.26.51-首頁文字對比修復';
+   document.querySelectorAll('.testServerRibbon').forEach(x=>x.textContent='☕ TEST・3.26.51-beta');
+   const hv=document.querySelector('.homeVersion');if(hv)hv.textContent='3.26.51・測試服｜NPC視窗與商店當機修復';
    const m=document.querySelector('meta[name="x-test-build"]');if(m)m.content=BUILD;
  }
  refreshVersion();setTimeout(refreshVersion,250);setTimeout(refreshVersion,1000);
 
- /* Previous 3.26.41 observer rewrote shop DOM recursively and could lock Android when a product was tapped.
-    3.26.42 uses no DOM-wide MutationObserver. Refresh only at safe UI entry points. */
+ /* Previous 3.26.51 observer rewrote shop DOM recursively and could lock Android when a product was tapped.
+    3.26.51 uses no DOM-wide MutationObserver. Refresh only at safe UI entry points. */
  const safeRefresh=()=>{
-   try{document.body?.classList.add('maid-cafe-preview','theme-maid-cafe');document.body?.classList.remove('theme-qixi-paid')}catch(_){ }
+   try{document.body?.classList.remove('theme-qixi-paid')}catch(_){ }
  };
  document.addEventListener('click',function(e){
    if(e.target.closest?.('#npcTownFab,[data-npc-tab],[data-npc-detail],[data-npc-rel-view],[data-npc-rel-meet],#openNpcRelations')){
@@ -14924,135 +14333,12 @@ body.maid-cafe-preview #npcDetailModal [class*="Card"]{
 </script>
 
 
-<!-- === 3.26.43 FINAL: one NT$50 coffee product -> coffee voucher -> maid theme === -->
-<style id="v32643AbsoluteMaidPages">
-/* Kill the last deep-purple Qixi sheet backgrounds. */
-html[data-theme="maid-cafe"] #game,
-body.maid-cafe-preview #game,
-body.theme-maid-cafe #game{
-  background:linear-gradient(180deg,#5a3341 0 96px,#e8b8c8 96px,#f8e7ec 100%)!important;
-  background-image:linear-gradient(180deg,#5a3341 0 96px,#e8b8c8 96px,#f8e7ec 100%)!important;
-}
-html[data-theme="maid-cafe"] .pageCard.active,
-body.maid-cafe-preview .pageCard.active,
-body.theme-maid-cafe .pageCard.active,
-html[data-theme="maid-cafe"] #extraShop.pageCard.active,
-html[data-theme="maid-cafe"] #extraBag.pageCard.active,
-html[data-theme="maid-cafe"] #extraNpcRelations.pageCard.active,
-html[data-theme="maid-cafe"] #extraRelations.pageCard.active{
-  background:linear-gradient(180deg,#fff7f5 0%,#f7dce5 100%)!important;
-  background-image:linear-gradient(180deg,#fff7f5 0%,#f7dce5 100%)!important;
-  color:#4b2d34!important;border-color:#dfb4c3!important;box-shadow:none!important;
-}
-html[data-theme="maid-cafe"] .pageCard.active::before,
-html[data-theme="maid-cafe"] .pageCard.active::after,
-body.maid-cafe-preview .pageCard.active::before,
-body.maid-cafe-preview .pageCard.active::after{
-  content:none!important;display:none!important;background:none!important;background-image:none!important;
-}
+<!-- === 3.26.51 FINAL: one NT$50 coffee product -> coffee voucher -> maid theme === -->
 
-/* Page title bars */
-html[data-theme="maid-cafe"] .pageCard.active > .section:first-child,
-html[data-theme="maid-cafe"] .pageCard.active > .sheetHead,
-body.maid-cafe-preview .pageCard.active > .section:first-child,
-body.maid-cafe-preview .pageCard.active > .sheetHead{
-  background:linear-gradient(90deg,#613847,#975a71)!important;
-  color:#fff!important;border-color:#e5bac8!important;
-}
-html[data-theme="maid-cafe"] .pageCard.active > .section:first-child{
-  margin:-18px -14px 14px!important;padding:17px 18px!important;
-  font-size:18px!important;border-bottom:1px solid #e5bac8!important;
-}
-
-/* Shop + bag cards must use dark readable text, never Qixi white. */
-html[data-theme="maid-cafe"] #extraShop .tile,
-html[data-theme="maid-cafe"] #extraBag .tile,
-html[data-theme="maid-cafe"] #shopList .tile,
-html[data-theme="maid-cafe"] #bagList .tile,
-body.maid-cafe-preview #extraShop .tile,
-body.maid-cafe-preview #extraBag .tile{
-  background:linear-gradient(145deg,#fffdfb,#f7e0e7)!important;
-  background-image:linear-gradient(145deg,#fffdfb,#f7e0e7)!important;
-  color:#543440!important;border:1px solid #dfb6c5!important;
-  text-shadow:none!important;box-shadow:0 8px 18px rgba(76,39,52,.08)!important;
-}
-html[data-theme="maid-cafe"] #extraShop .tile b,
-html[data-theme="maid-cafe"] #extraBag .tile b,
-html[data-theme="maid-cafe"] #extraShop .tile .small,
-html[data-theme="maid-cafe"] #extraBag .tile .small,
-html[data-theme="maid-cafe"] #shopList b,
-html[data-theme="maid-cafe"] #bagList b,
-html[data-theme="maid-cafe"] #shopList .small,
-html[data-theme="maid-cafe"] #bagList .small{
-  color:#5b3544!important;opacity:1!important;text-shadow:none!important;
-}
-html[data-theme="maid-cafe"] #shopList .small,
-html[data-theme="maid-cafe"] #bagList .small{color:#8a6874!important}
-
-/* NPC relation and cat shop whole sheets. */
-html[data-theme="maid-cafe"] #extraNpcRelations,
-html[data-theme="maid-cafe"] #extraNpcRelations.pageCard.active,
-html[data-theme="maid-cafe"] #npcShopModal .npcShopCard,
-html[data-theme="maid-cafe"] #npcShopModal .modalBox,
-html[data-theme="maid-cafe"] #npcMeetModal .modalBox,
-html[data-theme="maid-cafe"] #npcDetailModal .npcDetailCard{
-  background:linear-gradient(180deg,#fff8f5,#f5d7e1)!important;
-  background-image:linear-gradient(180deg,#fff8f5,#f5d7e1)!important;
-  color:#4b2d34!important;border-color:#dfb4c3!important;
-}
-html[data-theme="maid-cafe"] #npcShopModal,
-html[data-theme="maid-cafe"] #npcMeetModal,
-html[data-theme="maid-cafe"] #npcDetailModal{
-  background:rgba(57,29,38,.42)!important;
-  background-image:none!important;
-}
-html[data-theme="maid-cafe"] #npcShopModal .npcShopItem,
-html[data-theme="maid-cafe"] #npcShopModal .npcDialogue,
-html[data-theme="maid-cafe"] #extraNpcRelations .npcRelationCard,
-html[data-theme="maid-cafe"] #extraNpcRelations .npcRelationIntro{
-  background:linear-gradient(145deg,#fffdfb,#f8e3e9)!important;
-  color:#4b2d34!important;border-color:#dfb6c5!important;
-}
-html[data-theme="maid-cafe"] #npcShopModal b,
-html[data-theme="maid-cafe"] #npcShopModal .small,
-html[data-theme="maid-cafe"] #extraNpcRelations b,
-html[data-theme="maid-cafe"] #extraNpcRelations .small,
-html[data-theme="maid-cafe"] #extraNpcRelations .muted{
-  color:#5b3544!important;text-shadow:none!important;opacity:1!important;
-}
-html[data-theme="maid-cafe"] #npcShopModal .small,
-html[data-theme="maid-cafe"] #extraNpcRelations .small,
-html[data-theme="maid-cafe"] #extraNpcRelations .muted{color:#866773!important}
-
-/* Tabs */
-html[data-theme="maid-cafe"] .shopTab,
-html[data-theme="maid-cafe"] .npcShopTab{
-  background:linear-gradient(135deg,#f4d2dd,#e5afc0)!important;color:#684050!important;
-}
-html[data-theme="maid-cafe"] .shopTab.active,
-html[data-theme="maid-cafe"] .npcShopTab.active{
-  background:linear-gradient(135deg,#a85e7a,#754456)!important;color:#fff!important;
-}
-
-/* Coffee redeem card */
-.maidCoffeeRedeem32643{
-  margin:12px 0;padding:14px;border-radius:17px;
-  background:linear-gradient(145deg,#fff9f6,#efcbd7)!important;
-  border:1px solid #dba9ba!important;color:#563440!important;
-  box-shadow:0 8px 20px rgba(84,43,58,.10)!important;
-}
-.maidCoffeeRedeem32643 b{font-size:16px;color:#563440!important}
-.maidCoffeeRedeem32643 .small{color:#7f606b!important}
-.maidCoffeeRedeem32643 button{width:100%;margin-top:9px}
-
-/* Never show the obsolete separate maid-theme paid product/card. */
-#paidShopList .paidProduct:has([data-paid-maid-buy]){display:none!important}
-#maidThemeVoucherCard32639{display:none!important}
-</style>
 
 <script id="v32643OneCoffeeVoucherFlow">
 (function(){
- const BUILD='3.26.45';
+ const BUILD='3.26.51';
  const VOUCHER='npc_maid_cafe_coffee_voucher';
  const LEGACY='paid_support_30';
  const MAID_COS='maidCafe';
@@ -15174,13 +14460,13 @@ html[data-theme="maid-cafe"] .npcShopTab.active{
  },true);
 
  function forceTheme(){
-   document.documentElement.setAttribute('data-theme','maid-cafe');
-   document.body?.classList.add('maid-cafe-preview','theme-maid-cafe');
+   
+   
    document.body?.classList.remove('theme-qixi-paid');
-   document.querySelectorAll('.testServerRibbon').forEach(x=>x.textContent='☕ TEST・3.26.46-beta');
-   const hv=document.querySelector('.homeVersion');if(hv)hv.textContent='3.26.46・測試服｜首頁文字對比修復';
+   document.querySelectorAll('.testServerRibbon').forEach(x=>x.textContent='☕ TEST・3.26.51-beta');
+   const hv=document.querySelector('.homeVersion');if(hv)hv.textContent='3.26.51・測試服｜首頁文字對比修復';
    const meta=document.querySelector('meta[name="x-test-build"]');if(meta)meta.content=BUILD;
-   document.title='關係進行式 TEST・3.26.46-首頁文字對比修復';
+   document.title='關係進行式 TEST・3.26.51-首頁文字對比修復';
  }
  function boot(){
    const c=current();if(c){migrate(c);save(c)}
@@ -15193,201 +14479,13 @@ html[data-theme="maid-cafe"] .npcShopTab.active{
 </script>
 
 
-<!-- === 3.26.44 TEST APPEARANCE OVERRIDE === -->
-<style id="v32644TestThemeOverride">
-/* test-theme is independent from unlock/save state */
-html[data-test-theme="maid"] body,
-html[data-test-theme="maid"] #game,
-html[data-test-theme="maid"] #home{
-  background:linear-gradient(180deg,#5a3341 0 96px,#d99aae 96px,#f7dfe6 100%) fixed!important;
-  background-image:linear-gradient(180deg,#5a3341 0 96px,#d99aae 96px,#f7dfe6 100%)!important;
-  color:#4b2d34!important;
-}
-html[data-test-theme="maid"] .pageCard.active,
-html[data-test-theme="maid"] #extraShop.pageCard.active,
-html[data-test-theme="maid"] #extraBag.pageCard.active,
-html[data-test-theme="maid"] #extraRelations.pageCard.active,
-html[data-test-theme="maid"] #extraNpcRelations.pageCard.active,
-html[data-test-theme="maid"] #extraAchievements.pageCard.active,
-html[data-test-theme="maid"] #extraChat.pageCard.active,
-html[data-test-theme="maid"] #extraMailbox.pageCard.active,
-html[data-test-theme="maid"] #extraGM.pageCard.active{
-  background:#f7dfe6!important;
-  background-image:linear-gradient(180deg,#fff9f6,#f4d4df)!important;
-  color:#4b2d34!important;
-  border-color:#dfb3c2!important;
-  box-shadow:none!important;
-}
-html[data-test-theme="maid"] .pageCard.active::before,
-html[data-test-theme="maid"] .pageCard.active::after{content:none!important;display:none!important}
-html[data-test-theme="maid"] .pageCard.active .tile,
-html[data-test-theme="maid"] .pageCard.active .relItem,
-html[data-test-theme="maid"] .pageCard.active .npcRelationCard,
-html[data-test-theme="maid"] .pageCard.active .itemRow,
-html[data-test-theme="maid"] .pageCard.active .card,
-html[data-test-theme="maid"] #npcShopModal .npcShopItem,
-html[data-test-theme="maid"] #npcShopModal .npcDialogue{
-  background:linear-gradient(145deg,#fffdfb,#f7e1e8)!important;
-  color:#553440!important;border-color:#dfb5c4!important;
-  text-shadow:none!important;
-}
-html[data-test-theme="maid"] .pageCard.active b,
-html[data-test-theme="maid"] .pageCard.active .title,
-html[data-test-theme="maid"] .pageCard.active .saveName,
-html[data-test-theme="maid"] .pageCard.active .money,
-html[data-test-theme="maid"] .pageCard.active label{
-  color:#573542!important;text-shadow:none!important;
-}
-html[data-test-theme="maid"] .pageCard.active .small,
-html[data-test-theme="maid"] .pageCard.active .muted{
-  color:#866873!important;opacity:1!important;text-shadow:none!important;
-}
-html[data-test-theme="maid"] .sheetHead,
-html[data-test-theme="maid"] .modalHead{
-  background:linear-gradient(90deg,#66394a,#9d5c76)!important;color:#fff!important;
-  border-color:#deb2c1!important;
-}
-html[data-test-theme="maid"] .sheetHead b,
-html[data-test-theme="maid"] .sheetHead .small,
-html[data-test-theme="maid"] .modalHead b,
-html[data-test-theme="maid"] .modalHead .small{color:#fff!important}
-html[data-test-theme="maid"] .modalBox,
-html[data-test-theme="maid"] .npcShopCard,
-html[data-test-theme="maid"] .npcDetailCard{
-  background:linear-gradient(160deg,#fff9f6,#f3d4de)!important;
-  color:#4b2d34!important;border-color:#dfb2c1!important;
-}
-html[data-test-theme="maid"] .modal:not(.hidden){background:rgba(55,28,37,.45)!important}
-html[data-test-theme="maid"] .shopTab.active,
-html[data-test-theme="maid"] .npcShopTab.active,
-html[data-test-theme="maid"] button.primary{
-  background:linear-gradient(135deg,#ac617d,#754456)!important;color:#fff!important
-}
-html[data-test-theme="maid"] button:not(.primary){
-  background:linear-gradient(135deg,#f3d2dd,#e7b2c3)!important;color:#694050!important
-}
-html[data-test-theme="maid"] input,
-html[data-test-theme="maid"] select,
-html[data-test-theme="maid"] textarea{background:#fffdfb!important;color:#4b2d34!important;border-color:#ddb4c3!important}
-
-/* qixi test mode */
-html[data-test-theme="qixi"] body,
-html[data-test-theme="qixi"] #game,
-html[data-test-theme="qixi"] #home{
-  background:
-    radial-gradient(circle at 14% 12%,rgba(255,255,255,.7) 0 1px,transparent 2px),
-    radial-gradient(circle at 82% 22%,rgba(255,225,171,.7) 0 1px,transparent 2px),
-    linear-gradient(180deg,#100a2b 0%,#18113d 34%,#2c1953 70%,#4b2862 100%) fixed!important;
-  color:#eee8fa!important;
-}
-html[data-test-theme="qixi"] .pageCard.active{
-  background:linear-gradient(180deg,#1c133f,#3f2562)!important;color:#f5efff!important;
-}
-html[data-test-theme="qixi"] .pageCard.active .tile,
-html[data-test-theme="qixi"] .pageCard.active .relItem,
-html[data-test-theme="qixi"] .pageCard.active .itemRow,
-html[data-test-theme="qixi"] .pageCard.active .npcRelationCard{
-  background:rgba(255,250,255,.94)!important;color:#3e3345!important;
-}
-html[data-test-theme="qixi"] .modalBox{background:linear-gradient(160deg,#211744,#4a2d69)!important;color:#fff!important}
-html[data-test-theme="qixi"] .modalHead{background:linear-gradient(90deg,#251748,#5c3674)!important;color:#fff!important}
-
-/* default test mode: explicitly neutralize paid themes */
-html[data-test-theme="default"] body,
-html[data-test-theme="default"] #game,
-html[data-test-theme="default"] #home{
-  background:linear-gradient(#eee5f6,#fbf7fa)!important;color:#3d3343!important;
-}
-html[data-test-theme="default"] .pageCard.active{
-  background:#fffdfd!important;color:#3d3343!important;
-}
-html[data-test-theme="default"] .modalBox{background:#fff!important;color:#3d3343!important}
-
-/* test controls */
-.testAppearancePanel32644{
-  margin:0 0 12px;padding:12px;border:1px dashed #c99aad;border-radius:16px;
-  background:linear-gradient(145deg,#fffaf7,#f4d9e2);
-}
-.testAppearancePanel32644 b{display:block;margin-bottom:5px}
-.testAppearanceGrid32644{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:9px}
-.testAppearanceGrid32644 button{min-height:46px;padding:8px 6px;font-size:12px}
-.testAppearanceGrid32644 button.on{outline:2px solid #8f516b}
-</style>
-
-<script id="v32644TestThemeScript">
-(function(){
- const KEY='role_life_test_theme_preview_v32644';
- function mode(){return localStorage.getItem(KEY)||'maid'}
- function setMode(m){
-   if(!['default','qixi','maid'].includes(m))m='maid';
-   localStorage.setItem(KEY,m);
-   apply();
-   try{renderAppearance?.()}catch(_){}
-   toast?.('🧪 測試外觀：'+({default:'一般原版',qixi:'鵲橋星河',maid:'女僕咖啡廳'}[m]),2200);
- }
- function apply(){
-   const m=mode();
-   const html=document.documentElement;
-   html.setAttribute('data-test-theme',m);
-   html.setAttribute('data-theme',m==='maid'?'maid-cafe':m==='qixi'?'qixi':'default');
-   const b=document.body;if(!b)return;
-   b.classList.toggle('maid-cafe-preview',m==='maid');
-   b.classList.toggle('theme-maid-cafe',m==='maid');
-   b.classList.toggle('theme-qixi-paid',m==='qixi');
-   if(m==='default'){b.classList.remove('theme-maid-cafe','maid-cafe-preview','theme-qixi-paid')}
-   document.querySelectorAll('.testServerRibbon').forEach(x=>x.textContent='🧪 TEST・3.26.46-beta');
-   const hv=document.querySelector('.homeVersion');if(hv)hv.textContent='3.26.46・測試服｜首頁文字對比修復';
-   const meta=document.querySelector('meta[name="x-test-build"]');if(meta)meta.content='3.26.44';
-   document.title='關係進行式 TEST・3.26.46-首頁文字對比修復';
-   syncButtons();
- }
- function syncButtons(){
-   const m=mode();
-   document.querySelectorAll('[data-test-theme-32644]').forEach(b=>b.classList.toggle('on',b.dataset.testTheme32644===m));
- }
- function inject(){
-   const grid=document.getElementById('appearanceGrid');
-   if(!grid)return;
-   let p=document.getElementById('testAppearancePanel32644');
-   if(!p){
-     p=document.createElement('div');
-     p.id='testAppearancePanel32644';
-     p.className='testAppearancePanel32644';
-     p.innerHTML=`<b>🧪 測試服外觀預覽</b>
-       <div class="small">不需要解鎖、不會改角色的正式外觀持有資料；只用來檢查測試服畫面。</div>
-       <div class="testAppearanceGrid32644">
-        <button type="button" data-test-theme-32644="default">一般原版</button>
-        <button type="button" data-test-theme-32644="qixi">🌌 鵲橋星河</button>
-        <button type="button" data-test-theme-32644="maid">☕ 女僕咖啡廳</button>
-       </div>`;
-     grid.parentNode.insertBefore(p,grid);
-   }
-   syncButtons();
- }
- document.addEventListener('click',e=>{
-   const b=e.target.closest?.('[data-test-theme-32644]');
-   if(b){e.preventDefault();e.stopImmediatePropagation();setMode(b.dataset.testTheme32644);return}
-   if(e.target.closest?.('#appearanceDrawerBtn'))setTimeout(()=>{inject();apply()},30);
- },true);
-
- const old=window.renderAppearance;
- if(typeof old==='function'){
-   window.renderAppearance=function(){
-     const r=old.apply(this,arguments);
-     setTimeout(()=>{inject();apply()},0);
-     return r;
-   };
- }
- function boot(){apply();setTimeout(inject,200)}
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
- window.addEventListener('pageshow',apply);
- /* keep old theme scripts from taking control back; no DOM observer */
- setInterval(apply,1200);
-})();
-</script>
+<!-- === 3.26.51 TEST APPEARANCE OVERRIDE === -->
 
 
-<!-- === 3.26.45 Maid Cafe special story CG === -->
+
+
+
+<!-- === 3.26.51 Maid Cafe special story CG === -->
 <style id="v32645MaidStoryCGStyle">
 #npcStoryPlayer.maidCafeSpecialStory .npcStoryPortraitWrap{
   background:#24151c!important;
@@ -15410,274 +14508,583 @@ html[data-test-theme="default"] .modalBox{background:#fff!important;color:#3d334
 }
 </style>
 
-<script id="v32645MaidStoryCGScript">
+
+
+
+
+
+<script id="v32646VersionFix">
+(function(){
+ function apply(){
+   document.querySelectorAll('.testServerRibbon').forEach(x=>x.textContent='☕ TEST・3.26.51-beta');
+   const hv=document.querySelector('.homeVersion');
+   if(hv)hv.textContent='3.26.51・測試服｜首頁文字對比修復';
+   const meta=document.querySelector('meta[name="x-test-build"]');
+   if(meta)meta.content='3.26.51';
+   document.title='關係進行式 TEST・3.26.51-首頁文字對比修復';
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',apply,{once:true});else apply();
+ window.addEventListener('pageshow',apply);
+})();
+</script>
+
+
+<style id="v32647UnifiedThemeSystem">
+/* === 3.26.51 ONE authoritative test theme system === */
+:root{
+ --base-text:#3d3343;--base-card:#fffdfd;--base-line:#eadfee;
+}
+
+/* ---------- ORIGINAL ---------- */
+html[data-test-theme="default"]{
+ --bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;
+}
+html[data-test-theme="default"] body,
+html[data-test-theme="default"] #home,
+html[data-test-theme="default"] #game{
+ background:linear-gradient(#eee5f6,#fbf7fa)!important;
+ background-image:linear-gradient(#eee5f6,#fbf7fa)!important;
+ color:#3d3343!important;
+}
+html[data-test-theme="default"] .pageCard.active,
+html[data-test-theme="default"] .modalBox,
+html[data-test-theme="default"] .card,
+html[data-test-theme="default"] .homePanel{
+ background:#fffdfd!important;background-image:none!important;color:#3d3343!important;border-color:#eadfee!important;
+}
+html[data-test-theme="default"] .top,
+html[data-test-theme="default"] .sheetHead,
+html[data-test-theme="default"] .modalHead{
+ background:rgba(247,241,250,.97)!important;background-image:none!important;color:#3d3343!important;
+}
+html[data-test-theme="default"] button.primary{background:#9872c0!important;color:#fff!important}
+
+/* ---------- QIXI ---------- */
+html[data-test-theme="qixi"]{
+ --bg:#120d2d;--card:#fffafd;--text:#3d3343;--muted:#786981;--line:#d8c8e6;--accent:#7654b5;--soft:#eee4f8;
+}
+html[data-test-theme="qixi"] body,
+html[data-test-theme="qixi"] #home,
+html[data-test-theme="qixi"] #game{
+ background:
+  radial-gradient(circle at 15% 14%,rgba(255,255,255,.78) 0 1px,transparent 1.8px),
+  radial-gradient(circle at 81% 20%,rgba(255,226,172,.76) 0 1px,transparent 1.8px),
+  radial-gradient(circle at 62% 8%,rgba(213,199,255,.85) 0 1.2px,transparent 2px),
+  linear-gradient(180deg,#100a2b 0%,#18113d 34%,#2d1a54 70%,#4b2862 100%)!important;
+ color:#f6f0ff!important;
+}
+html[data-test-theme="qixi"] .pageCard.active{
+ background:linear-gradient(180deg,#1c123e,#3e245f)!important;color:#f5efff!important;border-color:#6d4e87!important;
+}
+html[data-test-theme="qixi"] .pageCard.active .tile,
+html[data-test-theme="qixi"] .pageCard.active .relItem,
+html[data-test-theme="qixi"] .pageCard.active .itemRow,
+html[data-test-theme="qixi"] .pageCard.active .npcRelationCard,
+html[data-test-theme="qixi"] .pageCard.active .card{
+ background:rgba(255,250,255,.95)!important;color:#3d3343!important;border-color:#dbcce7!important;
+}
+html[data-test-theme="qixi"] .pageCard.active .small,
+html[data-test-theme="qixi"] .pageCard.active .muted{color:#7c6d83!important}
+html[data-test-theme="qixi"] .top,
+html[data-test-theme="qixi"] .sheetHead,
+html[data-test-theme="qixi"] .modalHead{
+ background:linear-gradient(90deg,#211441,#57316f)!important;color:#fff!important;border-color:#73558d!important;
+}
+html[data-test-theme="qixi"] .modalBox{background:linear-gradient(160deg,#241746,#472b66)!important;color:#fff!important;border-color:#72558a!important}
+html[data-test-theme="qixi"] button.primary{background:linear-gradient(135deg,#7355b5,#b26ea7)!important;color:#fff!important}
+
+/* ---------- MAID CAFE ---------- */
+html[data-test-theme="maid"]{
+ --bg:#f5dbe2;--card:#fff9f6;--text:#4b2d34;--muted:#81636d;--line:#ddb2c0;--accent:#a65d78;--pink:#d88ca6;--soft:#f3cfda;
+}
+html[data-test-theme="maid"] body,
+html[data-test-theme="maid"] #home,
+html[data-test-theme="maid"] #game{
+ background:
+  linear-gradient(180deg,#4f2c38 0 96px,#b96f89 96px,#e8b8c7 34%,#f8e5e9 100%) fixed!important;
+ background-image:linear-gradient(180deg,#4f2c38 0 96px,#b96f89 96px,#e8b8c7 34%,#f8e5e9 100%)!important;
+ color:#4b2d34!important;
+}
+html[data-test-theme="maid"] #home::before,
+html[data-test-theme="maid"] #game::before{
+ content:"☕   ♡   🎀   ♡   ☕"!important;
+ position:fixed!important;inset:84px 0 auto!important;height:80px!important;
+ pointer-events:none!important;text-align:center!important;letter-spacing:16px!important;
+ color:rgba(255,246,249,.16)!important;font-size:17px!important;background:none!important;
+}
+html[data-test-theme="maid"] .pageCard.active,
+html[data-test-theme="maid"] #extraShop.pageCard.active,
+html[data-test-theme="maid"] #extraBag.pageCard.active,
+html[data-test-theme="maid"] #extraRelations.pageCard.active,
+html[data-test-theme="maid"] #extraNpcRelations.pageCard.active,
+html[data-test-theme="maid"] #extraAchievements.pageCard.active,
+html[data-test-theme="maid"] #extraChat.pageCard.active,
+html[data-test-theme="maid"] #extraMailbox.pageCard.active,
+html[data-test-theme="maid"] #extraGM.pageCard.active{
+ background:linear-gradient(180deg,#fff8f5 0%,#f3d2dc 100%)!important;
+ background-image:linear-gradient(180deg,#fff8f5 0%,#f3d2dc 100%)!important;
+ color:#4b2d34!important;border-color:#ddb2c0!important;box-shadow:none!important;
+}
+html[data-test-theme="maid"] .pageCard.active::before,
+html[data-test-theme="maid"] .pageCard.active::after{content:none!important;display:none!important}
+html[data-test-theme="maid"] .pageCard.active .tile,
+html[data-test-theme="maid"] .pageCard.active .relItem,
+html[data-test-theme="maid"] .pageCard.active .itemRow,
+html[data-test-theme="maid"] .pageCard.active .npcRelationCard,
+html[data-test-theme="maid"] .pageCard.active .card,
+html[data-test-theme="maid"] .npcShopItem,
+html[data-test-theme="maid"] .npcDialogue,
+html[data-test-theme="maid"] .npcRelationIntro{
+ background:linear-gradient(145deg,#fffdfb,#f7dfe7)!important;
+ background-image:linear-gradient(145deg,#fffdfb,#f7dfe7)!important;
+ color:#54333f!important;border-color:#dfb4c3!important;text-shadow:none!important;
+}
+html[data-test-theme="maid"] .pageCard.active b,
+html[data-test-theme="maid"] .pageCard.active strong,
+html[data-test-theme="maid"] .pageCard.active label,
+html[data-test-theme="maid"] .pageCard.active .title,
+html[data-test-theme="maid"] .pageCard.active .money{color:#54333f!important;text-shadow:none!important}
+html[data-test-theme="maid"] .pageCard.active .small,
+html[data-test-theme="maid"] .pageCard.active .muted{color:#80616b!important;opacity:1!important;text-shadow:none!important}
+html[data-test-theme="maid"] .top,
+html[data-test-theme="maid"] .sheetHead,
+html[data-test-theme="maid"] .modalHead{
+ background:linear-gradient(90deg,#56313f,#92546b)!important;
+ background-image:linear-gradient(90deg,#56313f,#92546b)!important;
+ color:#fff!important;border-color:#d9a8b9!important;
+}
+html[data-test-theme="maid"] .sheetHead b,
+html[data-test-theme="maid"] .sheetHead .small,
+html[data-test-theme="maid"] .modalHead b,
+html[data-test-theme="maid"] .modalHead .small{color:#fff!important}
+html[data-test-theme="maid"] .modal:not(.hidden){background:rgba(52,27,35,.44)!important}
+html[data-test-theme="maid"] .modalBox,
+html[data-test-theme="maid"] .npcShopCard,
+html[data-test-theme="maid"] .npcDetailCard{
+ background:linear-gradient(160deg,#fff9f6,#f2d0db)!important;
+ background-image:linear-gradient(160deg,#fff9f6,#f2d0db)!important;
+ color:#4b2d34!important;border-color:#dcaebe!important;
+}
+html[data-test-theme="maid"] button{background:linear-gradient(135deg,#f1ced9,#e3aebe)!important;color:#653c4b!important}
+html[data-test-theme="maid"] button.primary,
+html[data-test-theme="maid"] .shopTab.active,
+html[data-test-theme="maid"] .npcShopTab.active{
+ background:linear-gradient(135deg,#aa607b,#734254)!important;color:#fff!important;
+}
+html[data-test-theme="maid"] input,
+html[data-test-theme="maid"] select,
+html[data-test-theme="maid"] textarea{background:#fffdfb!important;color:#4b2d34!important;border-color:#d9aab9!important}
+
+/* Maid home readability */
+html[data-test-theme="maid"] #home .homeHero{
+ background:linear-gradient(145deg,#59303f,#93556d)!important;color:#fff!important;border-color:#d7a4b6!important;
+}
+html[data-test-theme="maid"] #home .homeHero h1,
+html[data-test-theme="maid"] #home .homeHero .homeTagline,
+html[data-test-theme="maid"] #home .homeHero .homeVersion{color:#fff!important}
+html[data-test-theme="maid"] #home .homePanel,
+html[data-test-theme="maid"] #home .card,
+html[data-test-theme="maid"] #home .save,
+html[data-test-theme="maid"] #home .createBox{
+ background:linear-gradient(155deg,#fff8f5,#f0cad6)!important;color:#4b2d34!important;border-color:#d9a9b9!important;
+}
+html[data-test-theme="maid"] #home .homePanel *,
+html[data-test-theme="maid"] #home .card *{color:#5c3a46!important;opacity:1!important;text-shadow:none!important}
+html[data-test-theme="maid"] #home .homePanel b,
+html[data-test-theme="maid"] #home .card b{color:#4b2d34!important}
+html[data-test-theme="maid"] #home button.primary{color:#fff!important}
+
+/* ---------- FIXED TEST SWITCHER ---------- */
+#themeTestFab32647{
+ position:fixed!important;z-index:12000!important;left:12px!important;
+ bottom:calc(16px + env(safe-area-inset-bottom))!important;
+ width:auto!important;min-height:42px!important;padding:8px 11px!important;
+ border-radius:16px!important;background:#26212b!important;color:#fff!important;
+ border:1px solid #ffffff38!important;box-shadow:0 7px 22px #0004!important;font-size:12px!important
+}
+#themeTestPanel32647{
+ position:fixed!important;z-index:12001!important;left:12px!important;right:12px!important;
+ bottom:calc(66px + env(safe-area-inset-bottom))!important;
+ max-width:430px!important;margin:auto!important;padding:12px!important;border-radius:18px!important;
+ background:#fffaf8!important;color:#4b2d34!important;border:1px solid #dcb1c0!important;
+ box-shadow:0 16px 42px #0005!important
+}
+#themeTestPanel32647.hidden{display:none!important}
+#themeTestPanel32647 .themeTestRow{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:9px}
+#themeTestPanel32647 button{min-height:46px!important;padding:7px 4px!important;font-size:12px!important}
+#themeTestPanel32647 button.on{outline:3px solid #7d4a60!important}
+</style>
+
+<script id="v32647UnifiedThemeScript">
+(function(){
+ const KEY='role_life_test_theme_preview_v32647';
+ const LABEL={default:'一般原版',qixi:'鵲橋星河',maid:'女僕咖啡廳'};
+
+ function getMode(){
+   const x=localStorage.getItem(KEY);
+   return ['default','qixi','maid'].includes(x)?x:'maid';
+ }
+ function applyMode(){
+   const m=getMode(), html=document.documentElement, body=document.body;
+   html.setAttribute('data-test-theme',m);
+   html.setAttribute('data-theme',m==='maid'?'maid-cafe':m==='qixi'?'qixi':'default');
+   if(body){
+     body.setAttribute('data-theme',m==='maid'?'maid-cafe':m==='qixi'?'qixi':'default');
+     body.classList.toggle('theme-maid-cafe',m==='maid');
+     body.classList.toggle('maid-cafe-preview',m==='maid');
+     body.classList.toggle('theme-qixi-paid',m==='qixi');
+     if(m==='default')body.classList.remove('theme-maid-cafe','maid-cafe-preview','theme-qixi-paid');
+   }
+   document.querySelectorAll('[data-theme-mode32647]').forEach(b=>b.classList.toggle('on',b.dataset.themeMode32647===m));
+   document.querySelectorAll('.testServerRibbon').forEach(x=>x.textContent='🧪 TEST・3.26.51-beta');
+   const hv=document.querySelector('.homeVersion');
+   if(hv)hv.textContent='3.26.51・測試服｜外觀切換真正修復';
+   const meta=document.querySelector('meta[name="x-test-build"]');if(meta)meta.content='3.26.51';
+   document.title='關係進行式 TEST・3.26.51-外觀切換真正修復';
+ }
+ function setMode(m){
+   if(!LABEL[m])return;
+   localStorage.setItem(KEY,m);applyMode();
+   toast?.('🧪 已切換：'+LABEL[m],2200);
+ }
+ function install(){
+   if(!document.body)return;
+   if(!document.getElementById('themeTestFab32647')){
+     const fab=document.createElement('button');
+     fab.id='themeTestFab32647';fab.type='button';fab.textContent='🧪 外觀測試';
+     document.body.appendChild(fab);
+   }
+   if(!document.getElementById('themeTestPanel32647')){
+     const p=document.createElement('div');
+     p.id='themeTestPanel32647';p.className='hidden';
+     p.innerHTML='<b>🧪 測試服外觀切換</b><div class="small">不修改角色實際解鎖，只切畫面方便測試。</div><div class="themeTestRow"><button data-theme-mode32647="default">一般原版</button><button data-theme-mode32647="qixi">🌌 星河</button><button data-theme-mode32647="maid">☕ 女僕</button></div>';
+     document.body.appendChild(p);
+   }
+   applyMode();
+ }
+ document.addEventListener('click',e=>{
+   if(e.target.closest?.('#themeTestFab32647')){
+     e.preventDefault();e.stopImmediatePropagation();
+     document.getElementById('themeTestPanel32647')?.classList.toggle('hidden');return;
+   }
+   const b=e.target.closest?.('[data-theme-mode32647]');
+   if(b){
+     e.preventDefault();e.stopImmediatePropagation();
+     setMode(b.dataset.themeMode32647);
+     document.getElementById('themeTestPanel32647')?.classList.add('hidden');return;
+   }
+ },true);
+
+ function boot(){install();applyMode()}
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
+ window.addEventListener('pageshow',()=>{install();applyMode()});
+
+ /* Authoritative owner: legacy scripts may still touch classes, but this immediately restores the selected test theme. */
+ setInterval(applyMode,400);
+})();
+</script>
+
+
+<!-- === 3.26.51 embedded maid CG + authoritative story image switch === -->
+<style id="v32650ExternalMaidStoryCGStyle">
+#npcStoryPlayer.maidCafeSpecialStory .npcStoryPortraitWrap{
+  background:#24151c!important;
+}
+#npcStoryPlayer.maidCafeSpecialStory #npcStoryPortrait{
+  width:100%!important;
+  height:100%!important;
+  object-fit:contain!important;
+  object-position:center center!important;
+  display:block!important;
+  opacity:1!important;
+}
+#npcStoryPlayer.maidCafeSpecialStory .npcStoryDialogue{
+  background:linear-gradient(180deg,rgba(255,250,247,.97),rgba(244,210,221,.98))!important;
+  color:#4b2d34!important;
+  border-color:#dcaabd!important;
+}
+#npcStoryPlayer.maidCafeSpecialStory .npcStorySpeaker{
+  background:#7c475c!important;color:#fff!important;
+}
+</style>
+
+
+
+
+
+
+
+<script id="v32650ExternalMaidStoryCGScript">
 (function(){
  const STORY_ID='paid_maid_cafe_story';
- const CG='assets/npc/shopkeeper_cat/maid_cafe_special.png';
+
+ /* 兩張圖都放在貓貓店長圖片資料夾。 */
+ const CG1='assets/npc/shopkeeper_cat/maid_cafe_special_1.png';
+ const CG2='assets/npc/shopkeeper_cat/maid_cafe_special_2.png';
 
  function current(){try{return typeof cur==='function'?cur():null}catch(_){return null}}
  function npcStateSafe(){try{return typeof npcState==='function'?npcState():null}catch(_){return null}}
 
  function maidLines(){
-  return [
-   {speaker:'旁白',text:'你把「請店長喝咖啡券」交到櫃檯前。貓貓看著那張券，沉默了幾秒。'},
-   {speaker:'貓貓',text:'「……所以你真的拿來用了。」'},
-   {speaker:'旁白',text:'她把店門的牌子翻到「休息中」，轉身走進後面的房間。'},
-   {speaker:'貓貓',text:'「先說好，這是特別招待。你不准笑。」'},
-   {speaker:'旁白',cg:true,text:'過了一會兒，她換上女僕咖啡廳的制服重新出現在你面前。'},
-   {speaker:'貓貓',cg:true,text:'「歡、歡迎回來……主人。」'},
-   {speaker:'旁白',cg:true,text:'她端著咖啡站在你面前，明明耳根都紅了，卻還努力裝作若無其事。'},
-   {speaker:'貓貓',cg:true,text:'「看夠了沒有？咖啡再不喝就要涼了。」'},
-   {speaker:'你',cg:true,text:'「所以這張券真的可以讓店長親自招待？」'},
-   {speaker:'貓貓',cg:true,text:'「只有今天。還有——不准拿去跟別人炫耀。」'},
-   {speaker:'旁白',cg:true,text:'她把咖啡輕輕推到你面前，又把一張寫著「女僕咖啡廳」的主題卡放在杯子旁。'},
-   {speaker:'貓貓',cg:true,text:'「這個也給你。以後想起今天，就把它換上吧。」'}
-  ];
+   return [
+    {speaker:'旁白',text:'你把「請店長喝咖啡券」交到櫃檯前。貓貓看著那張券，沉默了幾秒。'},
+    {speaker:'貓貓',text:'「……所以你真的拿來用了。」'},
+    {speaker:'旁白',text:'她把店門的牌子翻到「休息中」，轉身走進後面的房間。'},
+    {speaker:'貓貓',text:'「先說好，這是特別招待。你不准笑。」'},
+    {speaker:'旁白',cg:1,text:'過了一會兒，她換上女僕咖啡廳的制服重新出現在你面前。'},
+    {speaker:'貓貓',cg:1,text:'「歡、歡迎回來……主人。」'},
+    {speaker:'旁白',cg:1,text:'她端著咖啡站在你面前，明明耳根都紅了，卻還努力裝作若無其事。'},
+    {speaker:'貓貓',cg:2,text:'「看夠了沒有？咖啡再不喝就要涼了。」'},
+    {speaker:'你',cg:2,text:'「所以這張券真的可以讓店長親自招待？」'},
+    {speaker:'貓貓',cg:2,text:'「只有今天。還有——不准拿去跟別人炫耀。」'},
+    {speaker:'旁白',cg:1,text:'她把咖啡輕輕推到你面前，又把一張寫著「女僕咖啡廳」的主題卡放在杯子旁。'},
+    {speaker:'貓貓',cg:1,text:'「這個也給你。以後想起今天，就把它換上吧。」'}
+   ];
  }
 
- function setStoryCG(on){
-  const player=document.getElementById('npcStoryPlayer');
-  const img=document.getElementById('npcStoryPortrait');
-  if(!player||!img)return;
-  player.classList.toggle('maidCafeSpecialStory',!!on);
-  if(on){
-    if(img.dataset.maidCafeOldSrc===undefined) img.dataset.maidCafeOldSrc=img.getAttribute('src')||'cat_shopkeeper_normal.png';
-    img.src=CG;
-    img.dataset.npcFace='maidCafeSpecial';
-  }else if(player.classList.contains('hidden')){
-    const old=img.dataset.maidCafeOldSrc;
-    if(old){img.src=old;delete img.dataset.maidCafeOldSrc;}
-  }
+ function state(){
+   const st=window.npcStoryPlayerState;
+   if(!st || !String(st.title||'').includes('女僕咖啡廳')) return null;
+   return st;
+ }
+
+ function enforcePortrait(){
+   const st=state();
+   const player=document.getElementById('npcStoryPlayer');
+   const portrait=document.getElementById('npcStoryPortrait');
+   if(!player||!portrait)return;
+
+   const line=st?.lines?.[Number(st?.index||0)];
+   const which=Number(line?.cg||0);
+
+   if(st && (which===1 || which===2)){
+     player.classList.add('maidCafeSpecialStory');
+
+     if(!portrait.dataset.beforeMaidCg){
+       portrait.dataset.beforeMaidCg=portrait.getAttribute('src')||'cat_shopkeeper_normal.png';
+     }
+
+     const target=which===2?CG2:CG1;
+     if((portrait.getAttribute('src')||'')!==target) portrait.setAttribute('src',target);
+
+     portrait.dataset.npcFace=which===2?'maidCafeSpecial2':'maidCafeSpecial1';
+     portrait.style.display='block';
+     portrait.style.opacity='1';
+   }else{
+     player.classList.remove('maidCafeSpecialStory');
+
+     /* 還在女僕劇情前四句時，保留普通店長立繪。 */
+     if(st){
+       const old=portrait.dataset.beforeMaidCg;
+       if(old){
+         portrait.setAttribute('src',old);
+         delete portrait.dataset.beforeMaidCg;
+       }
+     }else{
+       const old=portrait.dataset.beforeMaidCg;
+       if(old){
+         portrait.setAttribute('src',old);
+         delete portrait.dataset.beforeMaidCg;
+       }
+     }
+   }
  }
 
  function playMaidStory(markComplete=true){
-  const c=current();if(!c)return;
-  c.paidStoryFlags??={};
-  const st=npcStateSafe();
-  const done=()=>{
-    setStoryCG(false);
-    if(markComplete){
-      c.paidStoryFlags[STORY_ID]=true;
-      c.paidCosmetics??={};c.paidCosmetics.maidCafe=true;c.activePaidTheme='maidCafe';
-      if(st){st.flags??={};st.flags.paidMaidCafeStory=1;try{saveNpcState?.(st)}catch(_){}}
-      c.memories??=[];
-      if(!c.memories.some(x=>x.t==='🎀 付費劇情・女僕咖啡廳'))
-        c.memories.unshift({t:'🎀 付費劇情・女僕咖啡廳',d:new Date().toLocaleDateString('zh-TW')});
-      try{saveLocal?.();window.applyPaidAppearance?.(c);renderGame?.();renderAppearance?.()}catch(_){}
-      toast?.('🎀 女僕咖啡廳特殊劇情已收藏，可隨時重看。',4000);
-    }
-  };
-  if(typeof startNpcRpgStory==='function'){
-    startNpcRpgStory({title:'🎀 特殊劇情・女僕咖啡廳',lines:maidLines(),onComplete:done});
-    setTimeout(()=>{setStoryCG(false);},0);
-  }else{
-    alert('🎀 特殊劇情・女僕咖啡廳');
-    done();
-  }
- }
- window.playMaidCafeSpecialStory32645=playMaidStory;
+   const c=current();if(!c)return;
+   c.paidStoryFlags??={};
+   const st=npcStateSafe();
 
- /* Use CG only from the reveal scene onward. */
- const oldRender=window.renderNpcRpgLine;
- if(typeof oldRender==='function'&&!oldRender.__maidCG32645){
-   const wrapped=function(){
-     const st=window.npcStoryPlayerState;
-     const isMaid=String(st?.title||'').includes('女僕咖啡廳');
-     const line=st?.lines?.[st?.index||0];
-     setStoryCG(!!(isMaid&&line?.cg));
-     return oldRender.apply(this,arguments);
+   const done=()=>{
+     const player=document.getElementById('npcStoryPlayer');
+     player?.classList.remove('maidCafeSpecialStory');
+
+     const portrait=document.getElementById('npcStoryPortrait');
+     if(portrait?.dataset.beforeMaidCg){
+       portrait.setAttribute('src',portrait.dataset.beforeMaidCg);
+       delete portrait.dataset.beforeMaidCg;
+     }
+
+     if(markComplete){
+       c.paidStoryFlags[STORY_ID]=true;
+       c.paidCosmetics??={};
+       c.paidCosmetics.maidCafe=true;
+       c.activePaidTheme='maidCafe';
+
+       if(st){
+         st.flags??={};
+         st.flags.paidMaidCafeStory=1;
+         try{saveNpcState?.(st)}catch(_){}
+       }
+
+       c.memories??=[];
+       if(!c.memories.some(x=>x.t==='🎀 付費劇情・女僕咖啡廳')){
+         c.memories.unshift({
+           t:'🎀 付費劇情・女僕咖啡廳',
+           d:new Date().toLocaleDateString('zh-TW')
+         });
+       }
+
+       try{
+         saveLocal?.();
+         window.applyPaidAppearance?.(c);
+         renderGame?.();
+         renderAppearance?.();
+       }catch(_){}
+
+       toast?.('🎀 女僕咖啡廳特殊劇情已收藏，可隨時重看。',4000);
+     }
    };
-   wrapped.__maidCG32645=true;
+
+   if(typeof startNpcRpgStory==='function'){
+     startNpcRpgStory({
+       title:'🎀 特殊劇情・女僕咖啡廳',
+       lines:maidLines(),
+       onComplete:done
+     });
+     setTimeout(enforcePortrait,0);
+   }else{
+     alert('🎀 特殊劇情・女僕咖啡廳');
+     done();
+   }
+ }
+ window.playMaidCafeSpecialStory32650=playMaidStory;
+
+ /* 讓這一層最後接管劇情換圖。 */
+ const baseRender=window.renderNpcRpgLine;
+ if(typeof baseRender==='function'&&!baseRender.__maidExternal32650){
+   const wrapped=function(){
+     const r=baseRender.apply(this,arguments);
+     enforcePortrait();
+     setTimeout(enforcePortrait,0);
+     setTimeout(enforcePortrait,35);
+     return r;
+   };
+   wrapped.__maidExternal32650=true;
    window.renderNpcRpgLine=wrapped;
  }
 
- const oldFinish=window.finishNpcRpgStory;
- if(typeof oldFinish==='function'&&!oldFinish.__maidCG32645){
-   const wrapped=function(){
-     const r=oldFinish.apply(this,arguments);
-     setTimeout(()=>setStoryCG(false),0);
-     return r;
-   };
-   wrapped.__maidCG32645=true;
-   window.finishNpcRpgStory=wrapped;
+ const storyText=document.getElementById('npcStoryText');
+ if(storyText){
+   const mo=new MutationObserver(()=>{
+     enforcePortrait();
+     setTimeout(enforcePortrait,0);
+   });
+   mo.observe(storyText,{childList:true,characterData:true,subtree:true});
  }
 
- /* After the NT$50 coffee voucher successfully redeems the theme, play this story once. */
+ document.getElementById('npcStoryPlayer')?.addEventListener('click',()=>{
+   setTimeout(enforcePortrait,0);
+ },true);
+
+ /* 兌換咖啡券成功後觸發一次特殊劇情。 */
  document.addEventListener('click',function(e){
    const b=e.target.closest?.('[data-redeem-coffee-theme-32643]');
    if(!b)return;
+
    const before=current();
    const already=!!before?.paidStoryFlags?.[STORY_ID];
+
    setTimeout(()=>{
      const c=current();
      if(!already && c?.paidCosmetics?.maidCafe && !c?.paidStoryFlags?.[STORY_ID]){
        playMaidStory(true);
      }
-   },180);
+   },220);
  },true);
 
- /* Replay from the existing paid-story collection always uses the new CG version. */
+ /* 收藏重播。 */
  document.addEventListener('click',function(e){
    const b=e.target.closest?.('[data-replay-paid-maid-story]');
    if(!b)return;
-   e.preventDefault();e.stopImmediatePropagation();
+   e.preventDefault();
+   e.stopImmediatePropagation();
    playMaidStory(false);
  },true);
 
  function version(){
-   document.querySelectorAll('.testServerRibbon').forEach(x=>x.textContent='🧪 TEST・3.26.46-beta');
+   document.querySelectorAll('.testServerRibbon').forEach(
+     x=>x.textContent='🧪 TEST・3.26.51-beta'
+   );
+
    const hv=document.querySelector('.homeVersion');
-   if(hv)hv.textContent='3.26.46・測試服｜首頁文字對比修復';
-   const meta=document.querySelector('meta[name="x-test-build"]');if(meta)meta.content='3.26.46';
-   document.title='關係進行式 TEST・3.26.46-首頁文字對比修復';
+   if(hv) hv.textContent='3.26.51・測試服｜女僕劇情CG外部素材版';
+
+   const meta=document.querySelector('meta[name="x-test-build"]');
+   if(meta) meta.content='3.26.51';
+
+   document.title='關係進行式 TEST・3.26.51-女僕劇情CG外部素材版';
  }
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',version,{once:true});else version();
+
+ if(document.readyState==='loading'){
+   document.addEventListener('DOMContentLoaded',version,{once:true});
+ }else{
+   version();
+ }
+
  window.addEventListener('pageshow',version);
 })();
 </script>
 
 
-<style id="v32646HomeContrastFix">
-/* === 3.26.46 首頁文字對比修復 === */
-
-/* 首頁卡片背景稍微加深，避免白字/淡字消失 */
-#home .homePanel,
-#home .card,
-#home .save,
-#home .createBox,
-#home .homeMusic,
-#home .liveStat,
-#home [class*="Panel"],
-#home [class*="panel"]{
-  background:linear-gradient(155deg,#fff8f5 0%,#f2ceda 100%)!important;
-  color:#4b2d34!important;
-  border-color:#ddb0c0!important;
+<style id="v32651PaidSoldOutStyle">
+/* 已購買的付費項目顯示售罄 */
+[data-paid-soldout32651="1"]{
+  opacity:.58!important;
+  filter:saturate(.55)!important;
+  cursor:not-allowed!important;
 }
-
-/* 首頁所有一般文字固定深色 */
-#home,
-#home p,
-#home div,
-#home span,
-#home label,
-#home .small,
-#home .muted,
-#home .gmStatus,
-#home .createHint,
-#home .homePanel .small,
-#home .homePanel .muted,
-#home .card .small,
-#home .card .muted{
-  color:#6a4a55!important;
-  opacity:1!important;
-  text-shadow:none!important;
-}
-
-/* 標題、卡片標題再深一階 */
-#home b,
-#home strong,
-#home h2,
-#home h3,
-#home .homePanelTitle,
-#home .saveName{
-  color:#4f303b!important;
-  opacity:1!important;
-  text-shadow:none!important;
-}
-
-/* 狀態膠囊 */
-#home .chip,
-#home .badgeDisplay,
-#home .presencePill{
-  background:#e9bccb!important;
-  color:#5c3544!important;
-  border-color:#cf96aa!important;
-  font-weight:800!important;
-}
-
-/* 一般按鈕文字 */
-#home button,
-#home .gmGateBtn,
-#home .save button,
-#home .createBox button{
-  color:#5a3442!important;
-  font-weight:800!important;
-}
-
-/* 主按鈕仍維持白字，確保深底可讀 */
-#home button.primary,
-#home .primary,
-#home #playerAccountOpenBtn{
-  color:#fff!important;
-}
-
-/* 首頁主視覺才保留白字 */
-#home .homeHero,
-#home .homeHero h1,
-#home .homeHero .homeTagline,
-#home .homeHero .homeVersion,
-#home .homeHero::before,
-#home .homeHero::after{
-  color:#fff6f9!important;
-  text-shadow:0 2px 12px rgba(58,29,39,.32)!important;
-}
-
-/* 登入狀態／管理員狀態不能再淡到看不到 */
-#playerAccountChip,
-#gmStatusChip,
-#gmStatus,
-#playerAccountSummary,
-#playerAccountHomePanel .small,
-#gmHomePanel .small{
-  color:#5f3d49!important;
-  opacity:1!important;
-}
-
-/* 更新公告內容 */
-#home .updateNoticeBody,
-#home .updateNoticeBody *,
-#home [id*="update"] .small,
-#home [id*="Update"] .small{
-  color:#62424d!important;
-  opacity:1!important;
-}
-
-/* 特別壓掉舊七夕/主題留下的白字 */
-body.maid-cafe-preview #home .homePanel *,
-body.theme-maid-cafe #home .homePanel *,
-html[data-test-theme="maid"] #home .homePanel *,
-html[data-theme="maid-cafe"] #home .homePanel *{
-  color:#5f3d49!important;
-  text-shadow:none!important;
-  opacity:1!important;
-}
-body.maid-cafe-preview #home .homePanel b,
-body.theme-maid-cafe #home .homePanel b,
-html[data-test-theme="maid"] #home .homePanel b,
-html[data-theme="maid-cafe"] #home .homePanel b{
-  color:#4b2d34!important;
-}
-
-/* 例外：主按鈕 */
-body.maid-cafe-preview #home .homePanel button.primary,
-body.theme-maid-cafe #home .homePanel button.primary,
-html[data-test-theme="maid"] #home .homePanel button.primary,
-html[data-theme="maid-cafe"] #home .homePanel button.primary{
-  color:#fff!important;
+[data-paid-soldout32651="1"]::after{
+  content:"⊘ 售罄"!important;
 }
 </style>
-
-<script id="v32646VersionFix">
+<script id="v32651PaidSoldOutScript">
 (function(){
- function apply(){
-   document.querySelectorAll('.testServerRibbon').forEach(x=>x.textContent='☕ TEST・3.26.46-beta');
-   const hv=document.querySelector('.homeVersion');
-   if(hv)hv.textContent='3.26.46・測試服｜首頁文字對比修復';
-   const meta=document.querySelector('meta[name="x-test-build"]');
-   if(meta)meta.content='3.26.46';
-   document.title='關係進行式 TEST・3.26.46-首頁文字對比修復';
+ function c(){try{return typeof cur==='function'?cur():null}catch(_){return null}}
+
+ function markSoldOut(){
+   const ch=c(); if(!ch)return;
+   const ownedMaid=!!ch.paidCosmetics?.maidCafe || !!ch.paidStoryFlags?.paid_maid_cafe_story;
+
+   /* NT$50 請店長喝咖啡／兌換券：成功購買後永久售罄，不可重複購買。 */
+   document.querySelectorAll('[data-buy-coffee-ticket],[data-paid-item="maidCafe"],[data-paid-item="coffee"],[data-paid-support="50"],[data-paid-support="30"]').forEach(b=>{
+     if(!ownedMaid)return;
+     b.dataset.paidSoldout32651='1';
+     b.disabled=true;
+     b.setAttribute('aria-disabled','true');
+     const old=b.textContent||'';
+     if(!old.includes('售罄')) b.textContent='⊘ 售罄';
+   });
+
+   /* 兼容目前沒有 data 屬性的舊版付費商品按鈕。 */
+   document.querySelectorAll('button').forEach(b=>{
+     if(!ownedMaid)return;
+     const t=(b.textContent||'').replace(/\s+/g,'');
+     if(
+       (t.includes('NT$50') && (t.includes('購買')||t.includes('請店長喝咖啡'))) ||
+       (t.includes('請店長喝咖啡') && t.includes('購買'))
+     ){
+       b.dataset.paidSoldout32651='1';
+       b.disabled=true;
+       b.setAttribute('aria-disabled','true');
+       b.textContent='⊘ 售罄';
+     }
+   });
  }
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',apply,{once:true});else apply();
- window.addEventListener('pageshow',apply);
+
+ /* 購買成功、畫面重繪後都重新判斷。 */
+ document.addEventListener('click',()=>setTimeout(markSoldOut,250),true);
+ const mo=new MutationObserver(()=>markSoldOut());
+ function boot(){
+   markSoldOut();
+   if(document.body)mo.observe(document.body,{childList:true,subtree:true});
+   document.querySelectorAll('.testServerRibbon').forEach(x=>x.textContent='🧪 TEST・3.26.51-beta');
+   const hv=document.querySelector('.homeVersion');
+   if(hv)hv.textContent='3.26.51・測試服｜付費商品售罄修復';
+   const meta=document.querySelector('meta[name="x-test-build"]');if(meta)meta.content='3.26.51';
+   document.title='關係進行式 TEST・3.26.51-付費商品售罄修復';
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
+ window.addEventListener('pageshow',boot);
 })();
 </script>
