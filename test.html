@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#9a76c4">
-<meta name="x-test-build" content="3.26.54">
+<meta name="x-test-build" content="3.26.56">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>關係進行式 TEST・3.26.54-首頁文字對比修復</title>
+<title>關係進行式 TEST・3.26.56-首頁文字對比修復</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -1540,7 +1540,7 @@ body.npcStoryRunning .draggableFab{
     <div class="homeLogo">🧪</div>
     <h1>關係進行式 TEST</h1>
     <div class="homeTagline">測試中的每一段關係，都可能被重置。</div>
-    <div class="homeVersion">3.26.54・測試服｜女僕咖啡廳單券兌換修復</div>
+    <div class="homeVersion">3.26.56・測試服｜女僕咖啡廳單券兌換修復</div>
   </div>
 
   <div id="playerAccountHomePanel" class="homePanel accountHomePanel">
@@ -12145,11 +12145,11 @@ body:not(.launch-game-open) #launchActivityFab.activityEntryVisible{
 
   /* 更新測試服版本顯示，避免入口仍寫 3.24-beta。 */
   const replacements=[
-    ["Ver.3.24-beta","Ver.3.26.54-beta"],
-    ["TEST • 3.24-beta","TEST • 3.26.54-beta"],
-    ["TEST・3.24-beta","TEST・3.26.54-beta"],
-    ["TEST • 3.26.1-beta","TEST • 3.26.54-beta"],
-    ["TEST・3.26.1-beta","TEST・3.26.54-beta"]
+    ["Ver.3.24-beta","Ver.3.26.56"],
+    ["TEST • 3.24-beta","TEST • 3.26.56"],
+    ["TEST・3.24-beta","TEST・3.26.56"],
+    ["TEST • 3.26.1-beta","TEST • 3.26.56"],
+    ["TEST・3.26.1-beta","TEST・3.26.56"]
   ];
   function updateVersionLabels(){
     document.querySelectorAll("body *").forEach(el=>{
@@ -12159,8 +12159,8 @@ body:not(.launch-game-open) #launchActivityFab.activityEntryVisible{
         if(t!==el.textContent)el.textContent=t;
       }
     });
-    if(document.title.includes("3.24-beta"))document.title=document.title.replace("3.24-beta","3.26.54-beta");
-    if(document.title.includes("3.26.1-beta"))document.title=document.title.replace("3.26.1-beta","3.26.54-beta");
+    if(document.title.includes("3.24-beta"))document.title=document.title.replace("3.24-beta","3.26.56");
+    if(document.title.includes("3.26.1-beta"))document.title=document.title.replace("3.26.1-beta","3.26.56");
   }
   updateVersionLabels();
   setTimeout(updateVersionLabels,500);
@@ -13339,6 +13339,11 @@ body.theme-maid-cafe #game>.top .chip{background:rgba(255,248,251,.94)!important
  function current(){try{return typeof cur==='function'?cur():null}catch(_){return null}}
  function ensure(c){if(!c)return;c.paidOrders??=[];c.paidEntitlements??={};c.paidCosmetics??={};c.paidStoryFlags??={};c.paidVoucherFlags??={}}
  function applyAllThemes(c=current()){
+  const testMode=localStorage.getItem('role_life_test_theme_preview_v32655');
+  if(['default','qixi','maid'].includes(testMode)){
+    window.applyTestTheme32655?.(testMode);
+    return;
+  }
   document.body.classList.toggle('theme-qixi-paid',!!(c&&c.activePaidTheme==='qixiGalaxy'&&c.paidCosmetics?.qixiGalaxy));
   document.body.classList.toggle('theme-maid-cafe',!!(c&&c.activePaidTheme===MAID_COS&&c.paidCosmetics?.[MAID_COS]));
  }
@@ -13452,7 +13457,7 @@ body.theme-maid-cafe #game>.top .chip{background:rgba(255,248,251,.94)!important
  },true);
 
  const oldRenderPaid=window.renderPaidShop;window.renderPaidShop=renderPaidV324;
- /* 3.26.54 FIX:
+ /* 3.26.56 FIX:
     舊版用 MutationObserver 監看整個 document.body，callback 內又會 remove/append
     npcPaidStorySection，造成 observer -> DOM 修改 -> observer 的無限迴圈。
     Android WebView 在角色進入開始大量 render 後會因此卡死甚至被系統殺掉。
@@ -13505,7 +13510,7 @@ body.theme-maid-cafe #game>.top .chip{background:rgba(255,248,251,.94)!important
       const c=chars.find(x=>String(x.id)===String(id));
       if(!c){alert('找不到這個角色存檔。請重新整理頁面後再試。');return;}
 
-      /* 3.26.54 Android hard fix:
+      /* 3.26.56 Android hard fix:
          切畫面一定要早於任何存檔序列化、每日重置、完整 render 或雲端工作。
          舊版在 show(game) 前呼叫 saveLocal()，大型存檔在 Android WebView 會長時間堵塞，
          甚至被系統直接殺掉。 */
@@ -13549,7 +13554,7 @@ body.theme-maid-cafe #game>.top .chip{background:rgba(255,248,251,.94)!important
         try{if(typeof ensureRelations==='function')ensureRelations(c)}catch(err){console.warn('entry ensureRelations',err)}
         try{if(typeof ensureMeta==='function')ensureMeta(c)}catch(err){console.warn('entry ensureMeta',err)}
         try{if(typeof restoreBadgeShowcaseBackup==='function')restoreBadgeShowcaseBackup(c)}catch(err){console.warn('entry badge restore',err)}
-        /* 3.26.54: 第一階段禁止呼叫 renderGame。renderGame 內仍包含每日判定、關係卡與多個大型 DOM 建立。 */
+        /* 3.26.56: 第一階段禁止呼叫 renderGame。renderGame 內仍包含每日判定、關係卡與多個大型 DOM 建立。 */
         try{
           const cid=document.getElementById('charIdCode');if(cid&&typeof displayCharacterId==='function')cid.textContent=displayCharacterId(c);
           const gb=document.getElementById('genderBadge');if(gb){gb.textContent=c.gender==='male'?'♂ 男':'♀ 女';gb.classList.toggle('hidden',!c.gender)}
@@ -13586,7 +13591,7 @@ body.theme-maid-cafe #game>.top .chip{background:rgba(255,248,251,.94)!important
         try{if(typeof startPolling==='function')startPolling()}catch(err){console.warn('entry polling',err)}
       },12000);
     }catch(err){
-      console.error('3.26.54 forced local entry failed',err);
+      console.error('3.26.56 forced local entry failed',err);
       alert('角色進入失敗：'+(err?.message||'未知錯誤'));
     }
   }
@@ -13617,11 +13622,11 @@ body.theme-maid-cafe #game>.top .chip{background:rgba(255,248,251,.94)!important
 
 <script id="v32639MaidCafeFinalPatch">
 (function(){
- const BUILD='3.26.54';
+ const BUILD='3.26.56';
  const MAID_PASS='maidCafeVoucher';
  const MAID_COS='maidCafe';
  function current(){try{return typeof cur==='function'?cur():null}catch(_){return null}}
- function applyPreview(){ /* 3.26.54: theme preview is controlled only by unified test switch */ }
+ function applyPreview(){ /* 3.26.56: theme preview is controlled only by unified test switch */ }
  function cleanLegacy(c){
    if(!c)return;c.inventory??={};c.paidCollectibles??={};
    for(const k of Object.keys(c.inventory))if(/^paid_/.test(k)){const n=Number(c.inventory[k]||0);if(n>0)c.paidCollectibles[k]=Math.max(Number(c.paidCollectibles[k]||0),n);delete c.inventory[k]}
@@ -13646,7 +13651,7 @@ body.theme-maid-cafe #game>.top .chip{background:rgba(255,248,251,.94)!important
  function refreshVersion(){
    document.title=`關係進行式 TEST・${BUILD}-女僕咖啡廳單券兌換修復`;
    const hv=document.querySelector('.homeVersion');if(hv)hv.textContent=`${BUILD}・測試服｜女僕咖啡廳單券兌換修復`;
-   document.querySelectorAll('.testServerRibbon').forEach(el=>el.textContent=`🧪 TEST・${BUILD}-beta`);
+   
    const meta=document.querySelector('meta[name="x-test-build"]');if(meta)meta.content=BUILD;
  }
  document.addEventListener('click',e=>{
@@ -13682,22 +13687,22 @@ body.theme-maid-cafe #game>.top .chip{background:rgba(255,248,251,.94)!important
 
 
 
-<!-- === 3.26.54 Maid Cafe full-interface theme + NT$50 coffee-ticket redeem === -->
+<!-- === 3.26.56 Maid Cafe full-interface theme + NT$50 coffee-ticket redeem === -->
 
 
 <script id="v32641MaidCafeFlow">
 (function(){
- const BUILD='3.26.54';
+ const BUILD='3.26.56';
  const MAID_PRODUCT='maidCafe50', MAID_PASS='maidCafeVoucher', MAID_COS='maidCafe';
  function current(){try{return typeof cur==='function'?cur():null}catch(_){return null}}
  function ensure(c){if(!c)return;c.paidOrders??=[];c.paidVoucherFlags??={};c.paidCosmetics??={};c.paidEntitlements??={}}
  function refreshVersion(){
-   document.title='關係進行式 TEST・3.26.54-首頁文字對比修復';
-   const hv=document.querySelector('.homeVersion');if(hv)hv.textContent='3.26.54・測試服｜NPC視窗與商店當機修復';
-   document.querySelectorAll('.testServerRibbon').forEach(el=>el.textContent='🧪 TEST・3.26.54-beta');
+   
+   
+   
    const m=document.querySelector('meta[name="x-test-build"]');if(m)m.content=BUILD;
  }
- function forceMaidLook(){ /* 3.26.54: no forced theme */ }
+ function forceMaidLook(){ /* 3.26.56: no forced theme */ }
  function rewritePaidCards(){
    document.querySelectorAll('#shopPaidPanel .paidProduct').forEach(card=>{
      const t=card.textContent||'';
@@ -13720,14 +13725,14 @@ body.theme-maid-cafe #game>.top .chip{background:rgba(255,248,251,.94)!important
    });
  }
  function refresh(){refreshVersion();forceMaidLook();rewritePaidCards();rewriteNpcRedeem()}
- const mo={observe(){},disconnect(){}}; /* 3.26.54: disabled recursive DOM observer; it could freeze shop clicks */
+ const mo={observe(){},disconnect(){}}; /* 3.26.56: disabled recursive DOM observer; it could freeze shop clicks */
  document.addEventListener('DOMContentLoaded',()=>{refresh();mo.observe(document.body,{childList:true,subtree:true})},{once:true});
  if(document.readyState!=='loading'){refresh();mo.observe(document.body,{childList:true,subtree:true})}
  setTimeout(refresh,100);setTimeout(refresh,700);setTimeout(refresh,1800);
  window.addEventListener('pageshow',refresh);
 
  /* Authoritative purchase wording/result: the existing maidCafe50 purchase still supplies the pass,
-    but 3.26.54 presents that pass to the player as one concrete coffee ticket. */
+    but 3.26.56 presents that pass to the player as one concrete coffee ticket. */
  window.addEventListener('click',function(e){
    const b=e.target.closest?.('[data-paid-maid-buy]');if(!b)return;
    // Let existing handler perform the save/order, then normalize the UI and ticket state.
@@ -14159,6 +14164,11 @@ body.theme-qixi-paid #game>.top .chip{background:rgba(255,255,255,.92)!important
    }catch(_){c.achievements??={};c.achievements[p.badgeId]=1}
  }
  function applyTheme(c=current()){
+   const testMode=localStorage.getItem('role_life_test_theme_preview_v32655');
+   if(['default','qixi','maid'].includes(testMode)){
+     window.applyTestTheme32655?.(testMode);
+     return;
+   }
    const on=!!(c&&c.activePaidTheme==='qixiGalaxy'&&c.paidCosmetics?.qixiGalaxy);
    document.body.classList.toggle('theme-qixi-paid',on);
  }
@@ -14300,17 +14310,17 @@ body.theme-qixi-paid #game>.top .chip{background:rgba(255,255,255,.92)!important
 
 <script id="v32642NpcShopStability">
 (function(){
- const BUILD='3.26.54';
+ const BUILD='3.26.56';
  function refreshVersion(){
-   document.title='關係進行式 TEST・3.26.54-首頁文字對比修復';
-   document.querySelectorAll('.testServerRibbon').forEach(x=>x.textContent='☕ TEST・3.26.54-beta');
-   const hv=document.querySelector('.homeVersion');if(hv)hv.textContent='3.26.54・測試服｜NPC視窗與商店當機修復';
+   
+   
+   
    const m=document.querySelector('meta[name="x-test-build"]');if(m)m.content=BUILD;
  }
  refreshVersion();setTimeout(refreshVersion,250);setTimeout(refreshVersion,1000);
 
- /* Previous 3.26.54 observer rewrote shop DOM recursively and could lock Android when a product was tapped.
-    3.26.54 uses no DOM-wide MutationObserver. Refresh only at safe UI entry points. */
+ /* Previous 3.26.56 observer rewrote shop DOM recursively and could lock Android when a product was tapped.
+    3.26.56 uses no DOM-wide MutationObserver. Refresh only at safe UI entry points. */
  const safeRefresh=()=>{
    try{document.body?.classList.remove('theme-qixi-paid')}catch(_){ }
  };
@@ -14333,12 +14343,12 @@ body.theme-qixi-paid #game>.top .chip{background:rgba(255,255,255,.92)!important
 </script>
 
 
-<!-- === 3.26.54 FINAL: one NT$50 coffee product -> coffee voucher -> maid theme === -->
+<!-- === 3.26.56 FINAL: one NT$50 coffee product -> coffee voucher -> maid theme === -->
 
 
 <script id="v32643OneCoffeeVoucherFlow">
 (function(){
- const BUILD='3.26.54';
+ const BUILD='3.26.56';
  const VOUCHER='npc_maid_cafe_coffee_voucher';
  const LEGACY='paid_support_30';
  const MAID_COS='maidCafe';
@@ -14463,10 +14473,10 @@ body.theme-qixi-paid #game>.top .chip{background:rgba(255,255,255,.92)!important
    
    
    document.body?.classList.remove('theme-qixi-paid');
-   document.querySelectorAll('.testServerRibbon').forEach(x=>x.textContent='☕ TEST・3.26.54-beta');
-   const hv=document.querySelector('.homeVersion');if(hv)hv.textContent='3.26.54・測試服｜首頁文字對比修復';
+   
+   
    const meta=document.querySelector('meta[name="x-test-build"]');if(meta)meta.content=BUILD;
-   document.title='關係進行式 TEST・3.26.54-首頁文字對比修復';
+   
  }
  function boot(){
    const c=current();if(c){migrate(c);save(c)}
@@ -14479,13 +14489,13 @@ body.theme-qixi-paid #game>.top .chip{background:rgba(255,255,255,.92)!important
 </script>
 
 
-<!-- === 3.26.54 TEST APPEARANCE OVERRIDE === -->
+<!-- === 3.26.56 TEST APPEARANCE OVERRIDE === -->
 
 
 
 
 
-<!-- === 3.26.54 Maid Cafe special story CG === -->
+<!-- === 3.26.56 Maid Cafe special story CG === -->
 <style id="v32645MaidStoryCGStyle">
 #npcStoryPlayer.maidCafeSpecialStory .npcStoryPortraitWrap{
   background:#24151c!important;
@@ -14516,12 +14526,12 @@ body.theme-qixi-paid #game>.top .chip{background:rgba(255,255,255,.92)!important
 <script id="v32646VersionFix">
 (function(){
  function apply(){
-   document.querySelectorAll('.testServerRibbon').forEach(x=>x.textContent='☕ TEST・3.26.54-beta');
+   
    const hv=document.querySelector('.homeVersion');
-   if(hv)hv.textContent='3.26.54・測試服｜首頁文字對比修復';
+   
    const meta=document.querySelector('meta[name="x-test-build"]');
-   if(meta)meta.content='3.26.54';
-   document.title='關係進行式 TEST・3.26.54-首頁文字對比修復';
+   if(meta)meta.content='3.26.56';
+   
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',apply,{once:true});else apply();
  window.addEventListener('pageshow',apply);
@@ -14530,7 +14540,7 @@ body.theme-qixi-paid #game>.top .chip{background:rgba(255,255,255,.92)!important
 
 
 <style id="v32647UnifiedThemeSystem">
-/* === 3.26.54 ONE authoritative test theme system === */
+/* === 3.26.56 ONE authoritative test theme system === */
 :root{
  --base-text:#3d3343;--base-card:#fffdfd;--base-line:#eadfee;
 }
@@ -14736,11 +14746,11 @@ html[data-test-theme="maid"] #home button.primary{color:#fff!important}
      if(m==='default')body.classList.remove('theme-maid-cafe','maid-cafe-preview','theme-qixi-paid');
    }
    document.querySelectorAll('[data-theme-mode32647]').forEach(b=>b.classList.toggle('on',b.dataset.themeMode32647===m));
-   document.querySelectorAll('.testServerRibbon').forEach(x=>x.textContent='🧪 TEST・3.26.54-beta');
+   
    const hv=document.querySelector('.homeVersion');
-   if(hv)hv.textContent='3.26.54・測試服｜外觀切換真正修復';
-   const meta=document.querySelector('meta[name="x-test-build"]');if(meta)meta.content='3.26.54';
-   document.title='關係進行式 TEST・3.26.54-外觀切換真正修復';
+   
+   
+   
  }
  function setMode(m){
    if(!LABEL[m])return;
@@ -14780,12 +14790,12 @@ html[data-test-theme="maid"] #home button.primary{color:#fff!important}
  window.addEventListener('pageshow',()=>{install();applyMode()});
 
  /* Authoritative owner: legacy scripts may still touch classes, but this immediately restores the selected test theme. */
- /* 3.26.54: removed continuous theme polling for Android stability */
+ /* 3.26.56: removed continuous theme polling for Android stability */
 })();
 </script>
 
 
-<!-- === 3.26.54 embedded maid CG + authoritative story image switch === -->
+<!-- === 3.26.56 embedded maid CG + authoritative story image switch === -->
 <style id="v32650ExternalMaidStoryCGStyle">
 #npcStoryPlayer.maidCafeSpecialStory .npcStoryPortraitWrap{
   background:#24151c!important;
@@ -15003,17 +15013,15 @@ html[data-test-theme="maid"] #home button.primary{color:#fff!important}
  },true);
 
  function version(){
-   document.querySelectorAll('.testServerRibbon').forEach(
-     x=>x.textContent='🧪 TEST・3.26.54-beta'
-   );
+   
 
    const hv=document.querySelector('.homeVersion');
-   if(hv) hv.textContent='3.26.54・測試服｜女僕劇情CG外部素材版';
+   
 
    const meta=document.querySelector('meta[name="x-test-build"]');
-   if(meta) meta.content='3.26.54';
+   if(meta) meta.content='3.26.56';
 
-   document.title='關係進行式 TEST・3.26.54-女僕劇情CG外部素材版';
+   
  }
 
  if(document.readyState==='loading'){
@@ -15264,7 +15272,7 @@ html[data-test-theme="maid"] #home button.primary{color:#fff!important}
    });
  }
 
- /* 3.26.54: backpack labels refresh only when the bag is opened */
+ /* 3.26.56: backpack labels refresh only when the bag is opened */
 
  /* ---------- 外觀頁：直接三種主題測試 ---------- */
  function currentTheme(){
@@ -15335,7 +15343,7 @@ html[data-test-theme="maid"] #home button.primary{color:#fff!important}
    });
  }
 
- /* 3.26.54: NPC detail replay button isolation is refreshed only on open */
+ /* 3.26.56: NPC detail replay button isolation is refreshed only on open */
 
  document.addEventListener('click',e=>{
    const coffee=e.target.closest?.('[data-buy-coffee-32653]');
@@ -15389,12 +15397,12 @@ html[data-test-theme="maid"] #home button.primary{color:#fff!important}
  },true);
 
  function version(){
-   document.querySelectorAll('.testServerRibbon').forEach(x=>x.textContent='🧪 TEST・3.26.54-beta');
+   
    const hv=document.querySelector('.homeVersion');
-   if(hv)hv.textContent='3.26.54・測試服｜錄影錯誤集中修復';
+   
    const meta=document.querySelector('meta[name="x-test-build"]');
-   if(meta)meta.content='3.26.54';
-   document.title='關係進行式 TEST・3.26.54-錄影錯誤集中修復';
+   if(meta)meta.content='3.26.56';
+   
  }
 
  function boot(){
@@ -15434,7 +15442,7 @@ html[data-test-theme="maid"] #home button.primary{color:#fff!important}
      if(typeof fixBagLabels==='function')fixBagLabels();
      if(typeof isolateMaidReplayButton==='function')isolateMaidReplayButton();
    }catch(e){
-     console.warn('3.26.54 one-shot UI refresh',e);
+     console.warn('3.26.56 one-shot UI refresh',e);
    }finally{
      setTimeout(()=>{busy=false},80);
    }
@@ -15451,12 +15459,12 @@ html[data-test-theme="maid"] #home button.primary{color:#fff!important}
  },true);
 
  function version(){
-   document.querySelectorAll('.testServerRibbon').forEach(x=>x.textContent='🧪 TEST・3.26.54-beta');
+   
    const hv=document.querySelector('.homeVersion');
-   if(hv)hv.textContent='3.26.54・測試服｜Android角色進入穩定修復';
+   
    const meta=document.querySelector('meta[name="x-test-build"]');
-   if(meta)meta.content='3.26.54';
-   document.title='關係進行式 TEST・3.26.54-Android角色進入穩定修復';
+   if(meta)meta.content='3.26.56';
+   
  }
 
  function boot(){
@@ -15476,5 +15484,117 @@ html[data-test-theme="maid"] #home button.primary{color:#fff!important}
    boot();
  }
  window.addEventListener('pageshow',version);
+})();
+</script>
+
+
+<style id="v32655ThemeSwitchFinal">
+#themeQuick32655{
+ position:fixed!important;
+ z-index:13000!important;
+ left:50%!important;
+ transform:translateX(-50%)!important;
+ bottom:calc(14px + env(safe-area-inset-bottom))!important;
+ display:grid!important;
+ grid-template-columns:repeat(3,1fr)!important;
+ gap:5px!important;
+ width:min(calc(100% - 120px),340px)!important;
+ padding:6px!important;
+ border-radius:16px!important;
+ background:rgba(43,31,39,.92)!important;
+ box-shadow:0 8px 24px #0005!important;
+ backdrop-filter:blur(8px)!important;
+}
+#themeQuick32655 button{
+ min-height:36px!important;
+ padding:5px 4px!important;
+ border-radius:11px!important;
+ border:1px solid #ffffff30!important;
+ background:#fff7fa!important;
+ color:#5a3a46!important;
+ font-size:11px!important;
+ font-weight:800!important;
+}
+#themeQuick32655 button.on{
+ background:linear-gradient(135deg,#a85f7a,#744254)!important;
+ color:#fff!important;
+ outline:2px solid #f6d7e2!important;
+}
+#appearanceTestPanel32653{display:none!important}
+</style>
+
+
+
+<script id="v32656PersistentThemeOwner">
+(function(){
+ const KEY='role_life_test_theme_preview_v32655';
+ const VERSION='3.26.56';
+ let selected=localStorage.getItem(KEY)||'maid';
+ let applying=false;
+
+ function apply(mode){
+   if(!['default','qixi','maid'].includes(mode)) mode='maid';
+   selected=mode;
+   localStorage.setItem(KEY,mode);
+   if(applying)return;
+   applying=true;
+   try{
+     const html=document.documentElement, body=document.body;
+     html.dataset.testTheme=mode;
+     html.dataset.theme=mode==='maid'?'maid-cafe':mode==='qixi'?'qixi':'default';
+     if(body){
+       body.dataset.theme=html.dataset.theme;
+       body.classList.toggle('theme-maid-cafe',mode==='maid');
+       body.classList.toggle('maid-cafe-preview',mode==='maid');
+       body.classList.toggle('theme-qixi-paid',mode==='qixi');
+     }
+     document.querySelectorAll('[data-theme32655]').forEach(b=>b.classList.toggle('on',b.dataset.theme32655===mode));
+   } finally { applying=false; }
+ }
+ window.applyTestTheme32655=apply;
+ window.applyTestTheme32656=apply;
+
+ function install(){
+   if(!document.body)return;
+   let bar=document.getElementById('themeQuick32655');
+   if(!bar){
+     bar=document.createElement('div');
+     bar.id='themeQuick32655';
+     bar.innerHTML='<button type="button" data-theme32655="default">原版</button><button type="button" data-theme32655="qixi">🌌 星河</button><button type="button" data-theme32655="maid">☕ 女僕</button>';
+     document.body.appendChild(bar);
+   }
+ }
+ function version(){
+   document.querySelectorAll('.testServerRibbon').forEach(x=>x.textContent='🧪 TEST・'+VERSION+'-beta');
+   const hv=document.querySelector('.homeVersion');
+   if(hv)hv.textContent=VERSION+'・測試服｜外觀持續鎖定';
+   document.title='關係進行式 TEST・'+VERSION+'-外觀持續鎖定';
+ }
+ document.addEventListener('click',e=>{
+   const b=e.target.closest?.('[data-theme32655]');
+   if(!b)return;
+   e.preventDefault(); e.stopImmediatePropagation();
+   apply(b.dataset.theme32655); version();
+ },true);
+
+ function restore(){ install(); apply(selected); version(); }
+ if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',restore,{once:true});
+ else restore();
+
+ // Restore after page/modal rerenders, but only when the chosen theme was actually removed.
+ const obs=new MutationObserver(()=>{
+   if(applying || !document.body)return;
+   const wanted=selected;
+   const wrong =
+     (wanted==='maid' && !document.body.classList.contains('theme-maid-cafe')) ||
+     (wanted==='qixi' && !document.body.classList.contains('theme-qixi-paid')) ||
+     (document.documentElement.dataset.testTheme!==wanted);
+   if(wrong) apply(wanted);
+   install(); version();
+ });
+ obs.observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['class','data-theme','data-test-theme']});
+
+ window.addEventListener('pageshow',restore);
+ document.addEventListener('visibilitychange',()=>{if(!document.hidden)restore()});
 })();
 </script>
