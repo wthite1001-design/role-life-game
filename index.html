@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#9a76c4" name="theme-color"/>
-<title>關係進行式・3.30.6</title>
+<title>關係進行式・3.30.8</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -1627,7 +1627,7 @@ html[data-formal-theme="maidCafe"] button.primary{background:linear-gradient(135
 <div class="homeLogo">💞</div>
 <h1>關係進行式</h1>
 <div class="homeTagline">每一段關係，都還在進行中。</div>
-<div class="homeVersion">第3.30.6版・完整功能＋即時圖片</div>
+<div class="homeVersion">第3.30.8版・第七階與成就提示修正</div>
 </div>
 <div id="playerAccountHomePanel" class="homePanel accountHomePanel">
 <div class="homePanelTitle"><span>☁️ 玩家帳號</span><span id="playerAccountChip" class="chip">未登入</span></div>
@@ -5096,10 +5096,11 @@ function renderBond(code){
   let stages=relationStages[rr?.relation]||["第1階","第2階","第3階","第4階","第5階","第6階"];
   let title=document.getElementById("bondTitle"),value=document.getElementById("bondValue"),fill=document.getElementById("bondFill"),stage=document.getElementById("bondStage");
   if(!title)return;
-  title.textContent=b.broken?`🌟 頂級羈絆・${b.topTitle}`:`💗 共同羈絆 Lv.${b.lv}${b.max?" MAX":""}`;
-  value.textContent=b.broken?"突破完成":(b.max?"MAX":`${b.into} / 20`);
+  title.textContent=b.broken?`💗 共同羈絆 Lv.30 MAX`:`💗 共同羈絆 Lv.${b.lv}${b.max?" MAX":""}`;
+  value.textContent=b.broken?"MAX":(b.max?"MAX":`${b.into} / 20`);
   fill.style.width=(b.max?100:b.into/20*100)+"%";
-  stage.textContent=b.broken?`✨ ${relationLabel(rr?.relation)}的最終階段已開啟`:`第 ${b.stage+1} 階・${stages[b.stage]}`;
+  const topName=b.topTitle||topRelations[rr?.relation]?.title||"超越界限";
+  stage.textContent=b.broken?`🏆 第 7 階・${topName}`:`第 ${b.stage+1} 階・${stages[b.stage]}`;
 }
 function interactionStory(rel,label,name){
   const pools={
@@ -6136,13 +6137,24 @@ const specialShop=[
   {id:"picnic",n:"🧺 野餐籃",p:110,type:"special",story:"午後的小旅行"},
   {id:"flowers",n:"💐 小花束",p:75,type:"special",story:"午後的小旅行"}
 ];
+
+/* 3.30.8：第 7 階專屬名稱＋頂級突破共用定義 */
+const topRelations={
+  lover:{title:"此生唯一",ach:"top_lover",badge:"badge_lover"},
+  bestfriend:{title:"此生知己",ach:"top_friend",badge:"badge_friend"},
+  family:{title:"血脈之外",ach:"top_family",badge:"badge_family"},
+  partner:{title:"生死與共",ach:"top_partner",badge:"badge_partner"},
+  rival:{title:"命定之敵",ach:"top_rival",badge:"badge_rival"},
+  enemy:{title:"至死方休",ach:"top_enemy",badge:"badge_enemy"}
+};
+
 const breakthroughShop=[
   {id:"break_lover",n:"💍 誓約指環",p:520,type:"breakthrough",rel:"lover",topTitle:"此生唯一"},
-  {id:"break_bestfriend",n:"🌟 星光信物",p:480,type:"breakthrough",rel:"bestfriend",topTitle:"一生的知己"},
-  {id:"break_family",n:"🏡 家之鑰",p:480,type:"breakthrough",rel:"family",topTitle:"永遠的歸處"},
-  {id:"break_partner",n:"🛡️ 共誓徽記",p:500,type:"breakthrough",rel:"partner",topTitle:"最強搭檔"},
-  {id:"break_rival",n:"⚡ 決勝徽章",p:500,type:"breakthrough",rel:"rival",topTitle:"唯一的對手"},
-  {id:"break_enemy",n:"⛓️ 斷不了的鎖鏈",p:500,type:"breakthrough",rel:"enemy",topTitle:"不解之緣"}
+  {id:"break_bestfriend",n:"🌟 星光信物",p:480,type:"breakthrough",rel:"bestfriend",topTitle:"此生知己"},
+  {id:"break_family",n:"🏡 家之鑰",p:480,type:"breakthrough",rel:"family",topTitle:"血脈之外"},
+  {id:"break_partner",n:"🛡️ 共誓徽記",p:500,type:"breakthrough",rel:"partner",topTitle:"生死與共"},
+  {id:"break_rival",n:"⚡ 決勝徽章",p:500,type:"breakthrough",rel:"rival",topTitle:"命定之敵"},
+  {id:"break_enemy",n:"⛓️ 斷不了的鎖鏈",p:500,type:"breakthrough",rel:"enemy",topTitle:"至死方休"}
 ];
 const protoShop=[...standardShop,...affectionGiftShop,...specialShop,...breakthroughShop];
 
@@ -6214,7 +6226,14 @@ function shopItemsToday(){
  return arr;
 }
 function isSpecialSoldOut(c,item){
-  return item?.type==="special"&&(c?.inventory?.[item.id]||0)>0;
+  if(item?.type==="special")return (c?.inventory?.[item.id]||0)>0;
+  if(item?.type==="breakthrough"){
+    const owned=(c?.inventory?.[item.id]||0)>0;
+    const rr=relationshipSummaries?.[activeRoomCode],b=bondCache?.[activeRoomCode];
+    const alreadyBroken=!!(rr&&rr.relation===item.rel&&b?.broken);
+    return owned||alreadyBroken;
+  }
+  return false;
 }
 
 const protoAch=[["start","🌱 冒險的開始","開始角色生活","角色"],["week","🌙 七日物語","生活滿 7 天","生活"],["month","📅 一個月的生活","生活滿 30 天","生活"],["shop","🛍️ 購物初體驗","第一次購物","收藏"],["shop5","🎁 小小收藏家","累積購物 5 次","收藏"],["memory10","📖 回憶收藏冊","留下 10 段回憶","收藏"],["read","？？？","隱藏成就","隱藏"],["picnic","？？？","隱藏成就","隱藏"],["secret","？？？","隱藏成就","隱藏"],["solo","？？？","隱藏成就","隱藏"],["break","？？？","羈絆突破隱藏成就","隱藏"],["newyear","🧧 新年的第一頁","元旦期間可刷出","節日"],["qixi","🌌 今夜星河","七夕期間可刷出","節日"],["xmas","🎄 冬夜的禮物","聖誕期間可刷出","節日"],["relation","🤝","命運的相遇","第一次建立任意關係","關係"],["rel3types","🌈","關係多彩","同時擁有 3 種不同關係","關係"],["rel5types","🧩","各有位置","同時擁有 5 種不同關係","關係"],["rel6types","🌟","六種羈絆","六種關係類型全部建立","關係"],["lover","💕","心之所向","第一次建立戀人關係","關係"],["friend","🫂","摯友一生","第一次建立摯友關係","關係"],["family","🏠","家的方向","第一次建立家人關係","關係"],["partner","⚔️","並肩而行","第一次建立搭檔關係","關係"],["rival","🔥","命中宿敵","第一次建立宿敵關係","關係"],["enemy","💢","狹路相逢","第一次建立仇敵關係","關係"],["msg1","💬","第一句話","第一次傳送關係聊天訊息","關係"],["msg10","✉️","聊得來","累積傳送 10 則訊息","關係"],["msg50","💌","有好多話想說","累積傳送 50 則訊息","關係"],["interact1","💞","第一次靠近","第一次進行關係互動","關係"],["interact10","🌷","更加熟悉","累積關係互動 10 次","關係"],["interact50","🌹","已成習慣","累積關係互動 50 次","關係"],["outingTogether","🧋","一起出去吧","第一次完成共同外出","關係"],["outing5","🎡","好多共同足跡","累積完成 5 次共同外出","關係"],["game1","🎮","一起玩吧","第一次完成雙人小遊戲","關係"],["sync3","💫","心有靈犀","小遊戲連續 3 次默契成功","關係"],["gift1","🎁","一點心意","第一次送禮給關係角色","關係"],["gift10","🎀","總想送你東西","累積送禮 10 次","關係"],["bond5","💗","開始熟悉","任一關係羈絆達 Lv.5","關係"],["bond10","💖","更加靠近","任一關係羈絆達 Lv.10","關係"],["bond15","💓","默契漸深","任一關係羈絆達 Lv.15","關係"],["bond20","💞","彼此重要","任一關係羈絆達 Lv.20","關係"],["bond25","💘","無可忽視","任一關係羈絆達 Lv.25","關係"],["bond6","💎","一路走到這裡","任一關係抵達第六階","關係"],["bondmax","✨","滿溢的羈絆","任一關係羈絆達 Lv.30 MAX","關係"],["lover_stage3","🌸","習慣你的存在","戀人關係進入第三階段","關係"],["lover_stage6","💍","無可取代","戀人關係進入第六階段","關係"],["friend_stage3","🍬","聊不完的日常","摯友關係進入第三階段","關係"],["friend_stage6","🌟","靈魂摯友","摯友關係進入第六階段","關係"],["family_stage3","🍲","互相照顧","家人關係進入第三階段","關係"],["family_stage6","🏡","永遠的歸處","家人關係進入第六階段","關係"],["partner_stage3","🛡️","默契搭檔","搭檔關係進入第三階段","關係"],["partner_stage6","⚔️","最強搭檔","搭檔關係進入第六階段","關係"],["rival_stage3","🥊","真正的對手","宿敵關係進入第三階段","關係"],["rival_stage6","🔥","命定對手","宿敵關係進入第六階段","關係"],["enemy_stage3","⚡","水火不容","仇敵關係進入第三階段","關係"],["enemy_stage6","🩸","宿命之敵","仇敵關係進入第六階段","關係"],["daily1","☀️ 今日的小事","完成一次每日任務組","生活"],["daily10","✅ 日常達人","完成 10 次每日任務組","生活"],["work1","💼 第一天上班","完成第一次打工","生活"],["work10","🧾 熟練打工人","累積打工 10 次","生活"],["earn1000","💰 自己賺的錢","打工累積收入 1000 金幣","收藏"],
@@ -6446,12 +6465,12 @@ function allBadgeDefs(){
   return Object.assign({},badgeDefs,launchEventBadgeDefs,gmBadgeDefs);
 }
 const badgeDefs={
- badge_lover:{icon:"💍",name:"此生唯一",desc:"戀人頂級突破"},
- badge_friend:{icon:"🌟",name:"一生的知己",desc:"摯友頂級突破"},
- badge_family:{icon:"🏡",name:"家的方向",desc:"家人頂級突破"},
- badge_partner:{icon:"🛡️",name:"將背後交給你",desc:"搭檔頂級突破"},
- badge_rival:{icon:"⚡",name:"唯一的對手",desc:"宿敵頂級突破"},
- badge_enemy:{icon:"⛓️",name:"不解之緣",desc:"仇敵頂級突破"},
+ badge_lover:{icon:"💍",name:"此生唯一",desc:"戀人第 7 階突破"},
+ badge_friend:{icon:"🌟",name:"此生知己",desc:"摯友第 7 階突破"},
+ badge_family:{icon:"🏡",name:"血脈之外",desc:"家人第 7 階突破"},
+ badge_partner:{icon:"🛡️",name:"生死與共",desc:"搭檔第 7 階突破"},
+ badge_rival:{icon:"⚡",name:"命定之敵",desc:"宿敵第 7 階突破"},
+ badge_enemy:{icon:"⛓️",name:"至死方休",desc:"仇敵第 7 階突破"},
  badge_all:{icon:"🏆",name:"關係的盡頭",desc:"完成六種頂級關係"}
 };
 function ensureBadges(){
@@ -6840,6 +6859,7 @@ function reconcileAchievements(c){
  let _hasTopAch=_topDefs.some(t=>t?.ach&&!!c.achievements?.[t.ach]);
  let _hasTopBadge=_topDefs.some(t=>t?.badge&&!!local.sharedBadges?.[t.badge]);
  if(_hasBroken||_hasTopAch||_hasTopBadge)c.achievements.break=1;
+ try{if(local.sharedAchievementNoticeReady)notifyNewAchievements(c)}catch(_){}
 }
 
 
@@ -7060,7 +7080,7 @@ function openItem(i,mode){
  ${affinityGift?`<p>🎁 好感禮物。成功送給關係人後，共同羈絆 <b>+${Number(i.affinity||1)}</b>。自己不能使用。</p>`:""}
  ${special?`<p>✨ 特殊收藏品。可能與「${i.story}」的劇情有關；不會被普通使用消耗。</p>`:""}
  ${breakthrough?`<p>🌟 頂級突破道具：用於「${relationLabel(i.rel)}」Lv.30 MAX，突破後成為「${i.topTitle}」。雙方只需其中一人使用。</p>`:""}`;
- let soldOut=mode==="shop"&&special&&owned>0;
+ let soldOut=mode==="shop"&&((special&&owned>0)||(breakthrough&&(owned>0||bondCache?.[activeRoomCode]?.broken)));
  let label=soldOut?"售罄":mode==="shop"?"購買":special?"🔎 查看／研究":breakthrough?"🌟 使用突破道具":"使用";
  itemActions.innerHTML=`<button class="primary" id="itemDo" ${soldOut?"disabled":""}>${label}</button>`;
  itemModal.classList.remove("hidden");
@@ -7069,6 +7089,11 @@ function openItem(i,mode){
   if(mode==="shop"){
    if(i.type==="special"&&(c.inventory?.[i.id]||0)>0){
      itemBody.innerHTML=`<div class="small">持有：1</div><p>🚫 這件特殊收藏品已經購買過，現在是售罄狀態。</p>`;
+     itemActions.innerHTML=`<button disabled>售罄</button>`;
+     return;
+   }
+   if(i.type==="breakthrough"&&((c.inventory?.[i.id]||0)>0||bondCache?.[activeRoomCode]?.broken)){
+     itemBody.innerHTML=`<div class="small">持有：${Number(c.inventory?.[i.id]||0)}</div><p>🚫 這件突破道具已購買或目前關係已完成突破，為避免誤買已標記售罄。</p>`;
      itemActions.innerHTML=`<button disabled>售罄</button>`;
      return;
    }
@@ -7094,19 +7119,55 @@ function openItem(i,mode){
     if(b?.broken)return toast("這段關係已經完成頂級突破。");
     if(!confirm(`要消耗「${i.n}」讓這段關係突破成「${i.topTitle}」嗎？\n\n只需要其中一位玩家使用，雙方都會同步完成突破。`))return;
     (async()=>{
+      let posted=false;
+      const relationTop=topRelations[i.rel];
+      const topTitle=relationTop?.title||i.topTitle||"超越界限";
       try{
         await api("/interactions",{method:"POST",body:JSON.stringify({
           room_code:room.code,from_char:c.id,to_char:room.host_char===c.id?room.guest_char:room.host_char,
-          text:`RELATION_BREAK|${i.rel}|${i.topTitle}`
+          text:`RELATION_BREAK|${i.rel}|${topTitle}`
         })});
-        c.inventory[i.id]--;c.achievements.break=1;c.achievements[topRelations[i.rel].ach]=1;unlockBadge(topRelations[i.rel].badge);checkTopAll(c);
-        addMemory(c,`🌟 頂級突破・${i.topTitle}`,`與${partner?.name||"對方"}的${relationLabel(i.rel)}關係抵達最終階段。`);
-        logJournal(c,`與${partner?.name||"對方"}完成頂級突破「${i.topTitle}」`,"🌟");
-        saveLocal();itemModal.classList.add("hidden");await refreshBond(room.code);safeRenderGame();
+        posted=true;
+
+        /* 雲端紀錄成功後，後面的本機 UI/成就同步即使有問題，也不能再誤報「突破失敗」。 */
+        try{
+          c.inventory[i.id]=Math.max(0,Number(c.inventory[i.id]||0)-1);
+          ensureSharedAchievements();
+          c.achievements=local.sharedAchievements;
+          c.achievements.break=1;
+          if(relationTop?.ach)c.achievements[relationTop.ach]=1;
+          if(relationTop?.badge)unlockBadge(relationTop.badge);
+          checkTopAll(c);
+          addMemory(c,`🌟 第 7 階・${topTitle}`,`與${partner?.name||"對方"}的${relationLabel(i.rel)}關係突破至第 7 階。`);
+          logJournal(c,`與${partner?.name||"對方"}突破至第 7 階「${topTitle}」`,"🌟");
+          saveLocal();
+        }catch(localErr){console.warn("突破後本機同步",localErr)}
+
+        itemModal.classList.add("hidden");
+
+        /* 先直接把目前快取標成成功，畫面即時變第 7 階，不等網路再抓一次。 */
+        try{
+          const live=bondCache?.[room.code]||{};
+          live.broken=true;live.max=true;live.lv=30;live.topTitle=topTitle;
+          bondCache[room.code]=live;
+          renderBond(room.code);
+          renderShop(c);
+        }catch(uiErr){console.warn("突破即時畫面",uiErr)}
+
+        /* 背景驗證雲端狀態；失敗不影響已成功的結果。 */
+        Promise.resolve(refreshBond(room.code)).then(()=>safeRenderGame()).catch(e=>console.warn("突破後重新同步",e));
+
         infoTitle.textContent="🌟 頂級關係突破！";
-        infoBody.innerHTML=`與 <b>${esc(partner?.name||"對方")}</b> 的關係突破為<br><h2>${esc(i.topTitle)}</h2><div class="small">雙方共享突破結果，並已解鎖頂級專屬互動。</div>`;
+        infoBody.innerHTML=`與 <b>${esc(partner?.name||"對方")}</b> 的${esc(relationLabel(i.rel))}關係已突破至<br><h2>🏆 第 7 階・${esc(topTitle)}</h2><div class="small">雙方共享突破結果，頂級專屬互動已解鎖。</div>`;
         infoModal.classList.remove("hidden");
-      }catch(err){toast("頂級突破失敗："+(err?.message||"請稍後再試"))}
+      }catch(err){
+        if(posted){
+          console.warn("突破已成功，但後續處理發生錯誤",err);
+          toast("🌟 突破已成功，資料正在背景同步。",3200);
+        }else{
+          toast("頂級突破失敗："+(err?.message||"請稍後再試"));
+        }
+      }
     })();
     return;
   }
@@ -10105,8 +10166,27 @@ function npcRenderShop(st){
   ];
   if(st.loyalty>=10)items.push({id:"npc_regular_box",name:"🎁 熟客小盒",desc:"可開啟・紙條機率較高，且已讀紙條不重複；其餘皆為有價值的一般獎勵。",price:220,secret:true});
   if(st.loyalty>=30)items.push({id:"npc_under_counter",name:"🔐 櫃檯下的黑盒",desc:"一次性隱藏收藏・用途？？？",price:666,secret:true});
-  return `<div class="small" style="margin-bottom:8px">每買 1 件商品熟客度 +1；每累積購買 5 件，貓貓好感額外 +1。</div>`+
+  let html=`<div class="small" style="margin-bottom:8px">每買 1 件商品熟客度 +1；每累積購買 5 件，貓貓好感額外 +1。</div>`+
     items.map(x=>`<div class="npcShopItem"><div><b>${x.name} ${x.secret?'<span class="npcSecretTag">隱藏</span>':""}</b><div class="small">${x.desc}</div></div><button data-npc-buy="${x.id}">🪙${x.price}</button></div>`).join("");
+
+  /* 3.30.7：女僕主題兌換直接屬於貓貓商店，不再靠 DOM 延遲掛載。 */
+  const c=typeof cur==="function"?cur():null;
+  if(c){
+    c.inventory=c.inventory&&typeof c.inventory==="object"?c.inventory:{};
+    c.paidCosmetics=c.paidCosmetics&&typeof c.paidCosmetics==="object"?c.paidCosmetics:{};
+    const voucher=Number(c.inventory.npc_maid_cafe_coffee_voucher||0);
+    const owned=!!c.paidCosmetics.maidCafe;
+    html+=`<div class="formalMaidRedeem" id="formalMaidRedeemBox">
+      <div>
+        <b>☕ 請店長喝咖啡券 → 女僕咖啡廳主題</b>
+        <div class="small">持有：${voucher} 張。使用 1 張可永久解鎖女僕咖啡廳主題，並播放限定特殊劇情。</div>
+      </div>
+      <button type="button" data-formal-redeem-maid ${owned||voucher<=0?"disabled":""}>
+        ${owned?"✓ 已解鎖":voucher>0?"使用咖啡券 ×1":"🔒 尚無咖啡券"}
+      </button>
+    </div>`;
+  }
+  return html;
 }
 function npcRenderRumor(st){
   const rumors=[
@@ -13987,7 +14067,7 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
     <div class="formalAppearanceGrid" id="formalAppearanceGrid"></div>
   </div>
 
-<script id="formal3306DeferredUiMount">
+<script id="formal3307DeferredUiMount">
 (function(){
   function mount(){
     /* 外觀切換入口 */
@@ -14016,24 +14096,10 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
     }
   }
 
-  function mountRedeem(){
-    const x=typeof cur==='function'?cur():null;
-    const box=document.querySelector('#npcShopList,.npcShopList,#npcShopPanel .npcShopList');
-    if(!x||!box)return;
-    x.inventory??={};x.paidCosmetics??={};
-    let d=document.getElementById('formalMaidRedeemBox');
-    if(d)d.remove();
-    const voucher=Number(x.inventory.npc_maid_cafe_coffee_voucher||0);
-    const owned=!!x.paidCosmetics.maidCafe;
-    d=document.createElement('div');d.id='formalMaidRedeemBox';d.className='formalMaidRedeem';
-    d.innerHTML=`<div><b>☕ 請店長喝咖啡券 → 女僕咖啡廳主題</b><div class="small">持有：${voucher} 張。使用 1 張可永久解鎖女僕咖啡廳主題並播放限定劇情。</div></div><button type="button" data-formal-redeem-maid ${owned||voucher<=0?'disabled':''}>${owned?'✓ 已解鎖':voucher>0?'使用咖啡券 ×1':'🔒 尚無咖啡券'}</button>`;
-    box.appendChild(d);
-  }
 
   const run=()=>{
     mount();
-    const idle=()=>mountRedeem();
-    if('requestIdleCallback' in window)requestIdleCallback(idle,{timeout:1600});else setTimeout(idle,600);
+
   };
 
   if(document.readyState==='loading'){
@@ -14053,18 +14119,15 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
         void window.renderFormalPaidShop?.();
       }
     }
-    if(e.target.closest?.('[data-nav="npcShop"],[data-open-npc-shop],#npcShopBtn')){
-      setTimeout(mountRedeem,40);
-    }
+
   },true);
 
-  window.formalMountMaidRedeem=mountRedeem;
 })();
 </script>
 
 <script id="formal3298MaidCommerce">
 (function(){
- const BUILD='3.30.6';
+ const BUILD='3.30.8';
  const THEME_KEY='role_life_formal_theme_v1';
  const VOUCHER='npc_maid_cafe_coffee_voucher';
 
@@ -14275,7 +14338,7 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 })();
 </script>
 
-<script id="formal3306InstantAssetRuntime">
+<script id="formal3308InstantAssetRuntime">
 (function(){
  const CACHE='relationship-game-formal-critical-v1';
  const CRITICAL=[
@@ -14331,15 +14394,61 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 </script>
 
 
-<script id="formal3306VersionGuard">
+<script id="formal3308VersionGuard">
 (function(){
  function apply(){
-  document.querySelectorAll('.homeVersion').forEach(x=>x.textContent='第3.30.6版・完整功能＋即時圖片');
-  document.querySelectorAll('.chip').forEach(x=>{if(/^第?3\.\d+(?:\.\d+)?版?$/.test((x.textContent||'').trim()))x.textContent='第3.30.6版'});
-  document.title='關係進行式・3.30.6';
+  document.querySelectorAll('.homeVersion').forEach(x=>x.textContent='第3.30.8版・第七階與成就提示修正');
+  document.querySelectorAll('.chip').forEach(x=>{if(/^第?3\.\d+(?:\.\d+)?版?$/.test((x.textContent||'').trim()))x.textContent='第3.30.8版'});
+  document.title='關係進行式・3.30.8';
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',apply,{once:true});else apply();
  window.addEventListener('pageshow',apply);
+})();
+</script>
+
+
+<script id="formal3308AchievementPopupGuard">
+(function(){
+  let sweeping=false;
+
+  function sweep(){
+    if(sweeping)return;
+    if(!window.local?.sharedAchievementNoticeReady)return;
+    if(typeof notifyNewAchievements!=="function")return;
+    const c=typeof cur==="function"?cur():null;
+    if(!c)return;
+    sweeping=true;
+    try{notifyNewAchievements(c)}
+    catch(e){console.warn("achievement popup sweep",e)}
+    finally{sweeping=false}
+  }
+
+  /* 很多成就是在功能內直接設值後 saveLocal；統一在存檔後補掃，
+     避免「已達成但沒有跳成就解鎖」。 */
+  const oldSave=window.saveLocal;
+  if(typeof oldSave==="function"&&!oldSave.__achievementPopup3308){
+    const wrapped=function(){
+      const r=oldSave.apply(this,arguments);
+      queueMicrotask(sweep);
+      return r;
+    };
+    wrapped.__achievementPopup3308=true;
+    window.saveLocal=wrapped;
+  }
+
+  /* 某些流程只刷新成就頁，也補一次掃描。 */
+  const oldRender=window.renderAchievements;
+  if(typeof oldRender==="function"&&!oldRender.__achievementPopup3308){
+    const wrapped=function(){
+      const r=oldRender.apply(this,arguments);
+      queueMicrotask(sweep);
+      return r;
+    };
+    wrapped.__achievementPopup3308=true;
+    window.renderAchievements=wrapped;
+  }
+
+  window.formalSweepAchievementPopups=sweep;
 })();
 </script>
 
