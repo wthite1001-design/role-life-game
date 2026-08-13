@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#9a76c4">
-<meta name="x-test-build" content="3.26.41">
+<meta name="x-test-build" content="3.26.42">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>關係進行式 TEST・3.26.41-女僕咖啡廳全介面主題化</title>
+<title>關係進行式 TEST・3.26.42-NPC視窗與商店當機修復</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -14027,9 +14027,9 @@ input,select,textarea{background:#fffdfb!important;color:var(--maid-espresso)!im
  function current(){try{return typeof cur==='function'?cur():null}catch(_){return null}}
  function ensure(c){if(!c)return;c.paidOrders??=[];c.paidVoucherFlags??={};c.paidCosmetics??={};c.paidEntitlements??={}}
  function refreshVersion(){
-   document.title='關係進行式 TEST・3.26.41-女僕咖啡廳全介面主題化';
-   const hv=document.querySelector('.homeVersion');if(hv)hv.textContent='3.26.41・測試服｜女僕咖啡廳全介面主題化';
-   document.querySelectorAll('.testServerRibbon').forEach(el=>el.textContent='🧪 TEST・3.26.41-beta');
+   document.title='關係進行式 TEST・3.26.42-NPC視窗與商店當機修復';
+   const hv=document.querySelector('.homeVersion');if(hv)hv.textContent='3.26.42・測試服｜NPC視窗與商店當機修復';
+   document.querySelectorAll('.testServerRibbon').forEach(el=>el.textContent='🧪 TEST・3.26.42-beta');
    const m=document.querySelector('meta[name="x-test-build"]');if(m)m.content=BUILD;
  }
  function forceMaidLook(){
@@ -14059,7 +14059,7 @@ input,select,textarea{background:#fffdfb!important;color:var(--maid-espresso)!im
    });
  }
  function refresh(){refreshVersion();forceMaidLook();rewritePaidCards();rewriteNpcRedeem()}
- const mo=new MutationObserver(()=>{rewritePaidCards();rewriteNpcRedeem();forceMaidLook()});
+ const mo={observe(){},disconnect(){}}; /* 3.26.42: disabled recursive DOM observer; it could freeze shop clicks */
  document.addEventListener('DOMContentLoaded',()=>{refresh();mo.observe(document.body,{childList:true,subtree:true})},{once:true});
  if(document.readyState!=='loading'){refresh();mo.observe(document.body,{childList:true,subtree:true})}
  setTimeout(refresh,100);setTimeout(refresh,700);setTimeout(refresh,1800);
@@ -14669,5 +14669,256 @@ body.theme-qixi-paid #game>.top .chip{background:rgba(255,255,255,.92)!important
  new MutationObserver(translate).observe(el,{childList:true,subtree:true,characterData:true});translate();
  const btn=document.getElementById('playerRegisterSubmit');
  btn?.addEventListener('click',()=>{if(btn.dataset.cooling==='1')return;btn.dataset.cooling='1';setTimeout(()=>{delete btn.dataset.cooling},60000)},true);
+})();
+</script>
+
+
+<style id="v32641MaidCafeHomeFinalOverride">
+/* === 3.26.41 FINAL: home/account/admin/update/character list must also be Maid Cafe === */
+html,body,#home{
+  background:
+    radial-gradient(circle at 12% 9%,rgba(255,255,255,.22) 0 2px,transparent 3px),
+    radial-gradient(circle at 88% 18%,rgba(255,225,235,.24) 0 3px,transparent 4px),
+    linear-gradient(180deg,#5b3442 0%,#88536a 28%,#d68da5 63%,#f8dde3 100%)!important;
+  color:#4b2d34!important;
+}
+#home{
+  min-height:100dvh!important;
+  padding:18px 14px 36px!important;
+  border-radius:0!important;
+  overflow:visible!important;
+}
+#home::before{
+  content:"☕   ♡   🎀   ✦   ♡   ☕"!important;
+  position:absolute!important;inset:0!important;pointer-events:none!important;z-index:-1!important;
+  padding:18px!important;font-size:20px!important;line-height:6!important;letter-spacing:13px!important;
+  color:rgba(255,255,255,.10)!important;white-space:pre-wrap!important;
+}
+
+#home .homeHero{
+  position:relative!important;
+  background:
+    radial-gradient(circle at 18% 18%,rgba(255,255,255,.18) 0 2px,transparent 3px),
+    linear-gradient(145deg,rgba(77,44,53,.97),rgba(139,78,102,.94))!important;
+  border:1px solid rgba(255,235,242,.34)!important;
+  box-shadow:0 16px 40px rgba(55,28,37,.25),inset 0 1px 0 rgba(255,255,255,.14)!important;
+  color:#fff!important;
+  border-radius:26px!important;
+}
+#home .homeHero::before{
+  content:"☕   ♡   🎀   ♡   ☕"!important;
+  display:block!important;position:static!important;
+  font-size:15px!important;letter-spacing:12px!important;opacity:.78!important;
+  color:#ffdce8!important;margin-bottom:8px!important;
+}
+#home .homeHero::after{
+  content:"MAID CAFÉ・歡迎回來"!important;
+  display:block!important;margin-top:10px!important;
+  color:#ffe5ee!important;font-size:12px!important;letter-spacing:3px!important;
+}
+#home .homeLogo{filter:drop-shadow(0 0 10px rgba(255,213,227,.65))!important}
+#home .homeHero h1{color:#fff!important;text-shadow:0 2px 14px rgba(92,39,61,.48)!important}
+#home .homeTagline{color:#fbe5ec!important}
+#home .homeVersion{
+  background:rgba(255,248,250,.11)!important;color:#fff1f5!important;
+  border:1px solid rgba(255,235,241,.35)!important;
+}
+
+#home .homePanel,#home .card,#home .save,#home .createBox,#home .homeMusic,#home .liveStat,
+#home [class*="Panel"],#home [class*="panel"]{
+  background:linear-gradient(155deg,rgba(255,251,248,.98),rgba(247,220,229,.98))!important;
+  color:#4b2d34!important;border:1px solid #e2b8c6!important;
+  box-shadow:0 12px 30px rgba(69,35,46,.14)!important;
+}
+#home .homePanelTitle,#home .saveName,#home b,#home h2,#home h3{color:#563440!important}
+#home .small,#home .muted,#home .gmStatus,#home .createHint{color:#8a6873!important}
+#home .chip,#home .badgeDisplay,#home .presencePill{
+  background:#f1ccd8!important;color:#744457!important;border:1px solid #daa6b9!important;
+}
+#home button,#home .gmGateBtn,#home .save button,#home .createBox button{
+  background:linear-gradient(135deg,#f0cbd8,#e0a7bb)!important;
+  color:#68404f!important;border:1px solid rgba(164,91,120,.16)!important;
+  box-shadow:none!important;
+}
+#home button.primary,#home .primary,#home #playerAccountOpenBtn{
+  background:linear-gradient(135deg,#b86987,#7b465a)!important;color:#fff!important;
+  border-color:transparent!important;box-shadow:0 6px 16px rgba(83,41,56,.18)!important;
+}
+#home input,#home select,#home textarea{
+  background:#fffdfb!important;color:#4b2d34!important;border-color:#ddb5c3!important;
+}
+
+/* Login/register/account modals */
+#playerAccountModal .modalBox,#playerLoginModal .modalBox,#playerRegisterModal .modalBox,
+[id*="AccountModal"] .modalBox,[id*="LoginModal"] .modalBox,[id*="RegisterModal"] .modalBox{
+  background:linear-gradient(160deg,#fffaf7,#f4d4de)!important;
+  color:#4b2d34!important;border:1px solid #dfb1c1!important;
+}
+
+/* Test ribbon + return button */
+.testServerRibbon{
+  background:linear-gradient(135deg,#8f536c,#5d3545)!important;color:#fff!important;
+  border:1px solid rgba(255,235,241,.30)!important;
+  box-shadow:0 6px 16px rgba(48,24,32,.24)!important;
+}
+.returnProdBtn,#returnProdBtn{
+  background:linear-gradient(135deg,#fffaf7,#f4d8e1)!important;color:#704052!important;
+  border:1px solid #d9a9ba!important;box-shadow:0 5px 14px rgba(58,29,39,.18)!important;
+}
+
+/* Absolutely suppress old Qixi home decorations on this test build. */
+#home .homeHero *{border-color:inherit}
+body.maid-cafe-preview #home .homeHero::after{content:"MAID CAFÉ・歡迎回來"!important}
+body.maid-cafe-preview #home .homeHero::before{content:"☕   ♡   🎀   ♡   ☕"!important}
+#home [style*="#8f73dc"],#home [style*="#c16fb4"]{background:linear-gradient(135deg,#b86987,#7b465a)!important}
+
+@media(max-width:600px){
+ #home{padding:12px 10px 30px!important}
+ #home .homeHero{padding:28px 16px 22px!important}
+ #home .homeHero::before{letter-spacing:8px!important}
+}
+</style>
+<script id="v32641MaidCafeHomeFinalScript">
+(function(){
+ function apply(){
+  document.documentElement.setAttribute('data-theme','maid-cafe');
+  document.body?.classList.add('maid-cafe-preview','theme-maid-cafe');
+  document.body?.classList.remove('theme-qixi-paid');
+  const hv=document.querySelector('#home .homeVersion');if(hv)hv.textContent='3.26.42・測試服｜NPC視窗與商店當機修復';
+  document.querySelectorAll('.testServerRibbon').forEach(x=>x.textContent='☕ TEST・3.26.42-beta');
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',apply,{once:true});else apply();
+ window.addEventListener('pageshow',apply);
+ setTimeout(apply,100);setTimeout(apply,800);
+})();
+</script>
+
+
+<style id="v32642NpcWindowsMaidFinal">
+/* === 3.26.42 FINAL: hard override every NPC/relation/invite window after old Qixi CSS === */
+body.maid-cafe-preview #extraNpcRelations.pageCard.active,
+body.theme-maid-cafe #extraNpcRelations.pageCard.active,
+html[data-theme="maid-cafe"] #extraNpcRelations.pageCard.active{
+ background:
+  radial-gradient(circle at 12% 8%,rgba(255,255,255,.32) 0 2px,transparent 3px),
+  linear-gradient(180deg,#f9e9ee 0%,#f3d7e0 42%,#edc9d6 100%)!important;
+ color:#4b2d34!important;border:0!important;box-shadow:none!important;
+}
+body.maid-cafe-preview #extraNpcRelations .sheetHead,
+body.theme-maid-cafe #extraNpcRelations .sheetHead{
+ background:linear-gradient(90deg,#57313f,#8c5269)!important;color:#fff!important;
+ border-bottom:1px solid rgba(255,255,255,.2)!important;
+}
+body.maid-cafe-preview #extraNpcRelations .sheetHead b,
+body.maid-cafe-preview #extraNpcRelations .sheetHead .small{color:#fff!important}
+body.maid-cafe-preview #extraNpcRelations .npcRelationIntro{
+ background:linear-gradient(135deg,#fffaf7,#f4d6df)!important;color:#765763!important;
+ border:1px solid #dfb5c4!important;box-shadow:0 8px 18px rgba(82,42,57,.08)!important;
+}
+body.maid-cafe-preview #extraNpcRelations .npcRelationCard{
+ background:linear-gradient(145deg,#fffdfb,#f7e0e7)!important;color:#4b2d34!important;
+ border:1px solid #dfb5c4!important;box-shadow:0 10px 24px rgba(74,38,51,.11)!important;
+}
+body.maid-cafe-preview #extraNpcRelations .npcRelationCard b{color:#563440!important}
+body.maid-cafe-preview #extraNpcRelations .npcRelationCard .small,
+body.maid-cafe-preview #extraNpcRelations .npcRelationCard .muted{color:#846671!important}
+body.maid-cafe-preview #extraNpcRelations .npcRelationStatus,
+body.maid-cafe-preview #extraNpcRelations .npcRelationActions button{
+ background:#f2ccd8!important;color:#704253!important;border-color:#d9a5b8!important;
+}
+
+/* NPC detail / relation info / debug / meet */
+body.maid-cafe-preview #npcDetailModal .npcDetailCard,
+body.maid-cafe-preview #npcDebugModal .npcDebugCard,
+body.maid-cafe-preview #npcMeetModal .modalBox,
+body.maid-cafe-preview #npcChoiceModal .modalBox,
+body.maid-cafe-preview #npcShopModal .npcShopCard,
+body.maid-cafe-preview #npcShopModal .modalBox{
+ background:linear-gradient(160deg,#fffaf7,#f4d5df)!important;color:#4b2d34!important;
+ border:1px solid #dcaebe!important;box-shadow:0 20px 60px rgba(53,26,35,.28)!important;
+}
+body.maid-cafe-preview .npcDetailHero,
+body.maid-cafe-preview .npcDetailSection,
+body.maid-cafe-preview .npcDebugStat,
+body.maid-cafe-preview .npcDialogue,
+body.maid-cafe-preview .npcStoryNode,
+body.maid-cafe-preview .npcShopItem,
+body.maid-cafe-preview .npcActionCard{
+ background:linear-gradient(145deg,#fffdfb,#f8e3ea)!important;color:#4b2d34!important;
+ border-color:#dfb7c5!important;
+}
+body.maid-cafe-preview .npcDetailSection h3,
+body.maid-cafe-preview .npcDetailHero b,
+body.maid-cafe-preview .npcDialogue b,
+body.maid-cafe-preview .npcShopItem b,
+body.maid-cafe-preview .npcActionCard b{color:#5b3544!important}
+body.maid-cafe-preview .npcShopTabs,
+body.maid-cafe-preview .npcTabs{background:#fff5f7!important;border-color:#dfb7c5!important}
+body.maid-cafe-preview .npcShopTab.active,
+body.maid-cafe-preview .npcTabs button.active{background:linear-gradient(135deg,#b76886,#754456)!important;color:#fff!important}
+body.maid-cafe-preview .npcShopItem button,
+body.maid-cafe-preview .npcActionCard,
+body.maid-cafe-preview .npcStoryCollect button{background:linear-gradient(135deg,#f2d0db,#e5afc0)!important;color:#67404f!important}
+body.maid-cafe-preview .npcShopItem button.primary,
+body.maid-cafe-preview .npcStoryCollect button:not(.locked){background:linear-gradient(135deg,#ad637f,#754456)!important;color:#fff!important}
+
+/* Generic invitation / transformation / relationship-event windows */
+body.maid-cafe-preview #gameWaitModal .modalBox,
+body.maid-cafe-preview #gameInviteModal .modalBox,
+body.maid-cafe-preview #gameModal .modalBox,
+body.maid-cafe-preview #outingChoiceModal .modalBox,
+body.maid-cafe-preview #relationTransformModal .modalBox,
+body.maid-cafe-preview #relationEventModal .modalBox,
+body.maid-cafe-preview #appearanceModal .modalBox{
+ background:linear-gradient(160deg,#fffaf7,#f4d5df)!important;color:#4b2d34!important;
+ border:1px solid #dcaebe!important;box-shadow:0 20px 60px rgba(53,26,35,.28)!important;
+}
+body.maid-cafe-preview #gameWaitModal .modalHead,
+body.maid-cafe-preview #gameInviteModal .modalHead,
+body.maid-cafe-preview #gameModal .modalHead,
+body.maid-cafe-preview #outingChoiceModal .modalHead,
+body.maid-cafe-preview #relationTransformModal .modalHead,
+body.maid-cafe-preview #relationEventModal .modalHead{color:#5b3544!important}
+body.maid-cafe-preview .modal:not(.hidden){background:rgba(53,27,36,.46)!important;backdrop-filter:blur(5px)!important}
+
+/* Remove lingering deep-purple Qixi colors inside all NPC shells. */
+body.maid-cafe-preview #extraNpcRelations [class*="Card"],
+body.maid-cafe-preview #npcShopModal [class*="Card"],
+body.maid-cafe-preview #npcMeetModal [class*="Card"],
+body.maid-cafe-preview #npcDetailModal [class*="Card"]{
+ --qixi-text:#4b2d34!important;--qixi-muted:#846671!important;--qixi-line:#dfb7c5!important;
+}
+</style>
+<script id="v32642NpcShopStability">
+(function(){
+ const BUILD='3.26.42';
+ function refreshVersion(){
+   document.title='關係進行式 TEST・3.26.42-NPC視窗與商店當機修復';
+   document.querySelectorAll('.testServerRibbon').forEach(x=>x.textContent='☕ TEST・3.26.42-beta');
+   const hv=document.querySelector('.homeVersion');if(hv)hv.textContent='3.26.42・測試服｜NPC視窗與商店當機修復';
+   const m=document.querySelector('meta[name="x-test-build"]');if(m)m.content=BUILD;
+ }
+ refreshVersion();setTimeout(refreshVersion,250);setTimeout(refreshVersion,1000);
+
+ /* Previous 3.26.41 observer rewrote shop DOM recursively and could lock Android when a product was tapped.
+    3.26.42 uses no DOM-wide MutationObserver. Refresh only at safe UI entry points. */
+ const safeRefresh=()=>{
+   try{document.body?.classList.add('maid-cafe-preview','theme-maid-cafe');document.body?.classList.remove('theme-qixi-paid')}catch(_){ }
+ };
+ document.addEventListener('click',function(e){
+   if(e.target.closest?.('#npcTownFab,[data-npc-tab],[data-npc-detail],[data-npc-rel-view],[data-npc-rel-meet],#openNpcRelations')){
+     setTimeout(safeRefresh,0);
+   }
+ },true);
+
+ /* Hard stability guard: prevent accidental double purchase from stacked historical click handlers.
+    The earlier robustNpcBuy capture handler remains the only purchase executor. */
+ let purchaseLock=false;
+ document.addEventListener('click',function(e){
+   const b=e.target.closest?.('[data-npc-buy]');if(!b)return;
+   if(purchaseLock){e.preventDefault();e.stopImmediatePropagation();return;}
+   purchaseLock=true;
+   setTimeout(()=>{purchaseLock=false},350);
+ },true);
 })();
 </script>
