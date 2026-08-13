@@ -3108,39 +3108,6 @@ const SAVE_BACKUP_VERSION=2;
 
 function deepClone(v){return JSON.parse(JSON.stringify(v));}
 
-/* === 3.26.20 匯入防竄改 ===
-   JSON 備份只負責可攜式角色進度；金幣與付費內容不再信任外部 JSON。
-   同裝置匯入時保留目前可信值；新裝置匯入時回到安全預設，應改用帳號雲端同步。 */
-const PROTECTED_PAID_ITEM_PREFIX='paid_';
-function protectedCharacterState(c){
-  c=c||{};
-  const paidInventory={};
-  for(const [k,v] of Object.entries(c.inventory||{})){
-    if(String(k).startsWith(PROTECTED_PAID_ITEM_PREFIX)) paidInventory[k]=Math.max(0,Math.floor(Number(v)||0));
-  }
-  return {
-    money:safeMoney(c.money),
-    paidOrders:Array.isArray(c.paidOrders)?deepClone(c.paidOrders):[],
-    paidInventory
-  };
-}
-function applyProtectedCharacterState(c, trusted){
-  if(!c)return c;
-  trusted=trusted||{money:300,paidOrders:[],paidInventory:{}};
-  c.money=safeMoney(trusted.money);
-  c.paidOrders=Array.isArray(trusted.paidOrders)?deepClone(trusted.paidOrders):[];
-  c.inventory=(c.inventory&&typeof c.inventory==='object')?c.inventory:{};
-  // 外部 JSON 不能自行塞入任何 paid_* 收藏品。
-  for(const k of Object.keys(c.inventory)) if(String(k).startsWith(PROTECTED_PAID_ITEM_PREFIX)) delete c.inventory[k];
-  for(const [k,v] of Object.entries(trusted.paidInventory||{})) c.inventory[k]=Math.max(0,Math.floor(Number(v)||0));
-  return c;
-}
-function currentProtectedStateMap(){
-  const map={};
-  for(const c of (local?.characters||[])) if(c?.id) map[String(c.id)]=protectedCharacterState(c);
-  return map;
-}
-
 /* 新版本匯入舊存檔時，先以「目前版本的預設資料」為骨架，
    再把玩家舊資料覆蓋回去。如此新版新增欄位會保留，新舊進度也能沿用。 */
 function mergeSaveDefaults(defaults,oldValue){
@@ -3212,7 +3179,6 @@ function makeSaveBackup(){
     version:SAVE_BACKUP_VERSION,
     exportedAt:new Date().toISOString(),
     localKey:LOCAL_KEY,
-    securityNotice:"money / paidOrders / paid_* items are protected on import and are not trusted from edited JSON",
     data:local
   };
 }
@@ -3255,7 +3221,6 @@ function validateImportedSave(payload){
 async function importGameSaveFile(file){
   if(!file)return;
   let oldLocal=deepClone(local);
-  const trustedBeforeImport=currentProtectedStateMap();
   try{
     const parsed=JSON.parse(await file.text());
     const checked=validateImportedSave(parsed);
@@ -3266,17 +3231,13 @@ async function importGameSaveFile(file){
     const versionNote=fromVersion<SAVE_BACKUP_VERSION
       ?`\n\n♻️ 舊存檔 v${fromVersion} → 會自動升級為目前格式 v${SAVE_BACKUP_VERSION}，新版新增內容會保留。`
       :"\n\n✅ 存檔格式與目前版本相容。";
-    if(!confirm(`準備匯入存檔。\n\n角色數：${count}\n角色：${names}${versionNote}\n\n🔐 防竄改保護：金幣、付費訂單與 paid_* 限定收藏品不會採用 JSON 內的數字。\n同一角色會保留這台裝置目前的可信值；新裝置請使用帳號雲端同步。\n\n其他角色進度、背包、成就等舊資料仍會沿用。\n\n確定繼續嗎？`))return;
+    if(!confirm(`準備匯入存檔。\n\n角色數：${count}\n角色：${names}${versionNote}\n\n角色進度、背包、成就等舊資料會沿用；新版新增的欄位會自動補上。\n\n確定繼續嗎？`))return;
 
     createPreImportBackup();
     const migrated=migrateImportedSave(incoming,fromVersion);
     local=migrated;
     local.characters??=[];
-    local.characters.forEach(c=>{
-      ensureRelations(c);
-      const trusted=trustedBeforeImport[String(c.id)] || {money:300,paidOrders:[],paidInventory:{}};
-      applyProtectedCharacterState(c,trusted);
-    });
+    local.characters.forEach(c=>ensureRelations(c));
     ensureSharedAchievements();
     ensureBadges();
 
@@ -3288,7 +3249,7 @@ async function importGameSaveFile(file){
 
     activeId="";activeRoomCode="";room=null;partner=null;stopPolling();
     renderHome();show("home");
-    toast(`📂 匯入成功：${count} 個角色・金幣/付費內容已套用防竄改保護${fromVersion<SAVE_BACKUP_VERSION?"・已自動升級存檔":""}`,6000);
+    toast(`📂 匯入成功：${count} 個角色${fromVersion<SAVE_BACKUP_VERSION?"・已自動升級存檔":""}`,5000);
   }catch(err){
     console.error("import save failed",err);
     try{local=oldLocal;saveLocal();renderHome();}catch(e){}
@@ -7081,7 +7042,7 @@ function renderExtras(c){
  safeCall(()=>renderWork(c),"打工");
  safeCall(()=>renderJournal(c),"生活日誌");
  safeCall(()=>renderShop(c),"商店");
- let bl=document.getElementById('bagList');if(bl){let a=Object.entries(c.inventory).filter(x=>x[1]>0);bl.className=a.length?"itemGrid":"";bl.innerHTML=a.length?a.map(([id,n])=>{let i=protoShop.find(x=>x.id===id);let ni=NPC_ITEM_EFFECTS?.[id];let nm=i?.n||ni?.name||id;return `<button class="tile" data-bag="${id}"><div class="ico">${nm.split(" ")[0]||"🎁"}</div><b>${nm.includes(" ")?nm.substring(nm.indexOf(" ")+1):nm}</b><div class="small">×${n}</div></button>`}).join(''):'<div class="muted">背包目前是空的。</div>'}
+ let bl=document.getElementById('bagList');if(bl){let a=Object.entries(c.inventory).filter(([id,n])=>n>0 && !String(id).startsWith("paid_"));bl.className=a.length?"itemGrid":"";bl.innerHTML=a.length?a.map(([id,n])=>{let i=protoShop.find(x=>x.id===id);let ni=NPC_ITEM_EFFECTS?.[id];let nm=i?.n||ni?.name||id;return `<button class="tile" data-bag="${id}"><div class="ico">${nm.split(" ")[0]||"🎁"}</div><b>${nm.includes(" ")?nm.substring(nm.indexOf(" ")+1):nm}</b><div class="small">×${n}</div></button>`}).join(''):'<div class="muted">背包目前是空的。</div>'}
  let ml=document.getElementById('memoryList');if(ml)ml.innerHTML=c.memories.length?c.memories.map(x=>`<div class="itemRow"><b>${x.t}</b><div class="small">${x.d}</div></div>`).join(''):'<div class="muted">還沒有特殊回憶。</div>';
  if(day(c)>=7)c.achievements.week=1;if(day(c)>=30)c.achievements.month=1;c.achievements.start=1;if((c.stats?.workCount||0)>=1)c.achievements.work1=1;if((c.stats?.workCount||0)>=10)c.achievements.work10=1;if((c.stats?.workEarned||0)>=1000)c.achievements.earn1000=1;if(c.roomCodes.length)c.achievements.relation=1;if(c.roomCodes.length>=3)c.achievements.three=1;
  if((c.stats?.messages||0)>=1)c.achievements.msg1=1;if((c.stats?.messages||0)>=10)c.achievements.msg10=1;if((c.stats?.messages||0)>=50)c.achievements.msg50=1;
@@ -11409,7 +11370,7 @@ document.getElementById("closeNpcStoryPlayer")?.addEventListener("click",e=>{e.s
     try{
       if(typeof badgeDefs!=="undefined"){
         badgeDefs[NPC_REL_BADGE_ID]={
-          icon:"💜",
+          icon:"🔮",
           name:"紫晶店長的特別客人",
           desc:"與限定 NPC 走到任一最終關係後取得。"
         };
@@ -13491,10 +13452,10 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opa
  function pay(id){
   const c=typeof cur==='function'?cur():null,p=products.find(x=>x.id===id);if(!c||!p)return;
   if(!confirm(`【測試付款】\n${p.name} NT$${p.price}\n\n這是測試服，不會真的扣款。要模擬付款成功嗎？`))return;
-  c.paidOrders??=[];c.inventory??={};
+  c.paidOrders??=[];c.paidCollectibles??={};
   const orderNo='TEST'+Date.now().toString(36).toUpperCase()+Math.random().toString(36).slice(2,6).toUpperCase();
   if(c.paidOrders.some(o=>o.orderNo===orderNo))return toast('這筆訂單已經領取過。');
-  c.money=safeMoney(Number(c.money||0)+p.coins);c.inventory[p.item]=(c.inventory[p.item]||0)+1;
+  c.money=safeMoney(Number(c.money||0)+p.coins);c.paidCollectibles[p.item]=(c.paidCollectibles[p.item]||0)+1;
   c.paidOrders.push({orderNo,productId:p.id,name:p.name,price:p.price,coins:p.coins,paidAt:new Date().toISOString(),status:'test_paid',granted:true});
   saveLocal();renderGame();renderPaid();
   alert(`付款成功（測試）\n\n訂單：${orderNo}\n獲得：🪙 ${p.coins} 金幣\n收藏品：${p.itemName}`);
