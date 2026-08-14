@@ -1,26 +1,14 @@
 <!doctype html>
 <html lang="zh-Hant">
 <head>
-<script id="v32673ThemeFirstPaint">
-(function(){
-  const KEY='role_life_test_active_theme_v1';
-  let mode='default';
-  try{
-    const x=JSON.parse(localStorage.getItem(KEY)||'null');
-    if(x&&['maidCafe','qixiGalaxy'].includes(x.mode))mode=x.mode;
-  }catch(_){}
-  document.documentElement.setAttribute('data-paid-theme',mode);
-})();
-</script>
-
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#9a76c4">
-<meta name="x-test-build" content="3.26.79">
+<meta name="x-test-build" content="3.27.0">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>關係進行式 TEST・3.26.79-單一版本與商店診斷</title>
+<title>關係進行式 TEST・3.27.0-七夕活動測試</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -1485,14 +1473,171 @@ body.npcStoryRunning .draggableFab{
 <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png">
 <link rel="manifest" href="manifest.json">
 
+<style id="qixiHomeTheme">
+/* === 七夕初始版：只調整首頁視覺，不碰功能邏輯 === */
+#home{
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  min-height:100vh;
+  padding:18px 14px 36px;
+  border-radius:0 0 26px 26px;
+  background:
+    radial-gradient(circle at 18% 12%, rgba(154,124,255,.24) 0 2px, transparent 3px),
+    radial-gradient(circle at 79% 18%, rgba(255,230,170,.72) 0 1.5px, transparent 2.5px),
+    radial-gradient(circle at 65% 9%, rgba(255,255,255,.72) 0 1px, transparent 2px),
+    radial-gradient(circle at 32% 28%, rgba(255,255,255,.55) 0 1px, transparent 2px),
+    radial-gradient(ellipse at 52% 4%, rgba(130,106,255,.22), transparent 42%),
+    linear-gradient(180deg,#100b32 0%,#1a1550 34%,#352064 68%,#5a346f 100%);
+}
+#home::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:-2;
+  pointer-events:none;
+  opacity:.92;
+  background-image:
+    radial-gradient(circle,rgba(255,255,255,.95) 0 1px,transparent 1.6px),
+    radial-gradient(circle,rgba(210,196,255,.8) 0 1px,transparent 1.5px),
+    radial-gradient(circle,rgba(255,226,180,.76) 0 1px,transparent 1.6px);
+  background-size:67px 67px,103px 103px,149px 149px;
+  background-position:9px 13px,31px 8px,18px 49px;
+}
+#home::after{
+  content:"";
+  position:absolute;
+  left:-18%;right:-18%;top:88px;height:170px;
+  z-index:-1;
+  pointer-events:none;
+  transform:rotate(-7deg);
+  filter:blur(18px);
+  background:linear-gradient(90deg,transparent 6%,rgba(123,100,255,.08) 20%,rgba(201,177,255,.32) 47%,rgba(255,214,240,.22) 56%,rgba(125,127,255,.08) 80%,transparent 94%);
+}
+#home .homeHero{
+  position:relative;
+  overflow:hidden;
+  border:1px solid rgba(230,220,255,.34)!important;
+  background:linear-gradient(145deg,rgba(34,25,84,.88),rgba(91,48,119,.74))!important;
+  box-shadow:0 16px 38px rgba(8,4,35,.26),inset 0 1px 0 rgba(255,255,255,.14);
+  color:#fff;
+}
+#home .homeHero::before{
+  content:"🌙   ✦   ⋆   ✧";
+  position:absolute;
+  top:10px;left:16px;right:16px;
+  text-align:center;
+  letter-spacing:17px;
+  font-size:13px;
+  opacity:.62;
+}
+#home .homeHero::after{
+  content:"鵲橋星河・今夜相逢";
+  display:block;
+  margin-top:9px;
+  color:#eadfff;
+  font-size:12px;
+  letter-spacing:3px;
+}
+#home .homeLogo{filter:drop-shadow(0 0 10px rgba(245,220,255,.8))}
+#home .homeHero h1{color:#fff;text-shadow:0 2px 14px rgba(195,163,255,.55)}
+#home .homeTagline{color:#e6dcf7!important}
+#home .homeVersion{
+  color:#f8efff;
+  background:rgba(255,255,255,.1)!important;
+  border-color:rgba(255,255,255,.24)!important;
+  backdrop-filter:blur(10px);
+}
+#home .homePanel{
+  color:#f7f3ff;
+  border:1px solid rgba(224,214,255,.23)!important;
+  background:linear-gradient(145deg,rgba(26,20,65,.82),rgba(58,34,90,.72))!important;
+  box-shadow:0 10px 26px rgba(8,4,35,.16),inset 0 1px 0 rgba(255,255,255,.07);
+  backdrop-filter:blur(12px);
+}
+#home .homePanelTitle{color:#fff}
+#home .small,#home .muted{color:#d7cdea!important}
+#home .chip{
+  color:#f6edff!important;
+  background:rgba(163,127,255,.18)!important;
+  border-color:rgba(222,205,255,.28)!important;
+}
+#home input,#home select,#home textarea{
+  background:rgba(255,255,255,.92)!important;
+  color:#34274c!important;
+  border-color:rgba(220,207,255,.72)!important;
+}
+#home button{
+  border-color:rgba(230,215,255,.34)!important;
+  box-shadow:0 4px 12px rgba(10,5,35,.12);
+}
+#home .primary,#home button.primary{
+  background:linear-gradient(135deg,#8f73dc,#c16fb4)!important;
+  color:#fff!important;
+}
+@media(max-width:600px){
+  #home{padding:12px 10px 30px}
+  #home .homeHero{padding-top:30px}
+  #home .homeHero::before{letter-spacing:10px}
+}
+</style>
 
-
-
-
-
-<link rel="preload" as="image" href="assets/npc/shopkeeper_cat/maid_cafe_special_1.png" fetchpriority="high">
-<link rel="preload" as="image" href="assets/npc/shopkeeper_cat/maid_cafe_special_2.png" fetchpriority="high">
-
+<style id="qixiGalaxyWindowsV5Safe">
+/* 七夕 v5：只改視覺，不碰任何顯示/定位/點擊/層級邏輯 */
+:root{
+ --qixi-deep:#21163d;--qixi-mid:#342058;--qixi-text:#fffaff;--qixi-muted:#d9cff0;--qixi-line:rgba(218,200,255,.3);
+}
+/* 功能專頁：只改背景/顏色，不改 position/display/z-index/overflow */
+.pageCard.active:not(#npcShopModal):not(#launchActivityModal){
+ color:var(--qixi-text)!important;
+ background:
+  radial-gradient(circle at 14% 12%,rgba(255,255,255,.9) 0 1px,transparent 1.6px),
+  radial-gradient(circle at 84% 20%,rgba(215,198,255,.85) 0 1.2px,transparent 1.8px),
+  radial-gradient(ellipse at 48% 4%,rgba(144,102,230,.25),transparent 44%),
+  linear-gradient(155deg,#1c1335 0%,#322154 48%,#4b3074 100%)!important;
+ border-color:var(--qixi-line)!important;
+}
+.pageCard.active .small,.pageCard.active .muted{color:var(--qixi-muted)!important}
+.pageCard.active h2,.pageCard.active h3,.pageCard.active b{color:#fff!important}
+.pageCard.active .npcRelationIntro,.pageCard.active .gmPanel,.pageCard.active .relationCard,
+.pageCard.active .mailItem,.pageCard.active .badgeCard,.pageCard.active .card,
+.pageCard.active .panel,.pageCard.active .storyCard{
+ background:linear-gradient(145deg,rgba(88,64,129,.72),rgba(47,33,80,.76))!important;
+ border-color:var(--qixi-line)!important;
+ color:var(--qixi-text)!important;
+}
+/* NPC 關係頁再更接近先前生圖的深紫玻璃感 */
+#extraNpcRelations.pageCard.active{
+ background:
+  radial-gradient(circle at 12% 10%,rgba(255,255,255,.95) 0 1.1px,transparent 1.8px),
+  radial-gradient(circle at 84% 16%,rgba(220,202,255,.92) 0 1.3px,transparent 2px),
+  radial-gradient(ellipse at 52% 14%,rgba(145,98,233,.34),transparent 42%),
+  linear-gradient(160deg,#1d1238 0%,#302052 46%,#4d3179 100%)!important;
+}
+#extraNpcRelations .npcRelationIntro{background:rgba(77,55,119,.7)!important;color:#faf6ff!important;border-color:rgba(220,204,255,.28)!important}
+/* 一般彈窗只改卡片表面，不碰 .modal 本體，避免再次阻斷點擊 */
+.modal:not(#npcShopModal):not(#launchActivityModal) .modalBox,
+.modal:not(#npcShopModal):not(#launchActivityModal) .modalCard{
+ color:var(--qixi-text)!important;
+ background:
+  radial-gradient(circle at 12% 14%,rgba(255,255,255,.88) 0 1px,transparent 1.6px),
+  radial-gradient(circle at 86% 22%,rgba(219,199,255,.86) 0 1.2px,transparent 1.8px),
+  radial-gradient(ellipse at 45% 0%,rgba(155,115,245,.24),transparent 44%),
+  linear-gradient(155deg,rgba(31,21,59,.985),rgba(67,43,107,.985))!important;
+ border-color:var(--qixi-line)!important;
+ box-shadow:0 22px 60px rgba(13,5,31,.38)!important;
+}
+.modal:not(#npcShopModal):not(#launchActivityModal) .small,
+.modal:not(#npcShopModal):not(#launchActivityModal) .muted{color:var(--qixi-muted)!important}
+.modal:not(#npcShopModal):not(#launchActivityModal) b,
+.modal:not(#npcShopModal):not(#launchActivityModal) h2,
+.modal:not(#npcShopModal):not(#launchActivityModal) h3{color:#fff!important}
+.modal:not(#npcShopModal):not(#launchActivityModal) input,
+.modal:not(#npcShopModal):not(#launchActivityModal) select,
+.modal:not(#npcShopModal):not(#launchActivityModal) textarea{background:rgba(255,255,255,.94)!important;color:#36204f!important;border-color:rgba(220,201,255,.55)!important}
+/* 明確保留兩個例外原樣 */
+#npcShopModal .modalBox,#npcShopModal .modalCard,#launchActivityModal .modalBox,#launchActivityModal .modalCard{filter:none!important}
+</style>
 </head>
 <body>
 
@@ -1545,7 +1690,7 @@ body.npcStoryRunning .draggableFab{
   </div>
 </div>
 
-<div id="testServerRibbon" class="testServerRibbon hidden">🧪 TEST・3.26.79-beta</div>
+<div id="testServerRibbon" class="testServerRibbon hidden">🧪 TEST・3.24-beta</div>
 <button id="returnProdBtn" class="returnProdBtn hidden" type="button">💞 回正式服</button>
 
 <!-- GM-MAILBOX-BUILD-3-NATIVE-NAV -->
@@ -1557,7 +1702,7 @@ body.npcStoryRunning .draggableFab{
     <div class="homeLogo">🧪</div>
     <h1>關係進行式 TEST</h1>
     <div class="homeTagline">測試中的每一段關係，都可能被重置。</div>
-    <div class="homeVersion">3.26.79・測試服｜單一版本與商店診斷</div>
+    <div class="homeVersion">3.27.0・測試服｜七夕活動測試</div>
   </div>
 
   <div id="playerAccountHomePanel" class="homePanel accountHomePanel">
@@ -2092,7 +2237,7 @@ body.npcStoryRunning .draggableFab{
 </section>
 </div>
 
-<div id="drawerShade" class="drawerShade hidden"></div><aside id="drawer" class="drawer hidden"><div style="padding:8px"><b id="drawerName">角色</b><div class="muted">功能選單</div></div><button type="button" class="navBtn" data-nav="life">🏠 角色生活</button><button type="button" class="navBtn" data-nav="daily">📋 今日小事</button><button type="button" class="navBtn" data-nav="work">💼 打工賺錢</button><button type="button" class="navBtn" data-nav="journal">📖 今日生活日誌</button><button type="button" class="navBtn" data-nav="routine">🕒 角色作息</button><button type="button" class="navBtn" data-nav="outing">🗺️ 外出 <span class="navDot hidden" data-dot="outing"></span></button><button type="button" class="navBtn" data-nav="relations">💞 關係 <span class="navDot hidden" data-dot="relations"></span></button><button type="button" class="navBtn" data-nav="npcrelations">✨ NPC 關係</button><button type="button" class="navBtn" data-nav="mailbox">📬 信箱 <span class="navDot hidden" data-dot="mailbox"></span></button><button type="button" class="navBtn" id="playerAccountDrawerBtn">☁️ 玩家帳號</button><button type="button" class="navBtn" id="gmDrawerLoginBtn">👑 管理員登入</button><button type="button" class="navBtn hidden" id="gmNavBtn" data-nav="gm">🛠️ GM 操作台</button><div class="navSep"></div><button type="button" class="navBtn" data-nav="bag">🎒 背包</button><button type="button" class="navBtn" data-nav="shop">🏪 商店</button><button type="button" class="navBtn" data-nav="memory">📖 回憶</button><button type="button" class="navBtn" data-nav="achievements">🏆 成就</button><button type="button" class="navBtn" id="appearanceDrawerBtn">🎨 外觀更改</button><div class="navSep"></div><div style="padding:8px"><b>🎵 悠閒 BGM</b><div class="actions"><button id="bgmToggle">▶ 播放</button><input id="bgmVolume" type="range" min="0" max="1" step=".05" value=".25"></div><div class="small">把 bgm.mp3 和 index.html 放同一資料夾。</div></div><audio id="bgm" loop preload="auto" autoplay playsinline><source src="bgm.mp3" type="audio/mpeg"></audio><button type="button" class="navBtn" id="back">💾 返回存檔首頁</button></aside><div id="updateNoticeModal" class="modal hidden">
+<div id="drawerShade" class="drawerShade hidden"></div><aside id="drawer" class="drawer hidden"><div style="padding:8px"><b id="drawerName">角色</b><div class="muted">功能選單</div></div><button type="button" class="navBtn" data-nav="life">🏠 角色生活</button><button type="button" class="navBtn" data-nav="daily">📋 今日小事</button><button type="button" class="navBtn" data-nav="work">💼 打工賺錢</button><button type="button" class="navBtn" data-nav="journal">📖 今日生活日誌</button><button type="button" class="navBtn" data-nav="routine">🕒 角色作息</button><button type="button" class="navBtn" data-nav="outing">🗺️ 外出 <span class="navDot hidden" data-dot="outing"></span></button><button type="button" class="navBtn" data-nav="relations">💞 關係 <span class="navDot hidden" data-dot="relations"></span></button><button type="button" class="navBtn" data-nav="npcrelations">✨ NPC 關係</button><button type="button" class="navBtn" data-nav="mailbox">📬 信箱 <span class="navDot hidden" data-dot="mailbox"></span></button><button type="button" class="navBtn" id="playerAccountDrawerBtn">☁️ 玩家帳號</button><button type="button" class="navBtn" id="gmDrawerLoginBtn">👑 管理員登入</button><button type="button" class="navBtn hidden" id="gmNavBtn" data-nav="gm">🛠️ GM 操作台</button><div class="navSep"></div><button type="button" class="navBtn" data-nav="bag">🎒 背包</button><button type="button" class="navBtn" data-nav="shop">🏪 商店</button><button type="button" class="navBtn" data-nav="memory">📖 回憶</button><button type="button" class="navBtn" data-nav="achievements">🏆 成就</button><div class="navSep"></div><div style="padding:8px"><b>🎵 悠閒 BGM</b><div class="actions"><button id="bgmToggle">▶ 播放</button><input id="bgmVolume" type="range" min="0" max="1" step=".05" value=".25"></div><div class="small">把 bgm.mp3 和 index.html 放同一資料夾。</div></div><audio id="bgm" loop preload="auto" autoplay playsinline><source src="bgm.mp3" type="audio/mpeg"></audio><button type="button" class="navBtn" id="back">💾 返回存檔首頁</button></aside><div id="updateNoticeModal" class="modal hidden">
   <div class="modalBox">
     <div class="modalHead"><b>📢 第3.23版更新公告</b><button id="closeUpdateNotice">×</button></div>
     <div class="updateNoticeBody">
@@ -2822,11 +2967,6 @@ function ensureRelations(c){
   c.money=safeMoney(Number.isFinite(Number(c.money))?Number(c.money):300);
   c.events=Array.isArray(c.events)?c.events:[];
   c.inventory=c.inventory&&typeof c.inventory==="object"?c.inventory:{};
-  /* 付費商品 ID 只用於 paidOrders / 權益判定，不是遊戲道具。
-     清掉舊版曾誤塞進背包的內部 ID；真正獎勵不受影響。 */
-  delete c.inventory.paid_gift_60;
-  delete c.inventory.paid_support_100;
-  delete c.inventory.paid_dev_150;
   c.memories=Array.isArray(c.memories)?c.memories:[];
   c.start=c.start||new Date().toISOString().slice(0,10);
   ensureSharedAchievements();
@@ -2875,7 +3015,7 @@ function show(id){
   document.getElementById("home").classList.toggle("hidden",id!=="home");
   document.getElementById("game").classList.toggle("hidden",id!=="game");
   document.body.classList.toggle("game-entry-active",id==="game");
-  /* 3.26.79: 進入角色頁時直接恢復活動/NPC入口，不再交給舊活動期限控制器。 */
+  /* 3.26.5: 進入角色頁時直接恢復活動/NPC入口，不再交給舊活動期限控制器。 */
   const showEntries=id==="game";
   const launch=document.getElementById("launchActivityFab");
   const npc=document.getElementById("npcTownFab");
@@ -4019,7 +4159,7 @@ async function gmSendOfficialGift(){
   }catch(e){
     let msg=String(e?.message||e||"未知錯誤");
     let col=(msg.match(/null value in column "([^"]+)"/i)||[])[1];
-    if(col)msg=`test_gm_gifts 的「${col}」欄位是 NOT NULL，但沒有預設值。請執行 3.26.79 SQL 修正。原始錯誤：${msg}`;
+    if(col)msg=`test_gm_gifts 的「${col}」欄位是 NOT NULL，但沒有預設值。請執行 3.26.12 SQL 修正。原始錯誤：${msg}`;
     toast("GM 發送失敗："+msg,10000);
   }
 }
@@ -4049,7 +4189,7 @@ async function claimOfficialGift(id){
     const rawId=String(c.id||"");
     const shortId=displayCharacterId(c).toUpperCase();
 
-    // 3.26.79：改由 Supabase SECURITY DEFINER RPC 原子領取。
+    // 3.26.14：改由 Supabase SECURITY DEFINER RPC 原子領取。
     // 不再讓一般玩家直接 PATCH test_gm_gifts，避免 RLS 導致「看得到、領不到」。
     let result=await api("/rpc/claim_test_gm_gift",{
       method:"POST",
@@ -4085,7 +4225,7 @@ async function claimOfficialGift(id){
   }catch(e){
     let msg=String(e?.message||e||"未知錯誤");
     if(/claim_test_gm_gift|function|rpc/i.test(msg)){
-      msg+="｜請先執行 3.26.79 的 Supabase RPC SQL。";
+      msg+="｜請先執行 3.26.14 的 Supabase RPC SQL。";
     }
     toast("領取失敗："+msg,9000);
   }
@@ -4368,7 +4508,7 @@ document.getElementById("saveList").onclick=async e=>{
 async function openChar(id){
   clearFatal();
 
-  // 3.26.79M: character opening is now 100% local-first.
+  // 3.26.2M: character opening is now 100% local-first.
   // No cloud request is allowed to block the first game render.
   rememberOpenSheet("");
   document.querySelectorAll(".pageCard").forEach(x=>x.classList.remove("active"));
@@ -4393,10 +4533,7 @@ async function openChar(id){
   room=null; partner=null;
   activeRoomCode=(c.roomCodes||[])[0]||"";
 
-  // FIRST: apply saved appearance BEFORE the game page can paint.
-  try{ window.applyPaidAppearance?.(c); }catch(e){ console.warn("pre-paint appearance",e); }
-
-  // Display only the essential local character UI.
+  // FIRST: display only the essential local character UI.
   // Heavy panels (achievements/shop/journal/pending cloud events) are deferred so Android
   // gets a paint opportunity before doing the expensive work.
   show("game");
@@ -5364,9 +5501,7 @@ async function refreshAllBondSummaries(c){
 function renderGame(){
   normalizeWholeStats(cur());
 
-  let c=cur();if(!c)return;
-  try{ window.applyPaidAppearance?.(c,false); }catch(e){}
-  resetDailyIfNeeded(c);let r=routine(c);
+  let c=cur();if(!c)return;resetDailyIfNeeded(c);let r=routine(c);
   document.getElementById("day").textContent=day(c);
   document.getElementById("charName").textContent=c.name;
   let cid=document.getElementById("charIdCode");
@@ -6911,7 +7046,7 @@ function renderExtras(c){
  safeCall(()=>renderWork(c),"打工");
  safeCall(()=>renderJournal(c),"生活日誌");
  safeCall(()=>renderShop(c),"商店");
- let bl=document.getElementById('bagList');if(bl){const internalPaidIds=new Set(['paid_gift_60','paid_support_100','paid_dev_150']);let a=Object.entries(c.inventory).filter(([id,n])=>n>0&&!internalPaidIds.has(id));bl.className=a.length?"itemGrid":"";bl.innerHTML=a.length?a.map(([id,n])=>{let i=protoShop.find(x=>x.id===id);let ni=NPC_ITEM_EFFECTS?.[id];let nm=i?.n||ni?.name||id;return `<button class="tile" data-bag="${id}"><div class="ico">${nm.split(" ")[0]||"🎁"}</div><b>${nm.includes(" ")?nm.substring(nm.indexOf(" ")+1):nm}</b><div class="small">×${n}</div></button>`}).join(''):'<div class="muted">背包目前是空的。</div>'}
+ let bl=document.getElementById('bagList');if(bl){let a=Object.entries(c.inventory).filter(x=>x[1]>0);bl.className=a.length?"itemGrid":"";bl.innerHTML=a.length?a.map(([id,n])=>{let i=protoShop.find(x=>x.id===id);let ni=NPC_ITEM_EFFECTS?.[id];let nm=i?.n||ni?.name||id;return `<button class="tile" data-bag="${id}"><div class="ico">${nm.split(" ")[0]||"🎁"}</div><b>${nm.includes(" ")?nm.substring(nm.indexOf(" ")+1):nm}</b><div class="small">×${n}</div></button>`}).join(''):'<div class="muted">背包目前是空的。</div>'}
  let ml=document.getElementById('memoryList');if(ml)ml.innerHTML=c.memories.length?c.memories.map(x=>`<div class="itemRow"><b>${x.t}</b><div class="small">${x.d}</div></div>`).join(''):'<div class="muted">還沒有特殊回憶。</div>';
  if(day(c)>=7)c.achievements.week=1;if(day(c)>=30)c.achievements.month=1;c.achievements.start=1;if((c.stats?.workCount||0)>=1)c.achievements.work1=1;if((c.stats?.workCount||0)>=10)c.achievements.work10=1;if((c.stats?.workEarned||0)>=1000)c.achievements.earn1000=1;if(c.roomCodes.length)c.achievements.relation=1;if(c.roomCodes.length>=3)c.achievements.three=1;
  if((c.stats?.messages||0)>=1)c.achievements.msg1=1;if((c.stats?.messages||0)>=10)c.achievements.msg10=1;if((c.stats?.messages||0)>=50)c.achievements.msg50=1;
@@ -7616,7 +7751,7 @@ let testReferralInfo=null;
 
 async function testReferralRpc(name,args={}){
   const ctrl=new AbortController();
-  const timer=setTimeout(()=>ctrl.abort(),5000);
+  const timer=setTimeout(()=>ctrl.abort(),8000);
   try{
     let res=await fetch(`${API}/rpc/${encodeURIComponent(name)}`,{
       method:"POST",
@@ -8698,7 +8833,7 @@ function testDeviceId(){
 
 async function publicRpc(name,args={}){
   const ctrl=new AbortController();
-  const timer=setTimeout(()=>ctrl.abort(),5000);
+  const timer=setTimeout(()=>ctrl.abort(),8000);
   try{
     let res=await fetch(`${API}/rpc/${encodeURIComponent(name)}`,{
       method:"POST",
@@ -9299,11 +9434,9 @@ function renderNpcRpgLine(){
   let st=npcStoryPlayerState;if(!st)return;
   let line=st.lines[st.index];if(!line)return;
   let speaker=String(line.speaker||"旁白");
-
   document.getElementById("npcStorySpeaker").textContent=speaker;
   document.getElementById("npcStoryText").textContent=line.text||"";
   document.querySelector(".npcStoryStage")?.classList.toggle("narration",speaker==="旁白");
-
   let choiceBox=document.getElementById("npcStoryChoices");
   let hint=document.getElementById("npcStoryTapHint");
   if(Array.isArray(line.choices)&&line.choices.length){
@@ -9315,39 +9448,6 @@ function renderNpcRpgLine(){
     choiceBox.classList.add("hidden");
     choiceBox.innerHTML="";
     hint.classList.remove("hidden");
-  }
-
-  /* 女僕特殊劇情的圖片由原始 renderer 直接控制，不再另外包 render。 */
-  const player=document.getElementById("npcStoryPlayer");
-  const portrait=document.getElementById("npcStoryPortrait");
-  if(player&&portrait){
-    const maid=String(st.title||"").includes("女僕咖啡廳");
-    const stage=maid?Number(line.maidStage||0):0;
-
-    if(maid&&stage>=1){
-      if(!portrait.dataset.beforeMaidStory)
-        portrait.dataset.beforeMaidStory=portrait.getAttribute("src")||"cat_shopkeeper_normal.png";
-
-      player.classList.add("maidCafeSpecialStory");
-      portrait.dataset.maidCgLocked="1";
-      const target=stage>=2
-        ?"assets/npc/shopkeeper_cat/maid_cafe_special_2.png"
-        :"assets/npc/shopkeeper_cat/maid_cafe_special_1.png";
-
-      if(portrait.getAttribute("src")!==target){
-        portrait.classList.add("maidCgFade");
-        portrait.setAttribute("src",target);
-        requestAnimationFrame(()=>portrait.classList.remove("maidCgFade"));
-      }
-      player.style.setProperty("--maid-story-bg",`url("${target}")`);
-    }else{
-      player.classList.remove("maidCafeSpecialStory");
-      if(!maid)delete portrait.dataset.maidCgLocked;
-      if(!maid && portrait.dataset.beforeMaidStory){
-        portrait.setAttribute("src",portrait.dataset.beforeMaidStory);
-        delete portrait.dataset.beforeMaidStory;
-      }
-    }
   }
 }
 function advanceNpcRpgStory(){
@@ -9364,29 +9464,13 @@ function advanceNpcRpgStory(){
 function finishNpcRpgStory(){
   let st=npcStoryPlayerState;if(!st||st.finished)return;
   st.finished=true;
-  const player=document.getElementById("npcStoryPlayer");
-  const portrait=document.getElementById("npcStoryPortrait");
-  player?.classList.add("hidden");
-  player?.classList.remove("maidCafeSpecialStory");
-  if(portrait?.dataset.beforeMaidStory){
-    portrait.setAttribute("src",portrait.dataset.beforeMaidStory);
-    delete portrait.dataset.beforeMaidStory;
-  }
-  if(portrait)delete portrait.dataset.maidCgLocked;
+  document.getElementById("npcStoryPlayer")?.classList.add("hidden");
   let done=st.onComplete;
   npcStoryPlayerState=null;
   if(typeof done==="function")done();
 }
 function cancelNpcRpgStory(){
-  const player=document.getElementById("npcStoryPlayer");
-  const portrait=document.getElementById("npcStoryPortrait");
-  player?.classList.add("hidden");
-  player?.classList.remove("maidCafeSpecialStory");
-  if(portrait?.dataset.beforeMaidStory){
-    portrait.setAttribute("src",portrait.dataset.beforeMaidStory);
-    delete portrait.dataset.beforeMaidStory;
-  }
-  if(portrait)delete portrait.dataset.maidCgLocked;
+  document.getElementById("npcStoryPlayer")?.classList.add("hidden");
   npcStoryPlayerState=null;
 }
 
@@ -10144,24 +10228,8 @@ function npcRenderShop(st){
   ];
   if(st.loyalty>=10)items.push({id:"npc_regular_box",name:"🎁 熟客小盒",desc:"可開啟・隨機金幣、道具、好感禮物或特殊收藏。",price:220,secret:true});
   if(st.loyalty>=30)items.push({id:"npc_under_counter",name:"🔐 櫃檯下的黑盒",desc:"一次性隱藏收藏・用途？？？",price:666,secret:true});
-
-  let html=`<div class="small" style="margin-bottom:8px">每買 1 件商品熟客度 +1；每累積購買 5 件，貓貓好感額外 +1。</div>`+
+  return `<div class="small" style="margin-bottom:8px">每買 1 件商品熟客度 +1；每累積購買 5 件，貓貓好感額外 +1。</div>`+
     items.map(x=>`<div class="npcShopItem"><div><b>${x.name} ${x.secret?'<span class="npcSecretTag">隱藏</span>':""}</b><div class="small">${x.desc}</div></div><button data-npc-buy="${x.id}">🪙${x.price}</button></div>`).join("");
-
-  const c=cur();
-  if(c){
-    c.inventory??={}; c.paidCosmetics??={};
-    const voucher=Number(c.inventory.npc_maid_cafe_coffee_voucher||0);
-    const owned=!!c.paidCosmetics.maidCafe;
-    html+=`<div class="maidThemeRedeemCard">
-      <div><b>☕ 請店長喝咖啡券 → 女僕咖啡廳主題</b>
-      <div class="small">持有：${voucher} 張。使用 1 張永久解鎖女僕咖啡廳主題，並播放限定特殊劇情。</div></div>
-      <button type="button" data-redeem-maid-theme ${owned||voucher<=0?"disabled":""}>
-        ${owned?"✓ 已解鎖":voucher>0?"使用咖啡券 ×1":"🔒 尚無咖啡券"}
-      </button>
-    </div>`;
-  }
-  return html;
 }
 function npcRenderRumor(st){
   const rumors=[
@@ -11208,10 +11276,7 @@ document.getElementById("closeNpcStoryPlayer")?.addEventListener("click",e=>{e.s
     const hero=document.querySelector(".npcHero img");
     const story=document.getElementById("npcStoryPortrait");
     const src=existingCache[face]?NPC_FACE_IMAGES[face]:NPC_FACE_IMAGES.normal;
-    [hero,story].forEach(img=>{
-      if(img===story && story?.dataset?.maidCgLocked)return;
-      if(img&&img.getAttribute("src")!==src)img.src=src;
-    });
+    [hero,story].forEach(img=>{if(img&&img.getAttribute("src")!==src)img.src=src});
     document.querySelectorAll(".npcExpressionBadge").forEach(x=>{
       x.textContent=NPC_FACE_EMOJI[face]||"";
       x.className=`npcExpressionBadge face-${face}`;
@@ -11536,9 +11601,6 @@ document.getElementById("closeNpcStoryPlayer")?.addEventListener("click",e=>{e.s
   };
 
   function setStoryFace(face){
-    if(document.getElementById("npcStoryPortrait")?.dataset?.maidCgLocked)return;
-    const _ms=window.npcStoryPlayerState; const _ml=_ms?.lines?.[_ms?.index||0];
-    if(String(_ms?.title||'').includes('女僕咖啡廳') && Number(_ml?.maidStage||0)>=1) return;
     if(!FACE_PATHS[face]) face="normal";
     const img=document.getElementById("npcStoryPortrait");
     if(img){
@@ -11691,10 +11753,10 @@ document.getElementById("closeNpcStoryPlayer")?.addEventListener("click",e=>{e.s
     EVENT_START=Date.now();
     localStorage.setItem(EVENT_WINDOW_KEY,String(EVENT_START));
   }
-  // 3.26.79: temporary test deadline extended to tonight 00:00 (Taiwan time).
+  // 3.26.6: temporary test deadline extended to tonight 00:00 (Taiwan time).
   const EVENT_END=Date.parse("2026-08-12T00:00:00+08:00");
   const TEST_TIME_KEY="role_life_test_fake_now_v1";
-  // 3.26.79: clear stale simulated dates left by earlier testing sessions.
+  // 3.26.7: clear stale simulated dates left by earlier testing sessions.
   try{ localStorage.removeItem(TEST_TIME_KEY); }catch(e){}
 
   function testNowMs(){
@@ -12071,7 +12133,7 @@ document.getElementById("closeNpcStoryPlayer")?.addEventListener("click",e=>{e.s
 
 
 <style>
-/* === 3.26.79 single floating-entry visibility owner === */
+/* === 3.26.1 single floating-entry visibility owner === */
 #launchActivityFab.activityEntryVisible,
 #npcTownFab.activityEntryVisible{
   display:flex!important;
@@ -12086,7 +12148,7 @@ body:not(.launch-game-open) #launchActivityFab.activityEntryVisible{
 }
 </style>
 <script>
-/* === 3.26.79 activity-entry flicker fix === */
+/* === 3.26.1 activity-entry flicker fix === */
 (function(){
   const TEST_TIME_KEY="role_life_test_fake_now_v1";
   const DEFAULT_TEST_DATE="2026-08-18T12:00:00+08:00";
@@ -12176,11 +12238,100 @@ body:not(.launch-game-open) #launchActivityFab.activityEntryVisible{
 </script>
 
 
+<script>
+/* === 3.26.2 GM/Owner bypass for test access gate === */
+(function(){
+  function gmOrOwnerActive(){
+    try{
+      if(window.gmSession?.user?.id) return true;
+      if(window.gmProfile) return true;
+      if(localStorage.getItem("role_life_gm_session")) return true;
+      if(localStorage.getItem("gmSession")) return true;
+      if(localStorage.getItem("gm_session")) return true;
+      return false;
+    }catch(e){ return false; }
+  }
+  window.gmOrOwnerActive=gmOrOwnerActive;
 
+  function enterTestAsOwner(){
+    try{
+      const gate=document.getElementById("testAccessGate");
+      if(gate) gate.classList.add("hidden");
+      document.body.classList.add("test-access-ok");
+      localStorage.setItem("test_access_granted_owner","1");
+      toast?.("👑 GM / Owner 已直接進入測試服",2200);
+      try{renderHome?.()}catch(e){}
+      try{renderGame?.()}catch(e){}
+      try{syncNpcFab?.()}catch(e){}
+      try{updateLaunchActivityFab?.()}catch(e){}
+      return true;
+    }catch(e){
+      console.warn("owner bypass failed",e);
+      return false;
+    }
+  }
+  window.enterTestAsOwner=enterTestAsOwner;
+
+  /* GM/Owner 已登入時直接繞過 TEST 碼。 */
+  function applyOwnerBypass(){
+    if(gmOrOwnerActive()){
+      enterTestAsOwner();
+      return true;
+    }
+    return false;
+  }
+
+  /* 入口按鈕：如果是 GM/Owner，直接放行；一般測試員照原本 TEST 碼流程。 */
+  document.addEventListener("click",e=>{
+    const btn=e.target.closest("#verifyTestAccess,#testAccessVerify,#enterTestServerBtn,[data-test-access-verify]");
+    if(!btn)return;
+    if(gmOrOwnerActive()){
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      enterTestAsOwner();
+    }
+  },true);
+
+  /* GM 登入成功後立刻檢查，不需要再輸入測試碼。 */
+  document.addEventListener("click",e=>{
+    if(e.target.closest("#gmLoginBtn,#gmSubmitLogin,#gmGateBtn")){
+      setTimeout(applyOwnerBypass,250);
+      setTimeout(applyOwnerBypass,800);
+    }
+  },true);
+
+  /* 頁面載入時若已經保有 GM session，也直接放行。 */
+  setTimeout(applyOwnerBypass,100);
+  setTimeout(applyOwnerBypass,600);
+  window.addEventListener("pageshow",applyOwnerBypass);
+
+  /* 更新測試服版本顯示，避免入口仍寫 3.24-beta。 */
+  const replacements=[
+    ["Ver.3.24-beta","Ver.3.26.40-beta"],
+    ["TEST • 3.24-beta","TEST • 3.26.40-beta"],
+    ["TEST・3.24-beta","TEST・3.26.40-beta"],
+    ["TEST • 3.26.1-beta","TEST • 3.26.40-beta"],
+    ["TEST・3.26.1-beta","TEST・3.26.40-beta"]
+  ];
+  function updateVersionLabels(){
+    document.querySelectorAll("body *").forEach(el=>{
+      if(el.children.length===0 && typeof el.textContent==="string"){
+        let t=el.textContent;
+        for(const [a,b] of replacements)t=t.replace(a,b);
+        if(t!==el.textContent)el.textContent=t;
+      }
+    });
+    if(document.title.includes("3.24-beta"))document.title=document.title.replace("3.24-beta","3.26.40-beta");
+    if(document.title.includes("3.26.1-beta"))document.title=document.title.replace("3.26.1-beta","3.26.40-beta");
+  }
+  updateVersionLabels();
+  setTimeout(updateVersionLabels,500);
+})();
+</script>
 
 
 <script>
-/* === 3.26.79 TEST restore patch: story emotion + exact hero dialogue + 5h expiry === */
+/* === 3.26.2 TEST restore patch: story emotion + exact hero dialogue + 5h expiry === */
 (function(){
   const taps=[
     ["happy","你來啦。今天想看看什麼？"],
@@ -12302,7 +12453,7 @@ body:not(.launch-game-open) #launchActivityFab.activityEntryVisible{
 
 
 <script>
-/* 3.26.79M mobile crash guard */
+/* 3.26.2M mobile crash guard */
 window.addEventListener("unhandledrejection",function(ev){
   try{
     const msg=String(ev?.reason?.message||ev?.reason||"");
@@ -12317,12 +12468,12 @@ window.addEventListener("unhandledrejection",function(ev){
 
 
 <style>
-/* === 3.26.79 hotfix: restore launch/NPC entry buttons in test build === */
+/* === 3.26.4 hotfix: restore launch/NPC entry buttons in test build === */
 #launchActivityFab.activityEntryVisible,
 #npcTownFab.activityEntryVisible{display:flex!important}
 </style>
 <script>
-/* === 3.26.79 hotfix: test build entry routes must remain available while in game === */
+/* === 3.26.4 hotfix: test build entry routes must remain available while in game === */
 (function(){
   function gameIsOpen(){
     const game=document.getElementById("game");
@@ -12398,7 +12549,7 @@ window.addEventListener("unhandledrejection",function(ev){
 </script>
 
 <style>
-/* === 3.26.79 final entrance guard: game route is the only visibility source === */
+/* === 3.26.5 final entrance guard: game route is the only visibility source === */
 body.game-entry-active #launchActivityFab,
 body.game-entry-active #npcTownFab{
   display:flex!important;
@@ -12408,7 +12559,7 @@ body.game-entry-active #npcTownFab{
 }
 </style>
 <script>
-/* === 3.26.79 route-driven floating entrances === */
+/* === 3.26.5 route-driven floating entrances === */
 (function(){
   function forceGameEntries(){
     const game=document.getElementById("game");
@@ -12450,7 +12601,7 @@ body.game-entry-active #npcTownFab{
 
 
 <script>
-/* === 3.26.79 店長平時立繪 + 強化情緒 + 限定鈴鐺贈禮 === */
+/* === 3.26.10 店長平時立繪 + 強化情緒 + 限定鈴鐺贈禮 === */
 (function(){
   const NORMAL_FACE='cat_shopkeeper_normal.png';
   const EMOTION_FACE={
@@ -12554,7 +12705,7 @@ body.game-entry-active #npcTownFab{
 
 
 <script>
-/* === 3.26.79 店長六表情最終強制切換：在 window capture 階段攔截舊監聽器 === */
+/* === 3.26.18 店長六表情最終強制切換：在 window capture 階段攔截舊監聽器 === */
 (function(){
   const faces=[
     {face:"normal",src:"cat_shopkeeper_normal.png",line:"「歡迎光臨～今天想買點什麼？」"},
@@ -12616,6 +12767,7 @@ body.game-entry-active #npcTownFab{
 </script>
 
 
+<!-- === 3.26.19 NPC 好感里程碑故事觸發修正 === -->
 <script>
 (function(){
   let milestoneTimer=0;
@@ -12702,7 +12854,7 @@ body.game-entry-active #npcTownFab{
 </script>
 
 <script>
-/* === 3.26.79 final hotfix: stable 6-face pointer cycle + story emotions + real-player gifting === */
+/* === 3.26.20 final hotfix: stable 6-face pointer cycle + story emotions + real-player gifting === */
 (function(){
   const FACE={
     normal:'cat_shopkeeper_normal.png',
@@ -12736,9 +12888,7 @@ body.game-entry-active #npcTownFab{
     if(mood&&line)mood.textContent=line;
   }
   function setStoryOnly(face){
-    const _ms=window.npcStoryPlayerState; const _ml=_ms?.lines?.[_ms?.index||0];
-    if(String(_ms?.title||'').includes('女僕咖啡廳') && Number(_ml?.maidStage||0)>=1) return;
-    if(!document.getElementById('npcStoryPortrait')?.dataset?.maidCgLocked) setImg(document.getElementById('npcStoryPortrait'),face);
+    setImg(document.getElementById('npcStoryPortrait'),face);
     const b=document.querySelector('#npcStoryPlayer .npcExpressionBadge');
     if(b){b.textContent='';b.className='npcExpressionBadge face-'+(FACE[face]?face:'normal');}
   }
@@ -12746,11 +12896,9 @@ body.game-entry-active #npcTownFab{
   // Canonical expression setter. Story portrait and shop portrait can still be addressed together
   // by old code, while the final story renderer below always corrects the story portrait afterwards.
   window.setNpcExpression=function(face='normal'){
-    const _ms=window.npcStoryPlayerState; const _ml=_ms?.lines?.[_ms?.index||0];
-    const _maidLocked=String(_ms?.title||'').includes('女僕咖啡廳') && Number(_ml?.maidStage||0)>=1;
     face=FACE[face]?face:'normal';
     setImg(document.querySelector('#npcShopModal .npcHero > img'),face);
-    if(!_maidLocked) if(!document.getElementById('npcStoryPortrait')?.dataset?.maidCgLocked) setImg(document.getElementById('npcStoryPortrait'),face);
+    setImg(document.getElementById('npcStoryPortrait'),face);
     document.querySelectorAll('.npcExpressionBadge').forEach(b=>{b.textContent='';b.className='npcExpressionBadge face-'+face;});
   };
 
@@ -12903,7 +13051,7 @@ body.game-entry-active #npcTownFab{
 
 
 <style>
-/* === 3.26.79 TEST：貓貓活動常駐 + 特殊關係培養 5 級 + 情緒互動 + 小遊戲 === */
+/* === 3.26.21 TEST：貓貓活動常駐 + 特殊關係培養 5 級 + 情緒互動 + 小遊戲 === */
 #npcMeetModal{z-index:10060!important}
 #npcMeetModal .modalBox{max-height:91dvh;overflow:auto;max-width:780px}
 .npcMeetHero{position:relative;display:block;padding:0 0 14px;border:1px solid rgba(120,80,150,.16);border-radius:20px;background:linear-gradient(135deg,rgba(255,255,255,.78),rgba(244,231,250,.72));overflow:hidden}
@@ -12963,7 +13111,7 @@ body.game-entry-active #npcTownFab{
 </div>
 
 <script>
-/* === 3.26.79 TEST authoritative cat activity / relationship cultivation === */
+/* === 3.26.21 TEST authoritative cat activity / relationship cultivation === */
 (function(){
   /* 測試服：貓貓活動永遠開啟，不再受舊日期模擬器或過期攔截影響。 */
   window.npcEventIsActive=function(){return true};
@@ -13257,7 +13405,46 @@ body.game-entry-active #npcTownFab{
 </script>
 
 
-
+<style id="qixiFullThemeFix">
+/* === 七夕初始版 v2：全頁星河、滿版、可讀性修正 === */
+:root{
+ --bg:#120d2d;--card:rgba(255,252,255,.94);--text:#382d45;--muted:#74677f;
+ --line:rgba(173,145,205,.34);--accent:#7557b5;--pink:#d486b5;--soft:#eee5f7;
+}
+html,body{width:100%;min-height:100%;background:#120d2d!important;overflow-x:hidden}
+body{
+ background:
+  radial-gradient(circle at 14% 12%,rgba(255,255,255,.75) 0 1px,transparent 1.8px),
+  radial-gradient(circle at 82% 22%,rgba(255,225,171,.7) 0 1px,transparent 1.8px),
+  radial-gradient(circle at 68% 7%,rgba(211,196,255,.9) 0 1.2px,transparent 2px),
+  linear-gradient(180deg,#100a2b 0%,#18113d 34%,#2c1953 70%,#4b2862 100%)!important;
+ background-attachment:fixed!important;
+}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.42;background-image:radial-gradient(circle,rgba(255,255,255,.85) 0 1px,transparent 1.5px),radial-gradient(circle,rgba(203,185,255,.72) 0 1px,transparent 1.5px);background-size:71px 71px,119px 119px;background-position:13px 9px,37px 51px}
+.wrap{position:relative;z-index:1;max-width:500px;width:100%;margin:0 auto;padding:0 12px calc(22px + env(safe-area-inset-bottom));background:transparent!important}
+#home{margin:0 -12px!important;width:calc(100% + 24px)!important;min-height:100dvh!important;border-radius:0!important;padding:18px 12px 36px!important}
+#game{margin:0 -12px!important;width:calc(100% + 24px)!important;min-height:100dvh!important;padding:0 12px 34px!important;background:linear-gradient(180deg,rgba(16,10,43,.18),rgba(75,40,98,.24))!important}
+#game .top{margin:0 -12px 12px!important;padding:10px 12px!important;background:rgba(24,15,57,.9)!important;border-bottom-color:rgba(220,205,255,.22)!important;color:#fff!important}
+#game .top h1,#game .top b,#game .top .title{color:#fff!important}
+#game .card,#game .notice,#game .event,#game .now,#game .stat,#game .partner,#game .relItem{
+ background:rgba(255,251,255,.93)!important;border-color:rgba(199,177,218,.46)!important;box-shadow:0 8px 24px rgba(8,4,30,.12)
+}
+#game button:not(.primary):not(.danger){background:#eee4f6;color:#604474}
+#game .primary,#game button.primary{background:linear-gradient(135deg,#7758b7,#bd70a8)!important;color:#fff!important}
+#home .homeHero h1{font-size:clamp(30px,9vw,42px)!important;line-height:1.12!important;white-space:normal!important;overflow:visible!important;word-break:keep-all!important;letter-spacing:.02em!important}
+#home .homeHero{padding-left:18px!important;padding-right:18px!important}
+#home .homeTagline,#home .homeVersion,#home .homePanel,#home .homePanel *{text-shadow:none!important}
+#home .homePanel .small,#home .homePanel .muted{color:#ddd3ee!important}
+#home .homePanel button:not(.primary){background:rgba(251,245,255,.96)!important;color:#604474!important}
+#home .homePanel input,#home .homePanel select{color:#382d45!important;background:#fffafd!important;opacity:1!important}
+#home .homePanel input::placeholder{color:#8a7b96!important;opacity:1!important}
+/* 測試服不保留七日/邀請好友活動。測試資格入口本身不受影響。 */
+#launchActivityFab,#launchActivityModal,#testReferralPanel{display:none!important;visibility:hidden!important;pointer-events:none!important}
+@media(max-width:420px){
+ #home .homeHero h1{font-size:clamp(28px,8.6vw,36px)!important}
+ #home .homeHero{padding-left:14px!important;padding-right:14px!important}
+}
+</style>
 <script id="qixiCampaignCleanupV2">
 (function(){
  function clean(){
@@ -13276,6 +13463,67 @@ body.game-entry-active #npcTownFab{
 .paidShopNotice{padding:11px;border:1px dashed #cbb6da;border-radius:14px;background:#fbf7fd;margin-bottom:10px;line-height:1.5}
 .paidShopList{display:grid;gap:9px}.paidProduct{border:1px solid var(--line);border-radius:16px;background:#fffafd;padding:12px;display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center}.paidProductTitle{font-weight:800}.paidPrice{font-size:18px;font-weight:900;color:#76558b}.paidProduct button{grid-column:1/-1}.paidOrderRow{padding:8px 0;border-bottom:1px dashed var(--line);font-size:12px}.paidSuccess{padding:12px;border-radius:14px;background:#f1f8f2;border:1px solid #c9ddce;margin-top:10px}
 </style>
+<script id="paidShopV1Script">
+(function(){
+ const products=[
+  {id:'support30',icon:'☕',name:'請店長喝飲料',price:50,coins:300,item:'paid_support_30',itemName:'☕ 店長飲料券'},
+  {id:'gift60',icon:'🐾',name:'店長的小禮物',price:60,coins:700,item:'paid_gift_60',itemName:'🐾 店長小禮物'},
+  {id:'support100',icon:'💜',name:'小小贊助包',price:100,coins:1200,item:'paid_support_100',itemName:'💜 贊助紀念物'},
+  {id:'dev150',icon:'✨',name:'開發者應援包',price:150,coins:2000,item:'paid_dev_150',itemName:'✨ 開發者應援紀念物'}
+ ];
+ window.PAID_TEST_PRODUCTS=products;
+ function renderPaid(){
+  const box=document.getElementById('paidShopList'),c=typeof cur==='function'?cur():null;if(!box)return;
+  if(!c){box.innerHTML='<div class="muted">請先進入角色。</div>';return}
+  c.paidOrders??=[];
+  box.innerHTML=products.map(p=>`<div class="paidProduct"><div><div class="paidProductTitle">${p.icon} ${p.name}</div><div class="small">遊戲金幣 ${p.coins.toLocaleString()}＋限定收藏品</div></div><div class="paidPrice">NT$${p.price}</div><button type="button" class="primary" data-paid-buy="${p.id}">模擬付款 NT$${p.price}</button></div>`).join('')+(c.paidOrders.length?`<div style="margin-top:5px"><b>最近測試訂單</b>${c.paidOrders.slice(-3).reverse().map(o=>`<div class="paidOrderRow">✅ ${o.orderNo}・${o.name}・NT$${o.price}</div>`).join('')}</div>`:'');
+ }
+ function pay(id){
+  const c=typeof cur==='function'?cur():null,p=products.find(x=>x.id===id);if(!c||!p)return;
+  if(!confirm(`【測試付款】\n${p.name} NT$${p.price}\n\n這是測試服，不會真的扣款。要模擬付款成功嗎？`))return;
+  c.paidOrders??=[];c.inventory??={};
+  const orderNo='TEST'+Date.now().toString(36).toUpperCase()+Math.random().toString(36).slice(2,6).toUpperCase();
+  if(c.paidOrders.some(o=>o.orderNo===orderNo))return toast('這筆訂單已經領取過。');
+  c.money=safeMoney(Number(c.money||0)+p.coins);c.inventory[p.item]=(c.inventory[p.item]||0)+1;
+  c.paidOrders.push({orderNo,productId:p.id,name:p.name,price:p.price,coins:p.coins,paidAt:new Date().toISOString(),status:'test_paid',granted:true});
+  saveLocal();renderGame();renderPaid();
+  alert(`付款成功（測試）\n\n訂單：${orderNo}\n獲得：🪙 ${p.coins} 金幣\n收藏品：${p.itemName}`);
+ }
+ document.addEventListener('click',e=>{const b=e.target.closest('[data-paid-buy]');if(b)pay(b.dataset.paidBuy)});
+ window.renderPaidShop=renderPaid;
+ const oldRender=window.renderShop;
+ if(typeof oldRender==='function')window.renderShop=function(c){oldRender(c);renderPaid()};
+ setTimeout(renderPaid,300);
+})();
+</script>
+
+
+<style id="v32624MaidPaidFlowStyle">
+/* === 3.26.29：付費商店→貓貓商店兌換→NPC付費劇情→贈送女僕咖啡背景 === */
+#appearanceModal .modalBox{max-height:88dvh;overflow:auto}
+.appearanceGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:10px}
+.appearanceCard{border:1px solid #dfd1e7;border-radius:16px;padding:12px;background:#fffafd;text-align:center;min-height:155px;display:flex;flex-direction:column;justify-content:space-between}
+.appearancePreview{height:76px;border-radius:12px;margin-bottom:8px;border:1px solid #ffffff88;box-shadow:inset 0 0 0 1px #0000000a}
+.appearancePreview.default{background:linear-gradient(135deg,#eee5f6,#fff8fb)}
+.appearancePreview.qixi{background:radial-gradient(circle at 25% 25%,#fff 0 1px,transparent 2px),radial-gradient(circle at 70% 18%,#e8dcff 0 1px,transparent 2px),linear-gradient(145deg,#130c38,#4c2f75)}
+.appearancePreview.maid{background:radial-gradient(circle at 18% 20%,#fff8 0 2px,transparent 3px),linear-gradient(145deg,#4b2b49,#a66a89 45%,#f3c6c7 100%)}
+.appearanceCard.locked{opacity:.56}
+body.theme-maid-cafe{
+ background:
+  radial-gradient(circle at 12% 13%,rgba(255,255,255,.65) 0 2px,transparent 3px),
+  radial-gradient(circle at 88% 18%,rgba(255,235,244,.72) 0 3px,transparent 4px),
+  linear-gradient(180deg,#3a2039 0%,#68405d 34%,#b8758c 68%,#efc1bf 100%)!important;
+ background-attachment:fixed!important;
+}
+body.theme-maid-cafe::before{content:"☕  ♡  ✦  ♡  ☕";position:fixed;inset:0;pointer-events:none;z-index:-1;color:rgba(255,255,255,.12);font-size:30px;letter-spacing:22px;line-height:4.5;padding:25px;overflow:hidden;white-space:pre-wrap}
+body.theme-maid-cafe .wrap,body.theme-maid-cafe #game{background:transparent!important}
+body.theme-maid-cafe #game>.top{background:rgba(58,32,57,.9)!important;color:#fff!important;border-color:rgba(255,255,255,.18)!important}
+body.theme-maid-cafe #game>.top .chip{background:rgba(255,248,251,.94)!important;color:#70445e!important}
+.paidRedeemCard{border:1px solid #dfc2d1;border-radius:15px;padding:11px;background:linear-gradient(135deg,#fff9fb,#f9edf4);margin:8px 0}
+.paidRedeemCard .tag{display:inline-block;padding:3px 7px;border-radius:999px;background:#7b526f;color:#fff;font-size:10px;margin-left:4px}
+.npcPaidStoryTitle{display:flex;justify-content:space-between;align-items:center;gap:8px}
+</style>
+
 <div id="appearanceModal" class="modal hidden">
  <div class="modalBox">
   <div class="modalHead"><div><b>🎨 外觀更改</b><div class="small">已解鎖的背景可隨時切換。</div></div><button type="button" class="x" id="closeAppearanceModal">×</button></div>
@@ -13283,11 +13531,410 @@ body.game-entry-active #npcTownFab{
  </div>
 </div>
 
+<script id="v32624MaidPaidFlowScript">
+(function(){
+ const MAID_PRODUCT='maidCafe50';
+ const MAID_PASS='maidCafeVoucher';
+ const MAID_COS='maidCafe';
+ const PAID_STORY_ID='paid_maid_cafe_story';
+ function current(){try{return typeof cur==='function'?cur():null}catch(_){return null}}
+ function ensure(c){if(!c)return;c.paidOrders??=[];c.paidEntitlements??={};c.paidCosmetics??={};c.paidStoryFlags??={};c.paidVoucherFlags??={}}
+ function applyAllThemes(c=current()){
+  document.body.classList.toggle('theme-qixi-paid',!!(c&&c.activePaidTheme==='qixiGalaxy'&&c.paidCosmetics?.qixiGalaxy));
+  document.body.classList.toggle('theme-maid-cafe',!!(c&&c.activePaidTheme===MAID_COS&&c.paidCosmetics?.[MAID_COS]));
+ }
+ function setAppearance(id){
+  const c=current();if(!c)return;
+  ensure(c);
+  if(id==='default')c.activePaidTheme='';
+  else if(id==='qixiGalaxy'&&!c.paidCosmetics?.qixiGalaxy)return toast?.('尚未解鎖鵲橋星河背景。',2600);
+  else if(id===MAID_COS&&!c.paidCosmetics?.[MAID_COS])return toast?.('尚未解鎖女僕咖啡廳主題。請先到付費商店購買。',3200);
+  else c.activePaidTheme=id;
+  saveLocal?.();applyAllThemes(c);renderAppearance();renderPaidShop?.();toast?.('🎨 外觀已更改',2200);
+ }
+ function renderAppearance(){
+  const box=document.getElementById('appearanceGrid'),c=current();if(!box)return;
+  if(!c){box.innerHTML='<div class="small">請先進入角色。</div>';return} ensure(c);
+  const opts=[
+   {id:'default',name:'一般背景',desc:'原本的遊戲背景',preview:'default',owned:true},
+   {id:'qixiGalaxy',name:'🌌 鵲橋星河',desc:'七夕星河付費外觀',preview:'qixi',owned:!!c.paidCosmetics?.qixiGalaxy},
+   {id:MAID_COS,name:'🎀 女僕咖啡廳',desc:'付費購買後永久解鎖',preview:'maid',owned:!!c.paidCosmetics?.[MAID_COS]}
+  ];
+  box.innerHTML=opts.map(o=>{const active=(o.id==='default'?!c.activePaidTheme:c.activePaidTheme===o.id);return `<div class="appearanceCard ${o.owned?'':'locked'}"><div><div class="appearancePreview ${o.preview}"></div><b>${o.name}</b><div class="small">${o.desc}</div></div><button type="button" ${o.owned?'':'disabled'} class="${active?'':'primary'}" data-appearance-id="${o.id}">${o.owned?(active?'✓ 使用中':'套用'):'🔒 未解鎖'}</button></div>`}).join('');
+ }
+ function installDrawer(){
+  const drawer=document.getElementById('drawer');if(!drawer||document.getElementById('appearanceDrawerBtn'))return;
+  const sep=[...drawer.querySelectorAll('.navSep')].pop();
+  const b=document.createElement('button');b.type='button';b.className='navBtn';b.id='appearanceDrawerBtn';b.textContent='🎨 外觀更改';
+  if(sep)drawer.insertBefore(b,sep);else drawer.appendChild(b);
+ }
+ function renderPaidV324(){
+  const box=document.getElementById('paidShopList'),c=current();if(!box)return;
+  ensure(c);
+  const base=(window.PAID_TEST_PRODUCTS||[]).filter(p=>p.id!==MAID_PRODUCT);
+  const maid={id:MAID_PRODUCT,icon:'🎀',name:'女僕咖啡廳主題',price:50,desc:'NT$50 購買 1 張主題兌換券；到貓貓商店兌換後永久解鎖「女僕咖啡廳」主題，並附贈限定付費劇情。'};
+  const all=[...base,maid];
+  window.PAID_TEST_PRODUCTS=all;
+  if(!c){box.innerHTML='<div class="paidOrdersBlock">請先進入角色。</div>';return}
+  const cards=all.map(p=>{
+   if(p.id===MAID_PRODUCT){
+    const paid=!!c.paidVoucherFlags?.[MAID_PASS],redeemed=!!c.paidStoryFlags?.[PAID_STORY_ID];
+    let owned=!!c.paidCosmetics?.[MAID_COS]; let btn=owned?`<button type="button" class="${c.activePaidTheme===MAID_COS?'':'primary'}" data-appearance-id="${MAID_COS}">${c.activePaidTheme===MAID_COS?'✓ 使用中':'🎀 套用主題'}</button>`:paid?`<button type="button" disabled>✓ 已付款・到貓貓商店兌換</button>`:`<button type="button" class="primary" data-paid-maid-buy>模擬付款 NT$50</button>`;
+    return `<div class="paidProduct"><div class="paidProductIcon">${p.icon}</div><div class="paidProductTitle">${p.name}</div><div class="small">${p.desc}</div><div class="paidPrice">NT$50</div>${btn}</div>`;
+   }
+   const has=p.cosmetic?!!c.paidCosmetics?.[p.cosmetic]:!!c.paidEntitlements?.[p.badgeId];
+   const applied=p.cosmetic&&c.activePaidTheme===p.cosmetic;
+   let btn=p.cosmetic&&has?`<button type="button" class="${applied?'':'primary'}" data-paid-theme="${applied?'off':'on'}">${applied?'✓ 使用中・取消套用':'🌌 套用背景'}</button>`:has?'<button disabled>✓ 已擁有</button>':`<button type="button" class="primary" data-paid-buy-v323="${p.id}">模擬付款 NT$${p.price}</button>`;
+   return `<div class="paidProduct"><div class="paidProductIcon">${p.icon||''}</div><div class="paidProductTitle">${p.name}</div><div class="small">${p.desc||''}</div><div class="paidPrice">NT$${p.price}</div>${btn}</div>`;
+  }).join('');
+  box.innerHTML=cards+(c.paidOrders?.length?`<div class="paidOrdersBlock"><b>最近測試訂單</b>${c.paidOrders.slice(-4).reverse().map(o=>`<div class="paidOrderRow">✅ ${o.orderNo}・${o.name}・NT$${o.price}</div>`).join('')}</div>`:'');
+ }
+ function buyMaid(){
+  const c=current();if(!c)return toast?.('請先進入角色。',2400);ensure(c);
+  if(c.paidCosmetics?.[MAID_COS])return toast?.('🎀 女僕咖啡廳主題已經擁有。',3000);
+  if(!confirm('【測試付款】\n女僕咖啡廳主題 NT$50\n\n付款後取得 1 張主題兌換券，請到貓貓商店兌換；兌換後永久解鎖主題，並附贈限定付費劇情。\n\n要模擬付款成功嗎？'))return;
+  const orderNo='TESTMAID'+Date.now().toString(36).toUpperCase();
+  c.paidVoucherFlags[MAID_PASS]=true;
+  c.paidOrders.push({orderNo,productId:MAID_PRODUCT,name:'女僕咖啡廳主題兌換券',price:50,paidAt:new Date().toISOString(),status:'test_paid',granted:true});
+  saveLocal?.();renderAppearance();renderPaidV324();try{renderNpcShop?.()}catch(_){}
+  toast?.('🎟️ 付款成功！已取得 1 張「女僕咖啡廳主題兌換券」，請到貓貓商店兌換主題。',4500);
+ }
+ function maidStory(c,st){
+  ensure(c);if(c.paidStoryFlags[PAID_STORY_ID])return toast?.('這段付費劇情已經完成。',2500);
+  const lines=[
+   {speaker:'旁白',face:'normal',text:'你把付款後得到的「女僕咖啡廳主題兌換券」遞到櫃檯前。貓貓看了一眼，又抬頭看你。'},
+   {speaker:'貓貓',face:'surprised',text:'「……你真的買了這個？」'},
+   {speaker:'旁白',face:'normal',text:'她拉上店門的簾子，過了一會兒才從後面重新走出來。'},
+   {speaker:'貓貓',face:'shy',text:'「先說好，只是活動限定。你不准笑。」'},
+   {speaker:'旁白',face:'happy',text:'今天的貓貓換上了女僕咖啡廳的制服，把咖啡放到你面前。'},
+   {speaker:'貓貓',face:'shy',text:'「歡、歡迎回來……主人。」'},
+   {speaker:'貓貓',face:'annoyed',text:'「……你敢把這句話拿去跟別人說，我就把咖啡收走。」'},
+   {speaker:'旁白',face:'soft',text:'嘴上這麼說，她卻一直沒有把你趕出去。離開前，她把一張新的背景卡交到你手裡。'},
+   {speaker:'貓貓',face:'soft',text:'「這個送你。下次想起今天，就換上它吧。」'}
+  ];
+  const done=()=>{
+   c.paidStoryFlags[PAID_STORY_ID]=true;c.paidCosmetics[MAID_COS]=true;c.activePaidTheme=MAID_COS;
+   st.flags??={};st.flags.paidMaidCafeStory=1;saveNpcState?.(st);
+   c.memories??=[];if(!c.memories.some(x=>x.t==='🎀 付費劇情・女僕咖啡廳'))c.memories.unshift({t:'🎀 付費劇情・女僕咖啡廳',d:new Date().toLocaleDateString('zh-TW')});
+   saveLocal?.();applyAllThemes(c);renderGame?.();renderAppearance();renderPaidV324();
+   toast?.('🎀 女僕咖啡廳限定付費劇情已收藏，可隨時重看。',4200);
+  };
+  if(typeof startNpcRpgStory==='function')startNpcRpgStory({title:'🎀 付費劇情・女僕咖啡廳',lines,onComplete:done});else{alert('🎀 付費劇情・女僕咖啡廳');done()}
+ }
+ function injectMaidRedeem(){
+  const c=current();if(!c)return;ensure(c);
+  const panel=document.getElementById('npcShopBody')||document.getElementById('npcShopTabBody')||document.querySelector('.npcShopBody');if(!panel)return;
+  panel.querySelectorAll(`[data-npc-buy="npc_cat_coffee_voucher"]`).forEach(btn=>btn.closest('.npcShopItem')?.remove());
+  panel.querySelectorAll('.paidMaidRedeemCard').forEach(x=>x.remove());
+  if(c.paidCosmetics?.[MAID_COS]&&!c.paidStoryFlags[PAID_STORY_ID]){
+   const div=document.createElement('div');div.className='paidRedeemCard paidMaidRedeemCard';
+   div.innerHTML='<div><b>🎀 女僕咖啡廳・限定付費劇情 <span class="tag">主題附贈</span></b><div class="small">NT$50 付款後取得主題兌換券；先在貓貓商店兌換主題，再可觀看這段限定付費劇情。</div></div><button type="button" class="primary" data-use-paid-maid-voucher style="width:100%;margin-top:8px">📖 開啟限定付費劇情</button>';
+   panel.prepend(div);
+  }
+ }
+ function paidStoryButtonHTML(c){
+  ensure(c);const unlocked=!!c.paidStoryFlags[PAID_STORY_ID];const waiting=!!c.paidVoucherFlags[MAID_PASS];
+  return `<div class="npcDetailSection"><div class="npcPaidStoryTitle"><h3>💳 付費劇情 ${unlocked?'1/1':'0/1'}</h3><span class="chip">永久收藏</span></div><div class="npcStoryCollect"><button class="${unlocked?'':'locked'}" ${unlocked?'data-replay-paid-maid-story':''}>${unlocked?'🎀 女僕咖啡廳':'🔒 ???'}</button></div><div class="small" style="margin-top:7px">${unlocked?'已完成，可重看這段特殊劇情。':waiting?'已付款：請先到貓貓商店使用「女僕咖啡廳主題兌換券」。':'在付費商店以 NT$50 購買主題兌換券後才會解鎖。'}</div></div>`;
+ }
+ function injectPaidStorySection(){
+  const body=document.getElementById('npcDetailBody'),c=current();if(!body||!c)return;
+  body.querySelectorAll('.npcPaidStorySection32624').forEach(x=>x.remove());
+  const wrap=document.createElement('div');wrap.className='npcPaidStorySection32624';wrap.innerHTML=paidStoryButtonHTML(c);body.appendChild(wrap);
+ }
+ function replayMaid(){const c=current(),st=typeof npcState==='function'?npcState():null;if(!c||!st)return;if(!c.paidStoryFlags?.[PAID_STORY_ID])return;const was=c.paidStoryFlags[PAID_STORY_ID];c.paidStoryFlags[PAID_STORY_ID]=false;maidStory(c,st);c.paidStoryFlags[PAID_STORY_ID]=was}
+
+ document.addEventListener('click',e=>{
+  let b=e.target.closest('[data-paid-maid-buy]');if(b){e.preventDefault();e.stopImmediatePropagation();buyMaid();return}
+  b=e.target.closest('[data-use-paid-maid-voucher]');if(b){e.preventDefault();e.stopImmediatePropagation();const c=current(),st=typeof npcState==='function'?npcState():null;if(c&&st)maidStory(c,st);return}
+  b=e.target.closest('[data-appearance-id]');if(b){e.preventDefault();setAppearance(b.dataset.appearanceId);return}
+  b=e.target.closest('#appearanceDrawerBtn');if(b){e.preventDefault();document.getElementById('drawer')?.classList.add('hidden');document.getElementById('drawerShade')?.classList.add('hidden');renderAppearance();document.getElementById('appearanceModal')?.classList.remove('hidden');return}
+  b=e.target.closest('#closeAppearanceModal');if(b){document.getElementById('appearanceModal')?.classList.add('hidden');return}
+  b=e.target.closest('[data-replay-paid-maid-story]');if(b){e.preventDefault();const c=current(),st=typeof npcState==='function'?npcState():null;if(c&&st){const flag=c.paidStoryFlags[PAID_STORY_ID];c.paidStoryFlags[PAID_STORY_ID]=false;maidStory(c,st);c.paidStoryFlags[PAID_STORY_ID]=flag}return}
+ },true);
+
+ const oldRenderPaid=window.renderPaidShop;window.renderPaidShop=renderPaidV324;
+ /* 3.26.40 FIX:
+    舊版用 MutationObserver 監看整個 document.body，callback 內又會 remove/append
+    npcPaidStorySection，造成 observer -> DOM 修改 -> observer 的無限迴圈。
+    Android WebView 在角色進入開始大量 render 後會因此卡死甚至被系統殺掉。
+    改成事件驅動，只在真正需要的 NPC 畫面更新。 */
+ function refreshPaidNpcUi(){
+  try{injectMaidRedeem()}catch(e){console.warn('paid maid redeem refresh',e)}
+  try{injectPaidStorySection()}catch(e){console.warn('paid story refresh',e)}
+ }
+ function hookNpcPaidUi(){
+  try{
+   if(typeof window.openNpcShop==='function'&&!window.openNpcShop.__paidUiHook){
+    const orig=window.openNpcShop;
+    const wrapped=function(){const r=orig.apply(this,arguments);setTimeout(refreshPaidNpcUi,0);return r};
+    wrapped.__paidUiHook=true;window.openNpcShop=wrapped;
+   }
+  }catch(e){console.warn('hook openNpcShop',e)}
+  try{
+   if(typeof window.openNpcDetail==='function'&&!window.openNpcDetail.__paidUiHook){
+    const orig=window.openNpcDetail;
+    const wrapped=function(){const r=orig.apply(this,arguments);setTimeout(refreshPaidNpcUi,0);return r};
+    wrapped.__paidUiHook=true;window.openNpcDetail=wrapped;
+   }
+  }catch(e){console.warn('hook openNpcDetail',e)}
+  try{
+   if(typeof window.renderNpcShop==='function'&&!window.renderNpcShop.__paidUiHook){
+    const orig=window.renderNpcShop;
+    const wrapped=function(){const r=orig.apply(this,arguments);setTimeout(refreshPaidNpcUi,0);return r};
+    wrapped.__paidUiHook=true;window.renderNpcShop=wrapped;
+   }
+  }catch(e){console.warn('hook renderNpcShop',e)}
+ }
+ function boot(){
+  installDrawer();const c=current();if(c){ensure(c);applyAllThemes(c)}
+  renderPaidV324();renderAppearance();hookNpcPaidUi();refreshPaidNpcUi();
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(boot,200));else setTimeout(boot,200);
+ window.applyPaidAppearance=applyAllThemes;
+})();
+</script>
+
+<script>
+/* === 3.26.30 TEST：角色「進入」強制本機優先修復 ===
+   使用 capture phase 接管角色卡的進入按鈕，避免舊 listener、雲端同步、
+   或後續新增模組在 Android 上吃掉點擊/阻塞第一幀。 */
+(function(){
+  async function forceLocalCharacterEntry(id){
+    try{
+      if(typeof clearFatal==='function')clearFatal();
+      const chars=(typeof local!=='undefined'&&Array.isArray(local.characters))?local.characters:[];
+      const c=chars.find(x=>String(x.id)===String(id));
+      if(!c){alert('找不到這個角色存檔。請重新整理頁面後再試。');return;}
+
+      /* 3.26.40 Android hard fix:
+         切畫面一定要早於任何存檔序列化、每日重置、完整 render 或雲端工作。
+         舊版在 show(game) 前呼叫 saveLocal()，大型存檔在 Android WebView 會長時間堵塞，
+         甚至被系統直接殺掉。 */
+      activeId=c.id;
+      room=null; partner=null;
+      activeRoomCode=(Array.isArray(c.roomCodes)?c.roomCodes:[])[0]||'';
+
+      try{if(typeof rememberOpenSheet==='function')rememberOpenSheet('')}catch(_){}
+      try{document.querySelectorAll('.pageCard').forEach(x=>x.classList.remove('active'))}catch(_){}
+      try{if(typeof pageTitle!=='undefined'&&pageTitle)pageTitle.textContent='角色生活'}catch(_){}
+
+      /* 第一幀只切頁 + 最小文字，不碰 saveLocal/renderExtras/雲端。 */
+      try{
+        document.getElementById('home')?.classList.add('hidden');
+        document.getElementById('game')?.classList.remove('hidden');
+        document.body.classList.add('game-entry-active');
+        document.body.classList.remove('launch-home-open');
+        const set=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v};
+        set('charName',c.name||'角色');
+        set('level',Number(c.level||1));
+        set('energy',Math.floor(Number(c.energy??100)));
+        set('mood',Math.floor(Number(c.mood??80)));
+        set('hunger',Math.floor(Number(c.hunger??85)));
+        set('moneyTop',Number(c.money??300));
+        set('day',typeof day==='function'?day(c):1);
+        const im=document.getElementById('avatarImg'), em=document.getElementById('emoji');
+        if(c.image && im){
+          im.src=c.image; im.style.display='block';
+          if(em)em.style.display='none';
+        }else{
+          if(im)im.style.display='none';
+          if(em){em.style.display='inline';em.textContent='🐾';}
+        }
+      }catch(err){console.warn('entry minimal paint',err)}
+
+      mobileEntryLightRender=true;
+
+      /* 下一個 event loop 才做必要資料補正；不在點擊事件內序列化存檔。 */
+      setTimeout(()=>{
+        if(typeof cur==='function'&&cur()?.id!==c.id)return;
+        try{if(typeof ensureRelations==='function')ensureRelations(c)}catch(err){console.warn('entry ensureRelations',err)}
+        try{if(typeof ensureMeta==='function')ensureMeta(c)}catch(err){console.warn('entry ensureMeta',err)}
+        try{if(typeof restoreBadgeShowcaseBackup==='function')restoreBadgeShowcaseBackup(c)}catch(err){console.warn('entry badge restore',err)}
+        /* 3.26.40: 第一階段禁止呼叫 renderGame。renderGame 內仍包含每日判定、關係卡與多個大型 DOM 建立。 */
+        try{
+          const cid=document.getElementById('charIdCode');if(cid&&typeof displayCharacterId==='function')cid.textContent=displayCharacterId(c);
+          const gb=document.getElementById('genderBadge');if(gb){gb.textContent=c.gender==='male'?'♂ 男':'♀ 女';gb.classList.toggle('hidden',!c.gender)}
+          const rc=document.getElementById('relationCount');if(rc)rc.textContent=`${Array.isArray(c.roomCodes)?c.roomCodes.length:0}/6`;
+          const dn=document.getElementById('drawerName');if(dn)dn.textContent=c.name||'角色';
+        }catch(err){console.warn('entry tiny hydrate',err)}
+      },120);
+
+      /* 每日重置與存檔延後，並拆開，不再阻擋角色頁第一幀。 */
+      setTimeout(()=>{
+        if(typeof cur==='function'&&cur()?.id!==c.id)return;
+        try{if(typeof resetDailyIfNeeded==='function')resetDailyIfNeeded(c)}catch(err){console.warn('entry daily',err)}
+      },2500);
+
+      setTimeout(()=>{
+        if(typeof cur==='function'&&cur()?.id!==c.id)return;
+        try{if(typeof saveLocal==='function')saveLocal()}catch(err){console.warn('entry deferred save',err)}
+      },4500);
+
+      /* 完整本機 UI 再晚一點載入，避免同一幀大量 DOM 建立。 */
+      if(typeof mobileEntryDeferredTimer!=='undefined' && mobileEntryDeferredTimer)clearTimeout(mobileEntryDeferredTimer);
+      mobileEntryDeferredTimer=setTimeout(()=>{
+        if(typeof cur==='function'&&cur()?.id!==c.id)return;
+        mobileEntryLightRender=false;
+        try{if(typeof safeRenderGame==='function')safeRenderGame()}catch(err){console.warn('entry full local render',err)}
+        setTimeout(()=>{
+          try{if(typeof maybeEvent==='function' && typeof cur==='function' && cur()?.id===c.id)maybeEvent()}catch(err){console.warn('entry event',err)}
+        },500);
+      },6500);
+
+      /* 雲端輪詢最後才啟動。 */
+      setTimeout(()=>{
+        if(typeof cur==='function'&&cur()?.id!==c.id)return;
+        try{if(typeof startPolling==='function')startPolling()}catch(err){console.warn('entry polling',err)}
+      },12000);
+    }catch(err){
+      console.error('3.26.40 forced local entry failed',err);
+      alert('角色進入失敗：'+(err?.message||'未知錯誤'));
+    }
+  }
+
+  document.addEventListener('click',function(e){
+    const btn=e.target.closest?.('#saveList [data-open]');
+    if(!btn)return;
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    if(typeof lastPointerEntryAt!=='undefined' && Date.now()-lastPointerEntryAt<900)return;
+    forceLocalCharacterEntry(btn.dataset.open);
+  },true);
+
+  let lastPointerEntryAt=0;
+  document.addEventListener('pointerup',function(e){
+    const btn=e.target.closest?.('#saveList [data-open]');
+    if(!btn)return;
+    /* Android 修復：不能只攔截 pointerup，否則部分手機不會再合成 click。
+       直接在 pointerup 進角色，並吞掉後續重複事件。 */
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    lastPointerEntryAt=Date.now();
+    forceLocalCharacterEntry(btn.dataset.open);
+  },true);
+})();
+</script>
+
+<style id="v32639MaidCafeFinalPreviewStyle">
+/* === 3.26.40 女僕咖啡廳完整預覽＋NT$50 單券兌換 === */
+body.maid-cafe-preview,
+body.maid-cafe-preview.theme-qixi-paid,
+body.maid-cafe-preview.theme-maid-cafe{
+  --bg:#fff3f5!important;--card:#fffaf8!important;--text:#4c3540!important;--muted:#8b6f79!important;
+  --line:#efd8df!important;--accent:#b86b8c!important;--pink:#db92a8!important;--soft:#f8e7ed!important;
+  background:
+    radial-gradient(circle at 10% 8%,rgba(255,255,255,.92) 0 3px,transparent 4px),
+    radial-gradient(circle at 88% 14%,rgba(255,232,239,.9) 0 4px,transparent 5px),
+    repeating-linear-gradient(135deg,rgba(255,255,255,.13) 0 14px,transparent 14px 28px),
+    linear-gradient(180deg,#6b3d52 0 128px,#f0b8c4 128px 220px,#fff2f1 220px 100%)!important;
+  background-attachment:fixed!important;
+  color:#4c3540!important;
+}
+body.maid-cafe-preview::before{
+  content:"☕   ♡   🎀   ♡   ☕   🎀"!important;
+  position:fixed!important;inset:0!important;z-index:-1!important;pointer-events:none!important;
+  background:none!important;color:rgba(121,67,88,.075)!important;font-size:30px!important;
+  letter-spacing:18px!important;line-height:5.2!important;padding:24px!important;white-space:pre-wrap!important;
+}
+body.maid-cafe-preview #home,
+body.maid-cafe-preview #game,
+body.maid-cafe-preview .wrap{background:transparent!important}
+body.maid-cafe-preview .top{background:rgba(91,49,68,.94)!important;color:#fff!important;border-bottom-color:#f6d8e1!important}
+body.maid-cafe-preview .homeHero{background:linear-gradient(145deg,rgba(255,250,248,.97),rgba(255,228,235,.96))!important;border-color:#e8bdca!important;box-shadow:0 10px 28px rgba(93,50,70,.12)!important}
+body.maid-cafe-preview .homeHero::before{content:"☕ MAID CAFÉ • PREVIEW";display:block;font-size:11px;letter-spacing:2px;color:#a15f7b;margin-bottom:8px;font-weight:900}
+body.maid-cafe-preview .homePanel,
+body.maid-cafe-preview .card,
+body.maid-cafe-preview .pageCard.active,
+body.maid-cafe-preview .modalBox{background:rgba(255,250,248,.97)!important;border-color:#ebd0d8!important}
+body.maid-cafe-preview button.primary{background:linear-gradient(135deg,#a95d7d,#cf809b)!important;color:#fff!important}
+body.maid-cafe-preview .chip{background:#f8e3e9!important;color:#7d4b60!important}
+.maidThemeVoucherCard{border:1px solid #e7c2cf;border-radius:16px;padding:12px;background:linear-gradient(135deg,#fff9f8,#f9e8ee);margin:10px 0;display:grid;grid-template-columns:1fr auto;gap:9px;align-items:center}
+.maidThemeVoucherCard .maidThemeTitle{font-weight:900;font-size:16px}
+.maidThemeVoucherCard .maidThemeCost{font-weight:900;color:#96566f;white-space:nowrap}
+.maidThemeVoucherCard button{grid-column:1/-1;width:100%}
+</style>
+<script id="v32639MaidCafeFinalPatch">
+(function(){
+ const BUILD='3.26.40';
+ const MAID_PASS='maidCafeVoucher';
+ const MAID_COS='maidCafe';
+ function current(){try{return typeof cur==='function'?cur():null}catch(_){return null}}
+ function applyPreview(){
+   document.body.classList.add('maid-cafe-preview');
+   /* 預覽版永遠以女僕咖啡廳視覺壓過星河；不修改玩家原本購買紀錄。 */
+ }
+ function cleanLegacy(c){
+   if(!c)return;c.inventory??={};c.paidCollectibles??={};
+   for(const k of Object.keys(c.inventory))if(/^paid_/.test(k)){const n=Number(c.inventory[k]||0);if(n>0)c.paidCollectibles[k]=Math.max(Number(c.paidCollectibles[k]||0),n);delete c.inventory[k]}
+ }
+ function owned(c){return !!c?.paidCosmetics?.[MAID_COS]}
+ function hasPass(c){return !!c?.paidVoucherFlags?.[MAID_PASS]}
+ function maidCard(c){
+   const has=owned(c),pass=hasPass(c);
+   return `<div class="maidThemeVoucherCard" id="maidThemeVoucherCard32639"><div><div class="maidThemeTitle">🎀 女僕咖啡廳主題</div><div class="small">付費商店 NT$50 購買 1 張「女僕咖啡廳主題兌換券」後，可在這裡一次兌換並永久解鎖。</div></div><div class="maidThemeCost">🎟️ ×1</div><button type="button" class="${has?'':pass?'primary':''}" data-redeem-maid-theme ${has||!pass?'disabled':''}>${has?'✓ 已永久解鎖':pass?'使用 1 張主題兌換券':'🔒 請先購買 NT$50 兌換券'}</button></div>`;
+ }
+ function installNpcShopHook(){
+   const fn=window.npcRenderShop;
+   if(typeof fn!=='function'||fn.__maid32639)return;
+   const wrapped=function(st){
+     let html=String(fn.apply(this,arguments)??'');
+     const c=current();if(!c)return html;
+     if(!html.includes('maidThemeVoucherCard32639'))html+=maidCard(c);
+     return html;
+   };
+   wrapped.__maid32639=true;window.npcRenderShop=wrapped;
+ }
+ function refreshVersion(){
+   document.title=`關係進行式 TEST・${BUILD}-女僕咖啡廳單券兌換修復`;
+   const hv=document.querySelector('.homeVersion');if(hv)hv.textContent=`${BUILD}・測試服｜女僕咖啡廳單券兌換修復`;
+   document.querySelectorAll('.testServerRibbon').forEach(el=>el.textContent=`🧪 TEST・${BUILD}-beta`);
+   const meta=document.querySelector('meta[name="x-test-build"]');if(meta)meta.content=BUILD;
+ }
+ document.addEventListener('click',e=>{
+   const b=e.target.closest('[data-redeem-maid-theme]');if(!b)return;
+   e.preventDefault();e.stopImmediatePropagation();
+   const c=current();if(!c)return toast?.('請先進入角色。',2600);
+   c.paidCosmetics??={};c.paidVoucherFlags??={};
+   if(owned(c))return toast?.('🎀 女僕咖啡廳主題已經解鎖。',2600);
+   if(!hasPass(c))return toast?.('🎟️ 尚未取得主題兌換券，請先到付費商店模擬付款 NT$50。',3200);
+   c.paidVoucherFlags[MAID_PASS]=false;c.paidCosmetics[MAID_COS]=true;c.activePaidTheme=MAID_COS;
+   c.paidEntitlements??={};c.paidEntitlements.maidCafeVoucherRedeem=true;
+   try{saveLocal?.()}catch(_){}
+   applyPreview();
+   try{applyAllThemes?.(c)}catch(_){}try{renderGame?.()}catch(_){}try{renderNpcShop?.()}catch(_){}try{renderAppearance?.()}catch(_){}try{renderPaidV324?.()}catch(_){}
+   toast?.('🎀 已使用 1 張主題兌換券，永久解鎖「女僕咖啡廳主題」！',4200);
+ },true);
+ function boot(){
+   refreshVersion();applyPreview();const c=current();if(c){cleanLegacy(c);try{saveLocal?.()}catch(_){}}
+   installNpcShopHook();
+   /* 有些 NPC 函式較晚宣告，短時間再掛一次，不使用 MutationObserver。 */
+   setTimeout(installNpcShopHook,250);setTimeout(installNpcShopHook,900);
+   setTimeout(()=>{try{renderNpcShop?.()}catch(_){}},950);
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
+ /* 角色切換後也維持預覽，不讓舊星河 applyTheme 視覺蓋回來。 */
+ document.addEventListener('click',e=>{if(e.target.closest('[data-load]')){setTimeout(()=>{applyPreview();refreshVersion();installNpcShopHook()},0)}},true);
+})();
+</script>
+
+
+<style id="maid-cafe-preview-32640">
+:root{--maid-cream:#fff7f3;--maid-pink:#f4c7d7;--maid-rose:#c97798;--maid-wine:#6d3650;--maid-coffee:#4b302c}
+html,body,#app,#home,#homePage,#game,#gamePage,#main,main,.page,.screen,.view,.app-shell,.game-shell{background:linear-gradient(145deg,#5d3447 0%,#9c5e79 42%,#f1c4d2 100%)!important;background-image:linear-gradient(145deg,#5d3447 0%,#9c5e79 42%,#f1c4d2 100%)!important}
+body::before,body::after,#app::before,#app::after,#home::before,#home::after,#homePage::before,#homePage::after,#game::before,#game::after,#gamePage::before,#gamePage::after,.page::before,.page::after,.screen::before,.screen::after,.app-shell::before,.app-shell::after,.game-shell::before,.game-shell::after{background-image:none!important;box-shadow:none!important}
+#home .card,#homePage .card,#game .card,#gamePage .card,#home .panel,#homePage .panel,#game .panel,#gamePage .panel,#home [class*="card"],#homePage [class*="card"],#game [class*="card"],#gamePage [class*="card"],#game [class*="panel"],#gamePage [class*="panel"],.modal,.modal-content,.dialog,.dialog-content,.popup,.popup-content,.overlay-card,.sheet,.bottom-sheet,.drawer,.toast,.alert,.loading,.loading-box,.loading-modal,.waiting,.waiting-box,[class*="modal"],[class*="dialog"],[class*="popup"],[class*="sheet"],[class*="loading"],[class*="waiting"]{background:linear-gradient(160deg,#fffaf7 0%,#f8dce6 100%)!important;color:var(--maid-coffee)!important;border-color:rgba(201,119,152,.35)!important;box-shadow:0 18px 55px rgba(75,48,44,.22)!important}
+.modal-backdrop,.overlay,.backdrop,[class*="backdrop"]{background:rgba(61,35,42,.48)!important;background-image:none!important}
+.primary,.btn-primary,button.primary,.tab.active,.active-tab{background:linear-gradient(135deg,#b96f91,#7b4560)!important;color:#fff!important}
+input,select,textarea{background:rgba(255,253,251,.94)!important;color:var(--maid-coffee)!important;border-color:rgba(201,119,152,.35)!important}
+header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{background:linear-gradient(90deg,#55303f,#8c506b)!important;background-image:none!important}
+</style>
+<script id="maid-cafe-preview-32640-js">(function(){function a(){document.documentElement.setAttribute('data-theme','maid-cafe');if(document.body){document.body.classList.add('maid-cafe-preview');document.body.setAttribute('data-theme','maid-cafe')}}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',a,{once:true});else a();window.addEventListener('pageshow',a);window.__applyMaidCafePreview=a})();</script>
+
 </body>
 </html>
 
 <style>
-/* === 3.26.79 Desktop RPG responsive layout === */
+/* === 3.26.21 Desktop RPG responsive layout === */
 @media (min-width: 900px) and (min-aspect-ratio: 4/3){
   #npcStoryPlayer{background:#120c18!important;}
   .npcStoryStage{
@@ -13345,7 +13992,48 @@ body.game-entry-active #npcTownFab{
   setTimeout(syncNpcStoryDesktopBg,100);
 })();
 </script>
+<style id="qixiReadabilityV3">
+/* 七夕 v3：白色內容卡文字可讀性 + NPC 視窗柔和星河化 */
+#home .save,
+#home .liveStat,
+#home .createBox{
+  color:#3d3343!important;
+}
+#home .save .saveName{color:#3d3343!important;text-shadow:none!important}
+#home .save .muted,#home .liveStat span,#home .createBox .createHint{color:#786b82!important;text-shadow:none!important}
+#home .liveStat b{color:#6f4f91!important;text-shadow:none!important}
+#home .save button.danger{background:#f4e9f7!important;color:#684979!important}
 
+/* NPC 關係頁不要整片黑紫，改成較柔和、仍有七夕感的半透明淡紫視窗 */
+#extraNpcRelations.pageCard.active{
+  background:linear-gradient(180deg,rgba(241,232,249,.97),rgba(226,214,243,.97))!important;
+  color:#3d3343!important;
+  border:1px solid rgba(201,177,224,.7)!important;
+}
+#extraNpcRelations .sheetHead{
+  background:rgba(239,229,248,.98)!important;
+  color:#3d3343!important;
+  border-bottom:1px solid rgba(196,171,220,.5)!important;
+}
+#extraNpcRelations .sheetHead b{color:#3d3343!important}
+#extraNpcRelations .sheetHead .small{color:#75677f!important}
+#extraNpcRelations .npcRelationIntro{
+  background:rgba(255,250,255,.76)!important;
+  color:#6f6278!important;
+  border-color:rgba(193,168,216,.55)!important;
+}
+#extraNpcRelations .npcRelationCard{
+  background:rgba(255,252,255,.94)!important;
+  color:#3d3343!important;
+  border-color:rgba(193,168,216,.55)!important;
+  box-shadow:0 8px 22px rgba(64,39,91,.08)!important;
+}
+#extraNpcRelations .npcRelationCard .small,
+#extraNpcRelations .npcRelationCard .muted{color:#75677f!important}
+#extraNpcRelations #npcEventPeriodHint{color:#74677f!important}
+#extraNpcRelations button:not(.primary){background:#eee3f6!important;color:#604474!important}
+#extraNpcRelations .sheetClose{background:#eadcf4!important;color:#654879!important}
+</style>
 
 <style id="paidReadabilityAndAccountV2">
 /* 付費商城：七夕深色背景下，白卡文字固定使用可讀色，不再吃到全域淡字。 */
@@ -13549,8 +14237,62 @@ body.game-entry-active #npcTownFab{
 #shopPaidPanel .paidOrdersBlock{grid-column:1/-1}
 @media(max-width:360px){#shopPaidPanel .paidShopList{grid-template-columns:1fr!important}}
 </style>
+<script id="v32621CoffeeVoucher">
+/* === 3.26.21 貓貓咖啡券（一個月限定）＋付款格子化 === */
+(function(){
+  const COFFEE_ID='npc_cat_coffee_voucher';
+  const EVENT_START=Date.parse('2026-08-13T00:00:00+08:00');
+  const EVENT_END=Date.parse('2026-09-13T23:59:59+08:00');
+  const active=()=>Date.now()>=EVENT_START&&Date.now()<=EVENT_END;
+  const oldEffects=window.NPC_ITEM_EFFECTS;
+  try{ if(typeof NPC_ITEM_EFFECTS!=='undefined') NPC_ITEM_EFFECTS[COFFEE_ID]={name:'☕ 貓貓咖啡券【一個月限定】',use:'活動期間可在貓貓商店使用。店長請你喝一杯，回復體力 +20、心情 +20，貓貓好感 +2、熟客度 +1。活動至 2026/09/13。'}; }catch(e){}
+
+  const oldRender=window.renderNpcShop;
+  function addCoffeeCard(){
+    const body=document.getElementById('npcShopBody');
+    if(!body||typeof npcActiveTab==='undefined'||npcActiveTab!=='shop'||!active())return;
+    if(body.querySelector('[data-npc-buy="'+COFFEE_ID+'"]'))return;
+    const card=document.createElement('div');card.className='npcShopItem';
+    card.innerHTML='<div><b>☕ 貓貓咖啡券 <span class="npcSecretTag">一個月限定</span></b><div class="small">使用後觸發店長請客・體力 +20・心情 +20・貓貓好感 +2・熟客度 +1。活動至 9/13。</div></div><button data-npc-buy="'+COFFEE_ID+'">🪙120</button>';
+    body.prepend(card);
+  }
+  if(typeof oldRender==='function')window.renderNpcShop=function(){oldRender();addCoffeeCard();};
+
+  document.addEventListener('click',function(e){
+    const b=e.target.closest('[data-npc-buy="'+COFFEE_ID+'"]');if(!b)return;
+    e.preventDefault();e.stopImmediatePropagation();
+    if(!active())return toast?.('☕ 貓貓咖啡券活動已結束。',3000);
+    const c=typeof cur==='function'?cur():null;if(!c)return toast?.('請先進入角色。',3000);
+    if(Number(c.money||0)<120)return toast?.('🪙 金幣不夠，需要 120。',3000);
+    c.inventory??={};c.money=Math.max(0,Number(c.money||0)-120);c.inventory[COFFEE_ID]=Number(c.inventory[COFFEE_ID]||0)+1;
+    let st=typeof npcState==='function'?npcState():null;if(st){st.purchaseCount=Number(st.purchaseCount||0)+1;st.loyalty=Number(st.loyalty||0)+1;saveNpcState?.(st)}
+    saveLocal?.();renderGame?.();renderNpcShop?.();toast?.('☕ 買下貓貓咖啡券・熟客度 +1',3000);
+  },true);
+
+  document.addEventListener('click',function(e){
+    const b=e.target.closest('[data-npc-use="'+COFFEE_ID+'"]');if(!b)return;
+    e.preventDefault();e.stopImmediatePropagation();
+    const c=typeof cur==='function'?cur():null;if(!c)return;
+    c.inventory??={};if(Number(c.inventory[COFFEE_ID]||0)<=0)return toast?.('背包裡沒有貓貓咖啡券。',3000);
+    if(!active())return toast?.('☕ 咖啡券已過活動使用期限，留作紀念收藏。',3500);
+    c.inventory[COFFEE_ID]-=1;c.energy=Math.min(100,Number(c.energy||0)+20);c.mood=Math.min(100,Number(c.mood||0)+20);
+    let st=typeof npcState==='function'?npcState():null;if(st){st.affection=Math.min(100,Number(st.affection||0)+2);st.loyalty=Number(st.loyalty||0)+1;saveNpcState?.(st)}
+    saveLocal?.();renderGame?.();renderNpcShop?.();
+    if(typeof npcChoice==='function')npcChoice('☕ 貓貓咖啡券','貓貓接過咖啡券看了一眼。<br><br>「這不是我店裡的券嗎？怎麼最後還是我請你。」<br><br>她嘴上抱怨，還是把剛沖好的咖啡推到你面前。<br><br><span class="small">體力 +20・心情 +20・貓貓好感 +2・熟客度 +1</span>',[{label:'謝謝店長',fn:()=>{}}]);
+  },true);
+
+  /* NPC 專屬道具頁補上咖啡券，避免舊 lexical effects 未暴露到 window。 */
+  const oldNpcRenderItems=window.npcRenderItems;
+  // 付款區最近訂單加 class，保持跨兩欄。
+  const oldPaid=window.renderPaidShop;
+  if(typeof oldPaid==='function')window.renderPaidShop=function(){oldPaid();const box=document.getElementById('paidShopList');if(box){[...box.children].forEach(x=>{if(!x.classList.contains('paidProduct'))x.classList.add('paidOrdersBlock')})}};
+  setTimeout(()=>{try{renderPaidShop?.()}catch(e){}},0);
+})();
+</script>
+
+
 <style id="v32623HotfixStyle">
-/* 3.26.79：付款固定兩欄格子；星河外觀；NPC 故事可點擊 */
+/* 3.26.23：付款固定兩欄格子；星河外觀；NPC 故事可點擊 */
 #shopPaidPanel .paidShopList{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important;align-items:stretch!important}
 #shopPaidPanel .paidProduct{display:flex!important;flex-direction:column!important;justify-content:space-between!important;align-items:stretch!important;text-align:center!important;min-width:0!important;min-height:188px!important;padding:14px 10px!important;border-radius:16px!important;background:#fffafd!important;color:#3d3343!important;border:1px solid #ddcfe6!important}
 #shopPaidPanel .paidProductIcon{font-size:30px;line-height:1;margin:2px 0 8px}
@@ -13584,6 +14326,161 @@ body.theme-qixi-paid #game>.top{background:rgba(28,18,55,.88)!important;color:#f
 body.theme-qixi-paid #game>.top .chip{background:rgba(255,255,255,.92)!important;color:#64457a!important}
 </style>
 
+<script id="v32623CommerceStoryPatch">
+/* === 3.26.23：付款收藏不進背包、咖啡券活動、NPC 特殊劇情、星河外觀 === */
+(function(){
+ const COFFEE_ID='npc_cat_coffee_voucher';
+ const EVENT_START=Date.parse('2026-08-13T00:00:00+08:00');
+ const EVENT_END=Date.parse('2026-09-13T23:59:59+08:00');
+ const coffeeActive=()=>Date.now()>=EVENT_START&&Date.now()<=EVENT_END;
+ const PAID_PRODUCTS=[
+  {id:'support30',icon:'☕',name:'請店長喝飲料',price:50,coins:300,badgeId:'paid_badge_support30',badgeIcon:'☕',badgeName:'咖啡應援',desc:'300 金幣＋咖啡應援徽章'},
+  {id:'gift60',icon:'🎁',name:'店長的小禮物',price:60,coins:700,badgeId:'paid_badge_gift60',badgeIcon:'🎁',badgeName:'店長的小禮物',desc:'700 金幣＋限定徽章'},
+  {id:'support100',icon:'🔮',name:'小小贊助包',price:100,coins:1200,badgeId:'paid_badge_support100',badgeIcon:'🔮',badgeName:'紫晶應援',desc:'1,200 金幣＋紫晶應援徽章'},
+  {id:'dev150',icon:'🛠️',name:'開發者應援包',price:150,coins:2000,badgeId:'paid_badge_dev150',badgeIcon:'🛠️',badgeName:'開發者應援',desc:'2,000 金幣＋開發者應援徽章'},
+  {id:'qixiGalaxy50',icon:'🌌',name:'鵲橋星河背景',price:50,coins:0,cosmetic:'qixiGalaxy',desc:'七夕限定星河全頁外觀・NT$50・購買後永久解鎖'}
+ ];
+ window.PAID_TEST_PRODUCTS=PAID_PRODUCTS;
+
+ function current(){try{return typeof cur==='function'?cur():null}catch(_){return null}}
+ function cleanLegacyPaidInventory(c){
+   if(!c||!c.inventory)return;
+   c.paidCollectibles??={};
+   for(const id of Object.keys(c.inventory)){
+     if(!String(id).startsWith('paid_'))continue;
+     const n=Number(c.inventory[id]||0);if(n>0)c.paidCollectibles[id]=Math.max(Number(c.paidCollectibles[id]||0),n);
+     delete c.inventory[id];
+   }
+ }
+ function ensurePaidState(c){c.paidOrders??=[];c.paidEntitlements??={};c.paidCollectibles??={};c.paidCosmetics??={};cleanLegacyPaidInventory(c)}
+ function grantPaidBadge(c,p){
+   if(!p.badgeId)return;
+   c.paidEntitlements[p.badgeId]=true;
+   c.paidCollectibles[p.badgeId]={icon:p.badgeIcon,name:p.badgeName,obtainedAt:new Date().toISOString()};
+   try{
+     if(typeof protoAch!=='undefined'&&!protoAch.some(x=>x[0]===p.badgeId))protoAch.push([p.badgeId,p.badgeIcon,p.badgeName,'支持《關係進行式》取得的限定徽章','收藏']);
+     if(typeof ensureSharedAchievements==='function')ensureSharedAchievements();
+     if(typeof local!=='undefined'){local.sharedAchievements??={};local.sharedAchievements[p.badgeId]=1;c.achievements=local.sharedAchievements;}
+     else{c.achievements??={};c.achievements[p.badgeId]=1;}
+   }catch(_){c.achievements??={};c.achievements[p.badgeId]=1}
+ }
+ function applyTheme(c=current()){
+   const on=!!(c&&c.activePaidTheme==='qixiGalaxy'&&c.paidCosmetics?.qixiGalaxy);
+   document.body.classList.toggle('theme-qixi-paid',on);
+ }
+ function setTheme(on){const c=current();if(!c)return;if(!c.paidCosmetics?.qixiGalaxy)return toast?.('尚未解鎖鵲橋星河背景。',3000);c.activePaidTheme=on?'qixiGalaxy':'';saveLocal?.();applyTheme(c);renderPaid();toast?.(on?'🌌 已套用鵲橋星河背景':'已恢復一般背景',2600)}
+ function owned(c,p){if(p.cosmetic)return !!c.paidCosmetics?.[p.cosmetic];return !!c.paidEntitlements?.[p.badgeId]}
+ function renderPaid(){
+   const box=document.getElementById('paidShopList'),c=current();if(!box)return;
+   if(!c){box.innerHTML='<div class="paidOrdersBlock">請先進入角色。</div>';return}
+   ensurePaidState(c);applyTheme(c);
+   box.innerHTML=PAID_PRODUCTS.map(p=>{
+     const has=owned(c,p),applied=p.cosmetic&&c.activePaidTheme===p.cosmetic;
+     let btn='';
+     if(p.cosmetic&&has)btn=`<button type="button" class="${applied?'':'primary'}" data-paid-theme="${applied?'off':'on'}">${applied?'✓ 使用中・取消套用':'🌌 套用背景'}</button>`;
+     else if(has)btn='<button type="button" disabled>✓ 已擁有</button>';
+     else btn=`<button type="button" class="primary" data-paid-buy-v323="${p.id}">模擬付款 NT$${p.price}</button>`;
+     return `<div class="paidProduct"><div class="paidProductIcon">${p.icon}</div><div class="paidProductTitle">${p.name}</div><div class="small">${p.desc}</div><div class="paidPrice">NT$${p.price}</div>${btn}</div>`;
+   }).join('')+(c.paidOrders.length?`<div class="paidOrdersBlock"><b>最近測試訂單</b>${c.paidOrders.slice(-4).reverse().map(o=>`<div class="paidOrderRow">✅ ${o.orderNo}・${o.name}・NT$${o.price}</div>`).join('')}</div>`:'');
+   try{saveLocal?.()}catch(_){ }
+ }
+ function pay(id){
+   const c=current(),p=PAID_PRODUCTS.find(x=>x.id===id);if(!c||!p)return;
+   ensurePaidState(c);if(owned(c,p))return toast?.('這個內容已經擁有。',2600);
+   if(!confirm(`【測試付款】\n${p.name} NT$${p.price}\n\n這是測試服，不會真的扣款。要模擬付款成功嗎？`))return;
+   const orderNo='TEST'+Date.now().toString(36).toUpperCase()+Math.random().toString(36).slice(2,6).toUpperCase();
+   if(c.paidOrders.some(o=>o.orderNo===orderNo))return toast?.('這筆訂單已發放。',2600);
+   if(p.coins)c.money=typeof safeMoney==='function'?safeMoney(Number(c.money||0)+p.coins):Math.max(0,Number(c.money||0)+p.coins);
+   if(p.cosmetic){c.paidCosmetics[p.cosmetic]=true;c.activePaidTheme=p.cosmetic;}
+   else grantPaidBadge(c,p);
+   c.paidOrders.push({orderNo,productId:p.id,name:p.name,price:p.price,coins:p.coins,paidAt:new Date().toISOString(),status:'test_paid',granted:true});
+   saveLocal?.();renderGame?.();renderPaid();applyTheme(c);
+   alert(`付款成功（測試）\n\n${p.name}\n訂單：${orderNo}${p.coins?`\n獲得：🪙 ${p.coins} 金幣`:''}${p.cosmetic?'\n🌌 已解鎖並套用星河背景':p.badgeName?`\n🏅 徽章：${p.badgeIcon} ${p.badgeName}`:''}`);
+ }
+
+ /* 先攔截新版付款，避免舊 paid_* 處理器再把內部 ID 塞進背包。 */
+ document.addEventListener('click',e=>{
+   const b=e.target.closest('[data-paid-buy-v323]');if(b){e.preventDefault();e.stopImmediatePropagation();pay(b.dataset.paidBuyV323);return}
+   const t=e.target.closest('[data-paid-theme]');if(t){e.preventDefault();e.stopImmediatePropagation();setTheme(t.dataset.paidTheme==='on');return}
+ },true);
+ window.renderPaidShop=renderPaid;
+
+ /* 貓貓咖啡券直接進原生商店清單與 NPC 道具清單。 */
+ try{if(typeof NPC_ITEM_EFFECTS!=='undefined')NPC_ITEM_EFFECTS[COFFEE_ID]={name:'☕ 貓貓咖啡券【活動限定】',use:'2026/08/13～09/13 可使用。使用後體力 +20、心情 +20、貓貓好感 +2、熟客度 +1；累積使用 3 張可解鎖限定特殊劇情。活動結束後保留作紀念。'};}catch(_){ }
+ const originalNpcRenderShop=typeof npcRenderShop==='function'?npcRenderShop:null;
+ if(originalNpcRenderShop){
+   window.npcRenderShop=function(st){
+     let html=originalNpcRenderShop(st);
+     if(coffeeActive()&&!String(html).includes(`data-npc-buy="${COFFEE_ID}"`)){
+       const card=`<div class="npcShopItem"><div><b>☕ 貓貓咖啡券 <span class="npcSecretTag">活動限定</span></b><div class="small">使用 3 張會解鎖限定特殊劇情・活動到 9/13。</div></div><button data-npc-buy="${COFFEE_ID}">🪙120</button></div>`;
+       html=html.replace(/(<div class="small"[^>]*>.*?<\/div>)/s,'$1'+card);
+     }
+     return html;
+   };
+ }
+ function coffeeStory(c,st){
+   if(st.flags?.coffeeNightStory)return;
+   st.flags??={};st.flags.coffeeNightStory=1;saveNpcState?.(st);
+   const lines=[
+    {speaker:'貓貓',face:'surprised',text:'「你真的把三張都留到現在喔？」'},
+    {speaker:'旁白',face:'normal',text:'打烊後，店裡的燈被關掉一半。窗外的星光落在玻璃杯上。'},
+    {speaker:'貓貓',face:'soft',text:'「本來只是活動券……可是你每次來，我都記得。」'},
+    {speaker:'貓貓',face:'shy',text:'「這杯不算券。今天這杯，是我真的請你的。」'},
+    {speaker:'旁白',face:'happy',text:'你們在安靜的店裡把咖啡喝完。這一晚被留進了回憶。'}
+   ];
+   const done=()=>{c.memories??=[];if(!c.memories.some(x=>x.t==='☕ 特殊劇情・星夜咖啡'))c.memories.unshift({t:'☕ 特殊劇情・星夜咖啡',d:new Date().toLocaleDateString('zh-TW')});c.achievements??={};c.achievements.npc_evt_coffee_night=1;saveLocal?.();renderGame?.();toast?.('✨ 已收藏限定回憶「星夜咖啡」',3500)};
+   if(typeof startNpcRpgStory==='function')startNpcRpgStory({title:'☕ 特殊劇情・星夜咖啡',lines,onComplete:done});else{alert('☕ 特殊劇情・星夜咖啡\n\n打烊後，貓貓真正請你喝了一杯咖啡。');done()}
+ }
+ document.addEventListener('click',e=>{
+   const b=e.target.closest(`[data-npc-buy="${COFFEE_ID}"]`);if(!b)return;
+   e.preventDefault();e.stopImmediatePropagation();
+   if(!coffeeActive())return toast?.('☕ 咖啡券活動已結束。',3000);
+   const c=current();if(!c)return toast?.('請先進入角色。',3000);if(Number(c.money||0)<120)return toast?.('🪙 金幣不夠，需要 120。',3000);
+   c.inventory??={};c.money=Math.max(0,Number(c.money||0)-120);c.inventory[COFFEE_ID]=Number(c.inventory[COFFEE_ID]||0)+1;
+   const st=typeof npcState==='function'?npcState():null;if(st){st.purchaseCount=Number(st.purchaseCount||0)+1;st.loyalty=Number(st.loyalty||0)+1;saveNpcState?.(st)}
+   saveLocal?.();renderGame?.();renderNpcShop?.();toast?.('☕ 買下貓貓咖啡券・熟客度 +1',2600);
+ },true);
+ document.addEventListener('click',e=>{
+   const b=e.target.closest(`[data-npc-use="${COFFEE_ID}"]`);if(!b)return;
+   e.preventDefault();e.stopImmediatePropagation();
+   const c=current();if(!c)return;c.inventory??={};if(Number(c.inventory[COFFEE_ID]||0)<=0)return toast?.('背包裡沒有貓貓咖啡券。',2600);
+   if(!coffeeActive())return toast?.('☕ 咖啡券已過使用期限，現在會留作紀念收藏。',3200);
+   c.inventory[COFFEE_ID]-=1;c.energy=Math.min(100,Number(c.energy||0)+20);c.mood=Math.min(100,Number(c.mood||0)+20);
+   const st=typeof npcState==='function'?npcState():null;if(st){st.affection=Math.min(100,Number(st.affection||0)+2);st.loyalty=Number(st.loyalty||0)+1;st.flags??={};st.flags.coffeeVoucherUses=Number(st.flags.coffeeVoucherUses||0)+1;saveNpcState?.(st)}
+   saveLocal?.();renderGame?.();renderNpcShop?.();
+   const used=Number(st?.flags?.coffeeVoucherUses||0);
+   if(used>=3&&!st?.flags?.coffeeNightStory)return coffeeStory(c,st);
+   if(typeof npcChoice==='function')npcChoice('☕ 貓貓咖啡券',`貓貓接過咖啡券。<br><br>「這不是我店裡的券嗎？怎麼最後還是我請你。」<br><br>她還是把咖啡推到你面前。<br><br><span class="small">體力 +20・心情 +20・貓貓好感 +2・熟客度 +1<br>本活動已使用 ${used}/3 張</span>`,[{label:'謝謝店長',fn:()=>{}}]);
+ },true);
+
+ /* 原本只有章節文字，現在每個已解鎖章節都能真的播放劇情。 */
+ const STORY={
+  ch1:{title:'第一章・常來的客人',need:20,lines:[{speaker:'旁白',face:'normal',text:'你推開門時，貓貓沒有抬頭。'},{speaker:'貓貓',face:'happy',text:'「今天也一樣，對吧？我已經幫你留好了。」'},{speaker:'旁白',face:'soft',text:'她竟然已經記住了你每次會停在哪個架子前。'}]},
+  ch2:{title:'第二章・河堤的傳聞',need:40,lines:[{speaker:'貓貓',face:'soft',text:'「有件事我本來不太會跟客人說。」'},{speaker:'貓貓',face:'normal',text:'「河堤那邊晚上會出現一排紙星星……你要是去看，別跟別人說是我告訴你的。」'}]},
+  ch3:{title:'第三章・打烊之後',need:60,lines:[{speaker:'旁白',face:'normal',text:'最後一位客人離開後，她沒有立刻催你走。'},{speaker:'貓貓',face:'shy',text:'「再坐一下也沒關係。今天……我不急著關燈。」'},{speaker:'旁白',face:'soft',text:'有些話確實只有店門關起來後，她才願意說。'}]},
+  ch4:{title:'第四章・店長的秘密',need:80,lines:[{speaker:'旁白',face:'surprised',text:'你看見櫃檯後方那張一直反扣著的照片。'},{speaker:'貓貓',face:'annoyed',text:'「……不要亂翻啦。」'},{speaker:'貓貓',face:'soft',text:'「不過，如果是你的話……下次我會自己告訴你。」'}]},
+  final:{title:'終章・不只是客人',need:100,lines:[{speaker:'貓貓',face:'soft',text:'「你來這裡，早就不是因為缺什麼東西了吧。」'},{speaker:'旁白',face:'normal',text:'她看著你，像是在等你把這段關係說出名字。'}]}
+ };
+ if(typeof npcRenderStory==='function'){
+   window.npcRenderStory=function(st){
+     const c=current(),rel=c&&typeof getNpcRelationship==='function'?getNpcRelationship(c,'shopkeeper_cat'):null;
+     return Object.entries(STORY).map(([id,s])=>{const ok=Number(st.affection||0)>=s.need&&(id!=='final'||!!rel);let txt=id==='final'?(rel?`你們已建立「${NPC_RELATION_LABELS?.[rel.type]||rel.type}」關係。`:'完成最終關係後開放。'):(id==='ch1'?'她已經能在你進門前認出你的腳步聲。':id==='ch2'?'貓貓第一次主動告訴你城鎮裡的秘密。':id==='ch3'?'有些話只有店門關起來後，她才願意說。':'那張從沒被翻過去的照片，似乎與她的過去有關。');return `<div class="npcStoryNode ${ok?'storyPlayable':'locked'}" ${ok?`data-npc-story-real="${id}"`:''}><b>${ok?s.title:'🔒 ???'}</b><div class="small">${ok?txt:'好感／關係條件尚未達到。'}</div></div>`}).join('');
+   };
+ }
+ document.addEventListener('click',e=>{
+   const b=e.target.closest('[data-npc-story-real]');if(!b)return;e.preventDefault();e.stopImmediatePropagation();const id=b.dataset.npcStoryReal,s=STORY[id],c=current();if(!s||!c)return;
+   const done=()=>{c.memories??=[];const key='📖 NPC 劇情・'+s.title;if(!c.memories.some(x=>x.t===key))c.memories.unshift({t:key,d:new Date().toLocaleDateString('zh-TW')});saveLocal?.();renderGame?.()};
+   if(typeof startNpcRpgStory==='function')startNpcRpgStory({title:s.title,lines:s.lines,onComplete:done});else{alert(s.title);done()}
+ },true);
+
+ /* 付費徽章註冊：紫晶款用 🔮，避免再與既有紫色愛心徽章撞圖。 */
+ try{for(const p of PAID_PRODUCTS.filter(x=>x.badgeId)){if(typeof protoAch!=='undefined'&&!protoAch.some(x=>x[0]===p.badgeId))protoAch.push([p.badgeId,p.badgeIcon,p.badgeName,'支持《關係進行式》取得的限定徽章','收藏']);}}catch(_){ }
+
+ function boot(){const c=current();if(c){ensurePaidState(c);applyTheme(c);cleanLegacyPaidInventory(c);saveLocal?.()}renderPaid();try{renderGame?.()}catch(_){}}
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(boot,120));else setTimeout(boot,120);
+})();
+</script>
+
 <script id="v32623AccountRateLimitUX">
 /* Supabase 內建 Auth 郵件額度很低；遇到 rate limit 時不要讓玩家以為是帳密填錯。 */
 (function(){
@@ -13602,917 +14499,250 @@ body.theme-qixi-paid #game>.top .chip{background:rgba(255,255,255,.92)!important
 </script>
 
 
-
-
-
-
-
-<script id="v32642NpcShopStability">
-(function(){
- const BUILD='3.26.79';
- function refreshVersion(){
-   
-   
-   
-   const m=document.querySelector('meta[name="x-test-build"]');if(m)m.content=BUILD;
- }
- refreshVersion();setTimeout(refreshVersion,250);setTimeout(refreshVersion,1000);
-
- /* Previous 3.26.79 observer rewrote shop DOM recursively and could lock Android when a product was tapped.
-    3.26.79 uses no DOM-wide MutationObserver. Refresh only at safe UI entry points. */
- const safeRefresh=()=>{
-   try{document.body?.classList.remove('theme-qixi-paid')}catch(_){ }
- };
- document.addEventListener('click',function(e){
-   if(e.target.closest?.('#npcTownFab,[data-npc-tab],[data-npc-detail],[data-npc-rel-view],[data-npc-rel-meet],#openNpcRelations')){
-     setTimeout(safeRefresh,0);
-   }
- },true);
-
- /* Hard stability guard: prevent accidental double purchase from stacked historical click handlers.
-    The earlier robustNpcBuy capture handler remains the only purchase executor. */
- let purchaseLock=false;
- document.addEventListener('click',function(e){
-   const b=e.target.closest?.('[data-npc-buy]');if(!b)return;
-   if(purchaseLock){e.preventDefault();e.stopImmediatePropagation();return;}
-   purchaseLock=true;
-   setTimeout(()=>{purchaseLock=false},350);
- },true);
-})();
-</script>
-
-
-
-
-<style id="v32669CoreCommerceAppearance">
-/* ===== 外觀切換 ===== */
-#appearanceModal .modalBox{max-height:88dvh;overflow:auto}
-.appearanceGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:10px}
-.appearanceCard{border:1px solid #dfd1e7;border-radius:16px;padding:12px;background:#fffafd;text-align:center;min-height:155px;display:flex;flex-direction:column;justify-content:space-between}
-.appearanceCard.locked{opacity:.55}
-.appearancePreview{height:76px;border-radius:12px;margin-bottom:8px;border:1px solid #ffffff88}
-.appearancePreview.default{background:linear-gradient(135deg,#eee5f6,#fff8fb)}
-.appearancePreview.qixi{background:linear-gradient(135deg,#171033,#6d4281)}
-.appearancePreview.maid{background:linear-gradient(135deg,#57323f,#d98ca5)}
-
-/* ===== 女僕咖啡廳主題 ===== */
-html[data-paid-theme="maidCafe"] body,
-html[data-paid-theme="maidCafe"] #game,
-html[data-paid-theme="maidCafe"] #home,
-html[data-paid-theme="maidCafe"] .homeHero,
-body.theme-maid-cafe,
-body.theme-maid-cafe #game,
-body.theme-maid-cafe #home,
-body.theme-maid-cafe .homeHero{
-  background:linear-gradient(180deg,#4f2d39 0 96px,#bb738c 96px,#e9b9c8 34%,#f8e6ea 100%) fixed!important;
-  color:#4b2d34!important
+<style id="qixi3270Style">
+#qixiEventFab{
+ position:fixed;right:12px;bottom:136px;z-index:998;
+ min-height:46px;padding:8px 12px;border-radius:18px;
+ color:#fff!important;background:linear-gradient(135deg,#26356f,#70499c 58%,#c17aae)!important;
+ box-shadow:0 8px 24px rgba(35,28,84,.30)!important;
+ display:none;align-items:center;gap:7px;
 }
-html[data-paid-theme="maidCafe"] .pageCard.active,
-body.theme-maid-cafe .pageCard.active,
-body.theme-maid-cafe .modalBox,
-body.theme-maid-cafe .card,
-body.theme-maid-cafe .homePanel{
-  background:linear-gradient(155deg,#fff9f6,#f2d2dc)!important;
-  color:#4b2d34!important;border-color:#ddb2c0!important
+#qixiEventFab .qixiFabIcon{font-size:20px}
+#qixiEventFab .qixiDot{width:9px;height:9px;border-radius:50%;background:#ffd76b;box-shadow:0 0 10px #ffd76b}
+#qixiEventModal .modalBox{max-height:92dvh;overflow:hidden;background:linear-gradient(180deg,#171d49,#31265d 55%,#4f2f65)!important;color:#f8f3ff!important}
+.qixiHead{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.qixiHead .small,.qixiBody .small{color:#ddd2f4!important}
+.qixiProgress{height:9px;background:#ffffff25;border-radius:999px;overflow:hidden;margin:10px 0 12px}
+.qixiProgress>div{height:100%;background:linear-gradient(90deg,#86a6ff,#ef9ed5);border-radius:999px}
+.qixiFacilityGrid{display:grid;grid-template-columns:1fr 1fr;gap:9px;max-height:58dvh;overflow-y:auto;padding:2px}
+.qixiFacility{
+ min-height:120px;text-align:left!important;border:1px solid #ffffff2e!important;
+ background:linear-gradient(145deg,#ffffff14,#ffffff09)!important;color:#fff!important;
+ padding:12px!important;border-radius:16px!important;
 }
-body.theme-maid-cafe .pageCard.active .tile,
-body.theme-maid-cafe .pageCard.active .itemRow,
-body.theme-maid-cafe .pageCard.active .relItem,
-body.theme-maid-cafe .pageCard.active .npcRelationCard,
-body.theme-maid-cafe .npcShopItem{
-  background:linear-gradient(145deg,#fffdfb,#f7dfe7)!important;
-  color:#54333f!important;border-color:#dfb4c3!important
-}
-html[data-paid-theme="maidCafe"] .top,
-body.theme-maid-cafe .top,
-body.theme-maid-cafe .sheetHead,
-body.theme-maid-cafe .modalHead{
-  background:linear-gradient(90deg,#56313f,#92546b)!important;color:#fff!important
-}
-body.theme-maid-cafe .small,
-body.theme-maid-cafe .muted{color:#80616b!important;opacity:1!important}
-body.theme-maid-cafe button.primary{background:linear-gradient(135deg,#aa607b,#734254)!important;color:#fff!important}
-
-
-html[data-paid-theme="maidCafe"] .homeHero,
-body.theme-maid-cafe .homeHero{
-  background:linear-gradient(145deg,#55313f,#8f5168 58%,#ba748d)!important;
-  border-color:#d79caf!important;
-  box-shadow:0 18px 40px rgba(78,36,53,.20)!important;
-}
-html[data-paid-theme="maidCafe"] .homeHero h1,
-html[data-paid-theme="maidCafe"] .homeHero .homeTagline,
-html[data-paid-theme="maidCafe"] .homeHero .homeVersion,
-body.theme-maid-cafe .homeHero h1,
-body.theme-maid-cafe .homeHero .homeTagline,
-body.theme-maid-cafe .homeHero .homeVersion{
-  color:#fff7fa!important;
-  text-shadow:0 2px 10px rgba(45,20,30,.24)!important;
-}
-html[data-paid-theme="maidCafe"] .homeHero .homeVersion,
-body.theme-maid-cafe .homeHero .homeVersion{
-  background:rgba(255,246,249,.16)!important;
-  border-color:rgba(255,255,255,.28)!important;
-}
-
-/* ===== 星河主題：深色字 ===== */
-html[data-paid-theme="qixiGalaxy"] body,
-html[data-paid-theme="qixiGalaxy"] #game,
-html[data-paid-theme="qixiGalaxy"] #home,
-body.theme-qixi-paid,
-body.theme-qixi-paid #game,
-body.theme-qixi-paid #home{
-  background:linear-gradient(180deg,#100a2b,#1b123e 42%,#40255f 100%) fixed!important
-}
-html[data-paid-theme="qixiGalaxy"] .pageCard.active,
-body.theme-qixi-paid .pageCard.active{background:linear-gradient(180deg,#24164a,#3f2661)!important}
-body.theme-qixi-paid .pageCard.active .card,
-body.theme-qixi-paid .pageCard.active .tile,
-body.theme-qixi-paid .pageCard.active .itemRow,
-body.theme-qixi-paid .pageCard.active .relItem,
-body.theme-qixi-paid .pageCard.active .npcRelationCard,
-body.theme-qixi-paid .modalBox,
-body.theme-qixi-paid .appearanceCard{
-  background:#fffafd!important;color:#403445!important;text-shadow:none!important
-}
-body.theme-qixi-paid .pageCard.active .card *,
-body.theme-qixi-paid .pageCard.active .tile *,
-body.theme-qixi-paid .pageCard.active .itemRow *,
-body.theme-qixi-paid .pageCard.active .relItem *,
-body.theme-qixi-paid .pageCard.active .npcRelationCard *,
-body.theme-qixi-paid .appearanceCard *{
-  color:#4b3e50!important;text-shadow:none!important;opacity:1!important
-}
-body.theme-qixi-paid button.primary{color:#fff!important}
-
-
-html[data-paid-theme="qixiGalaxy"] .homeHero,
-body.theme-qixi-paid .homeHero{
-  background:linear-gradient(145deg,#171033,#35215a 62%,#674178)!important;
-  border-color:#7e67a8!important;
-  box-shadow:0 18px 40px rgba(14,8,38,.34)!important;
-}
-html[data-paid-theme="qixiGalaxy"] .homeHero h1,
-html[data-paid-theme="qixiGalaxy"] .homeHero .homeTagline,
-html[data-paid-theme="qixiGalaxy"] .homeHero .homeVersion,
-body.theme-qixi-paid .homeHero h1,
-body.theme-qixi-paid .homeHero .homeTagline,
-body.theme-qixi-paid .homeHero .homeVersion{
-  color:#f8efff!important;
-  text-shadow:0 2px 12px rgba(0,0,0,.28)!important;
-}
-html[data-paid-theme="qixiGalaxy"] .homeHero .homeVersion,
-body.theme-qixi-paid .homeHero .homeVersion{
-  background:rgba(255,255,255,.12)!important;
-  border-color:rgba(255,255,255,.24)!important;
-}
-
-/* ===== 貓貓商店女僕兌換 ===== */
-.maidThemeRedeemCard{
-  display:flex;align-items:center;justify-content:space-between;gap:10px;
-  margin-top:12px;padding:14px;border-radius:16px;
-  background:linear-gradient(145deg,#fff9f6,#f1d1dc);
-  border:1px solid #d9aabd;color:#563440
-}
-.maidThemeRedeemCard .small{margin-top:4px;color:#7b5d68}
-.maidThemeRedeemCard button{flex:0 0 auto}
-
-/* ===== 女僕劇情 ===== */
-#npcStoryPlayer.maidCafeSpecialStory{background:#180f15!important}
-#npcStoryPlayer.maidCafeSpecialStory .npcStoryStage{
-  width:100vw!important;height:100dvh!important;max-width:none!important;max-height:none!important;
-  margin:0!important;overflow:hidden!important;background:#180f15!important
-}
-#npcStoryPlayer.maidCafeSpecialStory .npcStoryPortraitWrap{
-  position:absolute!important;inset:0!important;width:100%!important;height:100%!important;
-  overflow:hidden!important;background:#180f15!important
-}
-#npcStoryPlayer.maidCafeSpecialStory .npcStoryPortraitWrap::before{content:none}
-#npcStoryPlayer.maidCafeSpecialStory #npcStoryPortrait{
-  width:100%!important;height:100%!important;object-fit:cover!important;object-position:center!important;
-  opacity:1;transition:opacity .22s ease!important
-}
-#npcStoryPlayer.maidCafeSpecialStory #npcStoryPortrait.maidCgFade{opacity:0!important}
-#npcStoryPlayer.maidCafeSpecialStory .npcStoryDialogue{
-  left:10px!important;right:10px!important;bottom:calc(10px + env(safe-area-inset-bottom))!important
-}
-@media (min-width:900px) and (min-aspect-ratio:4/3){
-  #npcStoryPlayer.maidCafeSpecialStory .npcStoryPortraitWrap::before{
-    content:""!important;position:absolute!important;inset:-32px!important;
-    background-image:var(--maid-story-bg,none)!important;background-size:cover!important;background-position:center!important;
-    filter:blur(24px) brightness(.48)!important;transform:scale(1.08)!important
-  }
-  #npcStoryPlayer.maidCafeSpecialStory #npcStoryPortrait{
-    position:relative!important;z-index:1!important;object-fit:contain!important
-  }
-}
-
-/* ===== 付費商店 ===== */
-.paidShopList{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.paidProduct{padding:14px;border:1px solid #e0d5e3;border-radius:17px;background:#fffafd;text-align:center}
-.paidProductIcon{font-size:34px}.paidProductTitle{font-weight:900;font-size:16px;margin:7px 0}
-.paidPrice{font-size:24px;font-weight:900;margin:10px 0;color:#70456e}
-.paidProduct.soldOut{opacity:.62}.paidProduct.soldOut button{cursor:not-allowed}
-@media(max-width:520px){.paidShopList{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.paidProduct{padding:11px 8px}}
-
-/* 首頁可讀性 */
-#home .homePanel,#home .card{color:#4f303b}
-#home .homePanel .small,#home .homePanel .muted,#home .card .small,#home .card .muted{color:#6a4a55!important;opacity:1!important}
+.qixiFacility.done{border-color:#f4cf7e!important;box-shadow:0 0 0 1px #f4cf7e55 inset}
+.qixiFacility .ico{font-size:26px;margin-bottom:4px}.qixiFacility b{display:block}
+.qixiFacility .small{margin-top:5px}
+.qixiRewardBox{margin-top:10px;padding:10px;border:1px dashed #f0cf8d;border-radius:14px;background:#ffffff10}
+#qixiBranchModal .modalBox,#qixiStoryModal .modalBox{background:#fffafd!important;color:#3d3343!important}
+.qixiBranchList{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.qixiBranchList button{min-height:56px}
+.qixiBranchList button:disabled{opacity:.42}
+.qixiStoryText{line-height:1.85;font-size:15px}
+.qixiStoryText p{margin:0 0 10px}
+.qixiStoryRel{display:inline-block;padding:4px 9px;border-radius:999px;background:#eee4f8;color:#6b4c83;font-size:12px;font-weight:800;margin-bottom:10px}
+@media(max-width:390px){.qixiFacilityGrid{grid-template-columns:1fr}}
+body.npcStoryRunning #qixiEventFab{display:none!important}
 </style>
 
-<script id="v32669CoreCommerceAppearanceScript">
-(function(){
- const BUILD='3.26.79';
- const VOUCHER='npc_maid_cafe_coffee_voucher';
- const RESET_ONCE='v32669_maid_flow_reset_once';
+<button id="qixiEventFab" type="button">
+ <span class="qixiFabIcon">🌌</span><b>七夕活動</b><i class="qixiDot"></i>
+</button>
 
- const PRODUCTS=[
-   {id:'coffee',icon:'☕',name:'請店長喝咖啡',price:50,desc:'🪙300 金幣＋☕ 請店長喝咖啡券 ×1；可到貓貓商店兌換女僕咖啡廳主題。'},
-   {id:'gift60',icon:'🐾',name:'店長的小禮物',price:60,desc:'🪙700 金幣＋🎁 熟客小盒 ×1＋🐾「店長的小禮物」徽章'},
-   {id:'support100',icon:'🎀',name:'小小贊助包',price:100,desc:'🪙1,200 金幣＋💎 紫晶碎片 ×5＋🎁 熟客小盒 ×1＋🎀「小小應援」徽章'},
-   {id:'dev150',icon:'✨',name:'開發者應援包',price:150,desc:'🪙2,000 金幣＋💎 紫晶碎片 ×10＋🎁 熟客小盒 ×2＋🔔 小幸運鈴 ×1＋✨「開發者應援」徽章'}
+<div id="qixiEventModal" class="modal hidden">
+ <div class="modalBox">
+  <div class="qixiHead">
+   <div><b style="font-size:19px">🌌 關係進行式・七夕限定｜星河有緣人</b>
+    <div class="small">正式活動期間：8/19 ～ 8/25　・　測試服現在可提前測試</div></div>
+   <button id="closeQixiEvent" type="button">×</button>
+  </div>
+  <div class="small" style="margin-top:8px">走過五個星河設施，聽見屬於不同關係的故事。五段劇情全部完成後，才會取得限定徽章。</div>
+  <div class="qixiProgress"><div id="qixiProgressFill"></div></div>
+  <div id="qixiFacilityGrid" class="qixiFacilityGrid"></div>
+  <div id="qixiRewardBox" class="qixiRewardBox"></div>
+ </div>
+</div>
+
+<div id="qixiBranchModal" class="modal hidden">
+ <div class="modalBox">
+  <div class="modalHead"><b id="qixiBranchTitle">選擇同行之緣</b><button id="closeQixiBranch" type="button">×</button></div>
+  <div class="small">有目前已建立的關係就能選擇對應分支；沒有關係也可以獨自走過星河。</div>
+  <div id="qixiBranchList" class="qixiBranchList"></div>
+ </div>
+</div>
+
+<div id="qixiStoryModal" class="modal hidden">
+ <div class="modalBox">
+  <div class="modalHead"><b id="qixiStoryTitle"></b><button id="closeQixiStory" type="button">×</button></div>
+  <div id="qixiStoryBody" class="qixiStoryText"></div>
+  <button id="finishQixiStory" class="primary" style="width:100%;margin-top:12px">走完這一段</button>
+ </div>
+</div>
+
+<script id="qixi3270Script">
+(function(){
+ const FACILITIES=[
+  {id:"ferry",ico:"🌠",name:"星河渡口",desc:"從這裡踏入七夕夜的星河。"},
+  {id:"lantern",ico:"🏮",name:"緣燈長廊",desc:"一盞燈照見一段關係的模樣。"},
+  {id:"bridge",ico:"🌉",name:"鵲羽橋",desc:"橋不只為戀人而搭。"},
+  {id:"wish",ico:"✨",name:"星願台",desc:"把沒說出口的話留給星星。"},
+  {id:"keeper",ico:"🪶",name:"守橋亭",desc:"走到最後，守橋人會問你一個問題。"}
  ];
-
- function current(){try{return typeof cur==='function'?cur():null}catch(_){return null}}
- function ensure(c){
-   if(!c)return;
-   c.inventory??={};c.paidOrders??=[];c.paidEntitlements??={};c.paidCollectibles??={};
-   c.paidCosmetics??={};c.paidStoryFlags??={};c.memories??=[];c.achievements??={};
- }
- function addMoney(c,n){c.money=typeof safeMoney==='function'?safeMoney(Number(c.money||0)+n):Math.max(0,Number(c.money||0)+n)}
- function badge(c,id,icon,name,desc){
-   const key='paid_badge_'+id;
-   c.paidEntitlements[key]=true;
-   try{
-     if(typeof protoAch!=='undefined'&&!protoAch.some(a=>a[0]===key))protoAch.push([key,icon,name,desc,'收藏']);
-     if(typeof local!=='undefined'){
-       local.sharedAchievements??={};local.sharedAchievements[key]=1;c.achievements=local.sharedAchievements;
-     }else c.achievements[key]=1;
-   }catch(_){c.achievements[key]=1}
- }
-
- function bought(c,p){
-   return (c.paidOrders||[]).some(o=>String(o.productId||'')===p.id || Number(o.price||0)===p.price);
- }
-
- window.renderPaidShop=function(){
-   const box=document.getElementById('paidShopList'),c=current();if(!box)return;
-   if(!c){box.innerHTML='<div class="small">請先進入角色。</div>';return}
-   ensure(c);
-   box.innerHTML=PRODUCTS.map(p=>{
-     const sold=bought(c,p);
-     return `<div class="paidProduct ${sold?'soldOut':''}">
-       <div class="paidProductIcon">${p.icon}</div>
-       <div class="paidProductTitle">${p.name}</div>
-       <div class="small">${p.desc}</div>
-       <div class="paidPrice">NT$${p.price}</div>
-       <button type="button" class="${sold?'':'primary'}" data-paid-product="${p.id}" ${sold?'disabled':''}>${sold?'⊘ 售罄':'模擬付款 NT$'+p.price}</button>
-     </div>`;
-   }).join('')+((c.paidOrders||[]).length?`<div class="paidOrdersBlock" style="grid-column:1/-1"><b>最近測試訂單</b>${
-     c.paidOrders.slice(-6).reverse().map(o=>`<div class="paidOrderRow">✅ ${o.orderNo||'TEST'}・${o.name||o.productId||'付費商品'}・NT$${o.price||0}</div>`).join('')
-   }</div>`:'');
+ const RELS={
+  lover:{icon:"❤️",name:"戀人｜相守之緣"},
+  bestfriend:{icon:"🤝",name:"摯友｜同行之緣"},
+  family:{icon:"🏠",name:"家人｜歸處之緣"},
+  partner:{icon:"🧭",name:"搭檔｜並肩之緣"},
+  rival:{icon:"🔥",name:"宿敵｜競逐之緣"},
+  enemy:{icon:"💥",name:"仇敵｜惡緣"},
+  solo:{icon:"🌙",name:"獨行｜一人之緣"}
+ };
+ const STORY={
+  ferry:{
+   lover:["「你說，我們明年還會一起來嗎？」","「不只明年。」","星光落在交握的手上。守橋人笑了笑——有些人來到橋前，是想和另一個人走得更遠。"],
+   bestfriend:["「明年還來？」","「你請客就來。」","兩個人嘴上誰也不讓誰，腳步卻自然走在一起。"],
+   family:["「等等我。」","「你怎麼每次都走那麼慢？」","抱怨的人把燈遞了回去。因為有些人不用約定，也一定會等你。"],
+   partner:["「左邊？」","「右邊。」","不用誰走在前面。只要回頭時，知道對方一定在身側就夠了。"],
+   rival:["兩個人從渡口兩側同時抵達。","「今年也沒打算輸吧？」","「這句話原封不動還給你。」"],
+   enemy:["「你怎麼又在這裡？」","「這句話應該我問你吧？」","守橋人默默看著。去年他們好像也是從這句開始吵的。"],
+   solo:["今夜沒有誰與你同行。","守橋人卻沒有攔你。","「一個人來，也算有緣。至少你沒有錯過今晚的星河。」"]
+  },
+  lantern:{
+   lover:["你們各自挑了一盞燈，最後卻寫下了同一個願望。","「這算作弊嗎？」","「算默契。」"],
+   bestfriend:["「你寫什麼？」","「不告訴你。」","「那我猜得到。」——有些熟悉，不需要把答案說出口。"],
+   family:["燈火映亮熟悉的側臉。","「走遠了記得回來。」","沒有華麗的願望，卻是最長久的一句話。"],
+   partner:["兩盞燈被掛在相鄰的位置。","「你的那盞歪了。」","「你不是會幫我扶正嗎？」"],
+   rival:["兩人同時伸手去掛最高的位置。","誰也沒有退一步。","最後兩盞燈硬是並排掛在最高處。"],
+   enemy:["「別把你的燈掛我旁邊。」","「誰稀罕？是這裡只剩這個位置！」","燈火晃了晃，像也在忍笑。"],
+   solo:["你替自己點亮一盞燈。","燈上沒有寫名字。","但它依然和其他燈一樣，安靜地亮在星河下面。"]
+  },
+  bridge:{
+   lover:["走到橋中央時，對方忽然停了下來。","「執子之手，白首與共，與子偕老。」","這一次，誰也沒有先移開視線。"],
+   bestfriend:["「你走快點。」","「急什麼，橋又不會跑。」","第二年的同一天，也許還會是這兩個人互相嫌棄著走過。"],
+   family:["橋面有些滑。","「拿著。」","伸過來的手不像承諾，更像早已習慣的本能。"],
+   partner:["「背後交給你了。」","「你什麼時候沒交給我？」","橋很長，卻沒有任何一段需要獨自走。"],
+   rival:["誰都不肯讓誰先過橋中央。","「明年還來？」","「如果你還沒輸的話。」"],
+   enemy:["「你先走。」","「憑什麼不是你先滾？」","守橋人扶額：這座橋明明很寬。"],
+   solo:["你一個人走過橋中央。","風從星河上吹來。","原來橋的另一端，不一定非得站著某個人。"]
+  },
+  wish:{
+   lover:["願望寫得很短。","——明年，也一起。","其實真正想說的是，比明年更久。"],
+   bestfriend:["「我們這種關係要許什麼願？」","「少吵一點？」","兩人對看一眼，同時笑出聲。看來這願望不太可能實現。"],
+   family:["你沒有許願得到什麼。","只寫下：平安回家。","因為有些人的存在，本身就是歸處。"],
+   partner:["願紙上只有一句：下一次也一起完成。","沒有浪漫的詞。","卻比任何誓言都像你們。"],
+   rival:["兩張願紙寫了幾乎一樣的話。","——下一次贏的人會是我。","很好，明年大概又會見面。"],
+   enemy:["「你偷看我的願望？」","「我才沒有！」","守橋人決定離他們遠一點。"],
+   solo:["你想了很久，最後寫下自己的名字。","不是等待誰來完成它。","而是提醒自己，也可以成為自己的有緣人。"]
+  },
+  keeper:{
+   lover:["守橋人問：「誰說有緣之人，就一定只相逢一次？」","你們沒有回答，只是又握緊了一點。","他便知道答案了。"],
+   bestfriend:["守橋人問：「沒有誓言，也算長久嗎？」","你們同時回答：「明年見。」","一年又一年，這大概就是答案。"],
+   family:["守橋人問：「走得再遠，最後要去哪裡？」","你望向身旁的人。","有些答案從來不是一個地名。"],
+   partner:["守橋人問：「一定要走在同一條路上嗎？」","「不用。」","只要需要時，彼此仍能並肩。"],
+   rival:["守橋人問：「你們到底為什麼每年都來？」","兩個人同時冷哼。","因為誰都不願意先認輸。"],
+   enemy:["守橋人沉默半晌。","「……你們前年也在吵吧？」","有些緣分，大概真的不是什麼好東西。可偏偏怎麼甩也甩不掉。"],
+   solo:["守橋人問：「一個人走完，有遺憾嗎？」","你回頭望了一眼整條星河。","沒有。今夜你與自己，也算好好相逢了一次。"]
+  }
  };
 
- function buy(id){
-   const c=current(),p=PRODUCTS.find(x=>x.id===id);if(!c||!p)return;
-   ensure(c);if(bought(c,p))return window.renderPaidShop();
-   if(!confirm(`【測試付款】\n${p.name} NT$${p.price}\n\n${p.desc}\n\n要模擬付款成功嗎？`))return;
-
-   if(id==='coffee'){addMoney(c,300);c.inventory[VOUCHER]=Number(c.inventory[VOUCHER]||0)+1}
-   if(id==='gift60'){addMoney(c,700);c.inventory.npc_regular_box=Number(c.inventory.npc_regular_box||0)+1;badge(c,'gift60','🐾','店長的小禮物','購買「店長的小禮物 NT$60」永久取得。')}
-   if(id==='support100'){addMoney(c,1200);c.inventory.npc_crystal_chip=Number(c.inventory.npc_crystal_chip||0)+5;c.inventory.npc_regular_box=Number(c.inventory.npc_regular_box||0)+1;badge(c,'support100','🎀','小小應援','購買「小小贊助包 NT$100」永久取得。')}
-   if(id==='dev150'){addMoney(c,2000);c.inventory.npc_crystal_chip=Number(c.inventory.npc_crystal_chip||0)+10;c.inventory.npc_regular_box=Number(c.inventory.npc_regular_box||0)+2;c.inventory.npc_lucky_bell=Number(c.inventory.npc_lucky_bell||0)+1;badge(c,'dev150','✨','開發者應援','購買「開發者應援包 NT$150」永久取得。')}
-
-   c.paidOrders.push({orderNo:'TEST'+Date.now().toString(36).toUpperCase(),productId:id,name:p.name,price:p.price,paidAt:new Date().toISOString(),status:'test_paid',granted:true});
-   saveLocal?.();renderGame?.();window.renderPaidShop();
-   toast?.(`✅ ${p.name} 購買成功。`,3000);
+ function c(){try{return typeof cur==="function"?cur():null}catch(_){return null}}
+ function ensure(x){
+  if(!x)return null;
+  x.qixi2026??={done:{},lastRel:"solo",badge:false};
+  x.qixi2026.done??={};
+  return x.qixi2026;
  }
-
- const THEME_CACHE_KEY='role_life_test_active_theme_v1';
-
- function validOwnedTheme(c){
-   if(!c)return 'default';
-   ensure(c);
-   if(c.activePaidTheme==='maidCafe'&&c.paidCosmetics.maidCafe)return 'maidCafe';
-   if(c.activePaidTheme==='qixiGalaxy'&&c.paidCosmetics.qixiGalaxy)return 'qixiGalaxy';
-   return 'default';
+ function relationTypes(x){
+  const found=new Set();
+  for(const code of (x?.roomCodes||[])){
+   const r=relationshipSummaries?.[String(code)]?.relation;
+   if(r)found.add(r);
+  }
+  return found;
  }
-
- function writeThemeCache(mode,c){
-   try{
-     localStorage.setItem(THEME_CACHE_KEY,JSON.stringify({
-       mode:mode||'default',
-       charId:String(c?.id||''),
-       savedAt:Date.now()
-     }));
-   }catch(_){}
+ function progress(x){
+  const st=ensure(x);return FACILITIES.filter(f=>st.done[f.id]).length;
  }
-
- function paintTheme(mode){
-   mode=['maidCafe','qixiGalaxy'].includes(mode)?mode:'default';
-   const html=document.documentElement;
-   html.setAttribute('data-paid-theme',mode);
-   if(!document.body)return mode;
-
-   document.body.classList.remove('theme-maid-cafe','theme-qixi-paid');
-   if(mode==='maidCafe')document.body.classList.add('theme-maid-cafe');
-   if(mode==='qixiGalaxy')document.body.classList.add('theme-qixi-paid');
-   return mode;
+ function awardIfDone(x){
+  const st=ensure(x);if(progress(x)<FACILITIES.length||st.badge)return;
+  st.badge=true;
+  try{
+   badgeDefs.qixi_star_fate={icon:"🌌",name:"星河有緣人",desc:"2026 七夕限定・走完五段星河劇情"};
+   ensureBadges?.();local.sharedBadges??={};local.sharedBadges.qixi_star_fate=1;
+  }catch(_){}
+  try{saveLocal?.()}catch(_){}
+  toast?.("🌌 七夕限定徽章「星河有緣人」已解鎖！",4500);
  }
+ function render(){
+  const x=c(),grid=document.getElementById("qixiFacilityGrid"),reward=document.getElementById("qixiRewardBox");
+  if(!grid||!reward)return;
+  if(!x){grid.innerHTML='<div class="small">請先進入角色。</div>';return}
+  const st=ensure(x),n=progress(x);
+  document.getElementById("qixiProgressFill").style.width=(n/FACILITIES.length*100)+"%";
+  grid.innerHTML=FACILITIES.map(f=>`<button type="button" class="qixiFacility ${st.done[f.id]?'done':''}" data-qixi-fac="${f.id}"><div class="ico">${f.ico}</div><b>${f.name}</b><div class="small">${f.desc}</div><div class="small">${st.done[f.id]?'✓ 已走過・可重看':'未完成'}</div></button>`).join("");
+  reward.innerHTML=st.badge
+   ?'<b>🌌 已取得限定徽章「星河有緣人」</b><div class="small">五段星河故事全部完成。</div>'
+   :`<b>限定徽章進度：${n} / ${FACILITIES.length}</b><div class="small">完成全部五個設施的劇情後才會發放。</div>`;
+ }
+ let pendingFacility="";
+ function openBranches(fid){
+  const x=c();if(!x)return;
+  pendingFacility=fid;
+  const f=FACILITIES.find(v=>v.id===fid);
+  document.getElementById("qixiBranchTitle").textContent=`${f?.ico||"🌌"} ${f?.name||""}｜選擇同行之緣`;
+  const have=relationTypes(x);
+  const order=["lover","bestfriend","family","partner","rival","enemy","solo"];
+  document.getElementById("qixiBranchList").innerHTML=order.map(r=>{
+   const ok=r==="solo"||have.has(r),d=RELS[r];
+   return `<button type="button" data-qixi-rel="${r}" ${ok?"":"disabled"}>${d.icon} ${d.name}${ok?"":"（目前沒有）"}</button>`;
+  }).join("");
+  document.getElementById("qixiBranchModal").classList.remove("hidden");
+ }
+ function openStory(rel){
+  const x=c(),f=FACILITIES.find(v=>v.id===pendingFacility);if(!x||!f)return;
+  const lines=STORY[pendingFacility]?.[rel]||STORY[pendingFacility]?.solo||[];
+  ensure(x).lastRel=rel;
+  document.getElementById("qixiStoryTitle").textContent=`${f.ico} ${f.name}`;
+  document.getElementById("qixiStoryBody").innerHTML=`<div class="qixiStoryRel">${RELS[rel].icon} ${RELS[rel].name}</div>${lines.map(t=>`<p>${String(t).replace(/</g,"&lt;")}</p>`).join("")}`;
+  document.getElementById("qixiBranchModal").classList.add("hidden");
+  document.getElementById("qixiStoryModal").classList.remove("hidden");
+ }
+ function finish(){
+  const x=c();if(!x||!pendingFacility)return;
+  const st=ensure(x);st.done[pendingFacility]=1;
+  try{saveLocal?.()}catch(_){}
+  document.getElementById("qixiStoryModal").classList.add("hidden");
+  awardIfDone(x);render();
+ }
+ function showFab(){
+  const game=document.getElementById("game"),fab=document.getElementById("qixiEventFab");
+  if(!fab)return;
+  const inGame=!!game&&!game.classList.contains("hidden");
+  fab.style.display=inGame?"flex":"none";
+ }
+ document.getElementById("qixiEventFab").onclick=()=>{render();document.getElementById("qixiEventModal").classList.remove("hidden")};
+ document.getElementById("closeQixiEvent").onclick=()=>document.getElementById("qixiEventModal").classList.add("hidden");
+ document.getElementById("closeQixiBranch").onclick=()=>document.getElementById("qixiBranchModal").classList.add("hidden");
+ document.getElementById("closeQixiStory").onclick=()=>document.getElementById("qixiStoryModal").classList.add("hidden");
+ document.getElementById("qixiFacilityGrid").onclick=e=>{const b=e.target.closest("[data-qixi-fac]");if(b)openBranches(b.dataset.qixiFac)};
+ document.getElementById("qixiBranchList").onclick=e=>{const b=e.target.closest("[data-qixi-rel]");if(b&&!b.disabled)openStory(b.dataset.qixiRel)};
+ document.getElementById("finishQixiStory").onclick=finish;
 
- function applyTheme(c=current(),syncCache=true){
-   if(!c){
-     let mode='default';
-     try{mode=JSON.parse(localStorage.getItem(THEME_CACHE_KEY)||'null')?.mode||'default'}catch(_){}
-     return paintTheme(mode);
+ /* 星河主題價格固定 NT$50。 */
+ function enforceGalaxy50(){
+  try{
+   if(Array.isArray(window.PAID_TEST_PRODUCTS)){
+    window.PAID_TEST_PRODUCTS.forEach(p=>{if(p.id==="qixiGalaxy50"){p.price=50;p.desc="七夕限定星河全頁外觀・NT$50・購買後永久解鎖"}});
    }
-   const mode=validOwnedTheme(c);
-   paintTheme(mode);
-   if(syncCache)writeThemeCache(mode,c);
-   return mode;
+  }catch(_){}
  }
- window.applyPaidAppearance=applyTheme;
-
- window.renderAppearance=function(){
-   const grid=document.getElementById('appearanceGrid'),c=current();if(!grid)return;
-   if(!c){grid.innerHTML='<div class="small">請先進入角色。</div>';return}
-   ensure(c);
-   const rows=[
-     {id:'default',title:'一般背景',cls:'default',owned:true,active:!c.activePaidTheme},
-     {id:'qixiGalaxy',title:'🌌 鵲橋星河',cls:'qixi',owned:!!c.paidCosmetics.qixiGalaxy,active:c.activePaidTheme==='qixiGalaxy'},
-     {id:'maidCafe',title:'☕ 女僕咖啡廳',cls:'maid',owned:!!c.paidCosmetics.maidCafe,active:c.activePaidTheme==='maidCafe'}
-   ];
-   grid.innerHTML=rows.map(r=>`<div class="appearanceCard ${r.owned?'':'locked'}">
-     <div><div class="appearancePreview ${r.cls}"></div><b>${r.title}</b><div class="small">${r.owned?'已持有，可隨時切換':'🔒 尚未解鎖'}</div></div>
-     <button type="button" class="${r.active?'primary':''}" data-appearance="${r.id}" ${r.owned?'':'disabled'}>${r.active?'✓ 使用中':r.owned?'套用':'🔒 未持有'}</button>
-   </div>`).join('');
- };
-
- function chooseTheme(id){
-   const c=current();if(!c)return;ensure(c);
-
-   if(id==='default')c.activePaidTheme='';
-   else if(id==='maidCafe'&&c.paidCosmetics.maidCafe)c.activePaidTheme='maidCafe';
-   else if(id==='qixiGalaxy'&&c.paidCosmetics.qixiGalaxy)c.activePaidTheme='qixiGalaxy';
-   else return;
-
-   const mode=id==='default'?'default':id;
-
-   /* 同步切換：先改第一幀快取與 DOM，再寫完整角色存檔。 */
-   paintTheme(mode);
-   writeThemeCache(mode,c);
-
-   if(!saveLocal?.()){
-     applyTheme(c,true);
-     toast?.('⚠️ 外觀保存失敗，請確認瀏覽器儲存空間。',3200);
-     return;
-   }
-   window.renderAppearance();
- }
-
- function maidLines(){
-   return [
-     {speaker:'旁白',maidStage:0,text:'你把「請店長喝咖啡券」交到櫃檯前。貓貓看著那張券，沉默了幾秒。'},
-     {speaker:'貓貓',maidStage:0,text:'「……所以你真的拿來用了。」'},
-     {speaker:'旁白',maidStage:0,text:'她把店門的牌子翻到「休息中」，轉身走進後面的房間。'},
-     {speaker:'貓貓',maidStage:0,text:'「先說好，這是特別招待。你不准笑。」'},
-     {speaker:'旁白',maidStage:1,text:'過了一會兒，她換上女僕咖啡廳的制服重新出現在你面前。'},
-     {speaker:'貓貓',maidStage:1,text:'「歡、歡迎回來……主人。」'},
-     {speaker:'旁白',maidStage:1,text:'她端著咖啡站在你面前，明明耳根都紅了，卻還努力裝作若無其事。'},
-     {speaker:'貓貓',maidStage:2,text:'「看夠了沒有？咖啡再不喝就要涼了。」'},
-     {speaker:'你',maidStage:2,text:'「所以這張券真的可以讓店長親自招待？」'},
-     {speaker:'貓貓',maidStage:2,text:'「只有今天。還有——不准拿去跟別人炫耀。」'},
-     {speaker:'旁白',maidStage:2,text:'她把咖啡輕輕推到你面前。'},
-     {speaker:'貓貓',maidStage:2,text:'「這個主題也給你。以後想起今天，就把它換上吧。」'}
-   ];
- }
- function playMaidStory(){
-   const c=current();if(!c)return;ensure(c);
-   startNpcRpgStory({
-     title:'🎀 特殊劇情・女僕咖啡廳',
-     lines:maidLines(),
-     onComplete:()=>{
-       c.paidStoryFlags.paid_maid_cafe_story=true;
-       if(!c.memories.some(x=>x.t==='🎀 付費劇情・女僕咖啡廳'))c.memories.unshift({t:'🎀 付費劇情・女僕咖啡廳',d:new Date().toLocaleDateString('zh-TW')});
-       saveLocal?.();
-     }
-   });
- }
- window.playMaidCafeStory=playMaidStory;
-
- function redeemMaid(){
-   const c=current();if(!c)return;ensure(c);
-   const n=Number(c.inventory[VOUCHER]||0);
-   if(c.paidCosmetics.maidCafe)return toast?.('🎀 女僕咖啡廳主題已解鎖。');
-   if(n<=0)return toast?.('☕ 目前沒有請店長喝咖啡券。');
-   c.inventory[VOUCHER]=n-1;c.paidCosmetics.maidCafe=true;c.activePaidTheme='maidCafe';c.paidEntitlements.maidCafeCoffeeRedeemed=true;
-   paintTheme('maidCafe');
-   writeThemeCache('maidCafe',c);
-   saveLocal?.();renderNpcShop?.();window.renderAppearance?.();
-   setTimeout(playMaidStory,80);
- }
-
-
- if(typeof NPC_ITEM_EFFECTS!=='undefined'){
-   NPC_ITEM_EFFECTS[VOUCHER]={name:'☕ 請店長喝咖啡券',use:'付費商店 NT$50「請店長喝咖啡」取得；可到貓貓商店兌換女僕咖啡廳主題。'};
- }
-
- document.addEventListener('click',e=>{
-   const paid=e.target.closest?.('[data-paid-product]');
-   if(paid){e.preventDefault();e.stopImmediatePropagation();buy(paid.dataset.paidProduct);return}
-   if(e.target.closest?.('#appearanceDrawerBtn')){
-     e.preventDefault();e.stopImmediatePropagation();closeDrawer?.();window.renderAppearance();document.getElementById('appearanceModal')?.classList.remove('hidden');return
-   }
-   if(e.target.closest?.('#closeAppearanceModal')){document.getElementById('appearanceModal')?.classList.add('hidden');return}
-   const app=e.target.closest?.('[data-appearance]');
-   if(app){e.preventDefault();e.stopImmediatePropagation();chooseTheme(app.dataset.appearance);return}
-   if(e.target.closest?.('[data-redeem-maid-theme]')){e.preventDefault();e.stopImmediatePropagation();redeemMaid();return}
- },true);
-
- function version(){
-   document.querySelectorAll('.testServerRibbon').forEach(x=>x.textContent='🧪 TEST・'+BUILD+'-beta');
-   const hv=document.querySelector('.homeVersion');if(hv)hv.textContent=BUILD+'・測試服｜核心重整版';
-   const meta=document.querySelector('meta[name="x-test-build"]');if(meta)meta.content=BUILD;
-   document.title='關係進行式 TEST・'+BUILD+'-核心重整版';
- }
+ /* 測試服提前開放活動；正式上線時再改為 8/19 00:00～8/25 23:59 的日期 gate。 */
  function boot(){
-   version();
-   window.renderPaidShop?.();
+  try{badgeDefs.qixi_star_fate={icon:"🌌",name:"星河有緣人",desc:"2026 七夕限定・走完五段星河劇情"}}catch(_){}
+  enforceGalaxy50();showFab();
+  setTimeout(()=>{enforceGalaxy50();showFab();try{renderPaid?.()}catch(_){}},500);
  }
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
- window.addEventListener('pageshow',version);
-})();
-</script>
+ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot,{once:true});else boot();
+ document.addEventListener("click",e=>{if(e.target.closest("[data-load]"))setTimeout(showFab,100)},true);
+ window.addEventListener("pageshow",()=>setTimeout(showFab,100));
+ setInterval(()=>{if(!document.hidden)showFab()},3000);
 
-
-<style id="v32671MaidReplayStyle">
-.maidReplayStory32671{
-  background:linear-gradient(145deg,#f7e7f1,#ead4ef)!important;
-  border:1px solid #d6b8dd!important;
-}
-.maidReplayStory32671 b{color:#624474!important}
-</style>
-
-<script id="v32671MaidReplayAndCG">
-(function(){
- const VERSION='3.26.79';
- const STORY_ID='paid_maid_cafe_story';
-
- function c(){try{return typeof cur==='function'?cur():null}catch(_){return null}}
- function ensure(x){if(!x)return;x.paidStoryFlags??={};x.memories??=[]}
-
- function maidLines(){
-   return [
-     {speaker:'旁白',maidStage:0,text:'你把「請店長喝咖啡券」交到櫃檯前。貓貓看著那張券，沉默了幾秒。'},
-     {speaker:'貓貓',maidStage:0,text:'「……所以你真的拿來用了。」'},
-     {speaker:'旁白',maidStage:0,text:'她把店門的牌子翻到「休息中」，轉身走進後面的房間。'},
-     {speaker:'貓貓',maidStage:0,text:'「先說好，這是特別招待。你不准笑。」'},
-     {speaker:'旁白',maidStage:1,text:'過了一會兒，她換上女僕咖啡廳的制服重新出現在你面前。'},
-     {speaker:'貓貓',maidStage:1,text:'「歡、歡迎回來……主人。」'},
-     {speaker:'旁白',maidStage:1,text:'她端著咖啡站在你面前，明明耳根都紅了，卻還努力裝作若無其事。'},
-     {speaker:'貓貓',maidStage:2,text:'「看夠了沒有？咖啡再不喝就要涼了。」'},
-     {speaker:'你',maidStage:2,text:'「所以這張券真的可以讓店長親自招待？」'},
-     {speaker:'貓貓',maidStage:2,text:'「只有今天。還有——不准拿去跟別人炫耀。」'},
-     {speaker:'旁白',maidStage:2,text:'她把咖啡輕輕推到你面前。'},
-     {speaker:'貓貓',maidStage:2,text:'「這個主題也給你。以後想起今天，就把它換上吧。」'}
-   ];
- }
-
- function play(replay=false){
-   const x=c();if(!x)return;ensure(x);
-   if(typeof startNpcRpgStory!=='function')return toast?.('特殊劇情播放器載入失敗。',2800);
-
-   startNpcRpgStory({
-     title:'🎀 特殊劇情・女僕咖啡廳',
-     lines:maidLines(),
-     onComplete:()=>{
-       if(!replay){
-         x.paidStoryFlags[STORY_ID]=true;
-         if(!x.memories.some(m=>m.t==='🎀 付費劇情・女僕咖啡廳'))
-           x.memories.unshift({t:'🎀 付費劇情・女僕咖啡廳',d:new Date().toLocaleDateString('zh-TW')});
-         try{saveLocal?.()}catch(_){}
-       }
-       refreshStoryCollection();
-     }
-   });
- }
- window.playMaidCafeStory=()=>play(false);
- window.replayMaidCafeStory32671=()=>play(true);
-
- function refreshStoryCollection(){
-   const x=c();if(!x)return;ensure(x);
-   const roots=[
-     document.querySelector('#npcDetailBody .npcStoryList'),
-     document.querySelector('#npcDetailBody'),
-     document.querySelector('#npcStories'),
-     document.querySelector('.npcStoryCollection')
-   ].filter(Boolean);
-
-   if(!roots.length)return;
-   const root=roots[0];
-
-   root.querySelectorAll('.maidReplayStory32671').forEach(n=>n.remove());
-
-   if(!x.paidStoryFlags[STORY_ID] && !x.memories.some(m=>m.t==='🎀 付費劇情・女僕咖啡廳'))return;
-
-   const card=document.createElement('button');
-   card.type='button';
-   card.className='maidReplayStory32671';
-   card.dataset.replayMaid32671='1';
-   card.innerHTML='<b>🎀 特殊劇情・女僕咖啡廳</b><div class="small">已收藏・點擊重新觀看雙 CG 特殊劇情</div>';
-   root.appendChild(card);
- }
-
- document.addEventListener('click',e=>{
-   if(e.target.closest?.('[data-replay-maid32671]')){
-     e.preventDefault();e.stopImmediatePropagation();
-     play(true);return;
-   }
-   if(e.target.closest?.('[data-npc-detail],[data-npc-rel-view],#openNpcRelations')){
-     setTimeout(refreshStoryCollection,80);
-   }
- },true);
-
- function version(){
-   document.querySelectorAll('.testServerRibbon').forEach(x=>x.textContent='🧪 TEST・'+VERSION+'-beta');
-   const hv=document.querySelector('.homeVersion');
-   if(hv)hv.textContent=VERSION+'・測試服｜主題第一幀持久化';
-   const meta=document.querySelector('meta[name="x-test-build"]');if(meta)meta.content=VERSION;
-   document.title='關係進行式 TEST・'+VERSION+'-主題第一幀持久化';
- }
-
- if(document.readyState==='loading'){
-   document.addEventListener('DOMContentLoaded',version,{once:true});
- }else version();
- window.addEventListener('pageshow',version);
-})();
-</script>
-
-
-
-
-
-
-<script id="v32677InstantRuntime">
-(function(){
-  const BUILD='3.26.79';
-  const SNAP='role_life_instant_snapshot_v32677';
-  const THEME='role_life_test_active_theme_v1';
-  const ASSET_CACHE='relationship-game-critical-v1';
-  let entering=false;
-  let realtimeChannel=null;
-  let fallbackTimer=null;
-  let renderQueued=false;
-
-  const criticalAssets=[
-    'assets/npc/shopkeeper_cat/maid_cafe_special_1.png',
-    'assets/npc/shopkeeper_cat/maid_cafe_special_2.png'
-  ];
-
-  function j(s){try{return JSON.parse(s)}catch(_){return null}}
-  function current(){try{return typeof cur==='function'?cur():null}catch(_){return null}}
-
-  function paintTheme(mode){
-    mode=['maidCafe','qixiGalaxy'].includes(mode)?mode:'default';
-    document.documentElement.setAttribute('data-paid-theme',mode);
-    if(!document.body)return;
-    document.body.classList.remove('theme-maid-cafe','theme-qixi-paid');
-    if(mode==='maidCafe')document.body.classList.add('theme-maid-cafe');
-    if(mode==='qixiGalaxy')document.body.classList.add('theme-qixi-paid');
-  }
-
-  function firstPaint(){
-    let mode=j(localStorage.getItem(THEME)||'null')?.mode||'default';
-    const s=j(localStorage.getItem(SNAP)||'null');
-    if(mode==='default' && s?.activePaidTheme)mode=s.activePaidTheme;
-    paintTheme(mode);
-  }
-
-  function snapshot(c){
-    if(!c)return;
-    try{
-      localStorage.setItem(SNAP,JSON.stringify({
-        id:c.id||'',
-        name:c.name||'',
-        level:c.level||1,
-        energy:c.energy??100,
-        mood:c.mood??80,
-        hunger:c.hunger??85,
-        money:c.money??300,
-        activePaidTheme:c.activePaidTheme||'',
-        paidCosmetics:c.paidCosmetics||{},
-        paidStoryFlags:c.paidStoryFlags||{},
-        savedAt:Date.now()
-      }));
-    }catch(_){}
-  }
-
-  function preloadCritical(){
-    for(const src of criticalAssets){
-      const img=new Image();
-      img.decoding='async';
-      img.fetchPriority='high';
-      img.src=src;
-    }
-    if(!('caches' in window))return;
-    /* Cache API is opportunistic: it never blocks the game. */
-    Promise.resolve().then(async()=>{
-      try{
-        const cache=await caches.open(ASSET_CACHE);
-        await Promise.allSettled(criticalAssets.map(async src=>{
-          const hit=await cache.match(src);
-          if(!hit)await cache.add(src);
-        }));
-      }catch(_){}
-    });
-  }
-
-  function minimalRender(c){
-    const set=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v};
-    set('charName',c.name||'角色');
-    set('level',Number(c.level||1));
-    set('energy',Math.floor(Number(c.energy??100)));
-    set('mood',Math.floor(Number(c.mood??80)));
-    set('hunger',Math.floor(Number(c.hunger??85)));
-    set('moneyTop',Number(c.money??300));
-    try{set('day',typeof day==='function'?day(c):1)}catch(_){}
-  }
-
-  function queueLocalRender(){
-    if(renderQueued)return;
-    renderQueued=true;
-    requestAnimationFrame(()=>{
-      renderQueued=false;
-      const c=current();if(!c)return;
-      try{safeRenderGame?.()}catch(e){console.warn('instant render',e)}
-      try{window.applyPaidAppearance?.(c)}catch(_){}
-      snapshot(c);
-    });
-  }
-
-  function unsubscribeRealtime(){
-    if(fallbackTimer){clearInterval(fallbackTimer);fallbackTimer=null}
-    if(realtimeChannel && window.sb?.removeChannel){
-      try{sb.removeChannel(realtimeChannel)}catch(_){}
-    }
-    realtimeChannel=null;
-  }
-
-  function subscribeRealtime(c){
-    unsubscribeRealtime();
-    if(!window.sb?.channel || !c)return;
-
-    const uid=String(c.user_id||c.owner_id||'');
-    const cid=String(c.id||'');
-    const roomCodes=Array.isArray(c.roomCodes)?c.roomCodes.filter(Boolean):[];
-
-    try{
-      let ch=sb.channel('game-live-'+cid);
-
-      /* Listen only to tables that exist in this game's current runtime.
-         Postgres Changes filters are kept narrow when a usable owner id exists. */
-      const refresh=()=>queueLocalRender();
-
-      if(uid){
-        ch=ch.on('postgres_changes',
-          {event:'*',schema:'public',table:'profiles',filter:'id=eq.'+uid},
-          refresh);
-      }
-
-      /* Relationship/message/invite updates are pushed; existing loaders merge data.
-         If a table is absent, Supabase simply won't emit for it. */
-      for(const table of ['relationships','messages','invites','notifications']){
-        ch=ch.on('postgres_changes',
-          {event:'*',schema:'public',table:table},
-          payload=>{
-            /* Avoid a full blocking boot: refresh existing lightweight loaders in background. */
-            Promise.resolve().then(async()=>{
-              try{
-                if(table==='relationships')await refreshRelationships?.();
-                if(table==='messages' && roomCodes.length)await loadMessages?.();
-                if((table==='invites'||table==='notifications'))await loadInbox?.();
-              }catch(_){}
-              queueLocalRender();
-            });
-          });
-      }
-
-      realtimeChannel=ch.subscribe(status=>{
-        if(status==='SUBSCRIBED'){
-          if(fallbackTimer){clearInterval(fallbackTimer);fallbackTimer=null}
-        }
-      });
-    }catch(e){
-      console.warn('realtime subscribe',e);
-    }
-
-    /* Slow fallback only. It does not gate UI and stops when realtime subscribes. */
-    fallbackTimer=setInterval(()=>{
-      if(document.hidden)return;
-      Promise.resolve().then(async()=>{
-        try{
-          await Promise.allSettled([
-            Promise.resolve(refreshRelationships?.()),
-            Promise.resolve(loadInbox?.())
-          ]);
-        }catch(_){}
-      });
-    },30000);
-  }
-
-  async function backgroundInitialSync(c){
-    /* No await from entry path. Each task is independent and updates only when ready. */
-    const tasks=[
-      ()=>refreshCustomBadgeDefs?.(),
-      ()=>refreshRelationships?.(),
-      ()=>refreshAllBondSummaries?.(c),
-      ()=>loadInbox?.()
-    ];
-    for(const task of tasks){
-      Promise.resolve().then(task).then(queueLocalRender).catch(()=>{});
-    }
-
-    const code=(c.roomCodes||[])[0]||'';
-    if(code){
-      activeRoomCode=activeRoomCode||code;
-      Promise.resolve().then(()=>loadRoom?.(code))
-        .then(()=>Promise.allSettled([
-          Promise.resolve(loadMessages?.()),
-          Promise.resolve(checkDirectGamePopups?.())
-        ]))
-        .then(queueLocalRender).catch(()=>{});
-    }
-  }
-
-  function enter(id){
-    if(entering)return;
-    entering=true;
-    try{
-      clearFatal?.();
-      const chars=(typeof local!=='undefined'&&Array.isArray(local.characters))?local.characters:[];
-      const c=chars.find(x=>String(x.id)===String(id));
-      if(!c){alert('找不到這個角色存檔。');return}
-
-      activeId=c.id;
-      room=null;partner=null;
-      activeRoomCode=(c.roomCodes||[])[0]||'';
-
-      try{window.applyPaidAppearance?.(c)}catch(_){}
-      try{show('game')}catch(_){}
-      minimalRender(c);
-
-      /* Full local UI on the very next animation frame. */
-      requestAnimationFrame(()=>{
-        try{
-          ensureRelations?.(c);
-          ensureMeta?.(c);
-          resetDailyIfNeeded?.(c);
-        }catch(_){}
-        queueLocalRender();
-      });
-
-      /* Network never blocks entry. */
-      subscribeRealtime(c);
-      backgroundInitialSync(c);
-
-      setTimeout(()=>{try{maybeEvent?.()}catch(_){}},300);
-    }catch(e){
-      console.error('instant entry',e);
-      alert('角色進入失敗：'+(e?.message||'未知錯誤'));
-    }finally{
-      entering=false;
-    }
-  }
-
-  /* Capture phase replaces old entry behavior instead of adding another delayed path. */
-  document.addEventListener('pointerup',e=>{
-    const btn=e.target.closest?.('#saveList [data-open]');
-    if(!btn)return;
-    e.preventDefault();
-    e.stopImmediatePropagation();
-    enter(btn.dataset.open);
-  },true);
-
-  document.addEventListener('click',e=>{
-    const btn=e.target.closest?.('#saveList [data-open]');
-    if(!btn)return;
-    e.preventDefault();
-    e.stopImmediatePropagation();
-  },true);
-
-  function hookSave(){
-    const old=window.saveLocal;
-    if(typeof old!=='function'||old.__instant3277)return;
-    const fn=function(){
-      const r=old.apply(this,arguments);
-      const c=current();
-      snapshot(c);
-      return r;
-    };
-    fn.__instant3277=true;
-    window.saveLocal=fn;
-  }
-
-  function boot(){
-    hookSave();
-    firstPaint();
-    preloadCritical();
-    const c=current();
-    if(c){snapshot(c);subscribeRealtime(c)}
-    document.querySelectorAll('.testServerRibbon').forEach(x=>x.textContent='🧪 TEST・'+BUILD+'-beta');
-    const hv=document.querySelector('.homeVersion');
-    if(hv)hv.textContent=BUILD+'・測試服｜即時店長互動＋完整主題';
-    document.title='關係進行式 TEST・'+BUILD+'-即時店長互動＋完整主題';
-  }
-
-  firstPaint();
-  preloadCritical();
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});
-  else boot();
-  window.addEventListener('beforeunload',unsubscribeRealtime);
-})();
-</script>
-
-
-<script id="v32679InstantShopkeeperPoke">
-(function(){
- const BUILD='3.26.79';
- let syncing=false;
-
- function state(){
-   try{return typeof npcState==='function'?npcState():null}catch(_){return null}
- }
- function save(st){
-   try{saveNpcState?.(st)}catch(_){}
-   try{saveLocal?.()}catch(_){}
- }
- function redraw(){
-   try{updateNpcStats?.()}catch(_){}
-   try{renderNpcShop?.()}catch(_){}
- }
-
- function instantPoke(){
-   const st=state(); if(!st)return;
-   st.daily??={};
-   const used=Number(st.daily.poke||st.daily.touch||0);
-   if(used>=3){
-     toast?.('🐈 今天已經戳過店長 3 次了。',2200);
-     return;
-   }
-
-   /* 本機先變：數值與畫面同一幀更新，不等 Supabase。 */
-   st.daily.poke=used+1;
-   st.affection=Math.min(100,Number(st.affection||0)+1);
-   st.catCloseness=Math.min(100,Number(st.catCloseness||st.catAffinity||0)+1);
-   save(st);
-   redraw();
-
-   const lines=[
-     '「……你又戳我做什麼？」',
-     '「手很閒是不是？」',
-     '「再戳的話，我要收服務費了。」'
-   ];
-   toast?.('🐈 '+lines[Math.min(used,lines.length-1)],2200);
-
-   /* 雲端只做背景同步；成功與否都不阻塞 UI。 */
-   if(syncing)return;
-   syncing=true;
-   Promise.resolve().then(async()=>{
-     try{
-       if(typeof syncNpcStateToCloud==='function')await syncNpcStateToCloud(st);
-       else if(typeof saveNpcStateCloud==='function')await saveNpcStateCloud(st);
-       else if(typeof pushNpcState==='function')await pushNpcState(st);
-     }catch(e){console.warn('poke background sync',e)}
-     finally{syncing=false}
-   });
- }
-
- document.addEventListener('pointerup',e=>{
-   const btn=e.target.closest?.(
-     '[data-npc-action="poke"],[data-npc-action="touch"],[data-npc-action="pet"],[data-shopkeeper-poke],#npcPokeBtn'
-   );
-   if(!btn)return;
-   e.preventDefault();
-   e.stopImmediatePropagation();
-   instantPoke();
- },true);
-
- document.addEventListener('click',e=>{
-   const btn=e.target.closest?.(
-     '[data-npc-action="poke"],[data-npc-action="touch"],[data-npc-action="pet"],[data-shopkeeper-poke],#npcPokeBtn'
-   );
-   if(!btn)return;
-   e.preventDefault();
-   e.stopImmediatePropagation();
- },true);
-
- function version(){
-   document.querySelectorAll('.testServerRibbon').forEach(x=>x.textContent='🧪 TEST・'+BUILD+'-beta');
-   const hv=document.querySelector('.homeVersion');
-   if(hv)hv.textContent=BUILD+'・測試服｜即時店長互動＋完整主題';
-   document.title='關係進行式 TEST・'+BUILD+'-即時店長互動＋完整主題';
- }
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',version,{once:true});
- else version();
+ /* 覆蓋測試服顯示版本，不碰正式服。 */
+ setTimeout(()=>{
+  document.title="關係進行式 TEST・3.27.0-七夕活動測試";
+  document.querySelector(".homeVersion")?.replaceChildren(document.createTextNode("3.27.0・測試服｜七夕活動測試"));
+  document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.27.0-beta");
+  const meta=document.querySelector('meta[name="x-test-build"]');if(meta)meta.content="3.27.0";
+ },100);
 })();
 </script>
