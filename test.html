@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#9a76c4">
-<meta name="x-test-build" content="3.27.6">
+<meta name="x-test-build" content="3.27.7">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>關係進行式 TEST・3.27.6-七夕雙方綁定測試</title>
+<title>關係進行式 TEST・3.27.7-七夕設施小遊戲＋長篇劇情測試</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -1767,7 +1767,7 @@ body.qixi-global-theme .pageCard h3{color:#fff!important}
     <div class="homeLogo">🧪</div>
     <h1>關係進行式 TEST</h1>
     <div class="homeTagline">測試中的每一段關係，都可能被重置。</div>
-    <div class="homeVersion">3.27.6・測試服｜七夕雙方綁定測試</div>
+    <div class="homeVersion">3.27.7・測試服｜七夕設施小遊戲＋長篇劇情測試</div>
   </div>
 
   <div id="playerAccountHomePanel" class="homePanel accountHomePanel">
@@ -14182,6 +14182,74 @@ header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{back
  </div>
 </div>
 
+
+<style id="qixi-rpg-image-layout-3277">
+/* 手機：劇照真正滿版；電腦：中央完整直圖，左右以同圖模糊補滿 */
+@media (max-width: 899px){
+  #qixiRpgPlayer .qixiRpgStage{background:#0d0822!important}
+  #qixiRpgPlayer .qixiRpgBg{display:none!important}
+  #qixiRpgPortrait{
+    position:absolute!important;inset:0!important;
+    width:100%!important;height:100%!important;
+    object-fit:cover!important;object-position:center center!important;
+  }
+}
+@media (min-width: 900px){
+  #qixiRpgPlayer .qixiRpgBg{
+    display:block!important;filter:blur(28px) brightness(.45)!important;
+    transform:scale(1.12)!important;opacity:1!important;
+  }
+  #qixiRpgPortrait{
+    width:min(56vw,760px)!important;height:100dvh!important;
+    object-fit:contain!important;object-position:center center!important;
+    filter:drop-shadow(0 0 28px rgba(0,0,0,.26));
+  }
+}
+
+/* 七夕設施小遊戲 */
+#qixiMiniGameModal .modalBox{
+  max-width:560px;background:linear-gradient(180deg,#17113a,#2c1d55)!important;color:#fff!important;
+}
+.qixiGameTop{display:flex;justify-content:space-between;gap:10px;align-items:center}
+.qixiGameBoard{
+  position:relative;min-height:280px;margin-top:12px;padding:14px;
+  border-radius:18px;overflow:hidden;
+  background:radial-gradient(circle at 50% 10%,rgba(126,104,255,.28),transparent 38%),linear-gradient(180deg,#15103b,#22174b);
+  border:1px solid rgba(255,255,255,.16);
+}
+.qixiGameStatus{font-weight:900;margin-top:8px}
+.qixiStarTapGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.qixiStarTap{
+  min-height:72px!important;font-size:28px!important;
+  background:#ffffff12!important;border:1px solid #ffffff28!important;color:#fff!important;
+}
+.qixiStarTap.hit{opacity:.28;transform:scale(.9)}
+.qixiLanternRow{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:34px}
+.qixiLantern{
+  min-height:88px!important;font-size:30px!important;
+  background:#ffffff0f!important;border:1px solid #ffffff24!important;color:#fff!important;
+}
+.qixiLantern.flash{background:#f7c6ff!important;color:#46234f!important;box-shadow:0 0 28px #eab3ff}
+.qixiBalanceTrack{height:28px;border-radius:999px;background:#ffffff18;position:relative;margin:80px 12px 0}
+.qixiBalanceGood{position:absolute;left:42%;width:16%;top:0;bottom:0;border-radius:999px;background:#a8e5b3}
+.qixiBalanceNeedle{position:absolute;top:-11px;width:8px;height:50px;border-radius:5px;background:#fff;box-shadow:0 0 12px #fff}
+.qixiWishGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}
+.qixiWishStar{min-height:72px!important;font-size:25px!important;background:#ffffff10!important;color:#fff!important;border:1px solid #ffffff25!important}
+.qixiKeeperChoices{display:grid;gap:10px;margin-top:18px}
+.qixiKeeperChoices button{min-height:58px!important;text-align:left!important;background:#ffffff10!important;color:#fff!important;border:1px solid #ffffff26!important}
+</style>
+
+<div id="qixiMiniGameModal" class="modal hidden">
+ <div class="modalBox">
+  <div class="qixiGameTop">
+   <div><b id="qixiMiniGameTitle">七夕設施</b><div class="small" id="qixiMiniGameDesc"></div></div>
+   <button id="closeQixiMiniGame" type="button">×</button>
+  </div>
+  <div id="qixiMiniGameBoard" class="qixiGameBoard"></div>
+  <div id="qixiMiniGameStatus" class="qixiGameStatus"></div>
+ </div>
+</div>
+
 </body>
 </html>
 
@@ -14918,53 +14986,7 @@ body.npcStoryRunning #qixiEventFab{display:none!important}
   enemy:{icon:"💥",name:"仇敵｜惡緣"},
   solo:{icon:"🌙",name:"獨行｜一人之緣"}
  };
- const STORY={
-  ferry:{
-   lover:["「你說，我們明年還會一起來嗎？」","「不只明年。」","星光落在交握的手上。守橋人笑了笑——有些人來到橋前，是想和另一個人走得更遠。"],
-   bestfriend:["「明年還來？」","「你請客就來。」","兩個人嘴上誰也不讓誰，腳步卻自然走在一起。"],
-   family:["「等等我。」","「你怎麼每次都走那麼慢？」","抱怨的人把燈遞了回去。因為有些人不用約定，也一定會等你。"],
-   partner:["「左邊？」","「右邊。」","不用誰走在前面。只要回頭時，知道對方一定在身側就夠了。"],
-   rival:["兩個人從渡口兩側同時抵達。","「今年也沒打算輸吧？」","「這句話原封不動還給你。」"],
-   enemy:["「你怎麼又在這裡？」","「這句話應該我問你吧？」","守橋人默默看著。去年他們好像也是從這句開始吵的。"],
-   solo:["今夜沒有誰與你同行。","守橋人卻沒有攔你。","「一個人來，也算有緣。至少你沒有錯過今晚的星河。」"]
-  },
-  lantern:{
-   lover:["你們各自挑了一盞燈，最後卻寫下了同一個願望。","「這算作弊嗎？」","「算默契。」"],
-   bestfriend:["「你寫什麼？」","「不告訴你。」","「那我猜得到。」——有些熟悉，不需要把答案說出口。"],
-   family:["燈火映亮熟悉的側臉。","「走遠了記得回來。」","沒有華麗的願望，卻是最長久的一句話。"],
-   partner:["兩盞燈被掛在相鄰的位置。","「你的那盞歪了。」","「你不是會幫我扶正嗎？」"],
-   rival:["兩人同時伸手去掛最高的位置。","誰也沒有退一步。","最後兩盞燈硬是並排掛在最高處。"],
-   enemy:["「別把你的燈掛我旁邊。」","「誰稀罕？是這裡只剩這個位置！」","燈火晃了晃，像也在忍笑。"],
-   solo:["你替自己點亮一盞燈。","燈上沒有寫名字。","但它依然和其他燈一樣，安靜地亮在星河下面。"]
-  },
-  bridge:{
-   lover:["走到橋中央時，對方忽然停了下來。","「執子之手，白首與共，與子偕老。」","這一次，誰也沒有先移開視線。"],
-   bestfriend:["「你走快點。」","「急什麼，橋又不會跑。」","第二年的同一天，也許還會是這兩個人互相嫌棄著走過。"],
-   family:["橋面有些滑。","「拿著。」","伸過來的手不像承諾，更像早已習慣的本能。"],
-   partner:["「背後交給你了。」","「你什麼時候沒交給我？」","橋很長，卻沒有任何一段需要獨自走。"],
-   rival:["誰都不肯讓誰先過橋中央。","「明年還來？」","「如果你還沒輸的話。」"],
-   enemy:["「你先走。」","「憑什麼不是你先滾？」","守橋人扶額：這座橋明明很寬。"],
-   solo:["你一個人走過橋中央。","風從星河上吹來。","原來橋的另一端，不一定非得站著某個人。"]
-  },
-  wish:{
-   lover:["願望寫得很短。","——明年，也一起。","其實真正想說的是，比明年更久。"],
-   bestfriend:["「我們這種關係要許什麼願？」","「少吵一點？」","兩人對看一眼，同時笑出聲。看來這願望不太可能實現。"],
-   family:["你沒有許願得到什麼。","只寫下：平安回家。","因為有些人的存在，本身就是歸處。"],
-   partner:["願紙上只有一句：下一次也一起完成。","沒有浪漫的詞。","卻比任何誓言都像你們。"],
-   rival:["兩張願紙寫了幾乎一樣的話。","——下一次贏的人會是我。","很好，明年大概又會見面。"],
-   enemy:["「你偷看我的願望？」","「我才沒有！」","守橋人決定離他們遠一點。"],
-   solo:["你想了很久，最後寫下自己的名字。","不是等待誰來完成它。","而是提醒自己，也可以成為自己的有緣人。"]
-  },
-  keeper:{
-   lover:["守橋人問：「誰說有緣之人，就一定只相逢一次？」","你們沒有回答，只是又握緊了一點。","他便知道答案了。"],
-   bestfriend:["守橋人問：「沒有誓言，也算長久嗎？」","你們同時回答：「明年見。」","一年又一年，這大概就是答案。"],
-   family:["守橋人問：「走得再遠，最後要去哪裡？」","你望向身旁的人。","有些答案從來不是一個地名。"],
-   partner:["守橋人問：「一定要走在同一條路上嗎？」","「不用。」","只要需要時，彼此仍能並肩。"],
-   rival:["守橋人問：「你們到底為什麼每年都來？」","兩個人同時冷哼。","因為誰都不願意先認輸。"],
-   enemy:["守橋人沉默半晌。","「……你們前年也在吵吧？」","有些緣分，大概真的不是什麼好東西。可偏偏怎麼甩也甩不掉。"],
-   solo:["守橋人問：「一個人走完，有遺憾嗎？」","你回頭望了一眼整條星河。","沒有。今夜你與自己，也算好好相逢了一次。"]
-  }
- };
+ const STORY={"ferry":{"lover":["星河渡口的風比想像中涼。你與對方並肩站在水邊，看著光點沿著河面流動。","「你說，我們明年還會一起來嗎？」","對方沒有立刻回答，只是把手伸向你。","你本來以為那會是一句玩笑，卻聽見很輕的一聲——「不只明年。」","遠處的鵲橋被星光一寸寸點亮，像有人替你們把尚未走過的日子鋪成路。","你握住那隻手，忽然覺得七夕真正珍貴的不是今晚，而是有人願意把『以後』也一起說出口。","守橋人站在渡口另一側，安靜看著你們。","「有些人來到橋前，是想和另一個人走得更遠。」","她沒有催促，只替你們把第一盞引路燈點亮。"],"bestfriend":["你們一到渡口就為誰先踩上船板吵了兩句。","「明年還來？」","「你請客就來。」","「去年也是我請吧？」","嘴上誰都不肯吃虧，腳步卻自然地一前一後靠在一起。","河面晃了一下，對方順手拉住你的手腕，又像什麼都沒發生似的放開。","有些人不會和你說『永遠』，但每次你回頭，他都剛好還在。","守橋人笑著把第二盞燈推向水面。","「同行久了，很多約定就不需要特別說出口。」"],"family":["你剛走下石階，身後便傳來熟悉的聲音。","「等等我。」","「你怎麼每次都走那麼慢？」","嘴上抱怨的人還是停下來，順手把燈遞回你手裡。","河風吹亂衣角，你們談的卻只是晚餐、回家時間和一些再普通不過的小事。","你忽然發現，真正讓人安心的從來不是盛大的節日。","而是無論走多遠，總有一個人會問你『什麼時候回來』。","守橋人低聲道：「有些緣，不用相約，也一定會等。」"],"partner":["你們站在渡口前同時看向兩條路。","「左邊？」","「右邊。」","兩人對視一秒，又同時笑了。","最後誰也沒有爭，因為你們太清楚對方會補上自己沒注意到的地方。","船身輕晃，你下意識往前一步，對方已經替你扶住欄杆。","不用誰一直走在前面。只要回頭時，知道那個位置永遠有人能接上。","守橋人看著你們默契地交換位置，只說了一句：「並肩，本來就不是誰跟著誰。」"],"rival":["你從渡口左側走近時，另一道人影剛好從右側抵達。","你們同時停住。","「今年也沒打算輸吧？」","「這句話原封不動還給你。」","連挑一艘船都要比誰先上去，連看見同一顆流星都要爭誰先發現。","可若不是對方一直站在前面，你也許早就不知道自己還能走多遠。","競爭讓人疲憊，也讓人清醒。","守橋人把兩盞燈並排放下：「有些緣，是為了讓彼此永遠不要停下來。」"],"enemy":["「你怎麼又在這裡？」","「這句話應該我問你吧？」","你們在渡口一見面，氣氛就比河面上的風還冷。","連船夫都默默把視線移開。","你本來想換一條路，對方卻偏偏也往同一邊走。","「別跟著我。」「誰跟你？」","守橋人扶著額頭，看了你們好一會兒。","「去年……你們是不是也從這句開始吵？」","你們同時否認，聲音卻整齊得可笑。"],"solo":["今夜沒有誰與你同行。","你在渡口前停了一會兒，原本以為守橋人會問原因。","她卻只是替你點亮一盞燈。","「一個人來，也算有緣。」","你有些意外。","「橋不是只為兩個人存在。能在某個夜晚好好陪自己走完一段路，也是一種相逢。」","你接過燈，星光沿著河面一路延伸。","至少今夜，你沒有錯過這條星河。"]},"lantern":{"lover":["緣燈長廊兩側掛滿未寫名字的燈。","你們各自挑了一盞，卻刻意背對著彼此寫下願望。","「你寫什麼？」","「先說你的。」","誰也不肯先交代。直到兩盞燈被掛起來，你才發現內容竟幾乎一樣。","——希望明年仍然能一起來。","「這算作弊嗎？」","「算默契。」","你笑著抬頭，兩盞燈在風裡輕輕碰了一下。"],"bestfriend":["你挑了一盞歪得很明顯的燈，對方看了一眼就笑出聲。","「你寫什麼？」","「不告訴你。」","「那我猜得到。」","你本來想反駁，對方卻一口氣說出三個你最可能寫的願望。","全部猜中。","你忽然不知道該先生氣還是先笑。","有些熟悉不是浪漫，卻比很多漂亮話更接近『懂得』。","兩盞燈被掛在同一排，像你們這些年沒完沒了的聊天。"],"family":["燈火映亮熟悉的側臉。","你還在想要寫什麼，對方已經提筆。","「走遠了記得回來。」","你愣了一下：「這算願望？」","「不然呢？」","沒有『永遠幸福』，沒有『心想事成』，只有最日常的一句叮嚀。","可你知道，真正想說的是——無論發生什麼，這裡都還有位置留給你。","你也寫下兩個字：平安。"],"partner":["你們很自然地挑了相鄰的兩盞燈。","「你的那盞歪了。」","「你不是會幫我扶正嗎？」","對方嘴上嫌棄，手卻已經伸過去。","你們的願望都不長，一個寫『下一次也成功』，另一個寫『別受傷』。","誰都沒有讀出聲。","因為真正重要的那部分，你們在一次次合作裡早就說過很多次。","兩盞燈最後穩穩並在一起。"],"rival":["長廊最高處只剩兩個位置。","你和對方同時抬頭。","下一秒，兩人同時伸手。","「讓開。」「你才讓。」","誰也沒有退一步，最後乾脆各自踩上欄邊去掛。","守橋人差點出聲阻止。","等你們跳下來時，兩盞燈硬是被掛在最高的位置，並排得異常整齊。","對方看了一眼，冷哼：「至少我的比較高。」","你立刻抬頭確認，新的爭論又開始了。"],"enemy":["「別把你的燈掛我旁邊。」","「誰稀罕？是這裡只剩這個位置！」","你往左挪一步，對方也往左。你往右，對方也往右。","最後兩盞燈還是被迫掛在一起。","風一吹，燈面互相碰了一下。","「你看，連燈都嫌你煩。」","「明明是你的先撞過來。」","守橋人站得遠遠的，像是已經學會不要插話。"],"solo":["你替自己點亮一盞燈。","周圍大多是兩個人一起寫願望，只有你的桌前安安靜靜。","你原本有點不自在，後來卻慢慢放鬆下來。","願望不必因為沒有人一起寫就失去意義。","你在燈上寫下自己的名字，又補上一句很小的話。","——希望明年的我，也還願意為自己點燈。","它和其他燈一樣，安靜地亮在星河下面。"]},"bridge":{"lover":["走到鵲羽橋中央時，對方忽然停了下來。","夜風從河面穿過，周圍的燈聲一下變得很遠。","你正想問怎麼了，對方卻先伸出手。","「執子之手，白首與共，與子偕老。」","你怔住，明知道這句話古老得不能再古老，卻還是因為由這個人說出口而心跳加快。","「突然講這個做什麼？」","「七夕不是很適合嗎？」","這一次，誰也沒有先移開視線。","你把手放上去，橋下的星河恰好亮成一條長長的光。"],"bestfriend":["「你走快點。」","「急什麼，橋又不會跑。」","你故意放慢，對方乾脆也跟著慢下來。","走到一半時你們停在欄邊，看著底下的燈。","「明年還來？」","「看情況。」","「那就是會來。」","你太了解對方嘴硬的方式，對方也懶得反駁。","第二年的同一天，也許還會是這兩個人互相嫌棄著走過。"],"family":["橋面被夜露打得有些滑。","你剛踩上去，身旁的人便伸出手。","「拿著。」","「我自己可以。」","「我知道。」","手卻沒有收回去。","伸過來的手不像承諾，更像早已習慣的本能。","有些關心從來不問你需不需要，只是在你可能跌倒的地方先等著。"],"partner":["走到橋中央時，前方的人群突然擁擠起來。","你們沒有商量，一個往前確認路況，一個自然守在後方。","「背後交給你了。」","「你什麼時候沒交給我？」","等人潮散開，你們又並肩走回原本的位置。","橋很長，卻沒有任何一段需要獨自走。","因為你知道，只要一句話，那個人就會接住你沒辦法同時顧到的方向。"],"rival":["橋中央最窄的地方，你們偏偏同時停住。","誰都不肯先讓。","「你先。」「憑什麼？」","僵持了一會兒，你忽然笑了。","「明年還來？」","對方挑眉：「如果你還沒輸的話。」","這大概不是承諾。","可若明年還想分出勝負，那就表示你們都默認了還會再次站在彼此前方。"],"enemy":["「你先走。」","「憑什麼不是你先滾？」","守橋人遠遠扶額：這座橋明明很寬。","你們偏偏在正中央堵住彼此。","最後還是旁邊的人忍不住提醒『借過』，你們才一左一右讓開。","走了幾步又同時回頭。","「不要跟著我。」「這條橋只有一條路！」","奇怪的是，吵了這麼久，誰也真的沒有先離開。"],"solo":["你一個人走到橋中央。","兩側都是結伴而來的人，腳步聲從前後交錯而過。","你靠在欄邊看了一會兒星河。","沒有誰在另一端等著你。","但你突然明白，橋的意義也許不是『走向某個人』。","有時候只是讓你確定自己能走到另一邊。","你重新站直，繼續向前。"]},"wish":{"lover":["星願台上放著一疊細長的願紙。","你們沉默了比剛才久一點。","願望寫得很短。","——明年，也一起。","你側頭偷看，發現對方也在看你的。","「怎麼一樣？」","「因為你太好猜。」","其實真正想說的是，比明年更久。","只是你們都把那句話留在沒有寫下來的地方。"],"bestfriend":["「我們這種關係要許什麼願？」","「少吵一點？」","你們對看一眼，同時笑出聲。","看來這願望不太可能實現。","你最後寫的是『希望今年也有很多好玩的事』。","對方寫完立刻把紙摺起來，不讓你看。","「一定是在罵我吧？」","「你可以繼續猜。」","有些願望不需要多感人，只要下一次還有對方可以一起笑就好。"],"family":["你沒有許願得到什麼。","只寫下：平安回家。","對方看見後沒說話，也寫了一張。","你想偷看，卻被手掌擋住。","「不是說願望不能講？」","你笑著收回視線。","其實不用看，你大概也猜得到。","因為有些人的願望從來不是自己的，而是希望你過得好。"],"partner":["願紙上只有一句：下一次也一起完成。","沒有浪漫的詞，也沒有誰故意把它寫得漂亮。","對方看完只點了一下頭。","「這算願望嗎？」","「算計畫。」","你笑了。","對你們來說，真正可靠的從來不是祈求。","而是下一次需要彼此時，兩個人都會準時出現。"],"rival":["你們背對背寫完願紙。","翻開時，內容幾乎一樣。","——下一次贏的人會是我。","空氣安靜了一秒。","然後兩個人同時把紙搶回去。","「不要學我。」「誰學你？」","很好。","明年大概又會見面。因為這場勝負看起來永遠不會有真正的最後一次。"],"enemy":["「你偷看我的願望？」","「我才沒有！」","「那你剛剛湊過來幹嘛？」","「因為你的紙掉到我這邊！」","守橋人決定離你們遠一點。","最後你們各自把願紙掛上去，還特地隔開兩個位置。","結果風一吹，兩張紙又纏在一起。","你們同時沉默。","「……一定是風的問題。」"],"solo":["你想了很久，最後只寫下自己的名字。","旁邊的人似乎都有很明確想祝福的對象。","你卻不覺得空。","不是等待誰來完成願望，也不是希望誰一定出現。","你只是提醒自己——也可以成為自己的有緣人。","願紙被風吹起時，你第一次覺得這句話並不孤單。"]},"keeper":{"lover":["五個設施走到最後，你們再次回到守橋亭。","守橋人看了看交握的手，沒有立刻說話。","「誰說有緣之人，就一定只相逢一次？」","你們沒有回答，只是又握緊了一點。","她便知道答案了。","「真正難得的，不是遇見。」","「是遇見以後，仍然願意一次又一次選擇走向同一個人。」","遠處的星河亮起，像替這句話做了證明。"],"bestfriend":["守橋人看著你們一路鬥嘴走回來。","「沒有誓言，也算長久嗎？」","你們同時回答：「明年見。」","兩人一愣，又同時笑出聲。","守橋人也笑了。","「一年又一年，這大概就是答案。」","有些關係不需要說永遠。","只要每一次約定下一次時，都還是真心想見對方。"],"family":["守橋人把燈放回桌上。","「走得再遠，最後要去哪裡？」","你望向身旁的人。","有些答案從來不是一個地名。","是熟悉的聲音，是有人記得你的習慣，是累了之後仍然知道哪裡可以回去。","守橋人輕輕點頭。","「能成為彼此的歸處，也是很深的緣。」"],"partner":["守橋人問：「一定要走在同一條路上嗎？」","你們對看一眼。","「不用。」","你回答得很快。","因為你們早就知道，並肩不是永遠做一樣的事。","而是即使各自朝不同方向前進，需要時仍然能把背後交給對方。","守橋人笑道：「那就夠了。」"],"rival":["守橋人看著你們，終於問出一路上最想問的問題。","「你們到底為什麼每年都來？」","兩個人同時冷哼。","「因為還沒分出勝負。」","「明明是他不肯認輸。」","守橋人笑得更明顯了。","有時候，讓人一次又一次回到同一個地方的，也可以是一個永遠追不完的對手。"],"enemy":["守橋人沉默半晌。","「……你們前年也在吵吧？」","你們同時否認。","「去年呢？」","又同時沉默。","守橋人像是得到了答案。","「有些緣分，大概真的不是什麼好東西。」","她停了一下，又補充：「可偏偏怎麼甩也甩不掉。」","你和對方同時皺眉，這次居然沒有人反駁。"],"solo":["守橋人問：「一個人走完，有遺憾嗎？」","你回頭望了一眼整條星河。","從渡口到長廊，再到橋中央，都是你自己一步一步走過來的。","「沒有。」","守橋人望著你，眼神很柔和。","「那就好。」","「有緣不一定意味著身邊必須有誰。」","「今夜你與自己，也算好好相逢了一次。」"]}};
 
 
 
@@ -15370,6 +15392,98 @@ body.npcStoryRunning #qixiEventFab{display:none!important}
     toast?.("🎁 七夕活動獎勵：50 金幣已領取！",3500);render();
   });
  }
+
+ let qixiMiniGameCurrent="";
+ let qixiMiniCleanup=null;
+ function qixiMiniEls(){
+  return {
+   modal:document.getElementById("qixiMiniGameModal"),
+   title:document.getElementById("qixiMiniGameTitle"),
+   desc:document.getElementById("qixiMiniGameDesc"),
+   board:document.getElementById("qixiMiniGameBoard"),
+   status:document.getElementById("qixiMiniGameStatus")
+  };
+ }
+ function closeQixiMiniGame(){
+  try{qixiMiniCleanup?.()}catch(_){}
+  qixiMiniCleanup=null;qixiMiniGameCurrent="";
+  qixiMiniEls().modal?.classList.add("hidden");
+ }
+ function completeQixiMiniGame(fid){
+  const f=FACILITIES.find(x=>x.id===fid);
+  const e=qixiMiniEls();
+  e.status.textContent="✅ 小遊戲完成！正在進入劇情……";
+  setTimeout(()=>{closeQixiMiniGame();openStory(qixiSelectedCompanion(c()).rel)},500);
+ }
+ function startQixiMiniGame(fid){
+  const f=FACILITIES.find(x=>x.id===fid),e=qixiMiniEls();
+  if(!f||!e.modal)return;
+  qixiMiniGameCurrent=fid;e.title.textContent=`${f.ico} ${f.name}`;e.board.innerHTML="";e.status.textContent="";
+  e.modal.classList.remove("hidden");
+
+  if(fid==="ferry"){
+    e.desc.textContent="點亮 6 顆漂過渡口的星星。";
+    let hit=0;
+    e.board.innerHTML='<div class="qixiStarTapGrid">'+Array.from({length:9},(_,i)=>`<button class="qixiStarTap" data-star="${i}">${i%3===0?"🌠":"⭐"}</button>`).join("")+'</div>';
+    e.status.textContent="已收集 0 / 6";
+    e.board.onclick=ev=>{
+      const b=ev.target.closest("[data-star]");if(!b||b.classList.contains("hit"))return;
+      b.classList.add("hit");hit++;e.status.textContent=`已收集 ${hit} / 6`;
+      if(hit>=6)completeQixiMiniGame(fid);
+    };
+    qixiMiniCleanup=()=>{e.board.onclick=null};
+  }else if(fid==="lantern"){
+    e.desc.textContent="記住燈籠亮起的順序，再依序點回去。";
+    const seq=Array.from({length:4},()=>Math.floor(Math.random()*4));let input=[],locked=true;
+    e.board.innerHTML='<div class="qixiLanternRow">'+["🏮","🏮","🏮","🏮"].map((x,i)=>`<button class="qixiLantern" data-lantern="${i}">${x}</button>`).join("")+'</div>';
+    const btns=[...e.board.querySelectorAll("[data-lantern]")];
+    let timers=[];
+    seq.forEach((v,i)=>timers.push(setTimeout(()=>{btns[v].classList.add("flash");setTimeout(()=>btns[v].classList.remove("flash"),420)},650+i*650)));
+    timers.push(setTimeout(()=>{locked=false;e.status.textContent="現在照順序點亮燈籠";},650+seq.length*650));
+    e.board.onclick=ev=>{
+      const b=ev.target.closest("[data-lantern]");if(!b||locked)return;
+      const v=Number(b.dataset.lantern);input.push(v);
+      b.classList.add("flash");setTimeout(()=>b.classList.remove("flash"),180);
+      if(v!==seq[input.length-1]){input=[];e.status.textContent="❌ 順序錯了，重新從第一盞開始";return}
+      e.status.textContent=`正確 ${input.length} / ${seq.length}`;
+      if(input.length===seq.length)completeQixiMiniGame(fid);
+    };
+    qixiMiniCleanup=()=>{timers.forEach(clearTimeout);e.board.onclick=null};
+  }else if(fid==="bridge"){
+    e.desc.textContent="在光點進入綠色區域時按下「停住」，讓兩人的步伐同步。";
+    e.board.innerHTML='<div class="qixiBalanceTrack"><div class="qixiBalanceGood"></div><div class="qixiBalanceNeedle"></div></div><button id="qixiBalanceStop" class="primary" style="width:100%;margin-top:80px">停住</button>';
+    const needle=e.board.querySelector(".qixiBalanceNeedle");let x=0,dir=1,raf=0;
+    const tick=()=>{x+=dir*1.8;if(x>=98){x=98;dir=-1}if(x<=0){x=0;dir=1}needle.style.left=`calc(${x}% - 4px)`;raf=requestAnimationFrame(tick)};tick();
+    e.board.querySelector("#qixiBalanceStop").onclick=()=>{
+      if(x>=42&&x<=58){cancelAnimationFrame(raf);completeQixiMiniGame(fid)}
+      else e.status.textContent="差一點！等光點進到中央綠色區域再按。";
+    };
+    qixiMiniCleanup=()=>cancelAnimationFrame(raf);
+  }else if(fid==="wish"){
+    e.desc.textContent="從九顆星裡找出三顆發光的願星。";
+    const lucky=[...Array(9).keys()].sort(()=>Math.random()-.5).slice(0,3),chosen=new Set();
+    e.board.innerHTML='<div class="qixiWishGrid">'+Array.from({length:9},(_,i)=>`<button class="qixiWishStar" data-wish="${i}">✦</button>`).join("")+'</div>';
+    e.status.textContent="找到 0 / 3 願星";
+    e.board.onclick=ev=>{
+      const b=ev.target.closest("[data-wish]");if(!b||b.disabled)return;
+      const i=Number(b.dataset.wish);b.disabled=true;
+      if(lucky.includes(i)){chosen.add(i);b.textContent="🌟";e.status.textContent=`找到 ${chosen.size} / 3 願星`;if(chosen.size===3)completeQixiMiniGame(fid)}
+      else{b.textContent="·";e.status.textContent="這顆不是願星，再找找看。";}
+    };
+    qixiMiniCleanup=()=>{e.board.onclick=null};
+  }else if(fid==="keeper"){
+    e.desc.textContent="守橋人會問最後一題。選出最符合『緣』的答案。";
+    e.board.innerHTML='<div class="qixiKeeperChoices"><button data-answer="a">只有戀人才算有緣之人。</button><button data-answer="b">只要生命真正交錯過，就可能是一種緣。</button><button data-answer="c">一定要永遠陪在彼此身邊才算緣。</button></div>';
+    e.status.textContent="選擇你的答案";
+    e.board.onclick=ev=>{
+      const b=ev.target.closest("[data-answer]");if(!b)return;
+      if(b.dataset.answer==="b")completeQixiMiniGame(fid);
+      else e.status.textContent="守橋人輕輕搖頭：「再想想看。」";
+    };
+    qixiMiniCleanup=()=>{e.board.onclick=null};
+  }
+ }
+
  let pendingFacility="";
  function openBranches(fid){
   const x=c();if(!x)return;
@@ -15378,7 +15492,7 @@ body.npcStoryRunning #qixiEventFab{display:none!important}
   if(selected.rel!=="solo"&&!selected.bound){toast?.("要等對方同意七夕永久綁定後，才能開始每日設施。");return}
   if(st.dailyDone?.[fid]){toast?.("這個設施今天已經玩過了，明天 00:00 再來。");return}
   pendingFacility=fid;
-  openStory(selected.rel);
+  startQixiMiniGame(fid);
  }
  function openStory(rel){
    const x=c(),f=FACILITIES.find(v=>v.id===pendingFacility);if(!x||!f)return;
@@ -15389,7 +15503,7 @@ body.npcStoryRunning #qixiEventFab{display:none!important}
    document.getElementById("qixiEventModal").classList.add("hidden");
 
    const lines=raw.map((t,i)=>({
-     speaker:i===0?"旁白":(rel==="solo"?"守橋人":d.name.split("｜")[0]),
+     speaker:i===0?"旁白":(rel==="solo"?"守橋人":(qixiSelectedCompanion(x)?.name||d.name.split("｜")[0])),
      text:t,
      image:QIXI_ASSETS.keeper
    }));
@@ -15422,6 +15536,7 @@ body.npcStoryRunning #qixiEventFab{display:none!important}
  });
 
  document.getElementById("closeQixiEvent").onclick=()=>document.getElementById("qixiEventModal").classList.add("hidden");
+ document.getElementById("closeQixiMiniGame")?.addEventListener("click",closeQixiMiniGame);
  document.getElementById("acceptQixiBind")?.addEventListener("click",acceptQixiBinding);
  document.getElementById("declineQixiBind")?.addEventListener("click",declineQixiBinding);
  setInterval(()=>{if(!document.hidden)pollQixiBinding()},2500);
@@ -15468,10 +15583,10 @@ body.npcStoryRunning #qixiEventFab{display:none!important}
 
  /* 覆蓋測試服顯示版本，不碰正式服。 */
  setTimeout(()=>{
-  document.title="關係進行式 TEST・3.27.6-七夕雙方綁定測試";
-  document.querySelector(".homeVersion")?.replaceChildren(document.createTextNode("3.27.6・測試服｜七夕雙方綁定測試"));
-  document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.27.6-beta");
-  const meta=document.querySelector('meta[name="x-test-build"]');if(meta)meta.content="3.27.6";
+  document.title="關係進行式 TEST・3.27.7-七夕設施小遊戲＋長篇劇情測試";
+  document.querySelector(".homeVersion")?.replaceChildren(document.createTextNode("3.27.7・測試服｜七夕設施小遊戲＋長篇劇情測試"));
+  document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.27.7-beta");
+  const meta=document.querySelector('meta[name="x-test-build"]');if(meta)meta.content="3.27.7";
  },100);
 })();
 </script>
