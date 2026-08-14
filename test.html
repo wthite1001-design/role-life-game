@@ -1929,7 +1929,79 @@ html.qixi-theme-now #extraShop .paidShopNotice{
 <style id="qixi3301FiveGames">
 #gameModal:has([data-gameans]) .gameChoices button{min-height:54px}
 @media(max-width:700px){#gameModal .modalBox{max-height:88dvh;overflow-y:auto}}
-</style></head>
+</style>
+<style id="qixi3302ColorCorrection">
+/* 3.30.2：七夕頁配色修正
+   外層＝深紫星河；卡片＝淡紫/近白；文字＝深紫，不再整頁強制白字。 */
+html.qixi-theme-now #qixiEventModal,
+html.qixi-theme-now #qixiEventModal .modalBox{
+  background:
+    radial-gradient(circle at 14% 9%,rgba(255,255,255,.72) 0 1px,transparent 1.7px),
+    radial-gradient(circle at 74% 23%,rgba(215,202,255,.65) 0 1px,transparent 1.7px),
+    linear-gradient(180deg,#120b35 0%,#21124d 50%,#342064 100%) !important;
+  background-size:97px 97px,131px 131px,auto !important;
+  color:#2d2144 !important;
+}
+html.qixi-theme-now #qixiEventModal .modalBox{
+  border-color:rgba(191,164,231,.35)!important;
+}
+
+/* 標題區在深紫底上維持淺色；內容卡片回到深色字。 */
+html.qixi-theme-now #qixiEventModal > .modalBox > h1,
+html.qixi-theme-now #qixiEventModal > .modalBox > h2,
+html.qixi-theme-now #qixiEventModal > .modalBox > h3,
+html.qixi-theme-now #qixiEventModal .qixiEventHeader,
+html.qixi-theme-now #qixiEventModal .qixiEventHeader *,
+html.qixi-theme-now #qixiEventModal .qixiHeader,
+html.qixi-theme-now #qixiEventModal .qixiHeader *{
+  color:#fff!important;
+}
+
+/* 淡色資訊卡 */
+html.qixi-theme-now #qixiKeeperCard,
+html.qixi-theme-now #qixiTopTools .qixiRewardBox,
+html.qixi-theme-now #qixiEventModal .qixiRewardBox{
+  background:linear-gradient(145deg,rgba(252,248,255,.97),rgba(235,222,248,.96))!important;
+  border:1px solid rgba(125,92,167,.26)!important;
+  color:#33234d!important;
+  box-shadow:0 10px 24px rgba(8,4,28,.20)!important;
+}
+html.qixi-theme-now #qixiKeeperCard *,
+html.qixi-theme-now #qixiTopTools .qixiRewardBox *,
+html.qixi-theme-now #qixiEventModal .qixiRewardBox *{
+  color:#33234d!important;
+}
+
+/* 五個設施：深紫卡片如參考圖，但文字不是白到看不見，改為柔和淡紫白。 */
+html.qixi-theme-now #qixiEventModal .qixiFacility{
+  background:linear-gradient(145deg,#21164d,#3a2468)!important;
+  border:1px solid rgba(201,179,240,.28)!important;
+  box-shadow:0 10px 24px rgba(4,3,20,.22)!important;
+}
+html.qixi-theme-now #qixiEventModal .qixiFacility,
+html.qixi-theme-now #qixiEventModal .qixiFacility *{
+  color:#f4efff!important;
+}
+html.qixi-theme-now #qixiEventModal .qixiFacility .small,
+html.qixi-theme-now #qixiEventModal .qixiFacility .muted{
+  color:#d9cbea!important;
+}
+
+/* 上方說明文字：在深紫背景可讀；不要被舊規則洗成透明白。 */
+html.qixi-theme-now #qixiEventModal .qixiIntroText,
+html.qixi-theme-now #qixiEventModal .qixiIntroText *,
+html.qixi-theme-now #qixiEventModal .qixiRules,
+html.qixi-theme-now #qixiEventModal .qixiRules *{
+  color:#eadff8!important;
+}
+
+/* 按鈕維持淡底深字 */
+html.qixi-theme-now #qixiEventModal button:not(.primary),
+html.qixi-theme-now #qixiEventModal .qixiRewardBox button{
+  color:#4a3168!important;
+}
+</style>
+</head>
 <body>
 
 <div id="testAccessGate" class="testAccessGate">
@@ -16440,4 +16512,4 @@ function openConfirm(o={}){
  },100);
 })();
 </script>
-\n<style id="qixi3298AuthoritativeFix">\n/* 3.30.0：星河渡口與鵲羽橋使用指定背景圖 */\n#qixiMiniGameBoard.qixiFerryGameBoard,#qixiMiniGameBoard.qixiBridgeGameBoard{\n background-image:linear-gradient(rgba(8,7,35,.16),rgba(15,9,45,.28)),url("images/qixi/qixi_ferry_game_bg.png")!important;\n background-size:cover!important;background-position:center center!important;background-repeat:no-repeat!important;min-height:56vh!important;\n}\n#qixiMiniGameBoard.qixiFerryGameBoard .qixiStarTapGrid{padding-top:4vh!important}\n#qixiMiniGameBoard.qixiFerryGameBoard .qixiStarTap{background:rgba(28,21,76,.62)!important;backdrop-filter:blur(2px)!important}\n/* 活動首頁改回深紫星河：包含圖四那些卡片，不再是淡紫底 */\nhtml.qixi-theme-now #qixiEventModal,html.qixi-theme-now #qixiEventModal .modalBox{\n background:radial-gradient(circle at 14% 9%,#fff 0 1px,transparent 1.6px),radial-gradient(circle at 74% 23%,#d7caff 0 1px,transparent 1.6px),linear-gradient(180deg,#080624,#171044 52%,#2c1858)!important;\n background-size:97px 97px,131px 131px,auto!important;color:#fff!important;\n}\nhtml.qixi-theme-now #qixiEventModal .qixiFacility,html.qixi-theme-now #qixiEventModal .qixiRewardBox,html.qixi-theme-now #qixiKeeperCard,html.qixi-theme-now #qixiTopTools .qixiRewardBox{\n background:linear-gradient(145deg,rgba(29,22,73,.96),rgba(62,38,96,.95))!important;border:1px solid rgba(218,203,255,.24)!important;color:#fff!important;box-shadow:0 10px 24px rgba(4,3,20,.22)!important;\n}\nhtml.qixi-theme-now #qixiEventModal .qixiFacility *,html.qixi-theme-now #qixiEventModal .qixiRewardBox *,html.qixi-theme-now #qixiKeeperCard *,html.qixi-theme-now #qixiEventModal .small,html.qixi-theme-now #qixiEventModal .muted{color:#f4edff!important}\n/* 商店付費頁：真正由商店頁本身捲動，避免子清單 visible 後手機觸控被卡死 */\nhtml.qixi-theme-now #extraShop.pageCard.active{position:fixed!important;top:88px!important;bottom:0!important;left:0!important;right:0!important;height:calc(100dvh - 88px)!important;max-height:calc(100dvh - 88px)!important;overflow-y:scroll!important;overflow-x:hidden!important;-webkit-overflow-scrolling:touch!important;touch-action:pan-y!important;padding-bottom:220px!important;}\nhtml.qixi-theme-now #shopPaidPanel{display:block;position:static!important;height:auto!important;max-height:none!important;overflow:visible!important;}\nhtml.qixi-theme-now #shopPaidPanel.hidden{display:none!important}\nhtml.qixi-theme-now #paidShopList{height:auto!important;max-height:none!important;overflow:visible!important;padding-bottom:80px!important}\n</style>\n
+\n<style id="qixi3298AuthoritativeFix">\n/* 3.30.0：星河渡口與鵲羽橋使用指定背景圖 */\n#qixiMiniGameBoard.qixiFerryGameBoard,#qixiMiniGameBoard.qixiBridgeGameBoard{\n background-image:linear-gradient(rgba(8,7,35,.16),rgba(15,9,45,.28)),url("images/qixi/qixi_ferry_game_bg.png")!important;\n background-size:cover!important;background-position:center center!important;background-repeat:no-repeat!important;min-height:56vh!important;\n}\n#qixiMiniGameBoard.qixiFerryGameBoard .qixiStarTapGrid{padding-top:4vh!important}\n#qixiMiniGameBoard.qixiFerryGameBoard .qixiStarTap{background:rgba(28,21,76,.62)!important;backdrop-filter:blur(2px)!important}\n/* 活動首頁改回深紫星河：包含圖四那些卡片，不再是淡紫底 */\nhtml.qixi-theme-now #qixiEventModal,html.qixi-theme-now #qixiEventModal .modalBox{\n background:radial-gradient(circle at 14% 9%,#fff 0 1px,transparent 1.6px),radial-gradient(circle at 74% 23%,#d7caff 0 1px,transparent 1.6px),linear-gradient(180deg,#080624,#171044 52%,#2c1858)!important;\n background-size:97px 97px,131px 131px,auto!important;color:#fff!important;\n}\nhtml.qixi-theme-now #qixiEventModal .qixiFacility,html.qixi-theme-now #qixiEventModal .qixiRewardBox,html.qixi-theme-now #qixiKeeperCard,html.qixi-theme-now #qixiTopTools .qixiRewardBox{\n background:linear-gradient(145deg,rgba(29,22,73,.96),rgba(62,38,96,.95))!important;border:1px solid rgba(218,203,255,.24)!important;color:#fff!important;box-shadow:0 10px 24px rgba(4,3,20,.22)!important;\n}\n/* 3.30.2 neutralized old forced-white text rule */\n/* 商店付費頁：真正由商店頁本身捲動，避免子清單 visible 後手機觸控被卡死 */\nhtml.qixi-theme-now #extraShop.pageCard.active{position:fixed!important;top:88px!important;bottom:0!important;left:0!important;right:0!important;height:calc(100dvh - 88px)!important;max-height:calc(100dvh - 88px)!important;overflow-y:scroll!important;overflow-x:hidden!important;-webkit-overflow-scrolling:touch!important;touch-action:pan-y!important;padding-bottom:220px!important;}\nhtml.qixi-theme-now #shopPaidPanel{display:block;position:static!important;height:auto!important;max-height:none!important;overflow:visible!important;}\nhtml.qixi-theme-now #shopPaidPanel.hidden{display:none!important}\nhtml.qixi-theme-now #paidShopList{height:auto!important;max-height:none!important;overflow:visible!important;padding-bottom:80px!important}\n</style>\n
