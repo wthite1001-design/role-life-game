@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#9a76c4">
-<meta name="x-test-build" content="3.28.4">
+<meta name="x-test-build" content="3.28.6">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>關係進行式 TEST・3.28.4-七夕淡紫角色卡修正版</title>
+<title>關係進行式 TEST・3.28.6-七夕淡紫角色卡修正版</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -1705,7 +1705,7 @@ body.qixi-global-theme .pageCard h3{color:#fff!important}
 
 
 <style id="qixi3279-scroll-fix">
-/* 3.28.4：七夕活動頁在手機上可完整往下捲，不再把守橋人卡片截成一半 */
+/* 3.28.6：七夕活動頁在手機上可完整往下捲，不再把守橋人卡片截成一半 */
 #qixiEventModal{
   overflow-y:auto!important;
   overflow-x:hidden!important;
@@ -2013,6 +2013,69 @@ html.qixi-theme-now #game .statBar>i{
 }
 </style>
 
+
+<style id="qixi3285-global-lavender-surfaces">
+html.qixi-theme-now{
+ --qixi-surface:#eee7fa;
+ --qixi-surface-2:#e4d8f3;
+ --qixi-surface-3:#d9c9eb;
+ --qixi-ink:#38284d;
+ --qixi-muted:#6d5d80;
+ --qixi-line:rgba(101,76,143,.28);
+}
+html.qixi-theme-now .card,
+html.qixi-theme-now .panel,
+html.qixi-theme-now .box,
+html.qixi-theme-now .sheet,
+html.qixi-theme-now .modal-content,
+html.qixi-theme-now .modal-card,
+html.qixi-theme-now .dialog,
+html.qixi-theme-now .popup,
+html.qixi-theme-now .notice,
+html.qixi-theme-now .event-card,
+html.qixi-theme-now .item-card,
+html.qixi-theme-now .shop-card,
+html.qixi-theme-now .achievement-card,
+html.qixi-theme-now .relation-card,
+html.qixi-theme-now .task-card,
+html.qixi-theme-now .inventory-card,
+html.qixi-theme-now .daily-card,
+html.qixi-theme-now .section-card,
+html.qixi-theme-now .character-card,
+html.qixi-theme-now .characterCard,
+html.qixi-theme-now .pageCard,
+html.qixi-theme-now .profileCard,
+html.qixi-theme-now .statusCard,
+html.qixi-theme-now .statCard,
+html.qixi-theme-now .pendingEventCard{
+ background:linear-gradient(145deg,var(--qixi-surface),var(--qixi-surface-2))!important;
+ border-color:var(--qixi-line)!important;
+ color:var(--qixi-ink)!important;
+ box-shadow:0 10px 24px rgba(28,17,63,.16),inset 0 1px 0 rgba(255,255,255,.72)!important;
+}
+html.qixi-theme-now input,
+html.qixi-theme-now select,
+html.qixi-theme-now textarea{
+ background:#eee8f8!important;
+ border-color:var(--qixi-line)!important;
+ color:var(--qixi-ink)!important;
+}
+html.qixi-theme-now input::placeholder,
+html.qixi-theme-now textarea::placeholder{color:#81718f!important}
+html.qixi-theme-now .tab:not(.active),
+html.qixi-theme-now .chip,
+html.qixi-theme-now .pill,
+html.qixi-theme-now .tag{
+ background:#e6dcf3!important;
+ color:#4d3864!important;
+ border-color:var(--qixi-line)!important;
+}
+html.qixi-theme-now .muted,
+html.qixi-theme-now .small,
+html.qixi-theme-now .hint,
+html.qixi-theme-now .sub{color:var(--qixi-muted)!important}
+</style>
+
 </head>
 <body>
 
@@ -2077,7 +2140,7 @@ html.qixi-theme-now #game .statBar>i{
     <div class="homeLogo">🧪</div>
     <h1>關係進行式 TEST</h1>
     <div class="homeTagline">測試中的每一段關係，都可能被重置。</div>
-    <div class="homeVersion">3.28.4・測試服｜七夕淡紫角色卡修正版</div>
+    <div class="homeVersion">3.28.6・測試服｜七夕淡紫角色卡修正版</div>
   </div>
 
   <div id="playerAccountHomePanel" class="homePanel accountHomePanel">
@@ -14562,7 +14625,7 @@ header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{back
 
 
 <style id="qixi3278-theme-fix">
-/* 3.28.4：測試服七夕期間主畫面固定使用七夕星河，不再被女僕預覽 CSS 蓋掉 */
+/* 3.28.6：測試服七夕期間主畫面固定使用七夕星河，不再被女僕預覽 CSS 蓋掉 */
 body.qixi-global-theme,
 body.qixi-global-theme.maid-cafe-preview,
 html[data-theme="maid-cafe"] body.qixi-global-theme{
@@ -14698,7 +14761,7 @@ body.qixi-global-theme .muted{color:#d1c4e6!important}
 <script id="qixi3283-ribbon-fix">
 (function(){
  function fix(){
-   document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.28.4-beta");
+   document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.28.6-beta");
  }
  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",fix,{once:true});else fix();
  setTimeout(fix,300);
@@ -15554,35 +15617,89 @@ body.npcStoryRunning #qixiEventFab{display:none!important}
    const x=c();if(!x)return;
    const st=ensure(x);
 
-   if(st.introSeen&&!force){
+   /* 新版六緣開場已看過：直接回活動頁，不再開局跳獨立選人視窗。 */
+   if(st.introStoryV>=6 && !force){
      openActivityMain();
-     /* 第一次還沒選同行者時，進活動頁後才跳選人視窗。 */
-     if(!st.bound&&st.selectedRel!=="solo"&&!st.selectedRoomCode){
-       setTimeout(openQixiCompanionSelectOnTop,180);
-     }
      return;
    }
 
-   const lines=INTRO_LINES.map((t,i)=>({
-     speaker:i<2?"旁白":"守橋人",
-     text:t,
-     image:QIXI_ASSETS.keeper
-   }));
+   const available=qixiAvailableCompanions(x);
+   const lines=[
+    {speaker:"旁白",text:"七夕夜，星河比往常更亮。你循著一路散落的星光來到鵲橋前。",image:QIXI_ASSETS.keeper},
+    {speaker:"旁白",text:"橋邊的燈火輕晃，一名守橋人提燈站在星河之下，像是早已等候多時。",image:QIXI_ASSETS.keeper},
+    {speaker:"守橋人",text:"「你也是來尋『有緣之人』的嗎？」",image:QIXI_ASSETS.keeper},
+    {speaker:"守橋人",text:"「先別急著回答。我說的『有緣』，從來不只有戀人。」",image:QIXI_ASSETS.keeper},
 
-   /* 開場最後只留下守橋人的引導，不在 RPG 裡直接選人。 */
+    {speaker:"守橋人",text:"「第一種，是相守之緣。」",image:QIXI_ASSETS.keeper},
+    {speaker:"守橋人",text:"「有人與你相愛，願意把今日、明日，甚至很久以後都放進同一個約定裡。戀人的緣，是一次次仍願意選擇彼此。」",image:QIXI_ASSETS.keeper},
+
+    {speaker:"守橋人",text:"「第二種，是同行之緣。」",image:QIXI_ASSETS.keeper},
+    {speaker:"守橋人",text:"「有些人沒有說過山盟海誓，卻陪你走過很多普通的日子。摯友的緣，是回頭時總還看得見那個熟悉的人。」",image:QIXI_ASSETS.keeper},
+
+    {speaker:"守橋人",text:"「第三種，是歸處之緣。」",image:QIXI_ASSETS.keeper},
+    {speaker:"守橋人",text:"「有人不必與你走同一條路，卻永遠替你留著一盞回家的燈。家人的緣，是走得再遠，也知道哪裡能回去。」",image:QIXI_ASSETS.keeper},
+
+    {speaker:"守橋人",text:"「第四種，是並肩之緣。」",image:QIXI_ASSETS.keeper},
+    {speaker:"守橋人",text:"「有人與你交換背後、補上彼此看不見的方向。搭檔的緣，不是誰追隨誰，而是需要時總能並肩。」",image:QIXI_ASSETS.keeper},
+
+    {speaker:"守橋人",text:"「第五種，是競逐之緣。」",image:QIXI_ASSETS.keeper},
+    {speaker:"守橋人",text:"「有人站在你的前方，讓你不甘停下、不願認輸。宿敵的緣，也許總帶著火花，卻也讓彼此一步一步走得更遠。」",image:QIXI_ASSETS.keeper},
+
+    {speaker:"守橋人",text:"「第六種，是惡緣。」",image:QIXI_ASSETS.keeper},
+    {speaker:"守橋人",text:"「也有人一見面就爭吵，恨不得永遠別再遇見，偏偏命運總讓你們再次交錯。仇敵也是緣——只是誰都不太想承認。」",image:QIXI_ASSETS.keeper},
+
+    {speaker:"守橋人",text:"「所以，橋從來不只為戀人而搭。」",image:QIXI_ASSETS.keeper},
+    {speaker:"守橋人",text:"「只要兩段生命真正交錯過，就可能留下屬於你們的緣。」",image:QIXI_ASSETS.keeper}
+   ];
+
+   const choices=available.map(v=>({
+     label:`${RELS[v.rel].icon} ${v.name}｜${RELS[v.rel].name.split("｜")[0]}`,
+     onChoose:()=>{
+       st.selectedRoomCode=v.code;
+       st.selectedRel=v.rel;
+       st.selectedName=v.name;
+       st.bindPending=false;
+       st.introSeen=true;
+       st.introStoryV=6;
+       try{saveLocal?.()}catch(_){}
+     },
+     goto:lines.length+1
+   }));
+   choices.push({
+     label:"🌙 獨自走過星河",
+     onChoose:()=>{
+       st.selectedRoomCode="";
+       st.selectedRel="solo";
+       st.selectedName="獨自參加";
+       st.bindPending=false;
+       st.introSeen=true;
+       st.introStoryV=6;
+       try{saveLocal?.()}catch(_){}
+     },
+     goto:lines.length+1
+   });
+
    lines.push({
      speaker:"守橋人",
-     text:"「去吧。先踏進星河，等你真正站上橋前，再決定今夜要與誰同行。」",
+     text:available.length
+      ?"「故事聽完了。那麼這一次，你想與誰一起走過星河？」"
+      :"「故事聽完了。今夜沒有已建立關係的人在你身旁，你願意先獨自走過星河嗎？」",
+     image:QIXI_ASSETS.keeper,
+     choices
+   });
+   lines.push({
+     speaker:"守橋人",
+     text:"「選定的人若也願意，這次七夕便由你們一起走完。真正答應之後，這段同行就不能反悔了。」",
      image:QIXI_ASSETS.keeper
    });
 
-   startQixiRpg(lines,"第一幕｜星河之下的守橋人",()=>{
-     st.introSeen=true;
+   startQixiRpg(lines,"序章｜守橋人的六種緣",()=>{
+     st.introSeen=true;st.introStoryV=6;
      try{saveLocal?.()}catch(_){}
      openActivityMain();
-     /* 活動頁已經顯示後，再彈出同行者選擇。 */
-     if(!st.bound&&st.selectedRel!=="solo"&&!st.selectedRoomCode){
-       setTimeout(openQixiCompanionSelectOnTop,220);
+     /* 非獨行：選完直接送邀請，活動頁第一格立即顯示等待狀態。 */
+     if(st.selectedRel && st.selectedRel!=="solo" && !st.bound){
+       setTimeout(()=>sendQixiBindRequest(true),120);
      }
    });
  }
@@ -15611,7 +15728,7 @@ body.npcStoryRunning #qixiEventFab{display:none!important}
   x.qixi2026.introSeen=!!x.qixi2026.introSeen; x.qixi2026.outroSeen=!!x.qixi2026.outroSeen;
   x.qixi2026.selectedRel??=""; x.qixi2026.selectedRoomCode??=""; x.qixi2026.selectedName??="";
   x.qixi2026.bound=!!x.qixi2026.bound;x.qixi2026.boundCharId??="";x.qixi2026.boundRoomCode??="";x.qixi2026.boundRel??="";x.qixi2026.boundName??="";x.qixi2026.bindPending=!!x.qixi2026.bindPending;
-  x.qixi2026.rewardClaimed=!!x.qixi2026.rewardClaimed;
+  x.qixi2026.rewardClaimed=!!x.qixi2026.rewardClaimed; x.qixi2026.introStoryV=Number(x.qixi2026.introStoryV||0);
   const qd=new Date().toLocaleDateString("sv-SE");
   if(x.qixi2026.dailyDate!==qd){x.qixi2026.dailyDate=qd;x.qixi2026.dailyDone={};}
   return x.qixi2026;
@@ -15646,30 +15763,8 @@ body.npcStoryRunning #qixiEventFab{display:none!important}
  function relationTypes(x){return new Set(qixiAvailableCompanions(x).map(v=>v.rel));}
 
 
- function openQixiCompanionSelectOnTop(){
-   const eventModal=document.getElementById("qixiEventModal");
-   if(eventModal)eventModal.classList.remove("hidden");
-   openQixiCompanionSelect();
-   const modal=document.getElementById("qixiCompanionModal");
-   if(modal){
-     modal.classList.remove("hidden");
-     /* 移到 body 最後，保證 DOM stacking 也在活動頁之後 */
-     try{document.body.appendChild(modal)}catch(_){}
-   }
- }
- function openQixiCompanionSelect(){
-  const x=c();if(!x)return;
-  const st=ensure(x);
-  if(st.bound){toast?.(`🌌 已與 ${st.boundName||"對方"} 永久綁定，活動期間無法取消或更換。`,3800);return}
-  const list=document.getElementById("qixiCompanionList"),available=qixiAvailableCompanions(x);
-  const rows=available.map(v=>{
-    const d=RELS[v.rel];
-    return `<button type="button" data-qixi-companion="${v.code}" data-qixi-rel="${v.rel}">${d.icon} ${v.name}｜${d.name.split("｜")[0]}</button>`;
-  });
-  rows.push(`<button type="button" data-qixi-companion="" data-qixi-rel="solo">🌙 獨自參加</button>`);
-  list.innerHTML=rows.join("");
-  document.getElementById("qixiCompanionModal").classList.remove("hidden");
- }
+ function openQixiCompanionSelectOnTop(){openQixiFinalChoice();}
+ function openQixiCompanionSelect(){openQixiFinalChoice();}
  function chooseQixiCompanion(code,rel){
   const x=c();if(!x)return;
   const st=ensure(x);
@@ -15693,7 +15788,7 @@ body.npcStoryRunning #qixiEventFab{display:none!important}
    return String(rr?.host_char)===String(x.id)?String(rr?.guest_char||""):String(rr?.host_char||"");
  }
 
- async function sendQixiBindRequest(){
+ async function sendQixiBindRequest(autoFromStory=false){
   const x=c();if(!x)return;
   const st=ensure(x);
   if(st.bound)return toast?.("已完成七夕永久綁定。");
@@ -15709,7 +15804,7 @@ body.npcStoryRunning #qixiEventFab{display:none!important}
     /* 防止同一人重複送邀請 */
     const existing=await api(`/test_interactions?room_code=eq.${encodeURIComponent(hit.code)}&from_char=eq.${encodeURIComponent(x.id)}&to_char=eq.${encodeURIComponent(to)}&select=*&order=created_at.desc&limit=20`);
     if((existing||[]).some(v=>String(v.text||"").startsWith("QIXI_BIND_REQUEST|"))){
-      st.bindPending=true;saveLocal?.();render();return toast?.("🌌 七夕同行邀請已送出，正在等待對方同意。");
+      st.bindPending=true;saveLocal?.();render();if(!autoFromStory)toast?.("🌌 七夕同行邀請已送出，正在等待對方同意。");return;
     }
 
     await api("/test_interactions",{method:"POST",body:JSON.stringify({
@@ -15721,6 +15816,86 @@ body.npcStoryRunning #qixiEventFab{display:none!important}
   }catch(e){toast?.("七夕同行邀請送出失敗："+(e?.message||e))}
  }
 
+
+ async function cancelQixiBindRequest(){
+   const x=c();if(!x)return;
+   const st=ensure(x);
+   if(st.bound)return toast?.("已經完成七夕綁定，不能解綁。",3200);
+   if(!st.bindPending||!st.selectedRoomCode)return;
+
+   const code=String(st.selectedRoomCode);
+   const rr=relationshipSummaries?.[code];
+   const to=qixiOtherCharId(rr,x);
+
+   try{
+     /* 取消前先確認對方是否剛好已同意，避免已成立後被撤銷。 */
+     const replies=await api(`/test_interactions?room_code=eq.${encodeURIComponent(code)}&to_char=eq.${encodeURIComponent(x.id)}&select=*&order=created_at.desc&limit=30`);
+     const accept=(replies||[]).find(v=>String(v.text||"").startsWith("QIXI_BIND_ACCEPT|"));
+     if(accept){
+       st.bound=true;
+       st.boundRoomCode=code;
+       st.boundRel=st.selectedRel;
+       st.boundName=st.selectedName||roomOtherName?.(code,x)||"同行者";
+       st.boundCharId=String(accept.from_char||"");
+       st.bindPending=false;
+       try{await api(`/test_interactions?id=eq.${encodeURIComponent(accept.id)}`,{method:"DELETE"})}catch(_){}
+       saveLocal?.();render();
+       return toast?.(`🌌 ${st.boundName} 已經同意，七夕同行已永久綁定，不能取消。`,4800);
+     }
+
+     if(to){
+       const rows=await api(`/test_interactions?room_code=eq.${encodeURIComponent(code)}&from_char=eq.${encodeURIComponent(x.id)}&to_char=eq.${encodeURIComponent(to)}&select=*&order=created_at.desc&limit=30`);
+       const reqs=(rows||[]).filter(v=>String(v.text||"").startsWith("QIXI_BIND_REQUEST|"));
+       for(const req of reqs){
+         try{await api(`/test_interactions?id=eq.${encodeURIComponent(req.id)}`,{method:"DELETE"})}catch(_){}
+       }
+     }
+
+     st.bindPending=false;
+     st.selectedRoomCode="";
+     st.selectedRel="";
+     st.selectedName="";
+     saveLocal?.();render();
+     toast?.("已取消七夕同行邀請，可以重新選擇。",3400);
+
+     /* 重新進守橋人最後的選擇，不重播六緣故事。 */
+     openQixiFinalChoice();
+   }catch(e){
+     toast?.("取消邀請失敗："+(e?.message||e));
+   }
+ }
+
+ function openQixiFinalChoice(){
+   const x=c();if(!x)return;
+   const st=ensure(x);
+   if(st.bound)return toast?.("七夕同行已永久綁定，不能更換。");
+   const available=qixiAvailableCompanions(x);
+   const choices=available.map(v=>({
+     label:`${RELS[v.rel].icon} ${v.name}｜${RELS[v.rel].name.split("｜")[0]}`,
+     onChoose:()=>{
+       st.selectedRoomCode=v.code;st.selectedRel=v.rel;st.selectedName=v.name;st.bindPending=false;
+       try{saveLocal?.()}catch(_){}
+     },
+     goto:1
+   }));
+   choices.push({
+     label:"🌙 改成獨自參加",
+     onChoose:()=>{
+       st.selectedRoomCode="";st.selectedRel="solo";st.selectedName="獨自參加";st.bindPending=false;
+       try{saveLocal?.()}catch(_){}
+     },
+     goto:1
+   });
+   const lines=[
+     {speaker:"守橋人",text:"「邀請尚未被接受，所以你還可以重新選擇。這一次，要與誰同行？」",image:QIXI_ASSETS.keeper,choices},
+     {speaker:"守橋人",text:"「好。若你選了同行者，我會再替你把邀請送到對方手中。」",image:QIXI_ASSETS.keeper}
+   ];
+   startQixiRpg(lines,"重新選擇｜今夜同行",()=>{
+     openActivityMain();
+     if(st.selectedRel&&st.selectedRel!=="solo"&&!st.bound)setTimeout(()=>sendQixiBindRequest(true),120);
+     else render();
+   });
+ }
  async function pollQixiBinding(){
   const x=c();if(!x)return;
   const st=ensure(x);
@@ -15756,7 +15931,7 @@ body.npcStoryRunning #qixiEventFab{display:none!important}
         try{await api(`/test_interactions?id=eq.${encodeURIComponent(accept.id)}`,{method:"DELETE"})}catch(_){}
         saveLocal?.();render();toast?.(`🌌 ${st.boundName} 已同意！七夕同行已永久綁定。`,4800);
       }else if(decline){
-        st.bindPending=false;
+        st.bindPending=false;st.selectedRoomCode="";st.selectedRel="";st.selectedName="";
         try{await api(`/test_interactions?id=eq.${encodeURIComponent(decline.id)}`,{method:"DELETE"})}catch(_){}
         saveLocal?.();render();toast?.("對方婉拒了七夕同行邀請，你可以重新選擇。",4200);
       }
@@ -15825,15 +16000,34 @@ body.npcStoryRunning #qixiEventFab{display:none!important}
 
   document.getElementById("qixiProgressFill").style.width=(n/FACILITIES.length*100)+"%";
   const selected=qixiSelectedCompanion(x);
-  grid.innerHTML=(selected?`<div class="qixiRewardBox" style="grid-column:1/-1">
-    <b>🌌 ${selected.bound?"七夕固定同行":"開場選擇"}：${RELS[selected.rel].icon} ${selected.name}</b>
-    <div class="small">${RELS[selected.rel].name}${selected.bound?"・已獲雙方同意，活動期間無法取消或更換。":selected.rel==="solo"?"・獨自參加不需要綁定。":st.bindPending?"・邀請已送出，等待對方同意。":"・尚未綁定，需由對方同意後才能開始雙人設施。"}</div>
-    ${selected.bound||selected.rel==="solo"?"":st.bindPending?'<button type="button" disabled style="margin-top:8px">⏳ 等待對方同意</button>':'<button id="sendQixiBindBtn" type="button" class="primary" style="margin-top:8px">💌 邀請對方永久綁定</button>'}
-    ${!selected.bound&&!st.bindPending?'<button id="changeQixiCompanion" type="button" style="margin-top:8px">重新選擇</button>':""}
-   </div>`:`<div class="qixiRewardBox" style="grid-column:1/-1"><b>尚未在守橋人劇情選擇同行者</b><button id="changeQixiCompanion" type="button" style="margin-top:8px">回去選擇</button></div>`)
+  grid.innerHTML=(selected?`<div class="qixiRewardBox qixiBindStatus" style="grid-column:1/-1">
+    <b>🌌 七夕同行：${RELS[selected.rel].icon} ${selected.name}</b>
+    <div class="small">${
+      selected.bound
+       ?"✅ 對方已同意・七夕期間永久綁定，無法取消或更換。"
+       :selected.rel==="solo"
+        ?"🌙 本次選擇獨自走過星河。"
+        :st.bindPending
+         ?"⏳ 已送出邀請，正在等待對方同意。未同意以前可以取消並重新選擇。"
+         :"邀請尚未成功送出，可以再次送出。"
+    }</div>
+    ${
+      selected.bound||selected.rel==="solo"
+       ?""
+       :st.bindPending
+        ?'<button id="cancelQixiBindBtn" type="button" style="margin-top:9px">✕ 取消邀請並重新選擇</button>'
+        :'<button id="sendQixiBindBtn" type="button" class="primary" style="margin-top:9px">💌 再次送出邀請</button>'
+    }
+   </div>`:`<div class="qixiRewardBox qixiBindStatus" style="grid-column:1/-1">
+      <b>🌌 尚未選定七夕同行者</b>
+      <div class="small">請從守橋人的對話選項中選擇。</div>
+      <button id="chooseQixiFromStoryBtn" type="button" style="margin-top:8px">與守橋人交談</button>
+    </div>`)
    +FACILITIES.map(f=>`<button type="button" class="qixiFacility ${st.dailyDone[f.id]?'done':''}" data-qixi-fac="${f.id}" ${!selected||st.dailyDone[f.id]||(selected.rel!=="solo"&&!selected.bound)?"disabled":""}><div class="ico">${f.ico}</div><b>${f.name}</b><div class="small">${f.desc}</div><div class="small">${st.dailyDone[f.id]?'✓ 今日已遊玩':'今日可遊玩'}</div></button>`).join("");
-  grid.querySelector("#changeQixiCompanion")?.addEventListener("click",openQixiCompanionSelectOnTop);
-  grid.querySelector("#sendQixiBindBtn")?.addEventListener("click",sendQixiBindRequest);
+  
+  grid.querySelector("#sendQixiBindBtn")?.addEventListener("click",()=>sendQixiBindRequest(false));
+  grid.querySelector("#cancelQixiBindBtn")?.addEventListener("click",cancelQixiBindRequest);
+  grid.querySelector("#chooseQixiFromStoryBtn")?.addEventListener("click",openQixiFinalChoice);
   const storyComplete=progress(x)>=FACILITIES.length&&st.outroSeen;
   reward.innerHTML=st.badge
    ?`<b>🌌 已取得限定徽章「星河有緣人」</b><div class="small">五段星河故事與守橋人結尾都已完成。</div>${st.rewardClaimed?'<button type="button" disabled style="width:100%;margin-top:8px">✓ 活動獎勵已領取</button>':'<button id="claimQixiRewardBtn" type="button" class="primary" style="width:100%;margin-top:8px">🎁 領取活動獎勵｜50 金幣</button>'}`
@@ -16038,10 +16232,10 @@ body.npcStoryRunning #qixiEventFab{display:none!important}
 
  /* 覆蓋測試服顯示版本，不碰正式服。 */
  setTimeout(()=>{
-  document.title="關係進行式 TEST・3.28.4-七夕淡紫角色卡修正版";
-  document.querySelector(".homeVersion")?.replaceChildren(document.createTextNode("3.28.4・測試服｜七夕淡紫角色卡修正版"));
-  document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.28.4-beta");
-  const meta=document.querySelector('meta[name="x-test-build"]');if(meta)meta.content="3.28.4";
+  document.title="關係進行式 TEST・3.28.6-七夕淡紫角色卡修正版";
+  document.querySelector(".homeVersion")?.replaceChildren(document.createTextNode("3.28.6・測試服｜七夕淡紫角色卡修正版"));
+  document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.28.6-beta");
+  const meta=document.querySelector('meta[name="x-test-build"]');if(meta)meta.content="3.28.6";
  },100);
 })();
 </script>
