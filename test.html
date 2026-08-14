@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#9a76c4">
-<meta name="x-test-build" content="3.27.7">
+<meta name="x-test-build" content="3.27.9">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>關係進行式 TEST・3.27.7-七夕設施小遊戲＋長篇劇情測試</title>
+<title>關係進行式 TEST・3.27.9-七夕守橋人完整捲動修正版</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -1703,6 +1703,47 @@ body.qixi-global-theme .pageCard h2,
 body.qixi-global-theme .pageCard h3{color:#fff!important}
 </style>
 
+
+<style id="qixi3279-scroll-fix">
+/* 3.27.9：七夕活動頁在手機上可完整往下捲，不再把守橋人卡片截成一半 */
+#qixiEventModal{
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  -webkit-overflow-scrolling:touch!important;
+  overscroll-behavior:contain!important;
+}
+#qixiEventModal .modalBox{
+  max-height:none!important;
+  height:auto!important;
+  min-height:100dvh!important;
+  overflow:visible!important;
+  padding-bottom:calc(120px + env(safe-area-inset-bottom))!important;
+  box-sizing:border-box!important;
+}
+#qixiEventModal .qixiFacilityGrid{
+  max-height:none!important;
+  overflow:visible!important;
+}
+#qixiKeeperCard,
+#qixiRewardBox,
+#qixiStarExchange{
+  overflow:visible!important;
+  max-height:none!important;
+}
+@media (max-width:899px){
+  #qixiEventModal{
+    align-items:flex-start!important;
+    padding:0!important;
+  }
+  #qixiEventModal .modalBox{
+    width:100%!important;
+    max-width:none!important;
+    border-radius:0!important;
+    margin:0!important;
+  }
+}
+</style>
+
 </head>
 <body>
 
@@ -1767,7 +1808,7 @@ body.qixi-global-theme .pageCard h3{color:#fff!important}
     <div class="homeLogo">🧪</div>
     <h1>關係進行式 TEST</h1>
     <div class="homeTagline">測試中的每一段關係，都可能被重置。</div>
-    <div class="homeVersion">3.27.7・測試服｜七夕設施小遊戲＋長篇劇情測試</div>
+    <div class="homeVersion">3.27.9・測試服｜七夕守橋人完整捲動修正版</div>
   </div>
 
   <div id="playerAccountHomePanel" class="homePanel accountHomePanel">
@@ -14250,6 +14291,110 @@ header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{back
  </div>
 </div>
 
+
+<style id="qixi3278-theme-fix">
+/* 3.27.9：測試服七夕期間主畫面固定使用七夕星河，不再被女僕預覽 CSS 蓋掉 */
+body.qixi-global-theme,
+body.qixi-global-theme.maid-cafe-preview,
+html[data-theme="maid-cafe"] body.qixi-global-theme{
+ background:
+ radial-gradient(circle at 18% 12%,rgba(255,255,255,.95) 0 1px,transparent 1.8px),
+ radial-gradient(circle at 78% 18%,rgba(211,195,255,.9) 0 1.2px,transparent 2px),
+ radial-gradient(ellipse at 50% 5%,rgba(115,80,230,.32),transparent 42%),
+ linear-gradient(180deg,#090624 0%,#151044 36%,#281758 68%,#482765 100%)!important;
+ background-attachment:fixed!important;color:#eee7ff!important;
+}
+body.qixi-global-theme::before{
+ content:""!important;display:block!important;position:fixed!important;inset:0!important;z-index:-1!important;
+ background-image:
+ radial-gradient(circle,rgba(255,255,255,.92) 0 1px,transparent 1.7px),
+ radial-gradient(circle,rgba(194,177,255,.8) 0 1px,transparent 1.6px)!important;
+ background-size:61px 61px,101px 101px!important;background-position:8px 14px,31px 8px!important;
+ opacity:.9!important;pointer-events:none!important;
+}
+body.qixi-global-theme #game,
+body.qixi-global-theme .wrap{background:transparent!important}
+body.qixi-global-theme #game>.top{background:rgba(17,10,48,.94)!important;color:#fff!important}
+body.qixi-global-theme .pageCard,
+body.qixi-global-theme .card,
+body.qixi-global-theme .panel{background:rgba(30,20,67,.92)!important;color:#f6f0ff!important;border-color:rgba(213,195,255,.22)!important}
+body.qixi-global-theme .small,
+body.qixi-global-theme .muted{color:#d1c4e6!important}
+.qixiPaidGroupTitle{grid-column:1/-1;font-weight:1000;font-size:16px;padding:7px 3px 1px;color:#fff}
+.qixiPaidGroupTitle.cat{color:#4d3b57}
+</style>
+
+<script id="qixi3278-paid-and-theme-fix">
+(function(){
+ const CAT=[
+  {id:"support30",icon:"☕",name:"請店長喝飲料",price:50,coins:300,badgeId:"paid_badge_support30",badgeIcon:"☕",badgeName:"咖啡應援",desc:"遊戲金幣 300＋限定徽章"},
+  {id:"gift60",icon:"🐾",name:"店長的小禮物",price:60,coins:700,badgeId:"paid_badge_gift60",badgeIcon:"🐾",badgeName:"店長的小禮物",desc:"遊戲金幣 700＋限定徽章"},
+  {id:"support100",icon:"💜",name:"小小贊助包",price:100,coins:1200,badgeId:"paid_badge_support100",badgeIcon:"💜",badgeName:"紫晶應援",desc:"遊戲金幣 1,200＋限定徽章"},
+  {id:"dev150",icon:"✨",name:"開發者應援包",price:150,coins:2000,badgeId:"paid_badge_dev150",badgeIcon:"✨",badgeName:"開發者應援",desc:"遊戲金幣 2,000＋限定徽章"}
+ ];
+ const QIXI=[
+  {id:"qixiGalaxy50",icon:"🌠",name:"星河初遇禮包",price:50,coins:300,token:1,badgeId:"qixi_paid_50",badgeIcon:"🌠",badgeName:"星河初遇",desc:"300 金幣＋七夕限定徽章＋天上的一縷星辰 ×1"},
+  {id:"qixi60",icon:"🏮",name:"緣燈相逢禮包",price:60,coins:700,badgeId:"qixi_paid_60",badgeIcon:"🏮",badgeName:"緣燈相逢",desc:"700 金幣＋七夕限定徽章"},
+  {id:"qixi100",icon:"🌌",name:"鵲橋同行禮包",price:100,coins:1200,badgeId:"qixi_paid_100",badgeIcon:"🌌",badgeName:"鵲橋同行",desc:"1,200 金幣＋七夕限定徽章"},
+  {id:"qixi150",icon:"💫",name:"星河長願禮包",price:150,coins:2000,badgeId:"qixi_paid_150",badgeIcon:"💫",badgeName:"星河長願",desc:"2,000 金幣＋七夕限定徽章"}
+ ];
+ function C(){try{return typeof cur==="function"?cur():null}catch(_){return null}}
+ function ensure(c){if(!c)return;c.paidOrders??=[];c.paidEntitlements??={};c.paidCosmetics??={};c.paidCollectibles??={}}
+ function owned(c,p){return !!c.paidEntitlements?.[p.badgeId]}
+ function grantBadge(c,p){
+   c.paidEntitlements[p.badgeId]=true;c.paidCollectibles[p.badgeId]={icon:p.badgeIcon,name:p.badgeName,obtainedAt:new Date().toISOString()};
+   try{
+    if(typeof protoAch!=="undefined"&&!protoAch.some(x=>x[0]===p.badgeId))protoAch.push([p.badgeId,p.badgeIcon,p.badgeName,"活動限定付費徽章","收藏"]);
+    if(typeof ensureSharedAchievements==="function")ensureSharedAchievements();
+    if(typeof local!=="undefined"){local.sharedAchievements??={};local.sharedAchievements[p.badgeId]=1;c.achievements=local.sharedAchievements}
+   }catch(_){}
+ }
+ function card(p,c){
+   const has=owned(c,p);
+   return `<div class="paidProduct"><div class="paidProductIcon">${p.icon}</div><div class="paidProductTitle">${p.name}</div><div class="small">${p.desc}</div><div class="paidPrice">NT$${p.price}</div><button type="button" class="primary" data-qixi3278-buy="${p.id}" ${has?"disabled":""}>${has?"✓ 已購買":"模擬付款 NT$"+p.price}</button></div>`;
+ }
+ function render(){
+   const box=document.getElementById("paidShopList"),c=C();if(!box)return;
+   if(!c){box.innerHTML='<div class="paidOrdersBlock">請先進入角色。</div>';return}ensure(c);
+   box.innerHTML=`<div class="qixiPaidGroupTitle cat">🐱 貓貓店長活動禮包</div>`+
+    CAT.map(p=>card(p,c)).join("")+
+    `<div class="qixiPaidGroupTitle">🌌 七夕活動限定禮包</div>`+
+    QIXI.map(p=>card(p,c)).join("")+
+    (c.paidOrders.length?`<div class="paidOrdersBlock"><b>最近測試訂單</b>${c.paidOrders.slice(-6).reverse().map(o=>`<div class="paidOrderRow">✅ ${o.orderNo}・${o.name}・NT$${o.price}</div>`).join("")}</div>`:"");
+ }
+ function pay(id){
+   const c=C(),p=[...CAT,...QIXI].find(x=>x.id===id);if(!c||!p)return;ensure(c);
+   if(owned(c,p))return toast?.("這個禮包每個角色只能購買一次。",2600);
+   if(!confirm(`【測試付款】\n${p.name} NT$${p.price}\n\n測試服不會真的扣款。`))return;
+   if(p.coins)c.money=Math.max(0,Number(c.money||0)+p.coins);
+   grantBadge(c,p);
+   if(p.token){c.paidCosmetics.qixiStarToken=Number(c.paidCosmetics.qixiStarToken||0)+p.token}
+   const orderNo="TEST"+Date.now().toString(36).toUpperCase()+Math.random().toString(36).slice(2,6).toUpperCase();
+   c.paidOrders.push({orderNo,productId:p.id,name:p.name,price:p.price,coins:p.coins,paidAt:new Date().toISOString(),status:"test_paid",granted:true});
+   saveLocal?.();renderGame?.();render();try{renderQixiEvent?.()}catch(_){}
+   alert(`付款成功（測試）\n\n${p.name}\n訂單：${orderNo}\n🪙 ${p.coins} 金幣\n🏅 ${p.badgeName}${p.token?"\n🌠 天上的一縷星辰 ×1":""}`);
+ }
+ document.addEventListener("click",e=>{
+   const b=e.target.closest("[data-qixi3278-buy]");if(!b)return;
+   e.preventDefault();e.stopImmediatePropagation();pay(b.dataset.qixi3278Buy);
+ },true);
+ window.PAID_TEST_PRODUCTS=[...CAT,...QIXI];
+ window.renderPaidShop=render;
+ window.renderPaid=render;
+
+ function forceQixi(){
+   const inGame=!!document.getElementById("game")&&!document.getElementById("game").classList.contains("hidden");
+   document.body.classList.toggle("qixi-global-theme",inGame);
+   /* 女僕預覽只能在真的選女僕外觀時存在，不能再全域強制 */
+   if(inGame){document.body.classList.remove("maid-cafe-preview");document.body.removeAttribute("data-theme");document.documentElement.removeAttribute("data-theme")}
+ }
+ const mo=new MutationObserver(()=>forceQixi());
+ document.addEventListener("DOMContentLoaded",()=>{forceQixi();setTimeout(()=>{render();forceQixi()},300)});
+ window.addEventListener("pageshow",()=>setTimeout(forceQixi,50));
+ setInterval(forceQixi,800);
+})();
+</script>
+
 </body>
 </html>
 
@@ -15091,7 +15236,9 @@ body.npcStoryRunning #qixiEventFab{display:none!important}
  }
  function openActivityMain(){
    render();
-   document.getElementById("qixiEventModal").classList.remove("hidden");
+   const modal=document.getElementById("qixiEventModal");
+   modal.classList.remove("hidden");
+   try{modal.scrollTop=0}catch(_){}
  }
  function openIntro(force=false){
    const x=c();if(!x)return;
@@ -15583,10 +15730,10 @@ body.npcStoryRunning #qixiEventFab{display:none!important}
 
  /* 覆蓋測試服顯示版本，不碰正式服。 */
  setTimeout(()=>{
-  document.title="關係進行式 TEST・3.27.7-七夕設施小遊戲＋長篇劇情測試";
-  document.querySelector(".homeVersion")?.replaceChildren(document.createTextNode("3.27.7・測試服｜七夕設施小遊戲＋長篇劇情測試"));
-  document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.27.7-beta");
-  const meta=document.querySelector('meta[name="x-test-build"]');if(meta)meta.content="3.27.7";
+  document.title="關係進行式 TEST・3.27.9-七夕守橋人完整捲動修正版";
+  document.querySelector(".homeVersion")?.replaceChildren(document.createTextNode("3.27.9・測試服｜七夕守橋人完整捲動修正版"));
+  document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.27.9-beta");
+  const meta=document.querySelector('meta[name="x-test-build"]');if(meta)meta.content="3.27.9";
  },100);
 })();
 </script>
