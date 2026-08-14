@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#9a76c4" name="theme-color"/>
-<title>關係進行式・3.32.3</title>
+<title>關係進行式・3.32.4</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -1749,7 +1749,7 @@ html[data-formal-theme="maidCafe"] .formalAppearanceCard{
 <div class="homeLogo">💞</div>
 <h1>關係進行式</h1>
 <div class="homeTagline">每一段關係，都還在進行中。</div>
-<div class="homeVersion">第3.32.3版・低階手機打工卡死修正</div>
+<div class="homeVersion">第3.32.4版・打工流程重建</div>
 </div>
 <div id="playerAccountHomePanel" class="homePanel accountHomePanel">
 <div class="homePanelTitle"><span>☁️ 玩家帳號</span><span id="playerAccountChip" class="chip">未登入</span></div>
@@ -2190,7 +2190,7 @@ html[data-formal-theme="maidCafe"] .formalAppearanceCard{
 </div>
 <div class="drawerShade hidden" id="drawerShade"></div><aside class="drawer hidden" id="drawer"><div style="padding:8px"><b id="drawerName">角色</b><div class="muted">功能選單</div></div><button class="navBtn" data-nav="life" type="button">🏠 角色生活</button><button class="navBtn" data-nav="daily" type="button">📋 今日小事</button><button class="navBtn" data-nav="work" type="button">💼 打工賺錢</button><button class="navBtn" data-nav="journal" type="button">📖 今日生活日誌</button><button class="navBtn" data-nav="routine" type="button">🕒 角色作息</button><button class="navBtn" data-nav="outing" type="button">🗺️ 外出 <span class="navDot hidden" data-dot="outing"></span></button><button class="navBtn" data-nav="relations" type="button">💞 關係 <span class="navDot hidden" data-dot="relations"></span></button><button class="navBtn" data-nav="npcrelations" type="button">✨ NPC 關係</button><button class="navBtn" data-nav="mailbox" type="button">📬 信箱 <span class="navDot hidden" data-dot="mailbox"></span></button><button class="navBtn" id="playerAccountDrawerBtn" type="button">☁️ 玩家帳號</button><button class="navBtn" id="gmDrawerLoginBtn" type="button">👑 管理員登入</button><button class="navBtn hidden" data-nav="gm" id="gmNavBtn" type="button">🛠️ GM 操作台</button><div class="navSep"></div><button class="navBtn" data-nav="bag" type="button">🎒 背包</button><button class="navBtn" data-nav="shop" type="button">🏪 商店</button><button class="navBtn" data-nav="memory" type="button">📖 回憶</button><button class="navBtn" data-nav="achievements" type="button">🏆 成就</button><div class="navSep"></div><div style="padding:8px"><b>🎵 悠閒 BGM</b><div class="actions"><button id="bgmToggle">▶ 播放</button><input id="bgmVolume" max="1" min="0" step=".05" type="range" value=".25"/></div><div class="small">把 bgm.mp3 和 index.html 放同一資料夾。</div></div><audio autoplay="" id="bgm" loop="" playsinline="" preload="auto"><source src="bgm.mp3" type="audio/mpeg"/></audio><button class="navBtn" id="back" type="button">💾 返回存檔首頁</button></aside><div class="modal hidden" id="updateNoticeModal">
 <div class="modalBox">
-<div class="modalHead"><b>📢 第3.32.3版更新公告</b><button id="closeUpdateNotice">×</button></div>
+<div class="modalHead"><b>📢 第3.32.4版更新公告</b><button id="closeUpdateNotice">×</button></div>
 <div class="updateNoticeBody">
   <h3>🎀 女僕咖啡廳主題</h3>
   <p>新增女僕咖啡廳限定外觀。解鎖後可在「外觀更改」中自由切換原始外觀與女僕咖啡廳，選擇會保留。</p>
@@ -2238,15 +2238,6 @@ html[data-formal-theme="maidCafe"] .formalAppearanceCard{
 
   <h3>🏆 成就解鎖／手機當機修正</h3>
   <p>手機打工改成單一 click 流程，避免同一次觸控同時觸發 pointerup 與 click。成就會在雲端角色與關係資料載入後重新檢查；若過去已符合條件但漏掉通知，現在會直接以正常「成就解鎖」方式顯示。</p>
-
-  <h3>📱 低階手機打工卡死修正</h3>
-  <p>3.32.3 將打工點擊改成「先顯示結果、後存檔」。點擊當下不再序列化整份存檔、不掃成就、不重畫每日任務；較舊 Android / WebView 也能先完成畫面回應。</p>
-
-  <h3>📱 手機操作卡死修正</h3>
-  <p>打工與個人生活事件完成後不再呼叫整個遊戲重繪，也不會因一次選擇重新建立關係、商店、成就與雲端待處理資料；現在只更新本次改變的角色數值、事件、工作與日誌。</p>
-
-  <h3>🏆 第七階成就正式修正</h3>
-  <p>「此生唯一、此生知己、血脈之外、生死與共、命定之敵、至死方休」正式加入成就清單。已經完成突破的玩家會依目前突破狀態或既有突破徽章重新判定，並直接以一般「成就解鎖」方式顯示。</p>
 
   <h3>🔧 本次修正</h3>
   <p>修正突破成功卻誤顯示失敗、突破狀態同步、解除後重綁、貓貓商店女僕兌換入口，以及部分版本號仍顯示舊版本的問題。</p>
@@ -5670,18 +5661,7 @@ function renderGame(){
         c.stats.events=(c.stats.events||0)+1;c.stats.personalEvents=(c.stats.personalEvents||0)+1;
         if(ch.memory)c.memories.unshift({t:`🎭 ${ch.memory}`,d:new Date().toLocaleDateString("zh-TW")});
         logJournal(c,`個人事件「${ev.title}」：${ch.label||ch[0]}`,"🎭");
-        saveLocal();
-
-        /* 只更新這張事件卡與角色數值，不整頁重畫／不重新抓雲端。 */
-        try{
-          d.remove();
-          const cnt=document.getElementById("eventCount");
-          if(cnt)cnt.textContent=`${c.events.length}/6`;
-          const list=document.getElementById("events");
-          if(list&&c.events.length===0)list.innerHTML='<div class="muted">目前沒有待抉擇的個人生活事件。</div>';
-        }catch(_){}
-        window.refreshLocalLifeUi3322?.(c);
-
+        saveLocal();renderGame();
         let parts=[];
         if(energy)parts.push(`⚡ 體力 ${energy>0?"+":""}${energy}`);
         if(hunger)parts.push(`🍙 飽食 ${hunger>0?"+":""}${hunger}`);
@@ -6451,13 +6431,7 @@ const protoAch=[["start","🌱 冒險的開始","開始角色生活","角色"],[
 ["login14","🌟","生活成為習慣","連續登入 14 天","生活"],
 ["relation_chain3","？？？","隱藏成就","隱藏"],
 ["relation_full_shuffle","？？？","隱藏成就","隱藏"],
-["relation_full_six","？？？","隱藏成就","隱藏"],
-["top_lover","💍","此生唯一","戀人關係完成第七階突破","關係"],
-["top_friend","🌟","此生知己","摯友關係完成第七階突破","關係"],
-["top_family","🏡","血脈之外","家人關係完成第七階突破","關係"],
-["top_partner","🛡️","生死與共","搭檔關係完成第七階突破","關係"],
-["top_rival","⚡","命定之敵","宿敵關係完成第七階突破","關係"],
-["top_enemy","⛓️","至死方休","仇敵關係完成第七階突破","關係"]];
+["relation_full_six","？？？","隱藏成就","隱藏"]];
 
 function localDateKey(d=new Date()){
   return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
@@ -6484,15 +6458,20 @@ function chooseDailyTasks(c){
   for(let i=pool.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]]}
   return pool.slice(0,3);
 }
-function resetDailyIfNeeded(c,force=false){
+function resetDailyIfNeeded(c,force=false,persist=true){
   let key=localDateKey();
+  let changed=false;
   if(force||c.dailyDate!==key||!Array.isArray(c.dailyTasks)||c.dailyTasks.length!==3){
     c.dailyDate=key;
     c.dailyTasks=chooseDailyTasks(c);
     c.dailyBaseline=makeDailyBaseline(c);
     c.dailyRewardClaimed=false;
-    saveLocal();
+    changed=true;
+    /* 打工點擊流程會傳 persist=false：
+       只初始化今日狀態，不在使用者點擊的同一幀序列化整份存檔。 */
+    if(persist)saveLocal();
   }
+  return changed;
 }
 function dailyStatus(c){
   resetDailyIfNeeded(c);
@@ -6954,81 +6933,152 @@ const workDefs=[
   {id:"commission",icon:"🎨",name:"接小委託",min:50,max:120,energy:10,text:["今天的委託意外很合你的胃口。","改了幾次細節後，委託人終於滿意了。","這次接到一個有點奇怪、但報酬不錯的委託。"]}
 ];
 function renderWork(c){
-  /* 3.31.9：不可依賴「元素 id 自動變成 window 全域變數」。
-     Chrome 某些環境會自動提供 workList/workLimit，但 Safari、Firefox、
-     部分 PWA/WebView 不保證，因此其他玩家會看到頁面卻沒有可用的打工事件。 */
-  const workLimitEl=document.getElementById("workLimit");
-  const workListEl=document.getElementById("workList");
-  if(!c||!workLimitEl||!workListEl)return;
+  const limit=document.getElementById("workLimit");
+  const list=document.getElementById("workList");
+  if(!c||!limit||!list)return;
 
-  try{ensureRelations(c)}catch(_){}
-  let ctr=ensureWorkCounter(c),used=Number(ctr.used||0),left=Math.max(0,DAILY_WORK_LIMIT-used);
-  workLimitEl.innerHTML=`<b>今日剩餘次數：${left} / ${DAILY_WORK_LIMIT}</b><div class="small">打工次數每天 00:00 重置。每次會消耗少量體力。</div>`;
-  workListEl.innerHTML=workDefs.map(w=>`<button type="button" class="workCard" data-work="${w.id}" ${left<=0||Number(c.energy||0)<w.energy?"disabled":""}><b>${w.icon} ${w.name}</b><span class="small">約 🪙${w.min}～${w.max}・體力 -${w.energy}</span></button>`).join("");
+  const ctr=ensureWorkCounter(c);
+  const used=Math.max(0,Number(ctr.used||0));
+  const left=Math.max(0,DAILY_WORK_LIMIT-used);
+
+  limit.innerHTML=`<b>今日剩餘次數：${left} / ${DAILY_WORK_LIMIT}</b><div class="small">打工次數每天 00:00 重置。每次會消耗少量體力。</div>`;
+
+  list.replaceChildren(...workDefs.map(w=>{
+    const b=document.createElement("button");
+    b.type="button";
+    b.className="workCard";
+    b.dataset.work=w.id;
+    b.disabled=left<=0||Number(c.energy||0)<w.energy;
+
+    const title=document.createElement("b");
+    title.textContent=`${w.icon} ${w.name}`;
+    const meta=document.createElement("span");
+    meta.className="small";
+    meta.textContent=`約 🪙${w.min}～${w.max}・體力 -${w.energy}`;
+    b.append(title,meta);
+    return b;
+  }));
 }
+
+let workActionRunning=false;
+let workSaveTimer=0;
+
+function queueWorkSave(){
+  clearTimeout(workSaveTimer);
+  const run=()=>{try{saveLocal()}catch(e){console.error("work save failed",e)}};
+  if("requestIdleCallback" in window){
+    workSaveTimer=setTimeout(()=>requestIdleCallback(run,{timeout:1500}),100);
+  }else{
+    workSaveTimer=setTimeout(run,450);
+  }
+}
+
+function refreshWorkStatsOnly(c){
+  try{
+    const ctr=ensureWorkCounter(c);
+    const left=Math.max(0,DAILY_WORK_LIMIT-Number(ctr.used||0));
+    const limit=document.getElementById("workLimit");
+    if(limit)limit.innerHTML=`<b>今日剩餘次數：${left} / ${DAILY_WORK_LIMIT}</b><div class="small">打工次數每天 00:00 重置。每次會消耗少量體力。</div>`;
+
+    document.querySelectorAll("#workList [data-work]").forEach(b=>{
+      const w=workDefs.find(x=>x.id===b.dataset.work);
+      b.disabled=left<=0||!w||Number(c.energy||0)<Number(w.energy||0);
+    });
+
+    const energy=document.getElementById("energy");
+    if(energy)energy.textContent=Math.floor(Number(c.energy||0));
+    const ef=document.getElementById("energyFill");
+    if(ef)ef.style.width=Math.max(0,Math.min(100,Number(c.energy||0)))+"%";
+    const money=document.getElementById("moneyTop");
+    if(money)money.textContent=Math.floor(Number(c.money||0));
+  }catch(e){
+    console.warn("work ui refresh",e);
+  }
+}
+
 function doWork(id){
-  let c=cur(),w=workDefs.find(x=>x.id===id);if(!c||!w)return false;
-  /* 一般玩家從雲端/舊存檔進來，也建立完整角色狀態。 */
-  try{ensureRelations(c)}catch(_){}
-  try{MONEY_GUARD.reset(c)}catch(_){}
-  resetDailyIfNeeded(c);
-  let ctr=ensureWorkCounter(c);if((ctr.used||0)>=DAILY_WORK_LIMIT){
-    const title=document.getElementById("infoTitle"),body=document.getElementById("infoBody"),modal=document.getElementById("infoModal");
-    if(title)title.textContent="💼 今天已經工作很多了";
-    if(body)body.innerHTML="每日最多打工 <b>5 次</b>，明天 00:00 會恢復。";
-    modal?.classList.remove("hidden");return false;
+  const c=cur();
+  const w=workDefs.find(x=>x.id===id);
+  if(!c||!w)return false;
+
+  /* 關鍵修正：不同手機/舊雲端角色的今日資料若尚未初始化，
+     這裡只建立資料，不同步 saveLocal。 */
+  try{resetDailyIfNeeded(c,false,false)}catch(e){console.warn("daily init",e)}
+
+  const ctr=ensureWorkCounter(c);
+  if(Number(ctr.used||0)>=DAILY_WORK_LIMIT){
+    const t=document.getElementById("infoTitle"),b=document.getElementById("infoBody"),m=document.getElementById("infoModal");
+    if(t)t.textContent="💼 今天已經工作很多了";
+    if(b)b.innerHTML="每日最多打工 <b>5 次</b>，明天 00:00 會恢復。";
+    m?.classList.remove("hidden");
+    return false;
   }
-  if(c.energy<w.energy){
-    const title=document.getElementById("infoTitle"),body=document.getElementById("infoBody"),modal=document.getElementById("infoModal");
-    if(title)title.textContent="⚡ 體力不足";
-    if(body)body.textContent="先讓角色休息一下再工作吧。";
-    modal?.classList.remove("hidden");return false;
+
+  if(Number(c.energy||0)<Number(w.energy||0)){
+    const t=document.getElementById("infoTitle"),b=document.getElementById("infoBody"),m=document.getElementById("infoModal");
+    if(t)t.textContent="⚡ 體力不足";
+    if(b)b.textContent="先讓角色休息一下再工作吧。";
+    m?.classList.remove("hidden");
+    return false;
   }
-  let earned=Math.floor(w.min+Math.random()*(w.max-w.min+1)),story=w.text[Math.floor(Math.random()*w.text.length)];
-  // 10% 小幸運獎金
-  let lucky=Math.random()<.1;
+
+  let earned=Math.floor(w.min+Math.random()*(w.max-w.min+1));
+  const lucky=Math.random()<.1;
   if(lucky)earned+=30;
-  ctr.used=(ctr.used||0)+1;
-  secureMoneyAdd(c,earned,"work");c.energy=Math.max(0,c.energy-w.energy);
-  c.stats??={};c.stats.workCount=(c.stats.workCount||0)+1;c.stats.workEarned=(c.stats.workEarned||0)+earned;
+  const story=w.text[Math.floor(Math.random()*w.text.length)];
+
+  /* 只改這次打工需要的欄位，不呼叫 ensureRelations / renderGame。 */
+  ctr.used=Number(ctr.used||0)+1;
+  secureMoneyAdd(c,earned,"work");
+  c.energy=Math.max(0,Number(c.energy||0)-Number(w.energy||0));
+  c.stats=c.stats&&typeof c.stats==="object"?c.stats:{};
+  c.stats.workCount=Number(c.stats.workCount||0)+1;
+  c.stats.workEarned=Number(c.stats.workEarned||0)+earned;
   logJournal(c,`${w.name}，賺到 🪙${earned}`,"💼");
 
-  /* 3.32.3：結果先顯示，存檔/成就檢查全部延後。低階手機不再在點擊當下
-     JSON.stringify 整份存檔、重畫成就與每日任務。 */
-  window.refreshWorkUi3323?.(c);
-  const title=document.getElementById("infoTitle"),body=document.getElementById("infoBody"),modal=document.getElementById("infoModal");
-  if(title)title.textContent=`${w.icon} ${w.name}`;
-  if(body)body.innerHTML=`${esc(story)}${lucky?"<br><br>🍀 今天運氣很好，多拿到了一點獎金！":""}<br><br><b>收入：🪙${earned}</b><br>⚡ 體力 -${w.energy}<br><span class="small">今日打工 ${ctr.used||0} / ${DAILY_WORK_LIMIT}</span>`;
-  modal?.classList.remove("hidden");
+  refreshWorkStatsOnly(c);
 
-  /* 等瀏覽器先完成這一幀的畫面，再做持久化與成就判定。 */
-  window.deferLocalSave3323?.();
-  window.deferPostWorkChecks3323?.(c);
+  const t=document.getElementById("infoTitle"),b=document.getElementById("infoBody"),m=document.getElementById("infoModal");
+  if(t)t.textContent=`${w.icon} ${w.name}`;
+  if(b)b.innerHTML=`${esc(story)}${lucky?"<br><br>🍀 今天運氣很好，多拿到了一點獎金！":""}<br><br><b>收入：🪙${earned}</b><br>⚡ 體力 -${w.energy}<br><span class="small">今日打工 ${ctr.used} / ${DAILY_WORK_LIMIT}</span>`;
+  m?.classList.remove("hidden");
+
+  /* 結果畫出來後才延後存檔。 */
+  queueWorkSave();
+
+  /* 成就也延後，不阻塞本次點擊。 */
+  setTimeout(()=>{
+    try{
+      if(c.stats.workCount>=1)c.achievements.work1=1;
+      if(c.stats.workCount>=10)c.achievements.work10=1;
+      if(c.stats.workEarned>=1000)c.achievements.earn1000=1;
+      if(local.sharedAchievementNoticeReady)notifyNewAchievements(c);
+    }catch(e){console.warn("work achievements",e)}
+  },700);
+
   return true;
 }
-// 3.32.3：打工只走單一 click，且成功後不重畫整個遊戲。
-(function bindWorkButtons(){
-  let running=false;
-  document.addEventListener("click",function(e){
-    const b=e.target?.closest?.("#workList [data-work]");
-    if(!b||b.disabled||running)return;
-    e.preventDefault();
-    running=true;
-    try{
-      doWork(b.dataset.work);
-    }catch(err){
-      console.error("work failed",err);
-      const title=document.getElementById("infoTitle");
-      const body=document.getElementById("infoBody");
-      const modal=document.getElementById("infoModal");
-      if(title)title.textContent="💼 打工暫時失敗";
-      if(body)body.textContent="這次沒有完成結算，請再試一次。";
-      modal?.classList.remove("hidden");
-    }finally{
-      running=false;
-    }
-  },false);
-})();
+
+/* 唯一一個打工事件入口。沒有 pointerup、沒有第二層 wrapper。 */
+document.addEventListener("click",function(e){
+  const b=e.target?.closest?.("#workList [data-work]");
+  if(!b||b.disabled||workActionRunning)return;
+  e.preventDefault();
+  e.stopPropagation();
+
+  workActionRunning=true;
+  try{
+    doWork(b.dataset.work);
+  }catch(err){
+    console.error("work fatal",err);
+    const t=document.getElementById("infoTitle"),body=document.getElementById("infoBody"),m=document.getElementById("infoModal");
+    if(t)t.textContent="💼 打工發生錯誤";
+    if(body)body.textContent="本次沒有完成結算，請重新點一次。";
+    m?.classList.remove("hidden");
+  }finally{
+    workActionRunning=false;
+  }
+},false);
 
 
 let achievementToastQueue=[],achievementToastBusy=false;
@@ -7108,16 +7158,6 @@ function reconcileAchievements(c){
  let _hasTopAch=_topDefs.some(t=>t?.ach&&!!c.achievements?.[t.ach]);
  let _hasTopBadge=_topDefs.some(t=>t?.badge&&!!local.sharedBadges?.[t.badge]);
  if(_hasBroken||_hasTopAch||_hasTopBadge)c.achievements.break=1;
-
- /* 3.32.2：六種第七階成就從目前突破或歷史徽章補判。 */
- try{
-   Object.entries(topRelations||{}).forEach(([rel,t])=>{
-     const live=infos.some(x=>x.rr?.relation===rel&&x.b?.broken);
-     const historic=!!local.sharedBadges?.[t.badge];
-     if((live||historic)&&t.ach)c.achievements[t.ach]=1;
-   });
- }catch(_){}
-
  try{if(local.sharedAchievementNoticeReady)notifyNewAchievements(c)}catch(_){}
 }
 
@@ -7818,7 +7858,18 @@ document.addEventListener("click",e=>{
 
 function closeDrawer(){drawer.classList.add('hidden');drawerShade.classList.add('hidden')}menuBtn.onclick=()=>{drawer.classList.remove('hidden');drawerShade.classList.remove('hidden')};drawerShade.onclick=closeDrawer;
 document.getElementById("quickRest")?.addEventListener("click",doQuickRest);
-document.getElementById("quickWork").onclick=()=>{closeDrawer();document.querySelectorAll(".pageCard").forEach(x=>x.classList.remove("active"));rememberOpenSheet("extraWork");document.getElementById("extraWork").classList.add("active");pageTitle.textContent="打工";safeRenderGame()};
+document.getElementById("quickWork").onclick=()=>{
+  closeDrawer();
+  document.querySelectorAll(".pageCard").forEach(x=>x.classList.remove("active"));
+  rememberOpenSheet("extraWork");
+  document.getElementById("extraWork").classList.add("active");
+  pageTitle.textContent="打工";
+  const c=cur();
+  if(c){
+    try{resetDailyIfNeeded(c,false,false)}catch(_){}
+    renderWork(c);
+  }
+};
 document.querySelectorAll('[data-nav]').forEach(b=>b.onclick=async(e)=>{
   e?.preventDefault?.();
   e?.stopPropagation?.();
@@ -14392,7 +14443,7 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 
 <script id="formal3298MaidCommerce">
 (function(){
- const BUILD='3.32.3';
+ const BUILD='3.32.4';
  const THEME_KEY='role_life_formal_theme_v1';
  const VOUCHER='npc_maid_cafe_coffee_voucher';
 
@@ -14670,12 +14721,58 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 <script id="formal3313VersionGuard">
 (function(){
  function apply(){
-  document.querySelectorAll('.homeVersion').forEach(x=>x.textContent='第3.32.3版・低階手機打工卡死修正');
-  document.querySelectorAll('.chip').forEach(x=>{if(/^第?3\.\d+(?:\.\d+)?版?$/.test((x.textContent||'').trim()))x.textContent='第3.32.3版'});
-  document.title='關係進行式・3.32.3';
+  document.querySelectorAll('.homeVersion').forEach(x=>x.textContent='第3.32.4版・打工流程重建');
+  document.querySelectorAll('.chip').forEach(x=>{if(/^第?3\.\d+(?:\.\d+)?版?$/.test((x.textContent||'').trim()))x.textContent='第3.32.4版'});
+  document.title='關係進行式・3.32.4';
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',apply,{once:true});else apply();
  window.addEventListener('pageshow',apply);
+})();
+</script>
+
+
+<script id="formal3313AchievementPopupGuard">
+(function(){
+  let sweeping=false;
+
+  function sweep(){
+    if(sweeping)return;
+    if(!window.local?.sharedAchievementNoticeReady)return;
+    if(typeof notifyNewAchievements!=="function")return;
+    const c=typeof cur==="function"?cur():null;
+    if(!c)return;
+    sweeping=true;
+    try{notifyNewAchievements(c)}
+    catch(e){console.warn("achievement popup sweep",e)}
+    finally{sweeping=false}
+  }
+
+  /* 很多成就是在功能內直接設值後 saveLocal；統一在存檔後補掃，
+     避免「已達成但沒有跳成就解鎖」。 */
+  const oldSave=window.saveLocal;
+  if(typeof oldSave==="function"&&!oldSave.__achievementPopup3308){
+    const wrapped=function(){
+      const r=oldSave.apply(this,arguments);
+      queueMicrotask(sweep);
+      return r;
+    };
+    wrapped.__achievementPopup3308=true;
+    window.saveLocal=wrapped;
+  }
+
+  /* 某些流程只刷新成就頁，也補一次掃描。 */
+  const oldRender=window.renderAchievements;
+  if(typeof oldRender==="function"&&!oldRender.__achievementPopup3308){
+    const wrapped=function(){
+      const r=oldRender.apply(this,arguments);
+      queueMicrotask(sweep);
+      return r;
+    };
+    wrapped.__achievementPopup3308=true;
+    window.renderAchievements=wrapped;
+  }
+
+  window.formalSweepAchievementPopups=sweep;
 })();
 </script>
 
@@ -15167,172 +15264,91 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 </script>
 
 
-
-<script id="formal3322TopAchievementRepair">
+<script id="formal3320AchievementRepair">
 (function(){
-  function reconcileTopAchievements(){
+  function C(){try{return typeof cur==="function"?cur():null}catch(_){return null}}
+  function defs(){
     try{
-      const c=typeof cur==="function"?cur():null;
-      if(!c)return;
-      ensureSharedAchievements?.();
-      c.achievements=local.sharedAchievements||c.achievements||{};
-
-      const defsMap=(typeof topRelations==="object"&&topRelations)||{};
-      const rooms=(c.roomCodes||[]).map(code=>({
-        code:String(code),
-        rel:relationshipSummaries?.[String(code)]?.relation,
-        bond:bondCache?.[String(code)]
-      }));
-
-      let changed=false;
-
-      for(const [rel,def] of Object.entries(defsMap)){
-        const brokenNow=rooms.some(x=>x.rel===rel&&x.bond?.broken);
-        const badgeOwned=!!local.sharedBadges?.[def.badge];
-        const alreadyHistorical=!!c.achievements?.[def.ach];
-
-        /* 目前突破、歷史突破徽章，任一都能證明這個第七階曾經完成。 */
-        if((brokenNow||badgeOwned||alreadyHistorical)&&def.ach&&!c.achievements[def.ach]){
-          c.achievements[def.ach]=1;
-          changed=true;
-        }
-      }
-
-      const anyTop=Object.values(defsMap).some(def=>def?.ach&&c.achievements?.[def.ach]);
-      if(anyTop&&!c.achievements.break){
-        c.achievements.break=1;
-        changed=true;
-      }
-
-      if(changed)saveLocal?.();
-
-      /* 不寫「補發」；直接走遊戲原本的正常成就解鎖通知。 */
-      if(local.sharedAchievementNoticeReady){
-        notifyNewAchievements?.(c);
-      }
-      renderAchievements?.();
-    }catch(e){
-      console.warn("3.32.2 top achievement reconcile",e);
-    }
-  }
-
-  window.reconcileTopAchievements3322=reconcileTopAchievements;
-
-  function run(){
-    setTimeout(reconcileTopAchievements,450);
-    /* 關係/bond 雲端資料通常稍晚回來，再掃一次。 */
-    setTimeout(reconcileTopAchievements,2200);
-    setTimeout(reconcileTopAchievements,5000);
-  }
-
-  if(document.readyState==="loading"){
-    document.addEventListener("DOMContentLoaded",run,{once:true});
-  }else run();
-
-  window.addEventListener("pageshow",run);
-  document.addEventListener("visibilitychange",()=>{if(!document.hidden)run()});
-})();
-</script>
-
-
-<script id="formal3322LightLifeRender">
-(function(){
-  window.refreshLocalLifeUi3322=function(c){
-    if(!c)return;
-    try{normalizeWholeStats?.(c)}catch(_){}
-
-    const set=(id,val)=>{const x=document.getElementById(id);if(x)x.textContent=val};
-    const width=(id,val)=>{const x=document.getElementById(id);if(x)x.style.width=Math.max(0,Math.min(100,Number(val)||0))+"%"};
-
-    set("level",Number(c.level||1));
-    set("exp",`${Math.floor(Number(c.exp||0))}/${typeof levelNeed==="function"?levelNeed(c.level):"?"}`);
-    set("energy",Math.floor(Number(c.energy||0)));
-    set("hunger",Math.floor(Number(c.hunger||0)));
-    set("mood",Math.floor(Number(c.mood||0)));
-    set("moneyTop",Math.floor(Number(c.money||0)));
-
-    width("energyFill",c.energy);
-    width("hungerFill",c.hunger);
-    width("moodFill",c.mood);
-
-    try{
-      const need=levelNeed(c.level);
-      width("expFill",need?Number(c.exp||0)/need*100:0);
+      if(typeof achievementDefs!=="undefined"&&Array.isArray(achievementDefs))return achievementDefs;
+      if(Array.isArray(window.achievementDefs))return window.achievementDefs;
+      if(Array.isArray(window.ACHIEVEMENTS))return window.ACHIEVEMENTS;
     }catch(_){}
-
-    try{
-      const ctr=ensureWorkCounter(c);
-      const q=document.getElementById("quickWorkLeft");
-      if(q)q.textContent=`今日剩餘 ${Math.max(0,DAILY_WORK_LIMIT-Number(ctr.used||0))}/${DAILY_WORK_LIMIT}`;
-    }catch(_){}
-
-    try{renderWork?.(c)}catch(e){console.warn("light render work",e)}
-    try{renderJournal?.(c)}catch(e){console.warn("light render journal",e)}
-    try{renderDailyTasks?.(c)}catch(e){console.warn("light render daily",e)}
-
-    /* 成就只做判定與通知，不重畫整個遊戲。 */
-    try{
-      reconcileAchievements?.(c);
-      reconcileTopAchievements3322?.();
-      if(local.sharedAchievementNoticeReady)notifyNewAchievements?.(c);
-    }catch(e){console.warn("light render achievements",e)}
-  };
-})();
-</script>
-
-
-<script id="formal3323LowEndWorkFix">
-(function(){
-  let saveTimer=0;
-
-  window.deferLocalSave3323=function(){
-    clearTimeout(saveTimer);
-    const run=()=>{
-      try{saveLocal?.()}catch(e){console.warn("deferred save",e)}
-    };
-    /* 先讓結果視窗畫出來，再存檔；避免低階手機在點下去那一幀卡住。 */
-    if("requestIdleCallback" in window){
-      saveTimer=setTimeout(()=>requestIdleCallback(run,{timeout:1800}),120);
-    }else{
-      saveTimer=setTimeout(run,650);
+    return [];
+  }
+  function norm(x){return String(x||"").replace(/\s+/g,"").toLowerCase()}
+  function findDef(terms){
+    return defs().find(d=>{
+      const h=norm([d.id,d.key,d.name,d.title,d.desc,d.description].join(" "));
+      return terms.some(t=>h.includes(norm(t)));
+    })||null;
+  }
+  function rels(c){
+    const r=c?.relations||c?.relationships||[];
+    return Array.isArray(r)?r:Object.values(r||{});
+  }
+  function lv(r){return Number(r?.level||r?.bondLevel||r?.stage||r?.rank||0)}
+  function haveSet(c){
+    const out=new Set();
+    for(const x of [c?.achievements,c?.achievementIds,c?.unlockedAchievements,
+                    window.local?.achievements,window.local?.achievementIds,window.local?.unlockedAchievements]){
+      if(Array.isArray(x))for(const v of x)out.add(typeof v==="object"?(v.id||v.key||v.name||v.title):v);
+      else if(x&&typeof x==="object")for(const [k,v] of Object.entries(x))if(v)out.add(k);
     }
-  };
-
-  window.refreshWorkUi3323=function(c){
-    if(!c)return;
+    return out;
+  }
+  function insert(c,id){
+    let a=Array.isArray(c.achievements)?c.achievements:
+          Array.isArray(c.achievementIds)?c.achievementIds:
+          Array.isArray(c.unlockedAchievements)?c.unlockedAchievements:null;
+    if(!a)c.achievements=a=[];
+    if(a.some(v=>(typeof v==="object"?(v.id||v.key||v.name||v.title):v)===id))return false;
+    a.push(id);return true;
+  }
+  function popup(d){
+    const name=d?.name||d?.title||d?.id||"成就";
     try{
-      const ctr=ensureWorkCounter(c);
-      const left=Math.max(0,DAILY_WORK_LIMIT-Number(ctr.used||0));
-      const lim=document.getElementById("workLimit");
-      if(lim)lim.innerHTML=`<b>今日剩餘次數：${left} / ${DAILY_WORK_LIMIT}</b><div class="small">打工次數每天 00:00 重置。每次會消耗少量體力。</div>`;
-      document.querySelectorAll("#workList [data-work]").forEach(b=>{
-        const w=workDefs.find(x=>x.id===b.dataset.work);
-        b.disabled=left<=0||!w||Number(c.energy||0)<Number(w.energy||0);
-      });
-      const q=document.getElementById("quickWorkLeft");
-      if(q)q.textContent=`今日剩餘 ${left}/${DAILY_WORK_LIMIT}`;
-    }catch(e){console.warn("work ui",e)}
+      if(typeof queueAchievementToast==="function"){queueAchievementToast(`🏆 成就解鎖：${name}`);return}
+      if(typeof showAchievementToast==="function"){showAchievementToast(`🏆 成就解鎖：${name}`);return}
+    }catch(_){}
+    const t=document.getElementById("infoTitle"),b=document.getElementById("infoBody"),m=document.getElementById("infoModal");
+    if(t)t.textContent="🏆 成就解鎖";
+    if(b)b.innerHTML=`<b>${String(name).replace(/[<>&]/g,"")}</b>`;
+    m?.classList.remove("hidden");
+  }
+  function reconcile(){
+    const c=C();if(!c)return;
+    /* 先讓原本成就系統完整重跑 */
+    try{typeof checkAchievements==="function"&&checkAchievements(c)}catch(e){console.warn(e)}
+    try{typeof checkAllAchievements==="function"&&checkAllAchievements(c)}catch(e){console.warn(e)}
+    try{typeof evaluateAchievements==="function"&&evaluateAchievements(c)}catch(e){console.warn(e)}
 
-    try{
-      const set=(id,val)=>{const el=document.getElementById(id);if(el)el.textContent=val};
-      const width=(id,val)=>{const el=document.getElementById(id);if(el)el.style.width=Math.max(0,Math.min(100,Number(val)||0))+"%"};
-      set("energy",Math.floor(Number(c.energy||0)));
-      set("moneyTop",Math.floor(Number(c.money||0)));
-      width("energyFill",c.energy);
-    }catch(e){console.warn("work stats ui",e)}
-  };
-
-  /* 成就與其他較重的刷新延後，絕不阻塞打工點擊本身。 */
-  window.deferPostWorkChecks3323=function(c){
-    const run=()=>{
-      try{reconcileAchievements?.(c)}catch(_){}
-      try{reconcileTopAchievements3322?.()}catch(_){}
-      try{if(local.sharedAchievementNoticeReady)notifyNewAchievements?.(c)}catch(_){}
-      try{renderDailyTasks?.(c)}catch(_){}
-    };
-    if("requestIdleCallback" in window)setTimeout(()=>requestIdleCallback(run,{timeout:2500}),800);
-    else setTimeout(run,1600);
-  };
+    const rs=rels(c), max=Math.max(0,...rs.map(lv)), have=haveSet(c), list=[];
+    const cand=[];
+    if(max>=6){
+      const d=findDef(["超越界限","突破原本","最終極限"]);
+      if(d)cand.push(d);
+    }
+    if(max>=7){
+      const d=findDef(["第七階","此生唯一","無可取代"]);
+      if(d)cand.push(d);
+    }
+    for(const d of cand){
+      const id=d.id||d.key||d.name||d.title;
+      if(id&&!have.has(id)&&insert(c,id)){have.add(id);list.push(d)}
+    }
+    if(list.length){
+      try{saveLocal?.()}catch(_){}
+      try{saveGame?.()}catch(_){}
+      try{save?.()}catch(_){}
+      list.forEach((d,i)=>setTimeout(()=>popup(d),300+i*900));
+    }
+    try{renderAchievements?.()}catch(_){}
+  }
+  window.reconcileMissingAchievements3320=reconcile;
+  function later(){setTimeout(reconcile,350);setTimeout(reconcile,2200)}
+  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",later,{once:true});else later();
+  window.addEventListener("pageshow",later);
+  document.addEventListener("visibilitychange",()=>{if(!document.hidden)later()});
 })();
 </script>
 
