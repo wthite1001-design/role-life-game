@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#9a76c4">
-<meta name="x-test-build" content="3.29.5">
+<meta name="x-test-build" content="3.29.7">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>關係進行式 TEST・3.29.5-七夕每日一關＋雙人在線規則修正版</title>
+<title>關係進行式 TEST・3.29.7-七夕每日一關＋雙人在線規則修正版</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -1473,7 +1473,7 @@ body.npcStoryRunning .draggableFab{
 <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png">
 <link rel="manifest" href="manifest.json">
 <style id="qixi3279-scroll-fix">
-/* 3.29.5：七夕活動頁在手機上可完整往下捲，不再把守橋人卡片截成一半 */
+/* 3.29.7：七夕活動頁在手機上可完整往下捲，不再把守橋人卡片截成一半 */
 #qixiEventModal{
   overflow-y:auto!important;
   overflow-x:hidden!important;
@@ -1883,7 +1883,7 @@ html.qixi-theme-now #extraShop .paidShopNotice{
   font-size:12px;line-height:1.65
 }
 </style>
-</head>
+<style id="qixi3296DeepPurplePage">html.qixi-theme-now #qixiEventModal,html.qixi-theme-now #qixiEventModal .modalBox{background:linear-gradient(180deg,#12082f,#21104b 46%,#32165e)!important;color:#f8f4ff!important}html.qixi-theme-now #qixiEventModal .modalHead,html.qixi-theme-now #qixiEventModal .modalHead *,html.qixi-theme-now #qixiEventModal .qixiIntroText,html.qixi-theme-now #qixiEventModal .qixiIntroText *{color:#f8f4ff!important}html.qixi-theme-now #qixiEventModal .qixiFacility,html.qixi-theme-now #qixiEventModal .qixiRewardBox,html.qixi-theme-now #qixiKeeperCard,html.qixi-theme-now #qixiTopTools .qixiRewardBox{background:linear-gradient(145deg,#30205d,#43256e)!important;border:1px solid #755aa0!important;color:#fff!important;box-shadow:0 10px 26px rgba(5,2,24,.34)!important}html.qixi-theme-now #qixiEventModal .qixiFacility *,html.qixi-theme-now #qixiEventModal .qixiRewardBox *,html.qixi-theme-now #qixiKeeperCard *{color:#fff!important}html.qixi-theme-now #qixiEventModal .small,html.qixi-theme-now #qixiEventModal .muted{color:#d8cbed!important}html.qixi-theme-now #qixiEventModal .qixiGameRuleNote{background:#28174f!important;border-color:#6f5798!important;color:#f7f1ff!important}</style></head>
 <body>
 
 <div id="testAccessGate" class="testAccessGate">
@@ -1947,7 +1947,7 @@ html.qixi-theme-now #extraShop .paidShopNotice{
     <div class="homeLogo">🧪</div>
     <h1>關係進行式 TEST</h1>
     <div class="homeTagline">測試中的每一段關係，都可能被重置。</div>
-    <div class="homeVersion">3.29.5・測試服｜七夕每日一關＋雙人在線規則修正版</div>
+    <div class="homeVersion">3.29.7・測試服｜七夕每日一關＋雙人在線規則修正版</div>
   </div>
 
   <div id="playerAccountHomePanel" class="homePanel accountHomePanel">
@@ -14271,7 +14271,7 @@ header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{back
 <script id="qixi3283-ribbon-fix">
 (function(){
  function fix(){
-   document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.29.5-beta");
+   document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.29.7-beta");
  }
  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",fix,{once:true});else fix();
  setTimeout(fix,300);
@@ -15064,6 +15064,28 @@ body.npcStoryRunning #qixiEventFab{display:none!important}
 
 
 
+<script>
+function openConfirm(o={}){
+  let old=document.getElementById("qixiConfirm3297");if(old)old.remove();
+  const d=document.createElement("div");d.id="qixiConfirm3297";
+  d.style.cssText="position:fixed;inset:0;z-index:100000;background:rgba(10,5,30,.72);display:flex;align-items:center;justify-content:center;padding:24px";
+  d.innerHTML=`<div style="width:min(92vw,430px);background:#2b1852;color:#fff;border:1px solid #755aa0;border-radius:24px;padding:22px;box-shadow:0 20px 60px #0008">
+    <h3 style="margin:0 0 12px">${o.title||"確認"}</h3>
+    <div style="white-space:pre-line;line-height:1.7;margin-bottom:18px">${o.message||""}</div>
+    <button data-a="yes" style="width:100%;padding:14px;margin:5px 0;border:0;border-radius:15px;font-weight:800">${o.confirmText||"確定"}</button>
+    <button data-a="no" style="width:100%;padding:14px;margin:5px 0;border:0;border-radius:15px;font-weight:800">${o.cancelText||"取消"}</button>
+    <button data-a="later" style="width:100%;padding:14px;margin:5px 0;border:0;border-radius:15px;font-weight:800">${o.extraText||"我再想想"}</button>
+  </div>`;
+  document.body.appendChild(d);
+  d.onclick=e=>{
+    const a=e.target.closest("[data-a]")?.dataset.a;if(!a)return;
+    d.remove();
+    if(a==="yes")o.onConfirm?.();
+    else if(a==="no")o.onCancel?.();
+    else o.onExtra?.();
+  };
+}
+</script>
 <script id="qixi3270Script">
 (function(){
 
@@ -15318,13 +15340,28 @@ body.npcStoryRunning #qixiEventFab{display:none!important}
    choices.push({
       label:"🌙 獨自走過星河",
      onChoose:()=>{
-       st.selectedRoomCode="";
-       st.selectedRel="solo";
-       st.selectedName="獨自參加";
-       st.bindPending=false;
-       st.introSeen=true;
-       st.introStoryV=6;
-       try{saveLocal?.()}catch(_){}
+       const askSoloAgain=()=>{
+         openConfirm?.({
+           title:"🌙 獨自前行",
+           message:"你確定要自己走？\n\n確定後，這次七夕的五個設施會以單人路線進行。",
+           confirmText:"確定，我自己走",
+           cancelText:"取消",
+           extraText:"我再想想",
+           onConfirm:()=>{
+             st.selectedRoomCode="";st.selectedRel="solo";st.selectedName="獨自參加";st.bindPending=false;st.introSeen=true;st.introStoryV=6;
+             try{saveLocal?.()}catch(_){}
+             render?.();
+           },
+           onCancel:()=>{ setTimeout(askSoloAgain,80); },
+           onExtra:()=>{ try{saveLocal?.()}catch(_){}; render?.(); }
+         });
+       };
+       if(typeof openConfirm==="function") askSoloAgain();
+       else{
+         const a=prompt("你確定要自己走？\n輸入 1＝確定自己走\n輸入 2＝取消（會繼續詢問）\n輸入 3＝我再想想","3");
+         if(a==="1"){st.selectedRoomCode="";st.selectedRel="solo";st.selectedName="獨自參加";st.bindPending=false;st.introSeen=true;st.introStoryV=6;try{saveLocal?.()}catch(_){}}
+         else if(a==="2"){setTimeout(()=>this?.click?.(),80);}
+       }
      },
      goto:lines.length+1
    });
@@ -15382,6 +15419,12 @@ body.npcStoryRunning #qixiEventFab{display:none!important}
   x.qixi2026.facilityRewards??={};
   x.qixi2026.dailyFacilityDate??="";
   x.qixi2026.dailyFacilityCompleted??=""; x.qixi2026.introStoryV=Number(x.qixi2026.introStoryV||0);
+  if(x.qixi2026.progressFixV!==3296){
+    x.qixi2026.done={};x.qixi2026.dailyDone={};x.qixi2026.facilityRewards={};x.qixi2026.dailyFacilityCompleted="";
+    x.qixi2026.rewardClaimed=false;x.qixi2026.badge=false;x.qixi2026.outroSeen=false;x.qixi2026.progressFixV=3296;
+    try{if(typeof local!=="undefined"&&local.sharedBadges)delete local.sharedBadges.qixi_star_fate}catch(_){}
+    try{saveLocal?.()}catch(_){}
+  }
   const qd=new Date().toLocaleDateString("sv-SE");
   if(x.qixi2026.dailyDate!==qd){x.qixi2026.dailyDate=qd;x.qixi2026.dailyDone={};}
   return x.qixi2026;
@@ -15882,7 +15925,7 @@ body.npcStoryRunning #qixiEventFab{display:none!important}
       <div class="small">請從守橋人的對話選項中選擇。</div>
       <button id="chooseQixiFromStoryBtn" type="button" style="margin-top:8px">與守橋人交談</button>
     </div>`)
-   +FACILITIES.map(f=>`<button type="button" class="qixiFacility ${st.dailyDone[f.id]?'done':''}" data-qixi-fac="${f.id}" ${!selected||st.dailyDone[f.id]||(selected.rel!=="solo"&&!selected.bound)?"disabled":""}><div class="ico">${f.ico}</div><b>${f.name}</b><div class="small">${f.desc}</div><div class="small">${
+   +FACILITIES.map(f=>`<button type="button" class="qixiFacility ${st.done[f.id]?'done':''}" data-qixi-fac="${f.id}" ${!selected||st.done[f.id]||(selected.rel!=="solo"&&!selected.bound)?"disabled":""}><div class="ico">${f.ico}</div><b>${f.name}</b><div class="small">${f.desc}</div><div class="small">${
  st.done[f.id]?'✅ 已通關・獎勵已領取':
  (st.dailyFacilityCompleted && st.dailyFacilityCompleted!==f.id)?'🔒 今日已完成其他設施':
  selected?.rel==="solo"?'🎮 單人挑戰':
@@ -16091,7 +16134,7 @@ body.npcStoryRunning #qixiEventFab{display:none!important}
   const x=c();if(!x)return;
   const st=ensure(x),selected=qixiSelectedCompanion(x);
   if(!qixiCanStartFacility(x,fid))return;
-  if(!selected){openIntro(true);return}
+  if(!selected){toast?.("請先選擇七夕同行者，或確認『獨自前行』後，才能玩小遊戲。",4200);openQixiFinalChoice();return}
   if(selected.rel!=="solo"&&!selected.bound){toast?.("要等對方同意七夕永久綁定後，才能開始每日設施。");return}
   if(st.dailyDone?.[fid]){toast?.("這個設施今天已經玩過了，明天 00:00 再來。");return}
   pendingFacility=fid;
@@ -16189,10 +16232,10 @@ body.npcStoryRunning #qixiEventFab{display:none!important}
 
  /* 覆蓋測試服顯示版本，不碰正式服。 */
  setTimeout(()=>{
-  document.title="關係進行式 TEST・3.29.5-七夕每日一關＋雙人在線規則修正版";
-  document.querySelector(".homeVersion")?.replaceChildren(document.createTextNode("3.29.5・測試服｜七夕每日一關＋雙人在線規則修正版"));
-  document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.29.5-beta");
-  const meta=document.querySelector('meta[name="x-test-build"]');if(meta)meta.content="3.29.5";
+  document.title="關係進行式 TEST・3.29.7-七夕每日一關＋雙人在線規則修正版";
+  document.querySelector(".homeVersion")?.replaceChildren(document.createTextNode("3.29.7・測試服｜七夕每日一關＋雙人在線規則修正版"));
+  document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.29.7-beta");
+  const meta=document.querySelector('meta[name="x-test-build"]');if(meta)meta.content="3.29.7";
  },100);
 })();
 </script>
