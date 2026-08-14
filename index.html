@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#9a76c4" name="theme-color"/>
-<title>關係進行式・3.32.2</title>
+<title>關係進行式・3.31.6.1</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -1749,7 +1749,7 @@ html[data-formal-theme="maidCafe"] .formalAppearanceCard{
 <div class="homeLogo">💞</div>
 <h1>關係進行式</h1>
 <div class="homeTagline">每一段關係，都還在進行中。</div>
-<div class="homeVersion">第3.32.2版・NPC 和她見面功能修復</div>
+<div class="homeVersion">第3.31.6.1版・此生唯一成就修正</div>
 </div>
 <div id="playerAccountHomePanel" class="homePanel accountHomePanel">
 <div class="homePanelTitle"><span>☁️ 玩家帳號</span><span id="playerAccountChip" class="chip">未登入</span></div>
@@ -1767,7 +1767,7 @@ html[data-formal-theme="maidCafe"] .formalAppearanceCard{
 <div class="gmStatus" id="gmHomeStatus"></div>
 </div>
 <div class="homePanel">
-<div class="homePanelTitle"><span>📢 更新公告</span><span class="chip">第3.31.8版</span></div>
+<div class="homePanelTitle"><span>📢 更新公告</span><span class="chip">第3.31.6版</span></div>
 <div class="small">查看本次新增功能與修正內容。</div>
 <button id="openUpdateNotice" style="width:100%;margin-top:8px" type="button">查看更新內容</button>
 </div>
@@ -2190,7 +2190,7 @@ html[data-formal-theme="maidCafe"] .formalAppearanceCard{
 </div>
 <div class="drawerShade hidden" id="drawerShade"></div><aside class="drawer hidden" id="drawer"><div style="padding:8px"><b id="drawerName">角色</b><div class="muted">功能選單</div></div><button class="navBtn" data-nav="life" type="button">🏠 角色生活</button><button class="navBtn" data-nav="daily" type="button">📋 今日小事</button><button class="navBtn" data-nav="work" type="button">💼 打工賺錢</button><button class="navBtn" data-nav="journal" type="button">📖 今日生活日誌</button><button class="navBtn" data-nav="routine" type="button">🕒 角色作息</button><button class="navBtn" data-nav="outing" type="button">🗺️ 外出 <span class="navDot hidden" data-dot="outing"></span></button><button class="navBtn" data-nav="relations" type="button">💞 關係 <span class="navDot hidden" data-dot="relations"></span></button><button class="navBtn" data-nav="npcrelations" type="button">✨ NPC 關係</button><button class="navBtn" data-nav="mailbox" type="button">📬 信箱 <span class="navDot hidden" data-dot="mailbox"></span></button><button class="navBtn" id="playerAccountDrawerBtn" type="button">☁️ 玩家帳號</button><button class="navBtn" id="gmDrawerLoginBtn" type="button">👑 管理員登入</button><button class="navBtn hidden" data-nav="gm" id="gmNavBtn" type="button">🛠️ GM 操作台</button><div class="navSep"></div><button class="navBtn" data-nav="bag" type="button">🎒 背包</button><button class="navBtn" data-nav="shop" type="button">🏪 商店</button><button class="navBtn" data-nav="memory" type="button">📖 回憶</button><button class="navBtn" data-nav="achievements" type="button">🏆 成就</button><div class="navSep"></div><div style="padding:8px"><b>🎵 悠閒 BGM</b><div class="actions"><button id="bgmToggle">▶ 播放</button><input id="bgmVolume" max="1" min="0" step=".05" type="range" value=".25"/></div><div class="small">把 bgm.mp3 和 index.html 放同一資料夾。</div></div><audio autoplay="" id="bgm" loop="" playsinline="" preload="auto"><source src="bgm.mp3" type="audio/mpeg"/></audio><button class="navBtn" id="back" type="button">💾 返回存檔首頁</button></aside><div class="modal hidden" id="updateNoticeModal">
 <div class="modalBox">
-<div class="modalHead"><b>📢 第3.32.2版更新公告</b><button id="closeUpdateNotice">×</button></div>
+<div class="modalHead"><b>📢 第3.31.6.1版更新公告</b><button id="closeUpdateNotice">×</button></div>
 <div class="updateNoticeBody">
   <h3>🎀 女僕咖啡廳主題</h3>
   <p>新增女僕咖啡廳限定外觀。解鎖後可在「外觀更改」中自由切換原始外觀與女僕咖啡廳，選擇會保留。</p>
@@ -2226,18 +2226,6 @@ html[data-formal-theme="maidCafe"] .formalAppearanceCard{
 
   <h3>💳 課金永久權益改為帳號共用</h3>
   <p>女僕咖啡廳主題、付費限定劇情與課金徽章改為玩家帳號共用；同一帳號目前所有角色與之後新增角色都會繼承。金幣、紫晶碎片、熟客小盒、限定鈴鐺與咖啡券等角色資源仍只發給付款時選定的角色。</p>
-
-  <h3>💼 全玩家打工修正</h3>
-  <p>修正部分一般玩家從雲端或舊存檔登入後無法正常打工。打工會自行初始化角色與金錢狀態、修復異常每日計數，手機點擊也改為 pointer 與 click 雙重相容。</p>
-
-  <h3>📅 連續登入修正</h3>
-  <p>修正每日 00:00 小事件一直顯示「連續登入 1 天」的問題。現在跨日會正確累加連續登入天數；只有真正中斷登入才會重新從 1 天開始，舊玩家既有的較高連續天數也會優先保留。</p>
-
-  <h3>💼 打工跨瀏覽器修正</h3>
-  <p>重新定位到真正原因：舊打工程式依賴瀏覽器把 HTML 元素 id 自動建立成 JavaScript 全域變數。部分 Chrome 環境可用，但 Safari、Firefox 與部分 PWA/WebView 不保證支援，因此會出現「開發者自己能打工、其他玩家按了沒反應」。現在已全面改為 getElementById 與 document 事件委派，不再依賴瀏覽器差異。</p>
-
-  <h3>🏆 成就解鎖／手機當機修正</h3>
-  <p>手機打工改成單一 click 流程，避免同一次觸控同時觸發 pointerup 與 click。成就會在雲端角色與關係資料載入後重新檢查；若過去已符合條件但漏掉通知，現在會直接以正常「成就解鎖」方式顯示。</p>
 
   <h3>🔧 本次修正</h3>
   <p>修正突破成功卻誤顯示失敗、突破狀態同步、解除後重綁、貓貓商店女僕兌換入口，以及部分版本號仍顯示舊版本的問題。</p>
@@ -5232,7 +5220,18 @@ async function refreshBond(code){
       let p=String(marker.text).split("|"),rel=p[1],title=p[2]||topRelations[rel]?.title||"頂級關係";
       info.broken=true;info.topTitle=title;
       let c=cur(),top=topRelations[rel];
-      if(c&&top){ensureSharedAchievements();c.achievements=local.sharedAchievements;c.achievements[top.ach]=1;c.achievements.break=1;unlockBadge(top.badge);checkTopAll(c);saveLocal()}
+      if(c&&top){
+         ensureSharedAchievements();
+         c.achievements=local.sharedAchievements;
+         c.achievements[top.ach]=1;
+         c.achievements.break=1;
+         unlockBadge(top.badge);
+         checkTopAll(c);
+         saveLocal();
+         if(rel==="lover"&&local.sharedAchievementNoticeReady){
+           try{notifyNewAchievements(c)}catch(_){}
+         }
+       }
     }
     bondCache[code]=info;
 
@@ -6431,7 +6430,7 @@ const protoAch=[["start","🌱 冒險的開始","開始角色生活","角色"],[
 ["login14","🌟","生活成為習慣","連續登入 14 天","生活"],
 ["relation_chain3","？？？","隱藏成就","隱藏"],
 ["relation_full_shuffle","？？？","隱藏成就","隱藏"],
-["relation_full_six","？？？","隱藏成就","隱藏"]];
+["relation_full_six","？？？","隱藏成就","隱藏"],["top_lover","💍","此生唯一","戀人關係完成第 7 階突破","關係"]];
 
 function localDateKey(d=new Date()){
   return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
@@ -6799,7 +6798,7 @@ function handleDailyLogin(c){
  c.mood=Math.min(100,(c.mood||80)+ev[3]);secureMoneyAdd(c,ev[4],"daily-event");
  c.dailyLogin.event={date:k,title:`${ev[0]} ${ev[1]}`,text:ev[2]};
  logJournal(c,`今日登入事件：${ev[1]}`,"✨");saveLocal();
- setTimeout(()=>{if(cur()?.id===c.id){infoTitle.textContent=ev[0]+" 今日的小事件";infoBody.innerHTML=`<b>${ev[1]}</b><p>${ev[2]}</p><div class="small">連續登入 ${window.getTrueLoginStreak?.()||1} 天・今日登入獎勵已領取。</div>`;infoModal.classList.remove("hidden")}},500);
+ setTimeout(()=>{if(cur()?.id===c.id){infoTitle.textContent=ev[0]+" 今日的小事件";infoBody.innerHTML=`<b>${ev[1]}</b><p>${ev[2]}</p><div class="small">連續登入 ${c.dailyLogin.streak} 天・今日登入獎勵已領取。</div>`;infoModal.classList.remove("hidden")}},500);
 }
 function setNavDot(name,count){
  let el=document.querySelector(`[data-dot="${name}"]`);if(!el)return;
@@ -6908,9 +6907,7 @@ function doQuickRest(){
 }
 function ensureWorkCounter(c){
   let k=localDateKey();
-  if(!c.workDaily||typeof c.workDaily!=="object"||c.workDaily.date!==k)c.workDaily={date:k,used:0};
-  let used=Number(c.workDaily.used);
-  c.workDaily.used=Number.isFinite(used)?Math.max(0,Math.min(DAILY_WORK_LIMIT,Math.floor(used))):0;
+  if(!c.workDaily||c.workDaily.date!==k)c.workDaily={date:k,used:0};
   return c.workDaily;
 }
 function ensureRelationCounter(c,code){
@@ -6928,35 +6925,22 @@ const workDefs=[
   {id:"commission",icon:"🎨",name:"接小委託",min:50,max:120,energy:10,text:["今天的委託意外很合你的胃口。","改了幾次細節後，委託人終於滿意了。","這次接到一個有點奇怪、但報酬不錯的委託。"]}
 ];
 function renderWork(c){
-  /* 3.31.9：不可依賴「元素 id 自動變成 window 全域變數」。
-     Chrome 某些環境會自動提供 workList/workLimit，但 Safari、Firefox、
-     部分 PWA/WebView 不保證，因此其他玩家會看到頁面卻沒有可用的打工事件。 */
-  const workLimitEl=document.getElementById("workLimit");
-  const workListEl=document.getElementById("workList");
-  if(!c||!workLimitEl||!workListEl)return;
-
-  try{ensureRelations(c)}catch(_){}
-  let ctr=ensureWorkCounter(c),used=Number(ctr.used||0),left=Math.max(0,DAILY_WORK_LIMIT-used);
-  workLimitEl.innerHTML=`<b>今日剩餘次數：${left} / ${DAILY_WORK_LIMIT}</b><div class="small">打工次數每天 00:00 重置。每次會消耗少量體力。</div>`;
-  workListEl.innerHTML=workDefs.map(w=>`<button type="button" class="workCard" data-work="${w.id}" ${left<=0||Number(c.energy||0)<w.energy?"disabled":""}><b>${w.icon} ${w.name}</b><span class="small">約 🪙${w.min}～${w.max}・體力 -${w.energy}</span></button>`).join("");
+  let ctr=ensureWorkCounter(c),used=ctr.used||0,left=Math.max(0,DAILY_WORK_LIMIT-used);
+  workLimit.innerHTML=`<b>今日剩餘次數：${left} / ${DAILY_WORK_LIMIT}</b><div class="small">打工次數每天 00:00 重置。每次會消耗少量體力。</div>`;
+  workList.innerHTML=workDefs.map(w=>`<button class="workCard" data-work="${w.id}" ${left<=0||c.energy<w.energy?"disabled":""}><b>${w.icon} ${w.name}</b><span class="small">約 🪙${w.min}～${w.max}・體力 -${w.energy}</span></button>`).join("");
 }
 async function doWork(id){
-  let c=cur(),w=workDefs.find(x=>x.id===id);if(!c||!w)return false;
-  /* 一般玩家從雲端/舊存檔進來，也建立完整角色狀態。 */
-  try{ensureRelations(c)}catch(_){}
-  try{MONEY_GUARD.reset(c)}catch(_){}
+  let c=cur(),w=workDefs.find(x=>x.id===id);if(!c||!w)return;
   resetDailyIfNeeded(c);
   let ctr=ensureWorkCounter(c);if((ctr.used||0)>=DAILY_WORK_LIMIT){
-    const title=document.getElementById("infoTitle"),body=document.getElementById("infoBody"),modal=document.getElementById("infoModal");
-    if(title)title.textContent="💼 今天已經工作很多了";
-    if(body)body.innerHTML="每日最多打工 <b>5 次</b>，明天 00:00 會恢復。";
-    modal?.classList.remove("hidden");return false;
+    infoTitle.textContent="💼 今天已經工作很多了";
+    infoBody.innerHTML="每日最多打工 <b>5 次</b>，明天 00:00 會恢復。";
+    infoModal.classList.remove("hidden");return;
   }
   if(c.energy<w.energy){
-    const title=document.getElementById("infoTitle"),body=document.getElementById("infoBody"),modal=document.getElementById("infoModal");
-    if(title)title.textContent="⚡ 體力不足";
-    if(body)body.textContent="先讓角色休息一下再工作吧。";
-    modal?.classList.remove("hidden");return false;
+    infoTitle.textContent="⚡ 體力不足";
+    infoBody.textContent="先讓角色休息一下再工作吧。";
+    infoModal.classList.remove("hidden");return;
   }
   let earned=Math.floor(w.min+Math.random()*(w.max-w.min+1)),story=w.text[Math.floor(Math.random()*w.text.length)];
   // 10% 小幸運獎金
@@ -6967,37 +6951,36 @@ async function doWork(id){
   c.stats??={};c.stats.workCount=(c.stats.workCount||0)+1;c.stats.workEarned=(c.stats.workEarned||0)+earned;
   logJournal(c,`${w.name}，賺到 🪙${earned}`,"💼");
   saveLocal();renderGame();
-  const title=document.getElementById("infoTitle"),body=document.getElementById("infoBody"),modal=document.getElementById("infoModal");
-  if(title)title.textContent=`${w.icon} ${w.name}`;
-  if(body)body.innerHTML=`${esc(story)}${lucky?"<br><br>🍀 今天運氣很好，多拿到了一點獎金！":""}<br><br><b>收入：🪙${earned}</b><br>⚡ 體力 -${w.energy}<br><span class="small">今日打工 ${ctr.used||0} / ${DAILY_WORK_LIMIT}</span>`;
-  modal?.classList.remove("hidden");
+  infoTitle.textContent=`${w.icon} ${w.name}`;
+  infoBody.innerHTML=`${esc(story)}${lucky?"<br><br>🍀 今天運氣很好，多拿到了一點獎金！":""}<br><br><b>收入：🪙${earned}</b><br>⚡ 體力 -${w.energy}<br><span class="small">今日打工 ${ctr.used||0} / ${DAILY_WORK_LIMIT}</span>`;
+  infoModal.classList.remove("hidden");
   return true;
 }
-// 3.32.0：手機打工改為單一路徑，避免 pointerup + click 雙觸發競態。
+// 3.31.4：手機版打工按鈕改用穩定的事件委派。
 (function bindWorkButtons(){
-  document.addEventListener("click",async function(e){
-    const b=e.target&&e.target.closest?e.target.closest("#workList [data-work]"):null;
-    if(!b||b.disabled)return;
+  const list=document.getElementById("workList");
+  if(!list)return;
+  list.onclick=null;
+  list.addEventListener("click",async function(e){
+    const b=e.target.closest?.("[data-work]");
+    if(!b || !list.contains(b) || b.disabled)return;
     e.preventDefault();
     e.stopPropagation();
     if(b.dataset.busy==="1")return;
     b.dataset.busy="1";
-    b.disabled=true;
     try{
       await doWork(b.dataset.work);
     }catch(err){
       console.error("work failed",err);
-      const title=document.getElementById("infoTitle");
-      const body=document.getElementById("infoBody");
-      const modal=document.getElementById("infoModal");
-      if(title)title.textContent="💼 打工暫時失敗";
-      if(body)body.textContent="這次操作沒有完成，請重新點一次。";
-      modal?.classList.remove("hidden");
+      try{
+        infoTitle.textContent="💼 打工暫時失敗";
+        infoBody.textContent="這次沒有扣除打工次數，也沒有消耗體力，請再點一次。";
+        infoModal.classList.remove("hidden");
+      }catch(_){}
     }finally{
       delete b.dataset.busy;
-      try{const c=cur();if(c)renderWork(c)}catch(_){}
     }
-  },false);
+  });
 })();
 
 
@@ -7078,6 +7061,12 @@ function reconcileAchievements(c){
  let _hasTopAch=_topDefs.some(t=>t?.ach&&!!c.achievements?.[t.ach]);
  let _hasTopBadge=_topDefs.some(t=>t?.badge&&!!local.sharedBadges?.[t.badge]);
  if(_hasBroken||_hasTopAch||_hasTopBadge)c.achievements.break=1;
+  /* 3.31.6.1：只補「此生唯一」。 */
+  try{
+    const loverBroken=infos.some(x=>x.rr?.relation==="lover"&&!!x.b?.broken);
+    const loverBadge=!!local.sharedBadges?.badge_lover;
+    if(loverBroken||loverBadge)c.achievements.top_lover=1;
+  }catch(_){}
  try{if(local.sharedAchievementNoticeReady)notifyNewAchievements(c)}catch(_){}
 }
 
@@ -7357,6 +7346,9 @@ function openItem(i,mode){
           if(relationTop?.ach)c.achievements[relationTop.ach]=1;
           if(relationTop?.badge)unlockBadge(relationTop.badge);
           checkTopAll(c);
+           if(i.rel==="lover"&&local.sharedAchievementNoticeReady){
+             try{notifyNewAchievements(c)}catch(_){}
+           }
           addMemory(c,`🌟 第 7 階・${topTitle}`,`與${partner?.name||"對方"}的${relationLabel(i.rel)}關係突破至第 7 階。`);
           logJournal(c,`與${partner?.name||"對方"}突破至第 7 階「${topTitle}」`,"🌟");
           saveLocal();
@@ -9847,195 +9839,6 @@ document.getElementById("npcRelationshipList")?.addEventListener("click",e=>{
   if(b){e.stopPropagation();return openNpcDetail(b.dataset.npcRelView);}
   let card=e.target.closest("[data-npc-detail]");
   if(card)return openNpcDetail(card.dataset.npcDetail);
-});
-
-
-const NPC_MEET_RELATION_PLANS={
-  lover:{
-    title:"💗 戀人相處方案",
-    intro:"活動已經結束，但你們的關係沒有。她現在會把打烊後的時間留給你。",
-    plans:[
-      {id:"date",icon:"🌙",name:"打烊後約會",desc:"一起離開店裡，到附近走走。",xp:15,
-       lines:["「今天想去哪？」她已經把店門鎖好了。","「別走太快。」她自然地靠近了你一些。","「……只有我們兩個的話，去哪都可以。」"]},
-      {id:"wait",icon:"🕯️",name:"等她下班",desc:"坐在熟悉的位置，等她收完最後一個櫃子。",xp:12,
-       lines:["「你真的要等？」她嘴上這麼說，動作卻明顯快了一點。","「最後一個櫃子了。再一下。」","「……有人等著下班，好像也不壞。」"]},
-      {id:"heart",icon:"💞",name:"私下談心",desc:"不談商品，只談彼此。",xp:14,
-       lines:["「這些話，我以前不會對客人說。」","「今天換你說，我聽。」","「你記得的事情，比我想像中還多。」"]}
-    ]
-  },
-  bestfriend:{
-    title:"🌟 摯友相處方案",
-    intro:"你早已不是需要招呼的客人。她甚至會直接把店裡的雜事丟給你。",
-    plans:[
-      {id:"walk",icon:"🛍️",name:"一起出門",desc:"難得一起離開商店逛逛。",xp:13,
-       lines:["「先說好，今天不准一直看店裡能不能進貨。」","「那家店去看看？你不是上次說想去。」","「跟你出門好像不用特別計畫。」"]},
-      {id:"stock",icon:"📦",name:"幫忙盤點",desc:"一邊整理貨架，一邊聊今天發生的事。",xp:12,
-       lines:["「這排算你的。」她毫不客氣地把清單塞給你。","「你居然比我記得還清楚。」","「有你幫忙，今天可以早點收店。」"]},
-      {id:"tease",icon:"😂",name:"互相吐槽",desc:"不知道怎麼開始的，但最後總會一起笑。",xp:14,
-       lines:["「你剛剛那個表情真的很怪。」","「好啦好啦，算你贏一次。」","「跟你聊天最麻煩的就是我會忍不住笑。」"]}
-    ]
-  },
-  confidant:{
-    title:"🌸 知己相處方案",
-    intro:"她願意把沒有寫在任何故事裡的事情告訴你。",
-    plans:[
-      {id:"night",icon:"🌌",name:"深夜談心",desc:"關燈後只留櫃檯的小燈。",xp:15,
-       lines:["「今天……可以再坐久一點嗎？」","「有些話白天不太想說。」","「你不用回答，聽著就好。」"]},
-      {id:"secret",icon:"🔐",name:"分享秘密",desc:"交換一件平常不會告訴別人的事。",xp:14,
-       lines:["「這個真的不能跟別人說。」","「那換你了，我不會笑。」","「原來我們都有不想讓別人知道的部分。」"]},
-      {id:"quiet",icon:"☕",name:"安靜陪伴",desc:"誰也不說話，但也不覺得尷尬。",xp:12,
-       lines:["她把一杯熱飲放到你面前，沒有多問。","店裡很安靜，但並不讓人覺得空。","「……這樣就很好。」"]}
-    ]
-  },
-  bickering:{
-    title:"💢 歡喜冤家相處方案",
-    intro:"活動結束了，你們還是見面三句就開始鬥嘴。奇怪的是，誰都沒真的想走。",
-    plans:[
-      {id:"battle",icon:"⚡",name:"互嗆挑戰",desc:"今天誰先接不上話就算輸。",xp:15,
-       lines:["「你先開始啊，怕了？」","「這句昨天就講過了，換新的。」","「……可惡，再來一次。」"]},
-      {id:"candy",icon:"🍬",name:"搶最後糖果",desc:"櫃檯只剩最後一顆。",xp:13,
-       lines:["「先看到的是我。」","「你幾歲了還搶糖？」她說著卻把糖藏到身後。","「一人一半。別說我欺負你。」"]},
-      {id:"makeup",icon:"🙄",name:"嘴硬和好",desc:"明明沒真的生氣，卻誰都不肯先低頭。",xp:14,
-       lines:["「我沒有在等你道歉。」","「……所以你今天還會來吧？」","「好了啦，算扯平。」"]}
-    ]
-  },
-  catfriend:{
-    title:"🐈 貓友相處方案",
-    intro:"她已經接受一件事：你來店裡有一半時間可能真的只是為了貓。",
-    plans:[
-      {id:"playcat",icon:"🧶",name:"陪店貓玩",desc:"今天店貓願意把玩具分你一半。",xp:13,
-       lines:["「牠今天看到你比看到我還開心。」","店貓把玩具推到了你腳邊。","「……到底誰才是店長。」"]},
-      {id:"catwalk",icon:"🐾",name:"貓咪散步",desc:"一起帶店貓到店外晃一圈。",xp:15,
-       lines:["「抓好牽繩，牠看到鳥會突然衝。」","店貓走兩步就回頭確認你們都還在。","「看起來牠已經把你算進自己人了。」"]},
-      {id:"catphoto",icon:"📷",name:"拍貓日常",desc:"今天的任務是拍到一張沒有糊掉的照片。",xp:12,
-       lines:["「等等，剛剛那張一定糊了。」","「這張不錯……傳給我。」","「你手機裡是不是牠的照片比我的還多？」"]}
-    ]
-  },
-  regular:{
-    title:"🛍️ 特別常客相處方案",
-    intro:"你仍然是客人，卻早已是她會主動留位置、記得喜好的那一個。",
-    plans:[
-      {id:"recommend",icon:"🎁",name:"今日推薦",desc:"讓她依照對你的了解挑一樣東西。",xp:12,
-       lines:["「今天不用看菜單，我幫你選。」","「我猜你會喜歡這個。」","「看吧，我就說我記得。」"]},
-      {id:"tidy",icon:"🧹",name:"幫忙整理",desc:"只是順手幫個忙，最後卻一起忙到打烊。",xp:13,
-       lines:["「你是客人欸，怎麼又在幫忙。」","「那邊放錯了——算了，我來。」","「下次來我請你喝東西，當工資。」"]},
-      {id:"tea",icon:"🍵",name:"打烊喝茶",desc:"最後一位客人離開後，她沒有催你走。",xp:14,
-       lines:["「門已經鎖了，你可以慢慢喝。」","「今天店裡有點累……還好你有來。」","「熟客的待遇，大概就是這樣吧。」"]}
-    ]
-  }
-};
-
-function npcMeetState(c=cur(),npcId="shopkeeper_cat"){
-  if(!c)return null;
-  c.npcMeetProgress??={};
-  c.npcMeetProgress[npcId]??={
-    level:1,xp:0,date:"",used:0,total:0,plans:{}
-  };
-  let st=c.npcMeetProgress[npcId];
-  const today=new Date().toLocaleDateString("sv-SE");
-  if(st.date!==today){st.date=today;st.used=0}
-  st.level=Math.max(1,Math.min(10,Number(st.level||1)));
-  st.xp=Math.max(0,Number(st.xp||0));
-  st.used=Math.max(0,Number(st.used||0));
-  st.total=Math.max(0,Number(st.total||0));
-  st.plans??={};
-  return st;
-}
-
-function npcMeetNeed(level){
-  return 20+(Math.max(1,Number(level||1))-1)*12;
-}
-
-function npcMeetApplyLevel(st){
-  let up=0;
-  while(st.level<10){
-    const need=npcMeetNeed(st.level);
-    if(st.xp<need)break;
-    st.xp-=need;st.level++;up++;
-  }
-  if(st.level>=10)st.xp=0;
-  return up;
-}
-
-function openNpcMeet(npcId="shopkeeper_cat"){
-  const c=cur();
-  const rel=getNpcRelationship(c,npcId);
-  const def=NPC_RELATION_REGISTRY[npcId];
-  if(!c||!rel||!def)return toast("這段 NPC 特殊關係尚未建立。");
-
-  const route=NPC_MEET_RELATION_PLANS[rel.type];
-  if(!route)return toast("目前關係還沒有配置見面方案。");
-
-  const st=npcMeetState(c,npcId);
-  document.getElementById("npcMeetPortrait").src=def.image||"cat_shopkeeper_normal.png";
-  document.getElementById("npcMeetRelationName").textContent=def.name;
-  document.getElementById("npcMeetRelationLabel").textContent=NPC_RELATION_LABELS[rel.type]||rel.type;
-  document.getElementById("npcMeetSubtitle").textContent=route.title;
-  document.getElementById("npcMeetIntroTitle").textContent=route.title;
-  document.getElementById("npcMeetIntroText").textContent=route.intro;
-  document.getElementById("npcMeetToday").textContent=`今日見面 ${st.used}/3・累積 ${st.total} 次`;
-
-  const need=npcMeetNeed(st.level);
-  document.getElementById("npcMeetLevel").textContent=`相處 Lv.${st.level}${st.level>=10?" MAX":""}`;
-  document.getElementById("npcMeetExpText").textContent=st.level>=10?"MAX":`${st.xp} / ${need} EXP`;
-  document.getElementById("npcMeetExpBar").style.width=st.level>=10?"100%":`${Math.min(100,st.xp/need*100)}%`;
-
-  const grid=document.getElementById("npcMeetPlanGrid");
-  grid.innerHTML=route.plans.map(p=>{
-    const n=Number(st.plans[p.id]||0);
-    return `<button class="npcActionCard" data-npc-meet-plan="${esc(p.id)}" ${st.used>=3?"disabled":""}>
-      <b>${p.icon} ${esc(p.name)}</b>
-      <span class="small">${esc(p.desc)}<br>相處 EXP +${p.xp}<br>方案熟練 ${n}</span>
-    </button>`;
-  }).join("");
-
-  document.getElementById("npcMeetRecords").innerHTML=
-    route.plans.map(p=>`${p.icon} ${esc(p.name)}：${Number(st.plans[p.id]||0)} 次`).join("<br>")+
-    `<br><br>${st.used>=3?"今天已經見過她三次了。":"今天還能見面 "+(3-st.used)+" 次。"}`;
-
-  document.getElementById("npcMeetModal").classList.remove("hidden");
-}
-
-function doNpcMeetPlan(planId){
-  const c=cur();
-  const rel=getNpcRelationship(c,"shopkeeper_cat");
-  if(!c||!rel)return;
-  const route=NPC_MEET_RELATION_PLANS[rel.type];
-  const plan=route?.plans?.find(x=>x.id===planId);
-  if(!plan)return;
-
-  const st=npcMeetState(c,"shopkeeper_cat");
-  if(st.used>=3)return toast("💬 今天已經和她見面 3 次了，明天再來。");
-
-  st.used++;
-  st.total++;
-  st.plans[plan.id]=Number(st.plans[plan.id]||0)+1;
-  st.xp+=Number(plan.xp||0);
-  const leveled=npcMeetApplyLevel(st);
-
-  // Small ordinary character effect; no NPC affection/debug stat editing.
-  c.mood=Math.min(100,Number(c.mood??50)+1);
-  saveLocal();
-
-  const line=plan.lines[(st.plans[plan.id]-1)%plan.lines.length];
-  npcChoice(
-    `${plan.icon} ${plan.name}`,
-    `${esc(line)}<br><br><b>相處 EXP +${plan.xp}</b>${leveled?`<br>✨ 相處提升到 Lv.${st.level}！`:""}<br><span class="small">${NPC_RELATION_LABELS[rel.type]}限定方案</span>`,
-    [{label:"回到見面介面",fn:()=>openNpcMeet("shopkeeper_cat")}]
-  );
-  document.getElementById("npcMeetModal").classList.add("hidden");
-  try{renderGame?.()}catch(e){}
-  try{renderNpcRelationships?.()}catch(e){}
-}
-document.getElementById("closeNpcMeetModal")?.addEventListener("click",()=>{
-  document.getElementById("npcMeetModal")?.classList.add("hidden");
-});
-document.getElementById("npcMeetModal")?.addEventListener("click",e=>{
-  if(e.target.id==="npcMeetModal")e.currentTarget.classList.add("hidden");
-});
-document.getElementById("npcMeetPlanGrid")?.addEventListener("click",e=>{
-  const b=e.target.closest("[data-npc-meet-plan]");
-  if(b)doNpcMeetPlan(b.dataset.npcMeetPlan);
 });
 
 
@@ -14541,7 +14344,7 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 
 <script id="formal3298MaidCommerce">
 (function(){
- const BUILD='3.32.2';
+ const BUILD='3.31.6.1';
  const THEME_KEY='role_life_formal_theme_v1';
  const VOUCHER='npc_maid_cafe_coffee_voucher';
 
@@ -14819,9 +14622,9 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 <script id="formal3313VersionGuard">
 (function(){
  function apply(){
-  document.querySelectorAll('.homeVersion').forEach(x=>x.textContent='第3.32.2版・NPC 和她見面功能修復');
+  document.querySelectorAll('.homeVersion').forEach(x=>x.textContent='第3.31.6.1版・此生唯一成就修正');
   document.querySelectorAll('.chip').forEach(x=>{if(/^第?3\.\d+(?:\.\d+)?版?$/.test((x.textContent||'').trim()))x.textContent='第3.31.1版'});
-  document.title='關係進行式・3.32.2';
+  document.title='關係進行式・3.31.6.1';
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',apply,{once:true});else apply();
  window.addEventListener('pageshow',apply);
@@ -15219,234 +15022,6 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
     window.renderHome=wrapped;
   }
   sync();
-})();
-</script>
-
-
-<script id="formal3317WorkSaveRepair">
-(function(){
-  try{
-    const k=localDateKey();
-    let changed=false;
-    for(const c of (local.characters||[])){
-      if(!c.workDaily||typeof c.workDaily!=="object"||c.workDaily.date!==k){
-        c.workDaily={date:k,used:0};changed=true;continue;
-      }
-      const n=Number(c.workDaily.used);
-      if(!Number.isFinite(n)||n<0){c.workDaily.used=0;changed=true}
-      else if(n>DAILY_WORK_LIMIT){c.workDaily.used=DAILY_WORK_LIMIT;changed=true}
-    }
-    if(changed)saveLocal?.();
-  }catch(e){console.warn("work save repair",e)}
-})();
-</script>
-
-
-<script id="formal3318LoginStreakFix">
-(function(){
-  const KEY="role_life_login_streak_v3318";
-
-  function dayKey(d=new Date()){
-    const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,"0"),day=String(d.getDate()).padStart(2,"0");
-    return `${y}-${m}-${day}`;
-  }
-  function previousDayKey(now=new Date()){
-    const d=new Date(now.getFullYear(),now.getMonth(),now.getDate()-1);
-    return dayKey(d);
-  }
-
-  function readState(){
-    try{
-      const x=JSON.parse(localStorage.getItem(KEY)||"null");
-      if(x&&typeof x==="object")return x;
-    }catch(_){}
-    return {lastDate:"",streak:0};
-  }
-  function writeState(st){
-    try{localStorage.setItem(KEY,JSON.stringify(st))}catch(_){}
-  }
-
-  function sync(){
-    const today=dayKey(),yesterday=previousDayKey();
-    let st=readState();
-
-    /* 舊版若角色本身已有更高連續登入紀錄，優先保留，不要降回 1。 */
-    try{
-      const c=typeof cur==="function"?cur():null;
-      const candidates=[
-        Number(c?.loginStreak||0),
-        Number(c?.dailyLoginStreak||0),
-        Number(c?.stats?.loginStreak||0),
-        Number(local?.loginStreak||0),
-        Number(local?.dailyLoginStreak||0)
-      ].filter(Number.isFinite);
-      const legacy=Math.max(0,...candidates);
-      if(legacy>Number(st.streak||0))st.streak=legacy;
-    }catch(_){}
-
-    if(st.lastDate===today){
-      writeState(st);
-      return Math.max(1,Number(st.streak||1));
-    }
-
-    if(st.lastDate===yesterday){
-      st.streak=Math.max(1,Number(st.streak||0)+1);
-    }else if(!st.lastDate){
-      /* 首次升級到 3.31.8：若已有舊 streak，直接沿用，不硬重設成 1。 */
-      st.streak=Math.max(1,Number(st.streak||0)||1);
-    }else{
-      st.streak=1;
-    }
-    st.lastDate=today;
-    writeState(st);
-
-    try{
-      const c=typeof cur==="function"?cur():null;
-      if(c){
-        c.loginStreak=st.streak;
-        c.dailyLoginStreak=st.streak;
-        c.stats=c.stats&&typeof c.stats==="object"?c.stats:{};
-        c.stats.loginStreak=st.streak;
-      }
-      window.local=window.local||{};
-      local.loginStreak=st.streak;
-      local.dailyLoginStreak=st.streak;
-      saveLocal?.();
-    }catch(_){}
-
-    return st.streak;
-  }
-
-  window.getTrueLoginStreak=function(){
-    const st=readState();
-    const today=dayKey();
-    if(st.lastDate!==today)return sync();
-    return Math.max(1,Number(st.streak||1));
-  };
-  window.syncTrueLoginStreak=sync;
-
-  if(document.readyState==="loading"){
-    document.addEventListener("DOMContentLoaded",()=>setTimeout(sync,80),{once:true});
-  }else setTimeout(sync,0);
-  window.addEventListener("pageshow",()=>setTimeout(sync,0));
-})();
-</script>
-
-
-<script id="formal3318DailyEventStreakGuard">
-(function(){
-  function patchText(){
-    const streak=window.getTrueLoginStreak?.()||1;
-    const nodes=[
-      document.getElementById("infoBody"),
-      document.getElementById("dailyEventBody"),
-      document.getElementById("eventBody"),
-      document.querySelector(".dailyEventBody"),
-      document.querySelector(".midnightEventBody")
-    ].filter(Boolean);
-    for(const el of nodes){
-      if(!el||!el.innerHTML)continue;
-      el.innerHTML=el.innerHTML
-        .replace(/連續登入了\s*\d+\s*天/g,`連續登入了 ${streak} 天`)
-        .replace(/連續登入\s*\d+\s*天/g,`連續登入 ${streak} 天`);
-    }
-  }
-
-  const modal=document.getElementById("infoModal");
-  if(modal){
-    new MutationObserver(()=>patchText()).observe(modal,{childList:true,subtree:true,characterData:true});
-  }
-  document.addEventListener("click",()=>setTimeout(patchText,0),true);
-  window.addEventListener("pageshow",()=>setTimeout(patchText,100));
-})();
-</script>
-
-
-<script id="formal3320AchievementRepair">
-(function(){
-  function C(){try{return typeof cur==="function"?cur():null}catch(_){return null}}
-  function defs(){
-    try{
-      if(typeof achievementDefs!=="undefined"&&Array.isArray(achievementDefs))return achievementDefs;
-      if(Array.isArray(window.achievementDefs))return window.achievementDefs;
-      if(Array.isArray(window.ACHIEVEMENTS))return window.ACHIEVEMENTS;
-    }catch(_){}
-    return [];
-  }
-  function norm(x){return String(x||"").replace(/\s+/g,"").toLowerCase()}
-  function findDef(terms){
-    return defs().find(d=>{
-      const h=norm([d.id,d.key,d.name,d.title,d.desc,d.description].join(" "));
-      return terms.some(t=>h.includes(norm(t)));
-    })||null;
-  }
-  function rels(c){
-    const r=c?.relations||c?.relationships||[];
-    return Array.isArray(r)?r:Object.values(r||{});
-  }
-  function lv(r){return Number(r?.level||r?.bondLevel||r?.stage||r?.rank||0)}
-  function haveSet(c){
-    const out=new Set();
-    for(const x of [c?.achievements,c?.achievementIds,c?.unlockedAchievements,
-                    window.local?.achievements,window.local?.achievementIds,window.local?.unlockedAchievements]){
-      if(Array.isArray(x))for(const v of x)out.add(typeof v==="object"?(v.id||v.key||v.name||v.title):v);
-      else if(x&&typeof x==="object")for(const [k,v] of Object.entries(x))if(v)out.add(k);
-    }
-    return out;
-  }
-  function insert(c,id){
-    let a=Array.isArray(c.achievements)?c.achievements:
-          Array.isArray(c.achievementIds)?c.achievementIds:
-          Array.isArray(c.unlockedAchievements)?c.unlockedAchievements:null;
-    if(!a)c.achievements=a=[];
-    if(a.some(v=>(typeof v==="object"?(v.id||v.key||v.name||v.title):v)===id))return false;
-    a.push(id);return true;
-  }
-  function popup(d){
-    const name=d?.name||d?.title||d?.id||"成就";
-    try{
-      if(typeof queueAchievementToast==="function"){queueAchievementToast(`🏆 成就解鎖：${name}`);return}
-      if(typeof showAchievementToast==="function"){showAchievementToast(`🏆 成就解鎖：${name}`);return}
-    }catch(_){}
-    const t=document.getElementById("infoTitle"),b=document.getElementById("infoBody"),m=document.getElementById("infoModal");
-    if(t)t.textContent="🏆 成就解鎖";
-    if(b)b.innerHTML=`<b>${String(name).replace(/[<>&]/g,"")}</b>`;
-    m?.classList.remove("hidden");
-  }
-  function reconcile(){
-    const c=C();if(!c)return;
-    /* 先讓原本成就系統完整重跑 */
-    try{typeof checkAchievements==="function"&&checkAchievements(c)}catch(e){console.warn(e)}
-    try{typeof checkAllAchievements==="function"&&checkAllAchievements(c)}catch(e){console.warn(e)}
-    try{typeof evaluateAchievements==="function"&&evaluateAchievements(c)}catch(e){console.warn(e)}
-
-    const rs=rels(c), max=Math.max(0,...rs.map(lv)), have=haveSet(c), list=[];
-    const cand=[];
-    if(max>=6){
-      const d=findDef(["超越界限","突破原本","最終極限"]);
-      if(d)cand.push(d);
-    }
-    if(max>=7){
-      const d=findDef(["第七階","此生唯一","無可取代"]);
-      if(d)cand.push(d);
-    }
-    for(const d of cand){
-      const id=d.id||d.key||d.name||d.title;
-      if(id&&!have.has(id)&&insert(c,id)){have.add(id);list.push(d)}
-    }
-    if(list.length){
-      try{saveLocal?.()}catch(_){}
-      try{saveGame?.()}catch(_){}
-      try{save?.()}catch(_){}
-      list.forEach((d,i)=>setTimeout(()=>popup(d),300+i*900));
-    }
-    try{renderAchievements?.()}catch(_){}
-  }
-  window.reconcileMissingAchievements3320=reconcile;
-  function later(){setTimeout(reconcile,350);setTimeout(reconcile,2200)}
-  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",later,{once:true});else later();
-  window.addEventListener("pageshow",later);
-  document.addEventListener("visibilitychange",()=>{if(!document.hidden)later()});
 })();
 </script>
 
