@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#9a76c4">
-<meta name="x-test-build" content="3.30.0">
+<meta name="x-test-build" content="3.30.4">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>關係進行式 TEST・3.30.0-渡口引星航行＋電腦背景防放大</title>
+<title>關係進行式 TEST・3.30.4-渡口引星航行＋電腦背景防放大</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -1473,7 +1473,7 @@ body.npcStoryRunning .draggableFab{
 <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png">
 <link rel="manifest" href="manifest.json">
 <style id="qixi3279-scroll-fix">
-/* 3.30.0：七夕活動頁在手機上可完整往下捲，不再把守橋人卡片截成一半 */
+/* 3.30.4：七夕活動頁在手機上可完整往下捲，不再把守橋人卡片截成一半 */
 #qixiEventModal{
   overflow-y:auto!important;
   overflow-x:hidden!important;
@@ -1709,51 +1709,6 @@ html.qixi-theme-now #qixiCompanionModal .modalBox{
  background:linear-gradient(180deg,rgba(20,15,61,.90),rgba(52,30,86,.94))!important;
  color:#fff!important;border:1px solid rgba(225,211,255,.24)!important;
 }
-
-/* 商店：固定全寬，不允許歷史 absolute/translate 破版 */
-html.qixi-theme-now #extraShop.pageCard.active{
- display:block!important;position:fixed!important;
- left:0!important;right:0!important;top:96px!important;bottom:0!important;
- width:100%!important;max-width:none!important;height:calc(100dvh - 96px)!important;
- margin:0!important;padding:14px 16px calc(30px + env(safe-area-inset-bottom))!important;
- overflow-y:auto!important;overflow-x:hidden!important;
- transform:none!important;box-sizing:border-box!important;border-radius:0!important;
- background:linear-gradient(180deg,rgba(17,12,55,.98),rgba(48,28,83,.97))!important;
-}
-html.qixi-theme-now #extraShop .shopTabs{
- display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;
- gap:8px!important;width:100%!important;max-width:100%!important;
-}
-html.qixi-theme-now #extraShop #shopPaidPanel,
-html.qixi-theme-now #extraShop #shopGiftPanel,
-html.qixi-theme-now #extraShop #shopNormalPanel{
- position:static!important;transform:none!important;float:none!important;
- width:100%!important;max-width:100%!important;min-width:0!important;
- margin:0!important;box-sizing:border-box!important;
-}
-html.qixi-theme-now #paidShopList{
- display:grid!important;
- grid-template-columns:repeat(2,minmax(0,1fr))!important;
- gap:10px!important;width:100%!important;max-width:100%!important;min-width:0!important;
- margin:0!important;padding:0!important;box-sizing:border-box!important;
-}
-html.qixi-theme-now #paidShopList>.paidProduct{
- position:static!important;float:none!important;transform:none!important;
- width:auto!important;max-width:100%!important;min-width:0!important;
- margin:0!important;padding:12px 9px!important;box-sizing:border-box!important;
- display:flex!important;flex-direction:column!important;justify-content:space-between!important;
- background:linear-gradient(145deg,#f8f5fd,#ebe1f5)!important;
- border:1px solid #d0bee2!important;color:var(--qixi-ink)!important;
- min-height:220px!important;overflow:hidden!important;
-}
-html.qixi-theme-now #paidShopList>.paidProduct *{color:var(--qixi-ink)}
-html.qixi-theme-now #paidShopList>.qixiPaidGroupTitle,
-html.qixi-theme-now #paidShopList>.paidOrdersBlock{
- grid-column:1/-1!important;position:static!important;transform:none!important;
- width:100%!important;max-width:100%!important;box-sizing:border-box!important;
-}
-html.qixi-theme-now #paidShopList>.qixiPaidGroupTitle{color:#fff!important;font-size:18px;font-weight:900;margin:14px 0 4px}
-html.qixi-theme-now #paidShopList>.paidOrdersBlock{color:#ded2eb!important}
 html.qixi-theme-now input,
 html.qixi-theme-now select,
 html.qixi-theme-now textarea{
@@ -1805,73 +1760,6 @@ html.qixi-theme-now #qixiEventModal .muted{color:#6f5f82!important}
 html.qixi-theme-now #qixiEventModal .qixiProgress{background:rgba(255,255,255,.18)!important}
 html.qixi-theme-now #qixiEventModal #qixiProgressFill{
   background:linear-gradient(90deg,#7d83ff,#c77ed0)!important;
-}
-
-html.qixi-theme-now #extraShop.pageCard.active{
-  position:fixed!important;
-  inset:88px 0 0 0!important;
-  height:auto!important;
-  max-height:none!important;
-  min-height:0!important;
-  width:100vw!important;
-  max-width:100vw!important;
-  overflow-y:auto!important;
-  overflow-x:hidden!important;
-  -webkit-overflow-scrolling:touch!important;
-  overscroll-behavior:contain!important;
-  touch-action:pan-y!important;
-  padding:12px 14px calc(150px + env(safe-area-inset-bottom))!important;
-  box-sizing:border-box!important;
-}
-html.qixi-theme-now #extraShop .section,
-html.qixi-theme-now #extraShop #shopPaidPanel,
-html.qixi-theme-now #extraShop #paidShopList{
-  max-height:none!important;
-  height:auto!important;
-  overflow:visible!important;
-}
-html.qixi-theme-now #extraShop #paidShopList{
-  display:grid!important;
-  grid-template-columns:repeat(2,minmax(0,1fr))!important;
-  gap:10px!important;
-  width:100%!important;
-  min-width:0!important;
-  max-width:100%!important;
-}
-html.qixi-theme-now #extraShop #paidShopList>.paidProduct{
-  position:static!important;
-  transform:none!important;
-  float:none!important;
-  width:auto!important;
-  min-width:0!important;
-  max-width:100%!important;
-  margin:0!important;
-  box-sizing:border-box!important;
-}
-html.qixi-theme-now #extraShop #paidShopList>.qixiPaidGroupTitle,
-html.qixi-theme-now #extraShop #paidShopList>.paidOrdersBlock{
-  grid-column:1/-1!important;
-  position:static!important;
-  width:100%!important;
-  max-width:100%!important;
-  transform:none!important;
-}
-html.qixi-theme-now #extraShop::after{
-  content:""!important;
-  display:block!important;
-  height:100px!important;
-  grid-column:1/-1!important;
-}
-html.qixi-theme-now #extraShop{
-  background:linear-gradient(180deg,#e8def3,#d8c8ea)!important;
-  color:#39294f!important;
-}
-html.qixi-theme-now #extraShop .paidProduct,
-html.qixi-theme-now #extraShop .section,
-html.qixi-theme-now #extraShop .paidShopNotice{
-  background:linear-gradient(145deg,#f8f4fc,#e9dff4)!important;
-  border-color:#cbb9df!important;
-  color:#39294f!important;
 }
 </style>
 
@@ -1929,77 +1817,6 @@ html.qixi-theme-now #extraShop .paidShopNotice{
 <style id="qixi3301FiveGames">
 #gameModal:has([data-gameans]) .gameChoices button{min-height:54px}
 @media(max-width:700px){#gameModal .modalBox{max-height:88dvh;overflow-y:auto}}
-</style>
-<style id="qixi3302ColorCorrection">
-/* 3.30.2：七夕頁配色修正
-   外層＝深紫星河；卡片＝淡紫/近白；文字＝深紫，不再整頁強制白字。 */
-html.qixi-theme-now #qixiEventModal,
-html.qixi-theme-now #qixiEventModal .modalBox{
-  background:
-    radial-gradient(circle at 14% 9%,rgba(255,255,255,.72) 0 1px,transparent 1.7px),
-    radial-gradient(circle at 74% 23%,rgba(215,202,255,.65) 0 1px,transparent 1.7px),
-    linear-gradient(180deg,#120b35 0%,#21124d 50%,#342064 100%) !important;
-  background-size:97px 97px,131px 131px,auto !important;
-  color:#2d2144 !important;
-}
-html.qixi-theme-now #qixiEventModal .modalBox{
-  border-color:rgba(191,164,231,.35)!important;
-}
-
-/* 標題區在深紫底上維持淺色；內容卡片回到深色字。 */
-html.qixi-theme-now #qixiEventModal > .modalBox > h1,
-html.qixi-theme-now #qixiEventModal > .modalBox > h2,
-html.qixi-theme-now #qixiEventModal > .modalBox > h3,
-html.qixi-theme-now #qixiEventModal .qixiEventHeader,
-html.qixi-theme-now #qixiEventModal .qixiEventHeader *,
-html.qixi-theme-now #qixiEventModal .qixiHeader,
-html.qixi-theme-now #qixiEventModal .qixiHeader *{
-  color:#fff!important;
-}
-
-/* 淡色資訊卡 */
-html.qixi-theme-now #qixiKeeperCard,
-html.qixi-theme-now #qixiTopTools .qixiRewardBox,
-html.qixi-theme-now #qixiEventModal .qixiRewardBox{
-  background:linear-gradient(145deg,rgba(252,248,255,.97),rgba(235,222,248,.96))!important;
-  border:1px solid rgba(125,92,167,.26)!important;
-  color:#33234d!important;
-  box-shadow:0 10px 24px rgba(8,4,28,.20)!important;
-}
-html.qixi-theme-now #qixiKeeperCard *,
-html.qixi-theme-now #qixiTopTools .qixiRewardBox *,
-html.qixi-theme-now #qixiEventModal .qixiRewardBox *{
-  color:#33234d!important;
-}
-
-/* 五個設施：深紫卡片如參考圖，但文字不是白到看不見，改為柔和淡紫白。 */
-html.qixi-theme-now #qixiEventModal .qixiFacility{
-  background:linear-gradient(145deg,#21164d,#3a2468)!important;
-  border:1px solid rgba(201,179,240,.28)!important;
-  box-shadow:0 10px 24px rgba(4,3,20,.22)!important;
-}
-html.qixi-theme-now #qixiEventModal .qixiFacility,
-html.qixi-theme-now #qixiEventModal .qixiFacility *{
-  color:#f4efff!important;
-}
-html.qixi-theme-now #qixiEventModal .qixiFacility .small,
-html.qixi-theme-now #qixiEventModal .qixiFacility .muted{
-  color:#d9cbea!important;
-}
-
-/* 上方說明文字：在深紫背景可讀；不要被舊規則洗成透明白。 */
-html.qixi-theme-now #qixiEventModal .qixiIntroText,
-html.qixi-theme-now #qixiEventModal .qixiIntroText *,
-html.qixi-theme-now #qixiEventModal .qixiRules,
-html.qixi-theme-now #qixiEventModal .qixiRules *{
-  color:#eadff8!important;
-}
-
-/* 按鈕維持淡底深字 */
-html.qixi-theme-now #qixiEventModal button:not(.primary),
-html.qixi-theme-now #qixiEventModal .qixiRewardBox button{
-  color:#4a3168!important;
-}
 </style>
 </head>
 <body>
@@ -2065,7 +1882,7 @@ html.qixi-theme-now #qixiEventModal .qixiRewardBox button{
     <div class="homeLogo">🧪</div>
     <h1>關係進行式 TEST</h1>
     <div class="homeTagline">測試中的每一段關係，都可能被重置。</div>
-    <div class="homeVersion">3.30.0・測試服｜渡口引星航行＋電腦背景防放大</div>
+    <div class="homeVersion">3.30.4・測試服｜渡口引星航行＋電腦背景防放大</div>
   </div>
 
   <div id="playerAccountHomePanel" class="homePanel accountHomePanel">
@@ -14476,7 +14293,7 @@ header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{back
 <script id="qixi3283-ribbon-fix">
 (function(){
  function fix(){
-   document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.30.0-beta");
+   document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.30.4-beta");
  }
  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",fix,{once:true});else fix();
  setTimeout(fix,300);
@@ -14642,126 +14459,6 @@ html.qixi-theme-now #qixiEventModal #qixiProgressFill{
  margin:12px 0 16px!important;
 }
 
-/* ---- 商店：全部回歸 normal flow，禁止任何卡片漂到右邊 ---- */
-html.qixi-theme-now #extraShop.pageCard.active{
- position:fixed!important;
- inset:92px 0 0 0!important;
- width:100vw!important;
- max-width:100vw!important;
- height:calc(100dvh - 92px)!important;
- margin:0!important;
- padding:14px!important;
- box-sizing:border-box!important;
- overflow-y:auto!important;
- overflow-x:hidden!important;
- transform:none!important;
- background:linear-gradient(180deg,#e9e0f3,#d9cbea)!important;
- color:var(--lav-ink)!important;
-}
-html.qixi-theme-now #extraShop .section{
- background:#f4eef9!important;
- color:var(--lav-ink)!important;
- border:1px solid var(--lav-line)!important;
-}
-html.qixi-theme-now #extraShop .shopTabs{
- position:static!important;
- display:grid!important;
- grid-template-columns:repeat(3,minmax(0,1fr))!important;
- gap:8px!important;
- width:100%!important;
- max-width:100%!important;
- margin:10px 0!important;
- transform:none!important;
-}
-html.qixi-theme-now #extraShop .shopTab{
- position:static!important;
- width:100%!important;
- min-width:0!important;
- transform:none!important;
-}
-html.qixi-theme-now #shopNormalPanel:not(.hidden),
-html.qixi-theme-now #shopGiftPanel:not(.hidden),
-html.qixi-theme-now #shopPaidPanel:not(.hidden){
- display:block!important;
- position:static!important;
- width:100%!important;
- max-width:100%!important;
- min-width:0!important;
- margin:0!important;
- padding:0!important;
- transform:none!important;
- overflow:visible!important;
-}
-html.qixi-theme-now #paidShopList{
- display:grid!important;
- grid-template-columns:repeat(2,minmax(0,1fr))!important;
- gap:10px!important;
- position:static!important;
- inset:auto!important;
- float:none!important;
- width:100%!important;
- max-width:100%!important;
- min-width:0!important;
- margin:0!important;
- padding:0!important;
- transform:none!important;
- overflow:visible!important;
- box-sizing:border-box!important;
-}
-html.qixi-theme-now #paidShopList>.paidProduct{
- position:static!important;
- inset:auto!important;
- left:auto!important;
- right:auto!important;
- top:auto!important;
- bottom:auto!important;
- float:none!important;
- clear:none!important;
- transform:none!important;
- width:auto!important;
- max-width:100%!important;
- min-width:0!important;
- margin:0!important;
- padding:12px 10px!important;
- box-sizing:border-box!important;
- overflow:hidden!important;
- display:flex!important;
- flex-direction:column!important;
- justify-content:space-between!important;
- min-height:230px!important;
- background:linear-gradient(145deg,#f8f4fc,#e8def3)!important;
- border:1px solid var(--lav-line)!important;
- border-radius:18px!important;
- color:var(--lav-ink)!important;
-}
-html.qixi-theme-now #paidShopList>.paidProduct *{
- color:var(--lav-ink)!important;
- max-width:100%!important;
- overflow-wrap:anywhere!important;
-}
-html.qixi-theme-now #paidShopList>.qixiPaidGroupTitle,
-html.qixi-theme-now #paidShopList>.paidOrdersBlock{
- grid-column:1/-1!important;
- position:static!important;
- inset:auto!important;
- transform:none!important;
- float:none!important;
- width:100%!important;
- max-width:100%!important;
- margin:10px 0 4px!important;
- box-sizing:border-box!important;
- color:var(--lav-ink)!important;
-}
-html.qixi-theme-now #extraShop .paidShopNotice{
- position:static!important;
- width:100%!important;
- margin:0 0 10px!important;
- transform:none!important;
- background:#f4eef9!important;
- border-color:var(--lav-line)!important;
- color:var(--lav-ink)!important;
-}
-
 /* 外觀設定 */
 .appearanceGrid{
  display:grid;
@@ -14814,30 +14511,6 @@ body.appearance-galaxy:not(.qixi-global-theme){
  #qixiMiniGameBoard.qixiBridgeGameBoard .qixiBalanceTrack{margin-top:32vh!important;}
 }
 </style>
-
-<script id="qixi3293PaidGuard">
-(function(){
- function refreshPaid(){
-   try{window.renderPaidShop?.()}catch(_){}
-   const box=document.getElementById("paidShopList");
-   if(box){
-     box.style.removeProperty("height");
-     box.style.removeProperty("max-height");
-     box.style.overflow="visible";
-   }
- }
- document.addEventListener("click",e=>{
-   const t=e.target.closest(".shopTab,[data-shop-tab]");
-   if(t && (t.textContent||"").includes("付費")){
-     setTimeout(refreshPaid,20);
-     setTimeout(refreshPaid,180);
-   }
- },true);
- window.addEventListener("pageshow",()=>setTimeout(refreshPaid,150));
-})();
-</script>
-
-
 <script id="qixi3299StageBgFix">
 (function(){
   const BG='images/qixi/qixi_full_background.png';
@@ -14863,7 +14536,7 @@ body.appearance-galaxy:not(.qixi-global-theme){
 
 
 <style id="qixi3300ResponsiveFerry">
-/* 3.30.0：指定 GitHub 七夕背景；手機填滿、電腦固定直式舞台，禁止橫向螢幕把直圖放大裁爆 */
+/* 3.30.4：指定 GitHub 七夕背景；手機填滿、電腦固定直式舞台，禁止橫向螢幕把直圖放大裁爆 */
 #qixiMiniGameBoard.qixiFerryGameBoard,#qixiMiniGameBoard.qixiBridgeGameBoard{
  background-image:linear-gradient(rgba(8,7,35,.12),rgba(15,9,45,.24)),url("images/qixi/qixi_full_background.png")!important;
  background-repeat:no-repeat!important;background-position:center center!important;
@@ -14939,15 +14612,6 @@ body.appearance-galaxy:not(.qixi-global-theme){
 })();
 </script>
 <style id="paidReadabilityAndAccountV2">
-/* 付費商城：七夕深色背景下，白卡文字固定使用可讀色，不再吃到全域淡字。 */
-#shopPaidPanel .paidShopNotice{background:#fffafd!important;color:#3d3343!important;border-color:#ccb6db!important}
-#shopPaidPanel .paidShopNotice b{color:#4b3858!important}
-#shopPaidPanel .paidShopNotice .small{color:#75677f!important;opacity:1!important}
-#shopPaidPanel .paidProduct{background:#fffafd!important;color:#3d3343!important;border-color:#ddcfe6!important}
-#shopPaidPanel .paidProductTitle{color:#3d3343!important;opacity:1!important}
-#shopPaidPanel .paidProduct .small{color:#75677f!important;opacity:1!important}
-#shopPaidPanel .paidPrice{color:#6b477f!important;opacity:1!important}
-#shopPaidPanel .paidOrderRow{color:#66576f!important}
 
 .accountHomePanel{color:#3d3343!important}
 .accountHomePanel .small{color:#75677f!important}
@@ -16505,11 +16169,187 @@ function openConfirm(o={}){
 
  /* 覆蓋測試服顯示版本，不碰正式服。 */
  setTimeout(()=>{
-  document.title="關係進行式 TEST・3.30.0-渡口引星航行＋電腦背景防放大";
-  document.querySelector(".homeVersion")?.replaceChildren(document.createTextNode("3.30.0・測試服｜渡口引星航行＋電腦背景防放大"));
-  document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.30.0-beta");
-  const meta=document.querySelector('meta[name="x-test-build"]');if(meta)meta.content="3.30.0";
+  document.title="關係進行式 TEST・3.30.4-渡口引星航行＋電腦背景防放大";
+  document.querySelector(".homeVersion")?.replaceChildren(document.createTextNode("3.30.4・測試服｜渡口引星航行＋電腦背景防放大"));
+  document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.30.4-beta");
+  const meta=document.querySelector('meta[name="x-test-build"]');if(meta)meta.content="3.30.4";
  },100);
 })();
 </script>
-\n<style id="qixi3298AuthoritativeFix">\n/* 3.30.0：星河渡口與鵲羽橋使用指定背景圖 */\n#qixiMiniGameBoard.qixiFerryGameBoard,#qixiMiniGameBoard.qixiBridgeGameBoard{\n background-image:linear-gradient(rgba(8,7,35,.16),rgba(15,9,45,.28)),url("images/qixi/qixi_ferry_game_bg.png")!important;\n background-size:cover!important;background-position:center center!important;background-repeat:no-repeat!important;min-height:56vh!important;\n}\n#qixiMiniGameBoard.qixiFerryGameBoard .qixiStarTapGrid{padding-top:4vh!important}\n#qixiMiniGameBoard.qixiFerryGameBoard .qixiStarTap{background:rgba(28,21,76,.62)!important;backdrop-filter:blur(2px)!important}\n/* 活動首頁改回深紫星河：包含圖四那些卡片，不再是淡紫底 */\nhtml.qixi-theme-now #qixiEventModal,html.qixi-theme-now #qixiEventModal .modalBox{\n background:radial-gradient(circle at 14% 9%,#fff 0 1px,transparent 1.6px),radial-gradient(circle at 74% 23%,#d7caff 0 1px,transparent 1.6px),linear-gradient(180deg,#080624,#171044 52%,#2c1858)!important;\n background-size:97px 97px,131px 131px,auto!important;color:#fff!important;\n}\nhtml.qixi-theme-now #qixiEventModal .qixiFacility,html.qixi-theme-now #qixiEventModal .qixiRewardBox,html.qixi-theme-now #qixiKeeperCard,html.qixi-theme-now #qixiTopTools .qixiRewardBox{\n background:linear-gradient(145deg,rgba(29,22,73,.96),rgba(62,38,96,.95))!important;border:1px solid rgba(218,203,255,.24)!important;color:#fff!important;box-shadow:0 10px 24px rgba(4,3,20,.22)!important;\n}\n/* 3.30.2 neutralized old forced-white text rule */\n/* 商店付費頁：真正由商店頁本身捲動，避免子清單 visible 後手機觸控被卡死 */\nhtml.qixi-theme-now #extraShop.pageCard.active{position:fixed!important;top:88px!important;bottom:0!important;left:0!important;right:0!important;height:calc(100dvh - 88px)!important;max-height:calc(100dvh - 88px)!important;overflow-y:scroll!important;overflow-x:hidden!important;-webkit-overflow-scrolling:touch!important;touch-action:pan-y!important;padding-bottom:220px!important;}\nhtml.qixi-theme-now #shopPaidPanel{display:block;position:static!important;height:auto!important;max-height:none!important;overflow:visible!important;}\nhtml.qixi-theme-now #shopPaidPanel.hidden{display:none!important}\nhtml.qixi-theme-now #paidShopList{height:auto!important;max-height:none!important;overflow:visible!important;padding-bottom:80px!important}\n</style>\n
+\n<style id="qixi3298AuthoritativeFix">\n/* 3.30.4：星河渡口與鵲羽橋使用指定背景圖 */\n#qixiMiniGameBoard.qixiFerryGameBoard,#qixiMiniGameBoard.qixiBridgeGameBoard{\n background-image:linear-gradient(rgba(8,7,35,.16),rgba(15,9,45,.28)),url("images/qixi/qixi_ferry_game_bg.png")!important;\n background-size:cover!important;background-position:center center!important;background-repeat:no-repeat!important;min-height:56vh!important;\n}\n#qixiMiniGameBoard.qixiFerryGameBoard .qixiStarTapGrid{padding-top:4vh!important}\n#qixiMiniGameBoard.qixiFerryGameBoard .qixiStarTap{background:rgba(28,21,76,.62)!important;backdrop-filter:blur(2px)!important}\n/* 活動首頁改回深紫星河：包含圖四那些卡片，不再是淡紫底 */\nhtml.qixi-theme-now #qixiEventModal,html.qixi-theme-now #qixiEventModal .modalBox{\n background:radial-gradient(circle at 14% 9%,#fff 0 1px,transparent 1.6px),radial-gradient(circle at 74% 23%,#d7caff 0 1px,transparent 1.6px),linear-gradient(180deg,#080624,#171044 52%,#2c1858)!important;\n background-size:97px 97px,131px 131px,auto!important;color:#fff!important;\n}\nhtml.qixi-theme-now #qixiEventModal .qixiFacility,html.qixi-theme-now #qixiEventModal .qixiRewardBox,html.qixi-theme-now #qixiKeeperCard,html.qixi-theme-now #qixiTopTools .qixiRewardBox{\n background:linear-gradient(145deg,rgba(29,22,73,.96),rgba(62,38,96,.95))!important;border:1px solid rgba(218,203,255,.24)!important;color:#fff!important;box-shadow:0 10px 24px rgba(4,3,20,.22)!important;\n}\n
+/* QIXI_3298_COLOR_START */
+/* 七夕活動主頁：參考原本深紫頁。外層深紫；卡片淡紫；卡片文字深色。 */
+html.qixi-theme-now #qixiEventModal,
+html.qixi-theme-now #qixiEventModal .modalBox{
+  background:linear-gradient(180deg,#17103d 0%,#241650 52%,#352164 100%) !important;
+}
+html.qixi-theme-now #qixiEventModal .qixiFacility,
+html.qixi-theme-now #qixiKeeperCard,
+html.qixi-theme-now #qixiEventModal .qixiRewardBox,
+html.qixi-theme-now #qixiTopTools .qixiRewardBox{
+  background:linear-gradient(145deg,#f7f0fb 0%,#e8daf4 100%) !important;
+  border:1px solid rgba(91,58,126,.28) !important;
+  color:#342148 !important;
+  box-shadow:0 8px 22px rgba(12,6,35,.18) !important;
+}
+html.qixi-theme-now #qixiEventModal .qixiFacility *,
+html.qixi-theme-now #qixiKeeperCard *,
+html.qixi-theme-now #qixiEventModal .qixiRewardBox *,
+html.qixi-theme-now #qixiTopTools .qixiRewardBox *{
+  color:#342148 !important;
+}
+html.qixi-theme-now #qixiEventModal .qixiFacility .small,
+html.qixi-theme-now #qixiEventModal .qixiFacility .muted,
+html.qixi-theme-now #qixiKeeperCard .small,
+html.qixi-theme-now #qixiKeeperCard .muted{
+  color:#685477 !important;
+}
+/* 深紫底上、沒有卡片承接的說明文字才使用淺紫，避免整頁白字。 */
+html.qixi-theme-now #qixiEventModal .qixiRules{
+  color:#e7daf5 !important;
+}
+html.qixi-theme-now #qixiEventModal .qixiRules *{
+  color:inherit !important;
+}
+/* QIXI_3298_COLOR_END */
+
+/* SHOP_3304_SINGLE_SOURCE_START */
+/* 3.30.4：商店唯一權威版型。整個商店頁負責垂直滑動，子區塊不截斷。 */
+html.qixi-theme-now #extraShop.pageCard.active{
+  display:block!important;
+  position:fixed!important;
+  top:88px!important;
+  right:0!important;
+  bottom:0!important;
+  left:0!important;
+  width:100vw!important;
+  height:auto!important;
+  max-width:100vw!important;
+  max-height:none!important;
+  margin:0!important;
+  padding:14px 14px calc(180px + env(safe-area-inset-bottom))!important;
+  box-sizing:border-box!important;
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  -webkit-overflow-scrolling:touch!important;
+  overscroll-behavior-y:contain!important;
+  touch-action:pan-y!important;
+  transform:none!important;
+  background:linear-gradient(180deg,#e8def3 0%,#d8c9e9 100%)!important;
+  color:#39294f!important;
+}
+html.qixi-theme-now #extraShop .shopTabs{
+  position:static!important;
+  display:grid!important;
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  gap:8px!important;
+  width:100%!important;
+  margin:10px 0 12px!important;
+  transform:none!important;
+}
+html.qixi-theme-now #shopPaidPanel:not(.hidden),
+html.qixi-theme-now #shopGiftPanel:not(.hidden),
+html.qixi-theme-now #shopNormalPanel:not(.hidden){
+  display:block!important;
+  position:static!important;
+  width:100%!important;
+  height:auto!important;
+  max-width:100%!important;
+  max-height:none!important;
+  min-width:0!important;
+  margin:0!important;
+  padding:0!important;
+  overflow:visible!important;
+  transform:none!important;
+}
+html.qixi-theme-now #shopPaidPanel.hidden,
+html.qixi-theme-now #shopGiftPanel.hidden,
+html.qixi-theme-now #shopNormalPanel.hidden{
+  display:none!important;
+}
+html.qixi-theme-now #paidShopList{
+  position:static!important;
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:10px!important;
+  width:100%!important;
+  height:auto!important;
+  max-width:100%!important;
+  max-height:none!important;
+  min-width:0!important;
+  margin:0!important;
+  padding:0 0 100px!important;
+  overflow:visible!important;
+  transform:none!important;
+  box-sizing:border-box!important;
+}
+html.qixi-theme-now #paidShopList>.paidProduct{
+  position:static!important;
+  display:flex!important;
+  flex-direction:column!important;
+  justify-content:space-between!important;
+  float:none!important;
+  width:auto!important;
+  min-width:0!important;
+  max-width:100%!important;
+  min-height:230px!important;
+  margin:0!important;
+  padding:13px 11px!important;
+  box-sizing:border-box!important;
+  overflow:hidden!important;
+  transform:none!important;
+  border:1px solid #cbb9df!important;
+  border-radius:18px!important;
+  background:linear-gradient(145deg,#fbf8fd,#e9dff4)!important;
+  color:#39294f!important;
+}
+html.qixi-theme-now #paidShopList>.paidProduct *{
+  color:#39294f!important;
+  max-width:100%!important;
+  overflow-wrap:anywhere!important;
+}
+html.qixi-theme-now #paidShopList .paidProductTitle{
+  font-weight:900!important;
+  line-height:1.35!important;
+}
+html.qixi-theme-now #paidShopList .paidPrice{
+  color:#684b82!important;
+  font-weight:900!important;
+}
+html.qixi-theme-now #paidShopList>.qixiPaidGroupTitle,
+html.qixi-theme-now #paidShopList>.paidOrdersBlock{
+  grid-column:1/-1!important;
+  position:static!important;
+  width:100%!important;
+  max-width:100%!important;
+  margin:14px 0 4px!important;
+  padding:0!important;
+  transform:none!important;
+  box-sizing:border-box!important;
+}
+html.qixi-theme-now #paidShopList>.qixiPaidGroupTitle{
+  color:#39294f!important;
+  font-size:19px!important;
+  font-weight:950!important;
+}
+html.qixi-theme-now #paidShopList>.paidOrdersBlock{
+  color:#665674!important;
+}
+html.qixi-theme-now #extraShop .paidShopNotice,
+html.qixi-theme-now #extraShop .section{
+  position:static!important;
+  width:100%!important;
+  max-width:100%!important;
+  height:auto!important;
+  max-height:none!important;
+  margin:0 0 10px!important;
+  padding:12px!important;
+  overflow:visible!important;
+  transform:none!important;
+  box-sizing:border-box!important;
+  background:#f7f1fb!important;
+  border:1px solid #cfbee1!important;
+  color:#39294f!important;
+}
+/* SHOP_3304_SINGLE_SOURCE_END */
+</style>\n
