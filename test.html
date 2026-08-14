@@ -1926,7 +1926,10 @@ html.qixi-theme-now #extraShop .paidShopNotice{
 }
 </style>
 
-</head>
+<style id="qixi3301FiveGames">
+#gameModal:has([data-gameans]) .gameChoices button{min-height:54px}
+@media(max-width:700px){#gameModal .modalBox{max-height:88dvh;overflow-y:auto}}
+</style></head>
 <body>
 
 <div id="testAccessGate" class="testAccessGate">
@@ -6151,29 +6154,39 @@ const miniGames={
     choices:["先幫助陌生人","先完成自己的事","一起想兩全其美的方法"]
   },
   qixi_ferry:{
-    mode:"sync",qixiFacility:"ferry",qixiPlay:"realtime",
-    icon:"🌠",name:"七夕・星河渡口",desc:"兩人各選一顆想接住的星光。答案相同會亮起同一條星河。",
-    choices:["北辰星","流光星","紫微星","銀河星"]
+    mode:"qixi_coop_ferry",qixiFacility:"ferry",qixiPlay:"realtime",
+    icon:"🌠",name:"七夕・星河渡口｜雙人引星航行",desc:"即時合作：一人掌左舵、一人掌右舵。依序完成 8 次航向判斷，其中還有雙生星合作題。",
+    choices:["⬅️ 左舵","⏸️ 穩住","➡️ 右舵"]
   },
   qixi_lantern:{
-    mode:"guess",qixiFacility:"lantern",qixiPlay:"async",
-    icon:"🏮",name:"七夕・緣燈長廊",desc:"先選自己想點的緣燈，再猜同行者會選哪一盞。",
-    choices:["相守燈","同行燈","歸處燈","並肩燈"]
+    mode:"qixi_lantern",qixiFacility:"lantern",qixiPlay:"async",
+    icon:"🏮",name:"七夕・緣燈長廊｜默契燈陣",desc:"非同步默契題：各自回答 5 題，不能先看對方答案；兩份答案提交後才一起點亮緣燈。",
+    questions:[
+      ["走到岔路時？","先看地圖","憑直覺走","問同行者"],
+      ["只剩一盞燈？","自己拿","交給對方","一起提"],
+      ["突然下雨？","找地方躲","繼續走","把傘偏給對方"],
+      ["看到漂亮星光？","先拍照","先叫對方看","安靜記住"],
+      ["走累了？","休息一下","撐到終點","問對方要不要停"]
+    ]
   },
   qixi_bridge:{
-    mode:"rps",qixiFacility:"bridge",qixiPlay:"realtime",
-    icon:"🌉",name:"七夕・鵲羽橋",desc:"兩人同時決定跨橋的步伐；無論勝負，都要等彼此完成。",
-    choices:["✊ 穩步","✌️ 輕步","✋ 大步"]
+    mode:"qixi_bridge",qixiFacility:"bridge",qixiPlay:"realtime",
+    icon:"🌉",name:"七夕・鵲羽橋｜雙人踏橋",desc:"即時合作：兩人各完成 5 段橋面判斷；機關段需要一人踩住、另一人通過，兩人都抵達才算完成。",
+    choices:["🪶 輕步","🛡️ 踩住機關","🏃 快步通過"]
   },
   qixi_wish:{
-    mode:"fortune",qixiFacility:"wish",qixiPlay:"async",
-    icon:"✨",name:"七夕・星願台",desc:"兩人各自抽一枚願星，等雙方都選完才揭曉今晚的星願組合。",
-    choices:["🌸 花願","🌙 月願","⭐ 星願","☀️ 日願","🍀 幸運願"]
+    mode:"qixi_wish",qixiFacility:"wish",qixiPlay:"async",
+    icon:"✨",name:"七夕・星願台｜三願排序",desc:"非同步許願：各自選出 3 個願望並排序。提交前看不到對方答案，雙方完成後才生成共同星象。",
+    choices:["一起看更多風景","平安順利","變得更有默契","完成重要目標","留下更多回憶","下一次還能同行"]
   },
   qixi_keeper:{
-    mode:"choice",qixiFacility:"keeper",qixiPlay:"async",
-    icon:"🪶",name:"七夕・守橋亭",desc:"守橋人向你們問同一個問題，看看兩個人的答案是否相同。",
-    choices:["有緣是願意留下","有緣是曾經相遇","有緣是仍會再見"]
+    mode:"qixi_keeper",qixiFacility:"keeper",qixiPlay:"async",
+    icon:"🪶",name:"七夕・守橋亭｜最後三問",desc:"非同步最終試煉：守橋人給兩人不同角度的 3 道情境題。彼此不能偷看答案，雙方完成後才揭曉。",
+    questions:[
+      ["如果同行者停在橋中央？","回頭等他","在前面喊他","先問發生什麼事"],
+      ["若兩人的方向不同？","各走各的","一起商量","由一人決定"],
+      ["走到橋尾時最想留下？","一句話","一盞燈","一個約定"]
+    ]
   }
 };
 let currentGameType="",currentGameDraft=null,rewardedGames=new Set();
@@ -6279,6 +6292,42 @@ function openGameSession(gid,type){
 function renderGameInput(){
   let g=miniGames[currentGameType];if(!g)return;
   let mode=g.mode||currentGameType;
+  if(mode==="qixi_lantern"||mode==="qixi_keeper"){
+    currentGameDraft={answers:[],q:0};
+    const draw=()=>{
+      const q=g.questions[currentGameDraft.q];
+      if(!q)return submitGamePayload({answers:currentGameDraft.answers});
+      gameDesc.textContent=`第 ${currentGameDraft.q+1}/${g.questions.length} 題・${q[0]}`;
+      gameChoices.innerHTML=q.slice(1).map(x=>`<button data-gameans="${esc(x)}">${esc(x)}</button>`).join("");
+      gameResult.textContent="你的答案會先保密，對方提交前看不到。";
+    };
+    currentGameDraft.draw=draw;draw();return;
+  }
+  if(mode==="qixi_wish"){
+    currentGameDraft={answers:[]};
+    gameDesc.textContent="依序選出你的 3 個願望。順序也會影響最後的共同星象。";
+    gameChoices.innerHTML=g.choices.map(x=>`<button data-gameans="${esc(x)}">${esc(x)}</button>`).join("");
+    gameResult.textContent="已選 0 / 3";
+    return;
+  }
+  if(mode==="qixi_coop_ferry"){
+    currentGameDraft={answers:[],q:0};
+    const seq=["⬅️ 左舵","➡️ 右舵","⏸️ 穩住","⬅️ 左舵","⏸️ 穩住","➡️ 右舵","⬅️ 左舵","➡️ 右舵"];
+    currentGameDraft.seq=seq;
+    gameDesc.textContent="航道會連續出現 8 次指示。依畫面提示操舵；雙方都完成後才結算航行。";
+    gameChoices.innerHTML=g.choices.map(x=>`<button data-gameans="${esc(x)}">${esc(x)}</button>`).join("");
+    gameResult.textContent=`航段 1 / 8｜目標：${seq[0]}`;
+    return;
+  }
+  if(mode==="qixi_bridge"){
+    currentGameDraft={answers:[],q:0};
+    const seq=["🪶 輕步","🛡️ 踩住機關","🏃 快步通過","🛡️ 踩住機關","🪶 輕步"];
+    currentGameDraft.seq=seq;
+    gameDesc.textContent="連續跨過 5 段橋面。看清楚當前橋段需要的步伐；雙方都抵達才通關。";
+    gameChoices.innerHTML=g.choices.map(x=>`<button data-gameans="${esc(x)}">${esc(x)}</button>`).join("");
+    gameResult.textContent=`橋段 1 / 5｜需要：${seq[0]}`;
+    return;
+  }
   if(mode==="quiz"){
     currentGameDraft={answers:[],q:0};
     renderQuizQuestion();return;
@@ -6305,6 +6354,27 @@ function renderQuizQuestion(){
 async function handleGameAnswer(answer){
   if(!gameId||!(gameRoomContext||room)||!currentGameType)return;
   let mode=miniGames[currentGameType]?.mode||currentGameType;
+  if(mode==="qixi_lantern"||mode==="qixi_keeper"){
+    currentGameDraft.answers.push(answer);currentGameDraft.q++;
+    if(currentGameDraft.q>=miniGames[currentGameType].questions.length)return submitGamePayload({answers:currentGameDraft.answers});
+    currentGameDraft.draw();return;
+  }
+  if(mode==="qixi_wish"){
+    if(currentGameDraft.answers.includes(answer))return toast("這個願望已經選過了。");
+    currentGameDraft.answers.push(answer);
+    [...gameChoices.querySelectorAll("[data-gameans]")].forEach(b=>{if(b.dataset.gameans===answer)b.disabled=true});
+    gameResult.textContent=`已選 ${currentGameDraft.answers.length} / 3`;
+    if(currentGameDraft.answers.length>=3)return submitGamePayload({answers:currentGameDraft.answers});
+    return;
+  }
+  if(mode==="qixi_coop_ferry"||mode==="qixi_bridge"){
+    const target=currentGameDraft.seq[currentGameDraft.q];
+    if(answer!==target){gameResult.textContent=`❌ 操作錯誤！仍在第 ${currentGameDraft.q+1} 段｜需要：${target}`;return}
+    currentGameDraft.answers.push(answer);currentGameDraft.q++;
+    if(currentGameDraft.q>=currentGameDraft.seq.length)return submitGamePayload({answers:currentGameDraft.answers});
+    gameResult.textContent=`✅ 成功｜${mode==="qixi_bridge"?"橋段":"航段"} ${currentGameDraft.q+1} / ${currentGameDraft.seq.length}｜需要：${currentGameDraft.seq[currentGameDraft.q]}`;
+    return;
+  }
   if(mode==="quiz"){
     currentGameDraft.answers.push(answer);currentGameDraft.q++;renderQuizQuestion();return;
   }
@@ -6347,6 +6417,26 @@ function rpsWinner(a,b){
 }
 function resolveMiniGame(type,mine,other){
   let mode=miniGames[type]?.mode||type;
+  if(mode==="qixi_coop_ferry"){
+    const ok=(mine.answers||[]).length===8&&(other.answers||[]).length===8;
+    return {text:ok?"🌠 兩邊的星舟操舵都完成了！雙生星網展開，星河渡口通航成功。":"航行尚未完成。",score:3,success:ok};
+  }
+  if(mode==="qixi_bridge"){
+    const ok=(mine.answers||[]).length===5&&(other.answers||[]).length===5;
+    return {text:ok?"🌉 你們都越過五段鵲羽橋！機關依序亮起，橋面重新完整。":"還有人尚未抵達橋尾。",score:3,success:ok};
+  }
+  if(mode==="qixi_lantern"){
+    const a=mine.answers||[],b=other.answers||[];let same=a.filter((x,i)=>x===b[i]).length;
+    return {text:`🏮 兩份答案揭曉：5 題中 ${same} 題相同。${same>=3?"燈陣大亮，默契通關！":"雖然選擇不同，互補的燈火仍替你們照亮了路。"} `,score:1+Math.min(2,same),success:true};
+  }
+  if(mode==="qixi_wish"){
+    const a=mine.answers||[],b=other.answers||[],overlap=a.filter(x=>b.includes(x)).length;
+    return {text:`✨ 星願合流：你們有 ${overlap} 個共同願望。${overlap?"重合的願星化成一道明亮星軌。":"兩條不同的願望軌跡交織成雙星。"} `,score:1+Math.min(2,overlap),success:true};
+  }
+  if(mode==="qixi_keeper"){
+    const a=mine.answers||[],b=other.answers||[],same=a.filter((x,i)=>x===b[i]).length;
+    return {text:`🪶 守橋人收起答案：「三問已答。」你們有 ${same} 題選擇相同；不同的答案也成了彼此看見另一種方向的證明。`,score:2+(same>=2?1:0),success:true};
+  }
   if(mode==="sync"){
     let same=mine.answer===other.answer;
     return {text:same?`心有靈犀！你們都選了「${mine.answer}」 ♡`:`你選「${mine.answer}」，對方選「${other.answer}」`,score:same?2:1,success:same};
@@ -6435,7 +6525,7 @@ async function refreshGame(){
   let result=resolveMiniGame(type,mine,other);
   gameChoices.innerHTML="";gameDesc.textContent=miniGames[type]?.desc||"";
   gameResult.textContent=result.text;
-  if(String(type).startsWith("qixi_")){
+  if(String(type).startsWith("qixi_") && result.success!==false){
     try{finishQixiConnectedGame(type,g.id)}catch(e){console.warn("qixi connected finish",e)}
   }
   if(!rewardedGames.has(g.id)){
