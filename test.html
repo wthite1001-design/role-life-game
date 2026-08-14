@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#9a76c4">
-<meta name="x-test-build" content="3.28.0">
+<meta name="x-test-build" content="3.28.2">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>關係進行式 TEST・3.28.0-七夕全域主題＋限定禮包修正版</title>
+<title>關係進行式 TEST・3.28.2-七夕同行彈窗最上層修正版</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -1705,7 +1705,7 @@ body.qixi-global-theme .pageCard h3{color:#fff!important}
 
 
 <style id="qixi3279-scroll-fix">
-/* 3.28.0：七夕活動頁在手機上可完整往下捲，不再把守橋人卡片截成一半 */
+/* 3.28.2：七夕活動頁在手機上可完整往下捲，不再把守橋人卡片截成一半 */
 #qixiEventModal{
   overflow-y:auto!important;
   overflow-x:hidden!important;
@@ -1915,6 +1915,61 @@ html.qixi-theme-now [class*="maid-ribbon"]{
 }
 </style>
 
+
+<style id="qixi3282-layer-fix">
+/* 七夕主活動頁留在底層，同行者/綁定彈窗一定浮在最上層 */
+#qixiEventModal{
+  z-index:1200!important;
+}
+#qixiCompanionModal{
+  z-index:1500!important;
+}
+#qixiBindInviteModal{
+  z-index:1510!important;
+}
+#qixiMiniGameModal{
+  z-index:1520!important;
+}
+#qixiRpgPlayer{
+  z-index:1600!important;
+}
+
+/* 避免活動頁自己的 transform / filter 建立新的 stacking context 把後開 modal 壓住 */
+#qixiEventModal,
+#qixiEventModal .modalBox{
+  transform:none!important;
+  filter:none!important;
+}
+
+/* 同行者彈窗本身用固定全螢幕遮罩，確保手機上不被活動頁內容蓋住 */
+#qixiCompanionModal,
+#qixiBindInviteModal{
+  position:fixed!important;
+  inset:0!important;
+  width:100vw!important;
+  height:100dvh!important;
+  align-items:flex-end!important;
+  justify-content:center!important;
+  background:rgba(7,6,24,.58)!important;
+  backdrop-filter:blur(5px);
+}
+#qixiCompanionModal.hidden,
+#qixiBindInviteModal.hidden{
+  display:none!important;
+}
+#qixiCompanionModal .modalBox,
+#qixiBindInviteModal .modalBox{
+  position:relative!important;
+  z-index:1!important;
+  width:min(100%,680px)!important;
+  max-height:78dvh!important;
+  overflow-y:auto!important;
+  margin:0!important;
+  border-radius:24px 24px 0 0!important;
+  box-shadow:0 -18px 44px rgba(0,0,0,.32)!important;
+}
+</style>
+
 </head>
 <body>
 
@@ -1979,7 +2034,7 @@ html.qixi-theme-now [class*="maid-ribbon"]{
     <div class="homeLogo">🧪</div>
     <h1>關係進行式 TEST</h1>
     <div class="homeTagline">測試中的每一段關係，都可能被重置。</div>
-    <div class="homeVersion">3.28.0・測試服｜七夕全域主題＋限定禮包修正版</div>
+    <div class="homeVersion">3.28.2・測試服｜七夕同行彈窗最上層修正版</div>
   </div>
 
   <div id="playerAccountHomePanel" class="homePanel accountHomePanel">
@@ -14464,7 +14519,7 @@ header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{back
 
 
 <style id="qixi3278-theme-fix">
-/* 3.28.0：測試服七夕期間主畫面固定使用七夕星河，不再被女僕預覽 CSS 蓋掉 */
+/* 3.28.2：測試服七夕期間主畫面固定使用七夕星河，不再被女僕預覽 CSS 蓋掉 */
 body.qixi-global-theme,
 body.qixi-global-theme.maid-cafe-preview,
 html[data-theme="maid-cafe"] body.qixi-global-theme{
@@ -15514,51 +15569,38 @@ body.npcStoryRunning #qixiEventFab{display:none!important}
  function openIntro(force=false){
    const x=c();if(!x)return;
    const st=ensure(x);
+
    if(st.introSeen&&!force){
-     if(st.bound||st.selectedRel==="solo"||st.selectedRoomCode)openActivityMain();
-     else openQixiCompanionSelect();
+     openActivityMain();
+     /* 第一次還沒選同行者時，進活動頁後才跳選人視窗。 */
+     if(!st.bound&&st.selectedRel!=="solo"&&!st.selectedRoomCode){
+       setTimeout(openQixiCompanionSelectOnTop,180);
+     }
      return;
    }
 
    const lines=INTRO_LINES.map((t,i)=>({
-     speaker:i<2?"旁白":"守橋人",text:t,image:QIXI_ASSETS.keeper
+     speaker:i<2?"旁白":"守橋人",
+     text:t,
+     image:QIXI_ASSETS.keeper
    }));
 
-   const available=qixiAvailableCompanions(x);
-   const choices=available.map(v=>({
-     label:`${RELS[v.rel].icon} ${v.name}｜${RELS[v.rel].name.split("｜")[0]}`,
-     onChoose:()=>{
-       st.selectedRoomCode=v.code;st.selectedRel=v.rel;st.selectedName=v.name;
-       st.introSeen=true;st.bindPending=false;
-       try{saveLocal?.()}catch(_){}
-     },
-     goto:lines.length+1
-   }));
-   choices.push({
-     label:"🌙 獨自參加",
-     onChoose:()=>{
-       st.selectedRoomCode="";st.selectedRel="solo";st.selectedName="獨自參加";
-       st.introSeen=true;st.bindPending=false;
-       try{saveLocal?.()}catch(_){}
-     },
-     goto:lines.length+1
-   });
-
+   /* 開場最後只留下守橋人的引導，不在 RPG 裡直接選人。 */
    lines.push({
      speaker:"守橋人",
-     text:available.length
-       ?"「那麼——今夜，你想與誰一起走過這座橋？」"
-       :"「看來今夜沒有已建立關係的人能與你同行。要一個人走過星河嗎？」",
-     image:QIXI_ASSETS.keeper,
-     choices
-   });
-   lines.push({
-     speaker:"守橋人",
-     text:"「選好了就去活動頁吧。若你選了某個人，還需要得到對方真正的同意。」",
+     text:"「去吧。先踏進星河，等你真正站上橋前，再決定今夜要與誰同行。」",
      image:QIXI_ASSETS.keeper
    });
 
-   startQixiRpg(lines,"第一幕｜星河之下的守橋人",()=>openActivityMain());
+   startQixiRpg(lines,"第一幕｜星河之下的守橋人",()=>{
+     st.introSeen=true;
+     try{saveLocal?.()}catch(_){}
+     openActivityMain();
+     /* 活動頁已經顯示後，再彈出同行者選擇。 */
+     if(!st.bound&&st.selectedRel!=="solo"&&!st.selectedRoomCode){
+       setTimeout(openQixiCompanionSelectOnTop,220);
+     }
+   });
  }
  function nextIntro(){qixiRpgNext();}
  function openOutro(){
@@ -15619,6 +15661,18 @@ body.npcStoryRunning #qixiEventFab{display:none!important}
  }
  function relationTypes(x){return new Set(qixiAvailableCompanions(x).map(v=>v.rel));}
 
+
+ function openQixiCompanionSelectOnTop(){
+   const eventModal=document.getElementById("qixiEventModal");
+   if(eventModal)eventModal.classList.remove("hidden");
+   openQixiCompanionSelect();
+   const modal=document.getElementById("qixiCompanionModal");
+   if(modal){
+     modal.classList.remove("hidden");
+     /* 移到 body 最後，保證 DOM stacking 也在活動頁之後 */
+     try{document.body.appendChild(modal)}catch(_){}
+   }
+ }
  function openQixiCompanionSelect(){
   const x=c();if(!x)return;
   const st=ensure(x);
@@ -15794,7 +15848,7 @@ body.npcStoryRunning #qixiEventFab{display:none!important}
     ${!selected.bound&&!st.bindPending?'<button id="changeQixiCompanion" type="button" style="margin-top:8px">重新選擇</button>':""}
    </div>`:`<div class="qixiRewardBox" style="grid-column:1/-1"><b>尚未在守橋人劇情選擇同行者</b><button id="changeQixiCompanion" type="button" style="margin-top:8px">回去選擇</button></div>`)
    +FACILITIES.map(f=>`<button type="button" class="qixiFacility ${st.dailyDone[f.id]?'done':''}" data-qixi-fac="${f.id}" ${!selected||st.dailyDone[f.id]||(selected.rel!=="solo"&&!selected.bound)?"disabled":""}><div class="ico">${f.ico}</div><b>${f.name}</b><div class="small">${f.desc}</div><div class="small">${st.dailyDone[f.id]?'✓ 今日已遊玩':'今日可遊玩'}</div></button>`).join("");
-  grid.querySelector("#changeQixiCompanion")?.addEventListener("click",openQixiCompanionSelect);
+  grid.querySelector("#changeQixiCompanion")?.addEventListener("click",openQixiCompanionSelectOnTop);
   grid.querySelector("#sendQixiBindBtn")?.addEventListener("click",sendQixiBindRequest);
   const storyComplete=progress(x)>=FACILITIES.length&&st.outroSeen;
   reward.innerHTML=st.badge
@@ -16001,10 +16055,10 @@ body.npcStoryRunning #qixiEventFab{display:none!important}
 
  /* 覆蓋測試服顯示版本，不碰正式服。 */
  setTimeout(()=>{
-  document.title="關係進行式 TEST・3.28.0-七夕全域主題＋限定禮包修正版";
-  document.querySelector(".homeVersion")?.replaceChildren(document.createTextNode("3.28.0・測試服｜七夕全域主題＋限定禮包修正版"));
-  document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.28.0-beta");
-  const meta=document.querySelector('meta[name="x-test-build"]');if(meta)meta.content="3.28.0";
+  document.title="關係進行式 TEST・3.28.2-七夕同行彈窗最上層修正版";
+  document.querySelector(".homeVersion")?.replaceChildren(document.createTextNode("3.28.2・測試服｜七夕同行彈窗最上層修正版"));
+  document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.28.2-beta");
+  const meta=document.querySelector('meta[name="x-test-build"]');if(meta)meta.content="3.28.2";
  },100);
 })();
 </script>
