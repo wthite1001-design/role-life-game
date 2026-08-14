@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#9a76c4">
-<meta name="x-test-build" content="3.28.3">
+<meta name="x-test-build" content="3.28.4">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>關係進行式 TEST・3.28.3-七夕穩定主題與同行背景修正版</title>
+<title>關係進行式 TEST・3.28.4-七夕淡紫角色卡修正版</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -1705,7 +1705,7 @@ body.qixi-global-theme .pageCard h3{color:#fff!important}
 
 
 <style id="qixi3279-scroll-fix">
-/* 3.28.3：七夕活動頁在手機上可完整往下捲，不再把守橋人卡片截成一半 */
+/* 3.28.4：七夕活動頁在手機上可完整往下捲，不再把守橋人卡片截成一半 */
 #qixiEventModal{
   overflow-y:auto!important;
   overflow-x:hidden!important;
@@ -1968,6 +1968,51 @@ html.qixi-theme-now [class*="maid-ribbon"]{
 }
 </style>
 
+
+<style id="qixi3284-light-purple-cards">
+/* 七夕角色生活頁：粉白卡改成有層次的淡紫卡，文字統一深色 */
+html.qixi-theme-now #game .pageCard,
+html.qixi-theme-now #game .characterCard,
+html.qixi-theme-now #game .profileCard,
+html.qixi-theme-now #game .statusCard,
+html.qixi-theme-now #game .statCard,
+html.qixi-theme-now #game .pendingEventCard{
+  background:
+    linear-gradient(145deg,rgba(248,244,255,.98),rgba(224,211,246,.98))!important;
+  border:1px solid rgba(111,82,155,.30)!important;
+  box-shadow:
+    0 14px 30px rgba(25,13,66,.20),
+    inset 0 1px 0 rgba(255,255,255,.90)!important;
+  color:#39284f!important;
+}
+html.qixi-theme-now #game .pageCard *,
+html.qixi-theme-now #game .characterCard *,
+html.qixi-theme-now #game .profileCard *,
+html.qixi-theme-now #game .statusCard *,
+html.qixi-theme-now #game .statCard *,
+html.qixi-theme-now #game .pendingEventCard *{
+  color:#39284f;
+}
+html.qixi-theme-now #game .small,
+html.qixi-theme-now #game .muted,
+html.qixi-theme-now #game .sub,
+html.qixi-theme-now #game .hint{
+  color:#705d86!important;
+}
+html.qixi-theme-now #game .bar,
+html.qixi-theme-now #game .progress,
+html.qixi-theme-now #game .statBar{
+  background:rgba(83,61,116,.15)!important;
+  box-shadow:inset 0 1px 3px rgba(47,29,76,.12)!important;
+}
+html.qixi-theme-now #game .bar>i,
+html.qixi-theme-now #game .bar>span,
+html.qixi-theme-now #game .progress>div,
+html.qixi-theme-now #game .statBar>i{
+  background:linear-gradient(90deg,#7665c7,#b36cae)!important;
+}
+</style>
+
 </head>
 <body>
 
@@ -2032,7 +2077,7 @@ html.qixi-theme-now [class*="maid-ribbon"]{
     <div class="homeLogo">🧪</div>
     <h1>關係進行式 TEST</h1>
     <div class="homeTagline">測試中的每一段關係，都可能被重置。</div>
-    <div class="homeVersion">3.28.3・測試服｜七夕穩定主題與同行背景修正版</div>
+    <div class="homeVersion">3.28.4・測試服｜七夕淡紫角色卡修正版</div>
   </div>
 
   <div id="playerAccountHomePanel" class="homePanel accountHomePanel">
@@ -14517,7 +14562,7 @@ header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{back
 
 
 <style id="qixi3278-theme-fix">
-/* 3.28.3：測試服七夕期間主畫面固定使用七夕星河，不再被女僕預覽 CSS 蓋掉 */
+/* 3.28.4：測試服七夕期間主畫面固定使用七夕星河，不再被女僕預覽 CSS 蓋掉 */
 body.qixi-global-theme,
 body.qixi-global-theme.maid-cafe-preview,
 html[data-theme="maid-cafe"] body.qixi-global-theme{
@@ -14653,7 +14698,7 @@ body.qixi-global-theme .muted{color:#d1c4e6!important}
 <script id="qixi3283-ribbon-fix">
 (function(){
  function fix(){
-   document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.28.3-beta");
+   document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.28.4-beta");
  }
  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",fix,{once:true});else fix();
  setTimeout(fix,300);
@@ -15993,10 +16038,10 @@ body.npcStoryRunning #qixiEventFab{display:none!important}
 
  /* 覆蓋測試服顯示版本，不碰正式服。 */
  setTimeout(()=>{
-  document.title="關係進行式 TEST・3.28.3-七夕穩定主題與同行背景修正版";
-  document.querySelector(".homeVersion")?.replaceChildren(document.createTextNode("3.28.3・測試服｜七夕穩定主題與同行背景修正版"));
-  document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.28.3-beta");
-  const meta=document.querySelector('meta[name="x-test-build"]');if(meta)meta.content="3.28.3";
+  document.title="關係進行式 TEST・3.28.4-七夕淡紫角色卡修正版";
+  document.querySelector(".homeVersion")?.replaceChildren(document.createTextNode("3.28.4・測試服｜七夕淡紫角色卡修正版"));
+  document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.28.4-beta");
+  const meta=document.querySelector('meta[name="x-test-build"]');if(meta)meta.content="3.28.4";
  },100);
 })();
 </script>
