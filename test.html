@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#9a76c4">
-<meta name="x-test-build" content="3.28.2">
+<meta name="x-test-build" content="3.28.3">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>關係進行式 TEST・3.28.2-七夕同行彈窗最上層修正版</title>
+<title>關係進行式 TEST・3.28.3-七夕穩定主題與同行背景修正版</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -1705,7 +1705,7 @@ body.qixi-global-theme .pageCard h3{color:#fff!important}
 
 
 <style id="qixi3279-scroll-fix">
-/* 3.28.2：七夕活動頁在手機上可完整往下捲，不再把守橋人卡片截成一半 */
+/* 3.28.3：七夕活動頁在手機上可完整往下捲，不再把守橋人卡片截成一半 */
 #qixiEventModal{
   overflow-y:auto!important;
   overflow-x:hidden!important;
@@ -1756,166 +1756,6 @@ body.qixi-global-theme .pageCard h3{color:#fff!important}
   }
 })();
 </script>
-
-
-<style id="qixi3280-global-theme">
-html.qixi-theme-now,
-html.qixi-theme-now body{
-  background:
-    linear-gradient(rgba(7,10,40,.28),rgba(17,9,53,.46)),
-    url("images/qixi/qixi_full_background.png") center top / cover fixed no-repeat !important;
-  color:#f7f2ff !important;
-}
-html.qixi-theme-now body::before,
-html.qixi-theme-now body::after{
-  content:none!important;
-  display:none!important;
-}
-html.qixi-theme-now #home,
-html.qixi-theme-now #game,
-html.qixi-theme-now .wrap,
-html.qixi-theme-now main{
-  background:transparent!important;
-}
-
-/* 首頁大卡、登入/GM/公告 */
-html.qixi-theme-now .homeCard,
-html.qixi-theme-now .homeHero,
-html.qixi-theme-now .homePanel,
-html.qixi-theme-now #home .section,
-html.qixi-theme-now #home .card,
-html.qixi-theme-now #home .panel{
-  background:linear-gradient(145deg,rgba(20,18,67,.88),rgba(54,28,91,.84))!important;
-  border-color:rgba(202,188,255,.24)!important;
-  color:#fff!important;
-  box-shadow:0 12px 34px rgba(5,5,24,.22)!important;
-}
-html.qixi-theme-now #home .small,
-html.qixi-theme-now #home .muted{
-  color:#d8cce9!important;
-}
-
-/* 頂部列 */
-html.qixi-theme-now header,
-html.qixi-theme-now .top,
-html.qixi-theme-now .topbar,
-html.qixi-theme-now #gameHeader{
-  background:linear-gradient(135deg,rgba(13,12,54,.98),rgba(38,19,78,.96))!important;
-  color:#fff!important;
-  border-color:rgba(203,186,255,.18)!important;
-}
-
-/* 角色卡、狀態卡、頁面卡 */
-html.qixi-theme-now .pageCard,
-html.qixi-theme-now .pageCard.active,
-html.qixi-theme-now .characterCard,
-html.qixi-theme-now .profileCard,
-html.qixi-theme-now .statusCard,
-html.qixi-theme-now .statCard,
-html.qixi-theme-now .section,
-html.qixi-theme-now .card,
-html.qixi-theme-now .panel,
-html.qixi-theme-now .notice,
-html.qixi-theme-now .pendingEventCard{
-  background:linear-gradient(145deg,rgba(27,22,72,.92),rgba(59,34,95,.88))!important;
-  border-color:rgba(210,195,255,.21)!important;
-  color:#f8f4ff!important;
-}
-html.qixi-theme-now .small,
-html.qixi-theme-now .muted,
-html.qixi-theme-now .sub,
-html.qixi-theme-now .hint{
-  color:#d3c7e8!important;
-}
-html.qixi-theme-now h1,
-html.qixi-theme-now h2,
-html.qixi-theme-now h3,
-html.qixi-theme-now b{
-  color:#fff!important;
-}
-
-/* 狀態條 */
-html.qixi-theme-now .bar,
-html.qixi-theme-now .progress,
-html.qixi-theme-now .statBar{
-  background:rgba(255,255,255,.13)!important;
-}
-html.qixi-theme-now .bar>i,
-html.qixi-theme-now .bar>span,
-html.qixi-theme-now .progress>div,
-html.qixi-theme-now .statBar>i{
-  background:linear-gradient(90deg,#8a83ff,#d58ed2)!important;
-}
-
-/* 商店整體 */
-html.qixi-theme-now #shop.pageCard.active,
-html.qixi-theme-now #shop,
-html.qixi-theme-now .shopPanel,
-html.qixi-theme-now .paidOrdersBlock{
-  background:linear-gradient(180deg,rgba(19,14,60,.97),rgba(51,28,86,.95))!important;
-  color:#fff!important;
-}
-html.qixi-theme-now .shopTab{
-  background:rgba(255,255,255,.10)!important;
-  border-color:rgba(255,255,255,.16)!important;
-  color:#eee6ff!important;
-}
-html.qixi-theme-now .shopTab.active{
-  background:linear-gradient(135deg,#7453be,#b56ab1)!important;
-  color:#fff!important;
-}
-
-/* 付費商品卡也改成七夕配色 */
-html.qixi-theme-now .paidProduct{
-  background:linear-gradient(145deg,rgba(42,29,83,.96),rgba(76,45,105,.92))!important;
-  border-color:rgba(220,203,255,.22)!important;
-  color:#fff!important;
-}
-html.qixi-theme-now .paidProduct .small{color:#d7cae8!important;}
-html.qixi-theme-now .paidPrice{color:#f0ddff!important;}
-
-/* 七夕活動本身：不再白底 */
-html.qixi-theme-now #qixiEventModal,
-html.qixi-theme-now #qixiEventModal .modalBox{
-  background:
-    linear-gradient(rgba(9,10,42,.50),rgba(20,10,53,.72)),
-    url("images/qixi/qixi_full_background.png") center top / cover fixed no-repeat !important;
-  color:#fff!important;
-}
-html.qixi-theme-now #qixiEventModal .qixiFacility,
-html.qixi-theme-now #qixiEventModal .qixiRewardBox,
-html.qixi-theme-now #qixiKeeperCard{
-  background:linear-gradient(145deg,rgba(24,20,68,.86),rgba(63,36,98,.82))!important;
-  border-color:rgba(218,200,255,.22)!important;
-  color:#fff!important;
-}
-
-/* 關係選擇/綁定 modal 也不再白 */
-html.qixi-theme-now #qixiCompanionModal .modalBox,
-html.qixi-theme-now #qixiBindInviteModal .modalBox,
-html.qixi-theme-now #qixiMiniGameModal .modalBox{
-  background:linear-gradient(180deg,rgba(18,15,60,.98),rgba(49,27,85,.97))!important;
-  color:#fff!important;
-}
-
-/* 防止女僕預覽殘留 */
-html.qixi-theme-now body.theme-maid-cafe,
-html.qixi-theme-now body.maid-cafe-preview{
-  background:
-    linear-gradient(rgba(7,10,40,.28),rgba(17,9,53,.46)),
-    url("images/qixi/qixi_full_background.png") center top / cover fixed no-repeat !important;
-}
-html.qixi-theme-now .maid-ribbon,
-html.qixi-theme-now .maid-ribbon-corner,
-html.qixi-theme-now .maid-decoration,
-html.qixi-theme-now .maid-theme-decoration,
-html.qixi-theme-now [class*="maidRibbon"],
-html.qixi-theme-now [class*="maid-ribbon"]{
-  display:none!important;
-}
-</style>
-
-
 <style id="qixi3282-layer-fix">
 /* 七夕主活動頁留在底層，同行者/綁定彈窗一定浮在最上層 */
 #qixiEventModal{
@@ -1967,6 +1807,164 @@ html.qixi-theme-now [class*="maid-ribbon"]{
   margin:0!important;
   border-radius:24px 24px 0 0!important;
   box-shadow:0 -18px 44px rgba(0,0,0,.32)!important;
+}
+</style>
+
+
+<style id="qixi3283-stable-theme">
+:root.qixi-theme-now{
+  --qixi-deep:#090725;
+  --qixi-mid:#161044;
+  --qixi-card:#21194f;
+  --qixi-card2:#35245f;
+  --qixi-line:rgba(201,190,255,.20);
+  --qixi-text:#f7f2ff;
+  --qixi-muted:#cfc3e2;
+}
+
+/* 首頁與遊戲主背景：只用深藍紫星空，不使用橋景圖 */
+html.qixi-theme-now,
+html.qixi-theme-now body{
+  min-height:100%;
+  background:
+    radial-gradient(circle at 12% 12%,rgba(255,255,255,.95) 0 1px,transparent 1.6px),
+    radial-gradient(circle at 78% 8%,rgba(210,196,255,.88) 0 1px,transparent 1.7px),
+    radial-gradient(circle at 38% 42%,rgba(255,255,255,.72) 0 1px,transparent 1.5px),
+    radial-gradient(circle at 90% 64%,rgba(225,204,255,.72) 0 1px,transparent 1.6px),
+    radial-gradient(ellipse at 55% -10%,rgba(99,69,201,.28),transparent 44%),
+    linear-gradient(180deg,#080622 0%,#100b38 38%,#171044 68%,#211247 100%)!important;
+  background-size:83px 83px,137px 137px,109px 109px,151px 151px,auto,auto!important;
+  background-attachment:fixed!important;
+  color:var(--qixi-text)!important;
+}
+html.qixi-theme-now body::before,
+html.qixi-theme-now body::after{
+  content:none!important;display:none!important;
+}
+html.qixi-theme-now #home,
+html.qixi-theme-now #game,
+html.qixi-theme-now main,
+html.qixi-theme-now .wrap{
+  background:transparent!important;
+}
+
+/* 首頁區塊像舊七夕初始版：深紫半透明卡片 */
+html.qixi-theme-now .homeCard,
+html.qixi-theme-now .homeHero,
+html.qixi-theme-now .homePanel,
+html.qixi-theme-now #home .card,
+html.qixi-theme-now #home .panel,
+html.qixi-theme-now #home .section{
+  background:linear-gradient(145deg,rgba(25,20,67,.94),rgba(52,31,86,.91))!important;
+  border:1px solid var(--qixi-line)!important;
+  color:#fff!important;
+  box-shadow:0 12px 30px rgba(3,3,19,.18)!important;
+}
+html.qixi-theme-now #home .small,
+html.qixi-theme-now #home .muted{color:var(--qixi-muted)!important;}
+
+/* 頂欄 */
+html.qixi-theme-now header,
+html.qixi-theme-now .top,
+html.qixi-theme-now .topbar,
+html.qixi-theme-now #gameHeader{
+  background:linear-gradient(135deg,rgba(10,8,41,.98),rgba(31,17,70,.97))!important;
+  color:#fff!important;border-color:var(--qixi-line)!important;
+}
+
+/* 角色卡 / 狀態 / 商店 */
+html.qixi-theme-now .pageCard,
+html.qixi-theme-now .pageCard.active,
+html.qixi-theme-now .characterCard,
+html.qixi-theme-now .profileCard,
+html.qixi-theme-now .statusCard,
+html.qixi-theme-now .statCard,
+html.qixi-theme-now .pendingEventCard,
+html.qixi-theme-now .card,
+html.qixi-theme-now .panel{
+  background:linear-gradient(145deg,rgba(29,23,75,.94),rgba(55,34,91,.91))!important;
+  border-color:var(--qixi-line)!important;
+  color:#fff!important;
+}
+html.qixi-theme-now .small,
+html.qixi-theme-now .muted,
+html.qixi-theme-now .sub,
+html.qixi-theme-now .hint{color:var(--qixi-muted)!important;}
+html.qixi-theme-now h1,
+html.qixi-theme-now h2,
+html.qixi-theme-now h3,
+html.qixi-theme-now b{color:#fff!important;}
+
+html.qixi-theme-now .bar,
+html.qixi-theme-now .progress,
+html.qixi-theme-now .statBar{
+  background:rgba(255,255,255,.12)!important;
+}
+html.qixi-theme-now .bar>i,
+html.qixi-theme-now .bar>span,
+html.qixi-theme-now .progress>div,
+html.qixi-theme-now .statBar>i{
+  background:linear-gradient(90deg,#867fff,#cf86d3)!important;
+}
+
+/* 商店 */
+html.qixi-theme-now #shop,
+html.qixi-theme-now #shop.pageCard.active,
+html.qixi-theme-now .shopPanel,
+html.qixi-theme-now .paidOrdersBlock{
+  background:linear-gradient(180deg,rgba(16,12,53,.97),rgba(45,27,80,.96))!important;
+  color:#fff!important;
+}
+html.qixi-theme-now .paidProduct{
+  background:linear-gradient(145deg,rgba(38,29,82,.96),rgba(70,43,102,.94))!important;
+  border-color:var(--qixi-line)!important;color:#fff!important;
+}
+html.qixi-theme-now .paidProduct .small{color:#d4c8e5!important;}
+html.qixi-theme-now .paidPrice{color:#f1e4ff!important;}
+
+/* 七夕活動主頁仍然深星河，不用橋景當全頁底 */
+html.qixi-theme-now #qixiEventModal,
+html.qixi-theme-now #qixiEventModal .modalBox{
+  background:
+    radial-gradient(circle at 15% 12%,rgba(255,255,255,.7) 0 1px,transparent 1.5px),
+    radial-gradient(circle at 80% 26%,rgba(203,188,255,.7) 0 1px,transparent 1.5px),
+    linear-gradient(180deg,#0c092d,#20134e 58%,#38205f)!important;
+  color:#fff!important;
+}
+html.qixi-theme-now #qixiEventModal .qixiFacility,
+html.qixi-theme-now #qixiEventModal .qixiRewardBox,
+html.qixi-theme-now #qixiKeeperCard{
+  background:linear-gradient(145deg,rgba(28,23,74,.90),rgba(62,38,98,.88))!important;
+  color:#fff!important;border-color:rgba(214,197,255,.22)!important;
+}
+
+/* 「今晚與誰同行？」：橋景圖只放這裡 */
+html.qixi-theme-now #qixiCompanionModal{
+  background:
+    linear-gradient(rgba(7,7,34,.40),rgba(20,10,50,.58)),
+    url("images/qixi/qixi_full_background.png") center center / cover no-repeat!important;
+}
+html.qixi-theme-now #qixiCompanionModal .modalBox{
+  background:linear-gradient(180deg,rgba(20,15,61,.91),rgba(52,30,86,.94))!important;
+  color:#fff!important;
+  border:1px solid rgba(226,211,255,.25)!important;
+  backdrop-filter:blur(8px);
+}
+
+/* 綁定確認不需要橋景 */
+html.qixi-theme-now #qixiBindInviteModal .modalBox,
+html.qixi-theme-now #qixiMiniGameModal .modalBox{
+  background:linear-gradient(180deg,#15103d,#362260)!important;color:#fff!important;
+}
+
+/* 七夕當天不能再露女僕裝飾 */
+html.qixi-theme-now .maid-ribbon,
+html.qixi-theme-now .maid-ribbon-corner,
+html.qixi-theme-now .maid-decoration,
+html.qixi-theme-now .maid-theme-decoration,
+html.qixi-theme-now [class*="maidRibbon"],
+html.qixi-theme-now [class*="maid-ribbon"]{
+  display:none!important;
 }
 </style>
 
@@ -2034,7 +2032,7 @@ html.qixi-theme-now [class*="maid-ribbon"]{
     <div class="homeLogo">🧪</div>
     <h1>關係進行式 TEST</h1>
     <div class="homeTagline">測試中的每一段關係，都可能被重置。</div>
-    <div class="homeVersion">3.28.2・測試服｜七夕同行彈窗最上層修正版</div>
+    <div class="homeVersion">3.28.3・測試服｜七夕穩定主題與同行背景修正版</div>
   </div>
 
   <div id="playerAccountHomePanel" class="homePanel accountHomePanel">
@@ -14519,7 +14517,7 @@ header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{back
 
 
 <style id="qixi3278-theme-fix">
-/* 3.28.2：測試服七夕期間主畫面固定使用七夕星河，不再被女僕預覽 CSS 蓋掉 */
+/* 3.28.3：測試服七夕期間主畫面固定使用七夕星河，不再被女僕預覽 CSS 蓋掉 */
 body.qixi-global-theme,
 body.qixi-global-theme.maid-cafe-preview,
 html[data-theme="maid-cafe"] body.qixi-global-theme{
@@ -14549,79 +14547,6 @@ body.qixi-global-theme .muted{color:#d1c4e6!important}
 .qixiPaidGroupTitle{grid-column:1/-1;font-weight:1000;font-size:16px;padding:7px 3px 1px;color:#fff}
 .qixiPaidGroupTitle.cat{color:#4d3b57}
 </style>
-
-<script id="qixi3278-paid-and-theme-fix">
-(function(){
- const CAT=[
-  {id:"support30",icon:"☕",name:"請店長喝飲料",price:50,coins:300,badgeId:"paid_badge_support30",badgeIcon:"☕",badgeName:"咖啡應援",desc:"遊戲金幣 300＋限定徽章"},
-  {id:"gift60",icon:"🐾",name:"店長的小禮物",price:60,coins:700,badgeId:"paid_badge_gift60",badgeIcon:"🐾",badgeName:"店長的小禮物",desc:"遊戲金幣 700＋限定徽章"},
-  {id:"support100",icon:"💜",name:"小小贊助包",price:100,coins:1200,badgeId:"paid_badge_support100",badgeIcon:"💜",badgeName:"紫晶應援",desc:"遊戲金幣 1,200＋限定徽章"},
-  {id:"dev150",icon:"✨",name:"開發者應援包",price:150,coins:2000,badgeId:"paid_badge_dev150",badgeIcon:"✨",badgeName:"開發者應援",desc:"遊戲金幣 2,000＋限定徽章"}
- ];
- const QIXI=[
-  {id:"qixiGalaxy50",icon:"🌠",name:"星河初遇禮包",price:50,coins:300,token:1,badgeId:"qixi_paid_50",badgeIcon:"🌠",badgeName:"星河初遇",desc:"300 金幣＋七夕限定徽章＋天上的一縷星辰 ×1"},
-  {id:"qixi60",icon:"🏮",name:"緣燈相逢禮包",price:60,coins:700,badgeId:"qixi_paid_60",badgeIcon:"🏮",badgeName:"緣燈相逢",desc:"700 金幣＋七夕限定徽章"},
-  {id:"qixi100",icon:"🌌",name:"鵲橋同行禮包",price:100,coins:1200,badgeId:"qixi_paid_100",badgeIcon:"🌌",badgeName:"鵲橋同行",desc:"1,200 金幣＋七夕限定徽章"},
-  {id:"qixi150",icon:"💫",name:"星河長願禮包",price:150,coins:2000,badgeId:"qixi_paid_150",badgeIcon:"💫",badgeName:"星河長願",desc:"2,000 金幣＋七夕限定徽章"}
- ];
- function C(){try{return typeof cur==="function"?cur():null}catch(_){return null}}
- function ensure(c){if(!c)return;c.paidOrders??=[];c.paidEntitlements??={};c.paidCosmetics??={};c.paidCollectibles??={}}
- function owned(c,p){return !!c.paidEntitlements?.[p.badgeId]}
- function grantBadge(c,p){
-   c.paidEntitlements[p.badgeId]=true;c.paidCollectibles[p.badgeId]={icon:p.badgeIcon,name:p.badgeName,obtainedAt:new Date().toISOString()};
-   try{
-    if(typeof protoAch!=="undefined"&&!protoAch.some(x=>x[0]===p.badgeId))protoAch.push([p.badgeId,p.badgeIcon,p.badgeName,"活動限定付費徽章","收藏"]);
-    if(typeof ensureSharedAchievements==="function")ensureSharedAchievements();
-    if(typeof local!=="undefined"){local.sharedAchievements??={};local.sharedAchievements[p.badgeId]=1;c.achievements=local.sharedAchievements}
-   }catch(_){}
- }
- function card(p,c){
-   const has=owned(c,p);
-   return `<div class="paidProduct"><div class="paidProductIcon">${p.icon}</div><div class="paidProductTitle">${p.name}</div><div class="small">${p.desc}</div><div class="paidPrice">NT$${p.price}</div><button type="button" class="primary" data-qixi3278-buy="${p.id}" ${has?"disabled":""}>${has?"✓ 已購買":"模擬付款 NT$"+p.price}</button></div>`;
- }
- function render(){
-   const box=document.getElementById("paidShopList"),c=C();if(!box)return;
-   if(!c){box.innerHTML='<div class="paidOrdersBlock">請先進入角色。</div>';return}ensure(c);
-   box.innerHTML=`<div class="qixiPaidGroupTitle cat">🐱 貓貓店長活動禮包</div>`+
-    CAT.map(p=>card(p,c)).join("")+
-    `<div class="qixiPaidGroupTitle">🌌 七夕活動限定禮包</div>`+
-    QIXI.map(p=>card(p,c)).join("")+
-    (c.paidOrders.length?`<div class="paidOrdersBlock"><b>最近測試訂單</b>${c.paidOrders.slice(-6).reverse().map(o=>`<div class="paidOrderRow">✅ ${o.orderNo}・${o.name}・NT$${o.price}</div>`).join("")}</div>`:"");
- }
- function pay(id){
-   const c=C(),p=[...CAT,...QIXI].find(x=>x.id===id);if(!c||!p)return;ensure(c);
-   if(owned(c,p))return toast?.("這個禮包每個角色只能購買一次。",2600);
-   if(!confirm(`【測試付款】\n${p.name} NT$${p.price}\n\n測試服不會真的扣款。`))return;
-   if(p.coins)c.money=Math.max(0,Number(c.money||0)+p.coins);
-   grantBadge(c,p);
-   if(p.token){c.paidCosmetics.qixiStarToken=Number(c.paidCosmetics.qixiStarToken||0)+p.token}
-   const orderNo="TEST"+Date.now().toString(36).toUpperCase()+Math.random().toString(36).slice(2,6).toUpperCase();
-   c.paidOrders.push({orderNo,productId:p.id,name:p.name,price:p.price,coins:p.coins,paidAt:new Date().toISOString(),status:"test_paid",granted:true});
-   saveLocal?.();renderGame?.();render();try{renderQixiEvent?.()}catch(_){}
-   alert(`付款成功（測試）\n\n${p.name}\n訂單：${orderNo}\n🪙 ${p.coins} 金幣\n🏅 ${p.badgeName}${p.token?"\n🌠 天上的一縷星辰 ×1":""}`);
- }
- document.addEventListener("click",e=>{
-   const b=e.target.closest("[data-qixi3278-buy]");if(!b)return;
-   e.preventDefault();e.stopImmediatePropagation();pay(b.dataset.qixi3278Buy);
- },true);
- window.PAID_TEST_PRODUCTS=[...CAT,...QIXI];
- window.renderPaidShop=render;
- window.renderPaid=render;
-
- function forceQixi(){
-   const inGame=!!document.getElementById("game")&&!document.getElementById("game").classList.contains("hidden");
-   document.body.classList.toggle("qixi-global-theme",inGame);
-   /* 女僕預覽只能在真的選女僕外觀時存在，不能再全域強制 */
-   if(inGame){document.body.classList.remove("maid-cafe-preview");document.body.removeAttribute("data-theme");document.documentElement.removeAttribute("data-theme")}
- }
- const mo=new MutationObserver(()=>forceQixi());
- document.addEventListener("DOMContentLoaded",()=>{forceQixi();setTimeout(()=>{render();forceQixi()},300)});
- window.addEventListener("pageshow",()=>setTimeout(forceQixi,50));
- setInterval(forceQixi,800);
-})();
-</script>
-
-
 <script id="qixi3280-paid-shop-authoritative">
 (function(){
  const CAT=[
@@ -14705,19 +14630,33 @@ body.qixi-global-theme .muted{color:#d1c4e6!important}
 })();
 </script>
 
-
-<script id="qixi3280-theme-sync">
+<script id="qixi3283-stable-theme-init">
 (function(){
- function sync(){
-   const active=document.documentElement.classList.contains("qixi-theme-now");
-   if(!active)return;
-   document.body.classList.add("qixi-global-theme");
-   document.body.classList.remove("maid-cafe-preview");
+ function apply(){
+   document.documentElement.classList.add("qixi-theme-now");
+   document.body?.classList.add("qixi-global-theme");
  }
- if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",sync);else sync();
- new MutationObserver(sync).observe(document.documentElement,{attributes:true,childList:true,subtree:true});
- window.addEventListener("pageshow",sync);
- setInterval(sync,500);
+ if(document.readyState==="loading"){
+   document.addEventListener("DOMContentLoaded",apply,{once:true});
+ }else apply();
+ window.addEventListener("pageshow",apply);
+ /* only re-apply after explicit app clicks/navigation, not continuous polling */
+ document.addEventListener("click",()=>{
+   if(!document.documentElement.classList.contains("qixi-theme-now")){
+     document.documentElement.classList.add("qixi-theme-now");
+   }
+ },{passive:true});
+})();
+</script>
+
+
+<script id="qixi3283-ribbon-fix">
+(function(){
+ function fix(){
+   document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.28.3-beta");
+ }
+ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",fix,{once:true});else fix();
+ setTimeout(fix,300);
 })();
 </script>
 
@@ -15992,7 +15931,6 @@ body.npcStoryRunning #qixiEventFab{display:none!important}
   const game=document.getElementById("game"),fab=document.getElementById("qixiEventFab");
   if(!fab)return;
   const inGame=!!game&&!game.classList.contains("hidden");
-  document.body.classList.toggle("qixi-global-theme",inGame);
   fab.style.display=inGame?"flex":"none";
  }
  document.getElementById("qixiEventFab").onclick=()=>openIntro(false);
@@ -16055,10 +15993,10 @@ body.npcStoryRunning #qixiEventFab{display:none!important}
 
  /* 覆蓋測試服顯示版本，不碰正式服。 */
  setTimeout(()=>{
-  document.title="關係進行式 TEST・3.28.2-七夕同行彈窗最上層修正版";
-  document.querySelector(".homeVersion")?.replaceChildren(document.createTextNode("3.28.2・測試服｜七夕同行彈窗最上層修正版"));
-  document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.28.2-beta");
-  const meta=document.querySelector('meta[name="x-test-build"]');if(meta)meta.content="3.28.2";
+  document.title="關係進行式 TEST・3.28.3-七夕穩定主題與同行背景修正版";
+  document.querySelector(".homeVersion")?.replaceChildren(document.createTextNode("3.28.3・測試服｜七夕穩定主題與同行背景修正版"));
+  document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.28.3-beta");
+  const meta=document.querySelector('meta[name="x-test-build"]');if(meta)meta.content="3.28.3";
  },100);
 })();
 </script>
