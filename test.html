@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#9a76c4">
-<meta name="x-test-build" content="3.30.5">
+<meta name="x-test-build" content="3.30.6">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>關係進行式 TEST・3.30.5-七夕重複錯誤清理＋邀請防呆</title>
+<title>關係進行式 TEST・3.30.6-外觀・滑動・商店・浮動入口修復</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -1473,7 +1473,7 @@ body.npcStoryRunning .draggableFab{
 <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png">
 <link rel="manifest" href="manifest.json">
 <style id="qixi3279-scroll-fix">
-/* 3.30.5：七夕活動頁在手機上可完整往下捲，不再把守橋人卡片截成一半 */
+/* 3.30.6：七夕活動頁在手機上可完整往下捲，不再把守橋人卡片截成一半 */
 #qixiEventModal{
   overflow-y:auto!important;
   overflow-x:hidden!important;
@@ -1941,7 +1941,7 @@ body.appearance-galaxy:not(.qixi-global-theme){
 </style>
 
 <style id="qixi3305CriticalTheme">
-/* 3.30.5 critical first-paint theme: loaded in HEAD to prevent old pink theme flash. */
+/* 3.30.6 critical first-paint theme: loaded in HEAD to prevent old pink theme flash. */
 html.qixi-theme-now body{
   background:
     radial-gradient(circle at 18% 8%,rgba(255,255,255,.72) 0 1px,transparent 1.5px),
@@ -1995,7 +1995,17 @@ html.qixi-theme-now #qixiEventModal .qixiRules *{
   color:#342148!important;
 }
 </style>
-</head>
+<style id="floatingPlacement3306">
+#launchActivityFab.launchActivityFab{
+ position:fixed!important;z-index:997!important;
+ right:12px!important;left:auto;top:auto;
+ bottom:calc(18px + env(safe-area-inset-bottom))!important;
+}
+#launchActivityFab[data-drag3306="1"][style*="left"]{right:auto!important;bottom:auto!important}
+</style><style id="scrollSafety3306">
+.modal.hidden,.pageCard.hidden,.drawer.hidden,.drawerShade.hidden{display:none!important;pointer-events:none!important}
+html,body{min-height:100%;overscroll-behavior-y:auto}
+</style></head>
 <body>
 
 <div id="testAccessGate" class="testAccessGate">
@@ -2059,7 +2069,7 @@ html.qixi-theme-now #qixiEventModal .qixiRules *{
     <div class="homeLogo">🧪</div>
     <h1>關係進行式 TEST</h1>
     <div class="homeTagline">測試中的每一段關係，都可能被重置。</div>
-    <div class="homeVersion">3.30.5・測試服｜七夕重複錯誤清理＋邀請防呆</div>
+    <div class="homeVersion">3.30.6・測試服｜外觀・滑動・商店・浮動入口修復</div>
   </div>
 
   <div id="playerAccountHomePanel" class="homePanel accountHomePanel">
@@ -9473,218 +9483,84 @@ setInterval(()=>{
 },300000);
 </script>
 
-<script>
 
-const FLOATING_BUTTON_POS_KEY="role_life_test_floating_button_positions_v1";
 
-function loadFloatingButtonPositions(){
-  try{return JSON.parse(localStorage.getItem(FLOATING_BUTTON_POS_KEY)||"{}")||{}}
-  catch(e){return{}}
-}
-function saveFloatingButtonPosition(key,el){
-  if(!el)return;
-  let map=loadFloatingButtonPositions();
-  let r=el.getBoundingClientRect();
-  map[key]={left:Math.round(r.left),top:Math.round(r.top)};
-  localStorage.setItem(FLOATING_BUTTON_POS_KEY,JSON.stringify(map));
-}
-function clampFloatingButton(el,left,top){
-  const pad=6;
-  const w=el.offsetWidth||80,h=el.offsetHeight||42;
-  const maxLeft=Math.max(pad,window.innerWidth-w-pad);
-  const maxTop=Math.max(pad,window.innerHeight-h-pad);
-  return {
-    left:Math.max(pad,Math.min(maxLeft,left)),
-    top:Math.max(pad,Math.min(maxTop,top))
-  };
-}
-function applyFloatingButtonPosition(key,el){
-  if(!el)return;
-  const pos=loadFloatingButtonPositions()[key];
-  if(!pos)return;
-  const p=clampFloatingButton(el,Number(pos.left)||0,Number(pos.top)||0);
-  el.style.left=p.left+"px";
-  el.style.top=p.top+"px";
-  el.style.right="auto";
-  el.style.bottom="auto";
-}
-function makeFloatingButtonDraggable(el,key){
-  if(!el||el.dataset.dragReady==="1")return;
-  el.dataset.dragReady="1";
 
-  let dragging=false,moved=false,startX=0,startY=0,startLeft=0,startTop=0,pointerId=null;
+<script id="floatingDrag3306">
+(()=>{
+ const KEY="role_life_float_pos_3306";
+ const OLD=["role_life_test_floating_button_positions_v1","role_life_test_float_pos_v2","rlg_fab_pos_qixi","rlg_fab_pos_activity"];
+ try{
+   if(localStorage.getItem("float3306_migrated")!=="1"){
+     OLD.forEach(k=>localStorage.removeItem(k));
+     localStorage.setItem("float3306_migrated","1");
+   }
+ }catch(_){}
 
-  el.addEventListener("pointerdown",e=>{
-    if(e.button!=null&&e.button!==0)return;
-    const r=el.getBoundingClientRect();
-    dragging=true;moved=false;pointerId=e.pointerId;
-    startX=e.clientX;startY=e.clientY;startLeft=r.left;startTop=r.top;
-    el.classList.add("dragging");
-    try{el.setPointerCapture(pointerId)}catch(_){}
-  });
-
-  el.addEventListener("pointermove",e=>{
-    if(!dragging||e.pointerId!==pointerId)return;
-    let dx=e.clientX-startX,dy=e.clientY-startY;
-    if(Math.abs(dx)>4||Math.abs(dy)>4)moved=true;
-    if(!moved)return;
-    e.preventDefault();
-    let p=clampFloatingButton(el,startLeft+dx,startTop+dy);
-    el.style.left=p.left+"px";
-    el.style.top=p.top+"px";
-    el.style.right="auto";
-    el.style.bottom="auto";
-  });
-
-  const finish=e=>{
-    if(!dragging||e.pointerId!==pointerId)return;
-    dragging=false;
-    el.classList.remove("dragging");
-    try{el.releasePointerCapture(pointerId)}catch(_){}
-    if(moved){
-      saveFloatingButtonPosition(key,el);
-      el.dataset.justDragged="1";
-      setTimeout(()=>delete el.dataset.justDragged,80);
-    }
-  };
-  el.addEventListener("pointerup",finish);
-  el.addEventListener("pointercancel",finish);
-
-  // Prevent the normal button action after a drag.
-  el.addEventListener("click",e=>{
-    if(el.dataset.justDragged==="1"){
-      e.preventDefault();
-      e.stopImmediatePropagation();
-    }
-  },true);
-
-  applyFloatingButtonPosition(key,el);
-}
-
-function initDraggableFloatingButtons(){
-  makeFloatingButtonDraggable(document.getElementById("launchActivityFab"),"activity");
-  makeFloatingButtonDraggable(document.getElementById("returnProdBtn"),"returnProd");
-}
-
-window.addEventListener("resize",()=>{
-  const a=document.getElementById("launchActivityFab");
-  const b=document.getElementById("returnProdBtn");
-  if(a)applyFloatingButtonPosition("activity",a);
-  if(b)applyFloatingButtonPosition("returnProd",b);
-});
-
-setTimeout(initDraggableFloatingButtons,0);
-
-</script>
-<script>
-
-/* === robust mobile draggable floating buttons v2 === */
-(function(){
-  const KEY="role_life_test_float_pos_v2";
-
-  function positions(){
-    try{return JSON.parse(localStorage.getItem(KEY)||"{}")||{};}catch(_){return{};}
-  }
-  function save(key,el){
-    const all=positions(), r=el.getBoundingClientRect();
-    all[key]={x:Math.round(r.left),y:Math.round(r.top)};
-    localStorage.setItem(KEY,JSON.stringify(all));
-  }
-  function clamp(el,x,y){
-    const p=6,w=el.offsetWidth||90,h=el.offsetHeight||44;
-    return {
-      x:Math.max(p,Math.min(window.innerWidth-w-p,x)),
-      y:Math.max(p,Math.min(window.innerHeight-h-p,y))
-    };
-  }
-  function place(key,el){
-    const p=positions()[key];
-    if(!p)return;
-    const q=clamp(el,+p.x||0,+p.y||0);
-    el.style.setProperty("left",q.x+"px","important");
-    el.style.setProperty("top",q.y+"px","important");
-    el.style.setProperty("right","auto","important");
-    el.style.setProperty("bottom","auto","important");
-  }
-  function bind(el,key){
-    if(!el || el.dataset.dragV2==="1") return;
-    el.dataset.dragV2="1";
-    el.style.touchAction="none";
-
-    let active=false,moved=false,sx=0,sy=0,sl=0,st=0;
-
-    function start(x,y){
-      const r=el.getBoundingClientRect();
-      active=true;moved=false;sx=x;sy=y;sl=r.left;st=r.top;
-      el.classList.add("dragging");
-    }
-    function move(x,y,ev){
-      if(!active)return;
-      const dx=x-sx,dy=y-sy;
-      if(!moved && Math.hypot(dx,dy)>5)moved=true;
-      if(!moved)return;
-      if(ev && ev.cancelable)ev.preventDefault();
-      const q=clamp(el,sl+dx,st+dy);
-      el.style.setProperty("left",q.x+"px","important");
-      el.style.setProperty("top",q.y+"px","important");
-      el.style.setProperty("right","auto","important");
-      el.style.setProperty("bottom","auto","important");
-    }
-    function end(){
-      if(!active)return;
-      active=false;el.classList.remove("dragging");
-      if(moved){
-        save(key,el);
-        el.dataset.dragBlockClick="1";
-        setTimeout(()=>delete el.dataset.dragBlockClick,250);
-      }
-    }
-
-    // Touch events: more reliable in Android/PWA/WebView.
-    el.addEventListener("touchstart",e=>{
-      if(e.touches.length!==1)return;
-      const t=e.touches[0]; start(t.clientX,t.clientY);
-    },{passive:true});
-    el.addEventListener("touchmove",e=>{
-      if(e.touches.length!==1)return;
-      const t=e.touches[0]; move(t.clientX,t.clientY,e);
-    },{passive:false});
-    el.addEventListener("touchend",end,{passive:true});
-    el.addEventListener("touchcancel",end,{passive:true});
-
-    // Mouse fallback.
-    el.addEventListener("mousedown",e=>{
-      if(e.button!==0)return; start(e.clientX,e.clientY); e.preventDefault();
-    });
-    window.addEventListener("mousemove",e=>move(e.clientX,e.clientY,e));
-    window.addEventListener("mouseup",end);
-
-    // Block original onclick after an actual drag.
-    el.addEventListener("click",e=>{
-      if(el.dataset.dragBlockClick==="1"){
-        e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();
-      }
-    },true);
-
-    place(key,el);
-  }
-
-  function init(){
-    bind(document.getElementById("launchActivityFab"),"activity");
-    bind(document.getElementById("returnProdBtn"),"returnProd");
-  }
-  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init);
-  else init();
-  setTimeout(init,500);
-  setTimeout(init,1500);
-  window.addEventListener("resize",()=>{
-    const a=document.getElementById("launchActivityFab"),b=document.getElementById("returnProdBtn");
-    if(a)place("activity",a); if(b)place("returnProd",b);
-  });
+ function saved(){try{return JSON.parse(localStorage.getItem(KEY)||"{}")||{}}catch(_){return{}}}
+ function clamp(el,left,top){
+   const p=8,w=el.offsetWidth||120,h=el.offsetHeight||52;
+   return {left:Math.max(p,Math.min(innerWidth-w-p,left)),top:Math.max(p,Math.min(innerHeight-h-p,top))};
+ }
+ function restore(el,key){
+   const pos=saved()[key];if(!pos)return false;
+   const q=clamp(el,Number(pos.left)||0,Number(pos.top)||0);
+   el.style.setProperty("left",q.left+"px","important");
+   el.style.setProperty("top",q.top+"px","important");
+   el.style.setProperty("right","auto","important");
+   el.style.setProperty("bottom","auto","important");
+   return true;
+ }
+ function bind(el,key){
+   if(!el||el.dataset.drag3306==="1")return;
+   el.dataset.drag3306="1";
+   // No saved position => CSS bottom-right remains untouched from first paint.
+   restore(el,key);
+   el.style.touchAction="none";
+   let active=false,moved=false,sx=0,sy=0,sl=0,st=0,pid=null;
+   el.addEventListener("pointerdown",e=>{
+     if(e.button!=null&&e.button!==0)return;
+     const r=el.getBoundingClientRect();
+     active=true;moved=false;pid=e.pointerId;sx=e.clientX;sy=e.clientY;sl=r.left;st=r.top;
+     try{el.setPointerCapture(pid)}catch(_){}
+   },{passive:true});
+   el.addEventListener("pointermove",e=>{
+     if(!active||e.pointerId!==pid)return;
+     const dx=e.clientX-sx,dy=e.clientY-sy;
+     if(!moved&&Math.hypot(dx,dy)>=8)moved=true;
+     if(!moved)return;
+     const q=clamp(el,sl+dx,st+dy);
+     el.style.setProperty("left",q.left+"px","important");el.style.setProperty("top",q.top+"px","important");
+     el.style.setProperty("right","auto","important");el.style.setProperty("bottom","auto","important");
+   },{passive:true});
+   const end=e=>{
+     if(!active)return;active=false;
+     try{el.releasePointerCapture(pid)}catch(_){}
+     if(moved){
+       const r=el.getBoundingClientRect(),all=saved();all[key]={left:r.left,top:r.top};
+       try{localStorage.setItem(KEY,JSON.stringify(all))}catch(_){}
+       el.dataset.dragBlock3306="1";setTimeout(()=>delete el.dataset.dragBlock3306,350);
+     }
+     pid=null;
+   };
+   el.addEventListener("pointerup",end,{passive:true});
+   el.addEventListener("pointercancel",end,{passive:true});
+   el.addEventListener("click",e=>{
+     if(el.dataset.dragBlock3306==="1"){e.preventDefault();e.stopImmediatePropagation();e.stopPropagation()}
+   },true);
+ }
+ function init(){
+   bind(document.getElementById("launchActivityFab"),"qixi");
+   bind(document.getElementById("returnProdBtn"),"prod");
+ }
+ document.readyState==="loading"?document.addEventListener("DOMContentLoaded",init,{once:true}):init();
+ window.addEventListener("pageshow",init,{passive:true});
+ window.addEventListener("resize",()=>{
+   const a=document.getElementById("launchActivityFab"),b=document.getElementById("returnProdBtn");
+   if(a)restore(a,"qixi");if(b)restore(b,"prod");
+ });
 })();
-
 </script>
-
 <button id="npcTownFab" class="npcTownFab hidden" type="button">
   <span>🏪</span><b>貓貓商店</b><i id="npcTownDot" class="npcTownDot hidden"></i>
 </button>
@@ -14128,7 +14004,8 @@ body.maid-cafe-preview .chip{background:#f8e3e9!important;color:#7d4b60!importan
    toast?.('🎀 已使用 1 張主題兌換券，永久解鎖「女僕咖啡廳主題」！',4200);
  },true);
  function boot(){
-   refreshVersion();applyPreview();const c=current();if(c){cleanLegacy(c);try{saveLocal?.()}catch(_){}}
+   refreshVersion();const c=current();if(c){cleanLegacy(c);try{saveLocal?.()}catch(_){}}
+   if(String(local?.appearanceTheme||"default")==="maid")applyPreview();
    installNpcShopHook();
    /* 有些 NPC 函式較晚宣告，短時間再掛一次，不使用 MutationObserver。 */
    setTimeout(installNpcShopHook,250);setTimeout(installNpcShopHook,900);
@@ -14136,7 +14013,7 @@ body.maid-cafe-preview .chip{background:#f8e3e9!important;color:#7d4b60!importan
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
  /* 角色切換後也維持預覽，不讓舊星河 applyTheme 視覺蓋回來。 */
- document.addEventListener('click',e=>{if(e.target.closest('[data-load]')){setTimeout(()=>{applyPreview();refreshVersion();installNpcShopHook()},0)}},true);
+ document.addEventListener('click',e=>{if(e.target.closest('[data-load]')){setTimeout(()=>{if(String(local?.appearanceTheme||"default")==="maid")applyPreview();refreshVersion();installNpcShopHook();try{window.applyAppearanceTheme3306?.()}catch(_){}},0)}},true);
 })();
 </script>
 
@@ -14151,89 +14028,13 @@ body::before,body::after,#app::before,#app::after,#home::before,#home::after,#ho
 input,select,textarea{background:rgba(255,253,251,.94)!important;color:var(--maid-coffee)!important;border-color:rgba(201,119,152,.35)!important}
 header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{background:linear-gradient(90deg,#55303f,#8c506b)!important;background-image:none!important}
 </style>
-<script id="maid-cafe-preview-32640-js">(function(){function a(){document.documentElement.setAttribute('data-theme','maid-cafe');if(document.body){document.body.classList.add('maid-cafe-preview');document.body.setAttribute('data-theme','maid-cafe')}}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',a,{once:true});else a();window.addEventListener('pageshow',a);window.__applyMaidCafePreview=a})();</script>
-<script id="floating-drag-guard-3272">
-(()=>{
- const KEY_PREFIX="rlg_fab_pos_";
- function makeDraggable(el,key){
-   if(!el || el.dataset.drag3272==="1") return;
-   el.dataset.drag3272="1";
-   el.style.touchAction="none";
-   let sx=0,sy=0,sl=0,st=0,moved=false,dragging=false,pid=null;
-
-   const restore=()=>{
-     try{
-       const p=JSON.parse(localStorage.getItem(KEY_PREFIX+key)||"null");
-       if(p && Number.isFinite(p.left) && Number.isFinite(p.top)){
-         el.style.position="fixed"; el.style.left=p.left+"px"; el.style.top=p.top+"px";
-         el.style.right="auto"; el.style.bottom="auto";
-       }
-     }catch(_){}
-   };
-   restore();
-
-   el.addEventListener("pointerdown",e=>{
-     if(e.button!==undefined && e.button!==0) return;
-     const r=el.getBoundingClientRect();
-     sx=e.clientX; sy=e.clientY; sl=r.left; st=r.top;
-     moved=false; dragging=true; pid=e.pointerId;
-     try{el.setPointerCapture(pid)}catch(_){}
-   },{passive:true});
-
-   el.addEventListener("pointermove",e=>{
-     if(!dragging || (pid!==null && e.pointerId!==pid)) return;
-     const dx=e.clientX-sx,dy=e.clientY-sy;
-     if(!moved && Math.hypot(dx,dy)>=7) moved=true;
-     if(!moved) return;
-     const w=el.offsetWidth,h=el.offsetHeight;
-     const left=Math.max(6,Math.min(innerWidth-w-6,sl+dx));
-     const top=Math.max(6,Math.min(innerHeight-h-6,st+dy));
-     el.style.position="fixed";el.style.left=left+"px";el.style.top=top+"px";
-     el.style.right="auto";el.style.bottom="auto";
-     el.dataset.justDragged="1";
-   },{passive:true});
-
-   const end=e=>{
-     if(!dragging)return;
-     dragging=false;
-     try{el.releasePointerCapture(pid)}catch(_){}
-     pid=null;
-     if(moved){
-       const r=el.getBoundingClientRect();
-       try{localStorage.setItem(KEY_PREFIX+key,JSON.stringify({left:r.left,top:r.top}))}catch(_){}
-       // Keep the guard alive through the synthetic click fired after pointerup.
-       setTimeout(()=>{delete el.dataset.justDragged},350);
-     }
-   };
-   el.addEventListener("pointerup",end,{passive:true});
-   el.addEventListener("pointercancel",end,{passive:true});
-
-   // Capture phase: if this gesture was a drag, do not allow navigation/open action.
-   el.addEventListener("click",e=>{
-     if(el.dataset.justDragged==="1"){
-       e.preventDefault(); e.stopImmediatePropagation(); e.stopPropagation();
-       return false;
-     }
-   },true);
- }
-
- function findAndBind(){
-   const all=[...document.querySelectorAll("button,a,[role=button],div")];
-   for(const el of all){
-     const t=(el.textContent||"").replace(/\s+/g," ").trim();
-     if(t.includes("七夕活動") && el.getBoundingClientRect().width>70 && el.getBoundingClientRect().height>35)
-       makeDraggable(el,"qixi");
-     if(t.includes("回正式服") && el.getBoundingClientRect().width>70 && el.getBoundingClientRect().height>35)
-       makeDraggable(el,"prod");
-   }
- }
- const boot=()=>{
-   findAndBind();
-   new MutationObserver(findAndBind).observe(document.body,{childList:true,subtree:true});
- };
- document.readyState==="loading"?document.addEventListener("DOMContentLoaded",boot):boot();
+<script id="maid-cafe-preview-32640-js">
+(function(){
+ function a(){document.documentElement.setAttribute("data-theme","maid-cafe");if(document.body){document.body.classList.add("maid-cafe-preview","theme-maid-cafe");document.body.setAttribute("data-theme","maid-cafe")}}
+ window.__applyMaidCafePreview=a;
 })();
 </script>
+
 
 
 <style id="qixiRpg3274Style">
@@ -14450,27 +14251,22 @@ header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{back
    if(!t)return;
    const txt=(t.textContent||"");
    if(txt.includes("付費"))setTimeout(render,0);
+ },true); 
+ document.addEventListener("DOMContentLoaded",()=>setTimeout(render,100),{once:true});
+ document.addEventListener("click",e=>{
+   if(e.target.closest('[data-page="extraShop"],[data-open-page="extraShop"],[data-nav="extraShop"]'))setTimeout(render,60);
  },true);
- const mo=new MutationObserver(()=>{
-   const box=document.getElementById("paidShopList");
-   if(box && !box.dataset.qixi3280){
-     box.dataset.qixi3280="1";
-     render();
-   }
- });
- document.addEventListener("DOMContentLoaded",()=>{
-   mo.observe(document.body,{childList:true,subtree:true});
-   setTimeout(render,200);
- });
  window.renderPaidShop=render;
  window.renderPaid=render;
  window.renderPaidV324=render;
 })();
+
+ window.addEventListener("pageshow",()=>setTimeout(render,120),{passive:true});
 </script>
 <script id="qixi3283-ribbon-fix">
 (function(){
  function fix(){
-   document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.30.5-beta");
+   document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.30.6-beta");
  }
  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",fix,{once:true});else fix();
  setTimeout(fix,300);
@@ -14480,9 +14276,6 @@ header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{back
 <script id="qixi3290SingleInit">
 (function(){
  function init(){
-  document.documentElement.classList.add("qixi-theme-now");
-  document.body?.classList.add("qixi-global-theme");
-  document.body?.classList.remove("maid-cafe-preview");
   try{window.renderPaidShop?.()}catch(_){}
  }
  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init,{once:true});else init();
@@ -14496,50 +14289,74 @@ header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{back
  const modal=document.getElementById("appearanceModal");
  const grid=document.getElementById("appearanceGrid");
 
+ function c(){try{return typeof cur==="function"?cur():null}catch(_){return null}}
  function isGalaxyOwned(){
    try{return !!local?.accountItems?.qixi_galaxy_theme || !!local?.accountEntitlements?.qixiGalaxy}catch(_){return false}
+ }
+ function isMaidOwned(){
+   try{
+     const x=c();
+     return !!x?.paidCosmetics?.maidCafe || !!x?.paidEntitlements?.maidCafeVoucherRedeem ||
+            !!local?.accountEntitlements?.maidCafe || !!local?.accountItems?.maid_cafe_theme;
+   }catch(_){return false}
  }
  function currentAppearance(){
    try{return String(local?.appearanceTheme||"default")}catch(_){return "default"}
  }
  function saveAppearance(v){
-   try{
-     local.appearanceTheme=v;
-     if(typeof saveLocal==="function")saveLocal();
-   }catch(_){}
+   try{local.appearanceTheme=v;if(typeof saveLocal==="function")saveLocal()}catch(_){}
    applyAppearance();
  }
  function applyAppearance(){
    const v=currentAppearance();
-   document.body.classList.toggle("appearance-galaxy",v==="qixi");
+   const body=document.body;if(!body)return;
+   const isMaid=v==="maid",isQixi=v==="qixi";
+
+   document.documentElement.classList.toggle("qixi-theme-now",isQixi);
+   body.classList.toggle("qixi-global-theme",isQixi);
+   body.classList.toggle("appearance-galaxy",isQixi);
+
+   body.classList.toggle("maid-cafe-preview",isMaid);
+   body.classList.toggle("theme-maid-cafe",isMaid);
+   if(isMaid){
+     document.documentElement.setAttribute("data-theme","maid-cafe");
+     body.setAttribute("data-theme","maid-cafe");
+     try{window.__applyMaidCafePreview?.()}catch(_){}
+   }else{
+     if(document.documentElement.getAttribute("data-theme")==="maid-cafe")document.documentElement.removeAttribute("data-theme");
+     if(body.getAttribute("data-theme")==="maid-cafe")body.removeAttribute("data-theme");
+   }
  }
  function renderAppearance(){
    if(!grid)return;
-   const cur=currentAppearance(),galaxy=isGalaxyOwned();
+   const cur=currentAppearance(),galaxy=isGalaxyOwned(),maid=isMaidOwned();
    grid.innerHTML=`
     <button type="button" class="appearanceChoice ${cur==="default"?"active":""}" data-appearance="default">
       <b>🌷 原本外觀</b><span class="small">使用一般遊戲背景。</span>
+    </button>
+    <button type="button" class="appearanceChoice ${cur==="maid"?"active":""}" data-appearance="maid" ${maid?"":"disabled"}>
+      <b>🎀 女僕咖啡廳</b><span class="small">${maid?"已解鎖・可隨時切換":"尚未解鎖・需先兌換女僕咖啡廳主題"}</span>
     </button>
     <button type="button" class="appearanceChoice ${cur==="qixi"?"active":""}" data-appearance="qixi" ${galaxy?"":"disabled"}>
       <b>🌌 鵲橋星河</b><span class="small">${galaxy?"已解鎖・可隨時切換":"尚未解鎖・需使用「天上的一縷星辰」兌換"}</span>
     </button>`;
  }
  document.getElementById("appearanceDrawerBtn")?.addEventListener("click",()=>{
-   renderAppearance();
-   modal?.classList.remove("hidden");
+   renderAppearance();modal?.classList.remove("hidden");
    document.getElementById("drawer")?.classList.add("hidden");
    document.getElementById("drawerShade")?.classList.add("hidden");
  });
  document.getElementById("closeAppearanceModal")?.addEventListener("click",()=>modal?.classList.add("hidden"));
  grid?.addEventListener("click",e=>{
-   const b=e.target.closest("[data-appearance]");
-   if(!b||b.disabled)return;
-   saveAppearance(b.dataset.appearance);
-   renderAppearance();
+   const b=e.target.closest("[data-appearance]");if(!b||b.disabled)return;
+   saveAppearance(b.dataset.appearance);renderAppearance();
    try{toast?.("🎨 外觀已套用。",1800)}catch(_){}
  });
+ window.applyAppearanceTheme3306=applyAppearance;
+ window.renderAppearance=renderAppearance;
  applyAppearance();
- document.addEventListener("DOMContentLoaded",applyAppearance,{once:true});
+ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",applyAppearance,{once:true});
+ window.addEventListener("pageshow",applyAppearance,{passive:true});
 })();
 </script>
 
@@ -14594,7 +14411,7 @@ header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{back
 
 
 <style id="qixi3300ResponsiveFerry">
-/* 3.30.5：指定 GitHub 七夕背景；手機填滿、電腦固定直式舞台，禁止橫向螢幕把直圖放大裁爆 */
+/* 3.30.6：指定 GitHub 七夕背景；手機填滿、電腦固定直式舞台，禁止橫向螢幕把直圖放大裁爆 */
 #qixiMiniGameBoard.qixiFerryGameBoard,#qixiMiniGameBoard.qixiBridgeGameBoard{
  background-image:linear-gradient(rgba(8,7,35,.12),rgba(15,9,45,.24)),url("images/qixi/qixi_full_background.png")!important;
  background-repeat:no-repeat!important;background-position:center center!important;
@@ -14607,7 +14424,23 @@ header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{back
 .qixiFerryDrop{position:absolute;width:40px;height:40px;text-align:center;font-size:34px;line-height:40px;z-index:2;filter:drop-shadow(0 2px 6px rgba(0,0,0,.45))}.qixiFerryDrop.bad{font-size:36px}
 .qixiFerryControls{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px}.qixiFerryControls button{min-height:52px;border:1px solid rgba(255,255,255,.28);border-radius:16px;background:rgba(31,23,83,.86);color:#fff;font-weight:900;font-size:17px;touch-action:manipulation}
 </style>
-</body>
+<script id="scrollSafety3306Js">
+(()=>{
+ function unlock(){
+   document.documentElement.style.removeProperty("overflow");
+   document.documentElement.style.removeProperty("touch-action");
+   document.body?.style.removeProperty("overflow");
+   document.body?.style.removeProperty("touch-action");
+   document.body?.classList.remove("no-scroll","scroll-lock","modal-open");
+ }
+ document.addEventListener("click",e=>{
+   if(e.target.closest(".sheetClose,.x,[id^='close'],[data-close],.navBtn,[data-page]"))setTimeout(unlock,40);
+ },true);
+ window.addEventListener("pageshow",unlock,{passive:true});
+ window.addEventListener("focus",unlock,{passive:true});
+ document.addEventListener("visibilitychange",()=>{if(!document.hidden)unlock()});
+})();
+</script></body>
 </html>
 
 <style>
@@ -16270,150 +16103,46 @@ function openConfirm(o={}){
 
  /* 覆蓋測試服顯示版本，不碰正式服。 */
  setTimeout(()=>{
-  document.title="關係進行式 TEST・3.30.5-七夕重複錯誤清理＋邀請防呆";
-  document.querySelector(".homeVersion")?.replaceChildren(document.createTextNode("3.30.5・測試服｜七夕重複錯誤清理＋邀請防呆"));
-  document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.30.5-beta");
-  const meta=document.querySelector('meta[name="x-test-build"]');if(meta)meta.content="3.30.5";
+  document.title="關係進行式 TEST・3.30.6-外觀・滑動・商店・浮動入口修復";
+  document.querySelector(".homeVersion")?.replaceChildren(document.createTextNode("3.30.6・測試服｜外觀・滑動・商店・浮動入口修復"));
+  document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.30.6-beta");
+  const meta=document.querySelector('meta[name="x-test-build"]');if(meta)meta.content="3.30.6";
  },100);
 })();
 </script>
-\n<style id="qixi3298AuthoritativeFix">\n/* 3.30.5：星河渡口與鵲羽橋使用指定背景圖 */\n#qixiMiniGameBoard.qixiFerryGameBoard,#qixiMiniGameBoard.qixiBridgeGameBoard{\n background-image:linear-gradient(rgba(8,7,35,.16),rgba(15,9,45,.28)),url("images/qixi/qixi_ferry_game_bg.png")!important;\n background-size:cover!important;background-position:center center!important;background-repeat:no-repeat!important;min-height:56vh!important;\n}\n#qixiMiniGameBoard.qixiFerryGameBoard .qixiStarTapGrid{padding-top:4vh!important}\n#qixiMiniGameBoard.qixiFerryGameBoard .qixiStarTap{background:rgba(28,21,76,.62)!important;backdrop-filter:blur(2px)!important}\n/* SHOP_3304_SINGLE_SOURCE_START */
-/* 3.30.5：商店唯一權威版型。整個商店頁負責垂直滑動，子區塊不截斷。 */
-html.qixi-theme-now #extraShop.pageCard.active{
-  display:block!important;
-  position:fixed!important;
-  top:88px!important;
-  right:0!important;
-  bottom:0!important;
-  left:0!important;
-  width:100vw!important;
-  height:auto!important;
-  max-width:100vw!important;
-  max-height:none!important;
-  margin:0!important;
-  padding:14px 14px calc(180px + env(safe-area-inset-bottom))!important;
-  box-sizing:border-box!important;
-  overflow-y:auto!important;
-  overflow-x:hidden!important;
-  -webkit-overflow-scrolling:touch!important;
-  overscroll-behavior-y:contain!important;
-  touch-action:pan-y!important;
-  transform:none!important;
-  background:linear-gradient(180deg,#e8def3 0%,#d8c9e9 100%)!important;
-  color:#39294f!important;
+\n<style id="qixi3298AuthoritativeFix">\n/* 3.30.6：星河渡口與鵲羽橋使用指定背景圖 */\n#qixiMiniGameBoard.qixiFerryGameBoard,#qixiMiniGameBoard.qixiBridgeGameBoard{\n background-image:linear-gradient(rgba(8,7,35,.16),rgba(15,9,45,.28)),url("images/qixi/qixi_ferry_game_bg.png")!important;\n background-size:cover!important;background-position:center center!important;background-repeat:no-repeat!important;min-height:56vh!important;\n}\n#qixiMiniGameBoard.qixiFerryGameBoard .qixiStarTapGrid{padding-top:4vh!important}\n#qixiMiniGameBoard.qixiFerryGameBoard .qixiStarTap{background:rgba(28,21,76,.62)!important;backdrop-filter:blur(2px)!important}\n/* SHOP_3306_SINGLE_SOURCE_START */
+html.qixi-theme-now #extraShop.pageCard.active,
+#extraShop.pageCard.active{
+ display:block!important;
+ position:fixed!important;
+ z-index:980!important;
+ left:50%!important;right:auto!important;top:auto!important;
+ bottom:0!important;
+ transform:translateX(-50%)!important;
+ width:min(100%,540px)!important;
+ height:calc(100dvh - 96px)!important;
+ max-height:calc(100dvh - 96px)!important;
+ margin:0!important;
+ padding:14px 14px calc(150px + env(safe-area-inset-bottom))!important;
+ box-sizing:border-box!important;
+ overflow-y:scroll!important;
+ overflow-x:hidden!important;
+ -webkit-overflow-scrolling:touch!important;
+ overscroll-behavior-y:auto!important;
+ touch-action:pan-y!important;
+ border-radius:24px 24px 0 0!important;
+ background:linear-gradient(180deg,#e8def3,#d8c9e9)!important;
+ color:#39294f!important;
 }
-html.qixi-theme-now #extraShop .shopTabs{
-  position:static!important;
-  display:grid!important;
-  grid-template-columns:repeat(3,minmax(0,1fr))!important;
-  gap:8px!important;
-  width:100%!important;
-  margin:10px 0 12px!important;
-  transform:none!important;
-}
-html.qixi-theme-now #shopPaidPanel:not(.hidden),
-html.qixi-theme-now #shopGiftPanel:not(.hidden),
-html.qixi-theme-now #shopNormalPanel:not(.hidden){
-  display:block!important;
-  position:static!important;
-  width:100%!important;
-  height:auto!important;
-  max-width:100%!important;
-  max-height:none!important;
-  min-width:0!important;
-  margin:0!important;
-  padding:0!important;
-  overflow:visible!important;
-  transform:none!important;
-}
-html.qixi-theme-now #shopPaidPanel.hidden,
-html.qixi-theme-now #shopGiftPanel.hidden,
-html.qixi-theme-now #shopNormalPanel.hidden{
-  display:none!important;
-}
-html.qixi-theme-now #paidShopList{
-  position:static!important;
-  display:grid!important;
-  grid-template-columns:repeat(2,minmax(0,1fr))!important;
-  gap:10px!important;
-  width:100%!important;
-  height:auto!important;
-  max-width:100%!important;
-  max-height:none!important;
-  min-width:0!important;
-  margin:0!important;
-  padding:0 0 100px!important;
-  overflow:visible!important;
-  transform:none!important;
-  box-sizing:border-box!important;
-}
-html.qixi-theme-now #paidShopList>.paidProduct{
-  position:static!important;
-  display:flex!important;
-  flex-direction:column!important;
-  justify-content:space-between!important;
-  float:none!important;
-  width:auto!important;
-  min-width:0!important;
-  max-width:100%!important;
-  min-height:230px!important;
-  margin:0!important;
-  padding:13px 11px!important;
-  box-sizing:border-box!important;
-  overflow:hidden!important;
-  transform:none!important;
-  border:1px solid #cbb9df!important;
-  border-radius:18px!important;
-  background:linear-gradient(145deg,#fbf8fd,#e9dff4)!important;
-  color:#39294f!important;
-}
-html.qixi-theme-now #paidShopList>.paidProduct *{
-  color:#39294f!important;
-  max-width:100%!important;
-  overflow-wrap:anywhere!important;
-}
-html.qixi-theme-now #paidShopList .paidProductTitle{
-  font-weight:900!important;
-  line-height:1.35!important;
-}
-html.qixi-theme-now #paidShopList .paidPrice{
-  color:#684b82!important;
-  font-weight:900!important;
-}
-html.qixi-theme-now #paidShopList>.qixiPaidGroupTitle,
-html.qixi-theme-now #paidShopList>.paidOrdersBlock{
-  grid-column:1/-1!important;
-  position:static!important;
-  width:100%!important;
-  max-width:100%!important;
-  margin:14px 0 4px!important;
-  padding:0!important;
-  transform:none!important;
-  box-sizing:border-box!important;
-}
-html.qixi-theme-now #paidShopList>.qixiPaidGroupTitle{
-  color:#39294f!important;
-  font-size:19px!important;
-  font-weight:950!important;
-}
-html.qixi-theme-now #paidShopList>.paidOrdersBlock{
-  color:#665674!important;
-}
-html.qixi-theme-now #extraShop .paidShopNotice,
-html.qixi-theme-now #extraShop .section{
-  position:static!important;
-  width:100%!important;
-  max-width:100%!important;
-  height:auto!important;
-  max-height:none!important;
-  margin:0 0 10px!important;
-  padding:12px!important;
-  overflow:visible!important;
-  transform:none!important;
-  box-sizing:border-box!important;
-  background:#f7f1fb!important;
-  border:1px solid #cfbee1!important;
-  color:#39294f!important;
-}
-/* SHOP_3304_SINGLE_SOURCE_END */
+#extraShop .shopTabs{position:static!important;display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:8px!important;width:100%!important;margin:10px 0 12px!important}
+#extraShop #shopPaidPanel:not(.hidden),#extraShop #shopGiftPanel:not(.hidden),#extraShop #shopNormalPanel:not(.hidden){display:block!important;position:static!important;width:100%!important;height:auto!important;max-height:none!important;overflow:visible!important}
+#extraShop #shopPaidPanel.hidden,#extraShop #shopGiftPanel.hidden,#extraShop #shopNormalPanel.hidden{display:none!important}
+#extraShop #paidShopList{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important;width:100%!important;height:auto!important;max-height:none!important;overflow:visible!important;padding:0 0 80px!important}
+#extraShop #paidShopList>.paidProduct{position:static!important;width:auto!important;min-width:0!important;max-width:100%!important;min-height:230px!important;margin:0!important;padding:13px 11px!important;box-sizing:border-box!important;overflow:visible!important;transform:none!important;background:linear-gradient(145deg,#fbf8fd,#e9dff4)!important;border:1px solid #cbb9df!important;border-radius:18px!important;color:#39294f!important}
+#extraShop #paidShopList>.paidProduct *{color:#39294f!important;overflow-wrap:anywhere!important}
+#extraShop #paidShopList>.qixiPaidGroupTitle,#extraShop #paidShopList>.paidOrdersBlock{grid-column:1/-1!important;position:static!important;width:100%!important;margin:16px 0 5px!important;transform:none!important}
+#extraShop #paidShopList>.qixiPaidGroupTitle{font-size:19px!important;font-weight:950!important;color:#39294f!important}
+#extraShop .paidShopNotice,#extraShop .section{position:static!important;width:100%!important;height:auto!important;overflow:visible!important;box-sizing:border-box!important}
+@media(max-width:390px){#extraShop #paidShopList{grid-template-columns:1fr!important}}
+/* SHOP_3306_SINGLE_SOURCE_END */
 </style>\n
