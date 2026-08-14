@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#9a76c4" name="theme-color"/>
-<title>關係進行式・3.31.9</title>
+<title>關係進行式・3.32.1</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -1749,7 +1749,7 @@ html[data-formal-theme="maidCafe"] .formalAppearanceCard{
 <div class="homeLogo">💞</div>
 <h1>關係進行式</h1>
 <div class="homeTagline">每一段關係，都還在進行中。</div>
-<div class="homeVersion">第3.31.9版・跨瀏覽器打工修正</div>
+<div class="homeVersion">第3.32.1版・成就正常解鎖顯示</div>
 </div>
 <div id="playerAccountHomePanel" class="homePanel accountHomePanel">
 <div class="homePanelTitle"><span>☁️ 玩家帳號</span><span id="playerAccountChip" class="chip">未登入</span></div>
@@ -2190,7 +2190,7 @@ html[data-formal-theme="maidCafe"] .formalAppearanceCard{
 </div>
 <div class="drawerShade hidden" id="drawerShade"></div><aside class="drawer hidden" id="drawer"><div style="padding:8px"><b id="drawerName">角色</b><div class="muted">功能選單</div></div><button class="navBtn" data-nav="life" type="button">🏠 角色生活</button><button class="navBtn" data-nav="daily" type="button">📋 今日小事</button><button class="navBtn" data-nav="work" type="button">💼 打工賺錢</button><button class="navBtn" data-nav="journal" type="button">📖 今日生活日誌</button><button class="navBtn" data-nav="routine" type="button">🕒 角色作息</button><button class="navBtn" data-nav="outing" type="button">🗺️ 外出 <span class="navDot hidden" data-dot="outing"></span></button><button class="navBtn" data-nav="relations" type="button">💞 關係 <span class="navDot hidden" data-dot="relations"></span></button><button class="navBtn" data-nav="npcrelations" type="button">✨ NPC 關係</button><button class="navBtn" data-nav="mailbox" type="button">📬 信箱 <span class="navDot hidden" data-dot="mailbox"></span></button><button class="navBtn" id="playerAccountDrawerBtn" type="button">☁️ 玩家帳號</button><button class="navBtn" id="gmDrawerLoginBtn" type="button">👑 管理員登入</button><button class="navBtn hidden" data-nav="gm" id="gmNavBtn" type="button">🛠️ GM 操作台</button><div class="navSep"></div><button class="navBtn" data-nav="bag" type="button">🎒 背包</button><button class="navBtn" data-nav="shop" type="button">🏪 商店</button><button class="navBtn" data-nav="memory" type="button">📖 回憶</button><button class="navBtn" data-nav="achievements" type="button">🏆 成就</button><div class="navSep"></div><div style="padding:8px"><b>🎵 悠閒 BGM</b><div class="actions"><button id="bgmToggle">▶ 播放</button><input id="bgmVolume" max="1" min="0" step=".05" type="range" value=".25"/></div><div class="small">把 bgm.mp3 和 index.html 放同一資料夾。</div></div><audio autoplay="" id="bgm" loop="" playsinline="" preload="auto"><source src="bgm.mp3" type="audio/mpeg"/></audio><button class="navBtn" id="back" type="button">💾 返回存檔首頁</button></aside><div class="modal hidden" id="updateNoticeModal">
 <div class="modalBox">
-<div class="modalHead"><b>📢 第3.31.9版更新公告</b><button id="closeUpdateNotice">×</button></div>
+<div class="modalHead"><b>📢 第3.32.1版更新公告</b><button id="closeUpdateNotice">×</button></div>
 <div class="updateNoticeBody">
   <h3>🎀 女僕咖啡廳主題</h3>
   <p>新增女僕咖啡廳限定外觀。解鎖後可在「外觀更改」中自由切換原始外觀與女僕咖啡廳，選擇會保留。</p>
@@ -2235,6 +2235,9 @@ html[data-formal-theme="maidCafe"] .formalAppearanceCard{
 
   <h3>💼 打工跨瀏覽器修正</h3>
   <p>重新定位到真正原因：舊打工程式依賴瀏覽器把 HTML 元素 id 自動建立成 JavaScript 全域變數。部分 Chrome 環境可用，但 Safari、Firefox 與部分 PWA/WebView 不保證支援，因此會出現「開發者自己能打工、其他玩家按了沒反應」。現在已全面改為 getElementById 與 document 事件委派，不再依賴瀏覽器差異。</p>
+
+  <h3>🏆 成就解鎖／手機當機修正</h3>
+  <p>手機打工改成單一 click 流程，避免同一次觸控同時觸發 pointerup 與 click。成就會在雲端角色與關係資料載入後重新檢查；若過去已符合條件但漏掉通知，現在會直接以正常「成就解鎖」方式顯示。</p>
 
   <h3>🔧 本次修正</h3>
   <p>修正突破成功卻誤顯示失敗、突破狀態同步、解除後重綁、貓貓商店女僕兌換入口，以及部分版本號仍顯示舊版本的問題。</p>
@@ -6970,44 +6973,31 @@ async function doWork(id){
   modal?.classList.remove("hidden");
   return true;
 }
-// 3.31.9：跨瀏覽器打工事件。
+// 3.32.0：手機打工改為單一路徑，避免 pointerup + click 雙觸發競態。
 (function bindWorkButtons(){
-  let lastPointer=0;
-
-  async function run(e){
+  document.addEventListener("click",async function(e){
     const b=e.target&&e.target.closest?e.target.closest("#workList [data-work]"):null;
     if(!b||b.disabled)return;
-
-    if(e.type==="click"&&Date.now()-lastPointer<450)return;
-    if(e.type==="pointerup")lastPointer=Date.now();
-
     e.preventDefault();
     e.stopPropagation();
-
     if(b.dataset.busy==="1")return;
     b.dataset.busy="1";
+    b.disabled=true;
     try{
-      const ok=await doWork(b.dataset.work);
-      if(ok===false)console.warn("work rejected",b.dataset.work);
+      await doWork(b.dataset.work);
     }catch(err){
       console.error("work failed",err);
-      try{
-        const title=document.getElementById("infoTitle");
-        const body=document.getElementById("infoBody");
-        const modal=document.getElementById("infoModal");
-        if(title)title.textContent="💼 打工暫時失敗";
-        if(body)body.textContent="這次沒有扣除次數或體力，請重新點一次。";
-        modal?.classList.remove("hidden");
-      }catch(_){}
+      const title=document.getElementById("infoTitle");
+      const body=document.getElementById("infoBody");
+      const modal=document.getElementById("infoModal");
+      if(title)title.textContent="💼 打工暫時失敗";
+      if(body)body.textContent="這次操作沒有完成，請重新點一次。";
+      modal?.classList.remove("hidden");
     }finally{
       delete b.dataset.busy;
+      try{const c=cur();if(c)renderWork(c)}catch(_){}
     }
-  }
-
-  /* 綁 document，不要求 script 執行當下 #workList 已經存在；
-     動態重新 render 打工卡片也不會把事件綁定洗掉。 */
-  document.addEventListener("pointerup",run,false);
-  document.addEventListener("click",run,false);
+  },false);
 })();
 
 
@@ -14362,7 +14352,7 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 
 <script id="formal3298MaidCommerce">
 (function(){
- const BUILD='3.31.9';
+ const BUILD='3.32.1';
  const THEME_KEY='role_life_formal_theme_v1';
  const VOUCHER='npc_maid_cafe_coffee_voucher';
 
@@ -14640,9 +14630,9 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 <script id="formal3313VersionGuard">
 (function(){
  function apply(){
-  document.querySelectorAll('.homeVersion').forEach(x=>x.textContent='第3.31.9版・跨瀏覽器打工修正');
+  document.querySelectorAll('.homeVersion').forEach(x=>x.textContent='第3.32.1版・成就正常解鎖顯示');
   document.querySelectorAll('.chip').forEach(x=>{if(/^第?3\.\d+(?:\.\d+)?版?$/.test((x.textContent||'').trim()))x.textContent='第3.31.1版'});
-  document.title='關係進行式・3.31.9';
+  document.title='關係進行式・3.32.1';
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',apply,{once:true});else apply();
  window.addEventListener('pageshow',apply);
@@ -15179,6 +15169,95 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
   }
   document.addEventListener("click",()=>setTimeout(patchText,0),true);
   window.addEventListener("pageshow",()=>setTimeout(patchText,100));
+})();
+</script>
+
+
+<script id="formal3320AchievementRepair">
+(function(){
+  function C(){try{return typeof cur==="function"?cur():null}catch(_){return null}}
+  function defs(){
+    try{
+      if(typeof achievementDefs!=="undefined"&&Array.isArray(achievementDefs))return achievementDefs;
+      if(Array.isArray(window.achievementDefs))return window.achievementDefs;
+      if(Array.isArray(window.ACHIEVEMENTS))return window.ACHIEVEMENTS;
+    }catch(_){}
+    return [];
+  }
+  function norm(x){return String(x||"").replace(/\s+/g,"").toLowerCase()}
+  function findDef(terms){
+    return defs().find(d=>{
+      const h=norm([d.id,d.key,d.name,d.title,d.desc,d.description].join(" "));
+      return terms.some(t=>h.includes(norm(t)));
+    })||null;
+  }
+  function rels(c){
+    const r=c?.relations||c?.relationships||[];
+    return Array.isArray(r)?r:Object.values(r||{});
+  }
+  function lv(r){return Number(r?.level||r?.bondLevel||r?.stage||r?.rank||0)}
+  function haveSet(c){
+    const out=new Set();
+    for(const x of [c?.achievements,c?.achievementIds,c?.unlockedAchievements,
+                    window.local?.achievements,window.local?.achievementIds,window.local?.unlockedAchievements]){
+      if(Array.isArray(x))for(const v of x)out.add(typeof v==="object"?(v.id||v.key||v.name||v.title):v);
+      else if(x&&typeof x==="object")for(const [k,v] of Object.entries(x))if(v)out.add(k);
+    }
+    return out;
+  }
+  function insert(c,id){
+    let a=Array.isArray(c.achievements)?c.achievements:
+          Array.isArray(c.achievementIds)?c.achievementIds:
+          Array.isArray(c.unlockedAchievements)?c.unlockedAchievements:null;
+    if(!a)c.achievements=a=[];
+    if(a.some(v=>(typeof v==="object"?(v.id||v.key||v.name||v.title):v)===id))return false;
+    a.push(id);return true;
+  }
+  function popup(d){
+    const name=d?.name||d?.title||d?.id||"成就";
+    try{
+      if(typeof queueAchievementToast==="function"){queueAchievementToast(`🏆 成就解鎖：${name}`);return}
+      if(typeof showAchievementToast==="function"){showAchievementToast(`🏆 成就解鎖：${name}`);return}
+    }catch(_){}
+    const t=document.getElementById("infoTitle"),b=document.getElementById("infoBody"),m=document.getElementById("infoModal");
+    if(t)t.textContent="🏆 成就解鎖";
+    if(b)b.innerHTML=`<b>${String(name).replace(/[<>&]/g,"")}</b>`;
+    m?.classList.remove("hidden");
+  }
+  function reconcile(){
+    const c=C();if(!c)return;
+    /* 先讓原本成就系統完整重跑 */
+    try{typeof checkAchievements==="function"&&checkAchievements(c)}catch(e){console.warn(e)}
+    try{typeof checkAllAchievements==="function"&&checkAllAchievements(c)}catch(e){console.warn(e)}
+    try{typeof evaluateAchievements==="function"&&evaluateAchievements(c)}catch(e){console.warn(e)}
+
+    const rs=rels(c), max=Math.max(0,...rs.map(lv)), have=haveSet(c), list=[];
+    const cand=[];
+    if(max>=6){
+      const d=findDef(["超越界限","突破原本","最終極限"]);
+      if(d)cand.push(d);
+    }
+    if(max>=7){
+      const d=findDef(["第七階","此生唯一","無可取代"]);
+      if(d)cand.push(d);
+    }
+    for(const d of cand){
+      const id=d.id||d.key||d.name||d.title;
+      if(id&&!have.has(id)&&insert(c,id)){have.add(id);list.push(d)}
+    }
+    if(list.length){
+      try{saveLocal?.()}catch(_){}
+      try{saveGame?.()}catch(_){}
+      try{save?.()}catch(_){}
+      list.forEach((d,i)=>setTimeout(()=>popup(d),300+i*900));
+    }
+    try{renderAchievements?.()}catch(_){}
+  }
+  window.reconcileMissingAchievements3320=reconcile;
+  function later(){setTimeout(reconcile,350);setTimeout(reconcile,2200)}
+  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",later,{once:true});else later();
+  window.addEventListener("pageshow",later);
+  document.addEventListener("visibilitychange",()=>{if(!document.hidden)later()});
 })();
 </script>
 
