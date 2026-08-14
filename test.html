@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#9a76c4">
-<meta name="x-test-build" content="3.29.0">
+<meta name="x-test-build" content="3.29.2">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>關係進行式 TEST・3.29.0-七夕淡紫角色卡修正版</title>
+<title>關係進行式 TEST・3.29.2-七夕淡紫整合修正版</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -1473,7 +1473,7 @@ body.npcStoryRunning .draggableFab{
 <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png">
 <link rel="manifest" href="manifest.json">
 <style id="qixi3279-scroll-fix">
-/* 3.29.0：七夕活動頁在手機上可完整往下捲，不再把守橋人卡片截成一半 */
+/* 3.29.2：七夕活動頁在手機上可完整往下捲，不再把守橋人卡片截成一半 */
 #qixiEventModal{
   overflow-y:auto!important;
   overflow-x:hidden!important;
@@ -1833,7 +1833,7 @@ html.qixi-theme-now [class*="maid-ribbon"]{display:none!important}
     <div class="homeLogo">🧪</div>
     <h1>關係進行式 TEST</h1>
     <div class="homeTagline">測試中的每一段關係，都可能被重置。</div>
-    <div class="homeVersion">3.29.0・測試服｜七夕淡紫角色卡修正版</div>
+    <div class="homeVersion">3.29.2・測試服｜七夕淡紫整合修正版</div>
   </div>
 
   <div id="playerAccountHomePanel" class="homePanel accountHomePanel">
@@ -2368,7 +2368,7 @@ html.qixi-theme-now [class*="maid-ribbon"]{display:none!important}
 </section>
 </div>
 
-<div id="drawerShade" class="drawerShade hidden"></div><aside id="drawer" class="drawer hidden"><div style="padding:8px"><b id="drawerName">角色</b><div class="muted">功能選單</div></div><button type="button" class="navBtn" data-nav="life">🏠 角色生活</button><button type="button" class="navBtn" data-nav="daily">📋 今日小事</button><button type="button" class="navBtn" data-nav="work">💼 打工賺錢</button><button type="button" class="navBtn" data-nav="journal">📖 今日生活日誌</button><button type="button" class="navBtn" data-nav="routine">🕒 角色作息</button><button type="button" class="navBtn" data-nav="outing">🗺️ 外出 <span class="navDot hidden" data-dot="outing"></span></button><button type="button" class="navBtn" data-nav="relations">💞 關係 <span class="navDot hidden" data-dot="relations"></span></button><button type="button" class="navBtn" data-nav="npcrelations">✨ NPC 關係</button><button type="button" class="navBtn" data-nav="mailbox">📬 信箱 <span class="navDot hidden" data-dot="mailbox"></span></button><button type="button" class="navBtn" id="playerAccountDrawerBtn">☁️ 玩家帳號</button><button type="button" class="navBtn" id="gmDrawerLoginBtn">👑 管理員登入</button><button type="button" class="navBtn hidden" id="gmNavBtn" data-nav="gm">🛠️ GM 操作台</button><div class="navSep"></div><button type="button" class="navBtn" data-nav="bag">🎒 背包</button><button type="button" class="navBtn" data-nav="shop">🏪 商店</button><button type="button" class="navBtn" data-nav="memory">📖 回憶</button><button type="button" class="navBtn" data-nav="achievements">🏆 成就</button><div class="navSep"></div><div style="padding:8px"><b>🎵 悠閒 BGM</b><div class="actions"><button id="bgmToggle">▶ 播放</button><input id="bgmVolume" type="range" min="0" max="1" step=".05" value=".25"></div><div class="small">把 bgm.mp3 和 index.html 放同一資料夾。</div></div><audio id="bgm" loop preload="auto" autoplay playsinline><source src="bgm.mp3" type="audio/mpeg"></audio><button type="button" class="navBtn" id="back">💾 返回存檔首頁</button></aside><div id="updateNoticeModal" class="modal hidden">
+<div id="drawerShade" class="drawerShade hidden"></div><aside id="drawer" class="drawer hidden"><div style="padding:8px"><b id="drawerName">角色</b><div class="muted">功能選單</div></div><button type="button" class="navBtn" data-nav="life">🏠 角色生活</button><button type="button" class="navBtn" data-nav="daily">📋 今日小事</button><button type="button" class="navBtn" data-nav="work">💼 打工賺錢</button><button type="button" class="navBtn" data-nav="journal">📖 今日生活日誌</button><button type="button" class="navBtn" data-nav="routine">🕒 角色作息</button><button type="button" class="navBtn" data-nav="outing">🗺️ 外出 <span class="navDot hidden" data-dot="outing"></span></button><button type="button" class="navBtn" data-nav="relations">💞 關係 <span class="navDot hidden" data-dot="relations"></span></button><button type="button" class="navBtn" data-nav="npcrelations">✨ NPC 關係</button><button type="button" class="navBtn" data-nav="mailbox">📬 信箱 <span class="navDot hidden" data-dot="mailbox"></span></button><button type="button" class="navBtn" id="playerAccountDrawerBtn">☁️ 玩家帳號</button><button type="button" class="navBtn" id="gmDrawerLoginBtn">👑 管理員登入</button><button type="button" class="navBtn hidden" id="gmNavBtn" data-nav="gm">🛠️ GM 操作台</button><div class="navSep"></div><button type="button" class="navBtn" data-nav="bag">🎒 背包</button><button type="button" class="navBtn" data-nav="shop">🏪 商店</button><button type="button" class="navBtn" data-nav="memory">📖 回憶</button><button type="button" class="navBtn" data-nav="achievements">🏆 成就</button><button type="button" class="navBtn" id="appearanceDrawerBtn">🎨 外觀設定</button><div class="navSep"></div><div style="padding:8px"><b>🎵 悠閒 BGM</b><div class="actions"><button id="bgmToggle">▶ 播放</button><input id="bgmVolume" type="range" min="0" max="1" step=".05" value=".25"></div><div class="small">把 bgm.mp3 和 index.html 放同一資料夾。</div></div><audio id="bgm" loop preload="auto" autoplay playsinline><source src="bgm.mp3" type="audio/mpeg"></audio><button type="button" class="navBtn" id="back">💾 返回存檔首頁</button></aside><div id="updateNoticeModal" class="modal hidden">
   <div class="modalBox">
     <div class="modalHead"><b>📢 第3.23版更新公告</b><button id="closeUpdateNotice">×</button></div>
     <div class="updateNoticeBody">
@@ -14138,7 +14138,7 @@ header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{back
 <script id="qixi3283-ribbon-fix">
 (function(){
  function fix(){
-   document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.29.0-beta");
+   document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.29.2-beta");
  }
  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",fix,{once:true});else fix();
  setTimeout(fix,300);
@@ -14158,6 +14158,324 @@ header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{back
 })();
 </script>
 
+
+<script id="qixi3291AppearanceRestore">
+(function(){
+ const modal=document.getElementById("appearanceModal");
+ const grid=document.getElementById("appearanceGrid");
+
+ function isGalaxyOwned(){
+   try{return !!local?.accountItems?.qixi_galaxy_theme || !!local?.accountEntitlements?.qixiGalaxy}catch(_){return false}
+ }
+ function currentAppearance(){
+   try{return String(local?.appearanceTheme||"default")}catch(_){return "default"}
+ }
+ function saveAppearance(v){
+   try{
+     local.appearanceTheme=v;
+     if(typeof saveLocal==="function")saveLocal();
+   }catch(_){}
+   applyAppearance();
+ }
+ function applyAppearance(){
+   const v=currentAppearance();
+   document.body.classList.toggle("appearance-galaxy",v==="qixi");
+ }
+ function renderAppearance(){
+   if(!grid)return;
+   const cur=currentAppearance(),galaxy=isGalaxyOwned();
+   grid.innerHTML=`
+    <button type="button" class="appearanceChoice ${cur==="default"?"active":""}" data-appearance="default">
+      <b>🌷 原本外觀</b><span class="small">使用一般遊戲背景。</span>
+    </button>
+    <button type="button" class="appearanceChoice ${cur==="qixi"?"active":""}" data-appearance="qixi" ${galaxy?"":"disabled"}>
+      <b>🌌 鵲橋星河</b><span class="small">${galaxy?"已解鎖・可隨時切換":"尚未解鎖・需使用「天上的一縷星辰」兌換"}</span>
+    </button>`;
+ }
+ document.getElementById("appearanceDrawerBtn")?.addEventListener("click",()=>{
+   renderAppearance();
+   modal?.classList.remove("hidden");
+   document.getElementById("drawer")?.classList.add("hidden");
+   document.getElementById("drawerShade")?.classList.add("hidden");
+ });
+ document.getElementById("closeAppearanceModal")?.addEventListener("click",()=>modal?.classList.add("hidden"));
+ grid?.addEventListener("click",e=>{
+   const b=e.target.closest("[data-appearance]");
+   if(!b||b.disabled)return;
+   saveAppearance(b.dataset.appearance);
+   renderAppearance();
+   try{toast?.("🎨 外觀已套用。",1800)}catch(_){}
+ });
+ applyAppearance();
+ document.addEventListener("DOMContentLoaded",applyAppearance,{once:true});
+})();
+</script>
+
+<style id="qixi3291FinalLayout">
+/* ---- 七夕統一色：淡紫表面 + 深紫文字 ---- */
+html.qixi-theme-now{
+ --lav-bg:#e7def3;
+ --lav-card:#f2ebf8;
+ --lav-card2:#e6d9f1;
+ --lav-line:#cbb8df;
+ --lav-ink:#3a294e;
+ --lav-muted:#746483;
+ --lav-accent:#8c6cba;
+}
+
+/* 抽屜也不准再粉 */
+html.qixi-theme-now .drawer{
+ background:linear-gradient(180deg,#f4eef9,#e7dcf2)!important;
+ color:var(--lav-ink)!important;
+}
+html.qixi-theme-now .drawer *,
+html.qixi-theme-now .drawer .navBtn{
+ color:var(--lav-ink)!important;
+}
+html.qixi-theme-now .drawer .navBtn{
+ background:transparent!important;
+}
+html.qixi-theme-now .drawer .navBtn:active{
+ background:#ddd0ea!important;
+}
+
+/* 遊戲卡、頁面、狀態區：統一淡紫 */
+html.qixi-theme-now #game .card,
+html.qixi-theme-now #game .pageCard,
+html.qixi-theme-now #game .panel,
+html.qixi-theme-now #game .section,
+html.qixi-theme-now #game .now,
+html.qixi-theme-now #game .itemRow,
+html.qixi-theme-now #game .workCard,
+html.qixi-theme-now #game .pendingEventCard,
+html.qixi-theme-now #game .profileBadgeShowcase,
+html.qixi-theme-now #game .limitNote{
+ background:linear-gradient(145deg,#f7f2fb,#e8dcf2)!important;
+ border-color:var(--lav-line)!important;
+ color:var(--lav-ink)!important;
+ box-shadow:0 9px 22px rgba(51,32,79,.12)!important;
+}
+html.qixi-theme-now #game .card *,
+html.qixi-theme-now #game .pageCard *,
+html.qixi-theme-now #game .panel *,
+html.qixi-theme-now #game .section *,
+html.qixi-theme-now #game .now *,
+html.qixi-theme-now #game .itemRow *,
+html.qixi-theme-now #game .workCard *{
+ color:var(--lav-ink);
+}
+html.qixi-theme-now #game .small,
+html.qixi-theme-now #game .muted,
+html.qixi-theme-now #game .hint,
+html.qixi-theme-now #game .sub{
+ color:var(--lav-muted)!important;
+}
+
+/* 七夕活動首頁本身改淡紫，所有字深色 */
+html.qixi-theme-now #qixiEventModal,
+html.qixi-theme-now #qixiEventModal .modalBox{
+ background:
+  radial-gradient(circle at 15% 10%,rgba(255,255,255,.75) 0 1px,transparent 1.5px),
+  linear-gradient(180deg,#eee7f7,#ded0ed 55%,#d5c4e6)!important;
+ color:var(--lav-ink)!important;
+}
+html.qixi-theme-now #qixiEventModal *,
+html.qixi-theme-now #qixiEventModal .small,
+html.qixi-theme-now #qixiEventModal .muted{
+ color:var(--lav-ink)!important;
+}
+html.qixi-theme-now #qixiEventModal .qixiFacility,
+html.qixi-theme-now #qixiEventModal .qixiRewardBox,
+html.qixi-theme-now #qixiKeeperCard{
+ background:linear-gradient(145deg,#f6f1fa,#e8dcf2)!important;
+ border:1px solid var(--lav-line)!important;
+ color:var(--lav-ink)!important;
+ box-shadow:0 8px 20px rgba(51,33,77,.10)!important;
+}
+html.qixi-theme-now #qixiEventModal .qixiProgress{
+ background:#cfc2dd!important;
+}
+html.qixi-theme-now #qixiEventModal #qixiProgressFill{
+ background:linear-gradient(90deg,#7f6cc2,#b88cc6)!important;
+}
+#qixiTopTools{
+ display:grid!important;
+ gap:10px!important;
+ margin:12px 0 16px!important;
+}
+
+/* ---- 商店：全部回歸 normal flow，禁止任何卡片漂到右邊 ---- */
+html.qixi-theme-now #extraShop.pageCard.active{
+ position:fixed!important;
+ inset:92px 0 0 0!important;
+ width:100vw!important;
+ max-width:100vw!important;
+ height:calc(100dvh - 92px)!important;
+ margin:0!important;
+ padding:14px!important;
+ box-sizing:border-box!important;
+ overflow-y:auto!important;
+ overflow-x:hidden!important;
+ transform:none!important;
+ background:linear-gradient(180deg,#e9e0f3,#d9cbea)!important;
+ color:var(--lav-ink)!important;
+}
+html.qixi-theme-now #extraShop .section{
+ background:#f4eef9!important;
+ color:var(--lav-ink)!important;
+ border:1px solid var(--lav-line)!important;
+}
+html.qixi-theme-now #extraShop .shopTabs{
+ position:static!important;
+ display:grid!important;
+ grid-template-columns:repeat(3,minmax(0,1fr))!important;
+ gap:8px!important;
+ width:100%!important;
+ max-width:100%!important;
+ margin:10px 0!important;
+ transform:none!important;
+}
+html.qixi-theme-now #extraShop .shopTab{
+ position:static!important;
+ width:100%!important;
+ min-width:0!important;
+ transform:none!important;
+}
+html.qixi-theme-now #shopNormalPanel:not(.hidden),
+html.qixi-theme-now #shopGiftPanel:not(.hidden),
+html.qixi-theme-now #shopPaidPanel:not(.hidden){
+ display:block!important;
+ position:static!important;
+ width:100%!important;
+ max-width:100%!important;
+ min-width:0!important;
+ margin:0!important;
+ padding:0!important;
+ transform:none!important;
+ overflow:visible!important;
+}
+html.qixi-theme-now #paidShopList{
+ display:grid!important;
+ grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ gap:10px!important;
+ position:static!important;
+ inset:auto!important;
+ float:none!important;
+ width:100%!important;
+ max-width:100%!important;
+ min-width:0!important;
+ margin:0!important;
+ padding:0!important;
+ transform:none!important;
+ overflow:visible!important;
+ box-sizing:border-box!important;
+}
+html.qixi-theme-now #paidShopList>.paidProduct{
+ position:static!important;
+ inset:auto!important;
+ left:auto!important;
+ right:auto!important;
+ top:auto!important;
+ bottom:auto!important;
+ float:none!important;
+ clear:none!important;
+ transform:none!important;
+ width:auto!important;
+ max-width:100%!important;
+ min-width:0!important;
+ margin:0!important;
+ padding:12px 10px!important;
+ box-sizing:border-box!important;
+ overflow:hidden!important;
+ display:flex!important;
+ flex-direction:column!important;
+ justify-content:space-between!important;
+ min-height:230px!important;
+ background:linear-gradient(145deg,#f8f4fc,#e8def3)!important;
+ border:1px solid var(--lav-line)!important;
+ border-radius:18px!important;
+ color:var(--lav-ink)!important;
+}
+html.qixi-theme-now #paidShopList>.paidProduct *{
+ color:var(--lav-ink)!important;
+ max-width:100%!important;
+ overflow-wrap:anywhere!important;
+}
+html.qixi-theme-now #paidShopList>.qixiPaidGroupTitle,
+html.qixi-theme-now #paidShopList>.paidOrdersBlock{
+ grid-column:1/-1!important;
+ position:static!important;
+ inset:auto!important;
+ transform:none!important;
+ float:none!important;
+ width:100%!important;
+ max-width:100%!important;
+ margin:10px 0 4px!important;
+ box-sizing:border-box!important;
+ color:var(--lav-ink)!important;
+}
+html.qixi-theme-now #extraShop .paidShopNotice{
+ position:static!important;
+ width:100%!important;
+ margin:0 0 10px!important;
+ transform:none!important;
+ background:#f4eef9!important;
+ border-color:var(--lav-line)!important;
+ color:var(--lav-ink)!important;
+}
+
+/* 外觀設定 */
+.appearanceGrid{
+ display:grid;
+ gap:10px;
+ margin-top:12px;
+}
+.appearanceChoice{
+ display:flex!important;
+ flex-direction:column;
+ align-items:flex-start!important;
+ gap:4px;
+ padding:14px!important;
+ background:#eee5f6!important;
+ color:var(--lav-ink)!important;
+ border:1px solid var(--lav-line)!important;
+}
+.appearanceChoice.active{
+ outline:2px solid #8d6fbd!important;
+ background:#e3d5f0!important;
+}
+.appearanceChoice:disabled{opacity:.55}
+
+/* 如果玩家自己切到永久星河外觀，活動外仍可顯示星空 */
+body.appearance-galaxy:not(.qixi-global-theme){
+ background:linear-gradient(180deg,#090725,#171044 55%,#26144e)!important;
+}
+</style>
+
+
+<style id="qixi3292BridgeGameBackground">
+/* 鵲羽橋小遊戲專用背景：使用使用者指定的七夕鵲橋圖 */
+#qixiMiniGameBoard.qixiBridgeGameBoard{
+ background-image:linear-gradient(rgba(10,8,35,.20),rgba(10,8,35,.34)),url("images/qixi/qixi_bridge_game_bg.png")!important;
+ background-size:cover!important;
+ background-position:center center!important;
+ background-repeat:no-repeat!important;
+ min-height:420px!important;
+}
+#qixiMiniGameBoard.qixiBridgeGameBoard .qixiBalanceTrack{
+ margin-top:220px!important;
+ background:rgba(255,255,255,.28)!important;
+ box-shadow:0 4px 18px rgba(0,0,0,.28)!important;
+ backdrop-filter:blur(3px);
+}
+#qixiMiniGameBoard.qixiBridgeGameBoard #qixiBalanceStop{
+ margin-top:90px!important;
+}
+@media (max-width:600px){
+ #qixiMiniGameBoard.qixiBridgeGameBoard{min-height:56vh!important;background-position:center center!important;}
+ #qixiMiniGameBoard.qixiBridgeGameBoard .qixiBalanceTrack{margin-top:32vh!important;}
+}
+</style>
 </body>
 </html>
 
@@ -14556,18 +14874,22 @@ body.npcStoryRunning #qixiEventFab{display:none!important}
   </div>
   <div class="small" style="margin-top:8px">走過五個星河設施，聽見屬於不同關係的故事。五段劇情全部完成後，才會取得限定徽章。</div>
   <div class="qixiProgress"><div id="qixiProgressFill"></div></div>
-  <div id="qixiFacilityGrid" class="qixiFacilityGrid"></div>
-  <div id="qixiKeeperCard" class="qixiRewardBox">
-  <div style="display:flex;gap:10px;align-items:center">
-    <img src="images/qixi/bridge_keeper.png" alt="七夕守橋人" style="width:82px;height:104px;object-fit:cover;border-radius:14px;border:1px solid #ffffff38">
-    <div><b>🌌 七夕守橋人</b><div class="small">守著星河與鵲橋的限定 NPC。</div></div>
+
+  <div id="qixiTopTools">
+   <div id="qixiKeeperCard" class="qixiRewardBox">
+    <div style="display:flex;gap:10px;align-items:center">
+      <img src="images/qixi/bridge_keeper.png" alt="七夕守橋人" style="width:82px;height:104px;object-fit:cover;border-radius:14px;border:1px solid #bca6d6">
+      <div><b>🌌 七夕守橋人</b><div class="small">守著星河與鵲橋的限定 NPC。</div></div>
+    </div>
+   </div>
+   <div id="qixiStarExchange" class="qixiRewardBox"></div>
+   <div class="qixiRewardBox">
+     <button id="replayQixiIntro" type="button" style="width:100%">🪶 再與守橋人交談</button>
+   </div>
+   <div id="qixiRewardBox" class="qixiRewardBox"></div>
   </div>
- </div>
- <div id="qixiStarExchange" class="qixiRewardBox"></div>
- <div class="qixiRewardBox">
-   <button id="replayQixiIntro" type="button" style="width:100%">🪶 再與守橋人交談</button>
- </div>
- <div id="qixiRewardBox" class="qixiRewardBox"></div>
+
+  <div id="qixiFacilityGrid" class="qixiFacilityGrid"></div>
  </div>
 </div>
 
@@ -15284,6 +15606,7 @@ body.npcStoryRunning #qixiEventFab{display:none!important}
  function closeQixiMiniGame(){
   try{qixiMiniCleanup?.()}catch(_){}
   qixiMiniCleanup=null;qixiMiniGameCurrent="";
+  qixiMiniEls().board?.classList.remove("qixiBridgeGameBoard");
   qixiMiniEls().modal?.classList.add("hidden");
  }
  function completeQixiMiniGame(fid){
@@ -15295,7 +15618,7 @@ body.npcStoryRunning #qixiEventFab{display:none!important}
  function startQixiMiniGame(fid){
   const f=FACILITIES.find(x=>x.id===fid),e=qixiMiniEls();
   if(!f||!e.modal)return;
-  qixiMiniGameCurrent=fid;e.title.textContent=`${f.ico} ${f.name}`;e.board.innerHTML="";e.status.textContent="";
+  qixiMiniGameCurrent=fid;e.title.textContent=`${f.ico} ${f.name}`;e.board.classList.toggle("qixiBridgeGameBoard",fid==="bridge");e.board.innerHTML="";e.status.textContent="";
   e.modal.classList.remove("hidden");
 
   if(fid==="ferry"){
@@ -15460,10 +15783,10 @@ body.npcStoryRunning #qixiEventFab{display:none!important}
 
  /* 覆蓋測試服顯示版本，不碰正式服。 */
  setTimeout(()=>{
-  document.title="關係進行式 TEST・3.29.0-七夕淡紫角色卡修正版";
-  document.querySelector(".homeVersion")?.replaceChildren(document.createTextNode("3.29.0・測試服｜七夕淡紫角色卡修正版"));
-  document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.29.0-beta");
-  const meta=document.querySelector('meta[name="x-test-build"]');if(meta)meta.content="3.29.0";
+  document.title="關係進行式 TEST・3.29.2-七夕淡紫整合修正版";
+  document.querySelector(".homeVersion")?.replaceChildren(document.createTextNode("3.29.2・測試服｜七夕淡紫整合修正版"));
+  document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.29.2-beta");
+  const meta=document.querySelector('meta[name="x-test-build"]');if(meta)meta.content="3.29.2";
  },100);
 })();
 </script>
