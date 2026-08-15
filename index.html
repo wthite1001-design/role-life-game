@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#9a76c4" name="theme-color"/>
-<title>關係進行式・3.31.6.12</title>
+<title>關係進行式・3.31.6.13</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -1747,6 +1747,12 @@ html[data-formal-theme="maidCafe"] .navBtn::after{
 #formalAppearanceGrid .appearanceChoice.active{outline:2px solid #8e6bc2}
 @media(max-width:520px){#formalPaidShopList.paidShopList{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important}}
 </style>
+
+<style id="formal31613NightStayVisible">
+#npcShopBody .npcActionCard[disabled]{opacity:.58}
+#npcShopBody .npcActionCard[disabled] .small{opacity:.92}
+</style>
+
 </head>
 <body>
 
@@ -1789,7 +1795,7 @@ html[data-formal-theme="maidCafe"] .navBtn::after{
 <div class="homeLogo">💞</div>
 <h1>關係進行式</h1>
 <div class="homeTagline">每一段關係，都還在進行中。</div>
-<div class="homeVersion">第3.31.6.12版・此生唯一成就修正</div>
+<div class="homeVersion">第3.31.6.13版・此生唯一成就修正</div>
 </div>
 <div id="playerAccountHomePanel" class="homePanel accountHomePanel">
 <div class="homePanelTitle"><span>☁️ 玩家帳號</span><span id="playerAccountChip" class="chip">未登入</span></div>
@@ -2230,7 +2236,7 @@ html[data-formal-theme="maidCafe"] .navBtn::after{
 </div>
 <div class="drawerShade hidden" id="drawerShade"></div><aside class="drawer hidden" id="drawer"><div style="padding:8px"><b id="drawerName">角色</b><div class="muted">功能選單</div></div><button class="navBtn" data-nav="life" type="button">🏠 角色生活</button><button class="navBtn" data-nav="daily" type="button">📋 今日小事</button><button class="navBtn" data-nav="work" type="button">💼 打工賺錢</button><button class="navBtn" data-nav="journal" type="button">📖 今日生活日誌</button><button class="navBtn" data-nav="routine" type="button">🕒 角色作息</button><button class="navBtn" data-nav="outing" type="button">🗺️ 外出 <span class="navDot hidden" data-dot="outing"></span></button><button class="navBtn" data-nav="relations" type="button">💞 關係 <span class="navDot hidden" data-dot="relations"></span></button><button class="navBtn" data-nav="npcrelations" type="button">✨ NPC 關係</button><button class="navBtn" data-nav="mailbox" type="button">📬 信箱 <span class="navDot hidden" data-dot="mailbox"></span></button><button class="navBtn" id="playerAccountDrawerBtn" type="button">☁️ 玩家帳號</button><button class="navBtn" id="gmDrawerLoginBtn" type="button">👑 管理員登入</button><button class="navBtn hidden" data-nav="gm" id="gmNavBtn" type="button">🛠️ GM 操作台</button><div class="navSep"></div><button class="navBtn" data-nav="bag" type="button">🎒 背包</button><button class="navBtn" data-nav="shop" type="button">🏪 商店</button><button class="navBtn" data-nav="memory" type="button">📖 回憶</button><button class="navBtn" data-nav="achievements" type="button">🏆 成就</button><div class="navSep"></div><div style="padding:8px"><b>🎵 悠閒 BGM</b><div class="actions"><button id="bgmToggle">▶ 播放</button><input id="bgmVolume" max="1" min="0" step=".05" type="range" value=".25"/></div><div class="small">把 bgm.mp3 和 index.html 放同一資料夾。</div></div><audio autoplay="" id="bgm" loop="" playsinline="" preload="auto"><source src="bgm.mp3" type="audio/mpeg"/></audio><button class="navBtn" id="back" type="button">💾 返回存檔首頁</button></aside><div class="modal hidden" id="updateNoticeModal">
 <div class="modalBox">
-<div class="modalHead"><b>📢 第3.31.6.12版更新公告</b><button id="closeUpdateNotice">×</button></div>
+<div class="modalHead"><b>📢 第3.31.6.13版更新公告</b><button id="closeUpdateNotice">×</button></div>
 <div class="updateNoticeBody">
   <h3>🎀 女僕咖啡廳主題</h3>
   <p>新增女僕咖啡廳限定外觀。解鎖後可在「外觀更改」中自由切換原始外觀與女僕咖啡廳，選擇會保留。</p>
@@ -7101,7 +7107,7 @@ function reconcileAchievements(c){
  let _hasTopAch=_topDefs.some(t=>t?.ach&&!!c.achievements?.[t.ach]);
  let _hasTopBadge=_topDefs.some(t=>t?.badge&&!!local.sharedBadges?.[t.badge]);
  if(_hasBroken||_hasTopAch||_hasTopBadge)c.achievements.break=1;
-  /* 3.31.6.12：只補「此生唯一」。 */
+  /* 3.31.6.13：只補「此生唯一」。 */
   try{
     const loverBroken=infos.some(x=>x.rr?.relation==="lover"&&!!x.b?.broken);
     const loverBadge=!!local.sharedBadges?.badge_lover;
@@ -10533,7 +10539,30 @@ document.getElementById("npcShopBody")?.addEventListener("click",e=>{
     if(k==="cat")npcPetCat();
     if(k==="candy")npcStealCandy();
     if(k==="help")npcHelpShop();
-    if(k==="night"){let x=npcState();npcEnsureDaily(x);if(Number(x.daily?.night||0)>=1){toast("🌙 今天已經陪貓貓留到打烊後了，明天再來吧。",3200);renderNpcShop();return;}x.daily.night=Number(x.daily.night||0)+1;x.flags.nightEvent=1;saveNpcState(x);npcRelationScore("romance",1);npcRelationScore("trust",1);reconcileNpcEventAchievements();npcChoice("🌙 打烊後","店裡只剩你、貓貓和趴在櫃檯上的店貓。<br><br>「今天……可以晚一點再走。」",[{label:"留下陪她",fn:()=>npcGain("affection",3,"貓貓好感")}]);}
+    if(k==="night"){
+      let x=npcState();npcEnsureDaily(x);
+      const hour=new Date().getHours();
+      const nightOpen=(hour>=22||hour<5);
+      if(Number(x.affection||0)<60){
+        toast("🌙 和貓貓再熟一點後，她才會願意讓你打烊後留下。",3200);
+        renderNpcShop();return;
+      }
+      if(!nightOpen){
+        toast("🌙 還沒打烊喔。這個互動會在 22:00～05:00 開放。",3200);
+        renderNpcShop();return;
+      }
+      if(Number(x.daily?.night||0)>=1){
+        toast("🌙 今天已經陪貓貓留到打烊後了，明天再來吧。",3200);
+        renderNpcShop();return;
+      }
+      x.daily.night=Number(x.daily.night||0)+1;
+      x.flags.nightEvent=1;
+      saveNpcState(x);
+      npcRelationScore("romance",1);
+      npcRelationScore("trust",1);
+      reconcileNpcEventAchievements();
+      npcChoice("🌙 打烊後","店裡只剩你、貓貓和趴在櫃檯上的店貓。<br><br>「今天……可以晚一點再走。」",[{label:"留下陪她",fn:()=>npcGain("affection",3,"貓貓好感")}]);
+    }
     if(k==="confess")npcConfess();
     return;
   }
@@ -11673,7 +11702,19 @@ document.getElementById("closeNpcStoryPlayer")?.addEventListener("click",e=>{e.s
       {icon:'🍬',name:'偷拿櫃檯糖果',desc:'你真的要這樣做嗎？',fn:'candy'},
       {icon:'💼',name:'幫忙顧店',desc:`今天 ${st.daily?.help||0}/1 次・隨機事件`,fn:'help'}
     ];
-    if((hour>=22||hour<5)&&st.affection>=60){const nightUsed=Number(st.daily?.night||0);cards.push({icon:'🌙',name:'打烊後留下',desc:nightUsed>=1?'今天 1/1 次・明天再來':'今天 0/1 次・只有深夜與高好感時出現。',fn:'night',disabled:nightUsed>=1});}
+    if(st.affection>=60){
+      const nightUsed=Number(st.daily?.night||0);
+      const nightOpen=(hour>=22||hour<5);
+      cards.push({
+        icon:'🌙',
+        name:'打烊後留下',
+        desc:nightUsed>=1
+          ?'今天 1/1 次・明天再來'
+          :(nightOpen?'今天 0/1 次・現在可以留下陪她。':'🌙 22:00～05:00 開放・打烊後才能留下'),
+        fn:'night',
+        disabled:nightUsed>=1||!nightOpen
+      });
+    }
     if(Number(st.affection||0)>=100){
       const c=typeof cur==='function'?cur():null;
       const rel=c?getNpcRelationship(c,'shopkeeper_cat'):null;
@@ -14388,7 +14429,7 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 
 <script id="formal3298MaidCommerce">
 (function(){
- const BUILD='3.31.6.12';
+ const BUILD='3.31.6.13';
  const THEME_KEY='role_life_formal_theme_v1';
  const VOUCHER='npc_maid_cafe_coffee_voucher';
 
@@ -14751,9 +14792,9 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 <script id="formal3313VersionGuard">
 (function(){
  function apply(){
-  document.querySelectorAll('.homeVersion').forEach(x=>x.textContent='第3.31.6.12版・此生唯一成就修正');
+  document.querySelectorAll('.homeVersion').forEach(x=>x.textContent='第3.31.6.13版・此生唯一成就修正');
   document.querySelectorAll('.chip').forEach(x=>{if(/^第?3\.\d+(?:\.\d+)?版?$/.test((x.textContent||'').trim()))x.textContent='第3.31.1版'});
-  document.title='關係進行式・3.31.6.12';
+  document.title='關係進行式・3.31.6.13';
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',apply,{once:true});else apply();
  window.addEventListener('pageshow',apply);
@@ -15411,6 +15452,21 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
  window.addEventListener('pageshow',()=>setTimeout(sync,0),{passive:true});
  setTimeout(sync,120);
  setTimeout(sync,700);
+})();
+</script>
+
+
+<script id="formal31613VersionGuard">
+(function(){
+ function fix(){
+   document.querySelectorAll('.homeVersion').forEach(x=>{
+     if((x.textContent||'').includes('3.31.6')) x.textContent='第3.31.6.13版・打烊後留下常駐顯示修復';
+   });
+   document.title='關係進行式・3.31.6.13';
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',fix,{once:true});else fix();
+ window.addEventListener('pageshow',fix);
+ setTimeout(fix,500);
 })();
 </script>
 
