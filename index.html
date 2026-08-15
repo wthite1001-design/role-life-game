@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#9a76c4" name="theme-color"/>
-<title>關係進行式・3.31.6.13</title>
+<title>關係進行式・3.31.6.14</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -9557,9 +9557,11 @@ function renderNpcRpgLine(){
     if(!portrait.dataset.formalBeforeMaid)portrait.dataset.formalBeforeMaid=portrait.getAttribute("src")||"cat_shopkeeper_normal.png";
     portrait.dataset.maidCgLocked="1";
     player.classList.add("formalMaidStory");
-    const target=stage>=2
+    const target=stage>=3
       ?"assets/npc/shopkeeper_cat/maid_cafe_special_2.png"
-      :"assets/npc/shopkeeper_cat/maid_cafe_special_1.png";
+      :stage>=2
+        ?"assets/npc/shopkeeper_cat/maid_cafe_special_1.png"
+        :"assets/npc/shopkeeper_cat/maid_cafe_special.png";
     if(portrait.getAttribute("src")!==target)portrait.setAttribute("src",target);
     player.style.setProperty("--formal-maid-bg",`url("${target}")`);
   }else if(player&&portrait&&!maid){
@@ -14641,6 +14643,7 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
  }
 
  function maidLines(){
+  const MAID0='assets/npc/shopkeeper_cat/maid_cafe_special.png';
   const MAID1='assets/npc/shopkeeper_cat/maid_cafe_special_1.png';
   const MAID2='assets/npc/shopkeeper_cat/maid_cafe_special_2.png';
   return [
@@ -14648,19 +14651,20 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
    {speaker:'貓貓',maidStage:0,text:'「……所以你真的拿來用了。」'},
    {speaker:'旁白',maidStage:0,text:'她把店門的牌子翻到「休息中」，轉身走進後面的房間。'},
    {speaker:'貓貓',maidStage:0,text:'「先說好，這是特別招待。你不准笑。」'},
-   {speaker:'旁白',maidStage:1,image:MAID1,portrait:MAID1,text:'過了一會兒，她換上女僕咖啡廳的制服重新出現在你面前。'},
-   {speaker:'貓貓',maidStage:1,image:MAID1,portrait:MAID1,text:'「歡、歡迎回來……主人。」'},
-   {speaker:'旁白',maidStage:1,image:MAID1,portrait:MAID1,text:'她端著咖啡站在你面前，明明耳根都紅了，卻還努力裝作若無其事。'},
-   {speaker:'貓貓',maidStage:2,image:MAID2,portrait:MAID2,text:'「看夠了沒有？咖啡再不喝就要涼了。」'},
-   {speaker:'你',maidStage:2,image:MAID2,portrait:MAID2,text:'「所以這張券真的可以讓店長親自招待？」'},
-   {speaker:'貓貓',maidStage:2,image:MAID2,portrait:MAID2,text:'「只有今天。還有——不准拿去跟別人炫耀。」'},
-   {speaker:'旁白',maidStage:2,image:MAID2,portrait:MAID2,text:'她把咖啡輕輕推到你面前。'},
-   {speaker:'貓貓',maidStage:2,image:MAID2,portrait:MAID2,text:'「這個主題也給你。以後想起今天，就把它換上吧。」'}
+   {speaker:'旁白',maidStage:1,image:MAID0,portrait:MAID0,text:'過了一會兒，她換上女僕咖啡廳的制服重新出現在你面前。'},
+   {speaker:'貓貓',maidStage:1,image:MAID0,portrait:MAID0,text:'「歡、歡迎回來……主人。」'},
+   {speaker:'旁白',maidStage:1,image:MAID0,portrait:MAID0,text:'她端著咖啡站在你面前，明明耳根都紅了，卻還努力裝作若無其事。'},
+   {speaker:'貓貓',maidStage:2,image:MAID1,portrait:MAID1,text:'「看夠了沒有？咖啡再不喝就要涼了。」'},
+   {speaker:'你',maidStage:2,image:MAID1,portrait:MAID1,text:'「所以這張券真的可以讓店長親自招待？」'},
+   {speaker:'貓貓',maidStage:3,image:MAID2,portrait:MAID2,text:'「只有今天。還有——不准拿去跟別人炫耀。」'},
+   {speaker:'旁白',maidStage:3,image:MAID2,portrait:MAID2,text:'她把咖啡輕輕推到你面前。'},
+   {speaker:'貓貓',maidStage:3,image:MAID2,portrait:MAID2,text:'「這個主題也給你。以後想起今天，就把它換上吧。」'}
   ];
  }
  window.playFormalMaidCafeStory=function(replay=false){
     try{
       window.prewarmNpcImages?.([
+        "assets/npc/shopkeeper_cat/maid_cafe_special.png",
         "assets/npc/shopkeeper_cat/maid_cafe_special_1.png",
         "assets/npc/shopkeeper_cat/maid_cafe_special_2.png"
       ]);
@@ -14699,7 +14703,7 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 
  /* 第一幀主題：只讀正式服 key，完全沒有__NO_GALAXY__。 */
  ensureAccountAppearance();apply(null,false);
- for(const src of ['assets/npc/shopkeeper_cat/maid_cafe_special_1.png','assets/npc/shopkeeper_cat/maid_cafe_special_2.png']){
+ for(const src of ['assets/npc/shopkeeper_cat/maid_cafe_special.png','assets/npc/shopkeeper_cat/maid_cafe_special_1.png','assets/npc/shopkeeper_cat/maid_cafe_special_2.png']){
   const img=new Image();img.decoding='async';img.src=src;
  }
 
@@ -14794,7 +14798,7 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
  function apply(){
   document.querySelectorAll('.homeVersion').forEach(x=>x.textContent='第3.31.6.13版・此生唯一成就修正');
   document.querySelectorAll('.chip').forEach(x=>{if(/^第?3\.\d+(?:\.\d+)?版?$/.test((x.textContent||'').trim()))x.textContent='第3.31.1版'});
-  document.title='關係進行式・3.31.6.13';
+  document.title='關係進行式・3.31.6.14';
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',apply,{once:true});else apply();
  window.addEventListener('pageshow',apply);
@@ -15404,12 +15408,13 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 
 <script id="formal3168MaidStoryImageAuthoritative">
 (function(){
- const M1='assets/npc/shopkeeper_cat/maid_cafe_special_1.png',M2='assets/npc/shopkeeper_cat/maid_cafe_special_2.png';
+ const M0='assets/npc/shopkeeper_cat/maid_cafe_special.png',M1='assets/npc/shopkeeper_cat/maid_cafe_special_1.png',M2='assets/npc/shopkeeper_cat/maid_cafe_special_2.png';
  function apply(){
   try{
    const st=window.npcStoryPlayerState,line=st?.lines?.[Number(st?.index||0)];
    if(!line||Number(line.maidStage||0)<1)return;
-   const src=Number(line.maidStage)>=2?M2:M1;
+   const stage=Number(line.maidStage||0);
+   const src=stage>=3?M2:stage>=2?M1:M0;
    const portrait=document.getElementById('npcStoryPortrait');
    if(portrait){portrait.src=src;portrait.dataset.npcFace='maid_special';portrait.style.objectFit='cover'}
    ['npcStoryImage','npcStoryCG','npcRpgImage'].forEach(id=>{const x=document.getElementById(id);if(x?.tagName==='IMG'){x.src=src;x.hidden=false}});
@@ -15462,7 +15467,7 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
    document.querySelectorAll('.homeVersion').forEach(x=>{
      if((x.textContent||'').includes('3.31.6')) x.textContent='第3.31.6.13版・打烊後留下常駐顯示修復';
    });
-   document.title='關係進行式・3.31.6.13';
+   document.title='關係進行式・3.31.6.14';
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',fix,{once:true});else fix();
  window.addEventListener('pageshow',fix);
