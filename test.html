@@ -2268,7 +2268,7 @@ html[data-test-theme="qixiGalaxy"] #qixiEventModal :is(.qixiRewardBox,.qixiFacil
 
 
 <style id="test33018ModalRestore">
-/* 3.30.22：恢復測試服卡片式視窗，不再出現整頁白色 modal。 */
+/* 3.30.27：恢復測試服卡片式視窗，不再出現整頁白色 modal。 */
 html.qixi-theme-now .modal,
 html[data-test-theme="qixiGalaxy"] .modal{
   padding:12px!important;
@@ -2477,10 +2477,10 @@ html[data-test-theme="qixiGalaxy"] .modal>.modalBox :is(.card,.panel,.section,.i
   <div class="homePanel">
     <div class="homePanelTitle"><span>🌐 即時狀態</span><span class="muted">雲端聯機</span></div>
     <div class="liveStats">
-      <div class="liveStat"><b id="onlinePlayerCount">…</b><span>🟢 在線玩家</span></div>
-      <div class="liveStat"><b id="cloudCharacterCount">…</b><span>👤 目前角色</span></div>
+      <div class="liveStat"><b id="onlinePlayerCount">…</b><span>🟢 目前在線角色</span></div>
+      <div class="liveStat"><b id="cloudCharacterCount">…</b><span>👤 目前已存在角色</span></div>
     </div>
-    <div class="small" style="margin-top:8px">依角色存活登記統計；同步完成後一次顯示正確數字，不再使用舊關係房間估算。</div>
+    <div class="small" style="margin-top:8px">目前角色＝已建立且尚未明確刪除的角色；未綁帳號、久未登入也保留。目前在線角色＝最近 3 分鐘仍有遊戲心跳的玩家。</div>
   </div>
 <div id="deviceStarterGiftPanel" class="homePanel hidden">
     <div class="homePanelTitle"><span>🎁 新手小禮物</span><span class="chip">首次使用</span></div>
@@ -5209,11 +5209,11 @@ document.getElementById("saveList").onclick=async e=>{
   if(delBtn){
     e.preventDefault();
     let c=local.characters.find(x=>x.id===delBtn.dataset.del);
-    if(c&&confirm(`確定刪除「${c.name}」？\n\n會同步清除這個角色的存活登記與暫存邀約；不會刪除永久關係、聊天、付費、主題、徽章、成就、背包或帳號雲端存檔。`)){
+    if(c&&confirm(`確定刪除「${c.name}」？\n\n會同步移除這個角色的「目前角色」登記；其他角色、永久關係、聊天、付費、主題、徽章、成就、背包不會被這個登記清理動到。`)){
       const cleanup=await window.deleteLiveCharacterSafely?.(c);
       local.characters=local.characters.filter(x=>x.id!==c.id);saveLocal();renderHome();
       if(cleanup?.ok===false)toast?.("角色已從本機刪除；雲端暫存清理暫時失敗，安全清理程序之後會再處理。",5200);
-      else toast?.("🗑️ 角色已刪除，暫存邀約已安全清理。",3200);
+      else toast?.("🗑️ 角色已刪除，已同步移出「目前角色」。",3200);
     }
   }
 };
@@ -15136,6 +15136,101 @@ header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{back
  else schedule(20);
  window.addEventListener('pageshow',()=>schedule(20),{passive:true});
  window.addEventListener('online',()=>schedule(20),{passive:true});
+})();
+</script>
+
+
+
+<script id="test33027ActiveCharacterHeartbeat">
+(function(){
+  let busy=false;
+  let timer=null;
+
+  function currentCharacter(){
+    try{
+      if(typeof cur==='function'){
+        const c=cur();
+        if(c?.id)return c;
+      }
+    }catch(_){}
+
+    try{
+      if(typeof activeId!=='undefined' && activeId && typeof local!=='undefined'){
+        const c=(local?.characters||[]).find(x=>String(x?.id||'')===String(activeId));
+        if(c?.id)return c;
+      }
+    }catch(_){}
+
+    return null;
+  }
+
+  async function touch(){
+    if(busy || document.hidden || !navigator.onLine)return;
+    const c=currentCharacter();
+    if(!c?.id)return;
+
+    busy=true;
+    try{
+      if(typeof api!=='function')return;
+
+      await api('/rpc/test_touch_live_character',{
+        method:'POST',
+        body:JSON.stringify({
+          p_character_id:String(c.id),
+          p_player_id:String((typeof playerId!=='undefined'&&playerId)||''),
+          p_name:String(c.name||'未命名角色')
+        })
+      });
+
+      // 如果首頁可見，更新統計數字；遊戲內則只送心跳。
+      const home=document.getElementById('home');
+      if(home && !home.classList.contains('hidden')){
+        try{await window.refreshLiveCharacterStats?.()}catch(_){}
+      }
+    }catch(e){
+      console.warn('active character heartbeat',e);
+    }finally{
+      busy=false;
+    }
+  }
+
+  function start(){
+    if(timer)return;
+    touch();
+    timer=setInterval(touch,60000);
+  }
+
+  function stop(){
+    if(timer){
+      clearInterval(timer);
+      timer=null;
+    }
+  }
+
+  // 進入角色後會有 activeId / cur()，稍後立即送第一次心跳。
+  document.addEventListener('click',e=>{
+    const btn=e.target?.closest?.('[data-id].openChar,.openChar,[data-action="open-char"]');
+    if(btn)setTimeout(touch,120);
+  },true);
+
+  // 切回頁面或恢復網路時補一次。
+  document.addEventListener('visibilitychange',()=>{
+    if(document.hidden) return;
+    touch();
+  },{passive:true});
+
+  window.addEventListener('focus',touch,{passive:true});
+  window.addEventListener('online',touch,{passive:true});
+  window.addEventListener('pageshow',()=>setTimeout(touch,120),{passive:true});
+
+  // 頁面載入後啟動；若還沒進角色，touch() 會直接跳過。
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',start,{once:true});
+  }else{
+    start();
+  }
+
+  window.testActiveCharacterHeartbeat=touch;
 })();
 </script>
 
