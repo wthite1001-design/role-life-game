@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#9a76c4" name="theme-color"/>
-<title>關係進行式・3.31.6.6</title>
+<title>關係進行式・3.31.6.12</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -1789,7 +1789,7 @@ html[data-formal-theme="maidCafe"] .navBtn::after{
 <div class="homeLogo">💞</div>
 <h1>關係進行式</h1>
 <div class="homeTagline">每一段關係，都還在進行中。</div>
-<div class="homeVersion">第3.31.6.8版・此生唯一成就修正</div>
+<div class="homeVersion">第3.31.6.12版・此生唯一成就修正</div>
 </div>
 <div id="playerAccountHomePanel" class="homePanel accountHomePanel">
 <div class="homePanelTitle"><span>☁️ 玩家帳號</span><span id="playerAccountChip" class="chip">未登入</span></div>
@@ -2230,7 +2230,7 @@ html[data-formal-theme="maidCafe"] .navBtn::after{
 </div>
 <div class="drawerShade hidden" id="drawerShade"></div><aside class="drawer hidden" id="drawer"><div style="padding:8px"><b id="drawerName">角色</b><div class="muted">功能選單</div></div><button class="navBtn" data-nav="life" type="button">🏠 角色生活</button><button class="navBtn" data-nav="daily" type="button">📋 今日小事</button><button class="navBtn" data-nav="work" type="button">💼 打工賺錢</button><button class="navBtn" data-nav="journal" type="button">📖 今日生活日誌</button><button class="navBtn" data-nav="routine" type="button">🕒 角色作息</button><button class="navBtn" data-nav="outing" type="button">🗺️ 外出 <span class="navDot hidden" data-dot="outing"></span></button><button class="navBtn" data-nav="relations" type="button">💞 關係 <span class="navDot hidden" data-dot="relations"></span></button><button class="navBtn" data-nav="npcrelations" type="button">✨ NPC 關係</button><button class="navBtn" data-nav="mailbox" type="button">📬 信箱 <span class="navDot hidden" data-dot="mailbox"></span></button><button class="navBtn" id="playerAccountDrawerBtn" type="button">☁️ 玩家帳號</button><button class="navBtn" id="gmDrawerLoginBtn" type="button">👑 管理員登入</button><button class="navBtn hidden" data-nav="gm" id="gmNavBtn" type="button">🛠️ GM 操作台</button><div class="navSep"></div><button class="navBtn" data-nav="bag" type="button">🎒 背包</button><button class="navBtn" data-nav="shop" type="button">🏪 商店</button><button class="navBtn" data-nav="memory" type="button">📖 回憶</button><button class="navBtn" data-nav="achievements" type="button">🏆 成就</button><div class="navSep"></div><div style="padding:8px"><b>🎵 悠閒 BGM</b><div class="actions"><button id="bgmToggle">▶ 播放</button><input id="bgmVolume" max="1" min="0" step=".05" type="range" value=".25"/></div><div class="small">把 bgm.mp3 和 index.html 放同一資料夾。</div></div><audio autoplay="" id="bgm" loop="" playsinline="" preload="auto"><source src="bgm.mp3" type="audio/mpeg"/></audio><button class="navBtn" id="back" type="button">💾 返回存檔首頁</button></aside><div class="modal hidden" id="updateNoticeModal">
 <div class="modalBox">
-<div class="modalHead"><b>📢 第3.31.6.8版更新公告</b><button id="closeUpdateNotice">×</button></div>
+<div class="modalHead"><b>📢 第3.31.6.12版更新公告</b><button id="closeUpdateNotice">×</button></div>
 <div class="updateNoticeBody">
   <h3>🎀 女僕咖啡廳主題</h3>
   <p>新增女僕咖啡廳限定外觀。解鎖後可在「外觀更改」中自由切換原始外觀與女僕咖啡廳，選擇會保留。</p>
@@ -7101,7 +7101,7 @@ function reconcileAchievements(c){
  let _hasTopAch=_topDefs.some(t=>t?.ach&&!!c.achievements?.[t.ach]);
  let _hasTopBadge=_topDefs.some(t=>t?.badge&&!!local.sharedBadges?.[t.badge]);
  if(_hasBroken||_hasTopAch||_hasTopBadge)c.achievements.break=1;
-  /* 3.31.6.6：只補「此生唯一」。 */
+  /* 3.31.6.12：只補「此生唯一」。 */
   try{
     const loverBroken=infos.some(x=>x.rr?.relation==="lover"&&!!x.b?.broken);
     const loverBadge=!!local.sharedBadges?.badge_lover;
@@ -14388,7 +14388,7 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 
 <script id="formal3298MaidCommerce">
 (function(){
- const BUILD='3.31.6.8';
+ const BUILD='3.31.6.12';
  const THEME_KEY='role_life_formal_theme_v1';
  const VOUCHER='npc_maid_cafe_coffee_voucher';
 
@@ -14405,18 +14405,87 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
   x.inventory??={};x.paidCosmetics??={};x.paidEntitlements??={};x.paidStoryFlags??={};x.memories??=[];
   if(x.activePaidTheme!=='maidCafe')x.activePaidTheme='';
  }
+ function ensureAccountAppearance(){
+  window.local=window.local||{};
+  local.accountAppearance=local.accountAppearance&&typeof local.accountAppearance==='object'?local.accountAppearance:{};
+  local.accountAppearance.owned=local.accountAppearance.owned&&typeof local.accountAppearance.owned==='object'?local.accountAppearance.owned:{};
+
+  // 舊資料向上相容：擁有權只決定「能不能選」，不決定目前套用什麼。
+  const chars=[];
+  if(Array.isArray(local.characters))chars.push(...local.characters);
+  if(Array.isArray(local.chars))chars.push(...local.chars);
+  try{const x=c();if(x)chars.push(x)}catch(_){}
+  for(const ch of chars){
+    if(ch?.paidCosmetics?.maidCafe || ch?.paidEntitlements?.maidCafeCoffeeRedeemed){
+      local.accountAppearance.owned.maidCafe=true;
+    }
+  }
+  if(local.sharedPaidCosmetics?.maidCafe || local.sharedPaidEntitlements?.maidCafeCoffeeRedeemed){
+    local.accountAppearance.owned.maidCafe=true;
+  }
+
+  // 第一次升級時，才從舊角色目前外觀匯入；之後完全以帳戶 active 為準。
+  if(!local.accountAppearance.migratedActiveV2){
+    let oldMode='default';
+    try{
+      const legacy=JSON.parse(localStorage.getItem(THEME_KEY)||'null');
+      if(legacy?.mode==='maidCafe')oldMode='maidCafe';
+    }catch(_){}
+    try{
+      const x=c();
+      if(x?.activePaidTheme==='maidCafe')oldMode='maidCafe';
+    }catch(_){}
+    local.accountAppearance.active=oldMode;
+    local.accountAppearance.migratedActiveV2=true;
+  }
+
+  if(local.accountAppearance.active!=='maidCafe')local.accountAppearance.active='default';
+  return local.accountAppearance;
+ }
+ function accountTheme(){
+  return ensureAccountAppearance().active==='maidCafe'?'maidCafe':'default';
+ }
+ function syncThemeToCharacters(mode){
+  const chars=[];
+  if(Array.isArray(local.characters))chars.push(...local.characters);
+  if(Array.isArray(local.chars))chars.push(...local.chars);
+  try{const x=c();if(x)chars.push(x)}catch(_){}
+  for(const ch of chars){
+    ensure(ch);
+    ch.activePaidTheme=mode==='maidCafe'?'maidCafe':'';
+  }
+ }
  function paint(mode){
   mode=mode==='maidCafe'?'maidCafe':'default';
   document.documentElement.setAttribute('data-formal-theme',mode);
  }
  function saveTheme(mode,x){
-  try{localStorage.setItem(THEME_KEY,JSON.stringify({mode,charId:String(x?.id||''),savedAt:Date.now()}))}catch(_){}
+  mode=mode==='maidCafe'?'maidCafe':'default';
+  const acct=ensureAccountAppearance();
+  acct.active=mode;
+  syncThemeToCharacters(mode);
+  try{
+    localStorage.setItem(THEME_KEY,JSON.stringify({mode,account:true,savedAt:Date.now()}));
+  }catch(_){}
+  try{saveLocal?.()}catch(_){}
  }
- function apply(x=c(),write=true){
-  let mode='default';
-  if(x){ensure(x);if(x.activePaidTheme==='maidCafe'&&x.paidCosmetics.maidCafe)mode='maidCafe'}
-  else{try{mode=JSON.parse(localStorage.getItem(THEME_KEY)||'null')?.mode||'default'}catch(_){}}
-  paint(mode);if(x&&write)saveTheme(mode,x);return mode;
+ function apply(x=c(),write=false){
+  const acct=ensureAccountAppearance();
+  let mode=acct.active==='maidCafe' && acct.owned.maidCafe ? 'maidCafe' : 'default';
+
+  // 若帳戶沒有女僕主題擁有權，不允許舊殘留把畫面套成女僕。
+  if(mode==='maidCafe'&&!acct.owned.maidCafe){
+    mode='default';
+    acct.active='default';
+  }
+
+  paint(mode);
+  syncThemeToCharacters(mode);
+
+  // 保留 legacy key 只是相容，不再作為決策來源。
+  try{localStorage.setItem(THEME_KEY,JSON.stringify({mode,account:true,savedAt:Date.now()}))}catch(_){}
+  if(write){try{saveLocal?.()}catch(_){}}
+  return mode;
  }
  window.applyFormalPaidAppearance=apply;
 
@@ -14502,9 +14571,9 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 
  window.renderFormalAppearance=function(){
   const box=document.getElementById('formalAppearanceGrid'),x=c();if(!box)return;
-  if(!x){box.innerHTML='<div class="small">請先進入角色。</div>';return}
-  ensure(x);
-  const maid=!!x.paidCosmetics.maidCafe,cur=x.activePaidTheme==='maidCafe'?'maidCafe':'default';
+  const acct=ensureAccountAppearance();
+  if(x)ensure(x);
+  const maid=!!acct.owned.maidCafe,cur=acct.active==='maidCafe'?'maidCafe':'default';
   box.className='appearanceGrid';
   box.innerHTML=`
     <button type="button" class="appearanceChoice ${cur==="default"?"active":""}" data-formal-theme-choice="default">
@@ -14516,12 +14585,18 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
  };
 
  function choose(id){
-  const x=c();if(!x)return;ensure(x);
-  if(id==='default')x.activePaidTheme='';
-  else if(id==='maidCafe'&&x.paidCosmetics.maidCafe)x.activePaidTheme='maidCafe';
-  else return;
+  const x=c();if(x)ensure(x);
+  const acct=ensureAccountAppearance();
+
+  if(id==='maidCafe'&&!acct.owned.maidCafe)return;
   const mode=id==='maidCafe'?'maidCafe':'default';
-  paint(mode);saveTheme(mode,x);saveLocal?.();window.renderFormalAppearance();
+
+  acct.active=mode;
+  paint(mode);
+  saveTheme(mode,x);
+  window.renderFormalAppearance();
+
+  try{toast?.(mode==='maidCafe'?'🎀 已套用女僕咖啡廳外觀。':'🌷 已切回原始外觀。',1600)}catch(_){}
  }
 
  function maidLines(){
@@ -14572,14 +14647,17 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
   x.inventory[VOUCHER]=n-1;
   x.paidCosmetics.maidCafe=true;
   x.paidEntitlements.maidCafeCoffeeRedeemed=true;
-  x.activePaidTheme='maidCafe';
-  paint('maidCafe');saveTheme('maidCafe',x);saveLocal?.();
+  const acct=ensureAccountAppearance();
+  acct.owned.maidCafe=true;
+  syncThemeToCharacters(accountTheme());
+  saveLocal?.();
+  apply(c(),false);
   try{renderNpcShop?.()}catch(_){}
   setTimeout(()=>window.playFormalMaidCafeStory(false),80);
  }
 
  /* 第一幀主題：只讀正式服 key，完全沒有__NO_GALAXY__。 */
- apply(null,false);
+ ensureAccountAppearance();apply(null,false);
  for(const src of ['assets/npc/shopkeeper_cat/maid_cafe_special_1.png','assets/npc/shopkeeper_cat/maid_cafe_special_2.png']){
   const img=new Image();img.decoding='async';img.src=src;
  }
@@ -14604,13 +14682,13 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
  }
  function boot(){
       version();
-      apply(c(),true);
+      ensureAccountAppearance();apply(c(),false);
       const later=()=>{ try{void window.renderFormalPaidShop()}catch(_){} };
       if('requestIdleCallback' in window)requestIdleCallback(later,{timeout:1800});
       else setTimeout(later,900);
     }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
- window.addEventListener('pageshow',()=>{version();apply(c(),false)});
+ window.addEventListener('pageshow',()=>{version();ensureAccountAppearance();apply(c(),false);window.renderFormalAppearance?.()});
 })();
 </script>
 
@@ -14673,9 +14751,9 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 <script id="formal3313VersionGuard">
 (function(){
  function apply(){
-  document.querySelectorAll('.homeVersion').forEach(x=>x.textContent='第3.31.6.8版・此生唯一成就修正');
+  document.querySelectorAll('.homeVersion').forEach(x=>x.textContent='第3.31.6.12版・此生唯一成就修正');
   document.querySelectorAll('.chip').forEach(x=>{if(/^第?3\.\d+(?:\.\d+)?版?$/.test((x.textContent||'').trim()))x.textContent='第3.31.1版'});
-  document.title='關係進行式・3.31.6.6';
+  document.title='關係進行式・3.31.6.12';
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',apply,{once:true});else apply();
  window.addEventListener('pageshow',apply);
@@ -15301,6 +15379,38 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
  const oldStart=window.startNpcRpgStory;
  if(typeof oldStart==='function')window.startNpcRpgStory=function(){const r=oldStart.apply(this,arguments);setTimeout(apply,0);return r};
  window.applyFormalMaidStoryImage=apply;
+})();
+</script>
+
+
+<script id="formal31612AppearancePersistenceGuard">
+(function(){
+ function sync(){
+   try{
+     const a=window.local?.accountAppearance;
+     if(!a)return;
+     const owned=!!a?.owned?.maidCafe;
+     const mode=a.active==='maidCafe'&&owned?'maidCafe':'default';
+     document.documentElement.setAttribute('data-formal-theme',mode);
+
+     // Keep legacy key aligned; never let it become a separate source of truth.
+     try{
+       localStorage.setItem('relationship_game_formal_paid_theme_v1',JSON.stringify({
+         mode,account:true,savedAt:Date.now()
+       }));
+     }catch(_){}
+
+     // Selector state must match the actually painted theme.
+     document.querySelectorAll('[data-formal-theme-choice]').forEach(btn=>{
+       btn.classList.toggle('active',btn.dataset.formalThemeChoice===mode);
+     });
+   }catch(e){console.warn('appearance persistence guard',e)}
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(sync,0),{once:true});
+ else setTimeout(sync,0);
+ window.addEventListener('pageshow',()=>setTimeout(sync,0),{passive:true});
+ setTimeout(sync,120);
+ setTimeout(sync,700);
 })();
 </script>
 
