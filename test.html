@@ -2268,7 +2268,7 @@ html[data-test-theme="qixiGalaxy"] #qixiEventModal :is(.qixiRewardBox,.qixiFacil
 
 
 <style id="test33018ModalRestore">
-/* 3.30.21：恢復測試服卡片式視窗，不再出現整頁白色 modal。 */
+/* 3.30.22：恢復測試服卡片式視窗，不再出現整頁白色 modal。 */
 html.qixi-theme-now .modal,
 html[data-test-theme="qixiGalaxy"] .modal{
   padding:12px!important;
@@ -2477,10 +2477,10 @@ html[data-test-theme="qixiGalaxy"] .modal>.modalBox :is(.card,.panel,.section,.i
   <div class="homePanel">
     <div class="homePanelTitle"><span>🌐 即時狀態</span><span class="muted">雲端聯機</span></div>
     <div class="liveStats">
-      <div class="liveStat"><b id="onlinePlayerCount">—</b><span>🟢 在線玩家</span></div>
-      <div class="liveStat"><b id="cloudCharacterCount">—</b><span>👤 目前角色</span></div>
+      <div class="liveStat"><b id="onlinePlayerCount">…</b><span>🟢 在線玩家</span></div>
+      <div class="liveStat"><b id="cloudCharacterCount">…</b><span>👤 目前角色</span></div>
     </div>
-    <div class="small" style="margin-top:8px">依角色存活登記統計；玩家開啟遊戲時會重新登記目前仍存在的所有角色，刪除角色後同步移除。</div>
+    <div class="small" style="margin-top:8px">依角色存活登記統計；同步完成後一次顯示正確數字，不再使用舊關係房間估算。</div>
   </div>
 <div id="deviceStarterGiftPanel" class="homePanel hidden">
     <div class="homePanelTitle"><span>🎁 新手小禮物</span><span class="chip">首次使用</span></div>
@@ -3981,24 +3981,16 @@ async function importGameSaveFile(file){
 }
 
 async function refreshPublicStats(){
-  try{if(await window.refreshLiveCharacterStats?.())return}catch(_){}
+  const a=document.getElementById("onlinePlayerCount");
+  const b=document.getElementById("cloudCharacterCount");
+  if(a && (!a.textContent||a.textContent==="—"))a.textContent="…";
+  if(b && (!b.textContent||b.textContent==="—"))b.textContent="…";
   try{
-    let rows=await api("/test_rooms?select=host_player,guest_player,host_char,guest_char,host_state,guest_state");
-    let chars=new Set(),onlinePlayers=new Set();
-    for(const r of rows||[]){
-      if(r.host_char)chars.add(String(r.host_char));
-      if(r.guest_char)chars.add(String(r.guest_char));
-      if(r.host_player&&isOnlineState(r.host_state))onlinePlayers.add(String(r.host_player));
-      if(r.guest_player&&isOnlineState(r.guest_state))onlinePlayers.add(String(r.guest_player));
-    }
-    let a=document.getElementById("onlinePlayerCount"),b=document.getElementById("cloudCharacterCount");
-    if(a)a.textContent=onlinePlayers.size;
-    if(b)b.textContent=chars.size;
+    await window.syncLiveRegistryAndStats?.();
   }catch(e){
-    console.warn("public stats failed",e);
-    let a=document.getElementById("onlinePlayerCount"),b=document.getElementById("cloudCharacterCount");
-    if(a)a.textContent="離線";
-    if(b)b.textContent="離線";
+    console.warn("live stats sync pending",e);
+    if(a)a.textContent="…";
+    if(b)b.textContent="…";
   }
 }
 function startPublicStats(){
@@ -13209,8 +13201,8 @@ body:not(.launch-game-open) #launchActivityFab.activityEntryVisible{
     if(reward && /檢查|讀取中|連線中/.test(reward.textContent||"")) reward.textContent="⚠️ 雲端暫時離線，不影響本機測試。";
     const a=document.getElementById("onlinePlayerCount");
     const b=document.getElementById("cloudCharacterCount");
-    if(a && (a.textContent||"").trim()==="—")a.textContent="離線";
-    if(b && (b.textContent||"").trim()==="—")b.textContent="離線";
+    
+    
   },9000);
 })();
 </script>
@@ -15011,59 +15003,139 @@ header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{back
 
 <script id="test33019LiveRegistry">
 (function(){
+ const SYNC_RPC='test_sync_live_characters';
+ const STATS_RPC='test_public_character_stats';
  const CLEAN_KEY='role_life_test_safe_cleanup_v1';
- async function rpc(name,body){if(typeof api!=='function')throw new Error('api unavailable');return api('/rpc/'+name,{method:'POST',body:JSON.stringify(body||{})})}
- window.touchLiveCharacter=async c=>{if(!c?.id)return;try{await rpc('test_touch_live_character',{p_character_id:String(c.id),p_player_id:String(playerId||''),p_name:String(c.name||'未命名角色')})}catch(e){console.warn('touch live character',e)}};
- window.deleteLiveCharacterSafely=async c=>{if(!c?.id)return {ok:false};try{return await rpc('test_delete_live_character',{p_character_id:String(c.id),p_player_id:String(playerId||'')})}catch(e){console.warn('delete live character',e);return {ok:false,error:String(e?.message||e)}}};
- window.refreshLiveCharacterStats=async()=>{try{const r=await rpc('test_public_character_stats',{}),row=Array.isArray(r)?r[0]:r;const a=document.getElementById('onlinePlayerCount'),b=document.getElementById('cloudCharacterCount');if(a)a.textContent=String(Number(row?.online_players||0));if(b)b.textContent=String(Number(row?.character_count||0));return true}catch(e){console.warn('live stats fallback',e);return false}};
 
- window.registerAllLocalCharacters=async function(){
-   try{
-     const chars=Array.isArray(window.local?.characters)
-       ? window.local.characters
-       : (typeof local!=='undefined' && Array.isArray(local?.characters) ? local.characters : []);
-     if(!chars.length)return;
-     // 依序登記，避免手機同時丟 5 個 RPC。
-     for(const c of chars){
-       if(!c?.id)continue;
-       await window.touchLiveCharacter?.(c);
-     }
-     try{await window.refreshLiveCharacterStats?.()}catch(_){}
-   }catch(e){console.warn('register all local characters',e)}
+ async function rpc(name,body){
+   if(typeof api!=='function')throw new Error('api unavailable');
+   return api('/rpc/'+name,{method:'POST',body:JSON.stringify(body||{})});
+ }
+
+ function currentChars(){
+   try{return (typeof local!=='undefined'&&Array.isArray(local?.characters))?local.characters:[]}
+   catch(_){return []}
+ }
+
+ function paintSyncing(){
+   const a=document.getElementById('onlinePlayerCount');
+   const b=document.getElementById('cloudCharacterCount');
+   if(a && (!a.textContent || /^—$|^0$|^56$/.test(a.textContent.trim())))a.textContent='…';
+   if(b && (!b.textContent || /^—$|^0$|^56$/.test(b.textContent.trim())))b.textContent='…';
+ }
+
+ window.syncAllLiveCharacters=async function(){
+   const chars=currentChars();
+   const pid=(typeof playerId!=='undefined'&&playerId)?String(playerId):'';
+   if(!pid)throw new Error('player id not ready');
+   const payload=chars.filter(c=>c?.id).map(c=>({
+     character_id:String(c.id),
+     name:String(c.name||'未命名角色')
+   }));
+   await rpc(SYNC_RPC,{p_player_id:pid,p_characters:payload});
+   return true;
  };
 
- window.runSafeTransientCleanup=async(force=false)=>{try{const last=Number(localStorage.getItem(CLEAN_KEY)||0);if(!force&&Date.now()-last<21600000)return;await rpc('test_cleanup_transient_rows',{});localStorage.setItem(CLEAN_KEY,String(Date.now()))}catch(e){console.warn('safe transient cleanup',e)}};
+ window.refreshLiveCharacterStats=async function(){
+   try{
+     const r=await rpc(STATS_RPC,{});
+     const row=Array.isArray(r)?r[0]:r;
+     if(!row)throw new Error('empty stats');
+     const alive=Number(row.character_count);
+     const online=Number(row.online_players);
+     if(!Number.isFinite(alive)||!Number.isFinite(online))throw new Error('invalid stats');
+     const a=document.getElementById('onlinePlayerCount');
+     const b=document.getElementById('cloudCharacterCount');
+     if(a)a.textContent=String(online);
+     if(b)b.textContent=String(alive);
+     return true;
+   }catch(e){
+     console.warn('live registry stats unavailable',e);
+     paintSyncing();
+     return false;
+   }
+ };
+
+ window.syncLiveRegistryAndStats=async function(){
+   paintSyncing();
+   await window.syncAllLiveCharacters();
+   await window.refreshLiveCharacterStats();
+   return true;
+ };
+
+ window.touchLiveCharacter=async function(){
+   // 建立或開啟角色時同步整份清單，避免單筆登記與首頁清單不同步。
+   try{await window.syncLiveRegistryAndStats()}catch(e){console.warn('live registry touch',e)}
+ };
+
+ window.deleteLiveCharacterSafely=async function(c){
+   // 實際刪角仍由既有安全 delete RPC 負責；刪完首頁會再 bulk sync。
+   try{
+     const name='test_delete_live_character';
+     return await rpc(name,{p_character_id:String(c?.id||''),p_player_id:String(typeof playerId!=='undefined'?playerId:'')});
+   }catch(e){console.warn('delete live character',e);return {ok:false,error:String(e?.message||e)}}
+ };
+
+ window.runSafeTransientCleanup=async function(force=false){
+   try{
+     const last=Number(localStorage.getItem(CLEAN_KEY)||0);
+     if(!force&&Date.now()-last<21600000)return;
+     await rpc('test_cleanup_transient_rows',{});
+     localStorage.setItem(CLEAN_KEY,String(Date.now()));
+   }catch(e){console.warn('safe transient cleanup',e)}
+ };
 })();
 </script>
 
 <script>setTimeout(()=>window.runSafeTransientCleanup?.(),1200)</script>
 
-<script id="liveRegistryHomeSync">
+
+<script id="liveRegistryHomeSyncStable">
 (function(){
- let timer=0,lastSig='';
- function sync(){
+ let timer=0;
+ let inFlight=false;
+ let lastGoodSig='';
+ function signature(){
+   try{
+     return ((typeof local!=='undefined'&&Array.isArray(local?.characters))?local.characters:[])
+       .map(c=>String(c?.id||'')).filter(Boolean).sort().join('|');
+   }catch(_){return ''}
+ }
+ function schedule(delay=80){
    clearTimeout(timer);
-   timer=setTimeout(()=>{
+   timer=setTimeout(async()=>{
+     if(inFlight)return;
+     const sig=signature();
+     // Only skip when the same exact list has already synced successfully.
+     if(sig===lastGoodSig){
+       try{await window.refreshLiveCharacterStats?.()}catch(_){}
+       return;
+     }
+     inFlight=true;
      try{
-       const chars=(typeof local!=='undefined'&&Array.isArray(local?.characters))?local.characters:[];
-       const sig=chars.map(c=>String(c?.id||'')).filter(Boolean).sort().join('|');
-       if(sig===lastSig)return;
-       lastSig=sig;
-       window.registerAllLocalCharacters?.();
-     }catch(e){console.warn('live registry home sync',e)}
-   },120);
+       await window.syncLiveRegistryAndStats?.();
+       lastGoodSig=sig;
+     }catch(e){
+       console.warn('live registry retry',e);
+       // failed sync is NOT remembered; retry shortly
+       setTimeout(()=>schedule(0),1200);
+     }finally{
+       inFlight=false;
+     }
+   },delay);
  }
  const old=window.renderHome;
  if(typeof old==='function'){
    window.renderHome=function(){
      const r=old.apply(this,arguments);
-     sync();
+     schedule(40);
      return r;
    };
  }
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',sync,{once:true});
- else sync();
- window.addEventListener('pageshow',sync,{passive:true});
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>schedule(20),{once:true});
+ else schedule(20);
+ window.addEventListener('pageshow',()=>schedule(20),{passive:true});
+ window.addEventListener('online',()=>schedule(20),{passive:true});
 })();
 </script>
 
