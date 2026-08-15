@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#9a76c4" name="theme-color"/>
-<title>關係進行式・3.31.6.9</title>
+<title>關係進行式・3.31.6.10</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -7101,7 +7101,7 @@ function reconcileAchievements(c){
  let _hasTopAch=_topDefs.some(t=>t?.ach&&!!c.achievements?.[t.ach]);
  let _hasTopBadge=_topDefs.some(t=>t?.badge&&!!local.sharedBadges?.[t.badge]);
  if(_hasBroken||_hasTopAch||_hasTopBadge)c.achievements.break=1;
-  /* 3.31.6.9：只補「此生唯一」。 */
+  /* 3.31.6.10：只補「此生唯一」。 */
   try{
     const loverBroken=infos.some(x=>x.rr?.relation==="lover"&&!!x.b?.broken);
     const loverBadge=!!local.sharedBadges?.badge_lover;
@@ -10911,12 +10911,64 @@ document.getElementById("closeNpcStoryPlayer")?.addEventListener("click",e=>{e.s
   };
 
   // Collected stories stay replayable even if current conditions later change.
+  // 3.31.6.10：活動付費劇情改為帳戶級收藏，且保留原本 unlock 條件。
   window.npcStoryCollection=function(npcId,c){
     let lib=NPC_STORY_LIBRARY[npcId]||{personal:[],event:[]},st=npcState();
-    const map=list=>list.map(a=>({
-      ...a,
-      unlocked:!!st.storyCollection?.[a.id]
-    }));
+
+    local.sharedPaidStoryFlags=
+      local.sharedPaidStoryFlags&&typeof local.sharedPaidStoryFlags==="object"
+        ?local.sharedPaidStoryFlags:{};
+
+    // 舊存檔相容：只要帳戶任一角色曾看過／兌換／擁有女僕主題，就補成帳戶級收藏。
+    let maidSeen=!!local.sharedPaidStoryFlags.paid_maid_cafe_story;
+    for(const ch of (local.characters||[])){
+      const memorySeen=Array.isArray(ch?.memories)&&
+        ch.memories.some(m=>String(m?.t||"").includes("女僕咖啡廳"));
+      if(
+        ch?.paidStoryFlags?.paid_maid_cafe_story ||
+        ch?.paidEntitlements?.maidCafeCoffeeRedeemed ||
+        ch?.paidCosmetics?.maidCafe ||
+        memorySeen
+      ){
+        maidSeen=true;
+        break;
+      }
+    }
+    if(local?.accountAppearance?.owned?.maidCafe || local?.sharedPaidCosmetics?.maidCafe){
+      maidSeen=true;
+    }
+
+    if(maidSeen){
+      local.sharedPaidStoryFlags.paid_maid_cafe_story=1;
+      st.storyCollection=st.storyCollection&&typeof st.storyCollection==="object"?st.storyCollection:{};
+      if(!st.storyCollection.paid_maid_cafe_story){
+        st.storyCollection.paid_maid_cafe_story=new Date().toISOString();
+        try{saveState(st)}catch(_){}
+      }
+      for(const ch of (local.characters||[])){
+        ch.paidStoryFlags=ch.paidStoryFlags&&typeof ch.paidStoryFlags==="object"?ch.paidStoryFlags:{};
+        ch.paidStoryFlags.paid_maid_cafe_story=true;
+      }
+      try{saveLocal?.()}catch(_){}
+    }
+
+    const map=list=>list.map(a=>{
+      let unlocked=!!st.storyCollection?.[a.id];
+
+      // 女僕咖啡廳是帳戶級活動故事。
+      if(a.id==="paid_maid_cafe_story"){
+        unlocked=unlocked || !!local.sharedPaidStoryFlags.paid_maid_cafe_story;
+      }
+
+      // 其餘故事仍尊重原本各自的 unlock 條件，
+      // 避免這個 v2 override 再把前面的條件全部吃掉。
+      if(!unlocked && typeof a.unlock==="function"){
+        try{unlocked=!!a.unlock(st,c)}catch(_){}
+      }
+
+      return {...a,unlocked};
+    });
+
     return {personal:map(lib.personal||[]),event:map(lib.event||[])};
   };
 
@@ -14735,7 +14787,7 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
  function apply(){
   document.querySelectorAll('.homeVersion').forEach(x=>x.textContent='第3.31.6.7版・此生唯一成就修正');
   document.querySelectorAll('.chip').forEach(x=>{if(/^第?3\.\d+(?:\.\d+)?版?$/.test((x.textContent||'').trim()))x.textContent='第3.31.1版'});
-  document.title='關係進行式・3.31.6.9';
+  document.title='關係進行式・3.31.6.10';
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',apply,{once:true});else apply();
  window.addEventListener('pageshow',apply);
@@ -15400,6 +15452,45 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
  window.chooseFormalAccountAppearance=choose;
  ensure();sync();
  try{saveLocal?.()}catch(_){}
+})();
+</script>
+
+
+<script id="formal31610MaidStoryAccountBoot">
+(function(){
+ function migrate(){
+   try{
+     window.local=window.local||{};
+     local.sharedPaidStoryFlags=
+       local.sharedPaidStoryFlags&&typeof local.sharedPaidStoryFlags==="object"
+         ?local.sharedPaidStoryFlags:{};
+
+     let seen=!!local.sharedPaidStoryFlags.paid_maid_cafe_story;
+     for(const ch of (local.characters||[])){
+       const memorySeen=Array.isArray(ch?.memories)&&
+         ch.memories.some(m=>String(m?.t||"").includes("女僕咖啡廳"));
+       if(
+         ch?.paidStoryFlags?.paid_maid_cafe_story ||
+         ch?.paidEntitlements?.maidCafeCoffeeRedeemed ||
+         ch?.paidCosmetics?.maidCafe ||
+         memorySeen
+       ){seen=true;break}
+     }
+     if(local?.accountAppearance?.owned?.maidCafe || local?.sharedPaidCosmetics?.maidCafe)seen=true;
+
+     if(seen){
+       local.sharedPaidStoryFlags.paid_maid_cafe_story=1;
+       for(const ch of (local.characters||[])){
+         ch.paidStoryFlags=ch.paidStoryFlags&&typeof ch.paidStoryFlags==="object"?ch.paidStoryFlags:{};
+         ch.paidStoryFlags.paid_maid_cafe_story=true;
+       }
+       saveLocal?.();
+     }
+   }catch(e){console.warn("maid story account migration",e)}
+ }
+ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",migrate,{once:true});
+ else migrate();
+ window.addEventListener("pageshow",migrate,{passive:true});
 })();
 </script>
 
