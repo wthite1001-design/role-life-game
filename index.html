@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#9a76c4" name="theme-color"/>
-<title>關係進行式・3.31.6.15</title>
+<title>關係進行式・3.31.6.16</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -12533,13 +12533,14 @@ body.game-entry-active #npcTownFab{
   let cycleIndex=0, lastPointerAt=0;
 
   function setImg(img,face){
-    if(!img)return;
-    face=FACE[face]?face:'normal';
-    const src=FACE[face];
-    img.dataset.npcFace=face;
-    if(img.getAttribute('src')!==src)img.setAttribute('src',src);
-    img.style.display='block';
-  }
+     if(!img)return;
+     if(img.id==='npcStoryPortrait' && (img.dataset.maidCgLocked==='1'||img.dataset.maidChangeoverLocked==='1'))return;
+     face=FACE[face]?face:'normal';
+     const src=FACE[face];
+     img.dataset.npcFace=face;
+     if(img.getAttribute('src')!==src)img.setAttribute('src',src);
+     img.style.display='block';
+   }
   function setHeroFace(face,line){
     setImg(document.querySelector('#npcShopModal .npcHero > img'),face);
     const mood=document.getElementById('npcShopMood');
@@ -13120,6 +13121,7 @@ body.game-entry-active #npcTownFab{
         if(!line)return;
 
         const portrait=document.getElementById("npcStoryPortrait");
+         if(portrait && (portrait.dataset.maidCgLocked==="1"||portrait.dataset.maidChangeoverLocked==="1"))return;
         const prev=portrait?.dataset?.npcFace||"normal";
         const semantic=semanticFaceForFormalStory(line,prev);
         const t=String(line.text||"");
@@ -14798,7 +14800,7 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
  function apply(){
   document.querySelectorAll('.homeVersion').forEach(x=>x.textContent='第3.31.6.13版・此生唯一成就修正');
   document.querySelectorAll('.chip').forEach(x=>{if(/^第?3\.\d+(?:\.\d+)?版?$/.test((x.textContent||'').trim()))x.textContent='第3.31.1版'});
-  document.title='關係進行式・3.31.6.15';
+  document.title='關係進行式・3.31.6.16';
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',apply,{once:true});else apply();
  window.addEventListener('pageshow',apply);
@@ -15444,7 +15446,7 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
    document.querySelectorAll('.homeVersion').forEach(x=>{
      if((x.textContent||'').includes('3.31.6')) x.textContent='第3.31.6.13版・打烊後留下常駐顯示修復';
    });
-   document.title='關係進行式・3.31.6.15';
+   document.title='關係進行式・3.31.6.16';
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',fix,{once:true});else fix();
  window.addEventListener('pageshow',fix);
@@ -15453,104 +15455,81 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 </script>
 
 
-<script id="formal31615MaidChangeoverLock">
+<script id="formal31616MaidChangeoverNoFlicker">
 (function(){
  const M0='assets/npc/shopkeeper_cat/maid_cafe_special.png';
  const M1='assets/npc/shopkeeper_cat/maid_cafe_special_1.png';
  const M2='assets/npc/shopkeeper_cat/maid_cafe_special_2.png';
 
- function currentState(){
-   return window.npcStoryPlayerState || window.__npcStoryState || null;
- }
- function desired(){
-   const st=currentState();
-   const line=st?.lines?.[Number(st?.index||0)];
+ function st(){return window.npcStoryPlayerState||window.__npcStoryState||null}
+ function wanted(){
+   const x=st(),line=x?.lines?.[Number(x?.index||0)];
    if(!line)return null;
    const stage=Number(line.maidStage||0);
-   if(stage<1)return null;  // 換裝前完全不碰圖片
-   return {src:stage>=3?M2:stage>=2?M1:M0,stage};
+   if(stage<1)return null;
+   return stage>=3?M2:stage>=2?M1:M0;
  }
- function apply(){
-   try{
-     const d=desired();
-     const portrait=document.getElementById('npcStoryPortrait');
-     const player=document.getElementById('npcStoryPlayer');
-
-     if(!d){
-       if(portrait){
-         delete portrait.dataset.maidCgLocked;
-         delete portrait.dataset.maidChangeoverLocked;
-       }
-       if(player)player.classList.remove('formalMaidChangeover');
-       return;
-     }
-
-     if(player)player.classList.add('formalMaidChangeover');
-
-     if(portrait){
-       portrait.dataset.maidCgLocked='1';
-       portrait.dataset.maidChangeoverLocked='1';
-       if(portrait.getAttribute('src')!==d.src)portrait.setAttribute('src',d.src);
-       portrait.style.objectFit='cover';
-     }
-
-     // 兼容其他可能存在的 CG 節點
-     ['npcStoryImage','npcStoryCG','npcRpgImage'].forEach(id=>{
-       const img=document.getElementById(id);
-       if(img?.tagName==='IMG'){
-         if(img.getAttribute('src')!==d.src)img.setAttribute('src',d.src);
-         img.hidden=false;
-       }
-     });
-
-     if(player)player.style.setProperty('--formal-maid-bg',`url("${d.src}")`);
-   }catch(e){console.warn('maid changeover lock',e)}
+ function lock(){
+   const src=wanted(),p=document.getElementById('npcStoryPortrait'),player=document.getElementById('npcStoryPlayer');
+   if(!src){
+     if(p){delete p.dataset.maidCgLocked;delete p.dataset.maidChangeoverLocked}
+     player?.classList.remove('formalMaidChangeover');
+     return;
+   }
+   if(p){
+     p.dataset.maidCgLocked='1';
+     p.dataset.maidChangeoverLocked='1';
+     if(p.getAttribute('src')!==src)p.setAttribute('src',src);
+     p.style.objectFit='cover';
+   }
+   player?.classList.add('formalMaidChangeover');
+   player?.style.setProperty('--formal-maid-bg',`url("${src}")`);
  }
 
- // Wrap story renderer AFTER all previous code.
  const oldRender=window.renderNpcRpgLine;
  if(typeof oldRender==='function'){
    window.renderNpcRpgLine=function(){
-     const r=oldRender.apply(this,arguments);
-     apply();
-     requestAnimationFrame(apply);
-     setTimeout(apply,40);
-     setTimeout(apply,150);
+     lock();                  // 先上鎖
+     const r=oldRender.apply(this,arguments); // 舊表情寫入會因 guard 被拒絕
+     lock();                  // 確保畫面是女僕 CG
      return r;
    };
  }
-
+ const oldAdvance=window.advanceNpcRpgStory;
+ if(typeof oldAdvance==='function'){
+   window.advanceNpcRpgStory=function(){
+     const r=oldAdvance.apply(this,arguments);
+     lock();
+     return r;
+   };
+ }
  const oldStart=window.startNpcRpgStory;
  if(typeof oldStart==='function'){
    window.startNpcRpgStory=function(){
      const r=oldStart.apply(this,arguments);
-     setTimeout(apply,0);
-     setTimeout(apply,80);
+     lock();
      return r;
    };
  }
-
- // Catch any later legacy code that mutates the portrait after our renderer.
- const obs=new MutationObserver(muts=>{
-   const d=desired();
-   if(!d)return;
-   for(const m of muts){
-     const t=m.target;
-     if(t?.id==='npcStoryPortrait' && t.getAttribute('src')!==d.src){
-       t.setAttribute('src',d.src);
-     }
-   }
- });
- function watch(){
-   const p=document.getElementById('npcStoryPortrait');
-   if(p)obs.observe(p,{attributes:true,attributeFilter:['src']});
-   apply();
+ const oldFinish=window.finishNpcRpgStory;
+ if(typeof oldFinish==='function'){
+   window.finishNpcRpgStory=function(){
+     const r=oldFinish.apply(this,arguments);
+     const p=document.getElementById('npcStoryPortrait');
+     if(p){delete p.dataset.maidCgLocked;delete p.dataset.maidChangeoverLocked}
+     return r;
+   };
  }
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',watch,{once:true});
- else watch();
-
- window.addEventListener('pageshow',()=>setTimeout(apply,0),{passive:true});
- window.applyFormalMaidChangeoverImage=apply;
+ const oldCancel=window.cancelNpcRpgStory;
+ if(typeof oldCancel==='function'){
+   window.cancelNpcRpgStory=function(){
+     const r=oldCancel.apply(this,arguments);
+     const p=document.getElementById('npcStoryPortrait');
+     if(p){delete p.dataset.maidCgLocked;delete p.dataset.maidChangeoverLocked}
+     return r;
+   };
+ }
+ window.applyFormalMaidChangeoverImage=lock;
 })();
 </script>
 
@@ -15705,12 +15684,14 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
   },true);
 
   function setStoryFace(face){
-    if(!FACE[face])face='normal';
-    const img=document.getElementById('npcStoryPortrait');
-    if(img){img.dataset.npcFace=face;img.src=FACE[face];img.style.display='block';}
-    const badge=document.querySelector('#npcStoryPlayer .npcExpressionBadge');
-    if(badge){badge.textContent='';badge.className='npcExpressionBadge face-'+face;}
-  }
+     if(!FACE[face])face='normal';
+     const img=document.getElementById('npcStoryPortrait');
+     if(img && !(img.dataset.maidCgLocked==='1'||img.dataset.maidChangeoverLocked==='1')){
+       img.dataset.npcFace=face;img.src=FACE[face];img.style.display='block';
+     }
+     const badge=document.querySelector('#npcStoryPlayer .npcExpressionBadge');
+     if(badge){badge.textContent='';badge.className='npcExpressionBadge face-'+face;}
+   }
 
   let lastStoryFace='normal', sameFaceRun=0, lastStoryIndex=-1;
   function chooseStoryFace(line,index){
