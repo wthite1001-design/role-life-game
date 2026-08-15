@@ -1483,7 +1483,7 @@ body.npcStoryRunning .draggableFab{
 #qixiEventModal .modalBox{
   max-height:none!important;
   height:auto!important;
-  min-height:100dvh!important;
+  min-height:0!important;
   overflow:visible!important;
   padding-bottom:calc(120px + env(safe-area-inset-bottom))!important;
   box-sizing:border-box!important;
@@ -2068,7 +2068,7 @@ html[data-test-theme="qixiGalaxy"] #qixiEventModal>.modalBox{
 }
 html.qixi-theme-now #qixiEventModal>.modalBox,
 html[data-test-theme="qixiGalaxy"] #qixiEventModal>.modalBox{
-  min-height:100dvh!important;
+  min-height:0!important;
 }
 
 /* Actual activity cards */
@@ -2263,6 +2263,95 @@ html[data-test-theme="qixiGalaxy"] #qixiEventModal :is(.qixiRewardBox,.qixiFacil
   height:auto!important;
   max-height:92dvh!important;
   overflow-y:auto!important;
+}
+</style>
+
+
+<style id="test33018ModalRestore">
+/* 3.30.18：恢復測試服卡片式視窗，不再出現整頁白色 modal。 */
+html.qixi-theme-now .modal,
+html[data-test-theme="qixiGalaxy"] .modal{
+  padding:12px!important;
+  align-items:center!important;
+  justify-content:center!important;
+  background:rgba(7,6,28,.60)!important;
+  backdrop-filter:blur(5px)!important;
+  overflow:hidden!important;
+}
+
+html.qixi-theme-now .modal>.modalBox,
+html[data-test-theme="qixiGalaxy"] .modal>.modalBox{
+  width:min(94vw,640px)!important;
+  max-width:640px!important;
+  min-height:0!important;
+  height:auto!important;
+  max-height:88dvh!important;
+  margin:0!important;
+  padding:16px!important;
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  border-radius:24px!important;
+  box-sizing:border-box!important;
+  background:
+    radial-gradient(circle at 13% 10%,rgba(255,255,255,.12) 0 1px,transparent 1.8px),
+    linear-gradient(155deg,#20234f 0%,#30285f 58%,#49356e 100%)!important;
+  border:1px solid rgba(214,197,244,.30)!important;
+  color:#d7c7e7!important;
+  box-shadow:0 18px 46px rgba(2,2,25,.42),inset 0 1px 0 rgba(255,255,255,.10)!important;
+}
+
+/* 七夕活動主頁也是一張可捲動的大卡，不是 100dvh 全屏頁。 */
+html.qixi-theme-now #qixiEventModal,
+html[data-test-theme="qixiGalaxy"] #qixiEventModal{
+  padding:10px!important;
+  align-items:center!important;
+  overflow:hidden!important;
+  background:rgba(6,6,28,.66)!important;
+}
+html.qixi-theme-now #qixiEventModal>.modalBox,
+html[data-test-theme="qixiGalaxy"] #qixiEventModal>.modalBox{
+  width:min(96vw,720px)!important;
+  max-width:720px!important;
+  min-height:0!important;
+  height:auto!important;
+  max-height:94dvh!important;
+  overflow-y:auto!important;
+  border-radius:26px!important;
+  padding:16px 14px calc(22px + env(safe-area-inset-bottom))!important;
+}
+
+/* 同行 / 綁定 / 小遊戲保持同一套測試服卡片視覺。 */
+html.qixi-theme-now :is(#qixiCompanionModal,#qixiBindInviteModal,#qixiMiniGameModal)>.modalBox,
+html[data-test-theme="qixiGalaxy"] :is(#qixiCompanionModal,#qixiBindInviteModal,#qixiMiniGameModal)>.modalBox{
+  width:min(94vw,640px)!important;
+  max-width:640px!important;
+  max-height:90dvh!important;
+  min-height:0!important;
+  height:auto!important;
+  border-radius:24px!important;
+}
+
+/* 一般輸入、通知、商店等 modal 內的小卡不要被舊白底規則放大。 */
+html.qixi-theme-now .modal>.modalBox :is(.card,.panel,.section,.itemRow,.relItem),
+html[data-test-theme="qixiGalaxy"] .modal>.modalBox :is(.card,.panel,.section,.itemRow,.relItem){
+  max-width:100%!important;
+}
+
+/* 真正需要全螢幕的 RPG/CG 播放器不套 generic modal 規則。 */
+#qixiRpgPlayer,#npcStoryPlayer,#npcRpgPlayer{
+  padding:0!important;
+  max-width:none!important;
+}
+</style>
+
+
+<style id="test33018BaseModalCard">
+.modal>.modalBox{
+  width:min(94vw,640px);
+  max-width:640px;
+  max-height:88dvh;
+  overflow-y:auto;
+  border-radius:24px;
 }
 </style>
 
@@ -14129,6 +14218,15 @@ body.game-entry-active #npcTownFab{
         set('hunger',Math.floor(Number(c.hunger??85)));
         set('moneyTop',Number(c.money??300));
         set('day',typeof day==='function'?day(c):1);
+
+        // 經驗值屬於角色核心資料，第一幀就顯示，不能等完整 render 幾秒後才跳。
+        const lv=Math.max(1,Math.floor(Number(c.level)||1));
+        const xp=Math.max(0,Number(c.exp)||0);
+        const need=(typeof levelNeed==='function'?levelNeed(lv):100);
+        set('exp',`${Math.floor(xp)}/${need}`);
+        const ef=document.getElementById('expFill');
+        if(ef)ef.style.width=Math.min(100,xp/Math.max(1,need)*100)+'%';
+
         const im=document.getElementById('avatarImg'), em=document.getElementById('emoji');
         if(c.image && im){
           im.src=c.image; im.style.display='block';
@@ -14154,18 +14252,18 @@ body.game-entry-active #npcTownFab{
           const rc=document.getElementById('relationCount');if(rc)rc.textContent=`${Array.isArray(c.roomCodes)?c.roomCodes.length:0}/6`;
           const dn=document.getElementById('drawerName');if(dn)dn.textContent=c.name||'角色';
         }catch(err){console.warn('entry tiny hydrate',err)}
-      },120);
+      },24);
 
       /* 每日重置與存檔延後，並拆開，不再阻擋角色頁第一幀。 */
       setTimeout(()=>{
         if(typeof cur==='function'&&cur()?.id!==c.id)return;
         try{if(typeof resetDailyIfNeeded==='function')resetDailyIfNeeded(c)}catch(err){console.warn('entry daily',err)}
-      },2500);
+      },180);
 
       setTimeout(()=>{
         if(typeof cur==='function'&&cur()?.id!==c.id)return;
         try{if(typeof saveLocal==='function')saveLocal()}catch(err){console.warn('entry deferred save',err)}
-      },4500);
+      },650);
 
       /* 完整本機 UI 再晚一點載入，避免同一幀大量 DOM 建立。 */
       if(typeof mobileEntryDeferredTimer!=='undefined' && mobileEntryDeferredTimer)clearTimeout(mobileEntryDeferredTimer);
@@ -14175,14 +14273,34 @@ body.game-entry-active #npcTownFab{
         try{if(typeof safeRenderGame==='function')safeRenderGame()}catch(err){console.warn('entry full local render',err)}
         setTimeout(()=>{
           try{if(typeof maybeEvent==='function' && typeof cur==='function' && cur()?.id===c.id)maybeEvent()}catch(err){console.warn('entry event',err)}
-        },500);
-      },6500);
+        },80);
+      },70);
 
-      /* 雲端輪詢最後才啟動。 */
+      /* 雲端輪詢與角色關係資料在第一幀後立即同步，不再等數秒。 */
       setTimeout(()=>{
         if(typeof cur==='function'&&cur()?.id!==c.id)return;
         try{if(typeof startPolling==='function')startPolling()}catch(err){console.warn('entry polling',err)}
-      },12000);
+
+        Promise.resolve().then(async()=>{
+          try{
+            const jobs=[];
+            if(typeof refreshRelationships==='function')jobs.push(refreshRelationships());
+            if(typeof refreshAllBondSummaries==='function')jobs.push(refreshAllBondSummaries(c));
+            if(typeof refreshCustomBadgeDefs==='function')jobs.push(refreshCustomBadgeDefs());
+            await Promise.allSettled(jobs);
+
+            if(typeof cur==='function'&&cur()?.id!==c.id)return;
+            activeRoomCode=activeRoomCode||(Array.isArray(c.roomCodes)?c.roomCodes[0]:'')||'';
+            if(activeRoomCode && typeof loadRoom==='function'){
+              await loadRoom(activeRoomCode);
+            }
+            try{if(typeof pollGlobalRealtime==='function')await pollGlobalRealtime()}catch(_){}
+            try{if(typeof safeRenderGame==='function')safeRenderGame()}catch(_){}
+          }catch(err){
+            console.warn('entry immediate cloud hydrate',err);
+          }
+        });
+      },90);
     }catch(err){
       console.error('3.26.40 forced local entry failed',err);
       alert('角色進入失敗：'+(err?.message||'未知錯誤'));
