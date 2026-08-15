@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#9a76c4">
-<meta name="x-test-build" content="3.30.15">
+<meta name="x-test-build" content="3.30.17">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>關係進行式 TEST・3.30.15-七夕重複錯誤清理＋邀請防呆</title>
+<title>關係進行式 TEST・3.30.17-七夕重複錯誤清理＋邀請防呆</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -1473,7 +1473,7 @@ body.npcStoryRunning .draggableFab{
 <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png">
 <link rel="manifest" href="manifest.json">
 <style id="qixi3279-scroll-fix">
-/* 3.30.15：七夕活動頁在手機上可完整往下捲，不再把守橋人卡片截成一半 */
+/* 3.30.17：七夕活動頁在手機上可完整往下捲，不再把守橋人卡片截成一半 */
 #qixiEventModal{
   overflow-y:auto!important;
   overflow-x:hidden!important;
@@ -1956,7 +1956,7 @@ html[data-test-theme="maidCafe"] .navBtn.active::after{
 </style>
 
 <style id="test33014QixiGalaxySingleSource">
-/* ===== TEST 3.30.15 七夕星河：唯一視覺來源 ===== */
+/* ===== TEST 3.30.17 七夕星河：唯一視覺來源 ===== */
 html.qixi-theme-now,
 html[data-test-theme="qixiGalaxy"],
 html.qixi-theme-now body,
@@ -2119,7 +2119,7 @@ html[data-test-theme="qixiGalaxy"] #qixiEventModal button{
 
 
 <style id="test33015StableQixiUi">
-/* 3.30.15：深色星河文字不再純白刺眼 */
+/* 3.30.17：深色星河文字不再純白刺眼 */
 html.qixi-theme-now :is(.homePanel,.card,.pageCard.active,.modalBox,.now,.itemRow,.relItem,.npcRelationCard,.npcShopItem,.eventCard,.characterCard,.statusCard,.section,.panel,.shopCard,.paidProduct),
 html[data-test-theme="qixiGalaxy"] :is(.homePanel,.card,.pageCard.active,.modalBox,.now,.itemRow,.relItem,.npcRelationCard,.npcShopItem,.eventCard,.characterCard,.statusCard,.section,.panel,.shopCard,.paidProduct){
   color:#c7b4d9!important;
@@ -2161,6 +2161,108 @@ html[data-test-theme="qixiGalaxy"] #qixiEventModal :is(.qixiRewardBox,.qixiFacil
 #qixiEventFab.qixiDragging{
   transition:none!important;
   filter:brightness(1.05);
+}
+</style>
+
+
+<link rel="preload" as="image" href="images/qixi/qixi_lantern_corridor.png" fetchpriority="high">
+<link rel="preload" as="image" href="images/qixi/qixi_bridge_game_bg_v2.png" fetchpriority="high">
+<link rel="preload" as="image" href="images/qixi/qixi_wish_platform.png" fetchpriority="high">
+<link rel="preload" as="image" href="images/qixi/bridge_keeper.png" fetchpriority="high">
+
+
+<style id="test33017QixiUxFix">
+/* 七夕入口：跟右下浮動功能鍵同級尺寸，星河主題，仍可拖曳 */
+#qixiEventFab{
+  min-width:168px!important;
+  min-height:54px!important;
+  padding:10px 16px!important;
+  border-radius:18px!important;
+  font-size:15px!important;
+  font-weight:900!important;
+  justify-content:center!important;
+  gap:8px!important;
+  color:#eadffc!important;
+  border:1px solid rgba(207,188,246,.46)!important;
+  background:
+    radial-gradient(circle at 18% 24%,rgba(255,255,255,.78) 0 1px,transparent 1.8px),
+    radial-gradient(circle at 82% 30%,rgba(191,165,255,.72) 0 1px,transparent 1.8px),
+    linear-gradient(135deg,#202a68 0%,#51367f 54%,#a660a2 100%)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.20),0 8px 22px rgba(24,15,68,.32)!important;
+  touch-action:none!important;
+}
+#qixiEventFab .qixiFabIcon{font-size:22px!important}
+#qixiEventFab .qixiDot{flex:0 0 auto!important}
+
+/* 七夕邀約不再跳到全螢幕白色 generic modal；直接出現在活動頁規則下面 */
+.qixiGameInviteInline{
+  margin:10px 0 12px!important;
+  padding:14px!important;
+  border-radius:18px!important;
+  border:1px solid rgba(207,188,246,.45)!important;
+  background:
+    radial-gradient(circle at 86% 18%,rgba(255,255,255,.20) 0 1px,transparent 2px),
+    linear-gradient(145deg,#252754 0%,#342b67 58%,#4d397a 100%)!important;
+  color:#d9c9e9!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.11),0 10px 26px rgba(4,4,27,.24)!important;
+}
+.qixiGameInviteInline.hidden{display:none!important}
+.qixiGameInviteInline b,.qixiGameInviteInline h3{color:#e5d8f2!important}
+.qixiGameInviteInline .small{color:#bba9cf!important}
+.qixiGameInviteInline .qixiInlineActions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.qixiGameInviteInline button{min-height:46px!important}
+
+/* 小遊戲卡片本身有背景，不再出現整片白底 */
+#qixiMiniGameModal{
+  background:rgba(8,6,32,.82)!important;
+}
+#qixiMiniGameModal>.modalBox{
+  width:min(94vw,620px)!important;
+  height:auto!important;
+  min-height:0!important;
+  max-height:92dvh!important;
+  overflow-y:auto!important;
+  padding:12px!important;
+  border-radius:24px!important;
+  background:linear-gradient(160deg,#171642,#292052 55%,#3c2a67)!important;
+}
+#qixiMiniGameBoard{
+  min-height:58dvh!important;
+  border-radius:20px!important;
+  overflow:hidden!important;
+  background-color:#140d35!important;
+  background-size:cover!important;
+  background-position:center center!important;
+  background-repeat:no-repeat!important;
+}
+#qixiMiniGameBoard.qixiLanternGameBoard{
+  background-image:linear-gradient(rgba(13,8,43,.22),rgba(22,12,52,.32)),url("images/qixi/qixi_lantern_corridor.png")!important;
+}
+#qixiMiniGameBoard.qixiBridgeGameBoard{
+  background-image:linear-gradient(rgba(8,7,35,.16),rgba(15,9,45,.25)),url("images/qixi/qixi_bridge_game_bg_v2.png")!important;
+}
+#qixiMiniGameBoard.qixiWishGameBoard,
+#qixiMiniGameBoard.qixiKeeperGameBoard{
+  background-image:linear-gradient(rgba(10,6,40,.18),rgba(17,9,48,.28)),url("images/qixi/qixi_wish_platform.png")!important;
+}
+#qixiMiniGameBoard :is(.qixiLanternRow,.qixiBalanceTrack,.qixiWishGrid,.qixiKeeperChoices,.qixiFerryHud,.qixiFerryControls){
+  position:relative;z-index:2;
+}
+#qixiMiniGameBoard.qixiLanternGameBoard .qixiLantern,
+#qixiMiniGameBoard.qixiWishGameBoard .qixiWishStar,
+#qixiMiniGameBoard.qixiKeeperGameBoard button{
+  backdrop-filter:blur(4px);
+  background:rgba(34,23,76,.72)!important;
+  color:#f0e9ff!important;
+  border:1px solid rgba(230,214,255,.40)!important;
+}
+
+/* 活動頁維持卡片式高度，不因邀請 generic modal 變成白色全屏 */
+#qixiEventModal>.modalBox{
+  min-height:0!important;
+  height:auto!important;
+  max-height:92dvh!important;
+  overflow-y:auto!important;
 }
 </style>
 
@@ -2228,7 +2330,7 @@ html[data-test-theme="qixiGalaxy"] #qixiEventModal :is(.qixiRewardBox,.qixiFacil
     <div class="homeLogo">🧪</div>
     <h1>關係進行式 TEST</h1>
     <div class="homeTagline">測試中的每一段關係，都可能被重置。</div>
-    <div class="homeVersion">3.30.15・測試服｜七夕重複錯誤清理＋邀請防呆</div>
+    <div class="homeVersion">3.30.17・測試服｜七夕重複錯誤清理＋邀請防呆</div>
   </div>
 
   <div id="playerAccountHomePanel" class="homePanel accountHomePanel">
@@ -5076,41 +5178,40 @@ async function openChar(id){
     mobileEntryLightRender=false;
     try{ safeRenderGame(); }catch(e){ console.warn("deferred local render",e); }
     try{ maybeEvent(); }catch(e){ console.warn("local event",e); }
-  },700);
+  },60);
 
-  // SECOND: start non-blocking background helpers.
+  // SECOND: 第一幀畫完立刻啟動輪詢，不再等 3 秒。
   setTimeout(()=>{
     try{ startPolling(); }catch(e){ console.warn("poll start",e); }
-  },3000);
+  },80);
 
-  // THIRD: all cloud work happens later and can fail safely.
+  // THIRD: 雲端資料在第一幀後立刻平行 hydrate，不阻塞本機畫面。
   setTimeout(async()=>{
-    try{ await refreshCustomBadgeDefs(); }
-    catch(e){ console.warn("badge cloud sync failed",e); }
+    const badgeJob=Promise.resolve().then(()=>refreshCustomBadgeDefs()).catch(e=>console.warn("badge cloud sync failed",e));
 
     if(!(c.roomCodes||[]).length){
+      await badgeJob;
       relationshipSummaries={};
       activeRoomCode="";
-      room=null; partner=null;
-      try{ safeRenderGame(); }catch(e){}
+      room=null;partner=null;
+      try{safeRenderGame();}catch(e){}
       return;
     }
 
     try{
-      await refreshRelationships();
-      await refreshAllBondSummaries(c);
+      await Promise.allSettled([badgeJob,refreshRelationships(),refreshAllBondSummaries(c)]);
       activeRoomCode=activeRoomCode||c.roomCodes[0]||"";
       if(activeRoomCode){
         await loadRoom(activeRoomCode);
-        await Promise.allSettled([loadMessages(),loadInbox(),checkDirectGamePopups()]);
+        await Promise.allSettled([loadMessages(),loadInbox(),checkDirectGamePopups(),pollGlobalRealtime()]);
       }
       safeRenderGame();
     }catch(e){
       console.warn("background relationship sync failed",e);
-      try{ toast("☁️ 雲端暫時離線，本機角色仍可正常遊玩。",4200); }catch(_){}
-      try{ safeRenderGame(); }catch(_){}
+      try{toast("☁️ 雲端暫時離線，本機角色仍可正常遊玩。",4200);}catch(_){}
+      try{safeRenderGame();}catch(_){}
     }
-  },3500);
+  },90);
 }
 
 document.getElementById("back").onclick=()=>{
@@ -9120,6 +9221,7 @@ async function showGlobalGameInvite(ev){
   let p=String(ev.row.text||"").split("|"),type=p[1],g=miniGames[type];
   pendingGlobalGameInvite={id:ev.row.id,type,roomCode:ev.code,from:ev.row.from_char};
   let name=roomOtherName(ev.code,c);
+  if(String(type).startsWith("qixi_") && window.showQixiIncomingInviteInline?.(ev,type,g,name))return;
   gameInviteBody.innerHTML=`<b>${esc(name)}</b> 邀請你玩<br><h3 style="margin:8px 0">${g?.icon||"🎮"} ${esc(g?.name||type)}</h3><div class="small">${esc(g?.desc||"雙人小遊戲")}<br>接受後會立即開始作答，不需要切換關係。</div>`;
   gameInviteModal.classList.remove("hidden");
 }
@@ -9139,7 +9241,7 @@ async function pollGlobalRealtime(){
     if(pendingGlobalGameInvite){
       let rows=await api(`/test_interactions?id=eq.${encodeURIComponent(pendingGlobalGameInvite.id)}&select=id`);
       if(!rows.length){
-        gameInviteModal.classList.add("hidden");
+        gameInviteModal.classList.add("hidden");window.hideQixiGameInviteInline?.();
         pendingGlobalGameInvite=null;
       }
     }
@@ -9156,16 +9258,16 @@ async function pollGlobalRealtime(){
         try{await api(`/test_interactions?id=eq.${encodeURIComponent(start.id)}`,{method:"DELETE"})}catch(e){}
         let rs=await api(`/test_rooms?code=eq.${encodeURIComponent(p.roomCode)}&select=*`);
         gameRoomContext=rs?.[0]||null;
-        gameWaitModal.classList.add("hidden");
+        gameWaitModal.classList.add("hidden");window.hideQixiGameInviteInline?.();
         pendingOutgoingGameInvite=null;
         openGameSession(sp[2],p.type);
       }else if(decline){
         try{await api(`/test_interactions?id=eq.${encodeURIComponent(decline.id)}`,{method:"DELETE"})}catch(e){}
-        gameWaitModal.classList.add("hidden");
+        gameWaitModal.classList.add("hidden");window.hideQixiGameInviteInline?.();
         pendingOutgoingGameInvite=null;
         toast(`${p.name||"對方"}婉拒了小遊戲邀請。`);
       }else if(!still.length){
-        gameWaitModal.classList.add("hidden");
+        gameWaitModal.classList.add("hidden");window.hideQixiGameInviteInline?.();
         pendingOutgoingGameInvite=null;
       }
     }
@@ -9175,7 +9277,7 @@ async function pollGlobalRealtime(){
 document.getElementById("cancelGameInviteBtn")?.addEventListener("click",async()=>{
   let p=pendingOutgoingGameInvite;if(!p)return;
   try{await api(`/test_interactions?id=eq.${encodeURIComponent(p.id)}`,{method:"DELETE"})}catch(e){}
-  pendingOutgoingGameInvite=null;gameWaitModal.classList.add("hidden");
+  pendingOutgoingGameInvite=null;gameWaitModal.classList.add("hidden");window.hideQixiGameInviteInline?.();
   toast("已取消小遊戲邀約。");
 });
 document.getElementById("pendingEventList")?.addEventListener("click",async e=>{
@@ -9244,7 +9346,7 @@ document.getElementById("gmGiftInbox")?.addEventListener("click",e=>{
     outingChoiceModal.classList.remove("hidden");
   }
 });
-setInterval(pollGlobalRealtime,2500);
+setInterval(pollGlobalRealtime,1200);
 
 let mailboxBackgroundTimer=setInterval(()=>{
   try{
@@ -9622,7 +9724,13 @@ async function redeemTestInvite(){
 document.getElementById("testRedeemBtn")?.addEventListener("click",redeemTestInvite);
 document.getElementById("testInviteCodeInput")?.addEventListener("keydown",e=>{if(e.key==="Enter")redeemTestInvite()});
 document.getElementById("testBackToFormal")?.addEventListener("click",()=>{window.location.href="./index.html"});
-document.getElementById("returnProdBtn")?.addEventListener("click",()=>{window.location.href="./index.html"});
+document.getElementById("returnProdBtn")?.addEventListener("click",e=>{
+  const b=e.currentTarget;
+  if(b?.dataset?.dragBlockClick==="1"||b?.dataset?.justDragged==="1"){
+    e.preventDefault();e.stopImmediatePropagation();return;
+  }
+  window.location.href="./index.html";
+});
 
 // Access is checked at startup and again every minute.
 // If Owner disables a bound invite, the tester is kicked back to this gate.
@@ -9642,109 +9750,6 @@ setInterval(()=>{
 },300000);
 </script>
 
-<script>
-
-const FLOATING_BUTTON_POS_KEY="role_life_test_floating_button_positions_v1";
-
-function loadFloatingButtonPositions(){
-  try{return JSON.parse(localStorage.getItem(FLOATING_BUTTON_POS_KEY)||"{}")||{}}
-  catch(e){return{}}
-}
-function saveFloatingButtonPosition(key,el){
-  if(!el)return;
-  let map=loadFloatingButtonPositions();
-  let r=el.getBoundingClientRect();
-  map[key]={left:Math.round(r.left),top:Math.round(r.top)};
-  localStorage.setItem(FLOATING_BUTTON_POS_KEY,JSON.stringify(map));
-}
-function clampFloatingButton(el,left,top){
-  const pad=6;
-  const w=el.offsetWidth||80,h=el.offsetHeight||42;
-  const maxLeft=Math.max(pad,window.innerWidth-w-pad);
-  const maxTop=Math.max(pad,window.innerHeight-h-pad);
-  return {
-    left:Math.max(pad,Math.min(maxLeft,left)),
-    top:Math.max(pad,Math.min(maxTop,top))
-  };
-}
-function applyFloatingButtonPosition(key,el){
-  if(!el)return;
-  const pos=loadFloatingButtonPositions()[key];
-  if(!pos)return;
-  const p=clampFloatingButton(el,Number(pos.left)||0,Number(pos.top)||0);
-  el.style.left=p.left+"px";
-  el.style.top=p.top+"px";
-  el.style.right="auto";
-  el.style.bottom="auto";
-}
-function makeFloatingButtonDraggable(el,key){
-  if(!el||el.dataset.dragReady==="1")return;
-  el.dataset.dragReady="1";
-
-  let dragging=false,moved=false,startX=0,startY=0,startLeft=0,startTop=0,pointerId=null;
-
-  el.addEventListener("pointerdown",e=>{
-    if(e.button!=null&&e.button!==0)return;
-    const r=el.getBoundingClientRect();
-    dragging=true;moved=false;pointerId=e.pointerId;
-    startX=e.clientX;startY=e.clientY;startLeft=r.left;startTop=r.top;
-    el.classList.add("dragging");
-    try{el.setPointerCapture(pointerId)}catch(_){}
-  });
-
-  el.addEventListener("pointermove",e=>{
-    if(!dragging||e.pointerId!==pointerId)return;
-    let dx=e.clientX-startX,dy=e.clientY-startY;
-    if(Math.abs(dx)>4||Math.abs(dy)>4)moved=true;
-    if(!moved)return;
-    e.preventDefault();
-    let p=clampFloatingButton(el,startLeft+dx,startTop+dy);
-    el.style.left=p.left+"px";
-    el.style.top=p.top+"px";
-    el.style.right="auto";
-    el.style.bottom="auto";
-  });
-
-  const finish=e=>{
-    if(!dragging||e.pointerId!==pointerId)return;
-    dragging=false;
-    el.classList.remove("dragging");
-    try{el.releasePointerCapture(pointerId)}catch(_){}
-    if(moved){
-      saveFloatingButtonPosition(key,el);
-      el.dataset.justDragged="1";
-      setTimeout(()=>delete el.dataset.justDragged,80);
-    }
-  };
-  el.addEventListener("pointerup",finish);
-  el.addEventListener("pointercancel",finish);
-
-  // Prevent the normal button action after a drag.
-  el.addEventListener("click",e=>{
-    if(el.dataset.justDragged==="1"){
-      e.preventDefault();
-      e.stopImmediatePropagation();
-    }
-  },true);
-
-  applyFloatingButtonPosition(key,el);
-}
-
-function initDraggableFloatingButtons(){
-  makeFloatingButtonDraggable(document.getElementById("launchActivityFab"),"activity");
-  makeFloatingButtonDraggable(document.getElementById("returnProdBtn"),"returnProd");
-}
-
-window.addEventListener("resize",()=>{
-  const a=document.getElementById("launchActivityFab");
-  const b=document.getElementById("returnProdBtn");
-  if(a)applyFloatingButtonPosition("activity",a);
-  if(b)applyFloatingButtonPosition("returnProd",b);
-});
-
-setTimeout(initDraggableFloatingButtons,0);
-
-</script>
 <script>
 
 /* === robust mobile draggable floating buttons v2 === */
@@ -9805,7 +9810,7 @@ setTimeout(initDraggableFloatingButtons,0);
       if(moved){
         save(key,el);
         el.dataset.dragBlockClick="1";
-        setTimeout(()=>delete el.dataset.dragBlockClick,250);
+        setTimeout(()=>delete el.dataset.dragBlockClick,1200);
       }
     }
 
@@ -14555,7 +14560,7 @@ header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{back
 <script id="qixi3283-ribbon-fix">
 (function(){
  function fix(){
-   document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.30.15-beta");
+   document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.30.17-beta");
  }
  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",fix,{once:true});else fix();
  setTimeout(fix,300);
@@ -14774,7 +14779,7 @@ header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{back
 
 
 <style id="qixi3300ResponsiveFerry">
-/* 3.30.15：指定 GitHub 七夕背景；手機填滿、電腦固定直式舞台，禁止橫向螢幕把直圖放大裁爆 */
+/* 3.30.17：指定 GitHub 七夕背景；手機填滿、電腦固定直式舞台，禁止橫向螢幕把直圖放大裁爆 */
 #qixiMiniGameBoard.qixiFerryGameBoard,#qixiMiniGameBoard.qixiBridgeGameBoard{
  background-image:linear-gradient(rgba(8,7,35,.12),rgba(15,9,45,.24)),url("images/qixi/qixi_full_background.png")!important;
  background-repeat:no-repeat!important;background-position:center center!important;
@@ -14845,7 +14850,7 @@ header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{back
    pid=null;
    if(moved){
      fab.dataset.qixiDragClickBlock='1';
-     setTimeout(()=>delete fab.dataset.qixiDragClickBlock,300);
+     setTimeout(()=>delete fab.dataset.qixiDragClickBlock,1200);
    }
  }
  fab.addEventListener('pointerup',end,{passive:true});
@@ -14864,8 +14869,8 @@ header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{back
 
 <script id="test33015SingleVersionSource">
 (function(){
- const BUILD='3.30.15';
- const LABEL='七夕入口穩定＋文字配色修復';
+ const BUILD='3.30.17';
+ const LABEL='七夕邀約內嵌＋設施背景＋快速雲端同步';
  function apply(){
    document.title='關係進行式 TEST・'+BUILD;
    document.querySelectorAll('.testServerRibbon').forEach(el=>el.textContent='🧪 TEST・'+BUILD+'-beta');
@@ -15289,6 +15294,7 @@ body.npcStoryRunning #qixiEventFab{display:none!important}
 每天最多完成 1 個設施；每個設施整個活動只能通關領獎 1 次。失敗可以重試。<br>
 🔴 即時型：雙方必須同時在線。　🟣 選擇型：提交後可以離線，等另一方完成。
 </div>
+<div id="qixiGameInviteInline" class="qixiGameInviteInline hidden" aria-live="polite"></div>
 <div id="qixiFacilityGrid" class="qixiFacilityGrid"></div>
  </div>
 </div>
@@ -16233,6 +16239,54 @@ function openConfirm(o={}){
  }
 
 
+
+ function qixiInviteInlineEl(){return document.getElementById("qixiGameInviteInline")}
+ function hideQixiGameInviteInline(){
+   const el=qixiInviteInlineEl();if(!el)return;
+   el.classList.add("hidden");el.innerHTML="";
+ }
+ window.hideQixiGameInviteInline=hideQixiGameInviteInline;
+
+ function showQixiOutgoingInviteInline(name,type){
+   const el=qixiInviteInlineEl(),g=miniGames[type];if(!el)return;
+   document.getElementById("qixiEventModal")?.classList.remove("hidden");
+   gameWaitModal?.classList.add("hidden");
+   el.innerHTML=`<b>🎮 七夕邀約已送出</b>
+     <div style="margin-top:6px">已邀請 <b>${esc(name)}</b> 一起遊玩</div>
+     <h3 style="margin:7px 0">${g?.icon||"🌌"} ${esc(g?.name||type)}</h3>
+     <div class="small">等待對方接受。即時型需要雙方同時在線；選擇提交型可以先作答後離線。</div>
+     <div class="qixiInlineActions"><button id="qixiInlineCancelInvite" type="button">取消邀約</button><button type="button" disabled>等待回覆中…</button></div>`;
+   el.classList.remove("hidden");
+   el.scrollIntoView({block:"nearest",behavior:"smooth"});
+   el.querySelector("#qixiInlineCancelInvite")?.addEventListener("click",()=>document.getElementById("cancelGameInviteBtn")?.click());
+ }
+
+ function showQixiIncomingInviteInline(ev,type,g,name){
+   const el=qixiInviteInlineEl();if(!el)return false;
+   pendingGlobalGameInvite={id:ev.row.id,type,roomCode:ev.code,from:ev.row.from_char};
+   document.getElementById("qixiEventModal")?.classList.remove("hidden");
+   gameInviteModal?.classList.add("hidden");
+   el.innerHTML=`<b>💌 收到七夕同行遊戲邀約</b>
+     <div style="margin-top:6px"><b>${esc(name)}</b> 邀請你一起遊玩</div>
+     <h3 style="margin:7px 0">${g?.icon||"🌌"} ${esc(g?.name||type)}</h3>
+     <div class="small">${esc(g?.desc||"七夕雙人設施")}<br>接受後才會進入同一局。</div>
+     <div class="qixiInlineActions"><button id="qixiInlineDecline" type="button">婉拒</button><button id="qixiInlineAccept" class="primary" type="button">接受並開始</button></div>`;
+   el.classList.remove("hidden");
+   el.scrollIntoView({block:"nearest",behavior:"smooth"});
+   el.querySelector("#qixiInlineAccept")?.addEventListener("click",async()=>{
+     const p=pendingGlobalGameInvite;if(!p)return;
+     hideQixiGameInviteInline();
+     await acceptGameInvite(p.id,p.type,p.roomCode||p.code);
+   });
+   el.querySelector("#qixiInlineDecline")?.addEventListener("click",async()=>{
+     const p=pendingGlobalGameInvite;if(!p)return;
+     hideQixiGameInviteInline();
+     await declineGameInvite(p.id,p.type,p.roomCode||p.code);
+   });
+   return true;
+ }
+ window.showQixiIncomingInviteInline=showQixiIncomingInviteInline;
+
  const QIXI_CONNECTED_TYPES={
    ferry:"qixi_ferry",
    lantern:"qixi_lantern",
@@ -16280,7 +16334,7 @@ function openConfirm(o={}){
      pendingFacility=fid;
      gameRoomContext=rr;
      try{gameWaitBody.innerHTML=`已邀請 <b>${esc(otherName)}</b> 一起遊玩<br><h3 style="margin:8px 0">${miniGames[type].icon} ${esc(miniGames[type].name)}</h3><div class="small">這是七夕雙人設施。即時型需要雙方同時在線；選擇提交型可以先作答後離線，等另一方完成。雙方都完成才會進入設施劇情。</div>`;}catch(_){}
-     gameWaitModal?.classList.remove("hidden");
+     showQixiOutgoingInviteInline(otherName,type);
      toast?.(`🎮 已邀請 ${otherName}，等待對方接受。`,3500);
    }catch(e){
      toast?.("七夕雙人遊戲邀請失敗："+(e?.message||e));
@@ -16331,7 +16385,15 @@ function openConfirm(o={}){
  function startQixiMiniGame(fid){
   const f=FACILITIES.find(x=>x.id===fid),e=qixiMiniEls();
   if(!f||!e.modal)return;
-  qixiMiniGameCurrent=fid;e.title.textContent=`${f.ico} ${f.name}`;e.board.classList.toggle("qixiBridgeGameBoard",fid==="bridge");e.board.classList.toggle("qixiFerryGameBoard",fid==="ferry");e.board.innerHTML="";e.status.textContent="";
+  qixiMiniGameCurrent=fid;
+  e.title.textContent=`${f.ico} ${f.name}`;
+  e.board.classList.remove("qixiBridgeGameBoard","qixiFerryGameBoard","qixiLanternGameBoard","qixiWishGameBoard","qixiKeeperGameBoard");
+  e.board.classList.toggle("qixiFerryGameBoard",fid==="ferry");
+  e.board.classList.toggle("qixiLanternGameBoard",fid==="lantern");
+  e.board.classList.toggle("qixiBridgeGameBoard",fid==="bridge");
+  e.board.classList.toggle("qixiWishGameBoard",fid==="wish");
+  e.board.classList.toggle("qixiKeeperGameBoard",fid==="keeper");
+  e.board.innerHTML="";e.status.textContent="";
   e.modal.classList.remove("hidden");
 
   if(fid==="ferry"){
@@ -16533,7 +16595,14 @@ function openConfirm(o={}){
  window.qixiTestEventAlwaysOpen=true;
  function boot(){
   try{badgeDefs.qixi_star_fate={icon:"🌌",name:"星河有緣人",desc:"2026 七夕限定・走完五段星河劇情"}}catch(_){}
-  enforceGalaxy50();qixiTokenCount();prewarmQixiImage(QIXI_ASSETS.keeper);showFab();
+  enforceGalaxy50();qixiTokenCount();
+  [
+    QIXI_ASSETS.keeper,
+    "images/qixi/qixi_lantern_corridor.png",
+    "images/qixi/qixi_bridge_game_bg_v2.png",
+    "images/qixi/qixi_wish_platform.png"
+  ].forEach(src=>prewarmQixiImage(src));
+  showFab();
   setTimeout(()=>{enforceGalaxy50();qixiTokenCount();showFab();try{renderPaid?.()}catch(_){}},500);
  }
  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot,{once:true});else boot();
@@ -16544,8 +16613,8 @@ function openConfirm(o={}){
  
 })();
 </script>
-\n<style id="qixi3298AuthoritativeFix">\n/* 3.30.15：星河渡口與鵲羽橋使用指定背景圖 */\n#qixiMiniGameBoard.qixiFerryGameBoard,#qixiMiniGameBoard.qixiBridgeGameBoard{\n background-image:linear-gradient(rgba(8,7,35,.16),rgba(15,9,45,.28)),url("images/qixi/qixi_ferry_game_bg.png")!important;\n background-size:cover!important;background-position:center center!important;background-repeat:no-repeat!important;min-height:56vh!important;\n}\n#qixiMiniGameBoard.qixiFerryGameBoard .qixiStarTapGrid{padding-top:4vh!important}\n#qixiMiniGameBoard.qixiFerryGameBoard .qixiStarTap{background:rgba(28,21,76,.62)!important;backdrop-filter:blur(2px)!important}\n/* SHOP_3304_SINGLE_SOURCE_START */
-/* 3.30.15：商店唯一權威版型。整個商店頁負責垂直滑動，子區塊不截斷。 */
+\n<style id="qixi3298AuthoritativeFix">\n/* 3.30.17：星河渡口與鵲羽橋使用指定背景圖 */\n#qixiMiniGameBoard.qixiFerryGameBoard{\n background-image:linear-gradient(rgba(8,7,35,.16),rgba(15,9,45,.28)),url("images/qixi/qixi_ferry_game_bg.png")!important;\n background-size:cover!important;background-position:center center!important;background-repeat:no-repeat!important;min-height:56vh!important;\n}\n#qixiMiniGameBoard.qixiFerryGameBoard .qixiStarTapGrid{padding-top:4vh!important}\n#qixiMiniGameBoard.qixiFerryGameBoard .qixiStarTap{background:rgba(28,21,76,.62)!important;backdrop-filter:blur(2px)!important}\n/* SHOP_3304_SINGLE_SOURCE_START */
+/* 3.30.17：商店唯一權威版型。整個商店頁負責垂直滑動，子區塊不截斷。 */
 html.qixi-theme-now #extraShop.pageCard.active{
   display:block!important;
   position:fixed!important;
