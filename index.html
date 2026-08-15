@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#9a76c4" name="theme-color"/>
-<title>關係進行式・3.31.6.14</title>
+<title>關係進行式・3.31.6.15</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -14798,7 +14798,7 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
  function apply(){
   document.querySelectorAll('.homeVersion').forEach(x=>x.textContent='第3.31.6.13版・此生唯一成就修正');
   document.querySelectorAll('.chip').forEach(x=>{if(/^第?3\.\d+(?:\.\d+)?版?$/.test((x.textContent||'').trim()))x.textContent='第3.31.1版'});
-  document.title='關係進行式・3.31.6.14';
+  document.title='關係進行式・3.31.6.15';
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',apply,{once:true});else apply();
  window.addEventListener('pageshow',apply);
@@ -15406,29 +15406,6 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 
 </script>
 
-<script id="formal3168MaidStoryImageAuthoritative">
-(function(){
- const M0='assets/npc/shopkeeper_cat/maid_cafe_special.png',M1='assets/npc/shopkeeper_cat/maid_cafe_special_1.png',M2='assets/npc/shopkeeper_cat/maid_cafe_special_2.png';
- function apply(){
-  try{
-   const st=window.npcStoryPlayerState,line=st?.lines?.[Number(st?.index||0)];
-   if(!line||Number(line.maidStage||0)<1)return;
-   const stage=Number(line.maidStage||0);
-   const src=stage>=3?M2:stage>=2?M1:M0;
-   const portrait=document.getElementById('npcStoryPortrait');
-   if(portrait){portrait.src=src;portrait.dataset.npcFace='maid_special';portrait.style.objectFit='cover'}
-   ['npcStoryImage','npcStoryCG','npcRpgImage'].forEach(id=>{const x=document.getElementById(id);if(x?.tagName==='IMG'){x.src=src;x.hidden=false}});
-  }catch(e){console.warn('maid story image',e)}
- }
- const old=window.renderNpcRpgLine;
- if(typeof old==='function')window.renderNpcRpgLine=function(){const r=old.apply(this,arguments);apply();requestAnimationFrame(apply);return r};
- const oldStart=window.startNpcRpgStory;
- if(typeof oldStart==='function')window.startNpcRpgStory=function(){const r=oldStart.apply(this,arguments);setTimeout(apply,0);return r};
- window.applyFormalMaidStoryImage=apply;
-})();
-</script>
-
-
 <script id="formal31612AppearancePersistenceGuard">
 (function(){
  function sync(){
@@ -15467,11 +15444,113 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
    document.querySelectorAll('.homeVersion').forEach(x=>{
      if((x.textContent||'').includes('3.31.6')) x.textContent='第3.31.6.13版・打烊後留下常駐顯示修復';
    });
-   document.title='關係進行式・3.31.6.14';
+   document.title='關係進行式・3.31.6.15';
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',fix,{once:true});else fix();
  window.addEventListener('pageshow',fix);
  setTimeout(fix,500);
+})();
+</script>
+
+
+<script id="formal31615MaidChangeoverLock">
+(function(){
+ const M0='assets/npc/shopkeeper_cat/maid_cafe_special.png';
+ const M1='assets/npc/shopkeeper_cat/maid_cafe_special_1.png';
+ const M2='assets/npc/shopkeeper_cat/maid_cafe_special_2.png';
+
+ function currentState(){
+   return window.npcStoryPlayerState || window.__npcStoryState || null;
+ }
+ function desired(){
+   const st=currentState();
+   const line=st?.lines?.[Number(st?.index||0)];
+   if(!line)return null;
+   const stage=Number(line.maidStage||0);
+   if(stage<1)return null;  // 換裝前完全不碰圖片
+   return {src:stage>=3?M2:stage>=2?M1:M0,stage};
+ }
+ function apply(){
+   try{
+     const d=desired();
+     const portrait=document.getElementById('npcStoryPortrait');
+     const player=document.getElementById('npcStoryPlayer');
+
+     if(!d){
+       if(portrait){
+         delete portrait.dataset.maidCgLocked;
+         delete portrait.dataset.maidChangeoverLocked;
+       }
+       if(player)player.classList.remove('formalMaidChangeover');
+       return;
+     }
+
+     if(player)player.classList.add('formalMaidChangeover');
+
+     if(portrait){
+       portrait.dataset.maidCgLocked='1';
+       portrait.dataset.maidChangeoverLocked='1';
+       if(portrait.getAttribute('src')!==d.src)portrait.setAttribute('src',d.src);
+       portrait.style.objectFit='cover';
+     }
+
+     // 兼容其他可能存在的 CG 節點
+     ['npcStoryImage','npcStoryCG','npcRpgImage'].forEach(id=>{
+       const img=document.getElementById(id);
+       if(img?.tagName==='IMG'){
+         if(img.getAttribute('src')!==d.src)img.setAttribute('src',d.src);
+         img.hidden=false;
+       }
+     });
+
+     if(player)player.style.setProperty('--formal-maid-bg',`url("${d.src}")`);
+   }catch(e){console.warn('maid changeover lock',e)}
+ }
+
+ // Wrap story renderer AFTER all previous code.
+ const oldRender=window.renderNpcRpgLine;
+ if(typeof oldRender==='function'){
+   window.renderNpcRpgLine=function(){
+     const r=oldRender.apply(this,arguments);
+     apply();
+     requestAnimationFrame(apply);
+     setTimeout(apply,40);
+     setTimeout(apply,150);
+     return r;
+   };
+ }
+
+ const oldStart=window.startNpcRpgStory;
+ if(typeof oldStart==='function'){
+   window.startNpcRpgStory=function(){
+     const r=oldStart.apply(this,arguments);
+     setTimeout(apply,0);
+     setTimeout(apply,80);
+     return r;
+   };
+ }
+
+ // Catch any later legacy code that mutates the portrait after our renderer.
+ const obs=new MutationObserver(muts=>{
+   const d=desired();
+   if(!d)return;
+   for(const m of muts){
+     const t=m.target;
+     if(t?.id==='npcStoryPortrait' && t.getAttribute('src')!==d.src){
+       t.setAttribute('src',d.src);
+     }
+   }
+ });
+ function watch(){
+   const p=document.getElementById('npcStoryPortrait');
+   if(p)obs.observe(p,{attributes:true,attributeFilter:['src']});
+   apply();
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',watch,{once:true});
+ else watch();
+
+ window.addEventListener('pageshow',()=>setTimeout(apply,0),{passive:true});
+ window.applyFormalMaidChangeoverImage=apply;
 })();
 </script>
 
