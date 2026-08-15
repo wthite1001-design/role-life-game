@@ -2,10 +2,23 @@
 
 <html lang="zh-Hant">
 <head>
+
+<script id="formal331621FirstPaintTheme">
+(function(){
+  try{
+    const raw=JSON.parse(localStorage.getItem('role_life_formal_theme_v1')||'null');
+    const mode=raw?.mode==='maidCafe'?'maidCafe':'default';
+    document.documentElement.setAttribute('data-formal-theme',mode);
+  }catch(_){
+    document.documentElement.setAttribute('data-formal-theme','default');
+  }
+})();
+</script>
+
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#9a76c4" name="theme-color"/>
-<title>關係進行式・3.31.6.19</title>
+<title>關係進行式・3.31.6.21</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -1795,7 +1808,7 @@ html[data-formal-theme="maidCafe"] .navBtn::after{
 <div class="homeLogo">💞</div>
 <h1>關係進行式</h1>
 <div class="homeTagline">每一段關係，都還在進行中。</div>
-<div class="homeVersion">第3.31.6.19版・此生唯一成就修正</div>
+<div class="homeVersion">第3.31.6.21版</div>
 </div>
 <div id="playerAccountHomePanel" class="homePanel accountHomePanel">
 <div class="homePanelTitle"><span>☁️ 玩家帳號</span><span id="playerAccountChip" class="chip">未登入</span></div>
@@ -2236,7 +2249,7 @@ html[data-formal-theme="maidCafe"] .navBtn::after{
 </div>
 <div class="drawerShade hidden" id="drawerShade"></div><aside class="drawer hidden" id="drawer"><div style="padding:8px"><b id="drawerName">角色</b><div class="muted">功能選單</div></div><button class="navBtn" data-nav="life" type="button">🏠 角色生活</button><button class="navBtn" data-nav="daily" type="button">📋 今日小事</button><button class="navBtn" data-nav="work" type="button">💼 打工賺錢</button><button class="navBtn" data-nav="journal" type="button">📖 今日生活日誌</button><button class="navBtn" data-nav="routine" type="button">🕒 角色作息</button><button class="navBtn" data-nav="outing" type="button">🗺️ 外出 <span class="navDot hidden" data-dot="outing"></span></button><button class="navBtn" data-nav="relations" type="button">💞 關係 <span class="navDot hidden" data-dot="relations"></span></button><button class="navBtn" data-nav="npcrelations" type="button">✨ NPC 關係</button><button class="navBtn" data-nav="mailbox" type="button">📬 信箱 <span class="navDot hidden" data-dot="mailbox"></span></button><button class="navBtn" id="playerAccountDrawerBtn" type="button">☁️ 玩家帳號</button><button class="navBtn" id="gmDrawerLoginBtn" type="button">👑 管理員登入</button><button class="navBtn hidden" data-nav="gm" id="gmNavBtn" type="button">🛠️ GM 操作台</button><div class="navSep"></div><button class="navBtn" data-nav="bag" type="button">🎒 背包</button><button class="navBtn" data-nav="shop" type="button">🏪 商店</button><button class="navBtn" data-nav="memory" type="button">📖 回憶</button><button class="navBtn" data-nav="achievements" type="button">🏆 成就</button><div class="navSep"></div><div style="padding:8px"><b>🎵 悠閒 BGM</b><div class="actions"><button id="bgmToggle">▶ 播放</button><input id="bgmVolume" max="1" min="0" step=".05" type="range" value=".25"/></div><div class="small">把 bgm.mp3 和 index.html 放同一資料夾。</div></div><audio autoplay="" id="bgm" loop="" playsinline="" preload="auto"><source src="bgm.mp3" type="audio/mpeg"/></audio><button class="navBtn" id="back" type="button">💾 返回存檔首頁</button></aside><div class="modal hidden" id="updateNoticeModal">
 <div class="modalBox">
-<div class="modalHead"><b>📢 第3.31.6.19版更新公告</b><button id="closeUpdateNotice">×</button></div>
+<div class="modalHead"><b>📢 第3.31.6.21版更新公告</b><button id="closeUpdateNotice">×</button></div>
 <div class="updateNoticeBody">
   <h3>🎀 女僕咖啡廳主題</h3>
   <p>新增女僕咖啡廳限定外觀。解鎖後可在「外觀更改」中自由切換原始外觀與女僕咖啡廳，選擇會保留。</p>
@@ -7107,7 +7120,7 @@ function reconcileAchievements(c){
  let _hasTopAch=_topDefs.some(t=>t?.ach&&!!c.achievements?.[t.ach]);
  let _hasTopBadge=_topDefs.some(t=>t?.badge&&!!local.sharedBadges?.[t.badge]);
  if(_hasBroken||_hasTopAch||_hasTopBadge)c.achievements.break=1;
-  /* 3.31.6.19：只補「此生唯一」。 */
+  /* 3.31.6.21：只補「此生唯一」。 */
   try{
     const loverBroken=infos.some(x=>x.rr?.relation==="lover"&&!!x.b?.broken);
     const loverBadge=!!local.sharedBadges?.badge_lover;
@@ -14450,7 +14463,7 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 
 <script id="formal3298MaidCommerce">
 (function(){
- const BUILD='3.31.6.19';
+ const BUILD='3.31.6.21';
  const THEME_KEY='role_life_formal_theme_v1';
  const VOUCHER='npc_maid_cafe_coffee_voucher';
 
@@ -14752,9 +14765,7 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
   if(pay){e.preventDefault();startFormalPayment(pay.dataset.formalPay);return}
  },true);
 
- function version(){
-  const hv=document.querySelector('.homeVersion');if(hv)hv.textContent='第3.30.0版・藍新金流通路預埋';
- }
+ function version(){const hv=document.querySelector('.homeVersion');if(hv&&hv.textContent!=='第3.31.6.21版')hv.textContent='第3.31.6.21版';}
  function boot(){
       version();
       ensureAccountAppearance();apply(c(),false);
@@ -14795,18 +14806,6 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
    });
  }
 
- function themeFirstFrame(){
-   try{
-     const raw=JSON.parse(localStorage.getItem('role_life_formal_theme_v1')||'null');
-     const mode=raw?.mode==='maidCafe'?'maidCafe':'default';
-     document.documentElement.setAttribute('data-formal-theme',mode);
-   }catch(_){
-     document.documentElement.setAttribute('data-formal-theme','default');
-   }
- }
-
- /* 主題先從本機 cache 畫，絕不等 Supabase。 */
- themeFirstFrame();
 
  /* 圖片在首頁完成兩個 frame 後開始抓，不阻塞 PWA 啟動畫面。 */
  const start=()=>{
@@ -14819,19 +14818,6 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});else start();
 
  window.addEventListener('pageshow',themeFirstFrame);
-})();
-</script>
-
-
-<script id="formal3313VersionGuard">
-(function(){
- function apply(){
-  document.querySelectorAll('.homeVersion').forEach(x=>x.textContent='第3.31.6.19版・此生唯一成就修正');
-  document.querySelectorAll('.chip').forEach(x=>{if(/^第?3\.\d+(?:\.\d+)?版?$/.test((x.textContent||'').trim()))x.textContent='第3.31.1版'});
-  document.title='關係進行式・3.31.6.19';
- }
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',apply,{once:true});else apply();
- window.addEventListener('pageshow',apply);
 })();
 </script>
 
@@ -15436,52 +15422,81 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 
 </script>
 
-<script id="formal31612AppearancePersistenceGuard">
+<script id="formal331620MaidFinalRenderer">
 (function(){
- function sync(){
+  const M0='assets/npc/shopkeeper_cat/maid_cafe_special.png';
+  const M1='assets/npc/shopkeeper_cat/maid_cafe_special_1.png';
+  const M2='assets/npc/shopkeeper_cat/maid_cafe_special_2.png';
+
+  function current(){
+    const st=window.npcStoryPlayerState;
+    const idx=Number(st?.index||0);
+    const line=st?.lines?.[idx];
+    return {st,line,maid:String(st?.title||'').includes('女僕咖啡廳')};
+  }
+
+  function applyFinalMaidImage(){
+    const {line,maid}=current();
+    const portrait=document.getElementById('npcStoryPortrait');
+    const player=document.getElementById('npcStoryPlayer');
+    if(!portrait||!player)return;
+
+    if(!maid){
+      delete portrait.dataset.maidCgLocked;
+      player.classList.remove('formalMaidStory');
+      player.style.removeProperty('--formal-maid-bg');
+      return;
+    }
+
+    const stage=Number(line?.maidStage||0);
+    if(stage<=0){
+      delete portrait.dataset.maidCgLocked;
+      player.classList.remove('formalMaidStory');
+      player.style.removeProperty('--formal-maid-bg');
+      return;
+    }
+
+    const target=String(line?.image||line?.portrait||(stage===1?M0:stage===2?M1:M2));
+    if(!target)return;
+    portrait.dataset.maidCgLocked='1';
+    player.classList.add('formalMaidStory');
+    if(portrait.getAttribute('src')!==target)portrait.setAttribute('src',target);
+    player.style.setProperty('--formal-maid-bg',`url("${target}")`);
+  }
+
+  const previous=window.renderNpcRpgLine;
+  if(typeof previous==='function'){
+    window.renderNpcRpgLine=function(){
+      const result=previous.apply(this,arguments);
+      applyFinalMaidImage();
+      return result;
+    };
+  }
+
+  try{[M0,M1,M2].forEach(src=>{const im=new Image();im.decoding='async';im.src=src});}catch(_){}
+  window.applyFinalMaidImage331620=applyFinalMaidImage;
+})();
+</script>
+
+<script id="formal331621StableUiState">
+(function(){
+ function syncTheme(){
    try{
-     const a=window.local?.accountAppearance;
-     if(!a)return;
-     const owned=!!a?.owned?.maidCafe;
-     const mode=a.active==='maidCafe'&&owned?'maidCafe':'default';
-     document.documentElement.setAttribute('data-formal-theme',mode);
-
-     // Keep legacy key aligned; never let it become a separate source of truth.
-     try{
-       localStorage.setItem('relationship_game_formal_paid_theme_v1',JSON.stringify({
-         mode,account:true,savedAt:Date.now()
-       }));
-     }catch(_){}
-
-     // Selector state must match the actually painted theme.
-     document.querySelectorAll('[data-formal-theme-choice]').forEach(btn=>{
-       btn.classList.toggle('active',btn.dataset.formalThemeChoice===mode);
-     });
-   }catch(e){console.warn('appearance persistence guard',e)}
+     const raw=JSON.parse(localStorage.getItem('role_life_formal_theme_v1')||'null');
+     const mode=raw?.mode==='maidCafe'?'maidCafe':'default';
+     if(document.documentElement.getAttribute('data-formal-theme')!==mode){
+       document.documentElement.setAttribute('data-formal-theme',mode);
+     }
+   }catch(_){}
  }
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(sync,0),{once:true});
- else setTimeout(sync,0);
- window.addEventListener('pageshow',()=>setTimeout(sync,0),{passive:true});
- setTimeout(sync,120);
- setTimeout(sync,700);
+ window.addEventListener('pageshow',syncTheme,{passive:true});
 })();
 </script>
 
 
-<script id="formal31613VersionGuard">
-(function(){
- function fix(){
-   document.querySelectorAll('.homeVersion').forEach(x=>{
-     if((x.textContent||'').includes('3.31.6')) x.textContent='第3.31.6.19版・打烊後留下常駐顯示修復';
-   });
-   document.title='關係進行式・3.31.6.19';
- }
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',fix,{once:true});else fix();
- window.addEventListener('pageshow',fix);
- setTimeout(fix,500);
-})();
+<script id="formal331621TitleOnce">
+document.title='關係進行式・3.31.6.21';
 </script>
-
 
 </body>
 </html>
@@ -15720,11 +15735,6 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
       return oldStart.apply(this,arguments);
     };
   }
-
-  setTimeout(()=>{
-    if(!document.getElementById('npcShopModal')?.classList.contains('hidden'))commitShopState(shopIndex);
-    if(window.npcStoryPlayerState)window.renderNpcRpgLine?.();
-  },250);
 })();
 </script>
 
