@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#9a76c4">
-<meta name="x-test-build" content="3.30.30">
+<meta name="x-test-build" content="3.30.32">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>關係進行式 TEST・3.30.30-七夕重複錯誤清理＋邀請防呆</title>
+<title>關係進行式 TEST・3.30.32-七夕重複錯誤清理＋邀請防呆</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -1473,7 +1473,7 @@ body.npcStoryRunning .draggableFab{
 <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png">
 <link rel="manifest" href="manifest.json">
 <style id="qixi3279-scroll-fix">
-/* 3.30.30：七夕活動頁在手機上可完整往下捲，不再把守橋人卡片截成一半 */
+/* 3.30.32：七夕活動頁在手機上可完整往下捲，不再把守橋人卡片截成一半 */
 #qixiEventModal{
   overflow-y:auto!important;
   overflow-x:hidden!important;
@@ -1956,7 +1956,7 @@ html[data-test-theme="maidCafe"] .navBtn.active::after{
 </style>
 
 <style id="test33014QixiGalaxySingleSource">
-/* ===== TEST 3.30.30 七夕星河：唯一視覺來源 ===== */
+/* ===== TEST 3.30.32 七夕星河：唯一視覺來源 ===== */
 html.qixi-theme-now,
 html[data-test-theme="qixiGalaxy"],
 html.qixi-theme-now body,
@@ -2119,7 +2119,7 @@ html[data-test-theme="qixiGalaxy"] #qixiEventModal button{
 
 
 <style id="test33015StableQixiUi">
-/* 3.30.30：深色星河文字不再純白刺眼 */
+/* 3.30.32：深色星河文字不再純白刺眼 */
 html.qixi-theme-now :is(.homePanel,.card,.pageCard.active,.modalBox,.now,.itemRow,.relItem,.npcRelationCard,.npcShopItem,.eventCard,.characterCard,.statusCard,.section,.panel,.shopCard,.paidProduct),
 html[data-test-theme="qixiGalaxy"] :is(.homePanel,.card,.pageCard.active,.modalBox,.now,.itemRow,.relItem,.npcRelationCard,.npcShopItem,.eventCard,.characterCard,.statusCard,.section,.panel,.shopCard,.paidProduct){
   color:#c7b4d9!important;
@@ -2268,7 +2268,7 @@ html[data-test-theme="qixiGalaxy"] #qixiEventModal :is(.qixiRewardBox,.qixiFacil
 
 
 <style id="test33018ModalRestore">
-/* 3.30.30：恢復測試服卡片式視窗，不再出現整頁白色 modal。 */
+/* 3.30.32：恢復測試服卡片式視窗，不再出現整頁白色 modal。 */
 html.qixi-theme-now .modal,
 html[data-test-theme="qixiGalaxy"] .modal{
   padding:12px!important;
@@ -2355,6 +2355,38 @@ html[data-test-theme="qixiGalaxy"] .modal>.modalBox :is(.card,.panel,.section,.i
 }
 </style>
 
+
+<style id="qixiLanternFlashFix33031">
+/* 七夕緣燈長廊：提示燈必須壓過主題按鈕的 !important 樣式 */
+#qixiMiniGameBoard.qixiLanternGameBoard .qixiLantern{
+  transition:
+    transform .16s ease,
+    filter .16s ease,
+    box-shadow .16s ease,
+    background .16s ease,
+    border-color .16s ease!important;
+  transform:scale(1);
+}
+
+#qixiMiniGameBoard.qixiLanternGameBoard .qixiLantern.flash{
+  background:
+    radial-gradient(circle at 50% 38%,
+      #fff9d8 0%,
+      #ffd985 24%,
+      #ff9f55 52%,
+      #a94dca 100%)!important;
+  color:#2a1638!important;
+  border:3px solid #fff6c9!important;
+  box-shadow:
+    0 0 14px #fff8c7,
+    0 0 32px #ffd66e,
+    0 0 55px rgba(239,142,255,.95)!important;
+  filter:brightness(1.65) saturate(1.35)!important;
+  transform:scale(1.12)!important;
+  z-index:5!important;
+}
+</style>
+
 </head>
 <body>
 
@@ -2419,7 +2451,7 @@ html[data-test-theme="qixiGalaxy"] .modal>.modalBox :is(.card,.panel,.section,.i
     <div class="homeLogo">🧪</div>
     <h1>關係進行式 TEST</h1>
     <div class="homeTagline">測試中的每一段關係，都可能被重置。</div>
-    <div class="homeVersion">3.30.30・測試服｜七夕重複錯誤清理＋邀請防呆</div>
+    <div class="homeVersion">3.30.32・測試服｜七夕重複錯誤清理＋邀請防呆</div>
   </div>
 
   <div id="playerAccountHomePanel" class="homePanel accountHomePanel">
@@ -14678,7 +14710,7 @@ header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{back
 <script id="qixi3283-ribbon-fix">
 (function(){
  function fix(){
-   document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.30.30-beta");
+   document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.30.32-beta");
  }
  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",fix,{once:true});else fix();
  setTimeout(fix,300);
@@ -14891,7 +14923,7 @@ header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{back
 
 
 <style id="qixi3300ResponsiveFerry">
-/* 3.30.30：指定 GitHub 七夕背景；手機填滿、電腦固定直式舞台，禁止橫向螢幕把直圖放大裁爆 */
+/* 3.30.32：指定 GitHub 七夕背景；手機填滿、電腦固定直式舞台，禁止橫向螢幕把直圖放大裁爆 */
 #qixiMiniGameBoard.qixiFerryGameBoard,#qixiMiniGameBoard.qixiBridgeGameBoard{
  background-image:linear-gradient(rgba(8,7,35,.12),rgba(15,9,45,.24)),url("images/qixi/qixi_full_background.png")!important;
  background-repeat:no-repeat!important;background-position:center center!important;
@@ -14989,7 +15021,7 @@ header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{back
 
 <script id="test33015SingleVersionSource">
 (function(){
- const BUILD='3.30.30';
+ const BUILD='3.30.32';
  const LABEL='七夕邀約內嵌＋設施背景＋快速雲端同步';
  function apply(){
    document.title='關係進行式 TEST・'+BUILD;
@@ -15540,6 +15572,195 @@ html[data-test-theme="qixiGalaxy"] #qixiEventFab{
     e.stopPropagation();
     setTimeout(()=>delete el.dataset.dragBlockClick,1200);
   },true);
+})();
+</script>
+
+
+<style id="test33032QixiFabFinalStyle">
+/* 七夕入口最終尺寸：與貓貓商店同級，不再被舊版 168px/54px 覆蓋 */
+#qixiEventFab{
+  position:fixed!important;
+  z-index:9998!important;
+  width:auto!important;
+  min-width:0!important;
+  max-width:150px!important;
+  height:44px!important;
+  min-height:44px!important;
+  padding:7px 11px!important;
+  margin:0!important;
+  border-radius:16px!important;
+  display:flex;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:6px!important;
+  font-size:11px!important;
+  line-height:1!important;
+  font-weight:900!important;
+  touch-action:none!important;
+  user-select:none!important;
+  -webkit-user-select:none!important;
+  cursor:grab!important;
+  transform:none!important;
+}
+#qixiEventFab.qixiDragging{
+  cursor:grabbing!important;
+  transition:none!important;
+}
+#qixiEventFab .qixiFabIcon{font-size:17px!important}
+#qixiEventFab .qixiDot{
+  width:8px!important;height:8px!important;
+  min-width:8px!important;flex:0 0 8px!important;
+}
+
+/* 原始外觀：跟原本浮凸按鈕一致 */
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) #qixiEventFab{
+  background:linear-gradient(180deg,#fffafd 0%,#eee4f7 100%)!important;
+  color:#4d3764!important;
+  border:1px solid #cbb8df!important;
+  box-shadow:
+    0 5px 0 #c7b2db,
+    0 9px 18px rgba(64,43,91,.18),
+    inset 0 1px 0 rgba(255,255,255,.95)!important;
+}
+
+/* 女僕咖啡廳：粉色浮凸 */
+html[data-test-theme="maidCafe"] #qixiEventFab{
+  background:linear-gradient(180deg,#fff9fb 0%,#f1c7d5 100%)!important;
+  color:#63394a!important;
+  border:1px solid #d89bad!important;
+  box-shadow:
+    0 5px 0 #c9899f,
+    0 9px 18px rgba(104,55,73,.20),
+    inset 0 1px 0 rgba(255,255,255,.95)!important;
+}
+
+/* 七夕星河：深色星河浮凸 */
+html[data-test-theme="qixiGalaxy"] #qixiEventFab{
+  background:
+    radial-gradient(circle at 18% 22%,rgba(255,255,255,.75) 0 1px,transparent 1.8px),
+    radial-gradient(circle at 78% 28%,rgba(199,178,255,.72) 0 1px,transparent 1.8px),
+    linear-gradient(145deg,#25266b 0%,#59418e 62%,#9a5ba5 100%)!important;
+  color:#fff!important;
+  border:1px solid rgba(215,203,255,.62)!important;
+  box-shadow:
+    0 5px 0 #19184c,
+    0 9px 20px rgba(10,8,43,.34),
+    inset 0 1px 0 rgba(255,255,255,.22)!important;
+}
+</style>
+
+
+<script id="test33032QixiFabFinalDrag">
+(function(){
+  const KEY='rlg_fab_pos_qixi_v3';
+
+  function bind(){
+    const fab=document.getElementById('qixiEventFab');
+    if(!fab || fab.dataset.finalDragBound==='1')return;
+    fab.dataset.finalDragBound='1';
+
+    let active=false,moved=false,pid=null;
+    let sx=0,sy=0,sl=0,st=0;
+
+    function clamp(left,top){
+      const pad=8;
+      const w=fab.offsetWidth||140;
+      const h=fab.offsetHeight||44;
+      return {
+        left:Math.max(pad,Math.min(window.innerWidth-w-pad,left)),
+        top:Math.max(pad,Math.min(window.innerHeight-h-pad,top))
+      };
+    }
+
+    function apply(left,top){
+      const p=clamp(left,top);
+      fab.style.setProperty('left',p.left+'px','important');
+      fab.style.setProperty('top',p.top+'px','important');
+      fab.style.setProperty('right','auto','important');
+      fab.style.setProperty('bottom','auto','important');
+      fab.style.setProperty('transform','none','important');
+    }
+
+    function save(){
+      const r=fab.getBoundingClientRect();
+      try{
+        localStorage.setItem(KEY,JSON.stringify({left:r.left,top:r.top}));
+      }catch(_){}
+    }
+
+    function restore(){
+      try{
+        const p=JSON.parse(localStorage.getItem(KEY)||'null');
+        if(Number.isFinite(p?.left)&&Number.isFinite(p?.top)){
+          apply(p.left,p.top);
+          return;
+        }
+      }catch(_){}
+      requestAnimationFrame(()=>{
+        const r=fab.getBoundingClientRect();
+        apply(window.innerWidth-r.width-12,window.innerHeight-r.height-136);
+      });
+    }
+
+    fab.addEventListener('pointerdown',e=>{
+      if(e.button!=null&&e.button!==0)return;
+      const r=fab.getBoundingClientRect();
+      active=true;moved=false;pid=e.pointerId;
+      sx=e.clientX;sy=e.clientY;sl=r.left;st=r.top;
+      fab.classList.add('qixiDragging');
+      try{fab.setPointerCapture(pid)}catch(_){}
+    },{passive:true});
+
+    fab.addEventListener('pointermove',e=>{
+      if(!active||e.pointerId!==pid)return;
+      const dx=e.clientX-sx,dy=e.clientY-sy;
+      if(!moved&&Math.hypot(dx,dy)>5)moved=true;
+      if(!moved)return;
+      if(e.cancelable)e.preventDefault();
+      apply(sl+dx,st+dy);
+    },{passive:false});
+
+    function end(e){
+      if(!active)return;
+      active=false;
+      fab.classList.remove('qixiDragging');
+      try{fab.releasePointerCapture(pid)}catch(_){}
+      pid=null;
+      if(moved){
+        save();
+        fab.dataset.qixiDragClickBlock='1';
+        if(e?.cancelable)e.preventDefault();
+        e?.stopPropagation?.();
+        setTimeout(()=>delete fab.dataset.qixiDragClickBlock,900);
+      }
+    }
+
+    fab.addEventListener('pointerup',end,{passive:false});
+    fab.addEventListener('pointercancel',end,{passive:false});
+
+    /* 拖曳放開後產生的 click 不開活動；真正單點才開活動 */
+    fab.addEventListener('click',e=>{
+      if(fab.dataset.qixiDragClickBlock==='1'){
+        e.preventDefault();
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+      }
+    },true);
+
+    window.addEventListener('resize',()=>{
+      const r=fab.getBoundingClientRect();
+      apply(r.left,r.top);
+    },{passive:true});
+
+    restore();
+  }
+
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',()=>setTimeout(bind,0),{once:true});
+  }else{
+    setTimeout(bind,0);
+  }
+  window.addEventListener('pageshow',()=>setTimeout(bind,0),{passive:true});
 })();
 </script>
 
@@ -17086,12 +17307,12 @@ function openConfirm(o={}){
     qixiMiniCleanup=()=>{ended=true;clearInterval(spawnTimer);clearInterval(fallTimer);document.removeEventListener('keydown',key);e.board.onclick=null};
   }else if(fid==="lantern"){
     e.desc.textContent="記住燈籠亮起的順序，再依序點回去。";
-    const seq=Array.from({length:6},()=>Math.floor(Math.random()*4));let input=[],locked=true;
+    const seq=Array.from({length:6},()=>Math.floor(Math.random()*4));let input=[],locked=true;e.status.textContent="👀 請看燈籠亮起的順序…";
     e.board.innerHTML='<div class="qixiLanternRow">'+["🏮","🏮","🏮","🏮"].map((x,i)=>`<button class="qixiLantern" data-lantern="${i}">${x}</button>`).join("")+'</div>';
     const btns=[...e.board.querySelectorAll("[data-lantern]")];
     let timers=[];
-    seq.forEach((v,i)=>timers.push(setTimeout(()=>{btns[v].classList.add("flash");setTimeout(()=>btns[v].classList.remove("flash"),420)},650+i*650)));
-    timers.push(setTimeout(()=>{locked=false;e.status.textContent="現在照順序點亮燈籠";},650+seq.length*650));
+    seq.forEach((v,i)=>timers.push(setTimeout(()=>{btns[v].classList.add("flash");setTimeout(()=>btns[v].classList.remove("flash"),520)},800+i*850)));
+    timers.push(setTimeout(()=>{locked=false;e.status.textContent="現在照順序點亮燈籠";},800+seq.length*850));
     e.board.onclick=ev=>{
       const b=ev.target.closest("[data-lantern]");if(!b||locked)return;
       const v=Number(b.dataset.lantern);input.push(v);
@@ -17271,8 +17492,8 @@ function openConfirm(o={}){
  
 })();
 </script>
-\n<style id="qixi3298AuthoritativeFix">\n/* 3.30.30：星河渡口與鵲羽橋使用指定背景圖 */\n#qixiMiniGameBoard.qixiFerryGameBoard{\n background-image:linear-gradient(rgba(8,7,35,.16),rgba(15,9,45,.28)),url("images/qixi/qixi_ferry_game_bg.png")!important;\n background-size:cover!important;background-position:center center!important;background-repeat:no-repeat!important;min-height:56vh!important;\n}\n#qixiMiniGameBoard.qixiFerryGameBoard .qixiStarTapGrid{padding-top:4vh!important}\n#qixiMiniGameBoard.qixiFerryGameBoard .qixiStarTap{background:rgba(28,21,76,.62)!important;backdrop-filter:blur(2px)!important}\n/* SHOP_3304_SINGLE_SOURCE_START */
-/* 3.30.30：商店唯一權威版型。整個商店頁負責垂直滑動，子區塊不截斷。 */
+\n<style id="qixi3298AuthoritativeFix">\n/* 3.30.32：星河渡口與鵲羽橋使用指定背景圖 */\n#qixiMiniGameBoard.qixiFerryGameBoard{\n background-image:linear-gradient(rgba(8,7,35,.16),rgba(15,9,45,.28)),url("images/qixi/qixi_ferry_game_bg.png")!important;\n background-size:cover!important;background-position:center center!important;background-repeat:no-repeat!important;min-height:56vh!important;\n}\n#qixiMiniGameBoard.qixiFerryGameBoard .qixiStarTapGrid{padding-top:4vh!important}\n#qixiMiniGameBoard.qixiFerryGameBoard .qixiStarTap{background:rgba(28,21,76,.62)!important;backdrop-filter:blur(2px)!important}\n/* SHOP_3304_SINGLE_SOURCE_START */
+/* 3.30.32：商店唯一權威版型。整個商店頁負責垂直滑動，子區塊不截斷。 */
 html.qixi-theme-now #extraShop.pageCard.active{
   display:block!important;
   position:fixed!important;
