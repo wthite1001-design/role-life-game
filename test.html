@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#9a76c4">
-<meta name="x-test-build" content="3.30.32">
+<meta name="x-test-build" content="3.30.35">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>關係進行式 TEST・3.30.32-七夕重複錯誤清理＋邀請防呆</title>
+<title>關係進行式 TEST・3.30.35-七夕重複錯誤清理＋邀請防呆</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -1473,7 +1473,7 @@ body.npcStoryRunning .draggableFab{
 <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png">
 <link rel="manifest" href="manifest.json">
 <style id="qixi3279-scroll-fix">
-/* 3.30.32：七夕活動頁在手機上可完整往下捲，不再把守橋人卡片截成一半 */
+/* 3.30.35：七夕活動頁在手機上可完整往下捲，不再把守橋人卡片截成一半 */
 #qixiEventModal{
   overflow-y:auto!important;
   overflow-x:hidden!important;
@@ -1956,7 +1956,7 @@ html[data-test-theme="maidCafe"] .navBtn.active::after{
 </style>
 
 <style id="test33014QixiGalaxySingleSource">
-/* ===== TEST 3.30.32 七夕星河：唯一視覺來源 ===== */
+/* ===== TEST 3.30.35 七夕星河：唯一視覺來源 ===== */
 html.qixi-theme-now,
 html[data-test-theme="qixiGalaxy"],
 html.qixi-theme-now body,
@@ -2119,7 +2119,7 @@ html[data-test-theme="qixiGalaxy"] #qixiEventModal button{
 
 
 <style id="test33015StableQixiUi">
-/* 3.30.32：深色星河文字不再純白刺眼 */
+/* 3.30.35：深色星河文字不再純白刺眼 */
 html.qixi-theme-now :is(.homePanel,.card,.pageCard.active,.modalBox,.now,.itemRow,.relItem,.npcRelationCard,.npcShopItem,.eventCard,.characterCard,.statusCard,.section,.panel,.shopCard,.paidProduct),
 html[data-test-theme="qixiGalaxy"] :is(.homePanel,.card,.pageCard.active,.modalBox,.now,.itemRow,.relItem,.npcRelationCard,.npcShopItem,.eventCard,.characterCard,.statusCard,.section,.panel,.shopCard,.paidProduct){
   color:#c7b4d9!important;
@@ -2268,7 +2268,7 @@ html[data-test-theme="qixiGalaxy"] #qixiEventModal :is(.qixiRewardBox,.qixiFacil
 
 
 <style id="test33018ModalRestore">
-/* 3.30.32：恢復測試服卡片式視窗，不再出現整頁白色 modal。 */
+/* 3.30.35：恢復測試服卡片式視窗，不再出現整頁白色 modal。 */
 html.qixi-theme-now .modal,
 html[data-test-theme="qixiGalaxy"] .modal{
   padding:12px!important;
@@ -2387,6 +2387,51 @@ html[data-test-theme="qixiGalaxy"] .modal>.modalBox :is(.card,.panel,.section,.i
 }
 </style>
 
+
+<style id="qixi33033LoginNoticeStyle">
+.qixiLoginRewardPanel{padding:12px!important}
+.qixiLoginRewardHead{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:10px}
+.qixiLoginRewardGrid{
+ display:grid!important;
+ grid-template-columns:repeat(7,minmax(74px,1fr))!important;
+ gap:8px!important;
+ overflow-x:auto!important;
+ padding:2px 1px 6px!important;
+ scrollbar-width:none!important;
+}
+.qixiLoginRewardGrid::-webkit-scrollbar{display:none}
+.qixiLoginDay{
+ min-width:74px!important;
+ padding:9px 6px!important;
+ border-radius:14px!important;
+ text-align:center!important;
+ border:1px solid #c9b8dd!important;
+ background:linear-gradient(180deg,#fbf7ff,#e7dcf3)!important;
+ color:#3f3157!important;
+}
+.qixiLoginDay .day{font-size:10px;font-weight:900;opacity:.72}
+.qixiLoginDay .reward{font-size:13px;font-weight:900;margin:5px 0}
+.qixiLoginDay.done{opacity:.7;background:linear-gradient(180deg,#e9f5ea,#d5ead8)!important}
+.qixiLoginDay.today{outline:3px solid #ffd36d!important;outline-offset:-2px!important}
+.qixiLoginDay button{width:100%!important;min-height:34px!important;padding:5px!important;font-size:10px!important}
+.qixiAnnouncementPanel{padding:0!important;overflow:hidden}
+.qixiAnnouncementPanel summary{cursor:pointer;padding:12px 14px;font-weight:900;list-style:none}
+.qixiAnnouncementPanel summary::-webkit-details-marker{display:none}
+.qixiAnnouncementPanel[open] summary{border-bottom:1px solid rgba(130,104,165,.26)}
+.qixiAnnouncementBody{padding:12px 14px;line-height:1.72}
+.qixiAnnouncementBody p{margin:5px 0}
+.qixiAnnouncementBody hr{border:0;border-top:1px dashed rgba(130,104,165,.35);margin:12px 0}
+.qixiBadgeNoticeList{display:grid;gap:6px;margin-top:10px}
+.qixiBadgeNoticeList>div{padding:8px 10px;border-radius:12px;background:rgba(255,255,255,.55)}
+@media(max-width:600px){
+ .qixiLoginRewardGrid{grid-template-columns:repeat(7,82px)!important}
+}
+</style>
+
+<style id="qixi33035DailyUnlockStyle">
+.qixiDailyLocked{position:relative!important;opacity:.55!important;filter:grayscale(.35)!important}
+.qixiDailyLocked::after{content:attr(data-qixi-lock-label);position:absolute;left:7px;right:7px;bottom:6px;padding:4px;border-radius:8px;background:rgba(24,19,48,.86);color:#fff;font-size:10px;font-weight:900;text-align:center;pointer-events:none}
+</style>
 </head>
 <body>
 
@@ -2451,7 +2496,7 @@ html[data-test-theme="qixiGalaxy"] .modal>.modalBox :is(.card,.panel,.section,.i
     <div class="homeLogo">🧪</div>
     <h1>關係進行式 TEST</h1>
     <div class="homeTagline">測試中的每一段關係，都可能被重置。</div>
-    <div class="homeVersion">3.30.32・測試服｜七夕重複錯誤清理＋邀請防呆</div>
+    <div class="homeVersion">3.30.35・測試服｜七夕重複錯誤清理＋邀請防呆</div>
   </div>
 
   <div id="playerAccountHomePanel" class="homePanel accountHomePanel">
@@ -14710,7 +14755,7 @@ header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{back
 <script id="qixi3283-ribbon-fix">
 (function(){
  function fix(){
-   document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.30.32-beta");
+   document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.30.35-beta");
  }
  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",fix,{once:true});else fix();
  setTimeout(fix,300);
@@ -14923,7 +14968,7 @@ header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{back
 
 
 <style id="qixi3300ResponsiveFerry">
-/* 3.30.32：指定 GitHub 七夕背景；手機填滿、電腦固定直式舞台，禁止橫向螢幕把直圖放大裁爆 */
+/* 3.30.35：指定 GitHub 七夕背景；手機填滿、電腦固定直式舞台，禁止橫向螢幕把直圖放大裁爆 */
 #qixiMiniGameBoard.qixiFerryGameBoard,#qixiMiniGameBoard.qixiBridgeGameBoard{
  background-image:linear-gradient(rgba(8,7,35,.12),rgba(15,9,45,.24)),url("images/qixi/qixi_full_background.png")!important;
  background-repeat:no-repeat!important;background-position:center center!important;
@@ -15021,7 +15066,7 @@ header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{back
 
 <script id="test33015SingleVersionSource">
 (function(){
- const BUILD='3.30.32';
+ const BUILD='3.30.35';
  const LABEL='七夕邀約內嵌＋設施背景＋快速雲端同步';
  function apply(){
    document.title='關係進行式 TEST・'+BUILD;
@@ -15764,6 +15809,141 @@ html[data-test-theme="qixiGalaxy"] #qixiEventFab{
 })();
 </script>
 
+
+<script id="qixi33033LoginRewardScript">
+(function(){
+ const REWARDS=[
+ {coins:300,label:"🪙 300 金幣"},
+ {gift:2,label:"🎁 隨機禮物 ×2"},
+ {coins:500,label:"🪙 500 金幣"},
+ {premiumGift:1,label:"💝 高級禮物 ×1"},
+ {coins:777,label:"🪙 777 金幣"},
+ {premiumGift:2,label:"💝 高級禮物 ×2"},
+ {coins:1000,badge:"星河相逢",label:"🌌 星河相逢徽章＋1,000 金幣"}
+];
+ const KEY="qixi2026LoginReward";
+ function todayKey(){
+   const d=new Date();
+   return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+ }
+ function current(){try{return typeof cur==="function"?cur():null}catch(_){return null}}
+ function ensure(c){
+   if(!c)return null;
+   c[KEY]??={claimedDates:[],claimedCount:0};
+   if(!Array.isArray(c[KEY].claimedDates))c[KEY].claimedDates=[];
+   c[KEY].claimedCount=Math.max(Number(c[KEY].claimedCount)||0,c[KEY].claimedDates.length);
+   return c[KEY];
+ }
+ function save(){
+   try{saveLocal?.()}catch(_){}
+   try{window.saveCurrentCharacterToCloud?.(current())}catch(_){}
+   try{window.saveCharacterToCloud?.(current())}catch(_){}
+ }
+ function claim(){
+   const c=current();if(!c)return toast?.("請先進入角色。");
+   const st=ensure(c),k=todayKey();
+   if(st.claimedDates.includes(k))return toast?.("🎁 今天的七夕登入獎勵已領取。");
+   if(st.claimedCount>=7)return toast?.("🌌 七夕 7 日登入獎勵已全部領完。");
+   const idx=st.claimedCount,reward=REWARDS[idx];
+   st.claimedDates.push(k);st.claimedCount++;
+   if(reward.coins)c.money=Number(c.money||0)+reward.coins;
+   if(reward.gift){
+     c.gifts??={};
+     c.gifts.randomGift=Number(c.gifts.randomGift||0)+reward.gift;
+   }
+   if(reward.premiumGift){
+     c.gifts??={};
+     c.gifts.premiumGift=Number(c.gifts.premiumGift||0)+reward.premiumGift;
+   }
+   if(reward.badge){
+     c.badges??=[];
+     if(Array.isArray(c.badges)&&!c.badges.includes(reward.badge))c.badges.push(reward.badge);
+   }
+   save();
+   try{render?.()}catch(_){}
+   renderPanel();
+   toast?.(`🎁 七夕登入第 ${idx+1} 天｜${reward.label}`,3200);
+ }
+ function renderPanel(){
+   const box=document.getElementById("qixiLoginRewardGrid");
+   const status=document.getElementById("qixiLoginRewardStatus");
+   if(!box)return;
+   const c=current();
+   if(!c){box.innerHTML='<div class="small">請先進入角色。</div>';if(status)status.textContent="";return}
+   const st=ensure(c),k=todayKey(),claimedToday=st.claimedDates.includes(k);
+   box.innerHTML=REWARDS.map((reward,i)=>{
+     const done=i<st.claimedCount;
+     const today=i===st.claimedCount&&!claimedToday&&st.claimedCount<7;
+     let btn="";
+     if(done)btn='<button type="button" disabled>✓ 已領</button>';
+     else if(today)btn='<button type="button" class="primary qixiClaimLoginBtn">領取</button>';
+     else btn='<button type="button" disabled>未解鎖</button>';
+     return `<div class="qixiLoginDay ${done?"done":""} ${today?"today":""}">
+       <div class="day">DAY ${i+1}</div><div class="reward">${reward.label}</div>${btn}
+     </div>`;
+   }).join("");
+   box.querySelector(".qixiClaimLoginBtn")?.addEventListener("click",claim);
+   if(status)status.textContent=st.claimedCount>=7?"7/7 已完成":claimedToday?`${st.claimedCount}/7・今日已領`:`${st.claimedCount}/7`;
+ }
+ window.renderQixiLoginReward=renderPanel;
+ document.addEventListener("click",e=>{
+   if(e.target?.closest?.("#qixiEventFab,#openQixiEvent,#qixiEventButton"))setTimeout(renderPanel,50);
+ },true);
+ window.addEventListener("pageshow",()=>setTimeout(renderPanel,200),{passive:true});
+ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",()=>setTimeout(renderPanel,100),{once:true});
+ else setTimeout(renderPanel,100);
+})();
+</script>
+
+
+<script id="qixi33034RelationBadgeRule">
+(function(){
+ const MAP={
+  "戀人":"白首之約","摯友":"歲歲同行","家人":"燈火長明",
+  "搭檔":"並肩星途","宿敵":"星河競逐","仇敵":"孽緣未盡"
+ };
+ window.awardQixiCompletionBadge=function(character,relationship,isSolo){
+   if(!character)return null;
+   const badge=isSolo?"星河獨行":MAP[String(relationship||"").trim()];
+   if(!badge)return null;
+   character.badges??=[];
+   if(Array.isArray(character.badges)&&!character.badges.includes(badge))character.badges.push(badge);
+   try{saveLocal?.()}catch(_){}
+   return badge;
+ };
+})();
+</script>
+
+<script id="qixi33035DailyUnlockScript">
+(function(){
+ const START=new Date(2026,7,19),COUNT=5;
+ function day(){const n=new Date(),a=new Date(n.getFullYear(),n.getMonth(),n.getDate()),b=new Date(START.getFullYear(),START.getMonth(),START.getDate());return Math.floor((a-b)/86400000)+1}
+ function buttons(){
+   const root=document.getElementById("qixiEventModal")||document;
+   const all=[...root.querySelectorAll("[data-qixi-game],[data-qixi-game-id],.qixiGameBtn,[data-game]")];
+   return [...new Set(all)].filter(x=>!/領取|關閉|公告|返回|登入/.test(x.textContent||"")).slice(0,COUNT);
+ }
+ function apply(){
+   const d=day(),open=Math.max(0,Math.min(COUNT,d));
+   buttons().forEach((b,i)=>{
+     const req=i+1,locked=req>open;
+     b.dataset.qixiRequiredDay=req;
+     b.classList.toggle("qixiDailyLocked",locked);
+     if(locked){b.dataset.qixiLockLabel=`DAY ${req} 開放`;b.setAttribute("aria-disabled","true")}
+     else{delete b.dataset.qixiLockLabel;b.removeAttribute("aria-disabled")}
+   });
+ }
+ document.addEventListener("click",e=>{
+   const b=e.target?.closest?.(".qixiDailyLocked");if(!b)return;
+   e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();
+   try{toast?.(`🌌 此設施將於活動 DAY ${b.dataset.qixiRequiredDay} 開放。`,2600)}catch(_){}
+ },true);
+ document.addEventListener("click",e=>{if(e.target?.closest?.("#qixiEventFab,#openQixiEvent,#qixiEventButton"))setTimeout(apply,30)},true);
+ window.addEventListener("pageshow",()=>setTimeout(apply,30),{passive:true});
+ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",()=>setTimeout(apply,30),{once:true});else setTimeout(apply,30);
+ window.refreshQixiDailyUnlock=apply;
+})();
+</script>
 </body>
 </html>
 
@@ -16153,6 +16333,41 @@ body.npcStoryRunning #qixiEventFab{display:none!important}
   </div>
   <div class="small" style="margin-top:8px">走過五個星河設施，聽見屬於不同關係的故事。五段劇情全部完成後，才會取得限定徽章。</div>
   <div class="qixiProgress"><div id="qixiProgressFill"></div></div>
+
+<div id="qixiLoginRewardPanel" class="qixiRewardBox qixiLoginRewardPanel">
+  <div class="qixiLoginRewardHead">
+    <div><b>🎁 七夕登入獎勵</b><div class="small">活動期間每天登入可領 1 次；測試服可連續測試 7 天。</div></div>
+    <div id="qixiLoginRewardStatus" class="small"></div>
+  </div>
+  <div id="qixiLoginRewardGrid" class="qixiLoginRewardGrid"></div>
+</div>
+
+<details id="qixiAnnouncementPanel" class="qixiRewardBox qixiAnnouncementPanel">
+ <summary><b>📣 七夕限定活動公告｜星河有緣人</b></summary>
+ <div class="qixiAnnouncementBody">
+  <p>有人站在你的前方，讓你始終不願停下腳步。</p>
+  <p>還有人……</p>
+  <p>守橋人看了一眼遠處仍在吵架的兩人。</p>
+  <p>「……專程出現在你的人生裡氣死你。」</p>
+  <p>「但那也是一種緣，不是嗎？」</p>
+  <hr>
+  <p><b>🎋 七夕限定活動「星河有緣人」</b></p>
+  <p>七夕將至，沉寂了一年的鵲橋再次出現在星河之上。</p>
+  <p>活動期間，完成七夕限定故事，與重要之人留下屬於你們的七夕回憶，並依照彼此的關係獲得不同的 <b>七夕限定徽章</b> 🏅</p>
+  <p><b>🏅 七夕關係徽章取得方式</b></p>
+  <p>與同一位重要之人一起完成七夕活動的所有遊戲後，依照你們進行活動時的關係獲得對應徽章；若為單人完成，則取得單人限定徽章。</p>
+  <div class="qixiBadgeNoticeList">
+    <div>🌙 單人｜<b>星河獨行</b></div>
+    <div>❤️ 戀人｜<b>白首之約</b></div>
+    <div>🤝 摯友｜<b>歲歲同行</b></div>
+    <div>🏮 家人｜<b>燈火長明</b></div>
+    <div>🧭 搭檔｜<b>並肩星途</b></div>
+    <div>⚔️ 宿敵｜<b>星河競逐</b></div>
+    <div>💢 仇敵｜<b>孽緣未盡</b></div>
+  </div>
+ </div>
+</details>
+
 
   <div id="qixiTopTools">
    <div id="qixiKeeperCard" class="qixiRewardBox">
@@ -17492,8 +17707,8 @@ function openConfirm(o={}){
  
 })();
 </script>
-\n<style id="qixi3298AuthoritativeFix">\n/* 3.30.32：星河渡口與鵲羽橋使用指定背景圖 */\n#qixiMiniGameBoard.qixiFerryGameBoard{\n background-image:linear-gradient(rgba(8,7,35,.16),rgba(15,9,45,.28)),url("images/qixi/qixi_ferry_game_bg.png")!important;\n background-size:cover!important;background-position:center center!important;background-repeat:no-repeat!important;min-height:56vh!important;\n}\n#qixiMiniGameBoard.qixiFerryGameBoard .qixiStarTapGrid{padding-top:4vh!important}\n#qixiMiniGameBoard.qixiFerryGameBoard .qixiStarTap{background:rgba(28,21,76,.62)!important;backdrop-filter:blur(2px)!important}\n/* SHOP_3304_SINGLE_SOURCE_START */
-/* 3.30.32：商店唯一權威版型。整個商店頁負責垂直滑動，子區塊不截斷。 */
+\n<style id="qixi3298AuthoritativeFix">\n/* 3.30.35：星河渡口與鵲羽橋使用指定背景圖 */\n#qixiMiniGameBoard.qixiFerryGameBoard{\n background-image:linear-gradient(rgba(8,7,35,.16),rgba(15,9,45,.28)),url("images/qixi/qixi_ferry_game_bg.png")!important;\n background-size:cover!important;background-position:center center!important;background-repeat:no-repeat!important;min-height:56vh!important;\n}\n#qixiMiniGameBoard.qixiFerryGameBoard .qixiStarTapGrid{padding-top:4vh!important}\n#qixiMiniGameBoard.qixiFerryGameBoard .qixiStarTap{background:rgba(28,21,76,.62)!important;backdrop-filter:blur(2px)!important}\n/* SHOP_3304_SINGLE_SOURCE_START */
+/* 3.30.35：商店唯一權威版型。整個商店頁負責垂直滑動，子區塊不截斷。 */
 html.qixi-theme-now #extraShop.pageCard.active{
   display:block!important;
   position:fixed!important;
