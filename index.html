@@ -2,23 +2,10 @@
 
 <html lang="zh-Hant">
 <head>
-
-<script id="formal331621FirstPaintTheme">
-(function(){
-  try{
-    const raw=JSON.parse(localStorage.getItem('role_life_formal_theme_v1')||'null');
-    const mode=raw?.mode==='maidCafe'?'maidCafe':'default';
-    document.documentElement.setAttribute('data-formal-theme',mode);
-  }catch(_){
-    document.documentElement.setAttribute('data-formal-theme','default');
-  }
-})();
-</script>
-
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#9a76c4" name="theme-color"/>
-<title>關係進行式・3.31.6.34</title>
+<title>關係進行式・3.31.8.15</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -1766,71 +1753,6 @@ html[data-formal-theme="maidCafe"] .navBtn::after{
 #npcShopBody .npcActionCard[disabled] .small{opacity:.92}
 </style>
 
-
-<script id="formal331622MaidInstantDecode">
-(function(){
- const urls=[
-  'assets/npc/shopkeeper_cat/normal.png',
-  'assets/npc/shopkeeper_cat/shy.png',
-  'assets/npc/shopkeeper_cat/maid_cafe_special.png',
-  'assets/npc/shopkeeper_cat/maid_cafe_special_1.png',
-  'assets/npc/shopkeeper_cat/maid_cafe_special_2.png'
- ];
- window.__formalMaidReady=window.__formalMaidReady||new Map();
- urls.forEach(src=>{
-   if(window.__formalMaidReady.has(src))return;
-   const img=new Image();
-   try{img.fetchPriority='high'}catch(_){}
-   img.decoding='async';
-   img.src=src;
-   let pr;
-   if(typeof img.decode==='function'){
-     pr=img.decode().catch(()=>{}).then(()=>img);
-   }else{
-     pr=new Promise(resolve=>{
-       if(img.complete)resolve(img);
-       else{img.onload=()=>resolve(img);img.onerror=()=>resolve(img)}
-     });
-   }
-   window.__formalMaidReady.set(src,pr);
- });
- window.formalMaidImageReady=src=>window.__formalMaidReady.get(src)||Promise.resolve();
-})();
-</script>
-
-<link rel="preload" as="image" href="assets/npc/shopkeeper_cat/normal.png" fetchpriority="high">
-<link rel="preload" as="image" href="assets/npc/shopkeeper_cat/shy.png" fetchpriority="high">
-<link rel="preload" as="image" href="assets/npc/shopkeeper_cat/happy.png" fetchpriority="high">
-<link rel="preload" as="image" href="assets/npc/shopkeeper_cat/soft.png" fetchpriority="high">
-<link rel="preload" as="image" href="assets/npc/shopkeeper_cat/annoyed.png" fetchpriority="high">
-<link rel="preload" as="image" href="assets/npc/shopkeeper_cat/maid_cafe_special.png" fetchpriority="high">
-<link rel="preload" as="image" href="assets/npc/shopkeeper_cat/maid_cafe_special_1.png" fetchpriority="high">
-<link rel="preload" as="image" href="assets/npc/shopkeeper_cat/maid_cafe_special_2.png" fetchpriority="high">
-
-<script id="formal331623CriticalImageWarm">
-(function(){
- const urls=[
-  'assets/npc/shopkeeper_cat/normal.png',
-  'assets/npc/shopkeeper_cat/shy.png',
-  'assets/npc/shopkeeper_cat/happy.png',
-  'assets/npc/shopkeeper_cat/soft.png',
-  'assets/npc/shopkeeper_cat/annoyed.png',
-  'assets/npc/shopkeeper_cat/maid_cafe_special.png',
-  'assets/npc/shopkeeper_cat/maid_cafe_special_1.png',
-  'assets/npc/shopkeeper_cat/maid_cafe_special_2.png'
- ];
- window.__formalCriticalImageCache=window.__formalCriticalImageCache||new Map();
- for(const src of urls){
-   if(window.__formalCriticalImageCache.has(src))continue;
-   const img=new Image();
-   img.decoding='async';
-   try{img.fetchPriority='high'}catch(_){}
-   img.src=src;
-   window.__formalCriticalImageCache.set(src,img);
- }
-})();
-</script>
-
 </head>
 <body>
 
@@ -1873,7 +1795,7 @@ html[data-formal-theme="maidCafe"] .navBtn::after{
 <div class="homeLogo">💞</div>
 <h1>關係進行式</h1>
 <div class="homeTagline">每一段關係，都還在進行中。</div>
-<div class="homeVersion">第3.31.6.34版</div>
+<div class="homeVersion">第3.31.8.15版・此生唯一成就修正</div>
 </div>
 <div id="playerAccountHomePanel" class="homePanel accountHomePanel">
 <div class="homePanelTitle"><span>☁️ 玩家帳號</span><span id="playerAccountChip" class="chip">未登入</span></div>
@@ -1891,7 +1813,7 @@ html[data-formal-theme="maidCafe"] .navBtn::after{
 <div class="gmStatus" id="gmHomeStatus"></div>
 </div>
 <div class="homePanel">
-<div class="homePanelTitle"><span>📢 更新公告</span><span class="chip">第3.31.6版</span></div>
+<div class="homePanelTitle"><span>📢 更新公告</span><span class="chip">第3.31.8版</span></div>
 <div class="small">查看本次新增功能與修正內容。</div>
 <button id="openUpdateNotice" style="width:100%;margin-top:8px" type="button">查看更新內容</button>
 </div>
@@ -1899,10 +1821,10 @@ html[data-formal-theme="maidCafe"] .navBtn::after{
 <div class="homePanel">
 <div class="homePanelTitle"><span>🌐 即時狀態</span><span class="muted">雲端聯機</span></div>
 <div class="liveStats">
-<div class="liveStat"><b id="onlinePlayerCount">…</b><span>🟢 目前在線角色</span></div>
-<div class="liveStat"><b id="cloudCharacterCount">…</b><span>👤 目前已存在角色</span></div>
+<div class="liveStat"><b id="onlinePlayerCount">—</b><span>🟢 在線玩家</span></div>
+<div class="liveStat"><b id="cloudCharacterCount">—</b><span>👤 目前角色</span></div>
 </div>
-<div class="small" style="margin-top:8px">目前角色＝已建立且尚未明確刪除的角色；未綁帳號、久未登入也保留。目前在線角色＝最近 3 分鐘仍有遊戲心跳的玩家。</div>
+<div class="small" style="margin-top:8px">依雲端聯機資料統計；尚未建立任何關係的純本機角色不會列入全域人數。</div>
 </div>
 <div class="homePanel hidden" id="deviceStarterGiftPanel">
 <div class="homePanelTitle"><span>🎁 新手小禮物</span><span class="chip">首次使用</span></div>
@@ -2314,7 +2236,7 @@ html[data-formal-theme="maidCafe"] .navBtn::after{
 </div>
 <div class="drawerShade hidden" id="drawerShade"></div><aside class="drawer hidden" id="drawer"><div style="padding:8px"><b id="drawerName">角色</b><div class="muted">功能選單</div></div><button class="navBtn" data-nav="life" type="button">🏠 角色生活</button><button class="navBtn" data-nav="daily" type="button">📋 今日小事</button><button class="navBtn" data-nav="work" type="button">💼 打工賺錢</button><button class="navBtn" data-nav="journal" type="button">📖 今日生活日誌</button><button class="navBtn" data-nav="routine" type="button">🕒 角色作息</button><button class="navBtn" data-nav="outing" type="button">🗺️ 外出 <span class="navDot hidden" data-dot="outing"></span></button><button class="navBtn" data-nav="relations" type="button">💞 關係 <span class="navDot hidden" data-dot="relations"></span></button><button class="navBtn" data-nav="npcrelations" type="button">✨ NPC 關係</button><button class="navBtn" data-nav="mailbox" type="button">📬 信箱 <span class="navDot hidden" data-dot="mailbox"></span></button><button class="navBtn" id="playerAccountDrawerBtn" type="button">☁️ 玩家帳號</button><button class="navBtn" id="gmDrawerLoginBtn" type="button">👑 管理員登入</button><button class="navBtn hidden" data-nav="gm" id="gmNavBtn" type="button">🛠️ GM 操作台</button><div class="navSep"></div><button class="navBtn" data-nav="bag" type="button">🎒 背包</button><button class="navBtn" data-nav="shop" type="button">🏪 商店</button><button class="navBtn" data-nav="memory" type="button">📖 回憶</button><button class="navBtn" data-nav="achievements" type="button">🏆 成就</button><div class="navSep"></div><div style="padding:8px"><b>🎵 悠閒 BGM</b><div class="actions"><button id="bgmToggle">▶ 播放</button><input id="bgmVolume" max="1" min="0" step=".05" type="range" value=".25"/></div><div class="small">把 bgm.mp3 和 index.html 放同一資料夾。</div></div><audio autoplay="" id="bgm" loop="" playsinline="" preload="auto"><source src="bgm.mp3" type="audio/mpeg"/></audio><button class="navBtn" id="back" type="button">💾 返回存檔首頁</button></aside><div class="modal hidden" id="updateNoticeModal">
 <div class="modalBox">
-<div class="modalHead"><b>📢 第3.31.6.34版更新公告</b><button id="closeUpdateNotice">×</button></div>
+<div class="modalHead"><b>📢 第3.31.8.15版更新公告</b><button id="closeUpdateNotice">×</button></div>
 <div class="updateNoticeBody">
   <h3>🎀 女僕咖啡廳主題</h3>
   <p>新增女僕咖啡廳限定外觀。解鎖後可在「外觀更改」中自由切換原始外觀與女僕咖啡廳，選擇會保留。</p>
@@ -3337,16 +3259,23 @@ async function importGameSaveFile(file){
 }
 
 async function refreshPublicStats(){
-  const a=document.getElementById("onlinePlayerCount");
-  const b=document.getElementById("cloudCharacterCount");
-  if(a && (!a.textContent||a.textContent==="—"))a.textContent="…";
-  if(b && (!b.textContent||b.textContent==="—"))b.textContent="…";
   try{
-    await window.syncLiveRegistryAndStats?.();
+    let rows=await api("/rooms?select=host_player,guest_player,host_char,guest_char,host_state,guest_state");
+    let chars=new Set(),onlinePlayers=new Set();
+    for(const r of rows||[]){
+      if(r.host_char)chars.add(String(r.host_char));
+      if(r.guest_char)chars.add(String(r.guest_char));
+      if(r.host_player&&isOnlineState(r.host_state))onlinePlayers.add(String(r.host_player));
+      if(r.guest_player&&isOnlineState(r.guest_state))onlinePlayers.add(String(r.guest_player));
+    }
+    let a=document.getElementById("onlinePlayerCount"),b=document.getElementById("cloudCharacterCount");
+    if(a)a.textContent=onlinePlayers.size;
+    if(b)b.textContent=chars.size;
   }catch(e){
-    console.warn("live stats sync pending",e);
-    if(a)a.textContent="…";
-    if(b)b.textContent="…";
+    console.warn("public stats failed",e);
+    let a=document.getElementById("onlinePlayerCount"),b=document.getElementById("cloudCharacterCount");
+    if(a)a.textContent="離線";
+    if(b)b.textContent="離線";
   }
 }
 function startPublicStats(){
@@ -4585,7 +4514,7 @@ document.getElementById("createChar").onclick=()=>{
     }
         document.getElementById("newName").value="";
     document.getElementById("newGender").value="";
-    renderHome();try{window.touchLiveCharacter?.(c)}catch(_){};
+    renderHome();
     loadTestReferralPanel().catch(()=>{});
     evaluateLaunchActivity(false).catch(()=>{});
     toast("✅ 角色建立成功");
@@ -4602,11 +4531,8 @@ document.getElementById("saveList").onclick=async e=>{
   if(delBtn){
     e.preventDefault();
     let c=local.characters.find(x=>x.id===delBtn.dataset.del);
-    if(c&&confirm(`確定刪除「${c.name}」？\n\n會同步移除這個角色的「目前角色」登記；其他角色、永久關係、聊天、付費、主題、徽章、成就、背包不會被這個登記清理動到。`)){
-      const cleanup=await window.deleteLiveCharacterSafely?.(c);
+    if(c&&confirm(`確定刪除「${c.name}」？`)){
       local.characters=local.characters.filter(x=>x.id!==c.id);saveLocal();renderHome();
-      if(cleanup?.ok===false)toast?.("角色已從本機刪除；雲端暫存清理暫時失敗，安全清理程序之後會再處理。",5200);
-      else toast?.("🗑️ 角色已刪除，已同步移出「目前角色」。",3200);
     }
   }
 };
@@ -4625,7 +4551,6 @@ async function openChar(id){
 
   activeId=id;
   let c=found;
-  try{window.touchLiveCharacter?.(c)}catch(_){};
   ensureRelations(c); ensureMeta(c);
 
   if(!["male","female"].includes(c.gender)){
@@ -7182,7 +7107,7 @@ function reconcileAchievements(c){
  let _hasTopAch=_topDefs.some(t=>t?.ach&&!!c.achievements?.[t.ach]);
  let _hasTopBadge=_topDefs.some(t=>t?.badge&&!!local.sharedBadges?.[t.badge]);
  if(_hasBroken||_hasTopAch||_hasTopBadge)c.achievements.break=1;
-  /* 3.31.6.34：只補「此生唯一」。 */
+  /* 3.31.8.15：只補「此生唯一」。 */
   try{
     const loverBroken=infos.some(x=>x.rr?.relation==="lover"&&!!x.b?.broken);
     const loverBadge=!!local.sharedBadges?.badge_lover;
@@ -9628,32 +9553,18 @@ function renderNpcRpgLine(){
   const portrait=document.getElementById("npcStoryPortrait");
   const maid=String(st.title||"").includes("女僕咖啡廳");
   const stage=maid?Number(line.maidStage||0):0;
-
-  if(player&&portrait&&maid){
-    if(!portrait.dataset.formalBeforeMaid){
-      portrait.dataset.formalBeforeMaid=portrait.getAttribute("src")||"assets/npc/shopkeeper_cat/normal.png";
-    }
-
-    if(stage<=0){
-      // 換裝前交回一般表情系統，不碰女僕 CG。
-      delete portrait.dataset.maidCgLocked;
-      player.classList.remove("formalMaidStory");
-      player.style.removeProperty("--formal-maid-bg");
-    }else{
-      // 換裝後只認當前這一句自己的 image，不再用 stage 推算圖片。
-      const target=String(line.image||line.portrait||"");
-      if(target){
-        portrait.dataset.maidCgLocked="1";
-        player.classList.add("formalMaidStory");
-        if(portrait.getAttribute("src")!==target)portrait.setAttribute("src",target);
-        player.style.setProperty("--formal-maid-bg",`url("${target}")`);
-      }
-    }
-
+  if(player&&portrait&&maid&&stage>=1){
+    if(!portrait.dataset.formalBeforeMaid)portrait.dataset.formalBeforeMaid=portrait.getAttribute("src")||"cat_shopkeeper_normal.png";
+    portrait.dataset.maidCgLocked="1";
+    player.classList.add("formalMaidStory");
+    const target=stage>=2
+      ?"assets/npc/shopkeeper_cat/maid_cafe_special_2.png"
+      :"assets/npc/shopkeeper_cat/maid_cafe_special_1.png";
+    if(portrait.getAttribute("src")!==target)portrait.setAttribute("src",target);
+    player.style.setProperty("--formal-maid-bg",`url("${target}")`);
   }else if(player&&portrait&&!maid){
     player.classList.remove("formalMaidStory");
     delete portrait.dataset.maidCgLocked;
-    player.style.removeProperty("--formal-maid-bg");
     if(portrait.dataset.formalBeforeMaid){
       portrait.setAttribute("src",portrait.dataset.formalBeforeMaid);
       delete portrait.dataset.formalBeforeMaid;
@@ -10743,7 +10654,7 @@ document.getElementById("npcDetailBody")?.addEventListener("click",e=>{
 <div class="npcStoryStage">
 <button class="npcStoryClose" id="closeNpcStoryPlayer" type="button">×</button>
 <div class="npcStoryPortraitWrap">
-<img decoding="async" fetchpriority="high" alt="" id="npcStoryPortrait" src="cat_shopkeeper_normal.png"/><span class="npcExpressionBadge face-normal"></span>
+<img alt="" id="npcStoryPortrait" src="cat_shopkeeper_normal.png"/><span class="npcExpressionBadge face-normal"></span>
 </div>
 <div class="npcStoryDialogue" id="npcStoryDialogue">
 <div class="npcStorySpeaker" id="npcStorySpeaker">？？？</div>
@@ -11865,7 +11776,6 @@ document.getElementById("closeNpcStoryPlayer")?.addEventListener("click",e=>{e.s
     if(!FACE_PATHS[face]) face="normal";
     const img=document.getElementById("npcStoryPortrait");
     if(img){
-      if(img.dataset.maidCgLocked==="1")return;
       const target=FACE_PATHS[face];
       if(!img.src.endsWith(target)) img.src=target;
       img.dataset.npcFace=face;
@@ -11916,14 +11826,9 @@ document.getElementById("closeNpcStoryPlayer")?.addEventListener("click",e=>{e.s
       const st=window.npcStoryPlayerState;
       if(st && Array.isArray(st.lines)){
         const line=st.lines[st.index];
-        const maidStory=String(st.title||"").includes("女僕咖啡廳");
-        const maidStage=Number(line?.maidStage||0);
-        // 女僕換裝後由核心 renderer 獨占圖片，不先塞一般表情圖造成閃爍。
-        if(!(maidStory&&maidStage>=1)){
-          const img=document.getElementById("npcStoryPortrait");
-          const prev=img?.dataset?.npcFace || "normal";
-          setStoryFace(inferFace(line,prev));
-        }
+        const img=document.getElementById("npcStoryPortrait");
+        const prev=img?.dataset?.npcFace || "normal";
+        setStoryFace(inferFace(line,prev));
       }
       return oldRender();
     };
@@ -12627,7 +12532,6 @@ body.game-entry-active #npcTownFab{
 
   function setImg(img,face){
     if(!img)return;
-    if(img.id==='npcStoryPortrait' && img.dataset.maidCgLocked==='1')return;
     face=FACE[face]?face:'normal';
     const src=FACE[face];
     img.dataset.npcFace=face;
@@ -12837,21 +12741,20 @@ body.game-entry-active #npcTownFab{
         const line=st?.lines?.[Number(st?.index||0)];
         const portrait=document.getElementById('npcStoryPortrait');
         const prev=portrait?.dataset?.npcFace||'normal';
-        const maidNow=String(st?.title||"").includes("女僕咖啡廳") && Number(line?.maidStage||0)>=1;
-       if(!maidNow){
-         const face=window.inferNpcStoryFace(line,prev);
-         setTimeout(()=>{
-           try{
-             const cur=window.npcStoryPlayerState;
-             const curLine=cur?.lines?.[Number(cur?.index||0)];
-             const curMaid=String(cur?.title||"").includes("女僕咖啡廳") && Number(curLine?.maidStage||0)>=1;
-             if(!curMaid && curLine===line && typeof window.setStoryFace==='function'){
-               window.setStoryFace(face);
-             }
-           }catch(_){}
-         },0);
-       }
-       }catch(e){console.warn('3.26.24 semantic emotion',e)}
+        const face=window.inferNpcStoryFace(line,prev);
+        setTimeout(()=>{
+          try{
+            const cur=window.npcStoryPlayerState;
+            if(cur?.lines?.[Number(cur?.index||0)]===line){
+              if(typeof window.setStoryFace==='function')window.setStoryFace(face);
+              else if(portrait && window.NPC_SHOPKEEPER_FACE_DATA?.[face]){
+                portrait.src=window.NPC_SHOPKEEPER_FACE_DATA[face];
+                portrait.dataset.npcFace=face;
+              }
+            }
+          }catch(_){}
+        },0);
+      }catch(e){console.warn('3.26.24 semantic emotion',e)}
       return r;
     };
   }
@@ -14526,7 +14429,7 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 
 <script id="formal3298MaidCommerce">
 (function(){
- const BUILD='3.31.6.34';
+ const BUILD='3.31.8.15';
  const THEME_KEY='role_life_formal_theme_v1';
  const VOUCHER='npc_maid_cafe_coffee_voucher';
 
@@ -14742,41 +14645,30 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
   const MAID1='assets/npc/shopkeeper_cat/maid_cafe_special_1.png';
   const MAID2='assets/npc/shopkeeper_cat/maid_cafe_special_2.png';
   return [
-   {speaker:'旁白',maidStage:0,face:'normal',text:'你把「請店長喝咖啡券」交到櫃檯前。貓貓看著那張券，沉默了幾秒。'},
-   {speaker:'貓貓',maidStage:0,face:'surprised',text:'「……所以你真的拿來用了。」'},
+   {speaker:'旁白',maidStage:0,text:'你把「請店長喝咖啡券」交到櫃檯前。貓貓看著那張券，沉默了幾秒。'},
+   {speaker:'貓貓',maidStage:0,text:'「……所以你真的拿來用了。」'},
    {speaker:'旁白',maidStage:0,text:'她把店門的牌子翻到「休息中」，轉身走進後面的房間。'},
-   {speaker:'貓貓',maidStage:0,face:'shy',text:'「先說好，這是特別招待。你不准笑。」'},
-
-   /* 從這一句開始才換裝；每一句直接指定圖片，不再靠 stage 猜。 */
+   {speaker:'貓貓',maidStage:0,text:'「先說好，這是特別招待。你不准笑。」'},
    {speaker:'旁白',maidStage:1,image:MAID0,portrait:MAID0,text:'過了一會兒，她換上女僕咖啡廳的制服重新出現在你面前。'},
-   {speaker:'貓貓',maidStage:1,image:MAID1,portrait:MAID1,text:'「歡、歡迎回來……主人。」'},
-   {speaker:'旁白',maidStage:1,image:MAID1,portrait:MAID1,text:'她端著咖啡站在你面前，明明耳根都紅了，卻還努力裝作若無其事。'},
-
-   {speaker:'貓貓',maidStage:2,image:MAID2,portrait:MAID2,text:'「看夠了沒有？咖啡再不喝就要涼了。」'},
-   {speaker:'你',maidStage:2,image:MAID2,portrait:MAID2,text:'「所以這張券真的可以讓店長親自招待？」'},
-
-   /* 嘴硬其實在害羞：切回害羞女僕圖，不准掉回一般店長。 */
-   {speaker:'貓貓',maidStage:3,image:MAID1,portrait:MAID1,text:'「只有今天。還有——不准拿去跟別人炫耀。」'},
-   {speaker:'旁白',maidStage:3,image:MAID1,portrait:MAID1,text:'她把咖啡輕輕推到你面前。'},
-   {speaker:'貓貓',maidStage:3,image:MAID0,portrait:MAID0,text:'「這個主題也給你。以後想起今天，就把它換上吧。」'}
+   {speaker:'貓貓',maidStage:1,image:MAID0,portrait:MAID0,text:'「歡、歡迎回來……主人。」'},
+   {speaker:'旁白',maidStage:1,image:MAID0,portrait:MAID0,text:'她端著咖啡站在你面前，明明耳根都紅了，卻還努力裝作若無其事。'},
+   {speaker:'貓貓',maidStage:2,image:MAID1,portrait:MAID1,text:'「看夠了沒有？咖啡再不喝就要涼了。」'},
+   {speaker:'你',maidStage:2,image:MAID1,portrait:MAID1,text:'「所以這張券真的可以讓店長親自招待？」'},
+   {speaker:'貓貓',maidStage:3,image:MAID2,portrait:MAID2,text:'「只有今天。還有——不准拿去跟別人炫耀。」'},
+   {speaker:'旁白',maidStage:3,image:MAID2,portrait:MAID2,text:'她把咖啡輕輕推到你面前。'},
+   {speaker:'貓貓',maidStage:3,image:MAID2,portrait:MAID2,text:'「這個主題也給你。以後想起今天，就把它換上吧。」'}
   ];
  }
- function prewarmFormalMaidStoryImages(){
-   const urls=[
-     "assets/npc/shopkeeper_cat/maid_cafe_special.png",
-     "assets/npc/shopkeeper_cat/maid_cafe_special_1.png",
-     "assets/npc/shopkeeper_cat/maid_cafe_special_2.png"
-   ];
-   try{window.prewarmNpcImages?.(urls)}catch(_){}
-   try{urls.forEach(src=>{const img=new Image();img.decoding='async';img.src=src})}catch(_){}
- }
-
  window.playFormalMaidCafeStory=function(replay=false){
+    try{
+      window.prewarmNpcImages?.([
+        "assets/npc/shopkeeper_cat/maid_cafe_special.png",
+        "assets/npc/shopkeeper_cat/maid_cafe_special_1.png",
+        "assets/npc/shopkeeper_cat/maid_cafe_special_2.png"
+      ]);
+    }catch(_){}
+
   const x=c();if(!x)return;ensure(x);
-
-  // 只背景預載，絕不等待圖片；點擊後立即開劇情。
-  prewarmFormalMaidStoryImages();
-
   startNpcRpgStory?.({
     title:'🎀 特殊劇情・女僕咖啡廳',
     lines:maidLines(),
@@ -14828,7 +14720,9 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
   if(pay){e.preventDefault();startFormalPayment(pay.dataset.formalPay);return}
  },true);
 
- function version(){const hv=document.querySelector('.homeVersion');if(hv&&hv.textContent!=='第3.31.6.34版')hv.textContent='第3.31.6.34版';}
+ function version(){
+  const hv=document.querySelector('.homeVersion');if(hv)hv.textContent='第3.30.0版・藍新金流通路預埋';
+ }
  function boot(){
       version();
       ensureAccountAppearance();apply(c(),false);
@@ -14869,6 +14763,18 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
    });
  }
 
+ function themeFirstFrame(){
+   try{
+     const raw=JSON.parse(localStorage.getItem('role_life_formal_theme_v1')||'null');
+     const mode=raw?.mode==='maidCafe'?'maidCafe':'default';
+     document.documentElement.setAttribute('data-formal-theme',mode);
+   }catch(_){
+     document.documentElement.setAttribute('data-formal-theme','default');
+   }
+ }
+
+ /* 主題先從本機 cache 畫，絕不等 Supabase。 */
+ themeFirstFrame();
 
  /* 圖片在首頁完成兩個 frame 後開始抓，不阻塞 PWA 啟動畫面。 */
  const start=()=>{
@@ -14879,6 +14785,21 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
    requestAnimationFrame(()=>requestAnimationFrame(go));
  };
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});else start();
+
+ window.addEventListener('pageshow',themeFirstFrame);
+})();
+</script>
+
+
+<script id="formal3313VersionGuard">
+(function(){
+ function apply(){
+  document.querySelectorAll('.homeVersion').forEach(x=>x.textContent='第3.31.8.15版・此生唯一成就修正');
+  document.querySelectorAll('.chip').forEach(x=>{if(/^第?3\.\d+(?:\.\d+)?版?$/.test((x.textContent||'').trim()))x.textContent='第3.31.1版'});
+  document.title='關係進行式・3.31.8.15';
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',apply,{once:true});else apply();
+ window.addEventListener('pageshow',apply);
 })();
 </script>
 
@@ -15483,560 +15404,310 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 
 </script>
 
-<script id="formal331622MaidFinalRenderer">
+<script id="formal3168MaidStoryImageAuthoritative">
 (function(){
- let last='';
+ const M1='assets/npc/shopkeeper_cat/maid_cafe_special_1.png',M2='assets/npc/shopkeeper_cat/maid_cafe_special_2.png';
  function apply(){
-   const st=window.npcStoryPlayerState;
-   const idx=Number(st?.index||0);
-   const line=st?.lines?.[idx];
-   const maid=String(st?.title||'').includes('女僕咖啡廳');
+  try{
+   const st=window.npcStoryPlayerState,line=st?.lines?.[Number(st?.index||0)];
+   if(!line||Number(line.maidStage||0)<1)return;
+   const src=Number(line.maidStage)>=2?M2:M1;
    const portrait=document.getElementById('npcStoryPortrait');
-   const player=document.getElementById('npcStoryPlayer');
-   if(!portrait||!player)return;
-
-   if(!maid){
-     last='';
-     delete portrait.dataset.maidCgLocked;
-     player.classList.remove('formalMaidStory');
-     player.style.removeProperty('--formal-maid-bg');
-     return;
-   }
-
-   const stage=Number(line?.maidStage||0);
-   if(stage<1){
-     last='pre:'+idx;
-     delete portrait.dataset.maidCgLocked;
-     player.classList.remove('formalMaidStory');
-     player.style.removeProperty('--formal-maid-bg');
-     return;
-   }
-
-   const src=String(line?.image||line?.portrait||'');
-   if(!src)return;
-
-   portrait.dataset.maidCgLocked='1';
-   player.classList.add('formalMaidStory');
-   player.style.setProperty('--formal-maid-bg',`url("${src}")`);
-
-   const key=idx+'|'+src;
-   if(last!==key || portrait.getAttribute('src')!==src){
-     last=key;
-     portrait.setAttribute('src',src);
-   }
+   if(portrait){portrait.src=src;portrait.dataset.npcFace='maid_special';portrait.style.objectFit='cover'}
+   ['npcStoryImage','npcStoryCG','npcRpgImage'].forEach(id=>{const x=document.getElementById(id);if(x?.tagName==='IMG'){x.src=src;x.hidden=false}});
+  }catch(e){console.warn('maid story image',e)}
  }
  const old=window.renderNpcRpgLine;
- if(typeof old==='function'){
-   window.renderNpcRpgLine=function(){
-     const r=old.apply(this,arguments);
-     apply();
-     return r;
-   };
- }
- window.applyFormalMaidFinalImage=apply;
-})();
-</script>
-
-<script id="formal331621StableUiState">
-(function(){
-  // 舊 role_life_formal_theme_v1 不再直接在 pageshow 改畫面。
-  // 唯一外觀來源改為帳戶 accountAppearance.active。
+ if(typeof old==='function')window.renderNpcRpgLine=function(){const r=old.apply(this,arguments);apply();requestAnimationFrame(apply);return r};
+ const oldStart=window.startNpcRpgStory;
+ if(typeof oldStart==='function')window.startNpcRpgStory=function(){const r=oldStart.apply(this,arguments);setTimeout(apply,0);return r};
+ window.applyFormalMaidStoryImage=apply;
 })();
 </script>
 
 
-<script id="formal331621TitleOnce">
-document.title='關係進行式・3.31.6.34';
-</script>
-
-
-<script id="formal331622MaidWarm">
+<script id="formal31612AppearancePersistenceGuard">
 (function(){
- const imgs=[
-  'assets/npc/shopkeeper_cat/normal.png',
-  'assets/npc/shopkeeper_cat/shy.png',
-  'assets/npc/shopkeeper_cat/maid_cafe_special.png',
-  'assets/npc/shopkeeper_cat/maid_cafe_special_1.png',
-  'assets/npc/shopkeeper_cat/maid_cafe_special_2.png'
- ];
- function go(){
-   try{window.prewarmNpcImages?.(imgs)}catch(_){}
-   imgs.forEach(src=>{try{void window.formalMaidImageReady?.(src)}catch(_){}});
- }
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',go,{once:true});
- else go();
-})();
-</script>
-
-
-<script id="formal331623ImageRuntime">
-(function(){
- const rawImage=window.Image;
- if(typeof rawImage==='function' && !window.__formalFastImageWrapped){
-   function FastImage(w,h){
-     const img=(arguments.length?new rawImage(w,h):new rawImage());
-     try{img.decoding='async'}catch(_){}
-     return img;
-   }
-   FastImage.prototype=rawImage.prototype;
-   Object.setPrototypeOf(FastImage,rawImage);
-   window.Image=FastImage;
-   window.__formalFastImageWrapped=true;
- }
-
- // After first paint, warm only likely-next assets instead of every image in the game.
- const secondary=[
-   'assets/npc/shopkeeper_cat/surprised.png',
-   'assets/npc/shopkeeper_cat/sad.png'
- ];
- const warm=()=>secondary.forEach(src=>{
-   const img=new Image();
-   try{img.fetchPriority='low'}catch(_){}
-   img.src=src;
- });
- if('requestIdleCallback' in window)requestIdleCallback(warm,{timeout:1200});
- else setTimeout(warm,650);
-})();
-</script>
-
-
-<script id="formal331625LiveRegistry">
-(function(){
- const SYNC_RPC='formal_sync_live_characters';
- const STATS_RPC='formal_public_character_stats';
- const CLEAN_KEY='role_life_formal_safe_cleanup_v1';
-
- async function rpc(name,body){
-   if(typeof api!=='function')throw new Error('api unavailable');
-   return api('/rpc/'+name,{method:'POST',body:JSON.stringify(body||{})});
- }
-
- function currentChars(){
-   try{return (typeof local!=='undefined'&&Array.isArray(local?.characters))?local.characters:[]}
-   catch(_){return []}
- }
-
- function paintSyncing(){
-   const a=document.getElementById('onlinePlayerCount');
-   const b=document.getElementById('cloudCharacterCount');
-   if(a && (!a.textContent || /^—$|^0$|^56$/.test(a.textContent.trim())))a.textContent='…';
-   if(b && (!b.textContent || /^—$|^0$|^56$/.test(b.textContent.trim())))b.textContent='…';
- }
-
- window.syncAllLiveCharacters=async function(){
-   const chars=currentChars();
-   const pid=(typeof playerId!=='undefined'&&playerId)?String(playerId):'';
-   if(!pid)throw new Error('player id not ready');
-   const payload=chars.filter(c=>c?.id).map(c=>({
-     character_id:String(c.id),
-     name:String(c.name||'未命名角色')
-   }));
-   await rpc(SYNC_RPC,{p_player_id:pid,p_characters:payload});
-   return true;
- };
-
- window.refreshLiveCharacterStats=async function(){
+ function sync(){
    try{
-     const r=await rpc(STATS_RPC,{});
-     const row=Array.isArray(r)?r[0]:r;
-     if(!row)throw new Error('empty stats');
-     const alive=Number(row.character_count);
-     const online=Number(row.online_characters ?? row.online_players);
-     if(!Number.isFinite(alive)||!Number.isFinite(online))throw new Error('invalid stats');
-     const a=document.getElementById('onlinePlayerCount');
-     const b=document.getElementById('cloudCharacterCount');
-     if(a)a.textContent=String(online);
-     if(b)b.textContent=String(alive);
-     return true;
-   }catch(e){
-     console.warn('live registry stats unavailable',e);
-     paintSyncing();
-     return false;
-   }
- };
+     const a=window.local?.accountAppearance;
+     if(!a)return;
+     const owned=!!a?.owned?.maidCafe;
+     const mode=a.active==='maidCafe'&&owned?'maidCafe':'default';
+     document.documentElement.setAttribute('data-formal-theme',mode);
 
- window.syncLiveRegistryAndStats=async function(){
-   paintSyncing();
-   await window.syncAllLiveCharacters();
-   await window.refreshLiveCharacterStats();
-   return true;
- };
-
- window.touchLiveCharacter=async function(){
-   // 建立或開啟角色時同步整份清單，避免單筆登記與首頁清單不同步。
-   try{await window.syncLiveRegistryAndStats()}catch(e){console.warn('live registry touch',e)}
- };
-
- window.deleteLiveCharacterSafely=async function(c){
-   // 實際刪角仍由既有安全 delete RPC 負責；刪完首頁會再 bulk sync。
-   try{
-     const name='formal_delete_live_character';
-     return await rpc(name,{p_character_id:String(c?.id||''),p_player_id:String(typeof playerId!=='undefined'?playerId:'')});
-   }catch(e){console.warn('delete live character',e);return {ok:false,error:String(e?.message||e)}}
- };
-
- window.runSafeTransientCleanup=async function(force=false){
-   try{
-     const last=Number(localStorage.getItem(CLEAN_KEY)||0);
-     if(!force&&Date.now()-last<21600000)return;
-     await rpc('formal_cleanup_transient_rows',{});
-     localStorage.setItem(CLEAN_KEY,String(Date.now()));
-   }catch(e){console.warn('safe transient cleanup',e)}
- };
-})();
-</script>
-
-<script>setTimeout(()=>window.runSafeTransientCleanup?.(),1200)</script>
-
-
-<script id="liveRegistryHomeSyncStable">
-(function(){
- let timer=0;
- let inFlight=false;
- let lastGoodSig='';
- function signature(){
-   try{
-     return ((typeof local!=='undefined'&&Array.isArray(local?.characters))?local.characters:[])
-       .map(c=>String(c?.id||'')).filter(Boolean).sort().join('|');
-   }catch(_){return ''}
- }
- function schedule(delay=80){
-   clearTimeout(timer);
-   timer=setTimeout(async()=>{
-     if(inFlight)return;
-     const sig=signature();
-     // Only skip when the same exact list has already synced successfully.
-     if(sig===lastGoodSig){
-       try{await window.refreshLiveCharacterStats?.()}catch(_){}
-       return;
-     }
-     inFlight=true;
+     // Keep legacy key aligned; never let it become a separate source of truth.
      try{
-       await window.syncLiveRegistryAndStats?.();
-       lastGoodSig=sig;
-     }catch(e){
-       console.warn('live registry retry',e);
-       // failed sync is NOT remembered; retry shortly
-       setTimeout(()=>schedule(0),1200);
-     }finally{
-       inFlight=false;
-     }
-   },delay);
+       localStorage.setItem('relationship_game_formal_paid_theme_v1',JSON.stringify({
+         mode,account:true,savedAt:Date.now()
+       }));
+     }catch(_){}
+
+     // Selector state must match the actually painted theme.
+     document.querySelectorAll('[data-formal-theme-choice]').forEach(btn=>{
+       btn.classList.toggle('active',btn.dataset.formalThemeChoice===mode);
+     });
+   }catch(e){console.warn('appearance persistence guard',e)}
  }
- const old=window.renderHome;
- if(typeof old==='function'){
-   window.renderHome=function(){
-     const r=old.apply(this,arguments);
-     schedule(40);
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(sync,0),{once:true});
+ else setTimeout(sync,0);
+ window.addEventListener('pageshow',()=>setTimeout(sync,0),{passive:true});
+ setTimeout(sync,120);
+ setTimeout(sync,700);
+})();
+</script>
+
+
+<script id="formal31613VersionGuard">
+(function(){
+ function fix(){
+   document.querySelectorAll('.homeVersion').forEach(x=>{
+     if((x.textContent||'').includes('3.31.8')) x.textContent='第3.31.8.15版・打烊後留下常駐顯示修復';
+   });
+   document.title='關係進行式・3.31.8.15';
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',fix,{once:true});else fix();
+ window.addEventListener('pageshow',fix);
+ setTimeout(fix,500);
+})();
+</script>
+
+
+<script id="formal31615MaidAfterChangeOnly">
+(function(){
+ const M0='assets/npc/shopkeeper_cat/maid_cafe_special.png';
+ const M1='assets/npc/shopkeeper_cat/maid_cafe_special_1.png';
+ const M2='assets/npc/shopkeeper_cat/maid_cafe_special_2.png';
+
+ function state(){return window.npcStoryPlayerState||window.__npcStoryState||null}
+ function wanted(){
+   const st=state();
+   const line=st?.lines?.[Number(st?.index||0)];
+   if(!line)return null;
+   const stage=Number(line.maidStage||0);
+   if(stage<1)return null;
+   return stage>=3?M2:stage>=2?M1:M0;
+ }
+
+ function sync(){
+   const p=document.getElementById('npcStoryPortrait');
+   const player=document.getElementById('npcStoryPlayer');
+   const src=wanted();
+
+   if(!src){
+     // 換裝前：完全交回一般貓貓立繪系統。
+     if(p){
+       delete p.dataset.maidCgLocked;
+       delete p.dataset.maidChangeoverLocked;
+     }
+     player?.classList.remove('formalMaidChangeover');
+     return;
+   }
+
+   // 換裝後才開始鎖女僕 CG。
+   if(p){
+     p.dataset.maidCgLocked='1';
+     p.dataset.maidChangeoverLocked='1';
+     if(p.getAttribute('src')!==src)p.setAttribute('src',src);
+     p.style.objectFit='cover';
+   }
+   player?.classList.add('formalMaidChangeover');
+   player?.style.setProperty('--formal-maid-bg',`url("${src}")`);
+ }
+
+ const oldRender=window.renderNpcRpgLine;
+ if(typeof oldRender==='function'){
+   window.renderNpcRpgLine=function(){
+     const r=oldRender.apply(this,arguments);
+     sync();
      return r;
    };
  }
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>schedule(20),{once:true});
- else schedule(20);
- window.addEventListener('pageshow',()=>schedule(20),{passive:true});
- window.addEventListener('online',()=>schedule(20),{passive:true});
+ const oldStart=window.startNpcRpgStory;
+ if(typeof oldStart==='function'){
+   window.startNpcRpgStory=function(){
+     const r=oldStart.apply(this,arguments);
+     sync();
+     return r;
+   };
+ }
+ window.applyFormalMaidAfterChangeOnly=sync;
 })();
 </script>
 
 
-
-<script id="formal331632ActiveCharacterHeartbeat">
-(function(){
-  let busy=false;
-  let timer=null;
-
-  function currentCharacter(){
-    try{
-      if(typeof cur==='function'){
-        const c=cur();
-        if(c?.id)return c;
-      }
-    }catch(_){}
-
-    try{
-      if(typeof activeId!=='undefined' && activeId && typeof local!=='undefined'){
-        const c=(local?.characters||[]).find(x=>String(x?.id||'')===String(activeId));
-        if(c?.id)return c;
-      }
-    }catch(_){}
-
-    return null;
-  }
-
-  async function touch(){
-    if(busy || document.hidden || !navigator.onLine)return;
-
-    const c=currentCharacter();
-    if(!c?.id)return;
-
-    busy=true;
-    try{
-      if(typeof api!=='function')return;
-
-      await api('/rpc/formal_touch_live_character',{
-        method:'POST',
-        body:JSON.stringify({
-          p_character_id:String(c.id),
-          p_player_id:String((typeof playerId!=='undefined'&&playerId)||''),
-          p_name:String(c.name||'未命名角色')
-        })
-      });
-
-      const home=document.getElementById('home');
-      if(home && !home.classList.contains('hidden')){
-        try{await window.refreshLiveCharacterStats?.()}catch(_){}
-      }
-    }catch(e){
-      console.warn('formal active character heartbeat',e);
-    }finally{
-      busy=false;
-    }
-  }
-
-  function start(){
-    if(timer)return;
-    touch();
-    timer=setInterval(touch,60000);
-  }
-
-  document.addEventListener('visibilitychange',()=>{
-    if(!document.hidden)touch();
-  },{passive:true});
-
-  window.addEventListener('focus',touch,{passive:true});
-  window.addEventListener('online',touch,{passive:true});
-  window.addEventListener('pageshow',()=>setTimeout(touch,120),{passive:true});
-
-  if(document.readyState==='loading'){
-    document.addEventListener('DOMContentLoaded',start,{once:true});
-  }else{
-    start();
-  }
-
-  window.formalActiveCharacterHeartbeat=touch;
-})();
-</script>
-
-
-<style id="formal331633StableAppearance">
+<style id="formalAppearanceBottomSheet3317">
+/* 正式服：外觀選擇恢復為底部橫滑抽屜 */
 #formalAppearanceModal{
-  align-items:center!important;
+  align-items:flex-end!important;
   justify-content:center!important;
-  padding:18px!important;
+  padding:0!important;
+  background:rgba(25,14,25,.18)!important;
 }
 #formalAppearanceModal .modalBox{
-  width:min(92vw,520px)!important;
-  max-width:520px!important;
-  min-height:0!important;
-  max-height:min(82dvh,680px)!important;
-  overflow:auto!important;
-  border-radius:24px!important;
-  box-sizing:border-box!important;
+  width:100%!important;
+  max-width:820px!important;
+  max-height:44vh!important;
+  margin:0!important;
+  border-radius:24px 24px 0 0!important;
+  padding:14px 14px calc(14px + env(safe-area-inset-bottom))!important;
+  overflow:hidden!important;
+}
+#formalAppearanceModal .modalHead{
+  position:relative!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  padding-right:2px!important;
+}
+#closeFormalAppearance{
+  position:static!important;
+  transform:none!important;
+  flex:0 0 auto!important;
+  width:42px!important;height:42px!important;
+  min-width:42px!important;
+  border-radius:14px!important;
 }
 #formalAppearanceGrid.appearanceGrid{
-  display:grid!important;
-  grid-template-columns:1fr!important;
-  gap:10px!important;
-  width:100%!important;
-}
-#formalAppearanceGrid .appearanceChoice{
-  width:100%!important;
-  min-height:82px!important;
-  margin:0!important;
-  padding:14px 16px!important;
-  box-sizing:border-box!important;
   display:flex!important;
-  flex-direction:column!important;
-  align-items:flex-start!important;
-  justify-content:center!important;
-  gap:6px!important;
+  flex-flow:row nowrap!important;
+  gap:10px!important;
+  overflow-x:auto!important;
+  overflow-y:hidden!important;
+  scroll-snap-type:x mandatory!important;
+  -webkit-overflow-scrolling:touch!important;
+  overscroll-behavior-x:contain!important;
+  padding:4px 2px 10px!important;
+  scrollbar-width:none!important;
+}
+#formalAppearanceGrid::-webkit-scrollbar{display:none!important}
+#formalAppearanceGrid .appearanceChoice{
+  flex:0 0 min(72vw,270px)!important;
+  width:min(72vw,270px)!important;
+  min-height:126px!important;
+  scroll-snap-align:start!important;
   text-align:left!important;
-  transform:none!important;
-  transition:box-shadow .15s ease,border-color .15s ease,background .15s ease!important;
+  display:grid!important;
+  grid-template-rows:54px auto auto!important;
+  gap:6px!important;
+  padding:12px!important;
+  border-radius:18px!important;
+}
+#formalAppearanceGrid .formalThemeSwatch{
+  width:100%!important;height:54px!important;
+  border-radius:13px!important;
+  border:1px solid rgba(100,70,100,.18)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.75)!important;
+}
+#formalAppearanceGrid .formalThemeSwatch.default{
+  background:linear-gradient(135deg,#fff8fb 0%,#f2dce8 45%,#d7b2cf 100%)!important;
+}
+#formalAppearanceGrid .formalThemeSwatch.maidCafe{
+  background:linear-gradient(135deg,#5b3442 0%,#a35f77 48%,#f0bfd0 100%)!important;
+}
+#formalAppearanceGrid .appearanceChoice.active{
+  outline:3px solid #9b73c9!important;
+  outline-offset:-2px!important;
+}
+@media(max-width:520px){
+ #formalAppearanceModal .modalBox{max-height:42vh!important}
+ #formalAppearanceGrid .appearanceChoice{flex-basis:76vw!important;width:76vw!important}
 }
 </style>
-
-<script id="formal331633SingleThemeOwner">
+<script id="formalAppearanceBottomSheet3317Script">
 (function(){
-  function apply(){
-    try{window.applyFormalPaidAppearance?.(undefined,false)}catch(e){console.warn('formal appearance apply',e)}
-    try{window.renderFormalAppearance?.()}catch(_){}
-  }
-  window.addEventListener('pageshow',()=>setTimeout(apply,0),{passive:true});
-  document.addEventListener('visibilitychange',()=>{if(!document.hidden)setTimeout(apply,0)},{passive:true});
-})();
-</script>
+  function upgrade(){
+    const modal=document.getElementById('formalAppearanceModal');
+    const grid=document.getElementById('formalAppearanceGrid');
+    if(!modal||!grid)return;
 
-<script id="formal331633StableNpcStoryPortrait">
-(function(){
-  const FACE={
-    normal:'cat_shopkeeper_normal.png',
-    happy:'assets/npc/shopkeeper_cat/happy.png',
-    shy:'assets/npc/shopkeeper_cat/shy.png',
-    annoyed:'assets/npc/shopkeeper_cat/annoyed.png',
-    surprised:'assets/npc/shopkeeper_cat/surprised.png',
-    soft:'assets/npc/shopkeeper_cat/soft.png'
-  };
-
-  function cleanText(x){return String(x||'').replace(/<[^>]*>/g,'')}
-
-  function infer(line,prev='normal'){
-    if(line?.face && FACE[line.face])return line.face;
-    const speaker=String(line?.speaker||'');
-    const t=cleanText(line?.text);
-    if(speaker==='旁白'||speaker==='你'||speaker==='玩家')return prev||'normal';
-    if(/！？|！！|欸[！？!?]|咦[！？!?]|什麼[！？!?]|愣住|嚇|突然/.test(t))return'surprised';
-    if(/生氣|怒|閉嘴|不准|很煩|出去|討厭|瞪/.test(t))return'annoyed';
-    if(/臉紅|耳根|害羞|別開視線|心跳|才不是|你別看|一直盯|喜歡/.test(t))return'shy';
-    if(/笑|開心|太好了|歡迎回來|期待|謝謝你|真棒/.test(t))return'happy';
-    if(/溫柔|放心|沒關係|陪|相信|秘密|留下|辛苦|晚安/.test(t))return'soft';
-    return'normal';
-  }
-
-  let targetSrc=FACE.normal;
-  let targetFace='normal';
-  let rendering=false;
-
-  function desired(){
-    const st=window.npcStoryPlayerState;
-    const idx=Number(st?.index||0);
-    const line=st?.lines?.[idx]||{};
-    const maid=String(st?.title||'').includes('女僕咖啡廳');
-    const stage=Number(line?.maidStage||0);
-
-    if(maid && stage>=1){
-      const src=String(line.image||line.portrait||'').trim();
-      if(src)return {src,face:'maid'};
-    }
-    const face=infer(line,targetFace==='maid'?'normal':targetFace);
-    return {src:FACE[face]||FACE.normal,face};
-  }
-
-  function commit(){
-    const img=document.getElementById('npcStoryPortrait');
-    if(!img||!window.npcStoryPlayerState)return;
-    const d=desired();
-    targetSrc=d.src;targetFace=d.face;
-    if(img.getAttribute('src')!==targetSrc)img.setAttribute('src',targetSrc);
-    img.dataset.npcFace=targetFace;
-    // 一般故事禁止其他 setNpcExpression 再寫 story portrait；
-    // 商店首頁仍可正常切表情。
-    const player=document.getElementById('npcStoryPlayer');
-    if(String(window.npcStoryPlayerState?.title||'').includes('女僕咖啡廳') &&
-       Number(window.npcStoryPlayerState?.lines?.[Number(window.npcStoryPlayerState?.index||0)]?.maidStage||0)>=1){
-      img.dataset.maidCgLocked='1';
-      player?.classList.add('formalMaidStory');
-      player?.style.setProperty('--formal-maid-bg',`url("${targetSrc}")`);
-    }else{
-      delete img.dataset.maidCgLocked;
-      player?.classList.remove('formalMaidStory');
-      player?.style.removeProperty('--formal-maid-bg');
-    }
-  }
-
-  const previousSet=window.setNpcExpression;
-  window.setNpcExpression=function(face='normal'){
-    // 故事播放時，story portrait 由這個最終控制器獨占；
-    // 只允許舊函式更新商店 hero / badge，之後立刻校正 story。
-    const r=previousSet?.apply(this,arguments);
-    if(window.npcStoryPlayerState)queueMicrotask(commit);
-    return r;
-  };
-
-  const oldRender=window.renderNpcRpgLine;
-  if(typeof oldRender==='function'){
-    window.renderNpcRpgLine=function(){
-      rendering=true;
-      const r=oldRender.apply(this,arguments);
-      commit();
-      rendering=false;
-      return r;
+    /* renderFormalAppearance 原本的資料/解鎖邏輯保留，只補上色系預覽 */
+    const decorate=()=>{
+      [...grid.querySelectorAll('.appearanceChoice')].forEach(btn=>{
+        if(btn.querySelector('.formalThemeSwatch'))return;
+        const id=btn.getAttribute('data-formal-theme-choice')||'default';
+        const sw=document.createElement('div');
+        sw.className='formalThemeSwatch '+(id==='maidCafe'?'maidCafe':'default');
+        btn.insertBefore(sw,btn.firstChild);
+      });
     };
+    decorate();
+    new MutationObserver(decorate).observe(grid,{childList:true,subtree:true});
   }
-
-  const oldStart=window.startNpcRpgStory;
-  if(typeof oldStart==='function'){
-    window.startNpcRpgStory=function(){
-      targetFace='normal';targetSrc=FACE.normal;
-      const r=oldStart.apply(this,arguments);
-      commit();
-      return r;
-    };
-  }
-
-  // 把任何舊補丁在同一幀內寫錯的 src 拉回唯一目標；
-  // MutationObserver callback 在瀏覽器繪製前執行，避免可見閃爍。
-  const img=document.getElementById('npcStoryPortrait');
-  if(img){
-    new MutationObserver(()=>{
-      if(!window.npcStoryPlayerState)return;
-      if(img.getAttribute('src')!==targetSrc)img.setAttribute('src',targetSrc);
-    }).observe(img,{attributes:true,attributeFilter:['src']});
-  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',upgrade,{once:true});
+  else upgrade();
 })();
 </script>
 
 
-<script id="formalFinalStatsDisplayV3">
+<script id="formal3318JointTaskPersistenceFix">
 (function(){
-  const CACHE='role_life_formal_live_stats_cache_v3';
-  const onlineEl=()=>document.getElementById('onlinePlayerCount');
-  const aliveEl=()=>document.getElementById('cloudCharacterCount');
+  let timer=0, busy=false;
 
-  function paint(online,alive){
-    if(Number.isFinite(Number(online))) onlineEl() && (onlineEl().textContent=String(Number(online)));
-    if(Number.isFinite(Number(alive))) aliveEl() && (aliveEl().textContent=String(Number(alive)));
+  function current(){
+    try{return typeof cur==='function'?cur():null}catch(_){return null}
   }
-  function load(){
+  async function flushJointTaskState(){
+    if(busy)return;
+    const c=current();
+    if(!c)return;
+    clearTimeout(timer);
+    timer=0;
     try{
-      const x=JSON.parse(localStorage.getItem(CACHE)||'null');
-      if(x && Number.isFinite(Number(x.online)) && Number.isFinite(Number(x.alive))) return x;
-    }catch(_){
-    }
-    return {online:0,alive:0};
-  }
-  function save(online,alive){
-    try{localStorage.setItem(CACHE,JSON.stringify({online:Number(online)||0,alive:Number(alive)||0,at:Date.now()}))}catch(_){
-    }
-  }
+      /* 先確保目前完成狀態已進本機存檔 */
+      if(typeof saveLocal==='function') saveLocal();
 
-  // Never leave the dashboard stuck on ellipsis while cloud statistics are loading.
-  const cached=load(); paint(cached.online,cached.alive);
-
-  const old=window.refreshLiveCharacterStats;
-  if(typeof old==='function'){
-    window.refreshLiveCharacterStats=async function(){
-      try{
-        const ok=await old.apply(this,arguments);
-        const online=Number(onlineEl()?.textContent);
-        const alive=Number(aliveEl()?.textContent);
-        if(Number.isFinite(online)&&Number.isFinite(alive)){
-          save(online,alive);
-          paint(online,alive);
-        } else {
-          const c=load();paint(c.online,c.alive);
+      /* 正式服存在雲端儲存函式時立即同步，避免刷新讀回舊資料 */
+      const candidates=[
+        'saveCurrentCharacterToCloud',
+        'saveCharacterToCloud',
+        'syncCurrentCharacter',
+        'cloudSaveCurrentCharacter',
+        'saveCloud'
+      ];
+      for(const n of candidates){
+        const fn=window[n];
+        if(typeof fn==='function'){
+          busy=true;
+          try{ await fn(c); }catch(_){}
+          finally{ busy=false; }
+          break;
         }
-        return ok;
-      }catch(e){
-        const c=load();paint(c.online,c.alive);
-        console.warn('stable stats display',e);
-        return false;
       }
-    };
+    }catch(_){busy=false}
   }
 
-  // Legacy paintSyncing may write "…" during a retry; immediately replace it with last good values.
-  new MutationObserver(()=>{
-    const a=onlineEl(),b=aliveEl();
-    if(a?.textContent.trim()==='…'||b?.textContent.trim()==='…'){
-      const c=load();paint(c.online,c.alive);
-    }
-  }).observe(document.documentElement,{subtree:true,childList:true,characterData:true});
+  function schedule(){
+    clearTimeout(timer);
+    timer=setTimeout(flushJointTaskState,180);
+  }
 
-  window.addEventListener('pageshow',()=>{
-    const c=load();paint(c.online,c.alive);
-    setTimeout(()=>window.refreshLiveCharacterStats?.(),120);
-  },{passive:true});
+  /* 共同外出任務完成通常會造成 DOM 狀態由未完成→完成；
+     變動後補一次持久化，避免只改畫面沒及時寫回。 */
+  const start=()=>{
+    const root=document.body;
+    if(!root)return;
+    new MutationObserver((list)=>{
+      let relevant=false;
+      for(const m of list){
+        const t=(m.target?.textContent||'')+' '+[...m.addedNodes].map(n=>n.textContent||'').join(' ');
+        if(/共同外出|今日小事|已完成|完成/.test(t)){ relevant=true; break; }
+      }
+      if(relevant)schedule();
+    }).observe(root,{subtree:true,childList:true,characterData:true});
+
+    document.addEventListener('click',(e)=>{
+      const el=e.target?.closest?.('button,[role="button"],.btn,.choice');
+      if(el && /共同外出|今日小事|完成|確認/.test(el.textContent||'')) schedule();
+    },true);
+
+    document.addEventListener('visibilitychange',()=>{
+      if(document.visibilityState==='hidden') flushJointTaskState();
+    });
+    window.addEventListener('pagehide',flushJointTaskState);
+  };
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});
+  else start();
 })();
 </script>
 
@@ -16193,11 +15864,7 @@ document.title='關係進行式・3.31.6.34';
   function setStoryFace(face){
     if(!FACE[face])face='normal';
     const img=document.getElementById('npcStoryPortrait');
-    if(img && img.dataset.maidCgLocked!=='1'){
-      img.dataset.npcFace=face;
-      if(img.getAttribute('src')!==FACE[face])img.src=FACE[face];
-      img.style.display='block';
-    }
+    if(img){img.dataset.npcFace=face;img.src=FACE[face];img.style.display='block';}
     const badge=document.querySelector('#npcStoryPlayer .npcExpressionBadge');
     if(badge){badge.textContent='';badge.className='npcExpressionBadge face-'+face;}
   }
@@ -16248,21 +15915,12 @@ document.title='關係進行式・3.31.6.34';
         const idx=Number(st?.index||0);
         const line=st?.lines?.[idx];
         if(idx!==lastStoryIndex){
-          const maidStory=String(st?.title||"").includes("女僕咖啡廳");
-          const maidStage=Number(line?.maidStage||0);
-          if(maidStory&&maidStage>=1){
-            // 女僕換裝後不要排任何非同步一般表情圖片。
-            lastStoryIndex=idx;
-          }else{
-            const face=chooseStoryFace(line,idx);
-            lastStoryFace=face;lastStoryIndex=idx;
-            preloadFace(face).then(()=>{
-              const cur=window.npcStoryPlayerState;
-              const curLine=cur?.lines?.[Number(cur?.index||0)];
-              const curMaid=String(cur?.title||"").includes("女僕咖啡廳")&&Number(curLine?.maidStage||0)>=1;
-              if(!curMaid && Number(cur?.index||0)===idx)setStoryFace(face);
-            });
-          }
+          const face=chooseStoryFace(line,idx);
+          lastStoryFace=face;lastStoryIndex=idx;
+          preloadFace(face).then(()=>{
+            const cur=window.npcStoryPlayerState;
+            if(Number(cur?.index||0)===idx)setStoryFace(face);
+          });
         }
       }catch(e){console.warn('3.26.22 story emotion',e)}
       return r;
@@ -16274,9 +15932,16 @@ document.title='關係進行式・3.31.6.34';
   if(typeof oldStart==='function'){
     window.startNpcRpgStory=function(){
       lastStoryFace='normal';sameFaceRun=0;lastStoryIndex=-1;
-      return oldStart.apply(this,arguments);
+      const r=oldStart.apply(this,arguments);
+      setTimeout(()=>window.renderNpcRpgLine?.(),0);
+      return r;
     };
   }
+
+  setTimeout(()=>{
+    if(!document.getElementById('npcShopModal')?.classList.contains('hidden'))commitShopState(shopIndex);
+    if(window.npcStoryPlayerState)window.renderNpcRpgLine?.();
+  },250);
 })();
 </script>
 
