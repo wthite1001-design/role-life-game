@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#9a76c4">
-<meta name="x-test-build" content="3.30.53">
+<meta name="x-test-build" content="3.30.54">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>關係進行式 TEST・3.30.53-七夕邀請防重複＋活動框回預設色</title>
+<title>關係進行式 TEST・3.30.54-七夕邀請防重複＋活動框回預設色</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -1473,7 +1473,7 @@ body.npcStoryRunning .draggableFab{
 <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png">
 <link rel="manifest" href="manifest.json">
 <style id="qixi3279-scroll-fix">
-/* 3.30.53：七夕活動頁在手機上可完整往下捲，不再把守橋人卡片截成一半 */
+/* 3.30.54：七夕活動頁在手機上可完整往下捲，不再把守橋人卡片截成一半 */
 #qixiEventModal{
   overflow-y:auto!important;
   overflow-x:hidden!important;
@@ -1956,7 +1956,7 @@ html[data-test-theme="maidCafe"] .navBtn.active::after{
 </style>
 
 <style id="test33014QixiGalaxySingleSource">
-/* ===== TEST 3.30.53 七夕星河：唯一視覺來源 ===== */
+/* ===== TEST 3.30.54 七夕星河：唯一視覺來源 ===== */
 html.qixi-theme-now,
 html[data-test-theme="qixiGalaxy"],
 html.qixi-theme-now body,
@@ -2119,7 +2119,7 @@ html[data-test-theme="qixiGalaxy"] #qixiEventModal button{
 
 
 <style id="test33015StableQixiUi">
-/* 3.30.53：深色星河文字不再純白刺眼 */
+/* 3.30.54：深色星河文字不再純白刺眼 */
 html.qixi-theme-now :is(.homePanel,.card,.pageCard.active,.modalBox,.now,.itemRow,.relItem,.npcRelationCard,.npcShopItem,.eventCard,.characterCard,.statusCard,.section,.panel,.shopCard,.paidProduct),
 html[data-test-theme="qixiGalaxy"] :is(.homePanel,.card,.pageCard.active,.modalBox,.now,.itemRow,.relItem,.npcRelationCard,.npcShopItem,.eventCard,.characterCard,.statusCard,.section,.panel,.shopCard,.paidProduct){
   color:#c7b4d9!important;
@@ -2268,7 +2268,7 @@ html[data-test-theme="qixiGalaxy"] #qixiEventModal :is(.qixiRewardBox,.qixiFacil
 
 
 <style id="test33018ModalRestore">
-/* 3.30.53：恢復測試服卡片式視窗，不再出現整頁白色 modal。 */
+/* 3.30.54：恢復測試服卡片式視窗，不再出現整頁白色 modal。 */
 html.qixi-theme-now .modal,
 html[data-test-theme="qixiGalaxy"] .modal{
   padding:12px!important;
@@ -2555,7 +2555,7 @@ html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]){
     <div class="homeLogo">🧪</div>
     <h1>關係進行式 TEST</h1>
     <div class="homeTagline">測試中的每一段關係，都可能被重置。</div>
-    <div class="homeVersion">3.30.53・測試服｜七夕重複錯誤清理＋邀請防呆</div>
+    <div class="homeVersion">3.30.54・測試服｜七夕重複錯誤清理＋邀請防呆</div>
   </div>
 
   <div id="playerAccountHomePanel" class="homePanel accountHomePanel">
@@ -6627,7 +6627,9 @@ async function checkDirectGamePopups(){
   let c=cur();
   let data=await api(`/test_interactions?room_code=eq.${encodeURIComponent(room.code)}&to_char=eq.${encodeURIComponent(c.id)}&select=*&order=created_at.desc&limit=20`);
   // Incoming invitation: pop immediately while online.
-  let invite=data.find(x=>String(x.text||"").startsWith("GAME_INVITE|"));
+  let invite=data.find(x=>String(x.text||"").startsWith("GAME_INVITE|") &&
+    !suppressedGameInviteIds.has(String(x.id)) &&
+    !processingGameInviteIds.has(String(x.id)));
   if(invite&&!seenGamePopupIds.has(invite.id)&&!pendingGameInvite){
     let p=String(invite.text).split("|"),type=p[1],g=miniGames[type];
     seenGamePopupIds.add(invite.id);
@@ -6757,6 +6759,14 @@ const miniGames={
 };
 let currentGameType="",currentGameDraft=null,rewardedGames=new Set();
 let pendingGameInvite=null,seenGamePopupIds=new Set(),seenGameStartIds=new Set(),seenGameDeclineIds=new Set();
+const suppressedGameInviteIds=new Set();
+const processingGameInviteIds=new Set();
+function suppressGameInvite(id,ms=15000){
+  if(id==null)return;
+  const key=String(id);
+  suppressedGameInviteIds.add(key);
+  setTimeout(()=>suppressedGameInviteIds.delete(key),ms);
+}
 
 function gameLabel(type){let g=miniGames[type];return g?`${g.icon} ${g.name}`:type}
 
@@ -6800,6 +6810,18 @@ gameChoices.onclick=e=>{
   if(ans)return handleGameAnswer(ans.dataset.gameans);
 };
 
+async function nextTestGameId(){
+  /* 現在 Supabase 的 test_games.id 是 NOT NULL，但沒有自動產生 default。
+     先讀目前最大 id，再用 max+1。保留在 32-bit integer 範圍內。 */
+  let rows=[];
+  try{
+    rows=await api("/test_games?select=id&order=id.desc&limit=1");
+  }catch(_){}
+  let maxId=Number(rows?.[0]?.id||0);
+  if(!Number.isFinite(maxId)||maxId<0)maxId=0;
+  return Math.max(1,Math.floor(maxId)+1);
+}
+
 async function createTestGameRow(targetRoom){
   const base={
     room_code:targetRoom.code,
@@ -6807,27 +6829,53 @@ async function createTestGameRow(targetRoom){
     guest_char:targetRoom.guest_char
   };
 
-  try{
-    const rows=await api("/test_games",{
-      method:"POST",
-      headers:{"Prefer":"return=representation"},
-      body:JSON.stringify({...base,host_choice:null,guest_choice:null})
-    });
-    if(rows?.[0]?.id!=null)return rows[0];
-    throw new Error("test_games 建立成功但沒有回傳遊戲 ID");
-  }catch(e){
-    const detail=[e?.message,e?.details,e?.hint,e?.code].filter(Boolean).join(" | ");
+  const post=payload=>api("/test_games",{
+    method:"POST",
+    headers:{"Prefer":"return=representation"},
+    body:JSON.stringify(payload)
+  });
 
-    /* 舊／不同 schema 若不接受 choice 欄位，就退回最小建立資料。 */
+  try{
+    /* 正常情況仍先讓資料庫自己產 id；未來補回 identity/default 後不用再改前端。 */
+    const rows=await post({...base,host_choice:null,guest_choice:null});
+    if(rows?.[0]?.id!=null)return rows[0];
+    throw Object.assign(new Error("test_games 建立成功但沒有回傳遊戲 ID"),{code:"NO_GAME_ID"});
+  }catch(e){
+    let detail=[e?.message,e?.details,e?.hint,e?.code].filter(Boolean).join(" | ");
+
+    /* schema 不接受 choice 欄位時，先退回最小 payload。 */
     if(/host_choice|guest_choice|schema cache|column/i.test(detail)){
-      const rows=await api("/test_games",{
-        method:"POST",
-        headers:{"Prefer":"return=representation"},
-        body:JSON.stringify(base)
-      });
-      if(rows?.[0]?.id!=null)return rows[0];
-      throw new Error("test_games 建立成功但沒有回傳遊戲 ID");
+      try{
+        const rows=await post(base);
+        if(rows?.[0]?.id!=null)return rows[0];
+      }catch(e2){
+        e=e2;
+        detail=[e2?.message,e2?.details,e2?.hint,e2?.code].filter(Boolean).join(" | ");
+      }
     }
+
+    /* 23502 = id NOT NULL、但資料庫沒有 default。這就是目前截圖的實際錯誤。 */
+    if(/23502|null value in column "?id"?|column "?id"? .*not-null/i.test(detail)){
+      for(let attempt=0;attempt<4;attempt++){
+        const explicitId=(await nextTestGameId())+attempt;
+        try{
+          const rows=await post({...base,id:explicitId,host_choice:null,guest_choice:null});
+          if(rows?.[0]?.id!=null)return rows[0];
+        }catch(e3){
+          const d3=[e3?.message,e3?.details,e3?.hint,e3?.code].filter(Boolean).join(" | ");
+          /* 23505 代表剛好撞號，再換下一個 id。 */
+          if(/23505|duplicate key/i.test(d3))continue;
+          /* 若 choice 欄位不存在，明確 id + 最小 payload 再試。 */
+          if(/host_choice|guest_choice|schema cache|column/i.test(d3)){
+            const rows=await post({...base,id:explicitId});
+            if(rows?.[0]?.id!=null)return rows[0];
+          }
+          throw e3;
+        }
+      }
+      throw new Error("test_games 無法產生可用的遊戲 ID");
+    }
+
     throw e;
   }
 }
@@ -6853,8 +6901,14 @@ async function clearDuplicateGameInvites(roomCode,fromChar,toChar,type){
 
 async function acceptGameInvite(interactionId,type,roomCode){
   let c=cur(),g=miniGames[type];if(!c||!g)return;
+  const inviteKey=String(interactionId);
+  if(processingGameInviteIds.has(inviteKey))return;
+  processingGameInviteIds.add(inviteKey);
+  suppressGameInvite(interactionId,20000);
   const inviteSnapshot=pendingGlobalGameInvite||pendingGameInvite||{};
   pendingGlobalGameInvite={...inviteSnapshot,id:interactionId,type,roomCode,processing:true};
+  gameInviteModal.classList.add("hidden");
+  window.hideQixiGameInviteInline?.();
   try{
     let rs=await api(`/test_rooms?code=eq.${encodeURIComponent(roomCode)}&select=*`);
     let targetRoom=rs?.[0];if(!targetRoom)throw new Error("找不到這段關係");
@@ -6881,10 +6935,15 @@ async function acceptGameInvite(interactionId,type,roomCode){
     window.hideQixiGameInviteInline?.();
     pendingGlobalGameInvite=null;
     pendingGameInvite=null;
+    processingGameInviteIds.delete(inviteKey);
+    suppressedGameInviteIds.delete(inviteKey);
     openGameSession(gid,type);
     await renderPendingEvents(c);
   }catch(e){
+    processingGameInviteIds.delete(inviteKey);
     pendingGlobalGameInvite=null;
+    pendingGameInvite=null;
+    suppressGameInvite(interactionId,10000);
     const msg=String(e?.message||e||"");
     const detail=[msg,e?.details,e?.hint,e?.code].filter(Boolean).join(" | ");
     if(/row-level security/i.test(detail)){
@@ -6897,8 +6956,14 @@ async function acceptGameInvite(interactionId,type,roomCode){
 
 async function declineGameInvite(interactionId,type,roomCode){
   let c=cur();if(!c)return;
+  const inviteKey=String(interactionId);
+  if(processingGameInviteIds.has(inviteKey))return;
+  processingGameInviteIds.add(inviteKey);
+  suppressGameInvite(interactionId,20000);
   const inviteSnapshot=pendingGlobalGameInvite||pendingGameInvite||{};
   pendingGlobalGameInvite={...inviteSnapshot,id:interactionId,type,roomCode,processing:true};
+  gameInviteModal.classList.add("hidden");
+  window.hideQixiGameInviteInline?.();
   try{
     let rows=await api(`/test_interactions?id=eq.${encodeURIComponent(interactionId)}&select=*`);
     let x=rows?.[0]||null;
@@ -6917,10 +6982,15 @@ async function declineGameInvite(interactionId,type,roomCode){
     window.hideQixiGameInviteInline?.();
     pendingGlobalGameInvite=null;
     pendingGameInvite=null;
+    processingGameInviteIds.delete(inviteKey);
+    suppressedGameInviteIds.delete(inviteKey);
     toast("已婉拒這次小遊戲邀請。");
     await renderPendingEvents(c);
   }catch(e){
+    processingGameInviteIds.delete(inviteKey);
     pendingGlobalGameInvite=null;
+    pendingGameInvite=null;
+    suppressGameInvite(interactionId,10000);
     toast("處理邀請失敗："+(e?.message||e));
   }
 }
@@ -9466,7 +9536,11 @@ async function fetchPendingEvents(c){
         const persistentRelationDecision=text.startsWith("RELATION_SLOT_REQUEST|")||text.startsWith("RELATION_SLOT_RESULT|");
         if(!persistentRelationDecision&&!isFreshCreatedAt(x.created_at))continue;
         if(text.startsWith("OUTING_INVITE|"))rows.push({kind:"outing",id:x.id,code:String(code),created_at:x.created_at,row:x});
-        if(text.startsWith("GAME_INVITE|"))rows.push({kind:"game",id:x.id,code:String(code),created_at:x.created_at,row:x});
+        if(text.startsWith("GAME_INVITE|") &&
+           !suppressedGameInviteIds.has(String(x.id)) &&
+           !processingGameInviteIds.has(String(x.id))){
+          rows.push({kind:"game",id:x.id,code:String(code),created_at:x.created_at,row:x});
+        }
         if(text.startsWith("RELATION_SLOT_REQUEST|"))rows.push({kind:"slot_request",id:x.id,code:String(code),created_at:x.created_at,row:x});
         if(text.startsWith("RELATION_SLOT_RESULT|"))rows.push({kind:"slot_result",id:x.id,code:String(code),created_at:x.created_at,row:x});
         // GIFT_SEND 是已消耗的好感禮物通知，不需要對方領取。
@@ -9530,6 +9604,7 @@ async function renderPendingEvents(c){
 }
 async function showGlobalGameInvite(ev){
   let c=cur();if(!c||!ev)return;
+  if(suppressedGameInviteIds.has(String(ev.row?.id))||processingGameInviteIds.has(String(ev.row?.id)))return;
   let p=String(ev.row.text||"").split("|"),type=p[1],g=miniGames[type];
   pendingGlobalGameInvite={id:ev.row.id,type,roomCode:ev.code,from:ev.row.from_char};
   let name=roomOtherName(ev.code,c);
@@ -14922,7 +14997,7 @@ header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{back
 <script id="qixi3283-ribbon-fix">
 (function(){
  function fix(){
-   document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.30.53-beta");
+   document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.30.54-beta");
  }
  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",fix,{once:true});else fix();
  setTimeout(fix,300);
@@ -15135,7 +15210,7 @@ header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{back
 
 
 <style id="qixi3300ResponsiveFerry">
-/* 3.30.53：指定 GitHub 七夕背景；手機填滿、電腦固定直式舞台，禁止橫向螢幕把直圖放大裁爆 */
+/* 3.30.54：指定 GitHub 七夕背景；手機填滿、電腦固定直式舞台，禁止橫向螢幕把直圖放大裁爆 */
 #qixiMiniGameBoard.qixiFerryGameBoard,#qixiMiniGameBoard.qixiBridgeGameBoard{
  background-image:linear-gradient(rgba(8,7,35,.12),rgba(15,9,45,.24)),url("images/qixi/qixi_full_background.png")!important;
  background-repeat:no-repeat!important;background-position:center center!important;
@@ -15233,7 +15308,7 @@ header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{back
 
 <script id="test33015SingleVersionSource">
 (function(){
- const BUILD='3.30.53';
+ const BUILD='3.30.54';
  const LABEL='七夕邀約內嵌＋設施背景＋快速雲端同步';
  function apply(){
    document.title='關係進行式 TEST・'+BUILD;
@@ -17405,8 +17480,13 @@ function openConfirm(o={}){
 
  function showQixiIncomingInviteInline(ev,type,g,name){
    const el=qixiInviteInlineEl();if(!el)return false;
+   const eventModal=document.getElementById("qixiEventModal");
+
+   /* 只有玩家本來就在七夕活動頁時才用活動內嵌邀約。
+      背景收到邀請時不能硬把 qixiEventModal 打開，否則內容尚未 render 就會變整頁白。 */
+   if(!eventModal || eventModal.classList.contains("hidden"))return false;
+
    pendingGlobalGameInvite={id:ev.row.id,type,roomCode:ev.code,from:ev.row.from_char};
-   document.getElementById("qixiEventModal")?.classList.remove("hidden");
    gameInviteModal?.classList.add("hidden");
    el.innerHTML=`<b>💌 收到七夕同行遊戲邀約</b>
      <div style="margin-top:6px"><b>${esc(name)}</b> 邀請你一起遊玩</div>
@@ -17755,8 +17835,8 @@ function openConfirm(o={}){
  
 })();
 </script>
-\n<style id="qixi3298AuthoritativeFix">\n/* 3.30.53：星河渡口與鵲羽橋使用指定背景圖 */\n#qixiMiniGameBoard.qixiFerryGameBoard{\n background-image:linear-gradient(rgba(8,7,35,.16),rgba(15,9,45,.28)),url("images/qixi/qixi_ferry_game_bg.png")!important;\n background-size:cover!important;background-position:center center!important;background-repeat:no-repeat!important;min-height:56vh!important;\n}\n#qixiMiniGameBoard.qixiFerryGameBoard .qixiStarTapGrid{padding-top:4vh!important}\n#qixiMiniGameBoard.qixiFerryGameBoard .qixiStarTap{background:rgba(28,21,76,.62)!important;backdrop-filter:blur(2px)!important}\n/* SHOP_3304_SINGLE_SOURCE_START */
-/* 3.30.53：商店唯一權威版型。整個商店頁負責垂直滑動，子區塊不截斷。 */
+\n<style id="qixi3298AuthoritativeFix">\n/* 3.30.54：星河渡口與鵲羽橋使用指定背景圖 */\n#qixiMiniGameBoard.qixiFerryGameBoard{\n background-image:linear-gradient(rgba(8,7,35,.16),rgba(15,9,45,.28)),url("images/qixi/qixi_ferry_game_bg.png")!important;\n background-size:cover!important;background-position:center center!important;background-repeat:no-repeat!important;min-height:56vh!important;\n}\n#qixiMiniGameBoard.qixiFerryGameBoard .qixiStarTapGrid{padding-top:4vh!important}\n#qixiMiniGameBoard.qixiFerryGameBoard .qixiStarTap{background:rgba(28,21,76,.62)!important;backdrop-filter:blur(2px)!important}\n/* SHOP_3304_SINGLE_SOURCE_START */
+/* 3.30.54：商店唯一權威版型。整個商店頁負責垂直滑動，子區塊不截斷。 */
 html.qixi-theme-now #extraShop.pageCard.active{
   display:block!important;
   position:fixed!important;
