@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#9a76c4">
-<meta name="x-test-build" content="3.30.51">
+<meta name="x-test-build" content="3.30.52">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>關係進行式 TEST・3.30.51-七夕重複錯誤清理＋邀請防呆</title>
+<title>關係進行式 TEST・3.30.52-七夕小遊戲建局修復＋預設外觀全面回正式服</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -1473,7 +1473,7 @@ body.npcStoryRunning .draggableFab{
 <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png">
 <link rel="manifest" href="manifest.json">
 <style id="qixi3279-scroll-fix">
-/* 3.30.51：七夕活動頁在手機上可完整往下捲，不再把守橋人卡片截成一半 */
+/* 3.30.52：七夕活動頁在手機上可完整往下捲，不再把守橋人卡片截成一半 */
 #qixiEventModal{
   overflow-y:auto!important;
   overflow-x:hidden!important;
@@ -1956,7 +1956,7 @@ html[data-test-theme="maidCafe"] .navBtn.active::after{
 </style>
 
 <style id="test33014QixiGalaxySingleSource">
-/* ===== TEST 3.30.51 七夕星河：唯一視覺來源 ===== */
+/* ===== TEST 3.30.52 七夕星河：唯一視覺來源 ===== */
 html.qixi-theme-now,
 html[data-test-theme="qixiGalaxy"],
 html.qixi-theme-now body,
@@ -2119,7 +2119,7 @@ html[data-test-theme="qixiGalaxy"] #qixiEventModal button{
 
 
 <style id="test33015StableQixiUi">
-/* 3.30.51：深色星河文字不再純白刺眼 */
+/* 3.30.52：深色星河文字不再純白刺眼 */
 html.qixi-theme-now :is(.homePanel,.card,.pageCard.active,.modalBox,.now,.itemRow,.relItem,.npcRelationCard,.npcShopItem,.eventCard,.characterCard,.statusCard,.section,.panel,.shopCard,.paidProduct),
 html[data-test-theme="qixiGalaxy"] :is(.homePanel,.card,.pageCard.active,.modalBox,.now,.itemRow,.relItem,.npcRelationCard,.npcShopItem,.eventCard,.characterCard,.statusCard,.section,.panel,.shopCard,.paidProduct){
   color:#c7b4d9!important;
@@ -2268,7 +2268,7 @@ html[data-test-theme="qixiGalaxy"] #qixiEventModal :is(.qixiRewardBox,.qixiFacil
 
 
 <style id="test33018ModalRestore">
-/* 3.30.51：恢復測試服卡片式視窗，不再出現整頁白色 modal。 */
+/* 3.30.52：恢復測試服卡片式視窗，不再出現整頁白色 modal。 */
 html.qixi-theme-now .modal,
 html[data-test-theme="qixiGalaxy"] .modal{
   padding:12px!important;
@@ -2555,7 +2555,7 @@ html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]){
     <div class="homeLogo">🧪</div>
     <h1>關係進行式 TEST</h1>
     <div class="homeTagline">測試中的每一段關係，都可能被重置。</div>
-    <div class="homeVersion">3.30.51・測試服｜七夕重複錯誤清理＋邀請防呆</div>
+    <div class="homeVersion">3.30.52・測試服｜七夕重複錯誤清理＋邀請防呆</div>
   </div>
 
   <div id="playerAccountHomePanel" class="homePanel accountHomePanel">
@@ -3953,7 +3953,15 @@ async function api(path,options={}){
   if(text){try{data=JSON.parse(text)}catch(e){data=text}}
   if(!res.ok){
     console.error("API error",res.status,data);
-    throw new Error((data&&data.message)||((data&&data.details)?data.details:"")||("Supabase 錯誤 "+res.status));
+    const msg=(data&&data.message)||((data&&data.details)?data.details:"")||("Supabase 錯誤 "+res.status);
+    const err=new Error(msg);
+    err.status=res.status;
+    err.code=data&&data.code||"";
+    err.details=data&&data.details||"";
+    err.hint=data&&data.hint||"";
+    err.apiPath=path;
+    err.apiData=data;
+    throw err;
   }
   return data;
 }
@@ -6792,35 +6800,75 @@ gameChoices.onclick=e=>{
   if(ans)return handleGameAnswer(ans.dataset.gameans);
 };
 
+async function createTestGameRow(targetRoom){
+  const base={
+    room_code:targetRoom.code,
+    host_char:targetRoom.host_char,
+    guest_char:targetRoom.guest_char
+  };
+
+  try{
+    const rows=await api("/test_games",{
+      method:"POST",
+      headers:{"Prefer":"return=representation"},
+      body:JSON.stringify({...base,host_choice:null,guest_choice:null})
+    });
+    if(rows?.[0]?.id!=null)return rows[0];
+    throw new Error("test_games 建立成功但沒有回傳遊戲 ID");
+  }catch(e){
+    const detail=[e?.message,e?.details,e?.hint,e?.code].filter(Boolean).join(" | ");
+
+    /* 舊／不同 schema 若不接受 choice 欄位，就退回最小建立資料。 */
+    if(/host_choice|guest_choice|schema cache|column/i.test(detail)){
+      const rows=await api("/test_games",{
+        method:"POST",
+        headers:{"Prefer":"return=representation"},
+        body:JSON.stringify(base)
+      });
+      if(rows?.[0]?.id!=null)return rows[0];
+      throw new Error("test_games 建立成功但沒有回傳遊戲 ID");
+    }
+    throw e;
+  }
+}
+
 async function acceptGameInvite(interactionId,type,roomCode){
   let c=cur(),g=miniGames[type];if(!c||!g)return;
   try{
     let rs=await api(`/test_rooms?code=eq.${encodeURIComponent(roomCode)}&select=*`);
     let targetRoom=rs?.[0];if(!targetRoom)throw new Error("找不到這段關係");
     gameRoomContext=targetRoom;
+
     if(g.qixiPlay==="realtime"){
       const inviterState=targetRoom.host_char===c.id?targetRoom.guest_state:targetRoom.host_state;
       if(!isOnlineState(inviterState))throw new Error("邀請者目前不在線，這個七夕小遊戲需要雙方同時在線才能開始");
     }
-    let data=await api("/test_games",{method:"POST",headers:{"Prefer":"return=representation"},body:JSON.stringify({
-      room_code:targetRoom.code,host_char:targetRoom.host_char,guest_char:targetRoom.guest_char,host_choice:null,guest_choice:null
-    })});
-    let gid=data[0].id;
+
+    const gameRow=await createTestGameRow(targetRoom);
+    const gid=gameRow.id;
+
+    /* 建局成功後才刪邀請，避免建局失敗時把邀請吃掉。 */
     await api(`/test_interactions?id=eq.${encodeURIComponent(interactionId)}`,{method:"DELETE"});
+
     let inviter=targetRoom.host_char===c.id?targetRoom.guest_char:targetRoom.host_char;
     await api("/test_interactions",{method:"POST",body:JSON.stringify({
       room_code:targetRoom.code,from_char:c.id,to_char:inviter,text:`GAME_START|${type}|${gid}`
     })});
+
     gameInviteModal.classList.add("hidden");
     pendingGlobalGameInvite=null;
+    pendingGameInvite=null;
     openGameSession(gid,type);
     await renderPendingEvents(c);
   }catch(e){
     const msg=String(e?.message||e||"");
-    if(/row-level security|test_games/i.test(msg)){
-      toast("接受小遊戲邀請失敗：test_games 雲端權限尚未修復，請先執行本版附的 RLS SQL。",6500);
+    const detail=[msg,e?.details,e?.hint,e?.code].filter(Boolean).join(" | ");
+
+    if(/row-level security/i.test(detail)){
+      toast("接受小遊戲邀請失敗：Supabase 仍回報 RLS 拒絕。請重新整理頁面後再試；若仍失敗，把這次完整錯誤回報給我。",7000);
     }else{
-      toast("接受小遊戲邀請失敗："+msg);
+      /* 不再把所有 test_games 錯誤誤報成 RLS，直接顯示真正原因。 */
+      toast("接受小遊戲邀請失敗："+detail,7000);
     }
   }
 }
@@ -14839,7 +14887,7 @@ header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{back
 <script id="qixi3283-ribbon-fix">
 (function(){
  function fix(){
-   document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.30.51-beta");
+   document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.30.52-beta");
  }
  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",fix,{once:true});else fix();
  setTimeout(fix,300);
@@ -15052,7 +15100,7 @@ header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{back
 
 
 <style id="qixi3300ResponsiveFerry">
-/* 3.30.51：指定 GitHub 七夕背景；手機填滿、電腦固定直式舞台，禁止橫向螢幕把直圖放大裁爆 */
+/* 3.30.52：指定 GitHub 七夕背景；手機填滿、電腦固定直式舞台，禁止橫向螢幕把直圖放大裁爆 */
 #qixiMiniGameBoard.qixiFerryGameBoard,#qixiMiniGameBoard.qixiBridgeGameBoard{
  background-image:linear-gradient(rgba(8,7,35,.12),rgba(15,9,45,.24)),url("images/qixi/qixi_full_background.png")!important;
  background-repeat:no-repeat!important;background-position:center center!important;
@@ -15150,7 +15198,7 @@ header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{back
 
 <script id="test33015SingleVersionSource">
 (function(){
- const BUILD='3.30.51';
+ const BUILD='3.30.52';
  const LABEL='七夕邀約內嵌＋設施背景＋快速雲端同步';
  function apply(){
    document.title='關係進行式 TEST・'+BUILD;
@@ -17672,8 +17720,8 @@ function openConfirm(o={}){
  
 })();
 </script>
-\n<style id="qixi3298AuthoritativeFix">\n/* 3.30.51：星河渡口與鵲羽橋使用指定背景圖 */\n#qixiMiniGameBoard.qixiFerryGameBoard{\n background-image:linear-gradient(rgba(8,7,35,.16),rgba(15,9,45,.28)),url("images/qixi/qixi_ferry_game_bg.png")!important;\n background-size:cover!important;background-position:center center!important;background-repeat:no-repeat!important;min-height:56vh!important;\n}\n#qixiMiniGameBoard.qixiFerryGameBoard .qixiStarTapGrid{padding-top:4vh!important}\n#qixiMiniGameBoard.qixiFerryGameBoard .qixiStarTap{background:rgba(28,21,76,.62)!important;backdrop-filter:blur(2px)!important}\n/* SHOP_3304_SINGLE_SOURCE_START */
-/* 3.30.51：商店唯一權威版型。整個商店頁負責垂直滑動，子區塊不截斷。 */
+\n<style id="qixi3298AuthoritativeFix">\n/* 3.30.52：星河渡口與鵲羽橋使用指定背景圖 */\n#qixiMiniGameBoard.qixiFerryGameBoard{\n background-image:linear-gradient(rgba(8,7,35,.16),rgba(15,9,45,.28)),url("images/qixi/qixi_ferry_game_bg.png")!important;\n background-size:cover!important;background-position:center center!important;background-repeat:no-repeat!important;min-height:56vh!important;\n}\n#qixiMiniGameBoard.qixiFerryGameBoard .qixiStarTapGrid{padding-top:4vh!important}\n#qixiMiniGameBoard.qixiFerryGameBoard .qixiStarTap{background:rgba(28,21,76,.62)!important;backdrop-filter:blur(2px)!important}\n/* SHOP_3304_SINGLE_SOURCE_START */
+/* 3.30.52：商店唯一權威版型。整個商店頁負責垂直滑動，子區塊不截斷。 */
 html.qixi-theme-now #extraShop.pageCard.active{
   display:block!important;
   position:fixed!important;
@@ -18127,3 +18175,290 @@ html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) :is(.
  background:#fffdfd!important;color:#3d3343!important;border-color:#eadfee!important;
 }
 </style>
+
+<style id="test33052FormalDefaultFullPalette">
+/* 預設外觀全面使用正式服的顏色規則。
+   女僕與七夕真正被選中時，不套用這組 override。 */
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) :root{--bg:#f7f1fa!important;--card:#fffdfd!important;--text:#3d3343!important;--muted:#897b90!important;--line:#eadfee!important;--accent:#9872c0!important;--pink:#d899b8!important;--soft:#f3eaf7!important;--good:#668f70!important;--bad:#a65f70!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) body{background:linear-gradient(#eee5f6,#fbf7fa)!important;color:var(--text)!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) button{background:var(--soft)!important;color:#654879!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) button.primary{background:var(--accent)!important;color:white!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) button.danger{background:#f8e8eb!important;color:var(--bad)!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) input,
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) select{background:#fff!important;color:var(--text)!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .top{background:rgba(247,241,250,.94)!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .card{background:var(--card)!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .muted{color:var(--muted)!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .chip{background:var(--soft)!important;color:#76558b!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .save{background:#fff!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .pic{background:#eee5f4!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .avatar{background:linear-gradient(145deg,#ead8f3,#f6dfe8)!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .hint{background:#31233a77!important;color:#fff!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .now{background:#fbf7fd!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .stat{background:#fcf9fd!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .stat span{color:var(--muted)!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .partner{background:#fffafd!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .partnerPic{background:#eee6f3!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .bonus{color:var(--good)!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .notice,
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .event{background:#fffafd!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .small{color:var(--muted)!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .bubble{background:#f1ebf6!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .msg.me .bubble{background:#eadcf4!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .modal{background:#2d24355e!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .modalBox{background:#fff!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .gameResult{background:var(--soft)!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .relItem{background:#fffafd!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .relItem.active{border-color:#b99ace!important;background:#faf4fd!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .errorBox{background:#fff0f2!important;color:#8b4c5b!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .drawerShade{background:#2d24355c!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .drawer{background:#fff!important;box-shadow:10px 0 30px #0002!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .navBtn{background:transparent!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .navSep{background:var(--line)!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .bar{background:#eee7f1!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .fill{background:linear-gradient(90deg,#aa88cc,#df9dbd)!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .itemRow{background:#fffafd!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .navDot{background:#c97891!important;color:white!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .redDot{background:#c97891!important;color:white!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .filters .on{background:#8f70bd!important;color:white!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .tile{background:#fffafd!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .presence.on{color:#39835a!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .presence.off{color:#8b8290!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) #extraAchievements .filters{background:#fffdfd!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .pageCard.active{background:#fffdfd!important;box-shadow:0 -12px 36px #2d24352e!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .pageCard.active::before{background:transparent!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .sheetHead{background:#fffdfd!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .bondPanel{background:#fffafd!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .bondTrack{background:#eee7f1!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .bondFill{background:linear-gradient(90deg,#ad8bd0,#df9dbd)!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .stageTag{background:#f2eaf7!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .relEventCard{background:#fffafd!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .relEventCard .result{color:var(--muted)!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .dailyTask{background:#fffafd!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .dailyTask.done{background:#f1f8f2!important;border-color:#c9ddce!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .dailyProgress{background:#eee7f1!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .dailyProgress>div{background:linear-gradient(90deg,#aa88cc,#df9dbd)!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .dailyReward{background:#fbf7fd!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .achHint{color:var(--muted)!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .workCard{background:#fffafd!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .limitNote{background:#fbf7fd!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .interactionLimit{color:#654879!important;background:#fbf7fd!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .toastMsg{background:#332a39!important;color:#fff!important;box-shadow:0 8px 24px #0004!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) #extraAchievements .itemRow .achHint{color:var(--muted)!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .achDone{background:#fffaf0!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .achievementToast{background:#fffaf0!important;box-shadow:0 10px 30px #0003!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .gameProgress{color:var(--muted)!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .homeHero{background:linear-gradient(145deg,#fffafd,#f3eaf8)!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .homeTagline{color:var(--muted)!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .homeVersion{background:#ffffffaa!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .homePanel{background:#fffdfd!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .createBox{background:#f8f1fb!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .createHint{color:var(--muted)!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) #home .save{background:#fffafd!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) #home .save .pic{box-shadow:0 0 0 3px #f0e6f5!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .homeMusic{background:#fbf7fc!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .badgeDisplay{background:#fff5cf!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .badgeCard{background:#fffafd!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .breakShopTag{color:#8a629f!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .ultimateTag{background:linear-gradient(90deg,#f5df9c,#ead2ff)!important;color:#6e4f70!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .presencePill{background:#f7f4f8!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) #toggleRelationLog{background:#f5edf9!important;color:#684b7b!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .backupGrid .importSaveLabel{background:var(--card)!important;color:var(--ink)!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) #achievementFilters.achievementCategoryTabs{background:#fffdfd!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) #achievementFilters .achievementCategoryTab{background:transparent!important;box-shadow:none!important;color:#8b8190!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) #achievementFilters .achievementCategoryTab.active{color:#3e3345!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) #achievementFilters .achievementCategoryTab.active::after{background:#3e3345!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) #extraAchievements #achievementList{background:#fffdfd!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .liveStat{background:#fffafd!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .liveStat span{color:var(--muted)!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .pendingEventCard{background:#fffafd!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .gmStatus{color:var(--muted)!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .gmPanel{background:#fffafd!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .mailCard{background:#fffafd!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .mailCard.unread{box-shadow:0 0 0 2px rgba(120,80,140,.08) inset!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .mailAttach{background:#f7effa!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .mailDot{background:#a65cc8!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .charIdCode{background:#f7effa!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .gmSearchRow{background:#fffafd!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .gmSearchMeta{color:var(--muted)!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .gmBadgePreview{background:#fffafd!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .gmBadgeIcon{background:#f5eafa!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .profileBadgeShowcase{background:linear-gradient(135deg,#fffafd,#f6effa)!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .profileBadgeMedal{background:#fff!important;box-shadow:0 4px 12px #604b7018!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .profileBadgeShelf{background:#fffafd!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .profileBadgeSlot{background:#fff!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .profileBadgeSlot.empty{color:#b8abbf!important;background:#faf6fc!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .gmSentRow{background:#fffafd!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .gmSentMeta{color:var(--muted)!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .gmDangerBtn{background:#f7e5e9!important;color:#8a3347!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .relMiniBadge{background:#fff!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .partnerMiniBadge{background:#fff7fc!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) #badgeCabinetPanel #badgeList .badgeCard{background:#fffafd!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .badgeCabinetEmpty{color:var(--muted)!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) #extraRelations.pageCard.active{box-shadow:none!important;background:var(--bg,#fbf6ff)!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) #extraRelations .sheetHead{background:var(--bg,#fbf6ff)!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) #extraRelations #relationshipList:empty::before{color:var(--muted)!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .pageCard.active::before,
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .modal:not(.hidden)::before,
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .sheet:not(.hidden)::before,
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .overlay:not(.hidden)::before,
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .popup:not(.hidden)::before{background:transparent!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .modal,
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .overlay,
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .popupLayer,
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .sheetLayer{background:transparent!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .modalCard,
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .sheetCard,
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .popupCard,
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .pageCard.active{background:var(--card,#fff)!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) #extraAchievements.pageCard.active,
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) #extraRelations.pageCard.active,
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) #extraMailbox.pageCard.active,
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) #extraGM.pageCard.active{background:var(--bg,#fbf6ff)!important;box-shadow:none!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .partnerBadgeLabel{color:var(--muted)!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .dangerSoft{background:#fff1f3!important;color:#9a4255!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .relationGiftPanel{background:#fffafd!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .routinePreview{background:#fffafd!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .shopTab.active{background:#8f70bd!important;color:#fff!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .gmLatestTestCode{background:#fffafd!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .gmTestInviteRow{background:#fffafd!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .testAccessGate{background:linear-gradient(160deg,#efe6f8,#fff8fb)!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .testAccessCard{background:#fffdfd!important;box-shadow:0 16px 50px #59486624!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .testBeta{background:#efe4f7!important;color:#72528a!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .testWarn{background:#fff5df!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .testServerRibbon{background:#72528a!important;color:white!important;box-shadow:0 4px 12px #0002!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .returnProdBtn{background:#fffafd!important;color:#72528a!important;box-shadow:0 4px 12px #0002!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .testReferralCodeBox{background:#fffafd!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .testReferralRewardBox{background:#fbf7fd!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .launchActivityFab{background:linear-gradient(135deg,#9b76c6,#d99aba)!important;color:#fff!important;box-shadow:0 8px 22px #6f4b8838!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .launchActivityDot{background:#e95c79!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .launchActivityHero{background:linear-gradient(135deg,#fff8fc,#f2e8f8)!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .launchProgressTrack{background:#eadff0!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) #launchActivityProgressFill{background:linear-gradient(90deg,#9b76c6,#dc9aba)!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .launchTabs button.active{background:#8f70bd!important;color:white!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .launchTaskCard{background:#fffafd!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .launchTaskCard.done{background:#f3faf4!important;border-color:#c9dfce!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .launchReward{background:#f5edf9!important;color:#735587!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .launchAutoTag{background:#e8f5ea!important;color:#4d7a57!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .launchCollectCard{background:#fffafd!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .returnProdBtn{background:#fffafd!important;color:#72528a!important;box-shadow:0 5px 14px #0002!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .npcTownFab{background:linear-gradient(135deg,#6f55a0,#c282ac)!important;color:#fff!important;box-shadow:0 7px 20px #4d356d38!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .npcTownDot{background:#ef6680!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .npcHero{background:#eadff2!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .npcHeroShade{background:linear-gradient(transparent,#2e213cbf)!important;color:white!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .npcHeroShade .small{color:#f8edf9!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .npcStats>div{background:#fffafd!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .npcStats span{color:var(--muted)!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .npcTrack{background:#eee5f1!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .npcTrack i{background:linear-gradient(90deg,#a77dcc,#df98b7)!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .npcUnlockNotice{background:#f8f1fb!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .npcTabs button.active{background:#8f70bd!important;color:white!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .npcActionCard{background:#fffafd!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .npcDialogue{background:#fffafd!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .npcShopItem{background:#fffafd!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .npcSecretTag{background:#33283e!important;color:#fff!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .npcStoryNode{background:#fffafd!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .npcHeart{color:#bd5f91!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .npcShopCard .modalHead{background:#fffdfd!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .npcTabs{background:#fffdfd!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) #extraNpcRelations.pageCard.active{box-shadow:none!important;background:var(--bg,#fbf6ff)!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) #extraNpcRelations .sheetHead{background:var(--bg,#fbf6ff)!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .npcRelationIntro{background:#f5edf9!important;color:var(--muted)!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .npcRelationCard{background:#fffafd!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .npcRelationPic{background:#eee5f4!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .npcRelationStatus{background:#f0e5f6!important;color:#76558b!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .npcRelationStatus.lover{background:#ffe8f1!important;color:#a44871!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .npcRelationStatus.bestfriend{background:#fff2cf!important;color:#866922!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .npcRelationStatus.confidant{background:#e8f2ff!important;color:#476b9a!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .npcDetailHero{background:#fffafd!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .npcDetailSection{background:#fffafd!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .npcDebugStat{background:#f7effa!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) #npcStoryPlayer{background:#17111fb3!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .npcStoryStage{background:linear-gradient(#e8dcf0,#f8f1f7)!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .npcStoryDialogue{background:rgba(30,22,38,.90)!important;color:#fff!important;box-shadow:0 12px 35px #0005!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .npcStorySpeaker{background:#8f70bd!important;color:#fff!important;box-shadow:0 5px 12px #0003!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .npcStoryChoices button{background:#fff!important;color:#5e456d!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .npcStoryClose{background:#2b2039b8!important;color:#fff!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .npcStoryStage.narration .npcStorySpeaker{background:#54495d!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) #npcStoryPlayer{background:#120c18!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .npcStoryStage{background:#120c18!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .npcStoryPortraitWrap{background:#120c18!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .npcStoryDialogue{background:rgba(24,17,31,.91)!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .npcChatLimitHint{background:#f6effa!important;color:var(--muted)!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .npcExpressionBadge{background:#fff9!important;color:#76548c!important;box-shadow:0 4px 14px #0002!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .gmGiftComposer{background:#fffafd!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .gmGiftCartRow{background:#fff!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .gmGiftCartEmpty{color:var(--muted)!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .gmBroadcastComposer{background:#fffafd!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .gmBroadcastCartRow{background:#fff!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .gmBroadcastCartEmpty{color:var(--muted)!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .guideTab,
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .achievementCategoryTab{background:transparent!important;color:#817687!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .guideTab.active,
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .achievementCategoryTab.active{color:#3e3345!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .guideTab.active:after,
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .achievementCategoryTab.active:after{background:#3e3345!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .guideTip{background:#f7effa!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) #extraNpcRelations.pageCard.active{background:var(--bg,#fbf6ff)!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .accountHomePanel{color:#3d3343!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .accountHomePanel .small{color:#75677f!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) #playerAccountModal{background:rgba(22,13,35,.38)!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) #playerAccountModal .modalBox{background:#fffdfd!important;color:#3d3343!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .playerAccountTabs button.active{background:#8f70bd!important;color:#fff!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .playerAccountForm label{color:#66576f!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .playerAccountForm .small{color:#75677f!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .accountStatusBox{background:#f7effa!important;color:#5f4b69!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .accountDangerNote{background:#fff4e6!important;color:#7a5a31!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .accountLinkBtn{background:transparent!important;color:#76558b!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .npcMeetHero{background:linear-gradient(135deg,rgba(255,255,255,.78),rgba(244,231,250,.72))!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .npcMeetTapHint{color:#8d7c96!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .npcMeetBubble{background:rgba(255,255,255,.72)!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .npcMeetMoodPill{background:#efe2f5!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .npcMeetLevelCard{background:#faf4fc!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .npcMeetLevelDot{background:#e9dfed!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .npcMeetLevelDot.on{background:linear-gradient(90deg,#9b72cb,#df8ab5)!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .npcMeetMiniGame{background:#fff9fe!important}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) #npcStoryPlayer .npcStorySceneWrap{background:#180f15!important}
+</style>
+
+
+<style id="test33052TestOnlyDefaultCleanup">
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) :is(
+  #home,#game,#app,.wrap,.drawer,.modalBox,.pageCard.active,
+  .npcShopCard,.npcPanel,.npcSection,.npcStats>div,.npcItemCard,.npcShopItem,
+  .npcStoryCollection,.npcStoryList,.npcStoryCard,
+  #extraRelations.pageCard.active,#extraAchievements.pageCard.active,
+  #extraMailbox.pageCard.active,#extraGM.pageCard.active,
+  #extraShop.pageCard.active,#extraChat.pageCard.active,
+  .qixiBindStatus:not(#qixiEventModal *),
+  .memoryCard,.memoryItem,.pendingEventCard,.dailyTask,.workCard,.relEventCard
+){
+  background:#fffdfd!important;
+  background-image:none!important;
+  color:#3d3343!important;
+  border-color:#eadfee!important;
+}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) :is(
+  body,#app,#home,#game,.wrap,main,.gameShell,.app-shell
+){
+  background-color:transparent!important;
+}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) body{
+  background:linear-gradient(#eee5f6,#fbf7fa)!important;
+  color:#3d3343!important;
+}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .drawer{
+  background:#fff!important;
+}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) :is(
+  .bar,.bondTrack,.npcTrack,.dailyProgress
+){
+  background:#eee7f1!important;
+}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) :is(
+  .fill,.bondFill,.npcTrack i,.dailyProgress>div
+){
+  background:linear-gradient(90deg,#aa88cc,#df9dbd)!important;
+}
+</style>
+
