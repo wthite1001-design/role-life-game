@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#9a76c4" name="theme-color"/>
-<title>關係進行式・3.31.13.30</title>
+<title>關係進行式・3.31.13.31</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -9674,31 +9674,41 @@ const NPC_STORY_LIBRARY={
       {id:"shop_event_cat",title:"🎊 店貓的小秘密",unlock:st=>(st.cat||0)>=70,text:"那隻總待在店裡的貓，似乎比想像中知道更多事情。"},
       {id:"shop_event_blackbox",title:"🎊 黑盒",unlock:(st,c)=>Number(c?.inventory?.npc_under_counter||0)>0||!!st.flags?.blackBoxOwned,text:"你買下了那個本來不該出現在商品架上的黑盒。"},
       {id:"shop_event_night",title:"🎊 閉店之後",unlock:st=>!!st.flags?.nightEvent,text:"打烊後的店裡，比白天安靜得多。她也比平時更願意說真話。"},
-      {id:"paid_maid_cafe_story",title:"🎀 女僕咖啡廳",unlock:(st,c)=>!!c?.paidStoryFlags?.paid_maid_cafe_story,text:"你曾用咖啡券換來一次只屬於你的特別招待。"}
+      {id:"paid_maid_cafe_story",title:"🎀 女僕咖啡廳",unlock:(st,c)=>!!(
+        c?.paidStoryFlags?.paid_maid_cafe_story ||
+        c?.paidCosmetics?.maidCafe ||
+        window.local?.sharedPaidStoryFlags?.paid_maid_cafe_story ||
+        window.local?.sharedPaidCosmetics?.maidCafe ||
+        window.local?.accountAppearance?.owned?.maidCafe
+      ),text:"你曾用咖啡券換來一次只屬於你的特別招待。"}
     ]
   }
 };
 
 function maidLines(){
+  const MAID1="assets/npc/shopkeeper_cat/maid_cafe_special_1.png";
+  const MAID2="assets/npc/shopkeeper_cat/maid_cafe_special_2.png";
   return [
    {speaker:'旁白',face:'normal',text:'你把「請店長喝咖啡券」交到櫃檯前。貓貓看著那張券，沉默了幾秒。'},
    {speaker:'貓貓',face:'normal',text:'「……所以你真的拿來用了。」'},
    {speaker:'旁白',face:'normal',text:'她把店門的牌子翻到「休息中」，轉身走進後面的房間。'},
    {speaker:'貓貓',face:'shy',text:'「先說好，這是特別招待。你不准笑。」'},
-   {speaker:'旁白',face:'maid_cafe_special',text:'過了一會兒，她換上女僕咖啡廳的制服重新出現在你面前。'},
-   {speaker:'貓貓',face:'maid_cafe_special',text:'「歡、歡迎回來……主人。」'},
-   {speaker:'旁白',face:'maid_cafe_special',text:'她端著咖啡站在你面前，明明耳根都紅了，卻還努力裝作若無其事。'},
-   {speaker:'貓貓',face:'maid_cafe_special_1',text:'「看夠了沒有？咖啡再不喝就要涼了。」'},
-   {speaker:'你',face:'maid_cafe_special_1',text:'「所以這張券真的可以讓店長親自招待？」'},
-   {speaker:'貓貓',face:'maid_cafe_special_2',text:'「只有今天。還有——不准拿去跟別人炫耀。」'},
-   {speaker:'旁白',face:'maid_cafe_special_2',text:'她把咖啡輕輕推到你面前。'},
-   {speaker:'貓貓',face:'maid_cafe_special_2',text:'「這個主題也給你。以後想起今天，就把它換上吧。」'}
+
+   /* 換裝後每一句直接指定真正存在的女僕圖，不再靠 face 猜圖。 */
+   {speaker:'旁白',face:'maid_cafe_special',image:MAID1,portrait:MAID1,text:'過了一會兒，她換上女僕咖啡廳的制服重新出現在你面前。'},
+   {speaker:'貓貓',face:'maid_cafe_special',image:MAID1,portrait:MAID1,text:'「歡、歡迎回來……主人。」'},
+   {speaker:'旁白',face:'maid_cafe_special_1',image:MAID1,portrait:MAID1,text:'她端著咖啡站在你面前，明明耳根都紅了，卻還努力裝作若無其事。'},
+   {speaker:'貓貓',face:'maid_cafe_special_2',image:MAID2,portrait:MAID2,text:'「看夠了沒有？咖啡再不喝就要涼了。」'},
+   {speaker:'你',face:'maid_cafe_special_2',image:MAID2,portrait:MAID2,text:'「所以這張券真的可以讓店長親自招待？」'},
+   {speaker:'貓貓',face:'maid_cafe_special_1',image:MAID1,portrait:MAID1,text:'「只有今天。還有——不准拿去跟別人炫耀。」'},
+   {speaker:'旁白',face:'maid_cafe_special_1',image:MAID1,portrait:MAID1,text:'她把咖啡輕輕推到你面前。'},
+   {speaker:'貓貓',face:'maid_cafe_special_2',image:MAID2,portrait:MAID2,text:'「這個主題也給你。以後想起今天，就把它換上吧。」'}
   ];
  }
  window.playFormalMaidCafeStory=function(replay=false){
+    try{ window.applySharedPaidToCharacter?.(typeof cur==="function"?cur():null); }catch(_){}
     try{
       window.prewarmNpcImages?.([
-        "assets/npc/shopkeeper_cat/maid_cafe_special.png",
         "assets/npc/shopkeeper_cat/maid_cafe_special_1.png",
         "assets/npc/shopkeeper_cat/maid_cafe_special_2.png"
       ]);
@@ -9721,6 +9731,7 @@ function maidLines(){
  };
 
 function npcStoryCollection(npcId,c){
+  try{ window.applySharedPaidToCharacter?.(c); }catch(_){}
   let lib=NPC_STORY_LIBRARY[npcId]||{personal:[],event:[]},st=npcState();
   const map=x=>x.map(a=>({...a,unlocked:!!a.unlock(st,c)}));
   return {personal:map(lib.personal),event:map(lib.event)};
@@ -11599,7 +11610,7 @@ document.getElementById("closeNpcStoryPlayer")?.addEventListener("click",e=>{e.s
     normal:"cat_shopkeeper_normal.png",
     soft:"assets/npc/shopkeeper_cat/soft.png",
     surprised:"assets/npc/shopkeeper_cat/surprised.png",
-    maid_cafe_special:"assets/npc/shopkeeper_cat/maid_cafe_special.png",
+    maid_cafe_special:"assets/npc/shopkeeper_cat/maid_cafe_special_1.png",
     maid_cafe_special_1:"assets/npc/shopkeeper_cat/maid_cafe_special_1.png",
     maid_cafe_special_2:"assets/npc/shopkeeper_cat/maid_cafe_special_2.png"
   };
@@ -12614,7 +12625,7 @@ body.game-entry-active #npcTownFab{
     annoyed:'assets/npc/shopkeeper_cat/annoyed.png',
     surprised:'assets/npc/shopkeeper_cat/surprised.png',
     soft:'assets/npc/shopkeeper_cat/soft.png',
-    maid_cafe_special:'assets/npc/shopkeeper_cat/maid_cafe_special.png',
+    maid_cafe_special:'assets/npc/shopkeeper_cat/maid_cafe_special_1.png',
     maid_cafe_special_1:'assets/npc/shopkeeper_cat/maid_cafe_special_1.png',
     maid_cafe_special_2:'assets/npc/shopkeeper_cat/maid_cafe_special_2.png'
   };
@@ -14811,7 +14822,7 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
     'assets/npc/shopkeeper_cat/soft.png',
     'assets/npc/shopkeeper_cat/sad.png',
     'assets/npc/shopkeeper_cat/surprised.png',
-    'assets/npc/shopkeeper_cat/maid_cafe_special.png',
+    'assets/npc/shopkeeper_cat/maid_cafe_special_1.png',
     'assets/npc/shopkeeper_cat/maid_cafe_special_1.png',
     'assets/npc/shopkeeper_cat/maid_cafe_special_2.png'
   ];
@@ -15473,9 +15484,8 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 
 <script id="formal33110MaidScenePreload">
 (function(){
- ["assets/npc/shopkeeper_cat/maid_cafe_special.png",
-  "assets/npc/shopkeeper_cat/maid_cafe_special_1.png",
-  "assets/npc/shopkeeper_cat/maid_cafe_special_2.png"].forEach(src=>{
+ ["assets/npc/shopkeeper_cat/maid_cafe_special_1.png",
+        "assets/npc/shopkeeper_cat/maid_cafe_special_2.png"].forEach(src=>{
    try{const img=new Image();img.decoding="async";img.fetchPriority="high";img.src=src}catch(_){}
  });
 })();
@@ -15496,7 +15506,8 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 </script>
 <script id="formalMaidPreloadOnly">
 (function(){
- const imgs=["assets/npc/shopkeeper_cat/maid_cafe_special.png","assets/npc/shopkeeper_cat/maid_cafe_special_1.png","assets/npc/shopkeeper_cat/maid_cafe_special_2.png"];
+ const imgs=["assets/npc/shopkeeper_cat/maid_cafe_special_1.png",
+        "assets/npc/shopkeeper_cat/maid_cafe_special_2.png"];
  let done=false;
  function warm(){if(done)return;done=true;imgs.forEach(src=>{try{const im=new Image();im.decoding="async";im.src=src;try{im.decode?.().catch(()=>{});}catch(_){}}catch(_){}});}
  document.addEventListener("pointerdown",e=>{if(e.target?.closest?.('[data-replay-paid-maid-story],[data-use-paid-maid-voucher],[data-redeem-maid-theme],[data-maid-story]'))warm();},true);
@@ -15506,7 +15517,7 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 
 
 <script id="formal331324MaidRedeemFix">
-/* 3.31.13.30：修正正式服「請店長喝咖啡券」兌換按鈕只有畫面、沒有 click handler 的問題。 */
+/* 3.31.13.31：修正正式服「請店長喝咖啡券」兌換按鈕只有畫面、沒有 click handler 的問題。 */
 (function(){
   if(window.__formal331324MaidRedeemFix)return;
   window.__formal331324MaidRedeemFix=true;
@@ -15634,7 +15645,7 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 
 
 <script>
-/* === FORMAL 3.31.13.30 legacy NPC story completion migration === */
+/* === FORMAL 3.31.13.31 legacy NPC story completion migration === */
 (function(){
   const IDS=["shop_story_01","shop_story_02","shop_story_03","shop_story_04"];
   function migrate(){
@@ -15912,7 +15923,7 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
     soft:"assets/npc/shopkeeper_cat/soft.png",
     angry:"assets/npc/shopkeeper_cat/annoyed.png",
     sad:"assets/npc/shopkeeper_cat/soft.png",
-    maid_cafe_special:"assets/npc/shopkeeper_cat/maid_cafe_special.png",
+    maid_cafe_special:"assets/npc/shopkeeper_cat/maid_cafe_special_1.png",
     maid_cafe_special_1:"assets/npc/shopkeeper_cat/maid_cafe_special_1.png",
     maid_cafe_special_2:"assets/npc/shopkeeper_cat/maid_cafe_special_2.png"
   };
@@ -16002,15 +16013,33 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
       }
     }
 
-    // Exactly one synchronous image decision per dialogue line.
-    setStoryPortrait(safeFace(line));
+    // 女僕付費劇情有明確 CG 時，直接使用該圖；一般故事才走表情 face。
+    const directSrc=String(line.image||line.portrait||"").trim();
+    if(directSrc){
+      const img=document.getElementById("npcStoryPortrait");
+      if(img){
+        img.dataset.npcFace=String(line.face||"maid_direct");
+        if(img.getAttribute("src")!==directSrc)img.setAttribute("src",directSrc);
+        img.style.display="block";
+
+        /* 若 _2 載入失敗，至少回退到確定存在的 _1；不准整個角色消失。 */
+        img.onerror=function(){
+          const fallback="assets/npc/shopkeeper_cat/maid_cafe_special_1.png";
+          if(this.getAttribute("src")!==fallback)this.setAttribute("src",fallback);
+          this.onerror=null;
+          this.style.display="block";
+        };
+      }
+    }else{
+      setStoryPortrait(safeFace(line));
+    }
   };
 
   // IMPORTANT: do not call any previous start wrapper either.
   window.startNpcRpgStory=function({title="",storyId="",lines=[],onComplete=null}={}){
     if(!Array.isArray(lines)||!lines.length)return;
 
-    /* 正式服 3.31.13.30：
+    /* 正式服 3.31.13.31：
        最後一層播放器以前把 storyId 丟掉，導致上層 autoplay 無法收藏，
        所以每次 refresh/render 都再次判定「尚未看過」。 */
     window.npcStoryPlayerState={
