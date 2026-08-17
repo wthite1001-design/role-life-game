@@ -1473,7 +1473,7 @@ body.npcStoryRunning .draggableFab{
 <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png">
 <link rel="manifest" href="manifest.json">
 <style id="qixi3279-scroll-fix">
-/* 3.30.36：七夕活動頁在手機上可完整往下捲，不再把守橋人卡片截成一半 */
+/* 3.30.37：七夕活動頁在手機上可完整往下捲，不再把守橋人卡片截成一半 */
 #qixiEventModal{
   overflow-y:auto!important;
   overflow-x:hidden!important;
@@ -1956,7 +1956,7 @@ html[data-test-theme="maidCafe"] .navBtn.active::after{
 </style>
 
 <style id="test33014QixiGalaxySingleSource">
-/* ===== TEST 3.30.36 七夕星河：唯一視覺來源 ===== */
+/* ===== TEST 3.30.37 七夕星河：唯一視覺來源 ===== */
 html.qixi-theme-now,
 html[data-test-theme="qixiGalaxy"],
 html.qixi-theme-now body,
@@ -2119,7 +2119,7 @@ html[data-test-theme="qixiGalaxy"] #qixiEventModal button{
 
 
 <style id="test33015StableQixiUi">
-/* 3.30.36：深色星河文字不再純白刺眼 */
+/* 3.30.37：深色星河文字不再純白刺眼 */
 html.qixi-theme-now :is(.homePanel,.card,.pageCard.active,.modalBox,.now,.itemRow,.relItem,.npcRelationCard,.npcShopItem,.eventCard,.characterCard,.statusCard,.section,.panel,.shopCard,.paidProduct),
 html[data-test-theme="qixiGalaxy"] :is(.homePanel,.card,.pageCard.active,.modalBox,.now,.itemRow,.relItem,.npcRelationCard,.npcShopItem,.eventCard,.characterCard,.statusCard,.section,.panel,.shopCard,.paidProduct){
   color:#c7b4d9!important;
@@ -2268,7 +2268,7 @@ html[data-test-theme="qixiGalaxy"] #qixiEventModal :is(.qixiRewardBox,.qixiFacil
 
 
 <style id="test33018ModalRestore">
-/* 3.30.36：恢復測試服卡片式視窗，不再出現整頁白色 modal。 */
+/* 3.30.37：恢復測試服卡片式視窗，不再出現整頁白色 modal。 */
 html.qixi-theme-now .modal,
 html[data-test-theme="qixiGalaxy"] .modal{
   padding:12px!important;
@@ -10321,7 +10321,15 @@ const NPC_STORY_LIBRARY={
       {id:"shop_event_candy",title:"🎊 櫃檯糖果事件",unlock:st=>(st.candyCount||0)>=1,text:"你曾經對櫃檯上的糖果伸出手。至於有沒有被發現……只有你們知道。"},
       {id:"shop_event_cat",title:"🎊 店貓的小秘密",unlock:st=>(st.cat||0)>=70,text:"那隻總待在店裡的貓，似乎比想像中知道更多事情。"},
       {id:"shop_event_blackbox",title:"🎊 黑盒",unlock:(st,c)=>Number(c?.inventory?.npc_under_counter||0)>0||!!st.flags?.blackBoxOwned,text:"你買下了那個本來不該出現在商品架上的黑盒。"},
-      {id:"shop_event_night",title:"🎊 閉店之後",unlock:st=>!!st.flags?.nightEvent,text:"打烊後的店裡，比白天安靜得多。她也比平時更願意說真話。"}
+      {id:"shop_event_night",title:"🎊 閉店之後",unlock:st=>!!st.flags?.nightEvent,text:"打烊後的店裡，比白天安靜得多。她也比平時更願意說真話。"},
+      {id:"shop_event_maid_cafe",title:"🎀 女僕咖啡廳",unlock:(st,c)=>!!(
+        c?.paidCosmetics?.maidCafe ||
+        c?.paidEntitlements?.maidCafeCoffeeRedeemed ||
+        c?.paidEntitlements?.maidCafeVoucherRedeem ||
+        c?.paidVoucherFlags?.maidCafeVoucher ||
+        window.local?.accountAppearance?.owned?.maid ||
+        window.local?.accountEntitlements?.maidCafe
+      ),text:"你曾用咖啡券換來一次只屬於你的特別招待。"}
     ]
   }
 };
@@ -10337,7 +10345,7 @@ function openNpcStory(npcId,kind,id){
   let story=(groups[kind]||[]).find(x=>x.id===id);
   if(!story||!story.unlocked)return toast("🔒 這段故事尚未收藏。");
   let lines=NPC_RPG_STORIES[id]||[{speaker:"旁白",text:story.text||"這段回憶仍然很清晰。"}];
-  startNpcRpgStory({title:story.title,lines});
+  startNpcRpgStory({title:story.title,storyId:story.id,lines});
 }
 function openNpcDetail(npcId){
   let c=cur(),def=NPC_RELATION_REGISTRY[npcId];if(!c||!def)return;
@@ -11500,10 +11508,11 @@ document.getElementById("closeNpcStoryPlayer")?.addEventListener("click",e=>{e.s
   // Collected stories stay replayable even if current conditions later change.
   window.npcStoryCollection=function(npcId,c){
     let lib=NPC_STORY_LIBRARY[npcId]||{personal:[],event:[]},st=npcState();
-    const map=list=>list.map(a=>({
-      ...a,
-      unlocked:!!st.storyCollection?.[a.id]
-    }));
+    const map=list=>list.map(a=>{
+      let condition=false;
+      try{condition=typeof a.unlock==="function" ? !!a.unlock(st,c) : false}catch(_){}
+      return {...a,unlocked:!!st.storyCollection?.[a.id] || condition};
+    });
     return {personal:map(lib.personal||[]),event:map(lib.event||[])};
   };
 
@@ -12685,8 +12694,7 @@ document.getElementById("closeNpcStoryPlayer")?.addEventListener("click",e=>{e.s
     npc_cat_cookie:{id:"npc_cat_cookie",name:"🐾 貓掌餅乾",price:60},
     npc_lucky_bell:{id:"npc_lucky_bell",name:"🔔 小幸運鈴",price:140},
     npc_regular_box:{id:"npc_regular_box",name:"🎁 熟客小盒",price:220},
-    npc_under_counter:{id:"npc_under_counter",name:"🔐 櫃檯下的黑盒",price:666},
-    npc_cat_coffee_voucher:{id:"npc_cat_coffee_voucher",name:"☕ 貓貓咖啡券",price:120}
+    npc_under_counter:{id:"npc_under_counter",name:"🔐 櫃檯下的黑盒",price:666}
   };
 
   function robustNpcBuy(id){
@@ -12720,10 +12728,6 @@ document.getElementById("closeNpcStoryPlayer")?.addEventListener("click",e=>{e.s
     }
     if(id==="npc_under_counter" && Number(c.inventory[id]||0)>0)
       return toast?.("🔐 黑盒只能購買一次。",3200);
-    if(id==="npc_cat_coffee_voucher"){
-      const now=Date.now(),start=Date.parse("2026-08-13T00:00:00+08:00"),end=Date.parse("2026-09-13T23:59:59+08:00");
-      if(now<start||now>end)return toast?.("☕ 貓貓咖啡券活動已結束。",3000);
-    }
 
     const money=Math.max(0,Number(c.money||0));
     if(money<item.price)return toast?.(`🪙 金幣不夠，需要 ${item.price}。`,3200);
@@ -14968,7 +14972,7 @@ header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{back
 
 
 <style id="qixi3300ResponsiveFerry">
-/* 3.30.36：指定 GitHub 七夕背景；手機填滿、電腦固定直式舞台，禁止橫向螢幕把直圖放大裁爆 */
+/* 3.30.37：指定 GitHub 七夕背景；手機填滿、電腦固定直式舞台，禁止橫向螢幕把直圖放大裁爆 */
 #qixiMiniGameBoard.qixiFerryGameBoard,#qixiMiniGameBoard.qixiBridgeGameBoard{
  background-image:linear-gradient(rgba(8,7,35,.12),rgba(15,9,45,.24)),url("images/qixi/qixi_full_background.png")!important;
  background-repeat:no-repeat!important;background-position:center center!important;
@@ -15066,7 +15070,7 @@ header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{back
 
 <script id="test33015SingleVersionSource">
 (function(){
- const BUILD='3.30.36';
+ const BUILD='3.30.37';
  const LABEL='七夕邀約內嵌＋設施背景＋快速雲端同步';
  function apply(){
    document.title='關係進行式 TEST・'+BUILD;
@@ -15420,6 +15424,117 @@ html[data-test-theme="qixiGalaxy"] #qixiEventFab{
   document.addEventListener('visibilitychange',()=>{if(!document.hidden)setTimeout(apply,0)},{passive:true});
 })();
 </script>
+
+<script id="test33028StableNpcStoryPortrait">
+(function(){
+  const FACE={
+    normal:'cat_shopkeeper_normal.png',
+    happy:'assets/npc/shopkeeper_cat/happy.png',
+    shy:'assets/npc/shopkeeper_cat/shy.png',
+    annoyed:'assets/npc/shopkeeper_cat/annoyed.png',
+    surprised:'assets/npc/shopkeeper_cat/surprised.png',
+    soft:'assets/npc/shopkeeper_cat/soft.png'
+  };
+
+  function cleanText(x){return String(x||'').replace(/<[^>]*>/g,'')}
+
+  function infer(line,prev='normal'){
+    if(line?.face && FACE[line.face])return line.face;
+    const speaker=String(line?.speaker||'');
+    const t=cleanText(line?.text);
+    if(speaker==='旁白'||speaker==='你'||speaker==='玩家')return prev||'normal';
+    if(/！？|！！|欸[！？!?]|咦[！？!?]|什麼[！？!?]|愣住|嚇|突然/.test(t))return'surprised';
+    if(/生氣|怒|閉嘴|不准|很煩|出去|討厭|瞪/.test(t))return'annoyed';
+    if(/臉紅|耳根|害羞|別開視線|心跳|才不是|你別看|一直盯|喜歡/.test(t))return'shy';
+    if(/笑|開心|太好了|歡迎回來|期待|謝謝你|真棒/.test(t))return'happy';
+    if(/溫柔|放心|沒關係|陪|相信|秘密|留下|辛苦|晚安/.test(t))return'soft';
+    return'normal';
+  }
+
+  let targetSrc=FACE.normal;
+  let targetFace='normal';
+  let rendering=false;
+
+  function desired(){
+    const st=window.npcStoryPlayerState;
+    const idx=Number(st?.index||0);
+    const line=st?.lines?.[idx]||{};
+    const maid=String(st?.title||'').includes('女僕咖啡廳');
+    const stage=Number(line?.maidStage||0);
+
+    if(maid && stage>=1){
+      const src=String(line.image||line.portrait||'').trim();
+      if(src)return {src,face:'maid'};
+    }
+    const face=infer(line,targetFace==='maid'?'normal':targetFace);
+    return {src:FACE[face]||FACE.normal,face};
+  }
+
+  function commit(){
+    const img=document.getElementById('npcStoryPortrait');
+    if(!img||!window.npcStoryPlayerState)return;
+    const d=desired();
+    targetSrc=d.src;targetFace=d.face;
+    if(img.getAttribute('src')!==targetSrc)img.setAttribute('src',targetSrc);
+    img.dataset.npcFace=targetFace;
+    // 一般故事禁止其他 setNpcExpression 再寫 story portrait；
+    // 商店首頁仍可正常切表情。
+    const player=document.getElementById('npcStoryPlayer');
+    if(String(window.npcStoryPlayerState?.title||'').includes('女僕咖啡廳') &&
+       Number(window.npcStoryPlayerState?.lines?.[Number(window.npcStoryPlayerState?.index||0)]?.maidStage||0)>=1){
+      img.dataset.maidCgLocked='1';
+      player?.classList.add('formalMaidStory');
+      player?.style.setProperty('--formal-maid-bg',`url("${targetSrc}")`);
+    }else{
+      delete img.dataset.maidCgLocked;
+      player?.classList.remove('formalMaidStory');
+      player?.style.removeProperty('--formal-maid-bg');
+    }
+  }
+
+  const previousSet=window.setNpcExpression;
+  window.setNpcExpression=function(face='normal'){
+    // 故事播放時，story portrait 由這個最終控制器獨占；
+    // 只允許舊函式更新商店 hero / badge，之後立刻校正 story。
+    const r=previousSet?.apply(this,arguments);
+    if(window.npcStoryPlayerState)queueMicrotask(commit);
+    return r;
+  };
+
+  const oldRender=window.renderNpcRpgLine;
+  if(typeof oldRender==='function'){
+    window.renderNpcRpgLine=function(){
+      rendering=true;
+      const r=oldRender.apply(this,arguments);
+      commit();
+      rendering=false;
+      return r;
+    };
+  }
+
+  const oldStart=window.startNpcRpgStory;
+  if(typeof oldStart==='function'){
+    window.startNpcRpgStory=function(){
+      targetFace='normal';targetSrc=FACE.normal;
+      const r=oldStart.apply(this,arguments);
+      commit();
+      return r;
+    };
+  }
+
+  // 把任何舊補丁在同一幀內寫錯的 src 拉回唯一目標；
+  // MutationObserver callback 在瀏覽器繪製前執行，避免可見閃爍。
+  const img=document.getElementById('npcStoryPortrait');
+  if(img){
+    new MutationObserver(()=>{
+      if(!window.npcStoryPlayerState)return;
+      if(img.getAttribute('src')!==targetSrc)img.setAttribute('src',targetSrc);
+    }).observe(img,{attributes:true,attributeFilter:['src']});
+  }
+})();
+</script>
+
+
 <script id="testFinalStatsDisplayV3">
 (function(){
   const CACHE='role_life_test_live_stats_cache_v3';
@@ -15834,42 +15949,23 @@ html[data-test-theme="qixiGalaxy"] #qixiEventFab{
 })();
 </script>
 
-<script id="test33037MaidPreloadOnly">
+<script id="test33037MaidStoryRestore">
 (function(){
-  const MAID_IMAGES=[
-    "assets/npc/shopkeeper_cat/maid_cafe_special.png",
-    "assets/npc/shopkeeper_cat/maid_cafe_special_1.png",
-    "assets/npc/shopkeeper_cat/maid_cafe_special_2.png"
+  if(typeof NPC_RPG_STORIES==="undefined")return;
+  NPC_RPG_STORIES.shop_event_maid_cafe=[
+    {speaker:"旁白",text:"你把「請店長喝咖啡券」交到櫃檯前。貓貓看著那張券，沉默了幾秒。"},
+    {speaker:"貓貓",text:"「……所以你真的拿來用了。」"},
+    {speaker:"旁白",text:"她把店門的牌子翻到「休息中」，轉身走進後面的房間。"},
+    {speaker:"貓貓",text:"「先說好，這是特別招待。你不准笑。」"},
+    {speaker:"旁白",text:"過了一會兒，她換上女僕咖啡廳的制服重新出現在你面前。"},
+    {speaker:"貓貓",text:"「歡、歡迎回來……主人。」"},
+    {speaker:"旁白",text:"她端著咖啡站在你面前，明明耳根都紅了，卻還努力裝作若無其事。"},
+    {speaker:"貓貓",text:"「看夠了沒有？咖啡再不喝就要涼了。」"},
+    {speaker:"你",text:"「所以這張券真的可以讓店長親自招待？」"},
+    {speaker:"貓貓",text:"「只有今天。還有——不准拿去跟別人炫耀。」"},
+    {speaker:"旁白",text:"她把咖啡輕輕推到你面前。"},
+    {speaker:"貓貓",text:"「這個主題也給你。以後想起今天，就把它換上吧。」"}
   ];
-  let warmed=false;
-  function warm(){
-    if(warmed)return;
-    warmed=true;
-    MAID_IMAGES.forEach(src=>{
-      try{
-        const img=new Image();
-        img.decoding="async";
-        img.src=src;
-        try{img.decode?.().catch(()=>{});}catch(_){}
-      }catch(_){}
-    });
-  }
-
-  // 只在明確碰到女僕咖啡廳相關入口時預載，不碰其他劇情。
-  document.addEventListener("pointerdown",e=>{
-    const el=e.target?.closest?.(
-      '[data-replay-paid-maid-story],[data-use-paid-maid-voucher],[data-redeem-maid-theme],[data-maid-story]'
-    );
-    if(el)warm();
-  },true);
-
-  // 已解鎖女僕主題的玩家進角色後，背景預載一次。
-  window.addEventListener("pageshow",()=>{
-    try{
-      const c=typeof cur==="function"?cur():null;
-      if(c?.paidCosmetics?.maidCafe)warm();
-    }catch(_){}
-  },{passive:true});
 })();
 </script>
 
@@ -16115,58 +16211,6 @@ html[data-test-theme="qixiGalaxy"] #qixiEventFab{
  }
  async function init(){wire();authSession=loadSession();const recovery=parseRecovery();if(!recovery&&authSession){await authUser();authSession=loadSession();}render();}
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
-})();
-</script>
-<script id="v32621CoffeeVoucher">
-/* === 3.26.21 貓貓咖啡券（一個月限定）＋付款格子化 === */
-(function(){
-  const COFFEE_ID='npc_cat_coffee_voucher';
-  const EVENT_START=Date.parse('2026-08-13T00:00:00+08:00');
-  const EVENT_END=Date.parse('2026-09-13T23:59:59+08:00');
-  const active=()=>Date.now()>=EVENT_START&&Date.now()<=EVENT_END;
-  const oldEffects=window.NPC_ITEM_EFFECTS;
-  try{ if(typeof NPC_ITEM_EFFECTS!=='undefined') NPC_ITEM_EFFECTS[COFFEE_ID]={name:'☕ 貓貓咖啡券【一個月限定】',use:'活動期間可在貓貓商店使用。店長請你喝一杯，回復體力 +20、心情 +20，貓貓好感 +2、熟客度 +1。活動至 2026/09/13。'}; }catch(e){}
-
-  const oldRender=window.renderNpcShop;
-  function addCoffeeCard(){
-    const body=document.getElementById('npcShopBody');
-    if(!body||typeof npcActiveTab==='undefined'||npcActiveTab!=='shop'||!active())return;
-    if(body.querySelector('[data-npc-buy="'+COFFEE_ID+'"]'))return;
-    const card=document.createElement('div');card.className='npcShopItem';
-    card.innerHTML='<div><b>☕ 貓貓咖啡券 <span class="npcSecretTag">一個月限定</span></b><div class="small">使用後觸發店長請客・體力 +20・心情 +20・貓貓好感 +2・熟客度 +1。活動至 9/13。</div></div><button data-npc-buy="'+COFFEE_ID+'">🪙120</button>';
-    body.prepend(card);
-  }
-  if(typeof oldRender==='function')window.renderNpcShop=function(){oldRender();addCoffeeCard();};
-
-  document.addEventListener('click',function(e){
-    const b=e.target.closest('[data-npc-buy="'+COFFEE_ID+'"]');if(!b)return;
-    e.preventDefault();e.stopImmediatePropagation();
-    if(!active())return toast?.('☕ 貓貓咖啡券活動已結束。',3000);
-    const c=typeof cur==='function'?cur():null;if(!c)return toast?.('請先進入角色。',3000);
-    if(Number(c.money||0)<120)return toast?.('🪙 金幣不夠，需要 120。',3000);
-    c.inventory??={};c.money=Math.max(0,Number(c.money||0)-120);c.inventory[COFFEE_ID]=Number(c.inventory[COFFEE_ID]||0)+1;
-    let st=typeof npcState==='function'?npcState():null;if(st){st.purchaseCount=Number(st.purchaseCount||0)+1;st.loyalty=Number(st.loyalty||0)+1;saveNpcState?.(st)}
-    saveLocal?.();renderGame?.();renderNpcShop?.();toast?.('☕ 買下貓貓咖啡券・熟客度 +1',3000);
-  },true);
-
-  document.addEventListener('click',function(e){
-    const b=e.target.closest('[data-npc-use="'+COFFEE_ID+'"]');if(!b)return;
-    e.preventDefault();e.stopImmediatePropagation();
-    const c=typeof cur==='function'?cur():null;if(!c)return;
-    c.inventory??={};if(Number(c.inventory[COFFEE_ID]||0)<=0)return toast?.('背包裡沒有貓貓咖啡券。',3000);
-    if(!active())return toast?.('☕ 咖啡券已過活動使用期限，留作紀念收藏。',3500);
-    c.inventory[COFFEE_ID]-=1;c.energy=Math.min(100,Number(c.energy||0)+20);c.mood=Math.min(100,Number(c.mood||0)+20);
-    let st=typeof npcState==='function'?npcState():null;if(st){st.affection=Math.min(100,Number(st.affection||0)+2);st.loyalty=Number(st.loyalty||0)+1;saveNpcState?.(st)}
-    saveLocal?.();renderGame?.();renderNpcShop?.();
-    if(typeof npcChoice==='function')npcChoice('☕ 貓貓咖啡券','貓貓接過咖啡券看了一眼。<br><br>「這不是我店裡的券嗎？怎麼最後還是我請你。」<br><br>她嘴上抱怨，還是把剛沖好的咖啡推到你面前。<br><br><span class="small">體力 +20・心情 +20・貓貓好感 +2・熟客度 +1</span>',[{label:'謝謝店長',fn:()=>{}}]);
-  },true);
-
-  /* NPC 專屬道具頁補上咖啡券，避免舊 lexical effects 未暴露到 window。 */
-  const oldNpcRenderItems=window.npcRenderItems;
-  // 付款區最近訂單加 class，保持跨兩欄。
-  const oldPaid=window.renderPaidShop;
-  if(typeof oldPaid==='function')window.renderPaidShop=function(){oldPaid();const box=document.getElementById('paidShopList');if(box){[...box.children].forEach(x=>{if(!x.classList.contains('paidProduct'))x.classList.add('paidOrdersBlock')})}};
-  setTimeout(()=>{try{renderPaidShop?.()}catch(e){}},0);
 })();
 </script>
 <script id="v32623AccountRateLimitUX">
@@ -17609,8 +17653,8 @@ function openConfirm(o={}){
  
 })();
 </script>
-\n<style id="qixi3298AuthoritativeFix">\n/* 3.30.36：星河渡口與鵲羽橋使用指定背景圖 */\n#qixiMiniGameBoard.qixiFerryGameBoard{\n background-image:linear-gradient(rgba(8,7,35,.16),rgba(15,9,45,.28)),url("images/qixi/qixi_ferry_game_bg.png")!important;\n background-size:cover!important;background-position:center center!important;background-repeat:no-repeat!important;min-height:56vh!important;\n}\n#qixiMiniGameBoard.qixiFerryGameBoard .qixiStarTapGrid{padding-top:4vh!important}\n#qixiMiniGameBoard.qixiFerryGameBoard .qixiStarTap{background:rgba(28,21,76,.62)!important;backdrop-filter:blur(2px)!important}\n/* SHOP_3304_SINGLE_SOURCE_START */
-/* 3.30.36：商店唯一權威版型。整個商店頁負責垂直滑動，子區塊不截斷。 */
+\n<style id="qixi3298AuthoritativeFix">\n/* 3.30.37：星河渡口與鵲羽橋使用指定背景圖 */\n#qixiMiniGameBoard.qixiFerryGameBoard{\n background-image:linear-gradient(rgba(8,7,35,.16),rgba(15,9,45,.28)),url("images/qixi/qixi_ferry_game_bg.png")!important;\n background-size:cover!important;background-position:center center!important;background-repeat:no-repeat!important;min-height:56vh!important;\n}\n#qixiMiniGameBoard.qixiFerryGameBoard .qixiStarTapGrid{padding-top:4vh!important}\n#qixiMiniGameBoard.qixiFerryGameBoard .qixiStarTap{background:rgba(28,21,76,.62)!important;backdrop-filter:blur(2px)!important}\n/* SHOP_3304_SINGLE_SOURCE_START */
+/* 3.30.37：商店唯一權威版型。整個商店頁負責垂直滑動，子區塊不截斷。 */
 html.qixi-theme-now #extraShop.pageCard.active{
   display:block!important;
   position:fixed!important;
