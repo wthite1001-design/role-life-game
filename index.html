@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#9a76c4" name="theme-color"/>
-<title>關係進行式・3.31.13.23</title>
+<title>關係進行式・3.31.13.24</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -15473,6 +15473,64 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
  function warm(){if(done)return;done=true;imgs.forEach(src=>{try{const im=new Image();im.decoding="async";im.src=src;try{im.decode?.().catch(()=>{});}catch(_){}}catch(_){}});}
  document.addEventListener("pointerdown",e=>{if(e.target?.closest?.('[data-replay-paid-maid-story],[data-use-paid-maid-voucher],[data-redeem-maid-theme],[data-maid-story]'))warm();},true);
  window.addEventListener("pageshow",()=>{try{const c=typeof cur==="function"?cur():null;if(c?.paidCosmetics?.maidCafe)warm();}catch(_){}},{passive:true});
+})();
+</script>
+
+
+<script id="formal331324MaidRedeemFix">
+/* 3.31.13.24：修正正式服「請店長喝咖啡券」兌換按鈕只有畫面、沒有 click handler 的問題。 */
+(function(){
+  if(window.__formal331324MaidRedeemFix)return;
+  window.__formal331324MaidRedeemFix=true;
+
+  function redeemMaidCafe(){
+    const c=(typeof cur==="function")?cur():null;
+    if(!c){ if(typeof toast==="function")toast("請先進入角色。"); return; }
+    c.inventory=c.inventory&&typeof c.inventory==="object"?c.inventory:{};
+    c.paidCosmetics=c.paidCosmetics&&typeof c.paidCosmetics==="object"?c.paidCosmetics:{};
+
+    const accountOwned=!!window.local?.sharedPaidCosmetics?.maidCafe || !!window.local?.accountAppearance?.owned?.maidCafe;
+    const charOwned=!!c.paidCosmetics.maidCafe;
+    if(accountOwned||charOwned){
+      if(typeof toast==="function")toast("🎀 女僕咖啡廳主題已經解鎖。");
+      return;
+    }
+
+    // 新版券 ID；同時相容曾經存成 paid_coffee_50 的舊存檔。
+    const canonical=Math.max(0,Number(c.inventory.npc_maid_cafe_coffee_voucher||0));
+    const legacy=Math.max(0,Number(c.inventory.paid_coffee_50||0));
+    if(canonical+legacy<=0){
+      if(typeof toast==="function")toast("☕ 目前沒有請店長喝咖啡券。");
+      return;
+    }
+
+    if(canonical>0)c.inventory.npc_maid_cafe_coffee_voucher=canonical-1;
+    else c.inventory.paid_coffee_50=legacy-1;
+
+    // 帳號共用解鎖；保留角色欄位以相容舊版判定。
+    c.paidCosmetics.maidCafe=true;
+    c.paidStoryFlags=c.paidStoryFlags&&typeof c.paidStoryFlags==="object"?c.paidStoryFlags:{};
+    c.paidStoryFlags.paid_maid_cafe_story=true;
+    try{ window.unlockFormalMaidCafeAccountWide?.(); }catch(_){}
+    try{ window.grantSharedPaidCosmetic?.("maidCafe"); }catch(_){}
+    try{ window.grantSharedPaidStory?.("paid_maid_cafe_story"); }catch(_){}
+    try{ window.syncSharedPaidToAllCharacters?.(); }catch(_){}
+    try{ saveLocal?.(); }catch(_){}
+
+    if(typeof toast==="function")toast("☕ 咖啡券已使用・女僕咖啡廳主題永久解鎖！",4200);
+    try{ renderNpcShop?.(); }catch(_){}
+    try{ renderGame?.(); }catch(_){}
+    setTimeout(()=>{ try{ window.playFormalMaidCafeStory?.(false); }catch(e){ console.error(e); } },120);
+  }
+
+  document.addEventListener("click",function(e){
+    const btn=e.target.closest?.("[data-formal-redeem-maid]");
+    if(!btn)return;
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    if(btn.disabled)return;
+    redeemMaidCafe();
+  },true);
 })();
 </script>
 </body>
