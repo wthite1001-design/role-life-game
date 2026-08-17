@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#9a76c4">
-<meta name="x-test-build" content="3.30.38">
+<meta name="x-test-build" content="3.30.39">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>關係進行式 TEST・3.30.38-七夕重複錯誤清理＋邀請防呆</title>
+<title>關係進行式 TEST・3.30.39-七夕重複錯誤清理＋邀請防呆</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -1473,7 +1473,7 @@ body.npcStoryRunning .draggableFab{
 <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png">
 <link rel="manifest" href="manifest.json">
 <style id="qixi3279-scroll-fix">
-/* 3.30.38：七夕活動頁在手機上可完整往下捲，不再把守橋人卡片截成一半 */
+/* 3.30.39：七夕活動頁在手機上可完整往下捲，不再把守橋人卡片截成一半 */
 #qixiEventModal{
   overflow-y:auto!important;
   overflow-x:hidden!important;
@@ -1956,7 +1956,7 @@ html[data-test-theme="maidCafe"] .navBtn.active::after{
 </style>
 
 <style id="test33014QixiGalaxySingleSource">
-/* ===== TEST 3.30.38 七夕星河：唯一視覺來源 ===== */
+/* ===== TEST 3.30.39 七夕星河：唯一視覺來源 ===== */
 html.qixi-theme-now,
 html[data-test-theme="qixiGalaxy"],
 html.qixi-theme-now body,
@@ -2119,7 +2119,7 @@ html[data-test-theme="qixiGalaxy"] #qixiEventModal button{
 
 
 <style id="test33015StableQixiUi">
-/* 3.30.38：深色星河文字不再純白刺眼 */
+/* 3.30.39：深色星河文字不再純白刺眼 */
 html.qixi-theme-now :is(.homePanel,.card,.pageCard.active,.modalBox,.now,.itemRow,.relItem,.npcRelationCard,.npcShopItem,.eventCard,.characterCard,.statusCard,.section,.panel,.shopCard,.paidProduct),
 html[data-test-theme="qixiGalaxy"] :is(.homePanel,.card,.pageCard.active,.modalBox,.now,.itemRow,.relItem,.npcRelationCard,.npcShopItem,.eventCard,.characterCard,.statusCard,.section,.panel,.shopCard,.paidProduct){
   color:#c7b4d9!important;
@@ -2268,7 +2268,7 @@ html[data-test-theme="qixiGalaxy"] #qixiEventModal :is(.qixiRewardBox,.qixiFacil
 
 
 <style id="test33018ModalRestore">
-/* 3.30.38：恢復測試服卡片式視窗，不再出現整頁白色 modal。 */
+/* 3.30.39：恢復測試服卡片式視窗，不再出現整頁白色 modal。 */
 html.qixi-theme-now .modal,
 html[data-test-theme="qixiGalaxy"] .modal{
   padding:12px!important;
@@ -2496,7 +2496,7 @@ html[data-test-theme="qixiGalaxy"] .modal>.modalBox :is(.card,.panel,.section,.i
     <div class="homeLogo">🧪</div>
     <h1>關係進行式 TEST</h1>
     <div class="homeTagline">測試中的每一段關係，都可能被重置。</div>
-    <div class="homeVersion">3.30.38・測試服｜七夕重複錯誤清理＋邀請防呆</div>
+    <div class="homeVersion">3.30.39・測試服｜七夕重複錯誤清理＋邀請防呆</div>
   </div>
 
   <div id="playerAccountHomePanel" class="homePanel accountHomePanel">
@@ -14759,7 +14759,7 @@ header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{back
 <script id="qixi3283-ribbon-fix">
 (function(){
  function fix(){
-   document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.30.38-beta");
+   document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.30.39-beta");
  }
  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",fix,{once:true});else fix();
  setTimeout(fix,300);
@@ -14972,7 +14972,7 @@ header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{back
 
 
 <style id="qixi3300ResponsiveFerry">
-/* 3.30.38：指定 GitHub 七夕背景；手機填滿、電腦固定直式舞台，禁止橫向螢幕把直圖放大裁爆 */
+/* 3.30.39：指定 GitHub 七夕背景；手機填滿、電腦固定直式舞台，禁止橫向螢幕把直圖放大裁爆 */
 #qixiMiniGameBoard.qixiFerryGameBoard,#qixiMiniGameBoard.qixiBridgeGameBoard{
  background-image:linear-gradient(rgba(8,7,35,.12),rgba(15,9,45,.24)),url("images/qixi/qixi_full_background.png")!important;
  background-repeat:no-repeat!important;background-position:center center!important;
@@ -15070,7 +15070,7 @@ header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{back
 
 <script id="test33015SingleVersionSource">
 (function(){
- const BUILD='3.30.38';
+ const BUILD='3.30.39';
  const LABEL='七夕邀約內嵌＋設施背景＋快速雲端同步';
  function apply(){
    document.title='關係進行式 TEST・'+BUILD;
@@ -17653,8 +17653,8 @@ function openConfirm(o={}){
  
 })();
 </script>
-\n<style id="qixi3298AuthoritativeFix">\n/* 3.30.38：星河渡口與鵲羽橋使用指定背景圖 */\n#qixiMiniGameBoard.qixiFerryGameBoard{\n background-image:linear-gradient(rgba(8,7,35,.16),rgba(15,9,45,.28)),url("images/qixi/qixi_ferry_game_bg.png")!important;\n background-size:cover!important;background-position:center center!important;background-repeat:no-repeat!important;min-height:56vh!important;\n}\n#qixiMiniGameBoard.qixiFerryGameBoard .qixiStarTapGrid{padding-top:4vh!important}\n#qixiMiniGameBoard.qixiFerryGameBoard .qixiStarTap{background:rgba(28,21,76,.62)!important;backdrop-filter:blur(2px)!important}\n/* SHOP_3304_SINGLE_SOURCE_START */
-/* 3.30.38：商店唯一權威版型。整個商店頁負責垂直滑動，子區塊不截斷。 */
+\n<style id="qixi3298AuthoritativeFix">\n/* 3.30.39：星河渡口與鵲羽橋使用指定背景圖 */\n#qixiMiniGameBoard.qixiFerryGameBoard{\n background-image:linear-gradient(rgba(8,7,35,.16),rgba(15,9,45,.28)),url("images/qixi/qixi_ferry_game_bg.png")!important;\n background-size:cover!important;background-position:center center!important;background-repeat:no-repeat!important;min-height:56vh!important;\n}\n#qixiMiniGameBoard.qixiFerryGameBoard .qixiStarTapGrid{padding-top:4vh!important}\n#qixiMiniGameBoard.qixiFerryGameBoard .qixiStarTap{background:rgba(28,21,76,.62)!important;backdrop-filter:blur(2px)!important}\n/* SHOP_3304_SINGLE_SOURCE_START */
+/* 3.30.39：商店唯一權威版型。整個商店頁負責垂直滑動，子區塊不截斷。 */
 html.qixi-theme-now #extraShop.pageCard.active{
   display:block!important;
   position:fixed!important;
@@ -17793,50 +17793,6 @@ html.qixi-theme-now #extraShop .section{
 }
 /* SHOP_3304_SINGLE_SOURCE_END */
 </style>\n
-
-<style id="qixi33038FabSameAsShop">
-#qixiEventFab{
- width:auto!important;
- min-width:0!important;
- max-width:none!important;
- height:44px!important;
- min-height:44px!important;
- max-height:44px!important;
- padding:7px 11px!important;
- margin:0!important;
- border-radius:16px!important;
- display:flex!important;
- align-items:center!important;
- justify-content:center!important;
- gap:6px!important;
- font-size:11px!important;
- line-height:1!important;
- font-weight:900!important;
- transform:none!important;
- scale:1!important;
- zoom:1!important;
- box-sizing:border-box!important;
- background:
-  radial-gradient(circle at 18% 24%,rgba(255,255,255,.78) 0 1px,transparent 1.8px),
-  radial-gradient(circle at 82% 30%,rgba(191,165,255,.72) 0 1px,transparent 1.8px),
-  linear-gradient(135deg,#202a68 0%,#51367f 54%,#a660a2 100%)!important;
- color:#eadffc!important;
- box-shadow:inset 0 1px 0 rgba(255,255,255,.20),0 7px 20px rgba(24,15,68,.30)!important;
-}
-#qixiEventFab .qixiFabIcon{
- font-size:17px!important;
- width:auto!important;
- height:auto!important;
- line-height:1!important;
- transform:none!important;
-}
-#qixiEventFab b{font-size:11px!important;line-height:1!important;white-space:nowrap!important}
-#qixiEventFab .qixiDot{
- width:8px!important;height:8px!important;min-width:8px!important;min-height:8px!important;
-}
-</style>
-
-
 <script id="test33038SingleStoryRenderer">
 (function(){
  const FACE={
@@ -17923,6 +17879,122 @@ html.qixi-theme-now #extraShop .section{
   document.getElementById("npcStorySceneImage")?.removeAttribute("src");
   setStoryPortrait("normal");
  };
+})();
+</script>
+
+<style id="qixi33039SameAsReturnFormal">
+/* 預設先藏；JS 只在角色遊戲畫面開啟時顯示。 */
+#qixiEventFab{
+ display:none!important;
+ box-sizing:border-box!important;
+ margin:0!important;
+ transform:none!important;
+ scale:1!important;
+ zoom:1!important;
+}
+body.qixi-entry-in-game #qixiEventFab{
+ display:flex!important;
+ align-items:center!important;
+ justify-content:center!important;
+ gap:6px!important;
+ white-space:nowrap!important;
+}
+/* 內容不要把外框撐大，外框尺寸完全由回正式服按鈕同步。 */
+#qixiEventFab .qixiFabIcon{
+ flex:0 0 auto!important;
+ line-height:1!important;
+}
+#qixiEventFab b{
+ flex:0 1 auto!important;
+ min-width:0!important;
+ white-space:nowrap!important;
+ line-height:1!important;
+}
+#qixiEventFab .qixiDot{
+ flex:0 0 auto!important;
+}
+</style>
+
+<script id="qixi33039SameAsReturnFormalScript">
+(function(){
+ const q=()=>document.getElementById("qixiEventFab");
+ const ret=()=>document.getElementById("returnProdBtn");
+ const game=()=>document.getElementById("game");
+
+ function inGame(){
+   const g=game();
+   if(!g)return false;
+   return !g.classList.contains("hidden") && getComputedStyle(g).display!=="none";
+ }
+
+ function syncVisibility(){
+   document.body.classList.toggle("qixi-entry-in-game",inGame());
+ }
+
+ function copyButtonAppearance(){
+   const a=q(),b=ret();
+   if(!a||!b)return;
+   const cs=getComputedStyle(b),r=b.getBoundingClientRect();
+
+   /* 外框尺寸完全等於回正式服。 */
+   if(r.width>0)a.style.setProperty("width",r.width+"px","important");
+   if(r.height>0){
+     a.style.setProperty("height",r.height+"px","important");
+     a.style.setProperty("min-height",r.height+"px","important");
+     a.style.setProperty("max-height",r.height+"px","important");
+   }
+   a.style.setProperty("min-width","0","important");
+   a.style.setProperty("max-width","none","important");
+
+   /* 外觀也跟回正式服同一套，因此切外觀時兩顆會一起變。 */
+   for(const prop of [
+     "padding","border-radius","background","background-color","background-image",
+     "color","border","border-top","border-right","border-bottom","border-left",
+     "box-shadow","font-size","font-weight","font-family","letter-spacing"
+   ]){
+     const v=cs.getPropertyValue(prop);
+     if(v)a.style.setProperty(prop,v,"important");
+   }
+
+   /* 圖示跟回正式服文字比例一致，不再自行放大。 */
+   const icon=a.querySelector(".qixiFabIcon");
+   if(icon)icon.style.setProperty("font-size",cs.fontSize,"important");
+ }
+
+ function sync(){
+   syncVisibility();
+   if(inGame())copyButtonAppearance();
+ }
+
+ // 進角色、回首頁、切換外觀後都重新同步。
+ document.addEventListener("click",e=>{
+   if(e.target.closest?.(
+     "[data-load],#returnProdBtn,#appearanceGrid [data-appearance],#appearanceDrawerBtn,#closeAppearanceModal"
+   )) setTimeout(sync,40);
+ },true);
+
+ window.addEventListener("pageshow",()=>setTimeout(sync,0),{passive:true});
+ window.addEventListener("resize",()=>setTimeout(sync,0),{passive:true});
+ document.addEventListener("visibilitychange",()=>{if(!document.hidden)setTimeout(sync,0)},{passive:true});
+
+ // 監看 home/game 的 hidden 切換，不監看圖片、不碰劇情。
+ const g=game(),h=document.getElementById("home");
+ const mo=new MutationObserver(sync);
+ if(g)mo.observe(g,{attributes:true,attributeFilter:["class","style"]});
+ if(h)mo.observe(h,{attributes:true,attributeFilter:["class","style"]});
+
+ // 外觀函式被呼叫後，同步回正式服按鈕的新樣式。
+ const oldApply=window.applyAppearanceTheme33013;
+ if(typeof oldApply==="function"){
+   window.applyAppearanceTheme33013=function(){
+     const r=oldApply.apply(this,arguments);
+     requestAnimationFrame(()=>requestAnimationFrame(sync));
+     return r;
+   };
+ }
+
+ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",()=>setTimeout(sync,0),{once:true});
+ else setTimeout(sync,0);
 })();
 </script>
 
