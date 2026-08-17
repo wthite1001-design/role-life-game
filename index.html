@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#9a76c4" name="theme-color"/>
-<title>關係進行式・3.31.11.15</title>
+<title>關係進行式・3.31.13.15</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -1828,7 +1828,7 @@ html[data-formal-theme="maidCafe"] .navBtn::after{
 <div class="homeLogo">💞</div>
 <h1>關係進行式</h1>
 <div class="homeTagline">每一段關係，都還在進行中。</div>
-<div class="homeVersion">第3.31.11版・正式服</div>
+<div class="homeVersion">第3.31.13版・正式服</div>
 </div>
 <div id="playerAccountHomePanel" class="homePanel accountHomePanel">
 <div class="homePanelTitle"><span>☁️ 玩家帳號</span><span id="playerAccountChip" class="chip">未登入</span></div>
@@ -1846,7 +1846,7 @@ html[data-formal-theme="maidCafe"] .navBtn::after{
 <div class="gmStatus" id="gmHomeStatus"></div>
 </div>
 <div class="homePanel">
-<div class="homePanelTitle"><span>📢 更新公告</span><span class="chip">第3.31.11版</span></div>
+<div class="homePanelTitle"><span>📢 更新公告</span><span class="chip">第3.31.13版</span></div>
 <div class="small">查看本次新增功能與修正內容。</div>
 <button id="openUpdateNotice" style="width:100%;margin-top:8px" type="button">查看更新內容</button>
 </div>
@@ -2269,7 +2269,7 @@ html[data-formal-theme="maidCafe"] .navBtn::after{
 </div>
 <div class="drawerShade hidden" id="drawerShade"></div><aside class="drawer hidden" id="drawer"><div style="padding:8px"><b id="drawerName">角色</b><div class="muted">功能選單</div></div><button class="navBtn" data-nav="life" type="button">🏠 角色生活</button><button class="navBtn" data-nav="daily" type="button">📋 今日小事</button><button class="navBtn" data-nav="work" type="button">💼 打工賺錢</button><button class="navBtn" data-nav="journal" type="button">📖 今日生活日誌</button><button class="navBtn" data-nav="routine" type="button">🕒 角色作息</button><button class="navBtn" data-nav="outing" type="button">🗺️ 外出 <span class="navDot hidden" data-dot="outing"></span></button><button class="navBtn" data-nav="relations" type="button">💞 關係 <span class="navDot hidden" data-dot="relations"></span></button><button class="navBtn" data-nav="npcrelations" type="button">✨ NPC 關係</button><button class="navBtn" data-nav="mailbox" type="button">📬 信箱 <span class="navDot hidden" data-dot="mailbox"></span></button><button class="navBtn" id="playerAccountDrawerBtn" type="button">☁️ 玩家帳號</button><button class="navBtn" id="gmDrawerLoginBtn" type="button">👑 管理員登入</button><button class="navBtn hidden" data-nav="gm" id="gmNavBtn" type="button">🛠️ GM 操作台</button><div class="navSep"></div><button class="navBtn" data-nav="bag" type="button">🎒 背包</button><button class="navBtn" data-nav="shop" type="button">🏪 商店</button><button class="navBtn" data-nav="memory" type="button">📖 回憶</button><button class="navBtn" data-nav="achievements" type="button">🏆 成就</button><div class="navSep"></div><div style="padding:8px"><b>🎵 悠閒 BGM</b><div class="actions"><button id="bgmToggle">▶ 播放</button><input id="bgmVolume" max="1" min="0" step=".05" type="range" value=".25"/></div><div class="small">把 bgm.mp3 和 index.html 放同一資料夾。</div></div><audio autoplay="" id="bgm" loop="" playsinline="" preload="auto"><source src="bgm.mp3" type="audio/mpeg"/></audio><button class="navBtn" id="back" type="button">💾 返回存檔首頁</button></aside><div class="modal hidden" id="updateNoticeModal">
 <div class="modalBox">
-<div class="modalHead"><b>📢 第3.31.11.15版更新公告</b><button id="closeUpdateNotice">×</button></div>
+<div class="modalHead"><b>📢 第3.31.13.15版更新公告</b><button id="closeUpdateNotice">×</button></div>
 <div class="updateNoticeBody">
   <h3>🎀 女僕咖啡廳主題</h3>
   <p>新增女僕咖啡廳限定外觀。解鎖後可在「外觀更改」中自由切換原始外觀與女僕咖啡廳，選擇會保留。</p>
@@ -5829,7 +5829,7 @@ document.getElementById("interactionGrid").onclick=async e=>{
     if(!b?.broken||!ev)return toast("這段關係尚未完成頂級突破。");
     return openRelationEvent(ev,"🌟 頂級專屬互動");
   }
-  if(relationUseLeft(c,room.code)<=0){
+  if(!bondCache?.[room.code]?.broken && relationUseLeft(c,room.code)<=0){
     infoTitle.textContent="💞 今天已經互動很多次了";
     infoBody.innerHTML="這段關係今天的羈絆互動已達 <b>5 / 5</b>。<br><br>明天 00:00 會恢復。聊天、共同外出和小遊戲不受這個限制。";
     infoModal.classList.remove("hidden");return;
@@ -6428,7 +6428,17 @@ function ensureDailySpecialState(c){
   if(!c)return {ids:[],forced:false,hadSoldOut:false,streak:0};
   c.specialShopState??={};
   let st=c.specialShopState,key=todayKey();
-  if(st.date===key&&Array.isArray(st.ids))return st;
+  if(st.date===key&&Array.isArray(st.ids)){
+    // Recompute today's sold-out state because inventory may have changed after the daily roll.
+    let ownedNow=id=>(c.inventory?.[id]||0)>0;
+    let hadNow=st.ids.some(id=>ownedNow(id));
+    if(hadNow!==!!st.hadSoldOut){
+      st.hadSoldOut=hadNow;
+      st.streak=hadNow?Math.max(1,Number(st.priorStreak||0)+1):0;
+      saveLocal();
+    }
+    return st;
+  }
 
   let previousStreak=(st.date&&dayDiff(st.date,key)===1&&st.hadSoldOut)?Number(st.streak||0):0;
   let forceFresh=previousStreak>=3;
@@ -6509,7 +6519,12 @@ const protoAch=[["start","🌱 冒險的開始","開始角色生活","角色"],[
 ["login14","🌟","生活成為習慣","連續登入 14 天","生活"],
 ["relation_chain3","？？？","隱藏成就","隱藏"],
 ["relation_full_shuffle","？？？","隱藏成就","隱藏"],
-["relation_full_six","？？？","隱藏成就","隱藏"],["top_lover","💍","此生唯一","戀人關係完成第 7 階突破","關係"]];
+["relation_full_six","？？？","隱藏成就","隱藏"],["top_lover","💍","此生唯一","戀人關係完成第 7 階突破","關係"],
+["top_friend","🤝","此生知己","摯友關係完成第 7 階突破","關係"],
+["top_family","🏮","血脈之外","家人關係完成第 7 階突破","關係"],
+["top_partner","🧭","生死與共","搭檔關係完成第 7 階突破","關係"],
+["top_rival","⚔️","命定之敵","宿敵關係完成第 7 階突破","關係"],
+["top_enemy","💢","至死方休","仇敵關係完成第 7 階突破","關係"]];
 
 function localDateKey(d=new Date()){
   return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
@@ -7140,7 +7155,7 @@ function reconcileAchievements(c){
  let _hasTopAch=_topDefs.some(t=>t?.ach&&!!c.achievements?.[t.ach]);
  let _hasTopBadge=_topDefs.some(t=>t?.badge&&!!local.sharedBadges?.[t.badge]);
  if(_hasBroken||_hasTopAch||_hasTopBadge)c.achievements.break=1;
-  /* 3.31.11.15：只補「此生唯一」。 */
+  /* 3.31.13.15：只補「此生唯一」。 */
   try{
     const loverBroken=infos.some(x=>x.rr?.relation==="lover"&&!!x.b?.broken);
     const loverBadge=!!local.sharedBadges?.badge_lover;
@@ -9683,6 +9698,48 @@ const NPC_STORY_LIBRARY={
     ]
   }
 };
+
+function maidLines(){
+  const MAID0='assets/npc/shopkeeper_cat/maid_cafe_special.png';
+  const MAID1='assets/npc/shopkeeper_cat/maid_cafe_special_1.png';
+  const MAID2='assets/npc/shopkeeper_cat/maid_cafe_special_2.png';
+  return [
+   {speaker:'旁白',maidStage:0,text:'你把「請店長喝咖啡券」交到櫃檯前。貓貓看著那張券，沉默了幾秒。'},
+   {speaker:'貓貓',maidStage:0,text:'「……所以你真的拿來用了。」'},
+   {speaker:'旁白',maidStage:0,text:'她把店門的牌子翻到「休息中」，轉身走進後面的房間。'},
+   {speaker:'貓貓',maidStage:0,text:'「先說好，這是特別招待。你不准笑。」'},
+   {speaker:'旁白',maidStage:1,image:MAID0,portrait:MAID0,text:'過了一會兒，她換上女僕咖啡廳的制服重新出現在你面前。'},
+   {speaker:'貓貓',maidStage:1,image:MAID0,portrait:MAID0,text:'「歡、歡迎回來……主人。」'},
+   {speaker:'旁白',maidStage:1,image:MAID0,portrait:MAID0,text:'她端著咖啡站在你面前，明明耳根都紅了，卻還努力裝作若無其事。'},
+   {speaker:'貓貓',maidStage:2,image:MAID1,portrait:MAID1,text:'「看夠了沒有？咖啡再不喝就要涼了。」'},
+   {speaker:'你',maidStage:2,image:MAID1,portrait:MAID1,text:'「所以這張券真的可以讓店長親自招待？」'},
+   {speaker:'貓貓',maidStage:3,image:MAID2,portrait:MAID2,text:'「只有今天。還有——不准拿去跟別人炫耀。」'},
+   {speaker:'旁白',maidStage:3,image:MAID2,portrait:MAID2,text:'她把咖啡輕輕推到你面前。'},
+   {speaker:'貓貓',maidStage:3,image:MAID2,portrait:MAID2,text:'「這個主題也給你。以後想起今天，就把它換上吧。」'}
+  ];
+ }
+ window.playFormalMaidCafeStory=function(replay=false){
+    try{
+      window.prewarmNpcImages?.([
+        "assets/npc/shopkeeper_cat/maid_cafe_special.png",
+        "assets/npc/shopkeeper_cat/maid_cafe_special_1.png",
+        "assets/npc/shopkeeper_cat/maid_cafe_special_2.png"
+      ]);
+    }catch(_){}
+
+  const x=c();if(!x)return;ensure(x);
+  startNpcRpgStory?.({
+    title:'🎀 特殊劇情・女僕咖啡廳',
+    lines:maidLines(),
+    onComplete:()=>{
+      if(!replay){
+       x.paidStoryFlags.paid_maid_cafe_story=true;
+       if(!x.memories.some(m=>m?.t==='🎀 付費劇情・女僕咖啡廳'))x.memories.unshift({t:'🎀 付費劇情・女僕咖啡廳',d:new Date().toLocaleDateString('zh-TW')});
+       saveLocal?.();
+      }
+    }
+  });
+ };
 
 function npcStoryCollection(npcId,c){
   let lib=NPC_STORY_LIBRARY[npcId]||{personal:[],event:[]},st=npcState();
@@ -15363,7 +15420,7 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 
 <script id="formal33111SingleVersionSource">
 (function(){
- const VERSION="3.31.11";
+ const VERSION="3.31.13";
  function apply(){
    document.querySelectorAll(".homeVersion").forEach(function(el){
      el.textContent="第"+VERSION+"版・正式服";
