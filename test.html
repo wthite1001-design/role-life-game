@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#9a76c4">
-<meta name="x-test-build" content="3.30.46">
+<meta name="x-test-build" content="3.30.49">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>關係進行式 TEST・3.30.46-七夕重複錯誤清理＋邀請防呆</title>
+<title>關係進行式 TEST・3.30.49-七夕重複錯誤清理＋邀請防呆</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -1473,7 +1473,7 @@ body.npcStoryRunning .draggableFab{
 <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png">
 <link rel="manifest" href="manifest.json">
 <style id="qixi3279-scroll-fix">
-/* 3.30.46：七夕活動頁在手機上可完整往下捲，不再把守橋人卡片截成一半 */
+/* 3.30.49：七夕活動頁在手機上可完整往下捲，不再把守橋人卡片截成一半 */
 #qixiEventModal{
   overflow-y:auto!important;
   overflow-x:hidden!important;
@@ -1956,7 +1956,7 @@ html[data-test-theme="maidCafe"] .navBtn.active::after{
 </style>
 
 <style id="test33014QixiGalaxySingleSource">
-/* ===== TEST 3.30.46 七夕星河：唯一視覺來源 ===== */
+/* ===== TEST 3.30.49 七夕星河：唯一視覺來源 ===== */
 html.qixi-theme-now,
 html[data-test-theme="qixiGalaxy"],
 html.qixi-theme-now body,
@@ -2119,7 +2119,7 @@ html[data-test-theme="qixiGalaxy"] #qixiEventModal button{
 
 
 <style id="test33015StableQixiUi">
-/* 3.30.46：深色星河文字不再純白刺眼 */
+/* 3.30.49：深色星河文字不再純白刺眼 */
 html.qixi-theme-now :is(.homePanel,.card,.pageCard.active,.modalBox,.now,.itemRow,.relItem,.npcRelationCard,.npcShopItem,.eventCard,.characterCard,.statusCard,.section,.panel,.shopCard,.paidProduct),
 html[data-test-theme="qixiGalaxy"] :is(.homePanel,.card,.pageCard.active,.modalBox,.now,.itemRow,.relItem,.npcRelationCard,.npcShopItem,.eventCard,.characterCard,.statusCard,.section,.panel,.shopCard,.paidProduct){
   color:#c7b4d9!important;
@@ -2268,7 +2268,7 @@ html[data-test-theme="qixiGalaxy"] #qixiEventModal :is(.qixiRewardBox,.qixiFacil
 
 
 <style id="test33018ModalRestore">
-/* 3.30.46：恢復測試服卡片式視窗，不再出現整頁白色 modal。 */
+/* 3.30.49：恢復測試服卡片式視窗，不再出現整頁白色 modal。 */
 html.qixi-theme-now .modal,
 html[data-test-theme="qixiGalaxy"] .modal{
   padding:12px!important;
@@ -2496,7 +2496,7 @@ html[data-test-theme="qixiGalaxy"] .modal>.modalBox :is(.card,.panel,.section,.i
     <div class="homeLogo">🧪</div>
     <h1>關係進行式 TEST</h1>
     <div class="homeTagline">測試中的每一段關係，都可能被重置。</div>
-    <div class="homeVersion">3.30.46・測試服｜七夕重複錯誤清理＋邀請防呆</div>
+    <div class="homeVersion">3.30.49・測試服｜七夕重複錯誤清理＋邀請防呆</div>
   </div>
 
   <div id="playerAccountHomePanel" class="homePanel accountHomePanel">
@@ -14446,11 +14446,7 @@ body.maid-cafe-preview .card,
 body.maid-cafe-preview .pageCard.active,
 body.maid-cafe-preview .modalBox{background:rgba(255,250,248,.97)!important;border-color:#ebd0d8!important}
 body.maid-cafe-preview button.primary{background:linear-gradient(135deg,#a95d7d,#cf809b)!important;color:#fff!important}
-body.maid-cafe-preview .chip{background:#f8e3e9!important;color:#7d4b60!important}
-.maidThemeVoucherCard{border:1px solid #e7c2cf;border-radius:16px;padding:12px;background:linear-gradient(135deg,#fff9f8,#f9e8ee);margin:10px 0;display:grid;grid-template-columns:1fr auto;gap:9px;align-items:center}
-.maidThemeVoucherCard .maidThemeTitle{font-weight:900;font-size:16px}
-.maidThemeVoucherCard .maidThemeCost{font-weight:900;color:#96566f;white-space:nowrap}
-.maidThemeVoucherCard button{grid-column:1/-1;width:100%}
+body.maid-cafe-preview .chip{background:#f8e3e9!important;color:#7d4b60!important}body.maid-cafe-preview .maidThemeVoucherCard{border:1px solid #e7c2cf;border-radius:16px;padding:12px;background:linear-gradient(135deg,#fff9f8,#f9e8ee);margin:10px 0;display:grid;grid-template-columns:1fr auto;gap:9px;align-items:center}body.maid-cafe-preview .maidThemeVoucherCard .maidThemeTitle{font-weight:900;font-size:16px}body.maid-cafe-preview .maidThemeVoucherCard .maidThemeCost{font-weight:900;color:#96566f;white-space:nowrap}body.maid-cafe-preview .maidThemeVoucherCard button{grid-column:1/-1;width:100%}
 </style>
 <script id="v32639MaidCafeFinalPatch">
 (function(){
@@ -14777,7 +14773,7 @@ header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{back
 <script id="qixi3283-ribbon-fix">
 (function(){
  function fix(){
-   document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.30.46-beta");
+   document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.30.49-beta");
  }
  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",fix,{once:true});else fix();
  setTimeout(fix,300);
@@ -14990,7 +14986,7 @@ header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{back
 
 
 <style id="qixi3300ResponsiveFerry">
-/* 3.30.46：指定 GitHub 七夕背景；手機填滿、電腦固定直式舞台，禁止橫向螢幕把直圖放大裁爆 */
+/* 3.30.49：指定 GitHub 七夕背景；手機填滿、電腦固定直式舞台，禁止橫向螢幕把直圖放大裁爆 */
 #qixiMiniGameBoard.qixiFerryGameBoard,#qixiMiniGameBoard.qixiBridgeGameBoard{
  background-image:linear-gradient(rgba(8,7,35,.12),rgba(15,9,45,.24)),url("images/qixi/qixi_full_background.png")!important;
  background-repeat:no-repeat!important;background-position:center center!important;
@@ -15088,7 +15084,7 @@ header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{back
 
 <script id="test33015SingleVersionSource">
 (function(){
- const BUILD='3.30.46';
+ const BUILD='3.30.49';
  const LABEL='七夕邀約內嵌＋設施背景＋快速雲端同步';
  function apply(){
    document.title='關係進行式 TEST・'+BUILD;
@@ -15855,6 +15851,77 @@ html[data-test-theme="qixiGalaxy"] #qixiEventFab{
  window.refreshQixiDailyUnlock=apply;
 })();
 </script>
+
+<script id="test33049BackgroundAudioResumeState">
+(function(){
+  "use strict";
+
+  let shouldResumeOnReturn = false;
+  const pausedTargets = new Set();
+
+  function allAudioTargets(){
+    const set = new Set();
+    document.querySelectorAll("audio").forEach(a=>set.add(a));
+    [
+      window.bgmAudio,
+      window.bgm,
+      window.audio,
+      window.musicAudio,
+      window.backgroundMusic
+    ].forEach(a=>{
+      if(a && typeof a.pause==="function") set.add(a);
+    });
+    return Array.from(set);
+  }
+
+  function onHide(){
+    if(!document.hidden) return;
+
+    shouldResumeOnReturn = false;
+    pausedTargets.clear();
+
+    allAudioTargets().forEach(audio=>{
+      try{
+        if(!audio.paused && !audio.ended){
+          shouldResumeOnReturn = true;
+          pausedTargets.add(audio);
+          audio.pause();
+        }
+      }catch(_){}
+    });
+  }
+
+  function onShow(){
+    if(document.hidden) return;
+
+    if(!shouldResumeOnReturn){
+      pausedTargets.clear();
+      return;
+    }
+
+    pausedTargets.forEach(audio=>{
+      try{
+        if(audio && audio.paused && !audio.ended){
+          const p = audio.play();
+          if(p && typeof p.catch==="function") p.catch(()=>{});
+        }
+      }catch(_){}
+    });
+
+    shouldResumeOnReturn = false;
+    pausedTargets.clear();
+  }
+
+  document.addEventListener("visibilitychange", ()=>{
+    if(document.hidden) onHide();
+    else onShow();
+  }, true);
+
+  window.addEventListener("pagehide", onHide, true);
+  window.addEventListener("pageshow", ()=>setTimeout(onShow,0), true);
+})();
+</script>
+
 </body>
 </html>
 
@@ -17539,8 +17606,8 @@ function openConfirm(o={}){
  
 })();
 </script>
-\n<style id="qixi3298AuthoritativeFix">\n/* 3.30.46：星河渡口與鵲羽橋使用指定背景圖 */\n#qixiMiniGameBoard.qixiFerryGameBoard{\n background-image:linear-gradient(rgba(8,7,35,.16),rgba(15,9,45,.28)),url("images/qixi/qixi_ferry_game_bg.png")!important;\n background-size:cover!important;background-position:center center!important;background-repeat:no-repeat!important;min-height:56vh!important;\n}\n#qixiMiniGameBoard.qixiFerryGameBoard .qixiStarTapGrid{padding-top:4vh!important}\n#qixiMiniGameBoard.qixiFerryGameBoard .qixiStarTap{background:rgba(28,21,76,.62)!important;backdrop-filter:blur(2px)!important}\n/* SHOP_3304_SINGLE_SOURCE_START */
-/* 3.30.46：商店唯一權威版型。整個商店頁負責垂直滑動，子區塊不截斷。 */
+\n<style id="qixi3298AuthoritativeFix">\n/* 3.30.49：星河渡口與鵲羽橋使用指定背景圖 */\n#qixiMiniGameBoard.qixiFerryGameBoard{\n background-image:linear-gradient(rgba(8,7,35,.16),rgba(15,9,45,.28)),url("images/qixi/qixi_ferry_game_bg.png")!important;\n background-size:cover!important;background-position:center center!important;background-repeat:no-repeat!important;min-height:56vh!important;\n}\n#qixiMiniGameBoard.qixiFerryGameBoard .qixiStarTapGrid{padding-top:4vh!important}\n#qixiMiniGameBoard.qixiFerryGameBoard .qixiStarTap{background:rgba(28,21,76,.62)!important;backdrop-filter:blur(2px)!important}\n/* SHOP_3304_SINGLE_SOURCE_START */
+/* 3.30.49：商店唯一權威版型。整個商店頁負責垂直滑動，子區塊不截斷。 */
 html.qixi-theme-now #extraShop.pageCard.active{
   display:block!important;
   position:fixed!important;
@@ -17976,5 +18043,21 @@ html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]),
 html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) body{
   background:linear-gradient(#eee5f6,#fbf7fa)!important;
   color:var(--text,#3d3343)!important;
+}
+</style>
+
+<style id="test33047FormalDefaultParity">
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]){
+ --bg:#f7f1fa!important;--card:#fffdfd!important;--text:#3d3343!important;--muted:#897b90!important;
+ --line:#eadfee!important;--accent:#9872c0!important;--pink:#d899b8!important;--soft:#f3eaf7!important;
+}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) body{
+ background:linear-gradient(#eee5f6,#fbf7fa)!important;color:#3d3343!important;
+}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) .drawer{
+ background:#fffdfd!important;color:#3d3343!important;
+}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) :is(.card,.pageCard.active,.homePanel,.modalBox,.now,.characterCard,.statusCard,.section,.panel){
+ background:#fffdfd!important;color:#3d3343!important;border-color:#eadfee!important;
 }
 </style>
