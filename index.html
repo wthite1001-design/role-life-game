@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#9a76c4" name="theme-color"/>
-<title>關係進行式・3.31.13.25</title>
+<title>關係進行式・3.31.13.26</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -15944,9 +15944,9 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
   };
 
   // IMPORTANT: do not call any previous start wrapper either.
-  window.startNpcRpgStory=function({title="",lines=[],onComplete=null}={}){
+  window.startNpcRpgStory=function({title="",lines=[],onComplete=null,storyId=""}={}){
     if(!Array.isArray(lines)||!lines.length)return;
-    window.npcStoryPlayerState={title,lines,index:0,onComplete,finished:false};
+    window.npcStoryPlayerState={title,lines,index:0,onComplete,storyId,finished:false};
     document.body.classList.add("npcStoryRunning");
     document.getElementById("npcStoryPlayer")?.classList.remove("hidden");
     window.renderNpcRpgLine();
@@ -15957,6 +15957,20 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
     if(!st||st.finished)return;
     st.finished=true;
     const done=st.onComplete;
+    // Persist story completion before clearing the player. Several formal-server
+    // triggers rely on storyId; without this, every refresh/action sees the same
+    // story as unplayed and launches it again.
+    if(st.storyId){
+      try{
+        const ns=typeof npcState==="function"?npcState():null;
+        if(ns){
+          ns.storyCollection??={};
+          ns.storyCollection[st.storyId]=ns.storyCollection[st.storyId]||new Date().toISOString();
+          if(st.storyId==="shop_event_first"){ ns.flags??={}; ns.flags.formalOpeningCompleted_3276=1; }
+          if(typeof saveNpcState==="function")saveNpcState(ns);
+        }
+      }catch(e){console.warn("story completion persist",e)}
+    }
     window.npcStoryPlayerState=null;
     document.body.classList.remove("npcStoryRunning");
     document.getElementById("npcStoryPlayer")?.classList.add("hidden");
