@@ -10321,15 +10321,7 @@ const NPC_STORY_LIBRARY={
       {id:"shop_event_candy",title:"🎊 櫃檯糖果事件",unlock:st=>(st.candyCount||0)>=1,text:"你曾經對櫃檯上的糖果伸出手。至於有沒有被發現……只有你們知道。"},
       {id:"shop_event_cat",title:"🎊 店貓的小秘密",unlock:st=>(st.cat||0)>=70,text:"那隻總待在店裡的貓，似乎比想像中知道更多事情。"},
       {id:"shop_event_blackbox",title:"🎊 黑盒",unlock:(st,c)=>Number(c?.inventory?.npc_under_counter||0)>0||!!st.flags?.blackBoxOwned,text:"你買下了那個本來不該出現在商品架上的黑盒。"},
-      {id:"shop_event_night",title:"🎊 閉店之後",unlock:st=>!!st.flags?.nightEvent,text:"打烊後的店裡，比白天安靜得多。她也比平時更願意說真話。"},
-      {id:"shop_event_maid_cafe",title:"🎀 女僕咖啡廳",unlock:(st,c)=>!!(
-        c?.paidCosmetics?.maidCafe ||
-        c?.paidEntitlements?.maidCafeCoffeeRedeemed ||
-        c?.paidEntitlements?.maidCafeVoucherRedeem ||
-        c?.paidVoucherFlags?.maidCafeVoucher ||
-        window.local?.accountAppearance?.owned?.maid ||
-        window.local?.accountEntitlements?.maidCafe
-      ),text:"你曾用咖啡券換來一次只屬於你的特別招待。"}
+      {id:"shop_event_night",title:"🎊 閉店之後",unlock:st=>!!st.flags?.nightEvent,text:"打烊後的店裡，比白天安靜得多。她也比平時更願意說真話。"}
     ]
   }
 };
@@ -10345,7 +10337,7 @@ function openNpcStory(npcId,kind,id){
   let story=(groups[kind]||[]).find(x=>x.id===id);
   if(!story||!story.unlocked)return toast("🔒 這段故事尚未收藏。");
   let lines=NPC_RPG_STORIES[id]||[{speaker:"旁白",text:story.text||"這段回憶仍然很清晰。"}];
-  startNpcRpgStory({title:story.title,storyId:story.id,lines});
+  startNpcRpgStory({title:story.title,lines});
 }
 function openNpcDetail(npcId){
   let c=cur(),def=NPC_RELATION_REGISTRY[npcId];if(!c||!def)return;
@@ -11508,11 +11500,10 @@ document.getElementById("closeNpcStoryPlayer")?.addEventListener("click",e=>{e.s
   // Collected stories stay replayable even if current conditions later change.
   window.npcStoryCollection=function(npcId,c){
     let lib=NPC_STORY_LIBRARY[npcId]||{personal:[],event:[]},st=npcState();
-    const map=list=>list.map(a=>{
-      let condition=false;
-      try{condition=typeof a.unlock==="function" ? !!a.unlock(st,c) : false}catch(_){}
-      return {...a,unlocked:!!st.storyCollection?.[a.id] || condition};
-    });
+    const map=list=>list.map(a=>({
+      ...a,
+      unlocked:!!st.storyCollection?.[a.id]
+    }));
     return {personal:map(lib.personal||[]),event:map(lib.event||[])};
   };
 
@@ -12694,7 +12685,8 @@ document.getElementById("closeNpcStoryPlayer")?.addEventListener("click",e=>{e.s
     npc_cat_cookie:{id:"npc_cat_cookie",name:"🐾 貓掌餅乾",price:60},
     npc_lucky_bell:{id:"npc_lucky_bell",name:"🔔 小幸運鈴",price:140},
     npc_regular_box:{id:"npc_regular_box",name:"🎁 熟客小盒",price:220},
-    npc_under_counter:{id:"npc_under_counter",name:"🔐 櫃檯下的黑盒",price:666}
+    npc_under_counter:{id:"npc_under_counter",name:"🔐 櫃檯下的黑盒",price:666},
+    npc_cat_coffee_voucher:{id:"npc_cat_coffee_voucher",name:"☕ 貓貓咖啡券",price:120}
   };
 
   function robustNpcBuy(id){
@@ -12728,6 +12720,10 @@ document.getElementById("closeNpcStoryPlayer")?.addEventListener("click",e=>{e.s
     }
     if(id==="npc_under_counter" && Number(c.inventory[id]||0)>0)
       return toast?.("🔐 黑盒只能購買一次。",3200);
+    if(id==="npc_cat_coffee_voucher"){
+      const now=Date.now(),start=Date.parse("2026-08-13T00:00:00+08:00"),end=Date.parse("2026-09-13T23:59:59+08:00");
+      if(now<start||now>end)return toast?.("☕ 貓貓咖啡券活動已結束。",3000);
+    }
 
     const money=Math.max(0,Number(c.money||0));
     if(money<item.price)return toast?.(`🪙 金幣不夠，需要 ${item.price}。`,3200);
@@ -15948,27 +15944,6 @@ html[data-test-theme="qixiGalaxy"] #qixiEventFab{
  window.refreshQixiDailyUnlock=apply;
 })();
 </script>
-
-<script id="test33037MaidStoryRestore">
-(function(){
-  if(typeof NPC_RPG_STORIES==="undefined")return;
-  NPC_RPG_STORIES.shop_event_maid_cafe=[
-    {speaker:"旁白",text:"你把「請店長喝咖啡券」交到櫃檯前。貓貓看著那張券，沉默了幾秒。"},
-    {speaker:"貓貓",text:"「……所以你真的拿來用了。」"},
-    {speaker:"旁白",text:"她把店門的牌子翻到「休息中」，轉身走進後面的房間。"},
-    {speaker:"貓貓",text:"「先說好，這是特別招待。你不准笑。」"},
-    {speaker:"旁白",text:"過了一會兒，她換上女僕咖啡廳的制服重新出現在你面前。"},
-    {speaker:"貓貓",text:"「歡、歡迎回來……主人。」"},
-    {speaker:"旁白",text:"她端著咖啡站在你面前，明明耳根都紅了，卻還努力裝作若無其事。"},
-    {speaker:"貓貓",text:"「看夠了沒有？咖啡再不喝就要涼了。」"},
-    {speaker:"你",text:"「所以這張券真的可以讓店長親自招待？」"},
-    {speaker:"貓貓",text:"「只有今天。還有——不准拿去跟別人炫耀。」"},
-    {speaker:"旁白",text:"她把咖啡輕輕推到你面前。"},
-    {speaker:"貓貓",text:"「這個主題也給你。以後想起今天，就把它換上吧。」"}
-  ];
-})();
-</script>
-
 </body>
 </html>
 
@@ -16211,6 +16186,58 @@ html[data-test-theme="qixiGalaxy"] #qixiEventFab{
  }
  async function init(){wire();authSession=loadSession();const recovery=parseRecovery();if(!recovery&&authSession){await authUser();authSession=loadSession();}render();}
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();
+</script>
+<script id="v32621CoffeeVoucher">
+/* === 3.26.21 貓貓咖啡券（一個月限定）＋付款格子化 === */
+(function(){
+  const COFFEE_ID='npc_cat_coffee_voucher';
+  const EVENT_START=Date.parse('2026-08-13T00:00:00+08:00');
+  const EVENT_END=Date.parse('2026-09-13T23:59:59+08:00');
+  const active=()=>Date.now()>=EVENT_START&&Date.now()<=EVENT_END;
+  const oldEffects=window.NPC_ITEM_EFFECTS;
+  try{ if(typeof NPC_ITEM_EFFECTS!=='undefined') NPC_ITEM_EFFECTS[COFFEE_ID]={name:'☕ 貓貓咖啡券【一個月限定】',use:'活動期間可在貓貓商店使用。店長請你喝一杯，回復體力 +20、心情 +20，貓貓好感 +2、熟客度 +1。活動至 2026/09/13。'}; }catch(e){}
+
+  const oldRender=window.renderNpcShop;
+  function addCoffeeCard(){
+    const body=document.getElementById('npcShopBody');
+    if(!body||typeof npcActiveTab==='undefined'||npcActiveTab!=='shop'||!active())return;
+    if(body.querySelector('[data-npc-buy="'+COFFEE_ID+'"]'))return;
+    const card=document.createElement('div');card.className='npcShopItem';
+    card.innerHTML='<div><b>☕ 貓貓咖啡券 <span class="npcSecretTag">一個月限定</span></b><div class="small">使用後觸發店長請客・體力 +20・心情 +20・貓貓好感 +2・熟客度 +1。活動至 9/13。</div></div><button data-npc-buy="'+COFFEE_ID+'">🪙120</button>';
+    body.prepend(card);
+  }
+  if(typeof oldRender==='function')window.renderNpcShop=function(){oldRender();addCoffeeCard();};
+
+  document.addEventListener('click',function(e){
+    const b=e.target.closest('[data-npc-buy="'+COFFEE_ID+'"]');if(!b)return;
+    e.preventDefault();e.stopImmediatePropagation();
+    if(!active())return toast?.('☕ 貓貓咖啡券活動已結束。',3000);
+    const c=typeof cur==='function'?cur():null;if(!c)return toast?.('請先進入角色。',3000);
+    if(Number(c.money||0)<120)return toast?.('🪙 金幣不夠，需要 120。',3000);
+    c.inventory??={};c.money=Math.max(0,Number(c.money||0)-120);c.inventory[COFFEE_ID]=Number(c.inventory[COFFEE_ID]||0)+1;
+    let st=typeof npcState==='function'?npcState():null;if(st){st.purchaseCount=Number(st.purchaseCount||0)+1;st.loyalty=Number(st.loyalty||0)+1;saveNpcState?.(st)}
+    saveLocal?.();renderGame?.();renderNpcShop?.();toast?.('☕ 買下貓貓咖啡券・熟客度 +1',3000);
+  },true);
+
+  document.addEventListener('click',function(e){
+    const b=e.target.closest('[data-npc-use="'+COFFEE_ID+'"]');if(!b)return;
+    e.preventDefault();e.stopImmediatePropagation();
+    const c=typeof cur==='function'?cur():null;if(!c)return;
+    c.inventory??={};if(Number(c.inventory[COFFEE_ID]||0)<=0)return toast?.('背包裡沒有貓貓咖啡券。',3000);
+    if(!active())return toast?.('☕ 咖啡券已過活動使用期限，留作紀念收藏。',3500);
+    c.inventory[COFFEE_ID]-=1;c.energy=Math.min(100,Number(c.energy||0)+20);c.mood=Math.min(100,Number(c.mood||0)+20);
+    let st=typeof npcState==='function'?npcState():null;if(st){st.affection=Math.min(100,Number(st.affection||0)+2);st.loyalty=Number(st.loyalty||0)+1;saveNpcState?.(st)}
+    saveLocal?.();renderGame?.();renderNpcShop?.();
+    if(typeof npcChoice==='function')npcChoice('☕ 貓貓咖啡券','貓貓接過咖啡券看了一眼。<br><br>「這不是我店裡的券嗎？怎麼最後還是我請你。」<br><br>她嘴上抱怨，還是把剛沖好的咖啡推到你面前。<br><br><span class="small">體力 +20・心情 +20・貓貓好感 +2・熟客度 +1</span>',[{label:'謝謝店長',fn:()=>{}}]);
+  },true);
+
+  /* NPC 專屬道具頁補上咖啡券，避免舊 lexical effects 未暴露到 window。 */
+  const oldNpcRenderItems=window.npcRenderItems;
+  // 付款區最近訂單加 class，保持跨兩欄。
+  const oldPaid=window.renderPaidShop;
+  if(typeof oldPaid==='function')window.renderPaidShop=function(){oldPaid();const box=document.getElementById('paidShopList');if(box){[...box.children].forEach(x=>{if(!x.classList.contains('paidProduct'))x.classList.add('paidOrdersBlock')})}};
+  setTimeout(()=>{try{renderPaidShop?.()}catch(e){}},0);
 })();
 </script>
 <script id="v32623AccountRateLimitUX">
@@ -17793,3 +17820,142 @@ html.qixi-theme-now #extraShop .section{
 }
 /* SHOP_3304_SINGLE_SOURCE_END */
 </style>\n
+
+<style id="qixi33037FabMatchShop">
+/* 七夕入口：尺寸、圓角、陰影與貓貓商店一致；配色仍是七夕星河主題。 */
+#qixiEventFab{
+ box-sizing:border-box!important;
+ min-height:var(--qixi-shop-h,52px)!important;
+ height:var(--qixi-shop-h,52px)!important;
+ width:var(--qixi-shop-w,154px)!important;
+ padding:var(--qixi-shop-pad,7px 11px)!important;
+ border-radius:var(--qixi-shop-radius,18px)!important;
+ box-shadow:var(--qixi-shop-shadow,0 7px 20px #4d356d38)!important;
+ display:flex!important;
+ align-items:center!important;
+ justify-content:center!important;
+ gap:6px!important;
+ font-size:var(--qixi-shop-font,14px)!important;
+ line-height:1!important;
+ background:linear-gradient(135deg,#3e3b93,#9d5aa8)!important;
+ color:#fff!important;
+}
+#qixiEventFab .qixiFabIcon,#qixiEventFab .launchActivityFabIcon{
+ font-size:var(--qixi-shop-icon,21px)!important;
+ line-height:1!important;
+}
+</style>
+<script id="qixi33037FabMatchShopScript">
+(function(){
+ function sync(){
+  const q=document.getElementById("qixiEventFab");
+  const shop=document.getElementById("npcTownFab")||
+             document.querySelector(".npcTownFab")||
+             document.querySelector('[data-open-npc-shop]');
+  if(!q||!shop)return;
+  const cs=getComputedStyle(shop),r=shop.getBoundingClientRect();
+  if(r.width>20)q.style.setProperty("--qixi-shop-w",r.width+"px");
+  if(r.height>20)q.style.setProperty("--qixi-shop-h",r.height+"px");
+  q.style.setProperty("--qixi-shop-pad",cs.padding);
+  q.style.setProperty("--qixi-shop-radius",cs.borderRadius);
+  q.style.setProperty("--qixi-shop-shadow",cs.boxShadow);
+  q.style.setProperty("--qixi-shop-font",cs.fontSize);
+ }
+ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",()=>setTimeout(sync,0),{once:true});
+ else setTimeout(sync,0);
+ window.addEventListener("resize",sync);
+ document.addEventListener("click",e=>{if(e.target.closest?.("[data-load],#npcTownFab,.npcTownFab"))setTimeout(sync,50)},true);
+ setTimeout(sync,300);
+})();
+</script>
+
+
+<script id="test33037SingleStoryRenderer">
+(function(){
+ const FACE={
+  normal:"cat_shopkeeper_normal.png",
+  happy:"assets/npc/shopkeeper_cat/happy.png",
+  shy:"assets/npc/shopkeeper_cat/shy.png",
+  annoyed:"assets/npc/shopkeeper_cat/annoyed.png",
+  surprised:"assets/npc/shopkeeper_cat/surprised.png",
+  soft:"assets/npc/shopkeeper_cat/soft.png",
+  angry:"assets/npc/shopkeeper_cat/annoyed.png",
+  sad:"assets/npc/shopkeeper_cat/soft.png",
+  maid_cafe_special:"assets/npc/shopkeeper_cat/maid_cafe_special.png",
+  maid_cafe_special_1:"assets/npc/shopkeeper_cat/maid_cafe_special_1.png",
+  maid_cafe_special_2:"assets/npc/shopkeeper_cat/maid_cafe_special_2.png"
+ };
+ Object.values(FACE).forEach(src=>{try{const im=new Image();im.decoding="async";im.src=src}catch(_){}});
+
+ function safeFace(line){
+  const explicit=String(line?.face||"").trim();
+  if(explicit&&FACE[explicit])return explicit;
+  try{const f=window.semanticFaceForFormalStory?.(line,"normal");if(f&&FACE[f])return f}catch(_){}
+  try{const f=window.inferNpcStoryFace?.(line,"normal");if(f&&FACE[f])return f}catch(_){}
+  return "normal";
+ }
+ function setStoryPortrait(face){
+  face=FACE[face]?face:"normal";
+  const src=FACE[face],img=document.getElementById("npcStoryPortrait");
+  if(img){
+   const same=img.dataset.npcFace===face&&(img.getAttribute("src")===src||String(img.src||"").endsWith(src));
+   if(!same){img.dataset.npcFace=face;img.setAttribute("src",src)}
+   img.style.display="block";
+  }
+  const badge=document.querySelector("#npcStoryPlayer .npcExpressionBadge");
+  if(badge){badge.textContent="";badge.className="npcExpressionBadge face-"+face}
+ }
+ window.setNpcExpression=function(face="normal"){
+  face=FACE[face]?face:"normal";const src=FACE[face];
+  const hero=document.querySelector("#npcShopModal .npcHero > img");
+  if(hero){
+   const same=hero.dataset.npcFace===face&&(hero.getAttribute("src")===src||String(hero.src||"").endsWith(src));
+   if(!same){hero.dataset.npcFace=face;hero.setAttribute("src",src)}
+  }
+  if(!window.npcStoryPlayerState)setStoryPortrait(face);
+ };
+ window.renderNpcRpgLine=function(){
+  const st=window.npcStoryPlayerState;if(!st||!Array.isArray(st.lines))return;
+  const line=st.lines[Number(st.index||0)];if(!line)return;
+  const speaker=String(line.speaker||"旁白");
+  const se=document.getElementById("npcStorySpeaker"),te=document.getElementById("npcStoryText");
+  if(se)se.textContent=speaker;if(te)te.textContent=line.text||"";
+  document.querySelector(".npcStoryStage")?.classList.toggle("narration",speaker==="旁白");
+  document.getElementById("npcStorySceneWrap")?.classList.add("hidden");
+  document.getElementById("npcStorySceneImage")?.removeAttribute("src");
+  const cb=document.getElementById("npcStoryChoices"),hint=document.getElementById("npcStoryTapHint");
+  if(cb&&hint){
+   if(Array.isArray(line.choices)&&line.choices.length){
+    cb.classList.remove("hidden");
+    cb.innerHTML=line.choices.map((c,i)=>`<button data-rpg-choice="${i}">${typeof esc==="function"?esc(c.label):String(c.label||"")}</button>`).join("");
+    cb._choices=line.choices;hint.classList.add("hidden");
+   }else{cb.classList.add("hidden");cb.innerHTML="";hint.classList.remove("hidden")}
+  }
+  setStoryPortrait(safeFace(line));
+ };
+ window.startNpcRpgStory=function({title="",lines=[],onComplete=null}={}){
+  if(!Array.isArray(lines)||!lines.length)return;
+  window.npcStoryPlayerState={title,lines,index:0,onComplete,finished:false};
+  document.body.classList.add("npcStoryRunning");
+  document.getElementById("npcStoryPlayer")?.classList.remove("hidden");
+  window.renderNpcRpgLine();
+ };
+ window.finishNpcRpgStory=function(){
+  const st=window.npcStoryPlayerState;if(!st||st.finished)return;
+  st.finished=true;const done=st.onComplete;window.npcStoryPlayerState=null;
+  document.body.classList.remove("npcStoryRunning");
+  document.getElementById("npcStoryPlayer")?.classList.add("hidden");
+  document.getElementById("npcStorySceneWrap")?.classList.add("hidden");
+  document.getElementById("npcStorySceneImage")?.removeAttribute("src");
+  setStoryPortrait("normal");if(typeof done==="function")done();
+ };
+ window.cancelNpcRpgStory=function(){
+  window.npcStoryPlayerState=null;document.body.classList.remove("npcStoryRunning");
+  document.getElementById("npcStoryPlayer")?.classList.add("hidden");
+  document.getElementById("npcStorySceneWrap")?.classList.add("hidden");
+  document.getElementById("npcStorySceneImage")?.removeAttribute("src");
+  setStoryPortrait("normal");
+ };
+})();
+</script>
+
