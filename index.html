@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#9a76c4" name="theme-color"/>
-<title>關係進行式・3.31.13.26</title>
+<title>關係進行式・3.31.13.27</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -13047,6 +13047,9 @@ body.game-entry-active #npcTownFab{
     if(!window.NPC_RPG_STORIES?.[OPENING_ID]?.length)return false;
     if(typeof window.startNpcRpgStory!=="function")return false;
 
+    /* 一旦正式觸發就先標記，避免玩家在劇情中刷新後無限重播。 */
+    markOpeningCompleted();
+
     window.startNpcRpgStory({
       title:"初次相遇",
       storyId:OPENING_ID,
@@ -14252,6 +14255,22 @@ document.addEventListener("click",function deepRescueDelegatedFallback(e){
     const ev=nextEligible();if(!ev)return false;
     const lines=window.NPC_RPG_STORIES?.[ev.id];
     if(!Array.isArray(lines)||!lines.length)return false;
+
+    /* autoplay 一旦決定播放，就先鎖定這個故事。
+       避免另一個 interval / refresh 在玩家看完前又開同一段。 */
+    try{
+      const st=typeof npcState==="function"?npcState():null;
+      if(st){
+        st.storyCollection??={};
+        st.storyCollection[ev.id]=st.storyCollection[ev.id]||new Date().toISOString();
+        if(ev.id==="shop_event_first"){
+          st.flags??={};
+          st.flags.formalOpeningCompleted_3276=1;
+        }
+        if(typeof saveNpcState==="function")saveNpcState(st);
+      }
+    }catch(e){console.warn("reserve npc auto story",e)}
+
     window.startNpcRpgStory?.({title:ev.title,storyId:ev.id,lines});
     return true;
   }
@@ -14328,8 +14347,13 @@ document.addEventListener("click",function deepRescueDelegatedFallback(e){
     const lines=(typeof NPC_RPG_STORIES!=="undefined"&&NPC_RPG_STORIES[d.id])||window.NPC_RPG_STORIES?.[d.id];
     if(!Array.isArray(lines)||!lines.length)return false;
     if(typeof startNpcRpgStory!=="function")return false;
+
+    /* 先 reserve 再播放，封住兩套歷史 autoplay 同時命中同一段的競態。 */
+    markPlayed(d.id);
+
     startNpcRpgStory({
       title:d.title,
+      storyId:d.id,
       lines,
       onComplete:()=>{
         markPlayed(d.id);
@@ -15478,7 +15502,7 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 
 
 <script id="formal331324MaidRedeemFix">
-/* 3.31.13.25：修正正式服「請店長喝咖啡券」兌換按鈕只有畫面、沒有 click handler 的問題。 */
+/* 3.31.13.27：修正正式服「請店長喝咖啡券」兌換按鈕只有畫面、沒有 click handler 的問題。 */
 (function(){
   if(window.__formal331324MaidRedeemFix)return;
   window.__formal331324MaidRedeemFix=true;
@@ -15944,9 +15968,21 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
   };
 
   // IMPORTANT: do not call any previous start wrapper either.
-  window.startNpcRpgStory=function({title="",lines=[],onComplete=null,storyId=""}={}){
+  window.startNpcRpgStory=function({title="",storyId="",lines=[],onComplete=null}={}){
     if(!Array.isArray(lines)||!lines.length)return;
-    window.npcStoryPlayerState={title,lines,index:0,onComplete,storyId,finished:false};
+
+    /* 正式服 3.31.13.27：
+       最後一層播放器以前把 storyId 丟掉，導致上層 autoplay 無法收藏，
+       所以每次 refresh/render 都再次判定「尚未看過」。 */
+    window.npcStoryPlayerState={
+      title,
+      storyId:String(storyId||""),
+      lines,
+      index:0,
+      onComplete,
+      finished:false
+    };
+
     document.body.classList.add("npcStoryRunning");
     document.getElementById("npcStoryPlayer")?.classList.remove("hidden");
     window.renderNpcRpgLine();
@@ -15956,27 +15992,35 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
     const st=window.npcStoryPlayerState;
     if(!st||st.finished)return;
     st.finished=true;
+
+    const storyId=String(st.storyId||"");
     const done=st.onComplete;
-    // Persist story completion before clearing the player. Several formal-server
-    // triggers rely on storyId; without this, every refresh/action sees the same
-    // story as unplayed and launches it again.
-    if(st.storyId){
+
+    /* 先寫入收藏再關播放器。
+       這樣 done() / renderNpcShop() / interval 重新檢查時，
+       已經不可能再次命中同一段自動劇情。 */
+    if(storyId){
       try{
         const ns=typeof npcState==="function"?npcState():null;
         if(ns){
           ns.storyCollection??={};
-          ns.storyCollection[st.storyId]=ns.storyCollection[st.storyId]||new Date().toISOString();
-          if(st.storyId==="shop_event_first"){ ns.flags??={}; ns.flags.formalOpeningCompleted_3276=1; }
+          ns.storyCollection[storyId]=ns.storyCollection[storyId]||new Date().toISOString();
+          if(storyId==="shop_event_first"){
+            ns.flags??={};
+            ns.flags.formalOpeningCompleted_3276=1;
+          }
           if(typeof saveNpcState==="function")saveNpcState(ns);
         }
-      }catch(e){console.warn("story completion persist",e)}
+      }catch(e){ console.warn("formal story completion persist",e); }
     }
+
     window.npcStoryPlayerState=null;
     document.body.classList.remove("npcStoryRunning");
     document.getElementById("npcStoryPlayer")?.classList.add("hidden");
     document.getElementById("npcStorySceneWrap")?.classList.add("hidden");
     document.getElementById("npcStorySceneImage")?.removeAttribute("src");
     setStoryPortrait("normal");
+
     if(typeof done==="function")done();
   };
 
