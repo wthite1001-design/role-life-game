@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#9a76c4">
-<meta name="x-test-build" content="3.30.45">
+<meta name="x-test-build" content="3.30.46">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>關係進行式 TEST・3.30.45-七夕重複錯誤清理＋邀請防呆</title>
+<title>關係進行式 TEST・3.30.46-七夕重複錯誤清理＋邀請防呆</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -1473,7 +1473,7 @@ body.npcStoryRunning .draggableFab{
 <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png">
 <link rel="manifest" href="manifest.json">
 <style id="qixi3279-scroll-fix">
-/* 3.30.45：七夕活動頁在手機上可完整往下捲，不再把守橋人卡片截成一半 */
+/* 3.30.46：七夕活動頁在手機上可完整往下捲，不再把守橋人卡片截成一半 */
 #qixiEventModal{
   overflow-y:auto!important;
   overflow-x:hidden!important;
@@ -1956,7 +1956,7 @@ html[data-test-theme="maidCafe"] .navBtn.active::after{
 </style>
 
 <style id="test33014QixiGalaxySingleSource">
-/* ===== TEST 3.30.45 七夕星河：唯一視覺來源 ===== */
+/* ===== TEST 3.30.46 七夕星河：唯一視覺來源 ===== */
 html.qixi-theme-now,
 html[data-test-theme="qixiGalaxy"],
 html.qixi-theme-now body,
@@ -2119,7 +2119,7 @@ html[data-test-theme="qixiGalaxy"] #qixiEventModal button{
 
 
 <style id="test33015StableQixiUi">
-/* 3.30.45：深色星河文字不再純白刺眼 */
+/* 3.30.46：深色星河文字不再純白刺眼 */
 html.qixi-theme-now :is(.homePanel,.card,.pageCard.active,.modalBox,.now,.itemRow,.relItem,.npcRelationCard,.npcShopItem,.eventCard,.characterCard,.statusCard,.section,.panel,.shopCard,.paidProduct),
 html[data-test-theme="qixiGalaxy"] :is(.homePanel,.card,.pageCard.active,.modalBox,.now,.itemRow,.relItem,.npcRelationCard,.npcShopItem,.eventCard,.characterCard,.statusCard,.section,.panel,.shopCard,.paidProduct){
   color:#c7b4d9!important;
@@ -2268,7 +2268,7 @@ html[data-test-theme="qixiGalaxy"] #qixiEventModal :is(.qixiRewardBox,.qixiFacil
 
 
 <style id="test33018ModalRestore">
-/* 3.30.45：恢復測試服卡片式視窗，不再出現整頁白色 modal。 */
+/* 3.30.46：恢復測試服卡片式視窗，不再出現整頁白色 modal。 */
 html.qixi-theme-now .modal,
 html[data-test-theme="qixiGalaxy"] .modal{
   padding:12px!important;
@@ -2496,7 +2496,7 @@ html[data-test-theme="qixiGalaxy"] .modal>.modalBox :is(.card,.panel,.section,.i
     <div class="homeLogo">🧪</div>
     <h1>關係進行式 TEST</h1>
     <div class="homeTagline">測試中的每一段關係，都可能被重置。</div>
-    <div class="homeVersion">3.30.45・測試服｜七夕重複錯誤清理＋邀請防呆</div>
+    <div class="homeVersion">3.30.46・測試服｜七夕重複錯誤清理＋邀請防呆</div>
   </div>
 
   <div id="playerAccountHomePanel" class="homePanel accountHomePanel">
@@ -14519,8 +14519,23 @@ body.maid-cafe-preview .chip{background:#f8e3e9!important;color:#7d4b60!importan
 
 <style id="maid-cafe-preview-32640">
 :root{--maid-cream:#fff7f3;--maid-pink:#f4c7d7;--maid-rose:#c97798;--maid-wine:#6d3650;--maid-coffee:#4b302c}
-html,body,#app,#home,#homePage,#game,#gamePage,#main,main,.page,.screen,.view,.app-shell,.game-shell{background:linear-gradient(145deg,#5d3447 0%,#9c5e79 42%,#f1c4d2 100%)!important;background-image:linear-gradient(145deg,#5d3447 0%,#9c5e79 42%,#f1c4d2 100%)!important}
-body::before,body::after,#app::before,#app::after,#home::before,#home::after,#homePage::before,#homePage::after,#game::before,#game::after,#gamePage::before,#gamePage::after,.page::before,.page::after,.screen::before,.screen::after,.app-shell::before,.app-shell::after,.game-shell::before,.game-shell::after{background-image:none!important;box-shadow:none!important}
+body.maid-cafe-preview,
+body.maid-cafe-preview #app,
+body.maid-cafe-preview #home,
+body.maid-cafe-preview #homePage,
+body.maid-cafe-preview #game,
+body.maid-cafe-preview #gamePage,
+body.maid-cafe-preview #main,
+body.maid-cafe-preview main,
+body.maid-cafe-preview .page,
+body.maid-cafe-preview .screen,
+body.maid-cafe-preview .view,
+body.maid-cafe-preview .app-shell,
+body.maid-cafe-preview .game-shell{
+ background:linear-gradient(145deg,#5d3447 0%,#9c5e79 42%,#f1c4d2 100%)!important;
+ background-image:linear-gradient(145deg,#5d3447 0%,#9c5e79 42%,#f1c4d2 100%)!important
+}
+body.maid-cafe-preview::before,body.maid-cafe-preview::after,body.maid-cafe-preview #app::before,body.maid-cafe-preview #app::after,body.maid-cafe-preview #home::before,body.maid-cafe-preview #home::after,body.maid-cafe-preview #homePage::before,body.maid-cafe-preview #homePage::after,body.maid-cafe-preview #game::before,body.maid-cafe-preview #game::after,body.maid-cafe-preview #gamePage::before,body.maid-cafe-preview #gamePage::after,body.maid-cafe-preview .page::before,body.maid-cafe-preview .page::after,body.maid-cafe-preview .screen::before,body.maid-cafe-preview .screen::after,body.maid-cafe-preview .app-shell::before,body.maid-cafe-preview .app-shell::after,body.maid-cafe-preview .game-shell::before,body.maid-cafe-preview .game-shell::after{background-image:none!important;box-shadow:none!important}
 #home .card,#homePage .card,#game .card,#gamePage .card,#home .panel,#homePage .panel,#game .panel,#gamePage .panel,#home [class*="card"],#homePage [class*="card"],#game [class*="card"],#gamePage [class*="card"],#game [class*="panel"],#gamePage [class*="panel"],.modal,.modal-content,.dialog,.dialog-content,.popup,.popup-content,.overlay-card,.sheet,.bottom-sheet,.drawer,.toast,.alert,.loading,.loading-box,.loading-modal,.waiting,.waiting-box,[class*="modal"],[class*="dialog"],[class*="popup"],[class*="sheet"],[class*="loading"],[class*="waiting"]{background:linear-gradient(160deg,#fffaf7 0%,#f8dce6 100%)!important;color:var(--maid-coffee)!important;border-color:rgba(201,119,152,.35)!important;box-shadow:0 18px 55px rgba(75,48,44,.22)!important}
 .modal-backdrop,.overlay,.backdrop,[class*="backdrop"]{background:rgba(61,35,42,.48)!important;background-image:none!important}
 .primary,.btn-primary,button.primary,.tab.active,.active-tab{background:linear-gradient(135deg,#b96f91,#7b4560)!important;color:#fff!important}
@@ -14762,7 +14777,7 @@ header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{back
 <script id="qixi3283-ribbon-fix">
 (function(){
  function fix(){
-   document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.30.45-beta");
+   document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.30.46-beta");
  }
  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",fix,{once:true});else fix();
  setTimeout(fix,300);
@@ -14975,7 +14990,7 @@ header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{back
 
 
 <style id="qixi3300ResponsiveFerry">
-/* 3.30.45：指定 GitHub 七夕背景；手機填滿、電腦固定直式舞台，禁止橫向螢幕把直圖放大裁爆 */
+/* 3.30.46：指定 GitHub 七夕背景；手機填滿、電腦固定直式舞台，禁止橫向螢幕把直圖放大裁爆 */
 #qixiMiniGameBoard.qixiFerryGameBoard,#qixiMiniGameBoard.qixiBridgeGameBoard{
  background-image:linear-gradient(rgba(8,7,35,.12),rgba(15,9,45,.24)),url("images/qixi/qixi_full_background.png")!important;
  background-repeat:no-repeat!important;background-position:center center!important;
@@ -15073,7 +15088,7 @@ header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{back
 
 <script id="test33015SingleVersionSource">
 (function(){
- const BUILD='3.30.45';
+ const BUILD='3.30.46';
  const LABEL='七夕邀約內嵌＋設施背景＋快速雲端同步';
  function apply(){
    document.title='關係進行式 TEST・'+BUILD;
@@ -17524,8 +17539,8 @@ function openConfirm(o={}){
  
 })();
 </script>
-\n<style id="qixi3298AuthoritativeFix">\n/* 3.30.45：星河渡口與鵲羽橋使用指定背景圖 */\n#qixiMiniGameBoard.qixiFerryGameBoard{\n background-image:linear-gradient(rgba(8,7,35,.16),rgba(15,9,45,.28)),url("images/qixi/qixi_ferry_game_bg.png")!important;\n background-size:cover!important;background-position:center center!important;background-repeat:no-repeat!important;min-height:56vh!important;\n}\n#qixiMiniGameBoard.qixiFerryGameBoard .qixiStarTapGrid{padding-top:4vh!important}\n#qixiMiniGameBoard.qixiFerryGameBoard .qixiStarTap{background:rgba(28,21,76,.62)!important;backdrop-filter:blur(2px)!important}\n/* SHOP_3304_SINGLE_SOURCE_START */
-/* 3.30.45：商店唯一權威版型。整個商店頁負責垂直滑動，子區塊不截斷。 */
+\n<style id="qixi3298AuthoritativeFix">\n/* 3.30.46：星河渡口與鵲羽橋使用指定背景圖 */\n#qixiMiniGameBoard.qixiFerryGameBoard{\n background-image:linear-gradient(rgba(8,7,35,.16),rgba(15,9,45,.28)),url("images/qixi/qixi_ferry_game_bg.png")!important;\n background-size:cover!important;background-position:center center!important;background-repeat:no-repeat!important;min-height:56vh!important;\n}\n#qixiMiniGameBoard.qixiFerryGameBoard .qixiStarTapGrid{padding-top:4vh!important}\n#qixiMiniGameBoard.qixiFerryGameBoard .qixiStarTap{background:rgba(28,21,76,.62)!important;backdrop-filter:blur(2px)!important}\n/* SHOP_3304_SINGLE_SOURCE_START */
+/* 3.30.46：商店唯一權威版型。整個商店頁負責垂直滑動，子區塊不截斷。 */
 html.qixi-theme-now #extraShop.pageCard.active{
   display:block!important;
   position:fixed!important;
@@ -17956,81 +17971,10 @@ body.qixi-entry-in-game #qixiEventFab{
 }
 </style>
 
-<style id="test33045DefaultThemeLeakFix">
-html:not(.qixi-theme-now) body:not(.theme-maid-cafe):not(.maid-cafe-preview):not(.theme-qixi-paid):not(.qixi-global-theme):not(.appearance-galaxy){
+<style id="test33046DefaultRootSafety">
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]),
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) body{
   background:linear-gradient(#eee5f6,#fbf7fa)!important;
-}
-html:not(.qixi-theme-now) body:not(.theme-maid-cafe):not(.maid-cafe-preview):not(.theme-qixi-paid):not(.qixi-global-theme):not(.appearance-galaxy)::before,
-html:not(.qixi-theme-now) body:not(.theme-maid-cafe):not(.maid-cafe-preview):not(.theme-qixi-paid):not(.qixi-global-theme):not(.appearance-galaxy)::after{
-  background-image:none!important;
+  color:var(--text,#3d3343)!important;
 }
 </style>
-
-
-<script id="test33045DefaultThemeStateFix">
-(function(){
-  const THEME_CLASSES=[
-    "theme-maid-cafe","maid-cafe-preview","theme-qixi-paid",
-    "qixi-global-theme","appearance-galaxy","qixi-theme-now"
-  ];
-
-  function readStoredAppearance(){
-    const keys=[
-      "appearance","appearanceTheme","selectedAppearance","selectedTheme",
-      "theme","formalAppearance","rlgAppearance","roleLifeAppearance"
-    ];
-    for(const k of keys){
-      try{
-        const v=localStorage.getItem(k);
-        if(v!==null && v!=="") return String(v).toLowerCase();
-      }catch(_){}
-    }
-    return "";
-  }
-
-  function isSpecialStored(v){
-    return /maid|女僕|qixi|七夕|galaxy|星河|star/.test(v||"");
-  }
-
-  function clearSpecialThemeClasses(){
-    const html=document.documentElement, body=document.body;
-    THEME_CLASSES.forEach(c=>{html.classList.remove(c);body.classList.remove(c);});
-    for(const el of [html,body]){
-      const dt=(el.getAttribute("data-theme")||"").toLowerCase();
-      if(/maid|qixi|galaxy|star/.test(dt)) el.removeAttribute("data-theme");
-    }
-  }
-
-  function normalizeDefaultTheme(){
-    const v=readStoredAppearance();
-    if(!isSpecialStored(v)) clearSpecialThemeClasses();
-  }
-
-  // Run after all legacy initialization so stale theme classes cannot win.
-  function lateNormalize(){
-    normalizeDefaultTheme();
-    setTimeout(normalizeDefaultTheme,50);
-    setTimeout(normalizeDefaultTheme,250);
-    setTimeout(normalizeDefaultTheme,800);
-  }
-
-  if(document.readyState==="loading"){
-    document.addEventListener("DOMContentLoaded",lateNormalize,{once:true});
-  }else lateNormalize();
-
-  window.addEventListener("pageshow",lateNormalize,{passive:true});
-
-  // When selecting "原本外觀", immediately clear every old theme marker.
-  document.addEventListener("click",function(e){
-    const t=e.target.closest?.("button,[role=button],.appearanceChoice,.themeChoice,[data-appearance],[data-theme-choice]");
-    if(!t)return;
-    const txt=(t.textContent||"").trim();
-    const val=(t.dataset?.appearance||t.dataset?.themeChoice||"").toLowerCase();
-    if(/原本外觀|預設外觀|原始外觀/.test(txt) || /^(default|original|normal|base)$/.test(val)){
-      setTimeout(clearSpecialThemeClasses,0);
-      setTimeout(clearSpecialThemeClasses,80);
-    }
-  },true);
-})();
-</script>
-
