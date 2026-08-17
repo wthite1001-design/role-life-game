@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#9a76c4" name="theme-color"/>
-<title>關係進行式・3.31.13.24</title>
+<title>關係進行式・3.31.13.25</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -15478,7 +15478,7 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 
 
 <script id="formal331324MaidRedeemFix">
-/* 3.31.13.24：修正正式服「請店長喝咖啡券」兌換按鈕只有畫面、沒有 click handler 的問題。 */
+/* 3.31.13.25：修正正式服「請店長喝咖啡券」兌換按鈕只有畫面、沒有 click handler 的問題。 */
 (function(){
   if(window.__formal331324MaidRedeemFix)return;
   window.__formal331324MaidRedeemFix=true;
@@ -15533,6 +15533,77 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
   },true);
 })();
 </script>
+
+<script id="formal3311325BackgroundAudioResumeState">
+(function(){
+  "use strict";
+
+  let shouldResumeOnReturn = false;
+  const pausedTargets = new Set();
+
+  function allAudioTargets(){
+    const set = new Set();
+    document.querySelectorAll("audio").forEach(a=>set.add(a));
+    [
+      window.bgmAudio,
+      window.bgm,
+      window.audio,
+      window.musicAudio,
+      window.backgroundMusic
+    ].forEach(a=>{
+      if(a && typeof a.pause==="function") set.add(a);
+    });
+    return Array.from(set);
+  }
+
+  function onHide(){
+    if(!document.hidden) return;
+
+    shouldResumeOnReturn = false;
+    pausedTargets.clear();
+
+    allAudioTargets().forEach(audio=>{
+      try{
+        if(!audio.paused && !audio.ended){
+          shouldResumeOnReturn = true;
+          pausedTargets.add(audio);
+          audio.pause();
+        }
+      }catch(_){}
+    });
+  }
+
+  function onShow(){
+    if(document.hidden) return;
+
+    if(!shouldResumeOnReturn){
+      pausedTargets.clear();
+      return;
+    }
+
+    pausedTargets.forEach(audio=>{
+      try{
+        if(audio && audio.paused && !audio.ended){
+          const p = audio.play();
+          if(p && typeof p.catch==="function") p.catch(()=>{});
+        }
+      }catch(_){}
+    });
+
+    shouldResumeOnReturn = false;
+    pausedTargets.clear();
+  }
+
+  document.addEventListener("visibilitychange", ()=>{
+    if(document.hidden) onHide();
+    else onShow();
+  }, true);
+
+  window.addEventListener("pagehide", onHide, true);
+  window.addEventListener("pageshow", ()=>setTimeout(onShow,0), true);
+})();
+</script>
+
 </body>
 </html>
 <style>
