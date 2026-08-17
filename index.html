@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#9a76c4" name="theme-color"/>
-<title>關係進行式・3.31.13.27</title>
+<title>關係進行式・3.31.13.28</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -10193,9 +10193,12 @@ function maybePlayNpcMilestoneStory(){
   for(const [id,need] of checks){
     const flag="played_"+id;
     if(st.affection>=need&&!st.flags[flag]){
-      st.flags[flag]=1;saveNpcState(st);
+      st.flags[flag]=1;
+      st.storyCollection??={};
+      st.storyCollection[id]=st.storyCollection[id]||new Date().toISOString();
+      saveNpcState(st);
       const story=(NPC_STORY_LIBRARY.shopkeeper_cat.personal||[]).find(x=>x.id===id);
-      startNpcRpgStory({title:story?.title||"故事",lines:NPC_RPG_STORIES[id]||[]});
+      startNpcRpgStory({title:story?.title||"故事",storyId:id,lines:NPC_RPG_STORIES[id]||[]});
       return true;
     }
   }
@@ -11382,7 +11385,7 @@ document.getElementById("closeNpcStoryPlayer")?.addEventListener("click",e=>{e.s
       ["shop_story_04",80]
     ];
     for(const [id,need] of checks){
-      if(st.affection>=need&&!st.storyCollection[id]){
+      if(st.affection>=need && !st.storyCollection[id] && !st.flags?.["played_"+id]){
         const story=(NPC_STORY_LIBRARY.shopkeeper_cat.personal||[]).find(x=>x.id===id);
         startNpcRpgStory({
           title:story?.title||"故事",
@@ -12530,7 +12533,7 @@ body.game-entry-active #npcTownFab{
       if(!st)return false;
       st.storyCollection??={};
       return [["shop_story_01",20],["shop_story_02",40],["shop_story_03",60],["shop_story_04",80]]
-        .some(([id,need])=>Number(st.affection||0)>=need&&!st.storyCollection[id]);
+        .some(([id,need])=>Number(st.affection||0)>=need && !st.storyCollection[id] && !st.flags?.["played_"+id]);
     }catch(e){return false}
   }
 
@@ -14263,6 +14266,7 @@ document.addEventListener("click",function deepRescueDelegatedFallback(e){
       if(st){
         st.storyCollection??={};
         st.storyCollection[ev.id]=st.storyCollection[ev.id]||new Date().toISOString();
+        st.flags??={}; st.flags["played_"+ev.id]=1;
         if(ev.id==="shop_event_first"){
           st.flags??={};
           st.flags.formalOpeningCompleted_3276=1;
@@ -15502,7 +15506,7 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 
 
 <script id="formal331324MaidRedeemFix">
-/* 3.31.13.27：修正正式服「請店長喝咖啡券」兌換按鈕只有畫面、沒有 click handler 的問題。 */
+/* 3.31.13.28：修正正式服「請店長喝咖啡券」兌換按鈕只有畫面、沒有 click handler 的問題。 */
 (function(){
   if(window.__formal331324MaidRedeemFix)return;
   window.__formal331324MaidRedeemFix=true;
@@ -15625,6 +15629,41 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 
   window.addEventListener("pagehide", onHide, true);
   window.addEventListener("pageshow", ()=>setTimeout(onShow,0), true);
+})();
+</script>
+
+
+<script>
+/* === FORMAL 3.31.13.28 legacy NPC story completion migration === */
+(function(){
+  const IDS=["shop_story_01","shop_story_02","shop_story_03","shop_story_04"];
+  function migrate(){
+    try{
+      const key="role_life_npc_shopkeeper_cat_v1";
+      const st=JSON.parse(localStorage.getItem(key)||"{}")||{};
+      st.flags??={}; st.storyCollection??={};
+      let changed=false;
+      for(const id of IDS){
+        if(st.flags["played_"+id] && !st.storyCollection[id]){
+          st.storyCollection[id]=new Date().toISOString(); changed=true;
+        }
+        if(st.storyCollection[id] && !st.flags["played_"+id]){
+          st.flags["played_"+id]=1; changed=true;
+        }
+      }
+      if(st.flags.formalOpeningCompleted_3276 && !st.storyCollection.shop_event_first){
+        st.storyCollection.shop_event_first=new Date().toISOString(); changed=true;
+      }
+      if(st.storyCollection.shop_event_first && !st.flags.formalOpeningCompleted_3276){
+        st.flags.formalOpeningCompleted_3276=1; changed=true;
+      }
+      if(changed)localStorage.setItem(key,JSON.stringify(st));
+      return st;
+    }catch(e){console.warn("legacy NPC story migration",e);return null}
+  }
+  migrate();
+  document.addEventListener("DOMContentLoaded",migrate,{once:true});
+  window.addEventListener("pageshow",migrate);
 })();
 </script>
 
@@ -15971,7 +16010,7 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
   window.startNpcRpgStory=function({title="",storyId="",lines=[],onComplete=null}={}){
     if(!Array.isArray(lines)||!lines.length)return;
 
-    /* 正式服 3.31.13.27：
+    /* 正式服 3.31.13.28：
        最後一層播放器以前把 storyId 丟掉，導致上層 autoplay 無法收藏，
        所以每次 refresh/render 都再次判定「尚未看過」。 */
     window.npcStoryPlayerState={
@@ -16005,6 +16044,7 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
         if(ns){
           ns.storyCollection??={};
           ns.storyCollection[storyId]=ns.storyCollection[storyId]||new Date().toISOString();
+          ns.flags??={}; ns.flags["played_"+storyId]=1;
           if(storyId==="shop_event_first"){
             ns.flags??={};
             ns.flags.formalOpeningCompleted_3276=1;
