@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#9a76c4" name="theme-color"/>
-<title>關係進行式・3.31.13.22</title>
+<title>關係進行式・3.31.13.23</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -14463,6 +14463,55 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
     <div class="formalAppearanceGrid" id="formalAppearanceGrid"></div>
   </div>
 </div>
+
+
+<script id="formalAppearanceClickFix3311323">
+(function(){
+  const THEME_KEY='role_life_formal_theme_v1';
+  function ensureAppearance(){
+    window.local=window.local||{};
+    local.accountAppearance=local.accountAppearance&&typeof local.accountAppearance==='object'?local.accountAppearance:{};
+    local.accountAppearance.owned=local.accountAppearance.owned&&typeof local.accountAppearance.owned==='object'?local.accountAppearance.owned:{};
+    if(local.sharedPaidCosmetics?.maidCafe || (typeof cur==='function'&&cur()?.paidCosmetics?.maidCafe)) local.accountAppearance.owned.maidCafe=1;
+    if(!local.accountAppearance.active)local.accountAppearance.active='default';
+    return local.accountAppearance;
+  }
+  function applyTheme(mode){
+    const a=ensureAppearance();
+    mode=(mode==='maidCafe'&&a.owned.maidCafe)?'maidCafe':'default';
+    a.active=mode;
+    document.documentElement.setAttribute('data-formal-theme',mode);
+    try{
+      localStorage.setItem(THEME_KEY,JSON.stringify({mode,account:true,savedAt:Date.now()}));
+      localStorage.setItem('relationship_game_formal_paid_theme_v1',JSON.stringify({mode,account:true,savedAt:Date.now()}));
+    }catch(_){}
+    try{if(typeof saveLocal==='function')saveLocal()}catch(_){}
+    document.querySelectorAll('[data-formal-theme-choice]').forEach(b=>b.classList.toggle('active',b.dataset.formalThemeChoice===mode));
+  }
+  function render(){
+    const grid=document.getElementById('formalAppearanceGrid');
+    if(!grid)return;
+    const a=ensureAppearance();
+    const items=[
+      {id:'default',name:'一般背景',desc:'原本的遊戲背景',owned:true},
+      {id:'maidCafe',name:'🎀 女僕咖啡廳',desc:'完成女僕咖啡付費劇情後永久解鎖',owned:!!a.owned.maidCafe}
+    ];
+    grid.classList.add('appearanceGrid');
+    grid.innerHTML=items.map(x=>`<button type="button" class="appearanceChoice ${a.active===x.id?'active':''}" data-formal-theme-choice="${x.id}" ${x.owned?'':'disabled'}><b>${x.name}</b><span class="small">${x.owned?x.desc:'🔒 尚未解鎖'}</span></button>`).join('');
+  }
+  function open(){render();document.getElementById('formalAppearanceModal')?.classList.remove('hidden');}
+  function close(){document.getElementById('formalAppearanceModal')?.classList.add('hidden');}
+  document.addEventListener('click',function(e){
+    if(e.target.closest?.('#formalAppearanceBtn')){e.preventDefault();e.stopPropagation();open();return;}
+    if(e.target.closest?.('#closeFormalAppearance')){e.preventDefault();close();return;}
+    const choice=e.target.closest?.('[data-formal-theme-choice]');
+    if(choice&&!choice.disabled){e.preventDefault();applyTheme(choice.dataset.formalThemeChoice);render();return;}
+    if(e.target?.id==='formalAppearanceModal')close();
+  },true);
+  function init(){const a=ensureAppearance();applyTheme(a.active);}
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+})();
+</script>
 
 <script id="formal3307DeferredUiMount">
 (function(){
