@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#9a76c4" name="theme-color"/>
-<title>關係進行式・3.31.9.15</title>
+<title>關係進行式・3.31.11.15</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -1753,6 +1753,39 @@ html[data-formal-theme="maidCafe"] .navBtn::after{
 #npcShopBody .npcActionCard[disabled] .small{opacity:.92}
 </style>
 
+
+<style id="formal33110StorySceneImageStyle">
+#npcStoryPlayer .npcStorySceneWrap{
+ position:absolute!important;
+ inset:0 0 150px 0!important;
+ z-index:2!important;
+ overflow:hidden!important;
+ display:flex!important;
+ align-items:center!important;
+ justify-content:center!important;
+ background:#180f15!important;
+ pointer-events:none!important;
+}
+#npcStoryPlayer .npcStorySceneWrap.hidden{display:none!important}
+#npcStoryPlayer #npcStorySceneImage{
+ width:100%!important;
+ height:100%!important;
+ object-fit:cover!important;
+ object-position:center!important;
+ display:block!important;
+}
+@media(max-width:560px){
+ #npcStoryPlayer .npcStorySceneWrap{
+   inset:0 0 150px 0!important;
+   background:#180f15!important;
+ }
+ #npcStoryPlayer #npcStorySceneImage{
+   object-fit:contain!important;
+   background:#180f15!important;
+ }
+}
+</style>
+
 </head>
 <body>
 
@@ -1795,7 +1828,7 @@ html[data-formal-theme="maidCafe"] .navBtn::after{
 <div class="homeLogo">💞</div>
 <h1>關係進行式</h1>
 <div class="homeTagline">每一段關係，都還在進行中。</div>
-<div class="homeVersion">第3.31.9.15版・此生唯一成就修正</div>
+<div class="homeVersion">第3.31.11版・正式服</div>
 </div>
 <div id="playerAccountHomePanel" class="homePanel accountHomePanel">
 <div class="homePanelTitle"><span>☁️ 玩家帳號</span><span id="playerAccountChip" class="chip">未登入</span></div>
@@ -1813,7 +1846,7 @@ html[data-formal-theme="maidCafe"] .navBtn::after{
 <div class="gmStatus" id="gmHomeStatus"></div>
 </div>
 <div class="homePanel">
-<div class="homePanelTitle"><span>📢 更新公告</span><span class="chip">第3.31.9版</span></div>
+<div class="homePanelTitle"><span>📢 更新公告</span><span class="chip">第3.31.11版</span></div>
 <div class="small">查看本次新增功能與修正內容。</div>
 <button id="openUpdateNotice" style="width:100%;margin-top:8px" type="button">查看更新內容</button>
 </div>
@@ -2236,7 +2269,7 @@ html[data-formal-theme="maidCafe"] .navBtn::after{
 </div>
 <div class="drawerShade hidden" id="drawerShade"></div><aside class="drawer hidden" id="drawer"><div style="padding:8px"><b id="drawerName">角色</b><div class="muted">功能選單</div></div><button class="navBtn" data-nav="life" type="button">🏠 角色生活</button><button class="navBtn" data-nav="daily" type="button">📋 今日小事</button><button class="navBtn" data-nav="work" type="button">💼 打工賺錢</button><button class="navBtn" data-nav="journal" type="button">📖 今日生活日誌</button><button class="navBtn" data-nav="routine" type="button">🕒 角色作息</button><button class="navBtn" data-nav="outing" type="button">🗺️ 外出 <span class="navDot hidden" data-dot="outing"></span></button><button class="navBtn" data-nav="relations" type="button">💞 關係 <span class="navDot hidden" data-dot="relations"></span></button><button class="navBtn" data-nav="npcrelations" type="button">✨ NPC 關係</button><button class="navBtn" data-nav="mailbox" type="button">📬 信箱 <span class="navDot hidden" data-dot="mailbox"></span></button><button class="navBtn" id="playerAccountDrawerBtn" type="button">☁️ 玩家帳號</button><button class="navBtn" id="gmDrawerLoginBtn" type="button">👑 管理員登入</button><button class="navBtn hidden" data-nav="gm" id="gmNavBtn" type="button">🛠️ GM 操作台</button><div class="navSep"></div><button class="navBtn" data-nav="bag" type="button">🎒 背包</button><button class="navBtn" data-nav="shop" type="button">🏪 商店</button><button class="navBtn" data-nav="memory" type="button">📖 回憶</button><button class="navBtn" data-nav="achievements" type="button">🏆 成就</button><div class="navSep"></div><div style="padding:8px"><b>🎵 悠閒 BGM</b><div class="actions"><button id="bgmToggle">▶ 播放</button><input id="bgmVolume" max="1" min="0" step=".05" type="range" value=".25"/></div><div class="small">把 bgm.mp3 和 index.html 放同一資料夾。</div></div><audio autoplay="" id="bgm" loop="" playsinline="" preload="auto"><source src="bgm.mp3" type="audio/mpeg"/></audio><button class="navBtn" id="back" type="button">💾 返回存檔首頁</button></aside><div class="modal hidden" id="updateNoticeModal">
 <div class="modalBox">
-<div class="modalHead"><b>📢 第3.31.9.15版更新公告</b><button id="closeUpdateNotice">×</button></div>
+<div class="modalHead"><b>📢 第3.31.11.15版更新公告</b><button id="closeUpdateNotice">×</button></div>
 <div class="updateNoticeBody">
   <h3>🎀 女僕咖啡廳主題</h3>
   <p>新增女僕咖啡廳限定外觀。解鎖後可在「外觀更改」中自由切換原始外觀與女僕咖啡廳，選擇會保留。</p>
@@ -7107,7 +7140,7 @@ function reconcileAchievements(c){
  let _hasTopAch=_topDefs.some(t=>t?.ach&&!!c.achievements?.[t.ach]);
  let _hasTopBadge=_topDefs.some(t=>t?.badge&&!!local.sharedBadges?.[t.badge]);
  if(_hasBroken||_hasTopAch||_hasTopBadge)c.achievements.break=1;
-  /* 3.31.9.15：只補「此生唯一」。 */
+  /* 3.31.11.15：只補「此生唯一」。 */
   try{
     const loverBroken=infos.some(x=>x.rr?.relation==="lover"&&!!x.b?.broken);
     const loverBadge=!!local.sharedBadges?.badge_lover;
@@ -9536,6 +9569,22 @@ function renderNpcRpgLine(){
   document.getElementById("npcStorySpeaker").textContent=speaker;
   document.getElementById("npcStoryText").textContent=line.text||"";
   document.querySelector(".npcStoryStage")?.classList.toggle("narration",speaker==="旁白");
+
+  /* Generic story CG layer: independent from NPC portrait / emotion system. */
+  {
+    const sceneWrap=document.getElementById("npcStorySceneWrap");
+    const sceneImg=document.getElementById("npcStorySceneImage");
+    const sceneSrc=String(line.sceneImage||"").trim();
+    if(sceneWrap&&sceneImg){
+      if(sceneSrc){
+        if(sceneImg.getAttribute("src")!==sceneSrc)sceneImg.setAttribute("src",sceneSrc);
+        sceneWrap.classList.remove("hidden");
+      }else{
+        sceneWrap.classList.add("hidden");
+        sceneImg.removeAttribute("src");
+      }
+    }
+  }
   let choiceBox=document.getElementById("npcStoryChoices");
   let hint=document.getElementById("npcStoryTapHint");
   if(Array.isArray(line.choices)&&line.choices.length){
@@ -10655,6 +10704,9 @@ document.getElementById("npcDetailBody")?.addEventListener("click",e=>{
 <button class="npcStoryClose" id="closeNpcStoryPlayer" type="button">×</button>
 <div class="npcStoryPortraitWrap">
 <img alt="" id="npcStoryPortrait" src="cat_shopkeeper_normal.png"/><span class="npcExpressionBadge face-normal"></span>
+</div>
+<div class="npcStorySceneWrap hidden" id="npcStorySceneWrap">
+<img alt="" id="npcStorySceneImage"/>
 </div>
 <div class="npcStoryDialogue" id="npcStoryDialogue">
 <div class="npcStorySpeaker" id="npcStorySpeaker">？？？</div>
@@ -14427,313 +14479,7 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 })();
 </script>
 
-<script id="formal3298MaidCommerce">
-(function(){
- const BUILD='3.31.9.15';
- const THEME_KEY='role_life_formal_theme_v1';
- const VOUCHER='npc_maid_cafe_coffee_voucher';
 
- const PRODUCTS=[
-  {icon:'☕',name:'請店長喝咖啡',price:50,desc:'未來開放後：300 金幣＋☕ 請店長喝咖啡券 ×1；咖啡券可到貓貓商店兌換女僕咖啡廳主題。'},
-  {icon:'🐾',name:'店長的小禮物',price:60,desc:'未來開放後：700 金幣＋🎁 熟客小盒 ×1＋🐾「店長的小禮物」徽章。'},
-  {icon:'🎀',name:'小小贊助包',price:100,desc:'未來開放後：1,200 金幣＋💎 紫晶碎片 ×5＋🎁 熟客小盒 ×1＋🎀「小小應援」徽章。'},
-  {icon:'✨',name:'開發者應援包',price:150,desc:'未來開放後：2,000 金幣＋💎 紫晶碎片 ×10＋🎁 熟客小盒 ×2＋🔔 小幸運鈴 ×1＋✨「開發者應援」徽章。'}
- ];
-
- function c(){try{return typeof cur==='function'?cur():null}catch(_){return null}}
- function ensure(x){
-  if(!x)return;
-  x.inventory??={};x.paidCosmetics??={};x.paidEntitlements??={};x.paidStoryFlags??={};x.memories??=[];
-  if(x.activePaidTheme!=='maidCafe')x.activePaidTheme='';
- }
- function ensureAccountAppearance(){
-  window.local=window.local||{};
-  local.accountAppearance=local.accountAppearance&&typeof local.accountAppearance==='object'?local.accountAppearance:{};
-  local.accountAppearance.owned=local.accountAppearance.owned&&typeof local.accountAppearance.owned==='object'?local.accountAppearance.owned:{};
-
-  // 舊資料向上相容：擁有權只決定「能不能選」，不決定目前套用什麼。
-  const chars=[];
-  if(Array.isArray(local.characters))chars.push(...local.characters);
-  if(Array.isArray(local.chars))chars.push(...local.chars);
-  try{const x=c();if(x)chars.push(x)}catch(_){}
-  for(const ch of chars){
-    if(ch?.paidCosmetics?.maidCafe || ch?.paidEntitlements?.maidCafeCoffeeRedeemed){
-      local.accountAppearance.owned.maidCafe=true;
-    }
-  }
-  if(local.sharedPaidCosmetics?.maidCafe || local.sharedPaidEntitlements?.maidCafeCoffeeRedeemed){
-    local.accountAppearance.owned.maidCafe=true;
-  }
-
-  // 第一次升級時，才從舊角色目前外觀匯入；之後完全以帳戶 active 為準。
-  if(!local.accountAppearance.migratedActiveV2){
-    let oldMode='default';
-    try{
-      const legacy=JSON.parse(localStorage.getItem(THEME_KEY)||'null');
-      if(legacy?.mode==='maidCafe')oldMode='maidCafe';
-    }catch(_){}
-    try{
-      const x=c();
-      if(x?.activePaidTheme==='maidCafe')oldMode='maidCafe';
-    }catch(_){}
-    local.accountAppearance.active=oldMode;
-    local.accountAppearance.migratedActiveV2=true;
-  }
-
-  if(local.accountAppearance.active!=='maidCafe')local.accountAppearance.active='default';
-  return local.accountAppearance;
- }
- function accountTheme(){
-  return ensureAccountAppearance().active==='maidCafe'?'maidCafe':'default';
- }
- function syncThemeToCharacters(mode){
-  const chars=[];
-  if(Array.isArray(local.characters))chars.push(...local.characters);
-  if(Array.isArray(local.chars))chars.push(...local.chars);
-  try{const x=c();if(x)chars.push(x)}catch(_){}
-  for(const ch of chars){
-    ensure(ch);
-    ch.activePaidTheme=mode==='maidCafe'?'maidCafe':'';
-  }
- }
- function paint(mode){
-  mode=mode==='maidCafe'?'maidCafe':'default';
-  document.documentElement.setAttribute('data-formal-theme',mode);
- }
- function saveTheme(mode,x){
-  mode=mode==='maidCafe'?'maidCafe':'default';
-  const acct=ensureAccountAppearance();
-  acct.active=mode;
-  syncThemeToCharacters(mode);
-  try{
-    localStorage.setItem(THEME_KEY,JSON.stringify({mode,account:true,savedAt:Date.now()}));
-  }catch(_){}
-  try{saveLocal?.()}catch(_){}
- }
- function apply(x=c(),write=false){
-  const acct=ensureAccountAppearance();
-  let mode=acct.active==='maidCafe' && acct.owned.maidCafe ? 'maidCafe' : 'default';
-
-  // 若帳戶沒有女僕主題擁有權，不允許舊殘留把畫面套成女僕。
-  if(mode==='maidCafe'&&!acct.owned.maidCafe){
-    mode='default';
-    acct.active='default';
-  }
-
-  paint(mode);
-  syncThemeToCharacters(mode);
-
-  // 保留 legacy key 只是相容，不再作為決策來源。
-  try{localStorage.setItem(THEME_KEY,JSON.stringify({mode,account:true,savedAt:Date.now()}))}catch(_){}
-  if(write){try{saveLocal?.()}catch(_){}}
-  return mode;
- }
- window.applyFormalPaidAppearance=apply;
-
- let paymentConfig={enabled:false,reason:'尚未開放'};
- let paymentConfigLoaded=false;
-
- async function loadPaymentConfig(){
-  if(paymentConfigLoaded)return paymentConfig;
-  paymentConfigLoaded=true;
-  try{
-   const base=String(window.SUPABASE_EDGE_BASE||'').replace(/\/$/,'');
-   const anon=String(window.SUPABASE_ANON_KEY||window.SUPABASE_KEY||'');
-   if(!base){paymentConfig={enabled:false,reason:'尚未開放'};return paymentConfig}
-   const r=await fetch(base+'/payment-config',{
-    headers:anon?{Authorization:'Bearer '+anon,apikey:anon}:{}
-   });
-   if(!r.ok)throw new Error('config '+r.status);
-   const j=await r.json();
-   paymentConfig={enabled:!!j.enabled,reason:j.reason||'',gatewayMode:j.gatewayMode||''};
-  }catch(_){
-   paymentConfig={enabled:false,reason:'尚未開放'};
-  }
-  return paymentConfig;
- }
-
- window.renderFormalPaidShop=async function(){
-  const box=document.getElementById('formalPaidShopList');if(!box)return;
-  const cfg=await loadPaymentConfig();
-  box.innerHTML=`<div class="qixiPaidGroupTitle cat" style="grid-column:1/-1;font-weight:900;font-size:19px">🐱 貓貓店長活動禮包</div>`+
-  PRODUCTS.map((p,i)=>`<div class="paidProduct">
-    <div class="paidProductIcon">${p.icon}</div>
-    <div class="paidProductTitle">${p.name}</div>
-    <div class="small">${p.desc}</div>
-    <div class="paidPrice">NT$${p.price}</div>
-    <button type="button" ${cfg.enabled?'data-formal-pay="'+i+'"':'disabled'}>
-      ${cfg.enabled?'前往付款':'🔒 尚未開放'}
-    </button>
-  </div>`).join('');
- };
-
- async function startFormalPayment(productIndex){
-  const p=PRODUCTS[Number(productIndex)];
-  const x=c();
-  if(!p||!x)return;
-  const cfg=await loadPaymentConfig();
-  if(!cfg.enabled)return toast?.('💳 付款功能尚未開放。',2200);
-
-  const base=String(window.SUPABASE_EDGE_BASE||'').replace(/\/$/,'');
-  const anon=String(window.SUPABASE_ANON_KEY||window.SUPABASE_KEY||'');
-  if(!base)return toast?.('付款服務尚未設定。',2600);
-
-  try{
-   const headers={'Content-Type':'application/json'};
-   if(anon){headers.Authorization='Bearer '+anon;headers.apikey=anon}
-   const r=await fetch(base+'/newebpay-create-order',{
-    method:'POST',
-    headers,
-    body:JSON.stringify({
-      productId:['coffee50','gift60','support100','dev150'][Number(productIndex)],
-      characterId:String(x.id||''),
-      entitlementScope:'account_permanent_character_consumables'
-    })
-   });
-   const data=await r.json().catch(()=>({}));
-   if(!r.ok||!data?.gateway||!data?.fields)throw new Error(data?.error||'建立訂單失敗');
-
-   const form=document.createElement('form');
-   form.method='POST';
-   form.action=data.gateway;
-   form.style.display='none';
-   for(const [k,v] of Object.entries(data.fields)){
-    const input=document.createElement('input');
-    input.type='hidden';input.name=k;input.value=String(v??'');
-    form.appendChild(input);
-   }
-   document.body.appendChild(form);
-   form.submit();
-  }catch(e){
-   console.error('payment start',e);
-   toast?.('⚠️ 暫時無法建立付款訂單，請稍後再試。',3200);
-  }
- }
-
- window.renderFormalAppearance=function(){
-  const box=document.getElementById('formalAppearanceGrid'),x=c();if(!box)return;
-  const acct=ensureAccountAppearance();
-  if(x)ensure(x);
-  const maid=!!acct.owned.maidCafe,cur=acct.active==='maidCafe'?'maidCafe':'default';
-  box.className='appearanceGrid';
-  box.innerHTML=`
-    <button type="button" class="appearanceChoice ${cur==="default"?"active":""}" data-formal-theme-choice="default">
-      <b>🌷 原本外觀</b><span class="small">使用一般遊戲背景。</span>
-    </button>
-    <button type="button" class="appearanceChoice ${cur==="maidCafe"?"active":""}" data-formal-theme-choice="maidCafe" ${maid?"":"disabled"}>
-      <b>🎀 女僕咖啡廳</b><span class="small">${maid?"已解鎖・可隨時切換":"尚未解鎖・需先兌換女僕咖啡廳主題"}</span>
-    </button>`;
- };
-
- function choose(id){
-  const x=c();if(x)ensure(x);
-  const acct=ensureAccountAppearance();
-
-  if(id==='maidCafe'&&!acct.owned.maidCafe)return;
-  const mode=id==='maidCafe'?'maidCafe':'default';
-
-  acct.active=mode;
-  paint(mode);
-  saveTheme(mode,x);
-  window.renderFormalAppearance();
-
-  try{toast?.(mode==='maidCafe'?'🎀 已套用女僕咖啡廳外觀。':'🌷 已切回原始外觀。',1600)}catch(_){}
- }
-
- function maidLines(){
-  const MAID0='assets/npc/shopkeeper_cat/maid_cafe_special.png';
-  const MAID1='assets/npc/shopkeeper_cat/maid_cafe_special_1.png';
-  const MAID2='assets/npc/shopkeeper_cat/maid_cafe_special_2.png';
-  return [
-   {speaker:'旁白',maidStage:0,text:'你把「請店長喝咖啡券」交到櫃檯前。貓貓看著那張券，沉默了幾秒。'},
-   {speaker:'貓貓',maidStage:0,text:'「……所以你真的拿來用了。」'},
-   {speaker:'旁白',maidStage:0,text:'她把店門的牌子翻到「休息中」，轉身走進後面的房間。'},
-   {speaker:'貓貓',maidStage:0,text:'「先說好，這是特別招待。你不准笑。」'},
-   {speaker:'旁白',maidStage:1,image:MAID0,portrait:MAID0,text:'過了一會兒，她換上女僕咖啡廳的制服重新出現在你面前。'},
-   {speaker:'貓貓',maidStage:1,image:MAID0,portrait:MAID0,text:'「歡、歡迎回來……主人。」'},
-   {speaker:'旁白',maidStage:1,image:MAID0,portrait:MAID0,text:'她端著咖啡站在你面前，明明耳根都紅了，卻還努力裝作若無其事。'},
-   {speaker:'貓貓',maidStage:2,image:MAID1,portrait:MAID1,text:'「看夠了沒有？咖啡再不喝就要涼了。」'},
-   {speaker:'你',maidStage:2,image:MAID1,portrait:MAID1,text:'「所以這張券真的可以讓店長親自招待？」'},
-   {speaker:'貓貓',maidStage:3,image:MAID2,portrait:MAID2,text:'「只有今天。還有——不准拿去跟別人炫耀。」'},
-   {speaker:'旁白',maidStage:3,image:MAID2,portrait:MAID2,text:'她把咖啡輕輕推到你面前。'},
-   {speaker:'貓貓',maidStage:3,image:MAID2,portrait:MAID2,text:'「這個主題也給你。以後想起今天，就把它換上吧。」'}
-  ];
- }
- window.playFormalMaidCafeStory=function(replay=false){
-    try{
-      window.prewarmNpcImages?.([
-        "assets/npc/shopkeeper_cat/maid_cafe_special.png",
-        "assets/npc/shopkeeper_cat/maid_cafe_special_1.png",
-        "assets/npc/shopkeeper_cat/maid_cafe_special_2.png"
-      ]);
-    }catch(_){}
-
-  const x=c();if(!x)return;ensure(x);
-  startNpcRpgStory?.({
-    title:'🎀 特殊劇情・女僕咖啡廳',
-    lines:maidLines(),
-    onComplete:()=>{
-      if(!replay){
-       x.paidStoryFlags.paid_maid_cafe_story=true;
-       if(!x.memories.some(m=>m?.t==='🎀 付費劇情・女僕咖啡廳'))x.memories.unshift({t:'🎀 付費劇情・女僕咖啡廳',d:new Date().toLocaleDateString('zh-TW')});
-       saveLocal?.();
-      }
-    }
-  });
- };
-
- function redeem(){
-  const x=c();if(!x)return;ensure(x);
-  const n=Number(x.inventory[VOUCHER]||0);
-  if(x.paidCosmetics.maidCafe)return toast?.('🎀 女僕咖啡廳主題已經解鎖。');
-  if(n<=0)return toast?.('☕ 目前沒有請店長喝咖啡券。');
-  x.inventory[VOUCHER]=n-1;
-  x.paidCosmetics.maidCafe=true;
-  x.paidEntitlements.maidCafeCoffeeRedeemed=true;
-  const acct=ensureAccountAppearance();
-  acct.owned.maidCafe=true;
-  syncThemeToCharacters(accountTheme());
-  saveLocal?.();
-  apply(c(),false);
-  try{renderNpcShop?.()}catch(_){}
-  setTimeout(()=>window.playFormalMaidCafeStory(false),80);
- }
-
- /* 第一幀主題：只讀正式服 key，完全沒有__NO_GALAXY__。 */
- ensureAccountAppearance();apply(null,false);
- for(const src of ['assets/npc/shopkeeper_cat/maid_cafe_special.png','assets/npc/shopkeeper_cat/maid_cafe_special_1.png','assets/npc/shopkeeper_cat/maid_cafe_special_2.png']){
-  const img=new Image();img.decoding='async';img.src=src;
- }
-
- document.addEventListener('click',e=>{
-  if(e.target.closest?.('#formalAppearanceBtn')){
-   e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();
-   closeDrawer?.();
-   window.renderFormalAppearance?.();
-   document.getElementById('formalAppearanceModal')?.classList.remove('hidden');
-   return;
-  }
-  if(e.target.closest?.('#closeFormalAppearance')){document.getElementById('formalAppearanceModal')?.classList.add('hidden');return}
-  const t=e.target.closest?.('[data-formal-theme-choice]');if(t){e.preventDefault();choose(t.dataset.formalThemeChoice);return}
-  if(e.target.closest?.('[data-formal-redeem-maid]')){e.preventDefault();redeem();return}
-  const pay=e.target.closest?.('[data-formal-pay]');
-  if(pay){e.preventDefault();startFormalPayment(pay.dataset.formalPay);return}
- },true);
-
- function version(){
-  const hv=document.querySelector('.homeVersion');if(hv)hv.textContent='第3.30.0版・藍新金流通路預埋';
- }
- function boot(){
-      version();
-      ensureAccountAppearance();apply(c(),false);
-      const later=()=>{ try{void window.renderFormalPaidShop()}catch(_){} };
-      if('requestIdleCallback' in window)requestIdleCallback(later,{timeout:1800});
-      else setTimeout(later,900);
-    }
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
- window.addEventListener('pageshow',()=>{version();ensureAccountAppearance();apply(c(),false);window.renderFormalAppearance?.()});
-})();
-</script>
 
 <script id="formal3313InstantAssetRuntime">
 (function(){
@@ -14791,17 +14537,7 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 </script>
 
 
-<script id="formal3313VersionGuard">
-(function(){
- function apply(){
-  document.querySelectorAll('.homeVersion').forEach(x=>x.textContent='第3.31.9.15版・此生唯一成就修正');
-  document.querySelectorAll('.chip').forEach(x=>{if(/^第?3\.\d+(?:\.\d+)?版?$/.test((x.textContent||'').trim()))x.textContent='第3.31.1版'});
-  document.title='關係進行式・3.31.9.15';
- }
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',apply,{once:true});else apply();
- window.addEventListener('pageshow',apply);
-})();
-</script>
+
 
 
 <script id="formal3313AchievementPopupGuard">
@@ -15404,28 +15140,6 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 
 </script>
 
-<script id="formal3168MaidStoryImageAuthoritative">
-(function(){
- const M1='assets/npc/shopkeeper_cat/maid_cafe_special_1.png',M2='assets/npc/shopkeeper_cat/maid_cafe_special_2.png';
- function apply(){
-  try{
-   const st=window.npcStoryPlayerState,line=st?.lines?.[Number(st?.index||0)];
-   if(!line||Number(line.maidStage||0)<1)return;
-   const src=Number(line.maidStage)>=2?M2:M1;
-   const portrait=document.getElementById('npcStoryPortrait');
-   if(portrait){portrait.src=src;portrait.dataset.npcFace='maid_special';portrait.style.objectFit='cover'}
-   ['npcStoryImage','npcStoryCG','npcRpgImage'].forEach(id=>{const x=document.getElementById(id);if(x?.tagName==='IMG'){x.src=src;x.hidden=false}});
-  }catch(e){console.warn('maid story image',e)}
- }
- const old=window.renderNpcRpgLine;
- if(typeof old==='function')window.renderNpcRpgLine=function(){const r=old.apply(this,arguments);apply();requestAnimationFrame(apply);return r};
- const oldStart=window.startNpcRpgStory;
- if(typeof oldStart==='function')window.startNpcRpgStory=function(){const r=oldStart.apply(this,arguments);setTimeout(apply,0);return r};
- window.applyFormalMaidStoryImage=apply;
-})();
-</script>
-
-
 <script id="formal31612AppearancePersistenceGuard">
 (function(){
  function sync(){
@@ -15458,82 +15172,7 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 </script>
 
 
-<script id="formal31613VersionGuard">
-(function(){
- function fix(){
-   document.querySelectorAll('.homeVersion').forEach(x=>{
-     if((x.textContent||'').includes('3.31.9')) x.textContent='第3.31.9.15版・打烊後留下常駐顯示修復';
-   });
-   document.title='關係進行式・3.31.9.15';
- }
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',fix,{once:true});else fix();
- window.addEventListener('pageshow',fix);
- setTimeout(fix,500);
-})();
-</script>
 
-
-<script id="formal31615MaidAfterChangeOnly">
-(function(){
- const M0='assets/npc/shopkeeper_cat/maid_cafe_special.png';
- const M1='assets/npc/shopkeeper_cat/maid_cafe_special_1.png';
- const M2='assets/npc/shopkeeper_cat/maid_cafe_special_2.png';
-
- function state(){return window.npcStoryPlayerState||window.__npcStoryState||null}
- function wanted(){
-   const st=state();
-   const line=st?.lines?.[Number(st?.index||0)];
-   if(!line)return null;
-   const stage=Number(line.maidStage||0);
-   if(stage<1)return null;
-   return stage>=3?M2:stage>=2?M1:M0;
- }
-
- function sync(){
-   const p=document.getElementById('npcStoryPortrait');
-   const player=document.getElementById('npcStoryPlayer');
-   const src=wanted();
-
-   if(!src){
-     // 換裝前：完全交回一般貓貓立繪系統。
-     if(p){
-       delete p.dataset.maidCgLocked;
-       delete p.dataset.maidChangeoverLocked;
-     }
-     player?.classList.remove('formalMaidChangeover');
-     return;
-   }
-
-   // 換裝後才開始鎖女僕 CG。
-   if(p){
-     p.dataset.maidCgLocked='1';
-     p.dataset.maidChangeoverLocked='1';
-     if(p.getAttribute('src')!==src)p.setAttribute('src',src);
-     p.style.objectFit='cover';
-   }
-   player?.classList.add('formalMaidChangeover');
-   player?.style.setProperty('--formal-maid-bg',`url("${src}")`);
- }
-
- const oldRender=window.renderNpcRpgLine;
- if(typeof oldRender==='function'){
-   window.renderNpcRpgLine=function(){
-     const r=oldRender.apply(this,arguments);
-     sync();
-     return r;
-   };
- }
- const oldStart=window.startNpcRpgStory;
- if(typeof oldStart==='function'){
-   window.startNpcRpgStory=function(){
-     const r=oldStart.apply(this,arguments);
-     sync();
-     return r;
-   };
- }
- window.applyFormalMaidAfterChangeOnly=sync;
-})();
-</script>
 
 
 <style id="formalAppearanceBottomSheet3317">
@@ -15712,67 +15351,29 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 </script>
 
 
-<script id="formal3319MaidStoryPortraitFix">
+<script id="formal33110MaidScenePreload">
 (function(){
- const MAID1="assets/npc/shopkeeper_cat/maid_cafe_special_1.png";
- const MAID2="assets/npc/shopkeeper_cat/maid_cafe_special_2.png";
- let maidStoryActive=false,maidStage=1,guarding=false;
-
- [MAID1,MAID2].forEach(src=>{try{const im=new Image();im.decoding="async";im.src=src}catch(_){}});
-
- function storyModal(){
-   return document.getElementById("npcRpgStoryModal")||
-          document.getElementById("npcStoryModal")||
-          document.querySelector(".npcRpgStoryModal,.npcStoryModal");
- }
- function portrait(){
-   const m=storyModal(); if(!m)return null;
-   return m.querySelector("#npcRpgPortrait,#npcStoryPortrait,.npcRpgPortrait img,.npcStoryPortrait img,.npcRpgPortrait,.npcStoryPortrait");
- }
- function isMaidStory(){
-   const m=storyModal();if(!m||m.classList.contains("hidden"))return false;
-   return /女僕咖啡廳/.test(m.textContent||"");
- }
- function setMaid(stage){
-   if(!isMaidStory())return;
-   const img=portrait();if(!img||img.tagName!=="IMG")return;
-   const src=Number(stage)>=2?MAID2:MAID1;
-   if((img.getAttribute("src")||"")!==src){
-     guarding=true;img.setAttribute("src",src);guarding=false;
-   }
- }
- function inferStage(){
-   const m=storyModal();if(!m)return 1;
-   const text=m.textContent||"";
-   /* 換裝後的台詞/旁白進第二張女僕立繪；此前維持第一張。 */
-   if(/換上|女僕裝|女僕咖啡廳的制服|制服|這身打扮|主人/.test(text))return 2;
-   return maidStage||1;
- }
- function refresh(){
-   if(!isMaidStory()){maidStoryActive=false;maidStage=1;return}
-   maidStoryActive=true;
-   maidStage=inferStage();
-   setMaid(maidStage);
- }
-
- /* DOM 只要推進女僕劇情，就重新確認一次；不碰一般店長劇情。 */
- const start=()=>{
-   const root=document.body;if(!root)return;
-   new MutationObserver(ms=>{
-     if(guarding)return;
-     if(ms.some(m=>m.type==="childList"||m.type==="characterData"||(m.type==="attributes"&&m.attributeName==="src"))){
-       queueMicrotask(refresh);
-     }
-   }).observe(root,{subtree:true,childList:true,characterData:true,attributes:true,attributeFilter:["src","class"]});
-   document.addEventListener("click",e=>{
-     if(e.target?.closest?.("[data-replay-paid-maid-story],[data-use-paid-maid-voucher]"))
-       setTimeout(refresh,30);
-   },true);
- };
- if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",start,{once:true});else start();
+ ["assets/npc/shopkeeper_cat/maid_cafe_special.png",
+  "assets/npc/shopkeeper_cat/maid_cafe_special_1.png",
+  "assets/npc/shopkeeper_cat/maid_cafe_special_2.png"].forEach(src=>{
+   try{const img=new Image();img.decoding="async";img.fetchPriority="high";img.src=src}catch(_){}
+ });
 })();
 </script>
 
+<script id="formal33111SingleVersionSource">
+(function(){
+ const VERSION="3.31.11";
+ function apply(){
+   document.querySelectorAll(".homeVersion").forEach(function(el){
+     el.textContent="第"+VERSION+"版・正式服";
+   });
+   document.documentElement.dataset.gameVersion=VERSION;
+ }
+ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",apply,{once:true});
+ else apply();
+})();
+</script>
 </body>
 </html>
 <style>
