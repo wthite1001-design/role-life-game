@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#9a76c4">
-<meta name="x-test-build" content="3.30.36">
+<meta name="x-test-build" content="3.30.37">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>關係進行式 TEST・3.30.36-七夕重複錯誤清理＋邀請防呆</title>
+<title>關係進行式 TEST・3.30.37-七夕重複錯誤清理＋邀請防呆</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -2496,7 +2496,7 @@ html[data-test-theme="qixiGalaxy"] .modal>.modalBox :is(.card,.panel,.section,.i
     <div class="homeLogo">🧪</div>
     <h1>關係進行式 TEST</h1>
     <div class="homeTagline">測試中的每一段關係，都可能被重置。</div>
-    <div class="homeVersion">3.30.36・測試服｜七夕重複錯誤清理＋邀請防呆</div>
+    <div class="homeVersion">3.30.37・測試服｜七夕重複錯誤清理＋邀請防呆</div>
   </div>
 
   <div id="playerAccountHomePanel" class="homePanel accountHomePanel">
@@ -14755,7 +14755,7 @@ header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{back
 <script id="qixi3283-ribbon-fix">
 (function(){
  function fix(){
-   document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.30.36-beta");
+   document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.30.37-beta");
  }
  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",fix,{once:true});else fix();
  setTimeout(fix,300);
@@ -15420,117 +15420,6 @@ html[data-test-theme="qixiGalaxy"] #qixiEventFab{
   document.addEventListener('visibilitychange',()=>{if(!document.hidden)setTimeout(apply,0)},{passive:true});
 })();
 </script>
-
-<script id="test33028StableNpcStoryPortrait">
-(function(){
-  const FACE={
-    normal:'cat_shopkeeper_normal.png',
-    happy:'assets/npc/shopkeeper_cat/happy.png',
-    shy:'assets/npc/shopkeeper_cat/shy.png',
-    annoyed:'assets/npc/shopkeeper_cat/annoyed.png',
-    surprised:'assets/npc/shopkeeper_cat/surprised.png',
-    soft:'assets/npc/shopkeeper_cat/soft.png'
-  };
-
-  function cleanText(x){return String(x||'').replace(/<[^>]*>/g,'')}
-
-  function infer(line,prev='normal'){
-    if(line?.face && FACE[line.face])return line.face;
-    const speaker=String(line?.speaker||'');
-    const t=cleanText(line?.text);
-    if(speaker==='旁白'||speaker==='你'||speaker==='玩家')return prev||'normal';
-    if(/！？|！！|欸[！？!?]|咦[！？!?]|什麼[！？!?]|愣住|嚇|突然/.test(t))return'surprised';
-    if(/生氣|怒|閉嘴|不准|很煩|出去|討厭|瞪/.test(t))return'annoyed';
-    if(/臉紅|耳根|害羞|別開視線|心跳|才不是|你別看|一直盯|喜歡/.test(t))return'shy';
-    if(/笑|開心|太好了|歡迎回來|期待|謝謝你|真棒/.test(t))return'happy';
-    if(/溫柔|放心|沒關係|陪|相信|秘密|留下|辛苦|晚安/.test(t))return'soft';
-    return'normal';
-  }
-
-  let targetSrc=FACE.normal;
-  let targetFace='normal';
-  let rendering=false;
-
-  function desired(){
-    const st=window.npcStoryPlayerState;
-    const idx=Number(st?.index||0);
-    const line=st?.lines?.[idx]||{};
-    const maid=String(st?.title||'').includes('女僕咖啡廳');
-    const stage=Number(line?.maidStage||0);
-
-    if(maid && stage>=1){
-      const src=String(line.image||line.portrait||'').trim();
-      if(src)return {src,face:'maid'};
-    }
-    const face=infer(line,targetFace==='maid'?'normal':targetFace);
-    return {src:FACE[face]||FACE.normal,face};
-  }
-
-  function commit(){
-    const img=document.getElementById('npcStoryPortrait');
-    if(!img||!window.npcStoryPlayerState)return;
-    const d=desired();
-    targetSrc=d.src;targetFace=d.face;
-    if(img.getAttribute('src')!==targetSrc)img.setAttribute('src',targetSrc);
-    img.dataset.npcFace=targetFace;
-    // 一般故事禁止其他 setNpcExpression 再寫 story portrait；
-    // 商店首頁仍可正常切表情。
-    const player=document.getElementById('npcStoryPlayer');
-    if(String(window.npcStoryPlayerState?.title||'').includes('女僕咖啡廳') &&
-       Number(window.npcStoryPlayerState?.lines?.[Number(window.npcStoryPlayerState?.index||0)]?.maidStage||0)>=1){
-      img.dataset.maidCgLocked='1';
-      player?.classList.add('formalMaidStory');
-      player?.style.setProperty('--formal-maid-bg',`url("${targetSrc}")`);
-    }else{
-      delete img.dataset.maidCgLocked;
-      player?.classList.remove('formalMaidStory');
-      player?.style.removeProperty('--formal-maid-bg');
-    }
-  }
-
-  const previousSet=window.setNpcExpression;
-  window.setNpcExpression=function(face='normal'){
-    // 故事播放時，story portrait 由這個最終控制器獨占；
-    // 只允許舊函式更新商店 hero / badge，之後立刻校正 story。
-    const r=previousSet?.apply(this,arguments);
-    if(window.npcStoryPlayerState)queueMicrotask(commit);
-    return r;
-  };
-
-  const oldRender=window.renderNpcRpgLine;
-  if(typeof oldRender==='function'){
-    window.renderNpcRpgLine=function(){
-      rendering=true;
-      const r=oldRender.apply(this,arguments);
-      commit();
-      rendering=false;
-      return r;
-    };
-  }
-
-  const oldStart=window.startNpcRpgStory;
-  if(typeof oldStart==='function'){
-    window.startNpcRpgStory=function(){
-      targetFace='normal';targetSrc=FACE.normal;
-      const r=oldStart.apply(this,arguments);
-      commit();
-      return r;
-    };
-  }
-
-  // 把任何舊補丁在同一幀內寫錯的 src 拉回唯一目標；
-  // MutationObserver callback 在瀏覽器繪製前執行，避免可見閃爍。
-  const img=document.getElementById('npcStoryPortrait');
-  if(img){
-    new MutationObserver(()=>{
-      if(!window.npcStoryPlayerState)return;
-      if(img.getAttribute('src')!==targetSrc)img.setAttribute('src',targetSrc);
-    }).observe(img,{attributes:true,attributeFilter:['src']});
-  }
-})();
-</script>
-
-
 <script id="testFinalStatsDisplayV3">
 (function(){
   const CACHE='role_life_test_live_stats_cache_v3';
@@ -15944,6 +15833,46 @@ html[data-test-theme="qixiGalaxy"] #qixiEventFab{
  window.refreshQixiDailyUnlock=apply;
 })();
 </script>
+
+<script id="test33037MaidPreloadOnly">
+(function(){
+  const MAID_IMAGES=[
+    "assets/npc/shopkeeper_cat/maid_cafe_special.png",
+    "assets/npc/shopkeeper_cat/maid_cafe_special_1.png",
+    "assets/npc/shopkeeper_cat/maid_cafe_special_2.png"
+  ];
+  let warmed=false;
+  function warm(){
+    if(warmed)return;
+    warmed=true;
+    MAID_IMAGES.forEach(src=>{
+      try{
+        const img=new Image();
+        img.decoding="async";
+        img.src=src;
+        try{img.decode?.().catch(()=>{});}catch(_){}
+      }catch(_){}
+    });
+  }
+
+  // 只在明確碰到女僕咖啡廳相關入口時預載，不碰其他劇情。
+  document.addEventListener("pointerdown",e=>{
+    const el=e.target?.closest?.(
+      '[data-replay-paid-maid-story],[data-use-paid-maid-voucher],[data-redeem-maid-theme],[data-maid-story]'
+    );
+    if(el)warm();
+  },true);
+
+  // 已解鎖女僕主題的玩家進角色後，背景預載一次。
+  window.addEventListener("pageshow",()=>{
+    try{
+      const c=typeof cur==="function"?cur():null;
+      if(c?.paidCosmetics?.maidCafe)warm();
+    }catch(_){}
+  },{passive:true});
+})();
+</script>
+
 </body>
 </html>
 
