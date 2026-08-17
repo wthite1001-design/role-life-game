@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#9a76c4">
-<meta name="x-test-build" content="3.30.42">
+<meta name="x-test-build" content="3.30.43">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>關係進行式 TEST・3.30.42-七夕重複錯誤清理＋邀請防呆</title>
+<title>關係進行式 TEST・3.30.43-七夕重複錯誤清理＋邀請防呆</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -1473,7 +1473,7 @@ body.npcStoryRunning .draggableFab{
 <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png">
 <link rel="manifest" href="manifest.json">
 <style id="qixi3279-scroll-fix">
-/* 3.30.42：七夕活動頁在手機上可完整往下捲，不再把守橋人卡片截成一半 */
+/* 3.30.43：七夕活動頁在手機上可完整往下捲，不再把守橋人卡片截成一半 */
 #qixiEventModal{
   overflow-y:auto!important;
   overflow-x:hidden!important;
@@ -1956,7 +1956,7 @@ html[data-test-theme="maidCafe"] .navBtn.active::after{
 </style>
 
 <style id="test33014QixiGalaxySingleSource">
-/* ===== TEST 3.30.42 七夕星河：唯一視覺來源 ===== */
+/* ===== TEST 3.30.43 七夕星河：唯一視覺來源 ===== */
 html.qixi-theme-now,
 html[data-test-theme="qixiGalaxy"],
 html.qixi-theme-now body,
@@ -2119,7 +2119,7 @@ html[data-test-theme="qixiGalaxy"] #qixiEventModal button{
 
 
 <style id="test33015StableQixiUi">
-/* 3.30.42：深色星河文字不再純白刺眼 */
+/* 3.30.43：深色星河文字不再純白刺眼 */
 html.qixi-theme-now :is(.homePanel,.card,.pageCard.active,.modalBox,.now,.itemRow,.relItem,.npcRelationCard,.npcShopItem,.eventCard,.characterCard,.statusCard,.section,.panel,.shopCard,.paidProduct),
 html[data-test-theme="qixiGalaxy"] :is(.homePanel,.card,.pageCard.active,.modalBox,.now,.itemRow,.relItem,.npcRelationCard,.npcShopItem,.eventCard,.characterCard,.statusCard,.section,.panel,.shopCard,.paidProduct){
   color:#c7b4d9!important;
@@ -2268,7 +2268,7 @@ html[data-test-theme="qixiGalaxy"] #qixiEventModal :is(.qixiRewardBox,.qixiFacil
 
 
 <style id="test33018ModalRestore">
-/* 3.30.42：恢復測試服卡片式視窗，不再出現整頁白色 modal。 */
+/* 3.30.43：恢復測試服卡片式視窗，不再出現整頁白色 modal。 */
 html.qixi-theme-now .modal,
 html[data-test-theme="qixiGalaxy"] .modal{
   padding:12px!important;
@@ -2496,7 +2496,7 @@ html[data-test-theme="qixiGalaxy"] .modal>.modalBox :is(.card,.panel,.section,.i
     <div class="homeLogo">🧪</div>
     <h1>關係進行式 TEST</h1>
     <div class="homeTagline">測試中的每一段關係，都可能被重置。</div>
-    <div class="homeVersion">3.30.42・測試服｜七夕重複錯誤清理＋邀請防呆</div>
+    <div class="homeVersion">3.30.43・測試服｜七夕重複錯誤清理＋邀請防呆</div>
   </div>
 
   <div id="playerAccountHomePanel" class="homePanel accountHomePanel">
@@ -14762,7 +14762,7 @@ header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{back
 <script id="qixi3283-ribbon-fix">
 (function(){
  function fix(){
-   document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.30.42-beta");
+   document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.30.43-beta");
  }
  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",fix,{once:true});else fix();
  setTimeout(fix,300);
@@ -14975,7 +14975,7 @@ header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{back
 
 
 <style id="qixi3300ResponsiveFerry">
-/* 3.30.42：指定 GitHub 七夕背景；手機填滿、電腦固定直式舞台，禁止橫向螢幕把直圖放大裁爆 */
+/* 3.30.43：指定 GitHub 七夕背景；手機填滿、電腦固定直式舞台，禁止橫向螢幕把直圖放大裁爆 */
 #qixiMiniGameBoard.qixiFerryGameBoard,#qixiMiniGameBoard.qixiBridgeGameBoard{
  background-image:linear-gradient(rgba(8,7,35,.12),rgba(15,9,45,.24)),url("images/qixi/qixi_full_background.png")!important;
  background-repeat:no-repeat!important;background-position:center center!important;
@@ -15073,7 +15073,7 @@ header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{back
 
 <script id="test33015SingleVersionSource">
 (function(){
- const BUILD='3.30.42';
+ const BUILD='3.30.43';
  const LABEL='七夕邀約內嵌＋設施背景＋快速雲端同步';
  function apply(){
    document.title='關係進行式 TEST・'+BUILD;
@@ -17524,8 +17524,8 @@ function openConfirm(o={}){
  
 })();
 </script>
-\n<style id="qixi3298AuthoritativeFix">\n/* 3.30.42：星河渡口與鵲羽橋使用指定背景圖 */\n#qixiMiniGameBoard.qixiFerryGameBoard{\n background-image:linear-gradient(rgba(8,7,35,.16),rgba(15,9,45,.28)),url("images/qixi/qixi_ferry_game_bg.png")!important;\n background-size:cover!important;background-position:center center!important;background-repeat:no-repeat!important;min-height:56vh!important;\n}\n#qixiMiniGameBoard.qixiFerryGameBoard .qixiStarTapGrid{padding-top:4vh!important}\n#qixiMiniGameBoard.qixiFerryGameBoard .qixiStarTap{background:rgba(28,21,76,.62)!important;backdrop-filter:blur(2px)!important}\n/* SHOP_3304_SINGLE_SOURCE_START */
-/* 3.30.42：商店唯一權威版型。整個商店頁負責垂直滑動，子區塊不截斷。 */
+\n<style id="qixi3298AuthoritativeFix">\n/* 3.30.43：星河渡口與鵲羽橋使用指定背景圖 */\n#qixiMiniGameBoard.qixiFerryGameBoard{\n background-image:linear-gradient(rgba(8,7,35,.16),rgba(15,9,45,.28)),url("images/qixi/qixi_ferry_game_bg.png")!important;\n background-size:cover!important;background-position:center center!important;background-repeat:no-repeat!important;min-height:56vh!important;\n}\n#qixiMiniGameBoard.qixiFerryGameBoard .qixiStarTapGrid{padding-top:4vh!important}\n#qixiMiniGameBoard.qixiFerryGameBoard .qixiStarTap{background:rgba(28,21,76,.62)!important;backdrop-filter:blur(2px)!important}\n/* SHOP_3304_SINGLE_SOURCE_START */
+/* 3.30.43：商店唯一權威版型。整個商店頁負責垂直滑動，子區塊不截斷。 */
 html.qixi-theme-now #extraShop.pageCard.active{
   display:block!important;
   position:fixed!important;
@@ -17956,9 +17956,13 @@ body.qixi-entry-in-game #qixiEventFab{
 }
 </style>
 
-<style id="test33042FormalHomePalette">
-/* TEST 首頁固定使用正式服預設粉紫白色系，不受女僕/七夕遊戲內外觀污染。 */
-body:has(#home:not(.hidden)){
+<style id="test33043FormalHomeHardReset">
+html.home-formal-default,
+html.home-formal-default body{
+  background:linear-gradient(#eee5f6,#fbf7fa)!important;
+  color:#3d3343!important;
+}
+html.home-formal-default body{
   --bg:#f7f1fa!important;
   --card:#fffdfd!important;
   --text:#3d3343!important;
@@ -17969,62 +17973,98 @@ body:has(#home:not(.hidden)){
   --soft:#f3eaf7!important;
   --good:#668f70!important;
   --bad:#a65f70!important;
-  background:linear-gradient(#eee5f6,#fbf7fa)!important;
-  color:#3d3343!important;
 }
-
-/* 首頁卡片、主視覺、建立角色區都回正式服原始色。 */
-body:has(#home:not(.hidden)) #home .homeHero{
+html.home-formal-default .wrap,
+html.home-formal-default #home{
+  background:transparent!important;
+}
+html.home-formal-default #home .homeHero{
   background:linear-gradient(145deg,#fffafd,#f3eaf8)!important;
   border-color:#eadfee!important;
   color:#3d3343!important;
 }
-body:has(#home:not(.hidden)) #home .homePanel,
-body:has(#home:not(.hidden)) #home .card,
-body:has(#home:not(.hidden)) #home .save{
+html.home-formal-default #home .homePanel,
+html.home-formal-default #home .card,
+html.home-formal-default #home .save{
   background:#fffdfd!important;
   border-color:#eadfee!important;
   color:#3d3343!important;
+  box-shadow:none!important;
 }
-body:has(#home:not(.hidden)) #home .createBox{
+html.home-formal-default #home .createBox{
   background:#f8f1fb!important;
   border-color:#dccce7!important;
 }
-body:has(#home:not(.hidden)) #home .small,
-body:has(#home:not(.hidden)) #home .muted,
-body:has(#home:not(.hidden)) #home .homeTagline,
-body:has(#home:not(.hidden)) #home .createHint{
+html.home-formal-default #home .small,
+html.home-formal-default #home .muted,
+html.home-formal-default #home .homeTagline,
+html.home-formal-default #home .createHint{
   color:#897b90!important;
 }
-
-/* 首頁主要操作鈕回正式服紫色，不吃女僕酒紅色。 */
-body:has(#home:not(.hidden)) #home button.primary,
-body:has(#home:not(.hidden)) #home #playerAccountOpenBtn,
-body:has(#home:not(.hidden)) #home #gmLoginBtn{
+html.home-formal-default #home button.primary,
+html.home-formal-default #home #playerAccountOpenBtn,
+html.home-formal-default #home #gmLoginBtn{
   background:#9872c0!important;
   color:#fff!important;
 }
-body:has(#home:not(.hidden)) #home button:not(.primary):not(.danger){
+html.home-formal-default #home button:not(.primary):not(.danger){
   background:#f3eaf7!important;
   color:#654879!important;
 }
-
-/* 首頁版本膠囊、狀態膠囊也回正式服淡紫。 */
-body:has(#home:not(.hidden)) #home .homeVersion,
-body:has(#home:not(.hidden)) #home .chip,
-body:has(#home:not(.hidden)) #home .presencePill{
+html.home-formal-default #home .homeVersion,
+html.home-formal-default #home .chip,
+html.home-formal-default #home .presencePill{
   background:#ffffffaa!important;
   border-color:#eadfee!important;
   color:#76558b!important;
 }
-
-/* 若 body/html 還殘留女僕或七夕 class，首頁時不要讓它們改色。 */
-body:has(#home:not(.hidden)).theme-maid-cafe,
-body:has(#home:not(.hidden)).maid-cafe-preview,
-body:has(#home:not(.hidden)).theme-qixi-paid,
-body:has(#home:not(.hidden)).qixi-global-theme,
-body:has(#home:not(.hidden)).appearance-galaxy{
-  background:linear-gradient(#eee5f6,#fbf7fa)!important;
-}
 </style>
+
+
+<script id="test33043FormalHomeHardResetScript">
+(function(){
+  const html=document.documentElement;
+  const body=document.body;
+  const game=()=>document.getElementById("game");
+  const home=()=>document.getElementById("home");
+
+  function homeIsOpen(){
+    const h=home();
+    if(!h)return false;
+    return !h.classList.contains("hidden") && getComputedStyle(h).display!=="none";
+  }
+
+  function applyHomeReset(){
+    const on=homeIsOpen();
+    html.classList.toggle("home-formal-default",on);
+
+    if(on){
+      /* 首頁不允許任何角色外觀污染底色 */
+      body.classList.remove(
+        "theme-maid-cafe","maid-cafe-preview",
+        "theme-qixi-paid","qixi-global-theme","appearance-galaxy"
+      );
+      html.classList.remove("qixi-theme-now");
+      if(html.getAttribute("data-theme")==="maid-cafe")html.removeAttribute("data-theme");
+      if(body.getAttribute("data-theme")==="maid-cafe")body.removeAttribute("data-theme");
+    }else{
+      /* 進入角色後交回原本外觀系統 */
+      try{ window.applyAppearanceTheme33013?.(); }catch(_){}
+      try{ window.applyAppearanceTheme3306?.(); }catch(_){}
+      try{ window.applyAppearance?.(); }catch(_){}
+    }
+  }
+
+  const h=home(),g=game();
+  const mo=new MutationObserver(()=>requestAnimationFrame(applyHomeReset));
+  if(h)mo.observe(h,{attributes:true,attributeFilter:["class","style"]});
+  if(g)mo.observe(g,{attributes:true,attributeFilter:["class","style"]});
+
+  window.addEventListener("pageshow",()=>setTimeout(applyHomeReset,0),{passive:true});
+  document.addEventListener("visibilitychange",()=>{if(!document.hidden)setTimeout(applyHomeReset,0)},{passive:true});
+  if(document.readyState==="loading"){
+    document.addEventListener("DOMContentLoaded",()=>setTimeout(applyHomeReset,0),{once:true});
+  }else setTimeout(applyHomeReset,0);
+})();
+</script>
 
