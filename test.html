@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#9a76c4">
-<meta name="x-test-build" content="3.30.39">
+<meta name="x-test-build" content="3.30.40">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>關係進行式 TEST・3.30.39-七夕重複錯誤清理＋邀請防呆</title>
+<title>關係進行式 TEST・3.30.40-七夕重複錯誤清理＋邀請防呆</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -1473,7 +1473,7 @@ body.npcStoryRunning .draggableFab{
 <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png">
 <link rel="manifest" href="manifest.json">
 <style id="qixi3279-scroll-fix">
-/* 3.30.39：七夕活動頁在手機上可完整往下捲，不再把守橋人卡片截成一半 */
+/* 3.30.40：七夕活動頁在手機上可完整往下捲，不再把守橋人卡片截成一半 */
 #qixiEventModal{
   overflow-y:auto!important;
   overflow-x:hidden!important;
@@ -1956,7 +1956,7 @@ html[data-test-theme="maidCafe"] .navBtn.active::after{
 </style>
 
 <style id="test33014QixiGalaxySingleSource">
-/* ===== TEST 3.30.39 七夕星河：唯一視覺來源 ===== */
+/* ===== TEST 3.30.40 七夕星河：唯一視覺來源 ===== */
 html.qixi-theme-now,
 html[data-test-theme="qixiGalaxy"],
 html.qixi-theme-now body,
@@ -2119,7 +2119,7 @@ html[data-test-theme="qixiGalaxy"] #qixiEventModal button{
 
 
 <style id="test33015StableQixiUi">
-/* 3.30.39：深色星河文字不再純白刺眼 */
+/* 3.30.40：深色星河文字不再純白刺眼 */
 html.qixi-theme-now :is(.homePanel,.card,.pageCard.active,.modalBox,.now,.itemRow,.relItem,.npcRelationCard,.npcShopItem,.eventCard,.characterCard,.statusCard,.section,.panel,.shopCard,.paidProduct),
 html[data-test-theme="qixiGalaxy"] :is(.homePanel,.card,.pageCard.active,.modalBox,.now,.itemRow,.relItem,.npcRelationCard,.npcShopItem,.eventCard,.characterCard,.statusCard,.section,.panel,.shopCard,.paidProduct){
   color:#c7b4d9!important;
@@ -2268,7 +2268,7 @@ html[data-test-theme="qixiGalaxy"] #qixiEventModal :is(.qixiRewardBox,.qixiFacil
 
 
 <style id="test33018ModalRestore">
-/* 3.30.39：恢復測試服卡片式視窗，不再出現整頁白色 modal。 */
+/* 3.30.40：恢復測試服卡片式視窗，不再出現整頁白色 modal。 */
 html.qixi-theme-now .modal,
 html[data-test-theme="qixiGalaxy"] .modal{
   padding:12px!important;
@@ -2496,7 +2496,7 @@ html[data-test-theme="qixiGalaxy"] .modal>.modalBox :is(.card,.panel,.section,.i
     <div class="homeLogo">🧪</div>
     <h1>關係進行式 TEST</h1>
     <div class="homeTagline">測試中的每一段關係，都可能被重置。</div>
-    <div class="homeVersion">3.30.39・測試服｜七夕重複錯誤清理＋邀請防呆</div>
+    <div class="homeVersion">3.30.40・測試服｜七夕重複錯誤清理＋邀請防呆</div>
   </div>
 
   <div id="playerAccountHomePanel" class="homePanel accountHomePanel">
@@ -10344,6 +10344,9 @@ function openNpcStory(npcId,kind,id){
   let groups=npcStoryCollection(npcId,c);
   let story=(groups[kind]||[]).find(x=>x.id===id);
   if(!story||!story.unlocked)return toast("🔒 這段故事尚未收藏。");
+  if(id==="shop_event_maid_cafe"&&typeof window.playFormalMaidCafeStory==="function"){
+    window.playFormalMaidCafeStory(true);return;
+  }
   let lines=NPC_RPG_STORIES[id]||[{speaker:"旁白",text:story.text||"這段回憶仍然很清晰。"}];
   startNpcRpgStory({title:story.title,storyId:story.id,lines});
 }
@@ -14759,7 +14762,7 @@ header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{back
 <script id="qixi3283-ribbon-fix">
 (function(){
  function fix(){
-   document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.30.39-beta");
+   document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.30.40-beta");
  }
  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",fix,{once:true});else fix();
  setTimeout(fix,300);
@@ -14972,7 +14975,7 @@ header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{back
 
 
 <style id="qixi3300ResponsiveFerry">
-/* 3.30.39：指定 GitHub 七夕背景；手機填滿、電腦固定直式舞台，禁止橫向螢幕把直圖放大裁爆 */
+/* 3.30.40：指定 GitHub 七夕背景；手機填滿、電腦固定直式舞台，禁止橫向螢幕把直圖放大裁爆 */
 #qixiMiniGameBoard.qixiFerryGameBoard,#qixiMiniGameBoard.qixiBridgeGameBoard{
  background-image:linear-gradient(rgba(8,7,35,.12),rgba(15,9,45,.24)),url("images/qixi/qixi_full_background.png")!important;
  background-repeat:no-repeat!important;background-position:center center!important;
@@ -15070,7 +15073,7 @@ header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{back
 
 <script id="test33015SingleVersionSource">
 (function(){
- const BUILD='3.30.39';
+ const BUILD='3.30.40';
  const LABEL='七夕邀約內嵌＋設施背景＋快速雲端同步';
  function apply(){
    document.title='關係進行式 TEST・'+BUILD;
@@ -15424,117 +15427,6 @@ html[data-test-theme="qixiGalaxy"] #qixiEventFab{
   document.addEventListener('visibilitychange',()=>{if(!document.hidden)setTimeout(apply,0)},{passive:true});
 })();
 </script>
-
-<script id="test33028StableNpcStoryPortrait">
-(function(){
-  const FACE={
-    normal:'cat_shopkeeper_normal.png',
-    happy:'assets/npc/shopkeeper_cat/happy.png',
-    shy:'assets/npc/shopkeeper_cat/shy.png',
-    annoyed:'assets/npc/shopkeeper_cat/annoyed.png',
-    surprised:'assets/npc/shopkeeper_cat/surprised.png',
-    soft:'assets/npc/shopkeeper_cat/soft.png'
-  };
-
-  function cleanText(x){return String(x||'').replace(/<[^>]*>/g,'')}
-
-  function infer(line,prev='normal'){
-    if(line?.face && FACE[line.face])return line.face;
-    const speaker=String(line?.speaker||'');
-    const t=cleanText(line?.text);
-    if(speaker==='旁白'||speaker==='你'||speaker==='玩家')return prev||'normal';
-    if(/！？|！！|欸[！？!?]|咦[！？!?]|什麼[！？!?]|愣住|嚇|突然/.test(t))return'surprised';
-    if(/生氣|怒|閉嘴|不准|很煩|出去|討厭|瞪/.test(t))return'annoyed';
-    if(/臉紅|耳根|害羞|別開視線|心跳|才不是|你別看|一直盯|喜歡/.test(t))return'shy';
-    if(/笑|開心|太好了|歡迎回來|期待|謝謝你|真棒/.test(t))return'happy';
-    if(/溫柔|放心|沒關係|陪|相信|秘密|留下|辛苦|晚安/.test(t))return'soft';
-    return'normal';
-  }
-
-  let targetSrc=FACE.normal;
-  let targetFace='normal';
-  let rendering=false;
-
-  function desired(){
-    const st=window.npcStoryPlayerState;
-    const idx=Number(st?.index||0);
-    const line=st?.lines?.[idx]||{};
-    const maid=String(st?.title||'').includes('女僕咖啡廳');
-    const stage=Number(line?.maidStage||0);
-
-    if(maid && stage>=1){
-      const src=String(line.image||line.portrait||'').trim();
-      if(src)return {src,face:'maid'};
-    }
-    const face=infer(line,targetFace==='maid'?'normal':targetFace);
-    return {src:FACE[face]||FACE.normal,face};
-  }
-
-  function commit(){
-    const img=document.getElementById('npcStoryPortrait');
-    if(!img||!window.npcStoryPlayerState)return;
-    const d=desired();
-    targetSrc=d.src;targetFace=d.face;
-    if(img.getAttribute('src')!==targetSrc)img.setAttribute('src',targetSrc);
-    img.dataset.npcFace=targetFace;
-    // 一般故事禁止其他 setNpcExpression 再寫 story portrait；
-    // 商店首頁仍可正常切表情。
-    const player=document.getElementById('npcStoryPlayer');
-    if(String(window.npcStoryPlayerState?.title||'').includes('女僕咖啡廳') &&
-       Number(window.npcStoryPlayerState?.lines?.[Number(window.npcStoryPlayerState?.index||0)]?.maidStage||0)>=1){
-      img.dataset.maidCgLocked='1';
-      player?.classList.add('formalMaidStory');
-      player?.style.setProperty('--formal-maid-bg',`url("${targetSrc}")`);
-    }else{
-      delete img.dataset.maidCgLocked;
-      player?.classList.remove('formalMaidStory');
-      player?.style.removeProperty('--formal-maid-bg');
-    }
-  }
-
-  const previousSet=window.setNpcExpression;
-  window.setNpcExpression=function(face='normal'){
-    // 故事播放時，story portrait 由這個最終控制器獨占；
-    // 只允許舊函式更新商店 hero / badge，之後立刻校正 story。
-    const r=previousSet?.apply(this,arguments);
-    if(window.npcStoryPlayerState)queueMicrotask(commit);
-    return r;
-  };
-
-  const oldRender=window.renderNpcRpgLine;
-  if(typeof oldRender==='function'){
-    window.renderNpcRpgLine=function(){
-      rendering=true;
-      const r=oldRender.apply(this,arguments);
-      commit();
-      rendering=false;
-      return r;
-    };
-  }
-
-  const oldStart=window.startNpcRpgStory;
-  if(typeof oldStart==='function'){
-    window.startNpcRpgStory=function(){
-      targetFace='normal';targetSrc=FACE.normal;
-      const r=oldStart.apply(this,arguments);
-      commit();
-      return r;
-    };
-  }
-
-  // 把任何舊補丁在同一幀內寫錯的 src 拉回唯一目標；
-  // MutationObserver callback 在瀏覽器繪製前執行，避免可見閃爍。
-  const img=document.getElementById('npcStoryPortrait');
-  if(img){
-    new MutationObserver(()=>{
-      if(!window.npcStoryPlayerState)return;
-      if(img.getAttribute('src')!==targetSrc)img.setAttribute('src',targetSrc);
-    }).observe(img,{attributes:true,attributeFilter:['src']});
-  }
-})();
-</script>
-
-
 <script id="testFinalStatsDisplayV3">
 (function(){
   const CACHE='role_life_test_live_stats_cache_v3';
@@ -15948,27 +15840,6 @@ html[data-test-theme="qixiGalaxy"] #qixiEventFab{
  window.refreshQixiDailyUnlock=apply;
 })();
 </script>
-
-<script id="test33037MaidStoryRestore">
-(function(){
-  if(typeof NPC_RPG_STORIES==="undefined")return;
-  NPC_RPG_STORIES.shop_event_maid_cafe=[
-    {speaker:"旁白",text:"你把「請店長喝咖啡券」交到櫃檯前。貓貓看著那張券，沉默了幾秒。"},
-    {speaker:"貓貓",text:"「……所以你真的拿來用了。」"},
-    {speaker:"旁白",text:"她把店門的牌子翻到「休息中」，轉身走進後面的房間。"},
-    {speaker:"貓貓",text:"「先說好，這是特別招待。你不准笑。」"},
-    {speaker:"旁白",text:"過了一會兒，她換上女僕咖啡廳的制服重新出現在你面前。"},
-    {speaker:"貓貓",text:"「歡、歡迎回來……主人。」"},
-    {speaker:"旁白",text:"她端著咖啡站在你面前，明明耳根都紅了，卻還努力裝作若無其事。"},
-    {speaker:"貓貓",text:"「看夠了沒有？咖啡再不喝就要涼了。」"},
-    {speaker:"你",text:"「所以這張券真的可以讓店長親自招待？」"},
-    {speaker:"貓貓",text:"「只有今天。還有——不准拿去跟別人炫耀。」"},
-    {speaker:"旁白",text:"她把咖啡輕輕推到你面前。"},
-    {speaker:"貓貓",text:"「這個主題也給你。以後想起今天，就把它換上吧。」"}
-  ];
-})();
-</script>
-
 </body>
 </html>
 
@@ -16268,7 +16139,7 @@ body.npcStoryRunning #qixiEventFab{display:none!important}
 </style>
 
 <button id="qixiEventFab" type="button">
- <span class="qixiFabIcon">🌌</span><b>七夕活動</b><i class="qixiDot"></i>
+ <span class="qixiFabIcon">🌌</span><b>七夕活動</b>
 </button>
 
 
@@ -17653,8 +17524,8 @@ function openConfirm(o={}){
  
 })();
 </script>
-\n<style id="qixi3298AuthoritativeFix">\n/* 3.30.39：星河渡口與鵲羽橋使用指定背景圖 */\n#qixiMiniGameBoard.qixiFerryGameBoard{\n background-image:linear-gradient(rgba(8,7,35,.16),rgba(15,9,45,.28)),url("images/qixi/qixi_ferry_game_bg.png")!important;\n background-size:cover!important;background-position:center center!important;background-repeat:no-repeat!important;min-height:56vh!important;\n}\n#qixiMiniGameBoard.qixiFerryGameBoard .qixiStarTapGrid{padding-top:4vh!important}\n#qixiMiniGameBoard.qixiFerryGameBoard .qixiStarTap{background:rgba(28,21,76,.62)!important;backdrop-filter:blur(2px)!important}\n/* SHOP_3304_SINGLE_SOURCE_START */
-/* 3.30.39：商店唯一權威版型。整個商店頁負責垂直滑動，子區塊不截斷。 */
+\n<style id="qixi3298AuthoritativeFix">\n/* 3.30.40：星河渡口與鵲羽橋使用指定背景圖 */\n#qixiMiniGameBoard.qixiFerryGameBoard{\n background-image:linear-gradient(rgba(8,7,35,.16),rgba(15,9,45,.28)),url("images/qixi/qixi_ferry_game_bg.png")!important;\n background-size:cover!important;background-position:center center!important;background-repeat:no-repeat!important;min-height:56vh!important;\n}\n#qixiMiniGameBoard.qixiFerryGameBoard .qixiStarTapGrid{padding-top:4vh!important}\n#qixiMiniGameBoard.qixiFerryGameBoard .qixiStarTap{background:rgba(28,21,76,.62)!important;backdrop-filter:blur(2px)!important}\n/* SHOP_3304_SINGLE_SOURCE_START */
+/* 3.30.40：商店唯一權威版型。整個商店頁負責垂直滑動，子區塊不截斷。 */
 html.qixi-theme-now #extraShop.pageCard.active{
   display:block!important;
   position:fixed!important;
@@ -17995,6 +17866,66 @@ body.qixi-entry-in-game #qixiEventFab{
 
  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",()=>setTimeout(sync,0),{once:true});
  else setTimeout(sync,0);
+})();
+</script>
+
+
+<style id="qixi33040NoDot">#qixiEventFab .qixiDot{display:none!important}</style>
+
+<script id="test33040FormalMaidStoryLogic">
+(function(){
+ window.maidLines=function(){
+  return [
+   {speaker:'旁白',face:'normal',text:'你把「請店長喝咖啡券」交到櫃檯前。貓貓看著那張券，沉默了幾秒。'},
+   {speaker:'貓貓',face:'normal',text:'「……所以你真的拿來用了。」'},
+   {speaker:'旁白',face:'normal',text:'她把店門的牌子翻到「休息中」，轉身走進後面的房間。'},
+   {speaker:'貓貓',face:'shy',text:'「先說好，這是特別招待。你不准笑。」'},
+   {speaker:'旁白',face:'maid_cafe_special',text:'過了一會兒，她換上女僕咖啡廳的制服重新出現在你面前。'},
+   {speaker:'貓貓',face:'maid_cafe_special',text:'「歡、歡迎回來……主人。」'},
+   {speaker:'旁白',face:'maid_cafe_special',text:'她端著咖啡站在你面前，明明耳根都紅了，卻還努力裝作若無其事。'},
+   {speaker:'貓貓',face:'maid_cafe_special_1',text:'「看夠了沒有？咖啡再不喝就要涼了。」'},
+   {speaker:'你',face:'maid_cafe_special_1',text:'「所以這張券真的可以讓店長親自招待？」'},
+   {speaker:'貓貓',face:'maid_cafe_special_2',text:'「只有今天。還有——不准拿去跟別人炫耀。」'},
+   {speaker:'旁白',face:'maid_cafe_special_2',text:'她把咖啡輕輕推到你面前。'},
+   {speaker:'貓貓',face:'maid_cafe_special_2',text:'「這個主題也給你。以後想起今天，就把它換上吧。」'}
+  ];
+ };
+
+ window.playFormalMaidCafeStory=function(replay=false){
+  try{
+   window.prewarmNpcImages?.([
+    "assets/npc/shopkeeper_cat/maid_cafe_special.png",
+    "assets/npc/shopkeeper_cat/maid_cafe_special_1.png",
+    "assets/npc/shopkeeper_cat/maid_cafe_special_2.png"
+   ]);
+  }catch(_){}
+
+  const x=typeof cur==="function"?cur():null;
+  if(!x)return;
+  x.paidStoryFlags=x.paidStoryFlags&&typeof x.paidStoryFlags==="object"?x.paidStoryFlags:{};
+  x.memories=Array.isArray(x.memories)?x.memories:[];
+
+  window.startNpcRpgStory?.({
+   title:'🎀 特殊劇情・女僕咖啡廳',
+   storyId:'shop_event_maid_cafe',
+   lines:window.maidLines(),
+   onComplete:()=>{
+    if(!replay){
+     x.paidStoryFlags.paid_maid_cafe_story=true;
+     if(!x.memories.some(m=>m?.t==='🎀 付費劇情・女僕咖啡廳')){
+      x.memories.unshift({t:'🎀 付費劇情・女僕咖啡廳',d:new Date().toLocaleDateString('zh-TW')});
+     }
+     try{saveLocal?.()}catch(_){}
+    }
+    try{window.npcCollectStory?.('shop_event_maid_cafe')}catch(_){}
+   }
+  });
+ };
+
+ // 保留測試服原本的活動故事 ID，但內容直接指向正式服女僕劇情。
+ if(typeof NPC_RPG_STORIES!=="undefined"){
+  NPC_RPG_STORIES.shop_event_maid_cafe=window.maidLines();
+ }
 })();
 </script>
 
