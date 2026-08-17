@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#9a76c4">
-<meta name="x-test-build" content="3.30.44">
+<meta name="x-test-build" content="3.30.45">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>關係進行式 TEST・3.30.44-七夕重複錯誤清理＋邀請防呆</title>
+<title>關係進行式 TEST・3.30.45-七夕重複錯誤清理＋邀請防呆</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -1473,7 +1473,7 @@ body.npcStoryRunning .draggableFab{
 <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png">
 <link rel="manifest" href="manifest.json">
 <style id="qixi3279-scroll-fix">
-/* 3.30.44：七夕活動頁在手機上可完整往下捲，不再把守橋人卡片截成一半 */
+/* 3.30.45：七夕活動頁在手機上可完整往下捲，不再把守橋人卡片截成一半 */
 #qixiEventModal{
   overflow-y:auto!important;
   overflow-x:hidden!important;
@@ -1956,7 +1956,7 @@ html[data-test-theme="maidCafe"] .navBtn.active::after{
 </style>
 
 <style id="test33014QixiGalaxySingleSource">
-/* ===== TEST 3.30.44 七夕星河：唯一視覺來源 ===== */
+/* ===== TEST 3.30.45 七夕星河：唯一視覺來源 ===== */
 html.qixi-theme-now,
 html[data-test-theme="qixiGalaxy"],
 html.qixi-theme-now body,
@@ -2119,7 +2119,7 @@ html[data-test-theme="qixiGalaxy"] #qixiEventModal button{
 
 
 <style id="test33015StableQixiUi">
-/* 3.30.44：深色星河文字不再純白刺眼 */
+/* 3.30.45：深色星河文字不再純白刺眼 */
 html.qixi-theme-now :is(.homePanel,.card,.pageCard.active,.modalBox,.now,.itemRow,.relItem,.npcRelationCard,.npcShopItem,.eventCard,.characterCard,.statusCard,.section,.panel,.shopCard,.paidProduct),
 html[data-test-theme="qixiGalaxy"] :is(.homePanel,.card,.pageCard.active,.modalBox,.now,.itemRow,.relItem,.npcRelationCard,.npcShopItem,.eventCard,.characterCard,.statusCard,.section,.panel,.shopCard,.paidProduct){
   color:#c7b4d9!important;
@@ -2268,7 +2268,7 @@ html[data-test-theme="qixiGalaxy"] #qixiEventModal :is(.qixiRewardBox,.qixiFacil
 
 
 <style id="test33018ModalRestore">
-/* 3.30.44：恢復測試服卡片式視窗，不再出現整頁白色 modal。 */
+/* 3.30.45：恢復測試服卡片式視窗，不再出現整頁白色 modal。 */
 html.qixi-theme-now .modal,
 html[data-test-theme="qixiGalaxy"] .modal{
   padding:12px!important;
@@ -2496,7 +2496,7 @@ html[data-test-theme="qixiGalaxy"] .modal>.modalBox :is(.card,.panel,.section,.i
     <div class="homeLogo">🧪</div>
     <h1>關係進行式 TEST</h1>
     <div class="homeTagline">測試中的每一段關係，都可能被重置。</div>
-    <div class="homeVersion">3.30.44・測試服｜七夕重複錯誤清理＋邀請防呆</div>
+    <div class="homeVersion">3.30.45・測試服｜七夕重複錯誤清理＋邀請防呆</div>
   </div>
 
   <div id="playerAccountHomePanel" class="homePanel accountHomePanel">
@@ -14762,7 +14762,7 @@ header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{back
 <script id="qixi3283-ribbon-fix">
 (function(){
  function fix(){
-   document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.30.44-beta");
+   document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.30.45-beta");
  }
  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",fix,{once:true});else fix();
  setTimeout(fix,300);
@@ -14975,7 +14975,7 @@ header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{back
 
 
 <style id="qixi3300ResponsiveFerry">
-/* 3.30.44：指定 GitHub 七夕背景；手機填滿、電腦固定直式舞台，禁止橫向螢幕把直圖放大裁爆 */
+/* 3.30.45：指定 GitHub 七夕背景；手機填滿、電腦固定直式舞台，禁止橫向螢幕把直圖放大裁爆 */
 #qixiMiniGameBoard.qixiFerryGameBoard,#qixiMiniGameBoard.qixiBridgeGameBoard{
  background-image:linear-gradient(rgba(8,7,35,.12),rgba(15,9,45,.24)),url("images/qixi/qixi_full_background.png")!important;
  background-repeat:no-repeat!important;background-position:center center!important;
@@ -15073,7 +15073,7 @@ header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{back
 
 <script id="test33015SingleVersionSource">
 (function(){
- const BUILD='3.30.44';
+ const BUILD='3.30.45';
  const LABEL='七夕邀約內嵌＋設施背景＋快速雲端同步';
  function apply(){
    document.title='關係進行式 TEST・'+BUILD;
@@ -17524,8 +17524,8 @@ function openConfirm(o={}){
  
 })();
 </script>
-\n<style id="qixi3298AuthoritativeFix">\n/* 3.30.44：星河渡口與鵲羽橋使用指定背景圖 */\n#qixiMiniGameBoard.qixiFerryGameBoard{\n background-image:linear-gradient(rgba(8,7,35,.16),rgba(15,9,45,.28)),url("images/qixi/qixi_ferry_game_bg.png")!important;\n background-size:cover!important;background-position:center center!important;background-repeat:no-repeat!important;min-height:56vh!important;\n}\n#qixiMiniGameBoard.qixiFerryGameBoard .qixiStarTapGrid{padding-top:4vh!important}\n#qixiMiniGameBoard.qixiFerryGameBoard .qixiStarTap{background:rgba(28,21,76,.62)!important;backdrop-filter:blur(2px)!important}\n/* SHOP_3304_SINGLE_SOURCE_START */
-/* 3.30.44：商店唯一權威版型。整個商店頁負責垂直滑動，子區塊不截斷。 */
+\n<style id="qixi3298AuthoritativeFix">\n/* 3.30.45：星河渡口與鵲羽橋使用指定背景圖 */\n#qixiMiniGameBoard.qixiFerryGameBoard{\n background-image:linear-gradient(rgba(8,7,35,.16),rgba(15,9,45,.28)),url("images/qixi/qixi_ferry_game_bg.png")!important;\n background-size:cover!important;background-position:center center!important;background-repeat:no-repeat!important;min-height:56vh!important;\n}\n#qixiMiniGameBoard.qixiFerryGameBoard .qixiStarTapGrid{padding-top:4vh!important}\n#qixiMiniGameBoard.qixiFerryGameBoard .qixiStarTap{background:rgba(28,21,76,.62)!important;backdrop-filter:blur(2px)!important}\n/* SHOP_3304_SINGLE_SOURCE_START */
+/* 3.30.45：商店唯一權威版型。整個商店頁負責垂直滑動，子區塊不截斷。 */
 html.qixi-theme-now #extraShop.pageCard.active{
   display:block!important;
   position:fixed!important;
@@ -17956,271 +17956,81 @@ body.qixi-entry-in-game #qixiEventFab{
 }
 </style>
 
-<style id="test33044FormalDefaultEverywhere">
-/* ===== TEST 預設外觀 = 正式服預設色：全站，不只首頁 =====
-   只有玩家真正套用女僕 / 七夕外觀時才退出這組預設色。 */
-html.test-formal-default,
-html.test-formal-default body{
-  --bg:#f7f1fa!important;
-  --card:#fffdfd!important;
-  --text:#3d3343!important;
-  --muted:#897b90!important;
-  --line:#eadfee!important;
-  --accent:#9872c0!important;
-  --pink:#d899b8!important;
-  --soft:#f3eaf7!important;
-  --good:#668f70!important;
-  --bad:#a65f70!important;
+<style id="test33045DefaultThemeLeakFix">
+html:not(.qixi-theme-now) body:not(.theme-maid-cafe):not(.maid-cafe-preview):not(.theme-qixi-paid):not(.qixi-global-theme):not(.appearance-galaxy){
   background:linear-gradient(#eee5f6,#fbf7fa)!important;
-  color:#3d3343!important;
 }
-
-/* 主要頁面與角色生活背景 */
-html.test-formal-default .wrap,
-html.test-formal-default #home,
-html.test-formal-default #game,
-html.test-formal-default main,
-html.test-formal-default .gameMain,
-html.test-formal-default .gameShell{
-  background:transparent!important;
-  color:#3d3343!important;
-}
-
-/* 頂部列 */
-html.test-formal-default .top,
-html.test-formal-default .gameTop,
-html.test-formal-default .topbar,
-html.test-formal-default header{
-  background:rgba(247,241,250,.96)!important;
-  color:#3d3343!important;
-  border-color:#eadfee!important;
-}
-
-/* 所有一般卡片 / 面板 / 頁面 */
-html.test-formal-default .card,
-html.test-formal-default .homePanel,
-html.test-formal-default .homeHero,
-html.test-formal-default .save,
-html.test-formal-default .now,
-html.test-formal-default .stat,
-html.test-formal-default .notice,
-html.test-formal-default .event,
-html.test-formal-default .itemRow,
-html.test-formal-default .workCard,
-html.test-formal-default .dailyTask,
-html.test-formal-default .pendingEventCard,
-html.test-formal-default .relItem,
-html.test-formal-default .partner,
-html.test-formal-default .bondPanel,
-html.test-formal-default .profileBadgeShelf,
-html.test-formal-default .profileBadgeShowcase,
-html.test-formal-default .pageCard.active{
-  background:#fffdfd!important;
-  color:#3d3343!important;
-  border-color:#eadfee!important;
-}
-
-/* 首頁主視覺維持正式服淡粉紫 */
-html.test-formal-default .homeHero{
-  background:linear-gradient(145deg,#fffafd,#f3eaf8)!important;
-}
-html.test-formal-default .createBox{
-  background:#f8f1fb!important;
-  border-color:#dccce7!important;
-}
-
-/* 抽屜 */
-html.test-formal-default .drawer{
-  background:#fffdfd!important;
-  color:#3d3343!important;
-}
-html.test-formal-default .drawerShade{
-  background:#2d24355c!important;
-}
-html.test-formal-default .navSep{
-  background:#eadfee!important;
-}
-html.test-formal-default .navBtn{
-  color:#654879!important;
-}
-
-/* 一般彈窗 / 底部面板 */
-html.test-formal-default .modal:not(.hidden){
-  background:#2d24355e!important;
-}
-html.test-formal-default .modalBox,
-html.test-formal-default .modalCard,
-html.test-formal-default .sheetCard,
-html.test-formal-default .popupCard{
-  background:#fffdfd!important;
-  color:#3d3343!important;
-  border-color:#eadfee!important;
-}
-
-/* NPC 貓貓店長：整套預設介面改回正式服淡色，不留深藍/酒紅底 */
-html.test-formal-default #npcShopModal .npcShopCard,
-html.test-formal-default #npcShopModal .modalCard,
-html.test-formal-default #npcRelationshipModal .modalBox,
-html.test-formal-default #npcRelationshipModal .modalCard,
-html.test-formal-default #npcStoryPlayer,
-html.test-formal-default #npcStoryPlayer .npcStoryStage,
-html.test-formal-default .npcPanel,
-html.test-formal-default .npcSection,
-html.test-formal-default .npcStats>div,
-html.test-formal-default .npcItemCard,
-html.test-formal-default .npcShopItem,
-html.test-formal-default .npcStoryCollection,
-html.test-formal-default .npcStoryList,
-html.test-formal-default .npcStoryCard{
-  background:#fffdfd!important;
-  color:#3d3343!important;
-  border-color:#eadfee!important;
-}
-html.test-formal-default #npcShopModal .npcHero{
-  background:#eadff2!important;
-}
-html.test-formal-default #npcShopModal .npcHeroShade{
-  background:linear-gradient(transparent,#2e213cbf)!important;
-  color:#fff!important;
-}
-html.test-formal-default #npcShopModal .npcHeroShade .small{
-  color:#f8edf9!important;
-}
-
-/* 關係 / 成就 / 商店等獨立頁面 */
-html.test-formal-default #extraRelations.pageCard.active,
-html.test-formal-default #extraAchievements.pageCard.active,
-html.test-formal-default #extraShop.pageCard.active,
-html.test-formal-default #extraChat.pageCard.active,
-html.test-formal-default #extraMailbox.pageCard.active,
-html.test-formal-default #extraGM.pageCard.active{
-  background:#f7f1fa!important;
-  color:#3d3343!important;
-}
-html.test-formal-default #extraRelations .sheetHead,
-html.test-formal-default #extraAchievements .sheetHead,
-html.test-formal-default #extraShop .sheetHead,
-html.test-formal-default #extraChat .sheetHead,
-html.test-formal-default #extraMailbox .sheetHead,
-html.test-formal-default #extraGM .sheetHead{
-  background:#f7f1fa!important;
-  color:#3d3343!important;
-}
-
-/* 輸入與按鈕 */
-html.test-formal-default input,
-html.test-formal-default select,
-html.test-formal-default textarea{
-  background:#fff!important;
-  color:#3d3343!important;
-  border-color:#d9cce2!important;
-}
-html.test-formal-default button{
-  background:#f3eaf7!important;
-  color:#654879!important;
-}
-html.test-formal-default button.primary,
-html.test-formal-default .primary{
-  background:#9872c0!important;
-  color:#fff!important;
-}
-html.test-formal-default button.danger,
-html.test-formal-default .danger{
-  background:#f8e8eb!important;
-  color:#a65f70!important;
-}
-
-/* 統一淡色資訊元素 */
-html.test-formal-default .small,
-html.test-formal-default .muted,
-html.test-formal-default .createHint,
-html.test-formal-default .homeTagline,
-html.test-formal-default .stat span,
-html.test-formal-default .npcStats span{
-  color:#897b90!important;
-}
-html.test-formal-default .chip,
-html.test-formal-default .presencePill{
-  background:#f3eaf7!important;
-  color:#76558b!important;
-  border-color:#eadfee!important;
-}
-
-/* 數值條 */
-html.test-formal-default .bar,
-html.test-formal-default .bondTrack,
-html.test-formal-default .npcTrack{
-  background:#eee7f1!important;
-}
-html.test-formal-default .fill,
-html.test-formal-default .bondFill,
-html.test-formal-default .npcTrack i{
-  background:linear-gradient(90deg,#aa88cc,#df9dbd)!important;
-}
-
-/* 預設狀態時，禁止測試服舊深色背景從 gutter / pseudo layer 漏出來 */
-html.test-formal-default body::before,
-html.test-formal-default body::after,
-html.test-formal-default #game::before,
-html.test-formal-default #game::after,
-html.test-formal-default .wrap::before,
-html.test-formal-default .wrap::after{
-  background:none!important;
+html:not(.qixi-theme-now) body:not(.theme-maid-cafe):not(.maid-cafe-preview):not(.theme-qixi-paid):not(.qixi-global-theme):not(.appearance-galaxy)::before,
+html:not(.qixi-theme-now) body:not(.theme-maid-cafe):not(.maid-cafe-preview):not(.theme-qixi-paid):not(.qixi-global-theme):not(.appearance-galaxy)::after{
   background-image:none!important;
 }
 </style>
 
 
-<script id="test33044FormalDefaultEverywhereScript">
+<script id="test33045DefaultThemeStateFix">
 (function(){
-  const html=document.documentElement;
-  const body=document.body;
+  const THEME_CLASSES=[
+    "theme-maid-cafe","maid-cafe-preview","theme-qixi-paid",
+    "qixi-global-theme","appearance-galaxy","qixi-theme-now"
+  ];
 
-  function hasMaidTheme(){
-    return body.classList.contains("theme-maid-cafe") ||
-           body.classList.contains("maid-cafe-preview") ||
-           html.getAttribute("data-theme")==="maid-cafe" ||
-           body.getAttribute("data-theme")==="maid-cafe";
+  function readStoredAppearance(){
+    const keys=[
+      "appearance","appearanceTheme","selectedAppearance","selectedTheme",
+      "theme","formalAppearance","rlgAppearance","roleLifeAppearance"
+    ];
+    for(const k of keys){
+      try{
+        const v=localStorage.getItem(k);
+        if(v!==null && v!=="") return String(v).toLowerCase();
+      }catch(_){}
+    }
+    return "";
   }
 
-  function hasQixiTheme(){
-    return body.classList.contains("theme-qixi-paid") ||
-           body.classList.contains("qixi-global-theme") ||
-           body.classList.contains("appearance-galaxy") ||
-           html.classList.contains("qixi-theme-now");
+  function isSpecialStored(v){
+    return /maid|女僕|qixi|七夕|galaxy|星河|star/.test(v||"");
   }
 
-  function currentIsHome(){
-    const h=document.getElementById("home");
-    return !!h && !h.classList.contains("hidden") && getComputedStyle(h).display!=="none";
+  function clearSpecialThemeClasses(){
+    const html=document.documentElement, body=document.body;
+    THEME_CLASSES.forEach(c=>{html.classList.remove(c);body.classList.remove(c);});
+    for(const el of [html,body]){
+      const dt=(el.getAttribute("data-theme")||"").toLowerCase();
+      if(/maid|qixi|galaxy|star/.test(dt)) el.removeAttribute("data-theme");
+    }
   }
 
-  function sync(){
-    /* 首頁永遠是正式服預設。
-       角色內只有在玩家沒有選女僕/七夕時才套正式服預設。 */
-    const useDefault=currentIsHome() || (!hasMaidTheme() && !hasQixiTheme());
-    html.classList.toggle("test-formal-default",useDefault);
+  function normalizeDefaultTheme(){
+    const v=readStoredAppearance();
+    if(!isSpecialStored(v)) clearSpecialThemeClasses();
   }
 
-  const observer=new MutationObserver(()=>requestAnimationFrame(sync));
-  observer.observe(body,{attributes:true,attributeFilter:["class","data-theme"]});
-  observer.observe(html,{attributes:true,attributeFilter:["class","data-theme"]});
+  // Run after all legacy initialization so stale theme classes cannot win.
+  function lateNormalize(){
+    normalizeDefaultTheme();
+    setTimeout(normalizeDefaultTheme,50);
+    setTimeout(normalizeDefaultTheme,250);
+    setTimeout(normalizeDefaultTheme,800);
+  }
 
-  const home=document.getElementById("home"),game=document.getElementById("game");
-  if(home)observer.observe(home,{attributes:true,attributeFilter:["class","style"]});
-  if(game)observer.observe(game,{attributes:true,attributeFilter:["class","style"]});
-
-  document.addEventListener("click",e=>{
-    if(e.target.closest?.(
-      "[data-appearance],[data-formal-theme-choice],#appearanceDrawerBtn,#formalAppearanceBtn,#closeAppearanceModal,#closeFormalAppearance"
-    )) setTimeout(sync,30);
-  },true);
-
-  window.addEventListener("pageshow",()=>setTimeout(sync,0),{passive:true});
-  document.addEventListener("visibilitychange",()=>{if(!document.hidden)setTimeout(sync,0)},{passive:true});
   if(document.readyState==="loading"){
-    document.addEventListener("DOMContentLoaded",()=>setTimeout(sync,0),{once:true});
-  }else setTimeout(sync,0);
+    document.addEventListener("DOMContentLoaded",lateNormalize,{once:true});
+  }else lateNormalize();
+
+  window.addEventListener("pageshow",lateNormalize,{passive:true});
+
+  // When selecting "原本外觀", immediately clear every old theme marker.
+  document.addEventListener("click",function(e){
+    const t=e.target.closest?.("button,[role=button],.appearanceChoice,.themeChoice,[data-appearance],[data-theme-choice]");
+    if(!t)return;
+    const txt=(t.textContent||"").trim();
+    const val=(t.dataset?.appearance||t.dataset?.themeChoice||"").toLowerCase();
+    if(/原本外觀|預設外觀|原始外觀/.test(txt) || /^(default|original|normal|base)$/.test(val)){
+      setTimeout(clearSpecialThemeClasses,0);
+      setTimeout(clearSpecialThemeClasses,80);
+    }
+  },true);
 })();
 </script>
 
