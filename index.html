@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#9a76c4" name="theme-color"/>
-<title>關係進行式・3.31.13.16</title>
+<title>關係進行式・3.31.13.20</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -2269,7 +2269,7 @@ html[data-formal-theme="maidCafe"] .navBtn::after{
 </div>
 <div class="drawerShade hidden" id="drawerShade"></div><aside class="drawer hidden" id="drawer"><div style="padding:8px"><b id="drawerName">角色</b><div class="muted">功能選單</div></div><button class="navBtn" data-nav="life" type="button">🏠 角色生活</button><button class="navBtn" data-nav="daily" type="button">📋 今日小事</button><button class="navBtn" data-nav="work" type="button">💼 打工賺錢</button><button class="navBtn" data-nav="journal" type="button">📖 今日生活日誌</button><button class="navBtn" data-nav="routine" type="button">🕒 角色作息</button><button class="navBtn" data-nav="outing" type="button">🗺️ 外出 <span class="navDot hidden" data-dot="outing"></span></button><button class="navBtn" data-nav="relations" type="button">💞 關係 <span class="navDot hidden" data-dot="relations"></span></button><button class="navBtn" data-nav="npcrelations" type="button">✨ NPC 關係</button><button class="navBtn" data-nav="mailbox" type="button">📬 信箱 <span class="navDot hidden" data-dot="mailbox"></span></button><button class="navBtn" id="playerAccountDrawerBtn" type="button">☁️ 玩家帳號</button><button class="navBtn" id="gmDrawerLoginBtn" type="button">👑 管理員登入</button><button class="navBtn hidden" data-nav="gm" id="gmNavBtn" type="button">🛠️ GM 操作台</button><div class="navSep"></div><button class="navBtn" data-nav="bag" type="button">🎒 背包</button><button class="navBtn" data-nav="shop" type="button">🏪 商店</button><button class="navBtn" data-nav="memory" type="button">📖 回憶</button><button class="navBtn" data-nav="achievements" type="button">🏆 成就</button><div class="navSep"></div><div style="padding:8px"><b>🎵 悠閒 BGM</b><div class="actions"><button id="bgmToggle">▶ 播放</button><input id="bgmVolume" max="1" min="0" step=".05" type="range" value=".25"/></div><div class="small">把 bgm.mp3 和 index.html 放同一資料夾。</div></div><audio autoplay="" id="bgm" loop="" playsinline="" preload="auto"><source src="bgm.mp3" type="audio/mpeg"/></audio><button class="navBtn" id="back" type="button">💾 返回存檔首頁</button></aside><div class="modal hidden" id="updateNoticeModal">
 <div class="modalBox">
-<div class="modalHead"><b>📢 第3.31.13.16版更新公告</b><button id="closeUpdateNotice">×</button></div>
+<div class="modalHead"><b>📢 第3.31.13.20版更新公告</b><button id="closeUpdateNotice">×</button></div>
 <div class="updateNoticeBody">
   <h3>🎀 女僕咖啡廳主題</h3>
   <p>新增女僕咖啡廳限定外觀。解鎖後可在「外觀更改」中自由切換原始外觀與女僕咖啡廳，選擇會保留。</p>
@@ -7155,7 +7155,7 @@ function reconcileAchievements(c){
  let _hasTopAch=_topDefs.some(t=>t?.ach&&!!c.achievements?.[t.ach]);
  let _hasTopBadge=_topDefs.some(t=>t?.badge&&!!local.sharedBadges?.[t.badge]);
  if(_hasBroken||_hasTopAch||_hasTopBadge)c.achievements.break=1;
-  /* 3.31.13.16：只補「此生唯一」。 */
+  /* 3.31.13.20：只補「此生唯一」。 */
   try{
     const loverBroken=infos.some(x=>x.rr?.relation==="lover"&&!!x.b?.broken);
     const loverBadge=!!local.sharedBadges?.badge_lover;
@@ -9621,11 +9621,11 @@ function renderNpcRpgLine(){
     if(!portrait.dataset.formalBeforeMaid)portrait.dataset.formalBeforeMaid=portrait.getAttribute("src")||"cat_shopkeeper_normal.png";
     portrait.dataset.maidCgLocked="1";
     player.classList.add("formalMaidStory");
-    const target=stage>=2
-      ?"assets/npc/shopkeeper_cat/maid_cafe_special_2.png"
-      :"assets/npc/shopkeeper_cat/maid_cafe_special_1.png";
-    if(portrait.getAttribute("src")!==target)portrait.setAttribute("src",target);
-    player.style.setProperty("--formal-maid-bg",`url("${target}")`);
+    const target=String(line.image||line.portrait||"").trim();
+    if(target){
+      if(portrait.getAttribute("src")!==target)portrait.setAttribute("src",target);
+      player.style.setProperty("--formal-maid-bg",`url("${target}")`);
+    }
   }else if(player&&portrait&&!maid){
     player.classList.remove("formalMaidStory");
     delete portrait.dataset.maidCgLocked;
@@ -9727,7 +9727,9 @@ function maidLines(){
       ]);
     }catch(_){}
 
-  const x=c();if(!x)return;ensure(x);
+  const x=cur();if(!x)return;
+  x.paidStoryFlags=x.paidStoryFlags&&typeof x.paidStoryFlags==="object"?x.paidStoryFlags:{};
+  x.memories=Array.isArray(x.memories)?x.memories:[];
   startNpcRpgStory?.({
     title:'🎀 特殊劇情・女僕咖啡廳',
     lines:maidLines(),
@@ -9751,8 +9753,11 @@ function openNpcStory(npcId,kind,id){
   let groups=npcStoryCollection(npcId,c);
   let story=(groups[kind]||[]).find(x=>x.id===id);
   if(!story||!story.unlocked)return toast("🔒 這段故事尚未收藏。");
-  if(id==="paid_maid_cafe_story"&&typeof window.playFormalMaidCafeStory==="function"){
-    window.playFormalMaidCafeStory(true);return;
+  if(id==="paid_maid_cafe_story"){
+    if(window.__playMaidStorySafe?.(true))return;
+    if(typeof window.playFormalMaidCafeStory==="function"){
+      window.playFormalMaidCafeStory(true);return;
+    }
   }
   let lines=NPC_RPG_STORIES[id]||[{speaker:"旁白",text:story.text||"這段回憶仍然很清晰。"}];
   startNpcRpgStory({title:story.title,lines});
@@ -15431,14 +15436,28 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
  else apply();
 })();
 </script>
-<script id="formalMaidPreloadOnly">
+<script id="formal3311317MaidTriggerBridge">
 (function(){
- const imgs=["assets/npc/shopkeeper_cat/maid_cafe_special.png","assets/npc/shopkeeper_cat/maid_cafe_special_1.png","assets/npc/shopkeeper_cat/maid_cafe_special_2.png"];
- let done=false;
- function warm(){if(done)return;done=true;imgs.forEach(src=>{try{const im=new Image();im.decoding="async";im.src=src;try{im.decode?.().catch(()=>{});}catch(_){}}catch(_){}});}
- document.addEventListener("pointerdown",e=>{if(e.target?.closest?.('[data-replay-paid-maid-story],[data-use-paid-maid-voucher],[data-redeem-maid-theme],[data-maid-story]'))warm();},true);
- window.addEventListener("pageshow",()=>{try{const c=typeof cur==="function"?cur():null;if(c?.paidCosmetics?.maidCafe)warm();}catch(_){}},{passive:true});
+  function canPlay(){
+    return typeof window.playFormalMaidCafeStory==="function";
+  }
+  window.__playMaidStorySafe=function(replay){
+    if(canPlay()){
+      try{ window.playFormalMaidCafeStory(!!replay); return true; }catch(_){}
+    }
+    return false;
+  };
+
+  document.addEventListener("click",function(e){
+    const el=e.target?.closest?.('[data-replay-paid-maid-story],[data-use-paid-maid-voucher]');
+    if(!el)return;
+    setTimeout(function(){ window.__playMaidStorySafe?.(el.hasAttribute('data-replay-paid-maid-story')); },60);
+  },true);
 })();
+</script>
+
+<script id="formal3311320MaidImagesPreload">
+(function(){["assets/npc/shopkeeper_cat/maid_cafe_special.png","assets/npc/shopkeeper_cat/maid_cafe_special_1.png","assets/npc/shopkeeper_cat/maid_cafe_special_2.png"].forEach(src=>{try{const im=new Image();im.decoding="async";im.src=src;}catch(_){}});})();
 </script>
 </body>
 </html>
