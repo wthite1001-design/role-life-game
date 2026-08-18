@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#9a76c4" name="theme-color"/>
-<title>關係進行式・3.31.14.36</title>
+<title>關係進行式・3.31.14.37</title>
 
 
 
@@ -1892,7 +1892,7 @@ html[data-formal-theme="maidCafe"] .navBtn::after{
 <div class="homeLogo">💞</div>
 <h1>關係進行式</h1>
 <div class="homeTagline">每一段關係，都還在進行中。</div>
-<div class="homeVersion">第3.31.14.36版・正式服</div>
+<div class="homeVersion">第3.31.14.37版・正式服</div>
 </div>
 <div id="playerAccountHomePanel" class="homePanel accountHomePanel">
 <div class="homePanelTitle"><span>☁️ 玩家帳號</span><span id="playerAccountChip" class="chip">未登入</span></div>
@@ -1910,7 +1910,7 @@ html[data-formal-theme="maidCafe"] .navBtn::after{
 <div class="gmStatus" id="gmHomeStatus"></div>
 </div>
 <div class="homePanel">
-<div class="homePanelTitle"><span>📢 更新公告</span><span class="chip">第3.31.14.36版</span></div>
+<div class="homePanelTitle"><span>📢 更新公告</span><span class="chip">第3.31.14.37版</span></div>
 <div class="small">查看本次新增功能與修正內容。</div>
 <button id="openUpdateNotice" style="width:100%;margin-top:8px" type="button">查看更新內容</button>
 </div>
@@ -2333,7 +2333,7 @@ html[data-formal-theme="maidCafe"] .navBtn::after{
 </div>
 <div class="drawerShade hidden" id="drawerShade"></div><aside class="drawer hidden" id="drawer"><div style="padding:8px"><b id="drawerName">角色</b><div class="muted">功能選單</div></div><button class="navBtn" data-nav="life" type="button">🏠 角色生活</button><button class="navBtn" data-nav="daily" type="button">📋 今日小事</button><button class="navBtn" data-nav="work" type="button">💼 打工賺錢</button><button class="navBtn" data-nav="journal" type="button">📖 今日生活日誌</button><button class="navBtn" data-nav="routine" type="button">🕒 角色作息</button><button class="navBtn" data-nav="outing" type="button">🗺️ 外出 <span class="navDot hidden" data-dot="outing"></span></button><button class="navBtn" data-nav="relations" type="button">💞 關係 <span class="navDot hidden" data-dot="relations"></span></button><button class="navBtn" data-nav="npcrelations" type="button">✨ NPC 關係</button><button class="navBtn" data-nav="mailbox" type="button">📬 信箱 <span class="navDot hidden" data-dot="mailbox"></span></button><button class="navBtn" id="playerAccountDrawerBtn" type="button">☁️ 玩家帳號</button><button class="navBtn" id="gmDrawerLoginBtn" type="button">👑 管理員登入</button><button class="navBtn hidden" data-nav="gm" id="gmNavBtn" type="button">🛠️ GM 操作台</button><div class="navSep"></div><button class="navBtn" data-nav="bag" type="button">🎒 背包</button><button class="navBtn" data-nav="shop" type="button">🏪 商店</button><button class="navBtn" data-nav="memory" type="button">📖 回憶</button><button class="navBtn" data-nav="achievements" type="button">🏆 成就</button><div class="navSep"></div><div style="padding:8px"><b>🎵 悠閒 BGM</b><div class="actions"><button id="bgmToggle">▶ 播放</button><input id="bgmVolume" max="1" min="0" step=".05" type="range" value=".25"/></div><div class="small">把 bgm.mp3 和 index.html 放同一資料夾。</div></div><audio autoplay="" id="bgm" loop="" playsinline="" preload="auto"><source src="bgm.mp3" type="audio/mpeg"/></audio><button class="navBtn" id="back" type="button">💾 返回存檔首頁</button></aside><div class="modal hidden" id="updateNoticeModal">
 <div class="modalBox">
-<div class="modalHead"><b>📢 第3.31.14.36版更新公告</b><button id="closeUpdateNotice">×</button></div>
+<div class="modalHead"><b>📢 第3.31.14.37版更新公告</b><button id="closeUpdateNotice">×</button></div>
 <div class="updateNoticeBody">
   <h3>🎀 女僕咖啡廳主題</h3>
   <p>新增女僕咖啡廳限定外觀。解鎖後可在「外觀更改」中自由切換原始外觀與女僕咖啡廳，選擇會保留。</p>
@@ -3132,7 +3132,7 @@ function show(id){
       npc.style.setProperty("z-index","9996","important");
     }
   }
-  /* 3.31.14.36：七夕入口也由主頁切換函式直接控制。
+  /* 3.31.14.37：七夕入口也由主頁切換函式直接控制。
      不只看 activeId，避免離開角色後舊 activeId／定時器又把入口叫回首頁。 */
   const qixi=document.getElementById("qixiEventFab");
   if(qixi){
@@ -15541,7 +15541,7 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 
 <script id="formal33111SingleVersionSource">
 (function(){
- const VERSION="3.31.14.36";
+ const VERSION="3.31.14.37";
  function apply(){
    document.querySelectorAll(".homeVersion").forEach(function(el){
      el.textContent="第"+VERSION+"版・正式服";
@@ -16026,7 +16026,7 @@ html[data-formal-theme="qixiGalaxy"] :is(.card,.panel,.pendingPanel,.characterCa
 .formalQixiTrialNote{font-size:12px;color:#705c7c;margin-top:5px}
 </style>
 <script id="formal33114Version">
-(function(){const V='3.31.14.36';function f(){document.querySelectorAll('.homeVersion').forEach(el=>el.textContent='第'+V+'版・正式服');document.documentElement.dataset.gameVersion=V;document.title='關係進行式・'+V}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',f,{once:true});else f();window.addEventListener('pageshow',f)})();
+(function(){const V='3.31.14.37';function f(){document.querySelectorAll('.homeVersion').forEach(el=>el.textContent='第'+V+'版・正式服');document.documentElement.dataset.gameVersion=V;document.title='關係進行式・'+V}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',f,{once:true});else f();window.addEventListener('pageshow',f)})();
 </script>
 
 
@@ -16079,8 +16079,8 @@ html[data-formal-theme="qixiGalaxy"] :is(.card,.panel,.pendingPanel,.characterCa
 
 
 
-<!-- 3.31.14.36: 測試服星空外觀完整移植 -->
-<!-- 3.31.14.36：TEST 3.30.80 七夕活動直接移植 -->
+<!-- 3.31.14.37: 測試服星空外觀完整移植 -->
+<!-- 3.31.14.37：TEST 3.30.80 七夕活動直接移植 -->
 <script id="formalExact_test33060QixiStableOpenAndInviteCleanup">
 (function(){
 "use strict";
@@ -16525,7 +16525,7 @@ setTimeout(hardClean,350);window.addEventListener("pageshow",()=>setTimeout(hard
    const x=c();
    if(x){
      try{
-       /* 3.31.14.36：先抓最新關係，再還原七夕綁定。舊順序會讓刷新後第一次進活動時
+       /* 3.31.14.37：先抓最新關係，再還原七夕綁定。舊順序會讓刷新後第一次進活動時
           relationshipSummaries 還是空的，必須再點守橋人才看得到已綁定同行者。 */
        if(typeof refreshRelationships==="function")await qixiFast(refreshRelationships(),1400,null);
        if(!ensure(x)?.bound)await qixiFast(qixiRestoreBoundFromCloud(x),1900,false);
@@ -16582,11 +16582,8 @@ setTimeout(hardClean,350);window.addEventListener("pageshow",()=>setTimeout(hard
    }
 
    /* 七夕不能比關係頁更早判定：先同步雲端關係，再建立同行選項。 */
-   let available=qixiAvailableCompanions(x);
-   if(!available.length){
-     try{await qixiFast(typeof refreshRelationships==="function"?refreshRelationships():null,1800,null)}catch(e){console.warn("qixi relation preload",e)}
-     available=qixiAvailableCompanions(x);
-   }
+   try{await qixiFast(typeof refreshRelationships==="function"?refreshRelationships():null,1800,null)}catch(e){console.warn("qixi relation preload",e)}
+   const available=qixiAvailableCompanions(x);
    let companionState=new Map();
    try{companionState=await qixiFast(qixiAvailabilityForCompanions(x,available),700,new Map())||new Map()}catch(_){companionState=new Map()}
    /* 舊版曾誤判成獨行；只要現在讀得到真實關係，就清掉錯誤獨行狀態。 */
@@ -16779,27 +16776,33 @@ setTimeout(hardClean,350);window.addEventListener("pageshow",()=>setTimeout(hard
   try{return JSON.parse(v)}catch(_){return {}}
  }
  function qixiAvailableCompanions(x){
-  const out=[],seen=new Set();
+  const out=[],seen=new Set(),me=String(x?.id||"");
+  if(!me)return out;
   const add=(code,rr)=>{
-   code=String(code||rr?.code||"");
-   if(!code||seen.has(code)||!rr?.relation||!RELS[rr.relation])return;
-   const host=qixiStateObj(rr.host_state),guest=qixiStateObj(rr.guest_state);
-   const mineIsHost=String(rr.host_char)===String(x?.id);
-   const other=mineIsHost?guest:host;
-   const name=other?.name||other?.characterName||other?.displayName||
-     relationTypeLabels?.[rr.relation]||RELS[rr.relation].name.split("｜")[0];
-   seen.add(code);
-   out.push({code,rel:rr.relation,name});
+    code=String(code||rr?.code||"");
+    if(!code||seen.has(code)||!rr?.relation||!RELS[rr.relation])return;
+    const hostId=String(rr?.host_char||""),guestId=String(rr?.guest_char||"");
+    /* 七夕資料必須完全角色隔離：不是目前角色自己的房間，直接忽略。 */
+    if(hostId!==me&&guestId!==me)return;
+    const host=qixiStateObj(rr.host_state),guest=qixiStateObj(rr.guest_state);
+    const mineIsHost=hostId===me;
+    const other=mineIsHost?guest:host;
+    let name=String(other?.name||other?.characterName||other?.displayName||"").trim();
+    if(!name){
+      try{
+        const n=String(roomOtherName?.(code,x)||"").trim();
+        if(n&&n!=="關係角色")name=n;
+      }catch(_){}
+    }
+    /* 沒有真正角色名時不要拿「戀人/家人」冒充名字。 */
+    if(!name)name="對方";
+    seen.add(code);
+    out.push({code,rel:rr.relation,name});
   };
-
-  /* 正式服不能只相信角色本機 roomCodes。
-     關係頁已經從雲端抓到的 relationshipSummaries 才是七夕同行選擇的主要來源。 */
-  for(const [code,rr] of Object.entries(relationshipSummaries||{})){
-   if(String(rr?.host_char)===String(x?.id)||String(rr?.guest_char)===String(x?.id))add(code,rr);
-  }
+  for(const [code,rr] of Object.entries(relationshipSummaries||{}))add(code,rr);
   for(const rawCode of (x?.roomCodes||[])){
-   const code=String(rawCode);
-   add(code,relationshipSummaries?.[code]);
+    const code=String(rawCode),rr=relationshipSummaries?.[code];
+    if(rr)add(code,rr);
   }
   return out;
  }
@@ -17095,11 +17098,9 @@ setTimeout(hardClean,350);window.addEventListener("pageshow",()=>setTimeout(hard
    const st=ensure(x);
    if(st.bound)return toast?.("七夕同行已永久綁定，不能更換。");
 
-   let available=qixiAvailableCompanions(x);
-   if(!available.length){
-     try{await qixiFast(typeof refreshRelationships==="function"?refreshRelationships():null,1800,null)}catch(e){console.warn("qixi reselect sync",e)}
-     available=qixiAvailableCompanions(x);
-   }
+   /* 每次開同行選擇都先刷新「目前角色」的關係，避免沿用上一個角色的 relationshipSummaries。 */
+   try{await qixiFast(typeof refreshRelationships==="function"?refreshRelationships():null,1800,null)}catch(e){console.warn("qixi reselect sync",e)}
+   const available=qixiAvailableCompanions(x);
    let companionState=new Map();
    try{companionState=await qixiFast(qixiAvailabilityForCompanions(x,available),700,new Map())||new Map()}catch(_){}
 
@@ -17512,7 +17513,7 @@ setTimeout(hardClean,350);window.addEventListener("pageshow",()=>setTimeout(hard
   if(!grid||!reward)return;
   if(!x){grid.innerHTML='<div class="small">請先進入角色。</div>';return}
   const st=ensure(x),n=progress(x);
-  /* 3.31.14.36：正式服舊存檔若留下中文/舊關係 key，轉回七夕使用的標準 key，避免 render 中斷造成兩條空白卡。 */
+  /* 3.31.14.37：正式服舊存檔若留下中文/舊關係 key，轉回七夕使用的標準 key，避免 render 中斷造成兩條空白卡。 */
   const relAlias={"戀人":"lover","摯友":"bestfriend","家人":"family","搭檔":"partner","宿敵":"rival","仇敵":"enemy","甜蜜共犯":"lover","秘密共犯":"lover"};
   if(st.boundRel&&!RELS[st.boundRel]&&relAlias[st.boundRel])st.boundRel=relAlias[st.boundRel];
   if(st.selectedRel&&!RELS[st.selectedRel]&&relAlias[st.selectedRel])st.selectedRel=relAlias[st.selectedRel];
@@ -19564,7 +19565,7 @@ html:not([data-test-theme="qixiGalaxy"]):not(.qixi-theme-now)
  },true);
 })();
 </script>
-<!-- 3.31.14.36: exact Qixi visual parity copied from uploaded TEST 3.30.80 -->
+<!-- 3.31.14.37: exact Qixi visual parity copied from uploaded TEST 3.30.80 -->
 <style id="formalExactTest_qixi3279-scroll-fix">
 /* 3.30.62：七夕活動頁在手機上可完整往下捲，不再把守橋人卡片截成一半 */
 #qixiEventModal{
@@ -20928,6 +20929,29 @@ body:not(.qixi-entry-in-game) #qixiEventFab{
 #qixiStarExchange:empty,#qixiRewardBox:empty{display:none!important}
 #qixiTopTools>.qixiRewardBox:empty{display:none!important}
 </style>
+
+<script id="formal3311437QixiCharacterIsolation">
+(function(){
+ "use strict";
+ let last="";
+ function currentId(){try{return String(typeof cur==="function"?cur()?.id||"":"")}catch(_){return ""}}
+ async function sync(){
+   const id=currentId();if(!id)return;
+   if(last&&last!==id){
+     /* relationshipSummaries 是全域暫存，切角色時一定清空，七夕資料本身仍留在各角色 x.qixi2026。 */
+     try{relationshipSummaries={}}catch(_){}
+     try{activeRoomCode=""}catch(_){}
+   }
+   last=id;
+   try{if(typeof refreshRelationships==="function")await refreshRelationships()}catch(_){}
+ }
+ document.addEventListener("click",e=>{
+   if(e.target.closest?.("[data-load],.save button")){setTimeout(sync,120);setTimeout(sync,650)}
+ },true);
+ window.addEventListener("pageshow",()=>setTimeout(sync,500),{passive:true});
+})();
+</script>
+
 </body>
 </html>
 <style>
