@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#9a76c4" name="theme-color"/>
-<title>關係進行式・3.31.14.16</title>
+<title>關係進行式・3.31.14.17</title>
 
 <script id="formal3311412PrePaintTheme">
 (function(){
@@ -1801,78 +1801,9 @@ html[data-formal-theme="maidCafe"] .navBtn::after{
 </style>
 
 
-<style id="formal331146QixiFabStyle">
-/* 3.31.14.6：七夕浮動入口改回正式服柔和膠囊樣式；保留拖曳與開放時間判定。 */
-#qixiEventFab{
- min-height:58px!important;padding:12px 18px!important;border-radius:22px!important;
- color:#56356f!important;background:linear-gradient(180deg,#fffaff 0%,#f2e8fb 100%)!important;
- border:1px solid rgba(116,77,148,.18)!important;
- box-shadow:0 8px 18px rgba(73,48,99,.18),inset 0 1px 0 rgba(255,255,255,.95)!important;
- gap:9px!important;font-size:18px!important;font-weight:900!important;
-}
-#qixiEventFab .qixiFabIcon{font-size:22px!important}
-#qixiEventFab.qixiComingSoon{opacity:1!important}
-#qixiEventFab:active{transform:translateY(1px)!important}
-</style>
 
-<style id="formal331147QixiFabTestParity">
-/* 3.31.14.7：七夕入口完整對齊測試服尺寸與主題連動。位置仍由既有拖曳程式控制。 */
-/* 3.31.14.16：入口顯示條件改為必須已進入角色；角色選擇／建立角色頁不顯示。 */
-#qixiEventFab{
-  position:fixed!important;
-  z-index:9998!important;
-  width:auto!important;
-  min-width:0!important;
-  max-width:150px!important;
-  height:44px!important;
-  min-height:44px!important;
-  padding:7px 11px!important;
-  margin:0!important;
-  border-radius:16px!important;
-  display:flex!important;
-  align-items:center!important;
-  justify-content:center!important;
-  gap:6px!important;
-  font-size:11px!important;
-  line-height:1!important;
-  font-weight:900!important;
-  touch-action:none!important;
-  user-select:none!important;
-  -webkit-user-select:none!important;
-  cursor:grab!important;
-  transform:none!important;
-  transition:background .16s ease,box-shadow .16s ease,color .16s ease,border-color .16s ease!important;
-}
-#qixiEventFab.qixiDragging{cursor:grabbing!important;transition:none!important}
-#qixiEventFab .qixiFabIcon{font-size:17px!important}
-#qixiEventFab .qixiDot{width:8px!important;height:8px!important;min-width:8px!important;flex:0 0 8px!important}
-#qixiEventFab.qixiComingSoon{opacity:1!important}
 
-/* 預設：測試服同款淡紫浮凸 */
-html:not([data-formal-theme="maidCafe"]):not([data-formal-theme="qixiGalaxy"]) #qixiEventFab,
-html[data-formal-theme="default"] #qixiEventFab{
-  background:linear-gradient(180deg,#fffafd 0%,#eee4f7 100%)!important;
-  color:#4d3764!important;
-  border:1px solid #cbb8df!important;
-  box-shadow:0 5px 0 #c7b2db,0 9px 18px rgba(64,43,91,.18),inset 0 1px 0 rgba(255,255,255,.95)!important;
-}
 
-/* 女僕咖啡廳：粉色糖霜浮凸 */
-html[data-formal-theme="maidCafe"] #qixiEventFab{
-  background:linear-gradient(180deg,#fff9fb 0%,#f1c7d5 100%)!important;
-  color:#63394a!important;
-  border:1px solid #d89bad!important;
-  box-shadow:0 5px 0 #c9899f,0 9px 18px rgba(104,55,73,.20),inset 0 1px 0 rgba(255,255,255,.95)!important;
-}
-
-/* 鵲橋星河：深色星河浮凸 */
-html[data-formal-theme="qixiGalaxy"] #qixiEventFab{
-  background:radial-gradient(circle at 18% 22%,rgba(255,255,255,.75) 0 1px,transparent 1.8px),radial-gradient(circle at 78% 28%,rgba(199,178,255,.72) 0 1px,transparent 1.8px),linear-gradient(145deg,#25266b 0%,#59418e 62%,#9a5ba5 100%)!important;
-  color:#fff!important;
-  border:1px solid rgba(215,203,255,.62)!important;
-  box-shadow:0 5px 0 #19184c,0 9px 20px rgba(10,8,43,.34),inset 0 1px 0 rgba(255,255,255,.22)!important;
-}
-</style>
 
 </head>
 <body>
@@ -3156,7 +3087,7 @@ function show(id){
       npc.style.setProperty("z-index","9996","important");
     }
   }
-  /* 3.31.14.16：七夕入口也由主頁切換函式直接控制。
+  /* 3.31.14.17：七夕入口也由主頁切換函式直接控制。
      不只看 activeId，避免離開角色後舊 activeId／定時器又把入口叫回首頁。 */
   const qixi=document.getElementById("qixiEventFab");
   if(qixi){
@@ -14783,7 +14714,15 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
     if(choice&&!choice.disabled){e.preventDefault();applyTheme(choice.dataset.formalThemeChoice);render();return;}
     if(e.target?.id==='formalAppearanceModal')close();
   },true);
-  function init(){const a=ensureAppearance();applyTheme(a.active);}
+  function init(){
+    const a=ensureAppearance();
+    let mode=a.active||'default';
+    try{
+      const saved=JSON.parse(localStorage.getItem(THEME_KEY)||'null');
+      if(saved?.mode)mode=saved.mode;
+    }catch(_){}
+    applyTheme(mode);
+  }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script>
@@ -15522,36 +15461,52 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 
 </script>
 
+
 <script id="formal31612AppearancePersistenceGuard">
 (function(){
+ const KEY='role_life_formal_theme_v1';
+ const START=Date.parse('2026-08-19T00:00:00+08:00');
+ const END=Date.parse('2026-08-25T23:59:59.999+08:00');
+ function qixiOK(a){
+   if(a?.owned?.qixiGalaxy)return true;
+   let t=Number(a?.trials?.qixiGalaxyStartedAt||0);
+   try{if(!t)t=Number(localStorage.getItem('qixiGalaxyTrialStartedAt_v1')||0)}catch(_){}
+   const now=Date.now();
+   return now>=START&&now<=END&&t>0&&now<t+86400000;
+ }
+ function resolve(a){
+   let saved='';
+   try{saved=JSON.parse(localStorage.getItem(KEY)||'null')?.mode||''}catch(_){}
+   let mode=saved||a?.active||'default';
+   if(mode==='qixiGalaxy'&&!qixiOK(a))mode='default';
+   if(mode==='maidCafe'&&!a?.owned?.maidCafe)mode='default';
+   return mode;
+ }
  function sync(){
    try{
      const a=window.local?.accountAppearance;
      if(!a)return;
-     const owned=!!a?.owned?.maidCafe;
-     const mode=a.active==='maidCafe'&&owned?'maidCafe':'default';
+     const mode=resolve(a);
+     a.active=mode;
      document.documentElement.setAttribute('data-formal-theme',mode);
-
-     // Keep legacy key aligned; never let it become a separate source of truth.
+     document.documentElement.classList.toggle('qixi-theme-now',mode==='qixiGalaxy');
      try{
-       localStorage.setItem('relationship_game_formal_paid_theme_v1',JSON.stringify({
-         mode,account:true,savedAt:Date.now()
-       }));
+       localStorage.setItem(KEY,JSON.stringify({mode,account:true,savedAt:Date.now()}));
+       localStorage.setItem('relationship_game_formal_paid_theme_v1',JSON.stringify({mode,account:true,savedAt:Date.now()}));
      }catch(_){}
-
-     // Selector state must match the actually painted theme.
      document.querySelectorAll('[data-formal-theme-choice]').forEach(btn=>{
        btn.classList.toggle('active',btn.dataset.formalThemeChoice===mode);
      });
    }catch(e){console.warn('appearance persistence guard',e)}
  }
+ window.syncFormalAppearance3311417=sync;
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(sync,0),{once:true});
  else setTimeout(sync,0);
  window.addEventListener('pageshow',()=>setTimeout(sync,0),{passive:true});
- setTimeout(sync,120);
- setTimeout(sync,700);
+ document.addEventListener('visibilitychange',()=>{if(!document.hidden)setTimeout(sync,0)},{passive:true});
 })();
 </script>
+
 
 
 
@@ -15744,7 +15699,7 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 
 <script id="formal33111SingleVersionSource">
 (function(){
- const VERSION="3.31.14.16";
+ const VERSION="3.31.14.17";
  function apply(){
    document.querySelectorAll(".homeVersion").forEach(function(el){
      el.textContent="第"+VERSION+"版・正式服";
@@ -16133,7 +16088,7 @@ html[data-formal-theme="qixiGalaxy"] :is(.card,.panel,.pendingPanel,.characterCa
 })();
 </script>
 <script id="formal33114Version">
-(function(){const V='3.31.14.16';function f(){document.querySelectorAll('.homeVersion').forEach(el=>el.textContent='第'+V+'版・正式服');document.documentElement.dataset.gameVersion=V;document.title='關係進行式・'+V}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',f,{once:true});else f();window.addEventListener('pageshow',f)})();
+(function(){const V='3.31.14.17';function f(){document.querySelectorAll('.homeVersion').forEach(el=>el.textContent='第'+V+'版・正式服');document.documentElement.dataset.gameVersion=V;document.title='關係進行式・'+V}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',f,{once:true});else f();window.addEventListener('pageshow',f)})();
 </script>
 
 
@@ -16183,27 +16138,10 @@ html[data-formal-theme="qixiGalaxy"] :is(.card,.panel,.pendingPanel,.characterCa
 #qixiEventFab.qixiDragging{cursor:grabbing;transition:none!important}
 #qixiEventFab.qixiComingSoon{opacity:.88}
 </style>
-<script id="formal331145QixiFabDrag">
-(function(){
- const START=Date.parse('2026-08-19T00:00:00+08:00'),END=Date.parse('2026-08-25T23:59:59.999+08:00');
- function install(){
-  const fab=document.getElementById('qixiEventFab'); if(!fab||fab.dataset.dragReady)return; fab.dataset.dragReady='1';
-  let down=false,moved=false,sx=0,sy=0,sl=0,st=0,pid=null;
-  const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
-  function restore(){try{const v=JSON.parse(localStorage.getItem('qixiFabPos331145')||'null');if(!v)return;fab.style.left=clamp(v.x,6,innerWidth-fab.offsetWidth-6)+'px';fab.style.top=clamp(v.y,72,innerHeight-fab.offsetHeight-12)+'px';fab.style.right='auto';fab.style.bottom='auto'}catch(_){}}
-  setTimeout(restore,80);
-  fab.addEventListener('pointerdown',e=>{down=true;moved=false;pid=e.pointerId;sx=e.clientX;sy=e.clientY;const r=fab.getBoundingClientRect();sl=r.left;st=r.top;try{fab.setPointerCapture(pid)}catch(_){};fab.classList.add('qixiDragging')});
-  fab.addEventListener('pointermove',e=>{if(!down||e.pointerId!==pid)return;const dx=e.clientX-sx,dy=e.clientY-sy;if(Math.hypot(dx,dy)>5)moved=true;if(!moved)return;e.preventDefault();fab.style.left=clamp(sl+dx,6,innerWidth-fab.offsetWidth-6)+'px';fab.style.top=clamp(st+dy,72,innerHeight-fab.offsetHeight-12)+'px';fab.style.right='auto';fab.style.bottom='auto'});
-  fab.addEventListener('pointerup',e=>{if(!down)return;down=false;fab.classList.remove('qixiDragging');try{fab.releasePointerCapture(pid)}catch(_){};if(moved){const r=fab.getBoundingClientRect();try{localStorage.setItem('qixiFabPos331145',JSON.stringify({x:r.left,y:r.top}))}catch(_){};fab.dataset.suppressClick='1';setTimeout(()=>delete fab.dataset.suppressClick,120)}});
-  fab.addEventListener('click',e=>{if(fab.dataset.suppressClick==='1'){e.preventDefault();e.stopImmediatePropagation();return}if(Date.now()<START){e.preventDefault();e.stopImmediatePropagation();toast?.('🌌 七夕活動將於 8/19 00:00 開放。',2800)}else if(Date.now()>END){e.preventDefault();e.stopImmediatePropagation()}},true);
- }
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',install,{once:true});else install();
- window.addEventListener('resize',()=>{const f=document.getElementById('qixiEventFab');if(f&&f.style.left){const r=f.getBoundingClientRect();f.style.left=Math.max(6,Math.min(r.left,innerWidth-f.offsetWidth-6))+'px';f.style.top=Math.max(72,Math.min(r.top,innerHeight-f.offsetHeight-12))+'px'}});
-})();
-</script>
 
 
-<!-- 3.31.14.16: 測試服星空外觀完整移植 -->
+
+<!-- 3.31.14.17: 測試服星空外觀完整移植 -->
 <style id="formalPort_qixi3290SingleTheme">
 :root.qixi-theme-now{
  --qixi-bg1:#090725;
@@ -16568,7 +16506,7 @@ html[data-formal-theme="qixiGalaxy"] #qixiEventModal :is(.qixiRewardBox,.qixiFac
 </script>
 
 
-<!-- 3.31.14.16：TEST 3.30.80 七夕活動直接移植 -->
+<!-- 3.31.14.17：TEST 3.30.80 七夕活動直接移植 -->
 <script id="formalExact_qixi33035DailyUnlockScript">
 (function(){
  const START=new Date(2026,7,19),COUNT=5;
@@ -17106,10 +17044,12 @@ window.addEventListener("pageshow",unlockNow);
    const st=ensure(x);
 
    if(!st.bound && !force){
-     const incoming=await findIncomingQixiBind(x);
+     let incoming=null;
+     try{incoming=await findIncomingQixiBind(x)}
+     catch(e){console.warn("qixi incoming fallback",e)}
      if(incoming && Number(st.introStoryV||0)<6){
-       await openIncomingQixiFirstIntro(incoming);
-       return;
+       try{await openIncomingQixiFirstIntro(incoming);return}
+       catch(e){console.warn("qixi incoming intro fallback",e)}
      }
    }
 
@@ -17130,7 +17070,9 @@ window.addEventListener("pageshow",unlockNow);
    /* 七夕不能比關係頁更早判定：先同步雲端關係，再建立同行選項。 */
    try{if(typeof refreshRelationships==="function")await refreshRelationships()}catch(e){console.warn("qixi relation preload",e)}
    const available=qixiAvailableCompanions(x);
-   const companionState=await qixiAvailabilityForCompanions(x,available);
+   let companionState=new Map();
+   try{companionState=await qixiAvailabilityForCompanions(x,available)}
+   catch(e){console.warn("qixi availability fallback",e);companionState=new Map()}
    /* 舊版曾誤判成獨行；只要現在讀得到真實關係，就清掉錯誤獨行狀態。 */
    if(available.length && st.selectedRel==="solo"){
      st.selectedRel="";st.selectedRoomCode="";st.selectedName="";st.bindPending=false;
@@ -18304,7 +18246,14 @@ window.addEventListener("pageshow",unlockNow);
   const inGame=!!game&&!game.classList.contains("hidden")&&!!home&&home.classList.contains("hidden")&&hasChar;
   fab.style.display=(inGame&&Date.now()<=QIXI_EVENT_END)?"flex":"none";
  }
- document.getElementById("qixiEventFab").onclick=()=>{if(!qixiEventIsOpen()){toast?.(qixiEventClosedMessage(),2800);return;}openIntro(false);};
+ document.getElementById("qixiEventFab").onclick=()=>{
+  if(!qixiEventIsOpen()){toast?.(qixiEventClosedMessage(),2800);return;}
+  Promise.resolve(openIntro(false)).catch(err=>{
+    console.error("qixi open fallback",err);
+    try{openActivityMain()}catch(_){}
+    try{toast?.("七夕活動已開啟；同行資料正在重新同步。",2600)}catch(_){}
+  });
+};
  document.getElementById("qixiRpgClose")?.addEventListener("click",e=>{e.stopPropagation();closeQixiRpg()});
  document.querySelector("#qixiRpgPlayer .qixiRpgDialogue")?.addEventListener("click",e=>{
    if(e.target.closest("button"))return;
@@ -18566,6 +18515,59 @@ html[data-formal-theme="qixiGalaxy"] #qixiEventFab{
   window.addEventListener('pageshow',()=>setTimeout(bind,0),{passive:true});
 })();
 </script>
+
+<style id="formal3311417QixiFabFinalSize">
+#qixiEventFab{
+  width:auto!important;
+  min-width:0!important;
+  max-width:150px!important;
+  height:44px!important;
+  min-height:44px!important;
+  max-height:44px!important;
+  padding:7px 11px!important;
+  margin:0!important;
+  border-radius:16px!important;
+  gap:6px!important;
+  font-size:11px!important;
+  line-height:1!important;
+  box-sizing:border-box!important;
+}
+#qixiEventFab .qixiFabIcon{font-size:17px!important}
+</style>
+
+<script id="formal3311417ThemeLock">
+(function(){
+ const KEY='role_life_formal_theme_v1';
+ let busy=false;
+ function sync(){
+   if(busy)return;
+   busy=true;
+   try{
+     const a=window.local?.accountAppearance;
+     let mode='';
+     try{mode=JSON.parse(localStorage.getItem(KEY)||'null')?.mode||''}catch(_){}
+     if(!mode)mode=a?.active||'default';
+     const now=Date.now(),START=Date.parse('2026-08-19T00:00:00+08:00'),END=Date.parse('2026-08-25T23:59:59.999+08:00');
+     let t=Number(a?.trials?.qixiGalaxyStartedAt||0);
+     try{if(!t)t=Number(localStorage.getItem('qixiGalaxyTrialStartedAt_v1')||0)}catch(_){}
+     const qixiOK=!!a?.owned?.qixiGalaxy||(now>=START&&now<=END&&t>0&&now<t+86400000);
+     if(mode==='qixiGalaxy'&&!qixiOK)mode='default';
+     if(mode==='maidCafe'&&!a?.owned?.maidCafe)mode='default';
+     if(a)a.active=mode;
+     if(document.documentElement.getAttribute('data-formal-theme')!==mode)
+       document.documentElement.setAttribute('data-formal-theme',mode);
+     document.documentElement.classList.toggle('qixi-theme-now',mode==='qixiGalaxy');
+   }finally{
+     queueMicrotask(()=>{busy=false});
+   }
+ }
+ new MutationObserver(sync).observe(document.documentElement,{attributes:true,attributeFilter:['data-formal-theme','class']});
+ window.addEventListener('pageshow',sync,{passive:true});
+ document.addEventListener('visibilitychange',()=>{if(!document.hidden)sync()},{passive:true});
+ setTimeout(sync,0);
+})();
+</script>
+
 </body>
 </html>
 <style>
