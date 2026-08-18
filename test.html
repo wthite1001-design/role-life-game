@@ -17506,8 +17506,8 @@ body.npcStoryRunning #qixiEventFab{display:none!important}
 
   <div class="qixiGameRuleNote">
 <b>🎮 七夕設施規則</b><br>
-每天最多完成 1 個設施；每個設施整個活動只能通關領獎 1 次。失敗可以重試。<br>
-🔴 即時型：雙方必須同時在線。　🟣 選擇型：提交後可以離線，等另一方完成。
+序章可先選擇並綁定七夕同行者；這段關係會保留到最後結局與徽章。<br>
+五個設施全部都是單人挑戰、全部立即開放；同行者不需要在線，也不需要一起操作。每個設施通關獎勵只能領取 1 次，失敗可以重試。
 </div>
 <div id="qixiGameInviteInline" class="qixiGameInviteInline hidden" aria-live="polite"></div>
 <div id="qixiFacilityGrid" class="qixiFacilityGrid"></div>
@@ -17844,7 +17844,8 @@ function openConfirm(o={}){
      st.introSeen=true;st.introStoryV=6;
      try{saveLocal?.()}catch(_){}
      openActivityMain();
-     /* 3.30.65：小遊戲階段不綁人。真人關係只在五個設施完成後，用於最終結局與徽章。 */
+     /* 3.30.67：保留原本守橋人選同行者→送出綁定邀請的序章邏輯；後續五個設施仍全部單人遊玩。 */
+     if(st.selectedRel&&st.selectedRel!=="solo"&&!st.bound)setTimeout(()=>sendQixiBindRequest(true),120);
    });
  }
  function nextIntro(){qixiRpgNext();}
@@ -17919,6 +17920,12 @@ function openConfirm(o={}){
   const st=ensure(x);
   if(st.bound){
     return {code:String(st.boundRoomCode||""),rel:st.boundRel||"solo",name:st.boundName||"同行者",bound:true};
+  }
+  const avail=qixiAvailableCompanions(x);
+  /* 3.30.67 migration: 3.30.65/66 could erase the pre-game selection. If the character has exactly one established relation, restore it as the selected Qixi companion. */
+  if(!st.selectedRel && Number(st.introStoryV||0)>=6 && avail.length===1){
+    const v=avail[0]; st.selectedRoomCode=v.code;st.selectedRel=v.rel;st.selectedName=v.name;st.bindPending=false;
+    try{saveLocal?.()}catch(_){}
   }
   if(st.selectedRel==="solo")return {code:"",rel:"solo",name:"獨自參加",bound:false};
   const hit=qixiAvailableCompanions(x).find(v=>v.code===String(st.selectedRoomCode)&&v.rel===st.selectedRel);
@@ -18359,7 +18366,7 @@ function openConfirm(o={}){
  }
  function qixiCanStartFacility(x,fid){
    const st=ensure(x);
-   /* 3.30.66：五個七夕小遊戲全部立即開放，不再有每日一設施限制。 */
+   /* 3.30.67：五個七夕小遊戲全部立即開放，不再有每日一設施限制。 */
    if(st.done?.[fid]){
      toast?.("這個七夕設施已經通關過了，請挑戰其他尚未完成的設施。");
      return false;
@@ -18410,7 +18417,7 @@ function openConfirm(o={}){
 
   document.getElementById("qixiProgressFill").style.width=(n/FACILITIES.length*100)+"%";
   const selected=qixiSelectedCompanion(x);
-  grid.innerHTML=(n>=FACILITIES.length && selected?`<div class="qixiRewardBox qixiBindStatus" style="grid-column:1/-1">
+  grid.innerHTML=(selected?`<div class="qixiRewardBox qixiBindStatus" style="grid-column:1/-1">
     <b>🌌 七夕同行：${RELS[selected.rel].icon} ${selected.name}</b>
     <div class="small">${
       selected.bound
@@ -18447,8 +18454,8 @@ function openConfirm(o={}){
    :n>=FACILITIES.length&&!st.outroSeen
     ?(st.bound
       ?'<b>🪶 五段單人挑戰已完成</b><div class="small">已綁定有緣人，可以進入最終關係結局；看完後取得限定徽章。</div><button id="openQixiOutroBtn" type="button" class="primary" style="width:100%;margin-top:8px">進入最終結局</button>'
-      :'<b>🪶 五段單人挑戰已完成</b><div class="small">小遊戲不需要綁人。要進入最終關係結局並取得限定徽章，現在才需要選擇一段真人關係並由對方同意綁定。</div><button id="openQixiFinalBindBtn" type="button" class="primary" style="width:100%;margin-top:8px">選擇最終有緣人</button>')
-    :`<b>限定徽章進度：${n} / ${FACILITIES.length}</b><div class="small">五個小遊戲全部單人完成；全部通關後才會進入關係綁定與最終結局。</div>`;
+      :'<b>🪶 五段單人挑戰已完成</b><div class="small">小遊戲本身不需要同行者操作；但最終關係結局與限定徽章仍需要序章選定的真人關係完成雙方綁定。</div><button id="openQixiFinalBindBtn" type="button" class="primary" style="width:100%;margin-top:8px">回去確認七夕同行者</button>')
+    :`<b>限定徽章進度：${n} / ${FACILITIES.length}</b><div class="small">五個小遊戲全部單人完成；序章選定的同行關係會一路保留，五關完成後進入對應關係的最終結局。</div>`;
   reward.querySelector("#openQixiOutroBtn")?.addEventListener("click",openOutro);
   reward.querySelector("#openQixiFinalBindBtn")?.addEventListener("click",openQixiFinalChoice);
   reward.querySelector("#claimQixiRewardBtn")?.addEventListener("click",()=>{
