@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#9a76c4">
-<meta name="x-test-build" content="3.30.63">
+<meta name="x-test-build" content="3.30.64">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>關係進行式 TEST・3.30.63-七夕雙人玩法重做＋活動前景＋舊邀約清理</title>
+<title>關係進行式 TEST・3.30.64-七夕單雙人不限每日次數</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -15550,7 +15550,7 @@ header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{back
 <script id="qixi3283-ribbon-fix">
 (function(){
  function fix(){
-   document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.30.63-beta");
+   document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.30.64-beta");
  }
  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",fix,{once:true});else fix();
  setTimeout(fix,300);
@@ -17042,6 +17042,63 @@ async function hardClean(){
 }
 window.hardCleanGameInvites33063=hardClean;
 setTimeout(hardClean,350);window.addEventListener("pageshow",()=>setTimeout(hardClean,250));setInterval(hardClean,20000);
+
+})();
+</script>
+
+
+<script id="test33064QixiNoDailyLimits">
+(function(){
+"use strict";
+
+/* TEST 3.30.64：七夕測試期間，單人與雙人設施都不限制每日遊玩次數。
+   只取消「今天玩過／每日上限」判定，不清除活動進度、劇情完成與獎勵紀錄。 */
+
+function unlockQixiDailyState(x){
+  if(!x)return;
+  x.qixi=x.qixi||{};
+  x.qixi.daily=x.qixi.daily||{};
+  x.qixi.daily.solo={};
+  x.qixi.daily.coop={};
+  x.qixi.soloDaily={};
+  x.qixi.coopDaily={};
+  x.qixi.dailySolo={};
+  x.qixi.dailyCoop={};
+
+  // Common legacy daily-count containers used by prior test builds.
+  for(const k of ["qixiDaily","qixiDailyCount","qixiSoloDaily","qixiCoopDaily","qixiFacilityDaily","qixiPlayDaily"]){
+    if(Object.prototype.hasOwnProperty.call(x,k)) x[k]={};
+  }
+}
+window.unlockQixiDailyState33064=unlockQixiDailyState;
+
+function unlockNow(){
+  try{
+    const x=typeof cur==="function"?cur():null;
+    if(!x)return;
+    unlockQixiDailyState(x);
+  }catch(_){}
+}
+
+/* Clear only daily gates immediately before opening/starting Qixi content. */
+document.addEventListener("pointerdown",e=>{
+  if(e.target.closest(
+    '[data-qixi-facility],[data-qixi-solo],[data-qixi-coop],[data-qixi-play],'+
+    '#qixiEventModal button,#qixiEventModal .facility,#qixiEventModal .qixiFacility'
+  )) unlockNow();
+},true);
+
+document.addEventListener("click",e=>{
+  if(e.target.closest(
+    '[data-qixi-facility],[data-qixi-solo],[data-qixi-coop],[data-qixi-play],'+
+    '#qixiEventModal button,#qixiEventModal .facility,#qixiEventModal .qixiFacility'
+  )) unlockNow();
+},true);
+
+/* Also clear on activity-page render/open and after midnight refreshes. */
+setTimeout(unlockNow,100);
+setInterval(unlockNow,3000);
+window.addEventListener("pageshow",unlockNow);
 
 })();
 </script>
