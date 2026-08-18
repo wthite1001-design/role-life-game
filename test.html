@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#9a76c4">
-<meta name="x-test-build" content="3.30.73">
+<meta name="x-test-build" content="3.30.74">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>關係進行式 TEST・3.30.73</title>
+<title>關係進行式 TEST・3.30.74</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -2647,7 +2647,7 @@ padding:14px;z-index:5;filter:drop-shadow(0 0 12px #fff7a8);animation:qixiStarPu
 
 
 <style id="test33071FlatRoleHome">
-/* 3.30.73：角色首頁回到平面版型。只移除角色首頁「外層」浮凸卡片，功能頁/彈窗不受影響。 */
+/* 3.30.74：角色首頁回到平面版型。只移除角色首頁「外層」浮凸卡片，功能頁/彈窗不受影響。 */
 html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) body{
   background:linear-gradient(#eee5f6,#fbf7fa)!important;
 }
@@ -2742,7 +2742,7 @@ html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) #game
     <div class="homeLogo">🧪</div>
     <h1>關係進行式 TEST</h1>
     <div class="homeTagline">測試中的每一段關係，都可能被重置。</div>
-    <div class="homeVersion">3.30.73・測試服</div>
+    <div class="homeVersion">3.30.74・測試服</div>
   </div>
 
   <div id="playerAccountHomePanel" class="homePanel accountHomePanel">
@@ -15260,7 +15260,7 @@ body.maid-cafe-preview .chip{background:#f8e3e9!important;color:#7d4b60!importan
 </style>
 <script id="v32639MaidCafeFinalPatch">
 (function(){
- const BUILD='3.30.73';
+ const BUILD='3.30.74';
  const MAID_PASS='maidCafeVoucher';
  const MAID_COS='maidCafe';
  function current(){try{return typeof cur==='function'?cur():null}catch(_){return null}}
@@ -15583,7 +15583,7 @@ header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{back
 <script id="qixi3283-ribbon-fix">
 (function(){
  function fix(){
-   document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.30.73-beta");
+   document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.30.74-beta");
  }
  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",fix,{once:true});else fix();
  setTimeout(fix,300);
@@ -15920,7 +15920,7 @@ html[data-formal-theme="default"] body::after{content:none!important;display:non
 
 <script id="test33015SingleVersionSource">
 (function(){
- const BUILD='3.30.73';
+ const BUILD='3.30.74';
  const LABEL='七夕邀約內嵌＋設施背景＋快速雲端同步';
  function apply(){
    document.title='關係進行式 TEST・'+BUILD;
@@ -17206,7 +17206,7 @@ window.addEventListener("pageshow",unlockNow);
 
 <script id="test33071AuthoritativeVersion">
 (function(){
- const BUILD='3.30.73';
+ const BUILD='3.30.74';
  function apply(){
    document.title='關係進行式 TEST・'+BUILD;
    const meta=document.querySelector('meta[name="x-test-build"]'); if(meta) meta.content=BUILD;
@@ -17220,7 +17220,7 @@ window.addEventListener("pageshow",unlockNow);
 
 
 
-<!-- === 3.30.73 theme parity + Qixi visual pass === -->
+<!-- === 3.30.74 theme parity + Qixi visual pass === -->
 <style id="test33072ThemeParityFinal">
 /*
   一般／女僕：以正式服 3.31.13.32 的視覺規則為最終準則。
@@ -17404,7 +17404,7 @@ html[data-test-theme="qixiGalaxy"] :is(input,select,textarea,.codeBox,.idBox){ba
 </script>
 
 <style id="testAppearanceBottomSheet33073">
-/* TEST 3.30.73：外觀更改選單與正式服一致，改為底部橫滑主題抽屜。 */
+/* TEST 3.30.74：外觀更改選單與正式服一致，改為底部橫滑主題抽屜。 */
 #appearanceModal{
   align-items:flex-end!important;
   justify-content:center!important;
@@ -17893,8 +17893,8 @@ body.npcStoryRunning #qixiEventFab{display:none!important}
 
   <div class="qixiGameRuleNote">
 <b>🎮 七夕設施規則</b><br>
-序章保留原本的守橋人選人、邀請與雙方確認綁定；綁定後，這段關係一路沿用到五個設施與最終結局。<br>
-五個設施全部都是單人挑戰、全部立即開放；同行者不需要在線，也不需要一起操作。每次通關後，守橋人會依「戀人／摯友／家人／搭檔／宿敵／仇敵」播放不同劇情，最後取得的限定徽章也不同。
+序章先由守橋人詢問你的選擇：可邀請已建立關係的人並等待雙方永久綁定，也可確認獨自前行，或先選「我再想想」。<br>
+只有「真人關係已完成綁定」或「已確認獨自走過星河」後，五個設施才會出現並全部開放。設施本身皆為單人挑戰；真人同行者不需要在線，也不需要一起操作。每次通關後，守橋人會依綁定關係播放不同劇情，最後取得不同限定徽章。
 </div>
 <div id="qixiGameInviteInline" class="qixiGameInviteInline hidden" aria-live="polite"></div>
 <div id="qixiFacilityGrid" class="qixiFacilityGrid"></div>
@@ -17904,7 +17904,7 @@ body.npcStoryRunning #qixiEventFab{display:none!important}
 <div id="qixiBranchModal" class="modal hidden">
  <div class="modalBox">
   <div class="modalHead"><b id="qixiBranchTitle">選擇同行之緣</b><button id="closeQixiBranch" type="button">×</button></div>
-  <div class="small">有目前已建立的關係就能選擇對應分支；沒有關係也可以獨自走過星河。</div>
+  <div class="small">先決定七夕同行方式。選擇真人關係後，要等對方同意永久綁定；也可以確認獨自走過星河。完成其中一項以前不會開放設施小遊戲。</div>
   <div id="qixiBranchList" class="qixiBranchList"></div>
  </div>
 </div>
@@ -18185,6 +18185,17 @@ function openConfirm(o={}){
      goto:lines.length+1
    }));
    choices.push({
+     label:"⏳ 我再想想",
+     onChoose:()=>{
+       /* 不做任何七夕同行決定；保留未選狀態，設施不會開放。 */
+       st.selectedRoomCode="";st.selectedRel="";st.selectedName="";st.bindPending=false;
+       st.introSeen=true;st.introStoryV=6;
+       try{saveLocal?.()}catch(_){}
+       render?.();
+     },
+     goto:lines.length+1
+   });
+   choices.push({
       label:"🌙 獨自走過星河",
      onChoose:()=>{
        const askSoloAgain=()=>{
@@ -18223,7 +18234,7 @@ function openConfirm(o={}){
    });
    lines.push({
      speaker:"守橋人",
-     text:"「選定的人若也願意，這次七夕便由你們一起走完。真正答應之後，這段同行就不能反悔了。」",
+     text:"「若你選了同行者，要等對方真正答應綁定後才能踏入設施；若選擇獨自前行，也要先親自確認。還沒決定的話，星河會替你留著入口。」",
      image:QIXI_ASSETS.keeper
    });
 
@@ -18757,7 +18768,13 @@ function openConfirm(o={}){
  }
  function qixiCanStartFacility(x,fid){
    const st=ensure(x);
-   /* 3.30.67：五個七夕小遊戲全部立即開放，不再有每日一設施限制。 */
+   /* 3.30.74：沒有完成七夕同行綁定，也沒有明確選擇獨自前行時，所有設施都鎖住。 */
+   const soloConfirmed=st.selectedRel==="solo" && !st.bound;
+   if(!st.bound && !soloConfirmed){
+     toast?.(st.bindPending?"要等對方同意七夕永久綁定後，才能開始小遊戲。":"請先和守橋人決定同行者，完成綁定；或明確選擇獨自走過星河。",4200);
+     return false;
+   }
+   /* 五個七夕小遊戲在完成前置決定後全部立即開放。 */
    if(st.done?.[fid]){
      toast?.("這個七夕設施已經通關過了，請挑戰其他尚未完成的設施。");
      return false;
@@ -18827,7 +18844,7 @@ function openConfirm(o={}){
        :selected.rel==="solo"
         ?"🌙 本次選擇獨自走過星河。"
         :st.bindPending
-         ?"⏳ 已送出邀請，正在等待對方同意。未同意以前可以取消並重新選擇。"
+         ?"⏳ 已送出邀請，正在等待對方同意。綁定完成以前不會顯示設施小遊戲；你仍可以取消並重新選擇。"
          :"邀請尚未成功送出，可以再次送出。"
     }</div>
     ${
@@ -18838,14 +18855,15 @@ function openConfirm(o={}){
         :'<button id="sendQixiBindBtn" type="button" class="primary" style="margin-top:9px">💌 再次送出邀請</button>'
     }
    </div>`:`<div class="qixiRewardBox qixiBindStatus" style="grid-column:1/-1">
-      <b>🌌 尚未選定七夕同行者</b>
-      <div class="small">請從守橋人的對話選項中選擇。</div>
+      <b>🌌 尚未決定七夕同行方式</b>
+      <div class="small">請先與守橋人交談，完成真人關係綁定，或確認獨自走過星河。決定以前，小遊戲不會出現。</div>
       <button id="chooseQixiFromStoryBtn" type="button" style="margin-top:8px">與守橋人交談</button>
     </div>`)
-   +FACILITIES.map(f=>`<button type="button" class="qixiFacility ${st.done[f.id]?'done':''}" data-qixi-fac="${f.id}" ${st.done[f.id]?"disabled":""}><div class="ico">${f.ico}</div><b>${f.name}</b><div class="small">${f.desc}</div><div class="small">${
- st.done[f.id]?'✅ 已通關・獎勵已領取':
- '🎮 單人挑戰・立即開放'
-}</div></button>`).join("");
+   +((st.bound || st.selectedRel==="solo")
+      ? FACILITIES.map(f=>`<button type="button" class="qixiFacility ${st.done[f.id]?'done':''}" data-qixi-fac="${f.id}" ${st.done[f.id]?"disabled":""}><div class="ico">${f.ico}</div><b>${f.name}</b><div class="small">${f.desc}</div><div class="small">${
+          st.done[f.id]?'✅ 已通關・獎勵已領取':'🎮 單人挑戰・立即開放'
+        }</div></button>`).join("")
+      : '');
   
   grid.querySelector("#sendQixiBindBtn")?.addEventListener("click",()=>sendQixiBindRequest(false));
   grid.querySelector("#cancelQixiBindBtn")?.addEventListener("click",cancelQixiBindRequest);
@@ -19023,8 +19041,13 @@ function openConfirm(o={}){
   /* 3.30.68：遊戲操作永遠單人，但劇情沿用序章已選定／已綁定的真人關係。 */
   let rel="solo";
   if(x){
-    const st=ensure(x),selected=qixiSelectedCompanion(x);
-    rel=st.boundRel||selected?.rel||st.selectedRel||"solo";
+    const st=ensure(x);
+    if(!st.bound && st.selectedRel!=="solo"){
+      closeQixiMiniGame();
+      toast?.("七夕同行尚未完成綁定，這次小遊戲不計入進度。",4200);
+      return;
+    }
+    rel=st.bound ? (st.boundRel||"solo") : "solo";
     if(!RELS[rel])rel="solo";
   }
   setTimeout(()=>{closeQixiMiniGame();openStory(rel)},500);
@@ -19143,6 +19166,10 @@ function openConfirm(o={}){
  function openBranches(fid){
   const x=c();if(!x)return;
   const st=ensure(x);
+  if(!st.bound && st.selectedRel!=="solo"){
+    toast?.(st.bindPending?"對方還沒同意七夕綁定，現在不能玩小遊戲。":"請先完成七夕關係綁定，或選擇獨自走過星河。",4200);
+    return;
+  }
   if(!qixiCanStartFacility(x,fid))return;
   if(st.dailyDone?.[fid]){toast?.("這個設施今天已經玩過了，明天 00:00 再來。");return}
   pendingFacility=fid;
