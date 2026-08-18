@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#9a76c4" name="theme-color"/>
-<title>關係進行式・3.31.14.25</title>
+<title>關係進行式・3.31.14.26</title>
 
 
 <script id="formal3311412PrePaintTheme">
@@ -1821,7 +1821,7 @@ html[data-formal-theme="maidCafe"] .navBtn::after{
 
 
 <style id="qixi3311424-layout-repair">
-/* 3.31.14.25 正式服：七夕活動手機排版與小遊戲樣式修復 */
+/* 3.31.14.26 正式服：七夕活動手機排版與小遊戲樣式修復 */
 #qixiEventModal .modalBox{font-size:16px!important;line-height:1.55!important;}
 #qixiEventModal .small,#qixiEventModal p,#qixiEventModal .qixiGameRuleNote{font-size:14px!important;line-height:1.55!important;}
 #qixiEventModal h2,#qixiEventModal .modalTitle{font-size:24px!important;line-height:1.25!important;}
@@ -3331,7 +3331,7 @@ function show(id){
       npc.style.setProperty("z-index","9996","important");
     }
   }
-  /* 3.31.14.25：七夕入口也由主頁切換函式直接控制。
+  /* 3.31.14.26：七夕入口也由主頁切換函式直接控制。
      不只看 activeId，避免離開角色後舊 activeId／定時器又把入口叫回首頁。 */
   const qixi=document.getElementById("qixiEventFab");
   if(qixi){
@@ -15899,7 +15899,7 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 
 <script id="formal33111SingleVersionSource">
 (function(){
- const VERSION="3.31.14.25";
+ const VERSION="3.31.14.26";
  function apply(){
    document.querySelectorAll(".homeVersion").forEach(function(el){
      el.textContent="第"+VERSION+"版・正式服";
@@ -16437,7 +16437,7 @@ html[data-formal-theme="qixiGalaxy"] :is(.card,.panel,.pendingPanel,.characterCa
 })();
 </script>
 <script id="formal33114Version">
-(function(){const V='3.31.14.25';function f(){document.querySelectorAll('.homeVersion').forEach(el=>el.textContent='第'+V+'版・正式服');document.documentElement.dataset.gameVersion=V;document.title='關係進行式・'+V}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',f,{once:true});else f();window.addEventListener('pageshow',f)})();
+(function(){const V='3.31.14.26';function f(){document.querySelectorAll('.homeVersion').forEach(el=>el.textContent='第'+V+'版・正式服');document.documentElement.dataset.gameVersion=V;document.title='關係進行式・'+V}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',f,{once:true});else f();window.addEventListener('pageshow',f)})();
 </script>
 
 
@@ -16490,7 +16490,7 @@ html[data-formal-theme="qixiGalaxy"] :is(.card,.panel,.pendingPanel,.characterCa
 
 
 
-<!-- 3.31.14.25: 測試服星空外觀完整移植 -->
+<!-- 3.31.14.26: 測試服星空外觀完整移植 -->
 <style id="formalPort_qixi3290SingleTheme">
 :root.qixi-theme-now{
  --qixi-bg1:#090725;
@@ -16855,7 +16855,7 @@ html[data-formal-theme="qixiGalaxy"] #qixiEventModal :is(.qixiRewardBox,.qixiFac
 </script>
 
 
-<!-- 3.31.14.25：TEST 3.30.80 七夕活動直接移植 -->
+<!-- 3.31.14.26：TEST 3.30.80 七夕活動直接移植 -->
 <script id="formalExact_qixi33035DailyUnlockScript">
 (function(){
  const START=new Date(2026,7,19),COUNT=5;
@@ -18609,19 +18609,35 @@ window.addEventListener("pageshow",unlockNow);
     qixiMiniCleanup=()=>{ended=true;clearInterval(spawnTimer);clearInterval(fallTimer);document.removeEventListener('keydown',key);e.board.onclick=null};
   }else if(fid==="lantern"){
     e.desc.textContent="記住燈籠亮起的順序，再依序點回去。";
-    const seq=Array.from({length:6},()=>Math.floor(Math.random()*4));let input=[],locked=true;e.status.textContent="👀 請看燈籠亮起的順序…";
-    e.board.innerHTML='<div class="qixiLanternRow">'+["🏮","🏮","🏮","🏮"].map((x,i)=>`<button class="qixiLantern" data-lantern="${i}">${x}</button>`).join("")+'</div>';
+    const seq=Array.from({length:6},()=>Math.floor(Math.random()*4));let input=[],locked=true;e.status.textContent="👀 請看 6 次燈籠亮起的順序…";
+    e.board.innerHTML='<div class="qixiLanternHint">先看完 6 次亮燈，再照相同順序按 6 次</div><div class="qixiLanternRow">'+["🏮","🏮","🏮","🏮"].map((x,i)=>`<button class="qixiLantern" data-lantern="${i}" aria-label="燈籠 ${i+1}"><span>🏮</span><small>${i+1}</small></button>`).join("")+'</div>';
     const btns=[...e.board.querySelectorAll("[data-lantern]")];
     let timers=[];
-    seq.forEach((v,i)=>timers.push(setTimeout(()=>{btns[v].classList.add("flash");setTimeout(()=>btns[v].classList.remove("flash"),520)},800+i*850)));
-    timers.push(setTimeout(()=>{locked=false;e.status.textContent="現在照順序點亮燈籠";},800+seq.length*850));
+    const flashOne=(idx,ms=620)=>{
+      const b=btns[idx];if(!b)return;
+      b.classList.remove("flash");void b.offsetWidth;b.classList.add("flash");
+      setTimeout(()=>b.classList.remove("flash"),ms);
+    };
+    seq.forEach((v,i)=>timers.push(setTimeout(()=>{
+      e.status.textContent=`👀 記住順序：第 ${i+1} / 6 次`;
+      flashOne(v,620);
+    },700+i*900)));
+    timers.push(setTimeout(()=>{
+      locked=false;
+      e.status.textContent="👉 現在請照剛才順序按 6 次｜0 / 6";
+    },700+seq.length*900));
     e.board.onclick=ev=>{
       const b=ev.target.closest("[data-lantern]");if(!b||locked)return;
-      const v=Number(b.dataset.lantern);input.push(v);
-      b.classList.add("flash");setTimeout(()=>b.classList.remove("flash"),180);
-      if(v!==seq[input.length-1]){input=[];e.status.textContent="❌ 順序錯了，重新從第一盞開始";return}
-      e.status.textContent=`正確 ${input.length} / ${seq.length}`;
-      if(input.length===seq.length)completeQixiMiniGame(fid);
+      const v=Number(b.dataset.lantern);
+      input.push(v);
+      flashOne(v,220);
+      if(v!==seq[input.length-1]){
+        input=[];
+        e.status.textContent="❌ 順序錯了，從第 1 次重新按｜0 / 6";
+        return;
+      }
+      e.status.textContent=`✅ 正確 ${input.length} / 6`;
+      if(input.length===6)completeQixiMiniGame(fid);
     };
     qixiMiniCleanup=()=>{timers.forEach(clearTimeout);e.board.onclick=null};
   }else if(fid==="bridge"){
@@ -19377,6 +19393,157 @@ html[data-formal-theme="qixiGalaxy"] #qixiEventFab{
  else setTimeout(renderPanel,100);
 })();
 </script>
+
+<style id="formal3311426QixiCompactAndLanternFix">
+/* === 七夕活動手機版最終排版：縮小、不卡住、能滑到最底 === */
+#qixiEventModal{
+  position:fixed!important;
+  inset:0!important;
+  overflow:hidden!important;
+  align-items:flex-start!important;
+}
+#qixiEventModal>.modalBox{
+  width:min(94vw,460px)!important;
+  max-width:460px!important;
+  height:100dvh!important;
+  max-height:100dvh!important;
+  margin:0 auto!important;
+  padding:10px 10px calc(240px + env(safe-area-inset-bottom))!important;
+  border-radius:0!important;
+  overflow-y:scroll!important;
+  overflow-x:hidden!important;
+  -webkit-overflow-scrolling:touch!important;
+  overscroll-behavior-y:auto!important;
+  touch-action:pan-y!important;
+  box-sizing:border-box!important;
+  font-size:13px!important;
+  line-height:1.45!important;
+}
+#qixiEventModal .qixiHead{
+  position:relative!important;
+  top:auto!important;
+  z-index:3!important;
+  padding:8px 44px 8px 8px!important;
+  min-height:48px!important;
+}
+#qixiEventModal .qixiHead b,
+#qixiEventModal .qixiHead strong{
+  font-size:18px!important;
+  line-height:1.2!important;
+}
+#qixiEventModal .qixiIntroText,
+#qixiEventModal .qixiGameRuleNote,
+#qixiEventModal .qixiRewardBox,
+#qixiEventModal #qixiKeeperCard,
+#qixiEventModal .qixiBindStatus,
+#qixiEventModal .qixiFacility{
+  font-size:13px!important;
+  line-height:1.45!important;
+}
+#qixiEventModal .qixiIntroText{
+  padding:9px!important;
+  margin:6px 0 8px!important;
+}
+#qixiEventModal .qixiGameRuleNote{
+  padding:9px!important;
+  margin:8px 0!important;
+}
+#qixiEventModal :is(h1,h2,.modalTitle){
+  font-size:18px!important;
+  line-height:1.25!important;
+  margin:5px 0!important;
+}
+#qixiEventModal :is(h3,.qixiFacilityTitle){
+  font-size:15px!important;
+  line-height:1.3!important;
+}
+#qixiEventModal .small,
+#qixiEventModal .muted{
+  font-size:11px!important;
+  line-height:1.4!important;
+}
+#qixiEventModal .qixiRewardBox,
+#qixiEventModal #qixiKeeperCard,
+#qixiEventModal .qixiFacility{
+  padding:10px!important;
+  margin-bottom:8px!important;
+  border-radius:16px!important;
+}
+#qixiEventModal #qixiFacilityGrid{
+  gap:8px!important;
+  padding-bottom:80px!important;
+}
+#qixiEventModal button{
+  min-height:40px!important;
+  font-size:13px!important;
+  padding:7px 10px!important;
+}
+
+/* === 緣燈長廊：亮燈效果必須壓過所有星河主題舊樣式 === */
+#qixiMiniGameBoard.qixiLanternGameBoard{
+  min-height:430px!important;
+}
+#qixiMiniGameBoard .qixiLanternHint{
+  position:relative!important;
+  z-index:3!important;
+  width:max-content!important;
+  max-width:90%!important;
+  margin:12px auto 4px!important;
+  padding:6px 10px!important;
+  border-radius:999px!important;
+  font-size:12px!important;
+  font-weight:800!important;
+  color:#f6eaff!important;
+  background:rgba(17,11,55,.72)!important;
+  border:1px solid rgba(228,207,255,.38)!important;
+}
+#qixiMiniGameBoard .qixiLanternRow{
+  position:relative!important;
+  z-index:3!important;
+  display:grid!important;
+  grid-template-columns:repeat(4,1fr)!important;
+  gap:8px!important;
+  margin:20px 8px 0!important;
+}
+#qixiMiniGameBoard .qixiLantern{
+  position:relative!important;
+  min-height:118px!important;
+  padding:8px!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:4px!important;
+  color:#f3ddff!important;
+  background:rgba(29,19,70,.78)!important;
+  border:2px solid rgba(208,190,246,.42)!important;
+  box-shadow:inset 0 0 22px rgba(133,97,196,.20)!important;
+  transition:transform .12s ease,filter .12s ease,background .12s ease,box-shadow .12s ease!important;
+}
+#qixiMiniGameBoard .qixiLantern span{font-size:34px!important;line-height:1!important}
+#qixiMiniGameBoard .qixiLantern small{font-size:10px!important;opacity:.65!important}
+#qixiMiniGameBoard .qixiLantern.flash{
+  background:radial-gradient(circle,#fffbd8 0%,#ffd76c 30%,#f3a8ff 68%,#9f61e7 100%)!important;
+  color:#3d2055!important;
+  border-color:#fff7bb!important;
+  box-shadow:
+    0 0 14px #fff8b9,
+    0 0 30px #ffd568,
+    0 0 52px #e79aff,
+    inset 0 0 18px rgba(255,255,255,.9)!important;
+  filter:brightness(1.65) saturate(1.3)!important;
+  transform:translateY(-6px) scale(1.08)!important;
+}
+#qixiMiniGameBoard .qixiLantern.flash span{
+  filter:drop-shadow(0 0 10px #fff)!important;
+}
+#qixiMiniGameStatus{
+  font-size:13px!important;
+  min-height:24px!important;
+  padding:6px 2px!important;
+}
+</style>
+
 </body>
 </html>
 <style>
