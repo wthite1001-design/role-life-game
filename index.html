@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#9a76c4" name="theme-color"/>
-<title>關係進行式・3.31.14.24</title>
+<title>關係進行式・3.31.14.25</title>
 
 
 <script id="formal3311412PrePaintTheme">
@@ -1821,7 +1821,7 @@ html[data-formal-theme="maidCafe"] .navBtn::after{
 
 
 <style id="qixi3311424-layout-repair">
-/* 3.31.14.24 正式服：七夕活動手機排版與小遊戲樣式修復 */
+/* 3.31.14.25 正式服：七夕活動手機排版與小遊戲樣式修復 */
 #qixiEventModal .modalBox{font-size:16px!important;line-height:1.55!important;}
 #qixiEventModal .small,#qixiEventModal p,#qixiEventModal .qixiGameRuleNote{font-size:14px!important;line-height:1.55!important;}
 #qixiEventModal h2,#qixiEventModal .modalTitle{font-size:24px!important;line-height:1.25!important;}
@@ -3331,7 +3331,7 @@ function show(id){
       npc.style.setProperty("z-index","9996","important");
     }
   }
-  /* 3.31.14.24：七夕入口也由主頁切換函式直接控制。
+  /* 3.31.14.25：七夕入口也由主頁切換函式直接控制。
      不只看 activeId，避免離開角色後舊 activeId／定時器又把入口叫回首頁。 */
   const qixi=document.getElementById("qixiEventFab");
   if(qixi){
@@ -15899,7 +15899,7 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 
 <script id="formal33111SingleVersionSource">
 (function(){
- const VERSION="3.31.14.24";
+ const VERSION="3.31.14.25";
  function apply(){
    document.querySelectorAll(".homeVersion").forEach(function(el){
      el.textContent="第"+VERSION+"版・正式服";
@@ -16437,7 +16437,7 @@ html[data-formal-theme="qixiGalaxy"] :is(.card,.panel,.pendingPanel,.characterCa
 })();
 </script>
 <script id="formal33114Version">
-(function(){const V='3.31.14.24';function f(){document.querySelectorAll('.homeVersion').forEach(el=>el.textContent='第'+V+'版・正式服');document.documentElement.dataset.gameVersion=V;document.title='關係進行式・'+V}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',f,{once:true});else f();window.addEventListener('pageshow',f)})();
+(function(){const V='3.31.14.25';function f(){document.querySelectorAll('.homeVersion').forEach(el=>el.textContent='第'+V+'版・正式服');document.documentElement.dataset.gameVersion=V;document.title='關係進行式・'+V}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',f,{once:true});else f();window.addEventListener('pageshow',f)})();
 </script>
 
 
@@ -16490,7 +16490,7 @@ html[data-formal-theme="qixiGalaxy"] :is(.card,.panel,.pendingPanel,.characterCa
 
 
 
-<!-- 3.31.14.24: 測試服星空外觀完整移植 -->
+<!-- 3.31.14.25: 測試服星空外觀完整移植 -->
 <style id="formalPort_qixi3290SingleTheme">
 :root.qixi-theme-now{
  --qixi-bg1:#090725;
@@ -16855,7 +16855,7 @@ html[data-formal-theme="qixiGalaxy"] #qixiEventModal :is(.qixiRewardBox,.qixiFac
 </script>
 
 
-<!-- 3.31.14.24：TEST 3.30.80 七夕活動直接移植 -->
+<!-- 3.31.14.25：TEST 3.30.80 七夕活動直接移植 -->
 <script id="formalExact_qixi33035DailyUnlockScript">
 (function(){
  const START=new Date(2026,7,19),COUNT=5;
@@ -17380,7 +17380,11 @@ window.addEventListener("pageshow",unlockNow);
    if(!box)return;
    box.innerHTML=`<p>${String(lines[index]||"").replace(/</g,"&lt;")}</p>`;
  }
- function openActivityMain(){
+ async function openActivityMain(){
+   const x=c();
+   if(x&&!ensure(x)?.bound){
+     try{await qixiRestoreBoundFromCloud(x)}catch(_){}
+   }
    render();
    const modal=document.getElementById("qixiEventModal");
    modal.classList.remove("hidden");
@@ -17394,6 +17398,7 @@ window.addEventListener("pageshow",unlockNow);
    if(!qixiEventIsOpen()){try{toast?.(qixiEventClosedMessage(),2200)}catch(_){}return;}
    const x=c();if(!x)return;
    const st=ensure(x);
+   if(!st.bound)try{await qixiRestoreBoundFromCloud(x)}catch(_){}
 
    if(!st.bound && !force){
      try{qixiFast(findIncomingQixiBind(x),700,null).then(incoming=>{
@@ -17686,6 +17691,90 @@ window.addEventListener("pageshow",unlockNow);
    }catch(e){
      console.warn("qixi lock lookup",e);
      return null;
+   }
+ }
+
+ const QIXI_BIND_BACKUP_PREFIX="qixi2026_bound_v1_";
+ function qixiBindBackupKey(x){return QIXI_BIND_BACKUP_PREFIX+String(x?.id||"unknown")}
+ function qixiSaveBoundBackup(x,st){
+   if(!x||!st?.bound)return;
+   try{
+     localStorage.setItem(qixiBindBackupKey(x),JSON.stringify({
+       bound:true,
+       boundRoomCode:String(st.boundRoomCode||""),
+       boundRel:String(st.boundRel||""),
+       boundName:String(st.boundName||""),
+       boundCharId:String(st.boundCharId||""),
+       savedAt:Date.now()
+     }));
+   }catch(_){}
+ }
+ function qixiRestoreBoundBackup(x){
+   const st=ensure(x);if(!st||st.bound)return !!st?.bound;
+   try{
+     const b=JSON.parse(localStorage.getItem(qixiBindBackupKey(x))||"null");
+     if(!b?.bound||!b.boundRoomCode)return false;
+     const rr=relationshipSummaries?.[String(b.boundRoomCode)];
+     if(rr && rr.relation && RELS[rr.relation]){
+       st.bound=true;
+       st.boundRoomCode=String(b.boundRoomCode);
+       st.boundRel=String(b.boundRel||rr.relation);
+       st.boundName=String(b.boundName||roomOtherName?.(String(b.boundRoomCode),x)||"同行者");
+       st.boundCharId=String(b.boundCharId||qixiOtherCharId(rr,x)||"");
+       st.selectedRoomCode=st.boundRoomCode;
+       st.selectedRel=st.boundRel;
+       st.selectedName=st.boundName;
+       st.bindPending=false;
+       return true;
+     }
+   }catch(_){}
+   return false;
+ }
+ async function qixiRestoreBoundFromCloud(x){
+   if(!x)return false;
+   const st=ensure(x);if(!st)return false;
+   if(st.bound){qixiSaveBoundBackup(x,st);return true}
+
+   /* 先用本機備份秒恢復，避免切頁或雲端舊角色存檔把 qixi2026.bound 蓋掉。 */
+   if(qixiRestoreBoundBackup(x)){
+     try{saveLocal?.()}catch(_){}
+     return true;
+   }
+
+   try{
+     const lock=await qixiFast(qixiCloudBindLockFor(x.id),1200,null);
+     if(!lock)return false;
+
+     const code=String(lock.room_code||"");
+     let rr=relationshipSummaries?.[code];
+     if(!rr && typeof refreshRelationships==="function"){
+       try{await qixiFast(refreshRelationships(),1200,null)}catch(_){}
+       rr=relationshipSummaries?.[code];
+     }
+
+     const parts=String(lock.text||"").split("|");
+     const otherId=String(lock.to_char||parts[2]||"");
+     const rel=rr?.relation || qixiAvailableCompanions(x).find(v=>String(v.code)===code)?.rel || st.selectedRel || "partner";
+     const name=roomOtherName?.(code,x) ||
+       qixiAvailableCompanions(x).find(v=>String(v.code)===code)?.name ||
+       st.selectedName || "同行者";
+
+     st.bound=true;
+     st.boundRoomCode=code;
+     st.boundRel=rel;
+     st.boundName=name;
+     st.boundCharId=otherId;
+     st.selectedRoomCode=code;
+     st.selectedRel=rel;
+     st.selectedName=name;
+     st.bindPending=false;
+
+     qixiSaveBoundBackup(x,st);
+     try{saveLocal?.()}catch(_){}
+     return true;
+   }catch(e){
+     console.warn("qixi restore bound",e);
+     return false;
    }
  }
 
@@ -18087,6 +18176,10 @@ window.addEventListener("pageshow",unlockNow);
   const st=ensure(x);
 
   try{
+    if(!st.bound){
+      const restored=await qixiRestoreBoundFromCloud(x);
+      if(restored){render?.();return;}
+    }
     /* 收件方：找所有關係房間裡寄給自己的七夕綁定邀請 */
     if(!st.bound&&!qixiIncomingBind){
       for(const code of (x.roomCodes||[])){
@@ -18150,7 +18243,7 @@ window.addEventListener("pageshow",unlockNow);
   }catch(e){console.warn(e)}
   await qixiWriteBindLock(x,p.code,p.row.from_char);
   qixiIncomingBind=null;document.getElementById("qixiBindInviteModal").classList.add("hidden");
-  saveLocal?.();render();toast?.(`🌌 已與 ${st.boundName} 完成七夕永久綁定！`,4500);
+  qixiSaveBoundBackup(x,st);saveLocal?.();render();toast?.(`🌌 已與 ${st.boundName} 完成七夕永久綁定！`,4500);
  }
 
  async function declineQixiBinding(){
