@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#9a76c4">
-<meta name="x-test-build" content="3.30.65">
+<meta name="x-test-build" content="3.30.69">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>關係進行式 TEST・3.30.65-七夕全單人小遊戲</title>
+<title>關係進行式 TEST・3.30.69-七夕單人設施關係分線</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -2697,7 +2697,7 @@ padding:14px;z-index:5;filter:drop-shadow(0 0 12px #fff7a8);animation:qixiStarPu
   </div>
 </div>
 
-<div id="testServerRibbon" class="testServerRibbon hidden">🧪 TEST・3.24-beta</div>
+<div id="testServerRibbon" class="testServerRibbon hidden">🧪 TEST・3.30.69-beta</div>
 <button id="returnProdBtn" class="returnProdBtn hidden" type="button">💞 回正式服</button>
 
 <!-- GM-MAILBOX-BUILD-3-NATIVE-NAV -->
@@ -2709,7 +2709,7 @@ padding:14px;z-index:5;filter:drop-shadow(0 0 12px #fff7a8);animation:qixiStarPu
     <div class="homeLogo">🧪</div>
     <h1>關係進行式 TEST</h1>
     <div class="homeTagline">測試中的每一段關係，都可能被重置。</div>
-    <div class="homeVersion">3.30.62・測試服｜七夕重複錯誤清理＋邀請防呆</div>
+    <div class="homeVersion">3.30.69・測試服｜七夕單人設施＋關係分線</div>
   </div>
 
   <div id="playerAccountHomePanel" class="homePanel accountHomePanel">
@@ -15227,7 +15227,7 @@ body.maid-cafe-preview .chip{background:#f8e3e9!important;color:#7d4b60!importan
 </style>
 <script id="v32639MaidCafeFinalPatch">
 (function(){
- const BUILD='3.26.40';
+ const BUILD='3.30.69';
  const MAID_PASS='maidCafeVoucher';
  const MAID_COS='maidCafe';
  function current(){try{return typeof cur==='function'?cur():null}catch(_){return null}}
@@ -15257,8 +15257,8 @@ body.maid-cafe-preview .chip{background:#f8e3e9!important;color:#7d4b60!importan
    wrapped.__maid32639=true;window.npcRenderShop=wrapped;
  }
  function refreshVersion(){
-   document.title=`關係進行式 TEST・${BUILD}-女僕咖啡廳單券兌換修復`;
-   const hv=document.querySelector('.homeVersion');if(hv)hv.textContent=`${BUILD}・測試服｜女僕咖啡廳單券兌換修復`;
+   document.title=`關係進行式 TEST・${BUILD}-七夕單人設施關係分線`;
+   const hv=document.querySelector('.homeVersion');if(hv)hv.textContent=`${BUILD}・測試服｜七夕單人設施＋關係分線`;
    document.querySelectorAll('.testServerRibbon').forEach(el=>el.textContent=`🧪 TEST・${BUILD}-beta`);
    const meta=document.querySelector('meta[name="x-test-build"]');if(meta)meta.content=BUILD;
  }
@@ -15550,7 +15550,7 @@ header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{back
 <script id="qixi3283-ribbon-fix">
 (function(){
  function fix(){
-   document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.30.64-beta");
+   document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.30.69-beta");
  }
  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",fix,{once:true});else fix();
  setTimeout(fix,300);
@@ -15640,22 +15640,34 @@ header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{back
  function currentAppearance(){return ensureAccountAppearance().active||"default"}
 
  function applyAppearance(){
-   const v=currentAppearance(),body=document.body;
-   if(!body)return;
-
+   const a=ensureAccountAppearance();
+   /* 3.30.68：背景套用方式改跟正式服一致：預設就是一般背景，不因七夕活動日期自動換主題。
+      舊測試版曾把活動主題強制留在帳號上；本版只遷移一次回 default，之後玩家手動切換仍會保存。 */
+   if(Number(a.backgroundLogicV||0)<33068){
+     a.active="default";local.appearanceTheme="default";a.backgroundLogicV=33068;
+   }
+   const v=a.active||"default",body=document.body;if(!body)return;
+   document.documentElement.setAttribute("data-formal-theme",v==="maid"?"maidCafe":"default");
    document.documentElement.removeAttribute("data-test-theme");
    document.documentElement.classList.remove("qixi-theme-now");
    body.classList.remove("appearance-galaxy","qixi-global-theme","maid-cafe-preview","theme-maid-cafe");
-
-   if(v==="maid"){
+   if(v==="maid"&&a.owned.maid){
      document.documentElement.setAttribute("data-test-theme","maidCafe");
+     document.documentElement.setAttribute("data-formal-theme","maidCafe");
      body.classList.add("maid-cafe-preview","theme-maid-cafe");
      try{window.__applyMaidCafePreview?.()}catch(_){}
-   }else if(v==="qixi"){
+   }else if(v==="qixi"&&a.owned.qixi){
      document.documentElement.setAttribute("data-test-theme","qixiGalaxy");
      document.documentElement.classList.add("qixi-theme-now");
      body.classList.add("appearance-galaxy","qixi-global-theme");
+   }else{
+     a.active="default";local.appearanceTheme="default";
+     document.documentElement.setAttribute("data-formal-theme","default");
    }
+   try{
+     localStorage.setItem("role_life_formal_theme_v1",JSON.stringify({mode:a.active==="maid"?"maidCafe":"default",account:true,savedAt:Date.now()}));
+     localStorage.setItem("relationship_game_formal_paid_theme_v1",JSON.stringify({mode:a.active==="maid"?"maidCafe":"default",account:true,savedAt:Date.now()}));
+   }catch(_){}
  }
 
  function saveAppearance(v){
@@ -15715,6 +15727,20 @@ header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{back
 
 
 
+
+<style id="test33068FormalDefaultBackground">
+/* 3.30.68：正式服的一般背景邏輯。未主動選女僕／星河時，首頁與角色頁固定回到預設粉紫漸層。 */
+html[data-formal-theme="default"] body,
+html[data-formal-theme="default"] #home,
+html[data-formal-theme="default"] #game{
+  background:linear-gradient(#eee5f6,#fbf7fa)!important;
+  background-image:linear-gradient(#eee5f6,#fbf7fa)!important;
+  background-attachment:fixed!important;
+  color:#3d3343!important;
+}
+html[data-formal-theme="default"] body::before,
+html[data-formal-theme="default"] body::after{content:none!important;display:none!important;}
+</style>
 <style id="qixi3292BridgeGameBackground">
 /* 鵲羽橋小遊戲專用背景：使用使用者指定的七夕鵲橋圖 */
 #qixiMiniGameBoard.qixiBridgeGameBoard{
@@ -15861,8 +15887,8 @@ header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{back
 
 <script id="test33015SingleVersionSource">
 (function(){
- const BUILD='3.30.62';
- const LABEL='七夕邀約內嵌＋設施背景＋快速雲端同步';
+ const BUILD='3.30.69';
+ const LABEL='七夕單人設施＋關係分線';
  function apply(){
    document.title='關係進行式 TEST・'+BUILD;
    document.querySelectorAll('.testServerRibbon').forEach(el=>el.textContent='🧪 TEST・'+BUILD+'-beta');
@@ -17506,8 +17532,8 @@ body.npcStoryRunning #qixiEventFab{display:none!important}
 
   <div class="qixiGameRuleNote">
 <b>🎮 七夕設施規則</b><br>
-序章可先選擇並綁定七夕同行者；這段關係會保留到最後結局與徽章。<br>
-五個設施全部都是單人挑戰、全部立即開放；同行者不需要在線，也不需要一起操作。每個設施通關獎勵只能領取 1 次，失敗可以重試。
+序章保留原本的守橋人選人、邀請與雙方確認綁定；綁定後，這段關係一路沿用到五個設施與最終結局。<br>
+五個設施全部都是單人挑戰、全部立即開放；同行者不需要在線，也不需要一起操作。每次通關後，守橋人會依「戀人／摯友／家人／搭檔／宿敵／仇敵」播放不同劇情，最後取得的限定徽章也不同。
 </div>
 <div id="qixiGameInviteInline" class="qixiGameInviteInline hidden" aria-live="polite"></div>
 <div id="qixiFacilityGrid" class="qixiFacilityGrid"></div>
@@ -17886,13 +17912,17 @@ function openConfirm(o={}){
   x.qixi2026.selectedRel??=""; x.qixi2026.selectedRoomCode??=""; x.qixi2026.selectedName??="";
   x.qixi2026.bound=!!x.qixi2026.bound;x.qixi2026.boundCharId??="";x.qixi2026.boundRoomCode??="";x.qixi2026.boundRel??="";x.qixi2026.boundName??="";x.qixi2026.bindPending=!!x.qixi2026.bindPending;
   x.qixi2026.rewardClaimed=!!x.qixi2026.rewardClaimed;
+  /* 舊版 badge=true 只代表共用徽章；新版本改成關係別徽章 ID。 */
+  if(x.qixi2026.badge===true)x.qixi2026.badge=false;
   x.qixi2026.facilityRewards??={};
   x.qixi2026.dailyFacilityDate??="";
   x.qixi2026.dailyFacilityCompleted??=""; x.qixi2026.introStoryV=Number(x.qixi2026.introStoryV||0);
   if(x.qixi2026.progressFixV!==3296){
     x.qixi2026.done={};x.qixi2026.dailyDone={};x.qixi2026.facilityRewards={};x.qixi2026.dailyFacilityCompleted="";
     x.qixi2026.rewardClaimed=false;x.qixi2026.badge=false;x.qixi2026.outroSeen=false;x.qixi2026.progressFixV=3296;
-    try{if(typeof local!=="undefined"&&local.sharedBadges)delete local.sharedBadges.qixi_star_fate}catch(_){}
+    try{if(typeof local!=="undefined"&&local.sharedBadges){
+      delete local.sharedBadges.qixi_star_fate;
+    }}catch(_){}
     try{saveLocal?.()}catch(_){}
   }
   const qd=new Date().toLocaleDateString("sv-SE");
@@ -18390,16 +18420,27 @@ function openConfirm(o={}){
  function progress(x){
   const st=ensure(x);return FACILITIES.filter(f=>st.done[f.id]).length;
  }
+ const QIXI_REL_BADGES={
+  lover:{id:"qixi_fate_lover",icon:"❤️",name:"相守之緣",desc:"2026 七夕限定・與戀人走完五段星河"},
+  bestfriend:{id:"qixi_fate_bestfriend",icon:"🤝",name:"同行之緣",desc:"2026 七夕限定・與摯友走完五段星河"},
+  family:{id:"qixi_fate_family",icon:"🏠",name:"歸處之緣",desc:"2026 七夕限定・與家人走完五段星河"},
+  partner:{id:"qixi_fate_partner",icon:"🧭",name:"並肩之緣",desc:"2026 七夕限定・與搭檔走完五段星河"},
+  rival:{id:"qixi_fate_rival",icon:"🔥",name:"競逐之緣",desc:"2026 七夕限定・與宿敵走完五段星河"},
+  enemy:{id:"qixi_fate_enemy",icon:"💥",name:"惡緣",desc:"2026 七夕限定・與仇敵走完五段星河"}
+ };
+ function qixiRelationBadge(st){return QIXI_REL_BADGES[st?.boundRel||st?.selectedRel]||null}
  function awardIfDone(x){
   const st=ensure(x);
   if(progress(x)<FACILITIES.length || !st.outroSeen || !st.bound || st.badge)return;
-  st.badge=true;
+  const bd=qixiRelationBadge(st);
+  if(!bd)return;
+  st.badge=bd.id;
   try{
-    badgeDefs.qixi_star_fate={icon:"🌌",name:"星河有緣人",desc:"2026 七夕限定・走完五段星河劇情"};
-    ensureBadges?.();local.sharedBadges??={};local.sharedBadges.qixi_star_fate=1;
+    badgeDefs[bd.id]={icon:bd.icon,name:bd.name,desc:bd.desc};
+    ensureBadges?.();local.sharedBadges??={};local.sharedBadges[bd.id]=1;
   }catch(_){}
   try{saveLocal?.()}catch(_){}
-  toast?.("🌌 七夕限定徽章「星河有緣人」已解鎖！",4500);
+  toast?.(`${bd.icon} 七夕限定徽章「${bd.name}」已解鎖！`,4500);
  }
  function render(){
   const x=c(),grid=document.getElementById("qixiFacilityGrid"),reward=document.getElementById("qixiRewardBox");
@@ -18449,13 +18490,14 @@ function openConfirm(o={}){
   grid.querySelector("#cancelQixiBindBtn")?.addEventListener("click",cancelQixiBindRequest);
   grid.querySelector("#chooseQixiFromStoryBtn")?.addEventListener("click",openQixiFinalChoice);
   const storyComplete=progress(x)>=FACILITIES.length&&st.outroSeen;
-  reward.innerHTML=st.badge
-   ?`<b>🌌 已取得限定徽章「星河有緣人」</b><div class="small">五段星河故事與守橋人結尾都已完成。</div>${st.rewardClaimed?'<button type="button" disabled style="width:100%;margin-top:8px">✓ 活動獎勵已領取</button>':'<button id="claimQixiRewardBtn" type="button" class="primary" style="width:100%;margin-top:8px">🎁 領取活動獎勵｜50 金幣</button>'}`
+  const qixiBadge=qixiRelationBadge(st);
+  reward.innerHTML=st.badge&&qixiBadge
+   ?`<b>${qixiBadge.icon} 已取得七夕限定徽章「${qixiBadge.name}」</b><div class="small">五段星河故事與這段「${RELS[st.boundRel]?.name||"緣分"}」的守橋人結尾都已完成。</div>${st.rewardClaimed?'<button type="button" disabled style="width:100%;margin-top:8px">✓ 活動獎勵已領取</button>':'<button id="claimQixiRewardBtn" type="button" class="primary" style="width:100%;margin-top:8px">🎁 領取活動獎勵｜50 金幣</button>'}`
    :n>=FACILITIES.length&&!st.outroSeen
     ?(st.bound
-      ?'<b>🪶 五段單人挑戰已完成</b><div class="small">已綁定有緣人，可以進入最終關係結局；看完後取得限定徽章。</div><button id="openQixiOutroBtn" type="button" class="primary" style="width:100%;margin-top:8px">進入最終結局</button>'
-      :'<b>🪶 五段單人挑戰已完成</b><div class="small">小遊戲本身不需要同行者操作；但最終關係結局與限定徽章仍需要序章選定的真人關係完成雙方綁定。</div><button id="openQixiFinalBindBtn" type="button" class="primary" style="width:100%;margin-top:8px">回去確認七夕同行者</button>')
-    :`<b>限定徽章進度：${n} / ${FACILITIES.length}</b><div class="small">五個小遊戲全部單人完成；序章選定的同行關係會一路保留，五關完成後進入對應關係的最終結局。</div>`;
+      ?`<b>🪶 五段單人挑戰已完成</b><div class="small">已綁定 ${RELS[st.boundRel]?.icon||"🌌"} ${st.boundName||"有緣人"}；接下來會進入這段關係專屬的最終結局，並取得「${qixiBadge?.name||"關係限定"}」徽章。</div><button id="openQixiOutroBtn" type="button" class="primary" style="width:100%;margin-top:8px">進入最終結局</button>`
+      :'<b>🪶 五段單人挑戰已完成</b><div class="small">小遊戲本身不需要同行者操作；但最終關係結局與關係限定徽章仍需要序章選定的真人關係完成雙方綁定。</div><button id="openQixiFinalBindBtn" type="button" class="primary" style="width:100%;margin-top:8px">回去確認七夕同行者</button>')
+    :`<b>七夕關係劇情進度：${n} / ${FACILITIES.length}</b><div class="small">五個小遊戲都由你單人完成；每次通關後會依序章綁定的關係播放不同劇情。最後也會依關係取得不同限定徽章。</div>`;
   reward.querySelector("#openQixiOutroBtn")?.addEventListener("click",openOutro);
   reward.querySelector("#openQixiFinalBindBtn")?.addEventListener("click",openQixiFinalChoice);
   reward.querySelector("#claimQixiRewardBtn")?.addEventListener("click",()=>{
@@ -18615,10 +18657,16 @@ function openConfirm(o={}){
  }
  function completeQixiMiniGame(fid){
   const f=FACILITIES.find(x=>x.id===fid);
-  const e=qixiMiniEls();
-  e.status.textContent="✅ 小遊戲完成！正在進入劇情……";
-  /* 3.30.65：五個設施全部都是單人遊玩，設施劇情也先走單人線。 */
-  setTimeout(()=>{closeQixiMiniGame();openStory("solo")},500);
+  const e=qixiMiniEls(),x=c();
+  e.status.textContent="✅ 小遊戲完成！正在進入屬於這段緣分的劇情……";
+  /* 3.30.68：遊戲操作永遠單人，但劇情沿用序章已選定／已綁定的真人關係。 */
+  let rel="solo";
+  if(x){
+    const st=ensure(x),selected=qixiSelectedCompanion(x);
+    rel=st.boundRel||selected?.rel||st.selectedRel||"solo";
+    if(!RELS[rel])rel="solo";
+  }
+  setTimeout(()=>{closeQixiMiniGame();openStory(rel)},500);
  }
  function startQixiMiniGame(fid){
   const f=FACILITIES.find(x=>x.id===fid),e=qixiMiniEls();
@@ -18682,7 +18730,7 @@ function openConfirm(o={}){
     };
     qixiMiniCleanup=()=>{timers.forEach(clearTimeout);e.board.onclick=null};
   }else if(fid==="bridge"){
-    e.desc.textContent="在光點進入綠色區域時按下「停住」，讓兩人的步伐同步。";
+    e.desc.textContent="在光點進入中央綠色區域時按下「停住」，穩穩踏過鵲羽橋。";
     e.board.innerHTML='<div class="qixiBalanceTrack"><div class="qixiBalanceGood"></div><div class="qixiBalanceNeedle"></div></div><button id="qixiBalanceStop" class="primary" style="width:100%;margin-top:80px">停住</button>';
     const needle=e.board.querySelector(".qixiBalanceNeedle");let x=0,dir=1,raf=0;
     const tick=()=>{x+=dir*1.8;if(x>=98){x=98;dir=-1}if(x<=0){x=0;dir=1}needle.style.left=`calc(${x}% - 4px)`;raf=requestAnimationFrame(tick)};tick();
