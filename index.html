@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#9a76c4" name="theme-color"/>
-<title>關係進行式・3.31.14.20</title>
+<title>關係進行式・3.31.14.21</title>
 
 
 <script id="formal3311412PrePaintTheme">
@@ -3101,7 +3101,7 @@ function show(id){
       npc.style.setProperty("z-index","9996","important");
     }
   }
-  /* 3.31.14.20：七夕入口也由主頁切換函式直接控制。
+  /* 3.31.14.21：七夕入口也由主頁切換函式直接控制。
      不只看 activeId，避免離開角色後舊 activeId／定時器又把入口叫回首頁。 */
   const qixi=document.getElementById("qixiEventFab");
   if(qixi){
@@ -15669,7 +15669,7 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 
 <script id="formal33111SingleVersionSource">
 (function(){
- const VERSION="3.31.14.20";
+ const VERSION="3.31.14.21";
  function apply(){
    document.querySelectorAll(".homeVersion").forEach(function(el){
      el.textContent="第"+VERSION+"版・正式服";
@@ -16207,7 +16207,7 @@ html[data-formal-theme="qixiGalaxy"] :is(.card,.panel,.pendingPanel,.characterCa
 })();
 </script>
 <script id="formal33114Version">
-(function(){const V='3.31.14.20';function f(){document.querySelectorAll('.homeVersion').forEach(el=>el.textContent='第'+V+'版・正式服');document.documentElement.dataset.gameVersion=V;document.title='關係進行式・'+V}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',f,{once:true});else f();window.addEventListener('pageshow',f)})();
+(function(){const V='3.31.14.21';function f(){document.querySelectorAll('.homeVersion').forEach(el=>el.textContent='第'+V+'版・正式服');document.documentElement.dataset.gameVersion=V;document.title='關係進行式・'+V}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',f,{once:true});else f();window.addEventListener('pageshow',f)})();
 </script>
 
 
@@ -16260,7 +16260,7 @@ html[data-formal-theme="qixiGalaxy"] :is(.card,.panel,.pendingPanel,.characterCa
 
 
 
-<!-- 3.31.14.20: 測試服星空外觀完整移植 -->
+<!-- 3.31.14.21: 測試服星空外觀完整移植 -->
 <style id="formalPort_qixi3290SingleTheme">
 :root.qixi-theme-now{
  --qixi-bg1:#090725;
@@ -16625,7 +16625,7 @@ html[data-formal-theme="qixiGalaxy"] #qixiEventModal :is(.qixiRewardBox,.qixiFac
 </script>
 
 
-<!-- 3.31.14.20：TEST 3.30.80 七夕活動直接移植 -->
+<!-- 3.31.14.21：TEST 3.30.80 七夕活動直接移植 -->
 <script id="formalExact_qixi33035DailyUnlockScript">
 (function(){
  const START=new Date(2026,7,19),COUNT=5;
@@ -16768,8 +16768,8 @@ window.q63Patch=async function(payload){const c=cur(),r=gameRoomContext||room;if
 window.q63GuideReady=async function(role){if(!q63Host()||window.__q63Guide===`${gameId}|${role}`)return;window.__q63Guide=`${gameId}|${role}`;await q63Patch({role:"guide",ready:true,done:true,answers:[],progress:0})};
 
 window.q63ChatHtml=function(){return `<div class="q63Chat"><div class="q63ChatLog" id="q63ChatLog"><div class="muted">這裡只顯示這一局的提示。</div></div><div class="q63ChatSend"><input id="q63ChatInput" maxlength="80" placeholder="告訴隊友順序／位置…"><button data-q63-chat="1">傳送</button></div></div>`};
-window.q63SendChat=async function(){const i=document.getElementById("q63ChatInput"),msg=String(i?.value||"").trim();if(!msg)return;const c=cur(),r=gameRoomContext||room,to=String(r.host_char)===String(c.id)?r.guest_char:r.host_char;await api("/test_interactions",{method:"POST",body:JSON.stringify({room_code:r.code,from_char:c.id,to_char:to,text:`GAME_CHAT|${gameId}|${encodeURIComponent(msg)}`})});i.value="";q63RefreshChat()};
-window.q63RefreshChat=async function(){const b=document.getElementById("q63ChatLog"),c=cur(),r=gameRoomContext||room;if(!b||!c||!r||!gameId)return;try{const rows=await api(`/test_interactions?room_code=eq.${encodeURIComponent(r.code)}&select=*&order=created_at.asc&limit=80`),pre=`GAME_CHAT|${gameId}|`,m=(rows||[]).filter(x=>String(x.text||"").startsWith(pre)).slice(-20);b.innerHTML=m.length?m.map(x=>{const me=String(x.from_char)===String(c.id),t=decodeURIComponent(String(x.text).slice(pre.length));return `<div class="${me?"me":""}"><b>${me?"你":esc(q63Partner())}：</b>${esc(t)}</div>`}).join(""):'<div class="muted">還沒有訊息。</div>';b.scrollTop=b.scrollHeight}catch(_){ }};
+window.q63SendChat=async function(){const i=document.getElementById("q63ChatInput"),msg=String(i?.value||"").trim();if(!msg)return;const c=cur(),r=gameRoomContext||room,to=String(r.host_char)===String(c.id)?r.guest_char:r.host_char;await api("/interactions",{method:"POST",body:JSON.stringify({room_code:r.code,from_char:c.id,to_char:to,text:`GAME_CHAT|${gameId}|${encodeURIComponent(msg)}`})});i.value="";q63RefreshChat()};
+window.q63RefreshChat=async function(){const b=document.getElementById("q63ChatLog"),c=cur(),r=gameRoomContext||room;if(!b||!c||!r||!gameId)return;try{const rows=await api(`/interactions?room_code=eq.${encodeURIComponent(r.code)}&select=*&order=created_at.asc&limit=80`),pre=`GAME_CHAT|${gameId}|`,m=(rows||[]).filter(x=>String(x.text||"").startsWith(pre)).slice(-20);b.innerHTML=m.length?m.map(x=>{const me=String(x.from_char)===String(c.id),t=decodeURIComponent(String(x.text).slice(pre.length));return `<div class="${me?"me":""}"><b>${me?"你":esc(q63Partner())}：</b>${esc(t)}</div>`}).join(""):'<div class="muted">還沒有訊息。</div>';b.scrollTop=b.scrollHeight}catch(_){ }};
 
 function setMode(mode){
  gameModal.classList.remove("q63Ferry","q63Lantern","q63Bridge","q63Wish","q63Keeper");
@@ -16863,10 +16863,10 @@ async function hardClean(){
  const c=typeof cur==="function"?cur():null;if(!c||typeof api!=="function")return;
  const now=Date.now();
  for(const code of (c.roomCodes||[])){
-  let rows=[];try{rows=await api(`/test_interactions?room_code=eq.${encodeURIComponent(code)}&to_char=eq.${encodeURIComponent(c.id)}&select=*&order=created_at.desc&limit=100`)}catch(_){}
+  let rows=[];try{rows=await api(`/interactions?room_code=eq.${encodeURIComponent(code)}&to_char=eq.${encodeURIComponent(c.id)}&select=*&order=created_at.desc&limit=100`)}catch(_){}
   const games=(rows||[]).filter(x=>String(x.text||"").startsWith("GAME_INVITE|")),newest=new Map();
   for(const x of games){const p=String(x.text).split("|"),k=`${x.from_char}|${p[1]||""}`;if(!newest.has(k))newest.set(k,String(x.id))}
-  for(const x of games){const p=String(x.text).split("|"),k=`${x.from_char}|${p[1]||""}`,t=Date.parse(x.created_at||""),old=!Number.isFinite(t)||now-t>120000,dup=String(newest.get(k)||"")!==String(x.id);if(old||dup){try{await api(`/test_interactions?id=eq.${encodeURIComponent(x.id)}`,{method:"DELETE"})}catch(_){}try{suppressGameInvite(x.id,60000)}catch(_){}}}
+  for(const x of games){const p=String(x.text).split("|"),k=`${x.from_char}|${p[1]||""}`,t=Date.parse(x.created_at||""),old=!Number.isFinite(t)||now-t>120000,dup=String(newest.get(k)||"")!==String(x.id);if(old||dup){try{await api(`/interactions?id=eq.${encodeURIComponent(x.id)}`,{method:"DELETE"})}catch(_){}try{suppressGameInvite(x.id,60000)}catch(_){}}}
  }
  try{await renderPendingEvents(c)}catch(_){}
 }
@@ -16958,10 +16958,10 @@ window.addEventListener("pageshow",unlockNow);
    try{
      const x=typeof cur==="function"?cur():null;if(!x||typeof api!=="function")return;
      for(const code of (x.roomCodes||[])){
-       let rows=[];try{rows=await api(`/test_interactions?room_code=eq.${encodeURIComponent(code)}&select=*&order=created_at.desc&limit=100`)}catch(_){}
+       let rows=[];try{rows=await api(`/interactions?room_code=eq.${encodeURIComponent(code)}&select=*&order=created_at.desc&limit=100`)}catch(_){}
        for(const r of (rows||[])){
          const txt=String(r.text||"");
-         if(txt.startsWith("GAME_INVITE|qixi_")){try{await api(`/test_interactions?id=eq.${encodeURIComponent(r.id)}`,{method:"DELETE"})}catch(_){}}
+         if(txt.startsWith("GAME_INVITE|qixi_")){try{await api(`/interactions?id=eq.${encodeURIComponent(r.id)}`,{method:"DELETE"})}catch(_){}}
        }
      }
    }catch(_){}
@@ -16975,6 +16975,10 @@ window.addEventListener("pageshow",unlockNow);
 
  const QIXI_TOKEN_KEY="qixi_star_token";
  const QIXI_THEME_KEY="qixi_galaxy_theme";
+ function qixiFast(p,ms=700,fallback=null){
+   try{return Promise.race([Promise.resolve(p),new Promise(r=>setTimeout(()=>r(fallback),ms))])}
+   catch(_){return Promise.resolve(fallback)}
+ }
  function qixiAccountBag(){
    local.accountItems??={};
    return local.accountItems;
@@ -17162,21 +17166,42 @@ window.addEventListener("pageshow",unlockNow);
    const st=ensure(x);
 
    if(!st.bound && !force){
-     /* 正式服：序章立即開，不讓雲端邀請查詢卡住入口。 */
-     try{Promise.resolve(findIncomingQixiBind(x)).catch(()=>{})}catch(_){}
+     try{qixiFast(findIncomingQixiBind(x),700,null).then(incoming=>{
+       if(incoming && Number(ensure(x).introStoryV||0)<6 && !document.getElementById("qixiRpgPlayer")?.classList.contains("hidden")){
+         /* 序章已在播放時不硬插；稍後 poll 會接手。 */
+       }
+     }).catch(()=>{})}catch(_){}
    }
 
    /* 新版六緣開場已看過：直接回活動頁，不再開局跳獨立選人視窗。 */
    if(st.introStoryV>=6 && !force){
-     try{if(typeof refreshRelationships==="function")Promise.resolve(refreshRelationships()).then(()=>{try{render?.()}catch(_){}}).catch(()=>{})}catch(_){}
+     let now=qixiAvailableCompanions(x);
+     if(!now.length){
+       try{await qixiFast(typeof refreshRelationships==="function"?refreshRelationships():null,700,null)}catch(_){}
+       now=qixiAvailableCompanions(x);
+     }
+     if(!st.bound && !st.bindPending && !st.selectedRel){
+       await openQixiFinalChoice();
+       return;
+     }
+     if(now.length && st.selectedRel==="solo"){
+       st.selectedRel="";st.selectedRoomCode="";st.selectedName="";st.bindPending=false;
+       try{saveLocal?.()}catch(_){}
+       await openQixiFinalChoice();
+       return;
+     }
      openActivityMain();
      return;
    }
 
    /* 七夕不能比關係頁更早判定：先同步雲端關係，再建立同行選項。 */
-   try{if(typeof refreshRelationships==="function")Promise.resolve(refreshRelationships()).catch(()=>{})}catch(_){}
-   const available=qixiAvailableCompanions(x);
-   const companionState=new Map();
+   let available=qixiAvailableCompanions(x);
+   if(!available.length){
+     try{await qixiFast(typeof refreshRelationships==="function"?refreshRelationships():null,700,null)}catch(e){console.warn("qixi relation preload",e)}
+     available=qixiAvailableCompanions(x);
+   }
+   let companionState=new Map();
+   try{companionState=await qixiFast(qixiAvailabilityForCompanions(x,available),700,new Map())||new Map()}catch(_){companionState=new Map()}
    /* 舊版曾誤判成獨行；只要現在讀得到真實關係，就清掉錯誤獨行狀態。 */
    if(available.length && st.selectedRel==="solo"){
      st.selectedRel="";st.selectedRoomCode="";st.selectedName="";st.bindPending=false;
@@ -17413,7 +17438,7 @@ window.addEventListener("pageshow",unlockNow);
  async function qixiCloudBindLockFor(charId){
    if(!charId)return null;
    try{
-     const rows=await api(`/test_interactions?from_char=eq.${encodeURIComponent(String(charId))}&select=*&order=created_at.desc&limit=80`);
+     const rows=await api(`/interactions?from_char=eq.${encodeURIComponent(String(charId))}&select=*&order=created_at.desc&limit=80`);
      return (rows||[]).find(v=>String(v.text||"").startsWith("QIXI_BIND_LOCK|"))||null;
    }catch(e){
      console.warn("qixi lock lookup",e);
@@ -17425,7 +17450,7 @@ window.addEventListener("pageshow",unlockNow);
  async function qixiCloudDecisionFor(charId){
    if(!charId)return {locked:false,solo:false,kind:""};
    try{
-     const rows=await api(`/test_interactions?from_char=eq.${encodeURIComponent(String(charId))}&select=*&order=created_at.desc&limit=120`);
+     const rows=await api(`/interactions?from_char=eq.${encodeURIComponent(String(charId))}&select=*&order=created_at.desc&limit=120`);
      const list=rows||[];
      const bind=list.find(v=>String(v.text||"").startsWith("QIXI_BIND_LOCK|"));
      if(bind)return {locked:true,solo:false,kind:"bound",row:bind};
@@ -17443,7 +17468,7 @@ window.addEventListener("pageshow",unlockNow);
    try{
      const d=await qixiCloudDecisionFor(x.id);
      if(d.locked)return;
-     await api("/test_interactions",{method:"POST",body:JSON.stringify({
+     await api("/interactions",{method:"POST",body:JSON.stringify({
        room_code:"QIXI_SOLO",from_char:String(x.id),to_char:"",
        text:`QIXI_SOLO_LOCK|${x.id}|${Date.now()}`
      })});
@@ -17466,7 +17491,7 @@ window.addEventListener("pageshow",unlockNow);
    try{
      const exists=await qixiCloudBindLockFor(x.id);
      if(exists)return;
-     await api("/test_interactions",{method:"POST",body:JSON.stringify({
+     await api("/interactions",{method:"POST",body:JSON.stringify({
        room_code:String(roomCode),
        from_char:String(x.id),
        to_char:String(otherId),
@@ -17500,12 +17525,12 @@ window.addEventListener("pageshow",unlockNow);
 
   try{
     /* 防止同一人重複送邀請 */
-    const existing=await api(`/test_interactions?room_code=eq.${encodeURIComponent(hit.code)}&from_char=eq.${encodeURIComponent(x.id)}&to_char=eq.${encodeURIComponent(to)}&select=*&order=created_at.desc&limit=20`);
+    const existing=await api(`/interactions?room_code=eq.${encodeURIComponent(hit.code)}&from_char=eq.${encodeURIComponent(x.id)}&to_char=eq.${encodeURIComponent(to)}&select=*&order=created_at.desc&limit=20`);
     if((existing||[]).some(v=>String(v.text||"").startsWith("QIXI_BIND_REQUEST|"))){
       st.bindPending=true;saveLocal?.();render();if(!autoFromStory)toast?.("🌌 七夕同行邀請已送出，正在等待對方同意。");return;
     }
 
-    await api("/test_interactions",{method:"POST",body:JSON.stringify({
+    await api("/interactions",{method:"POST",body:JSON.stringify({
       room_code:hit.code,from_char:x.id,to_char:to,
       text:`QIXI_BIND_REQUEST|${encodeURIComponent(x.name||"角色")}|${hit.rel}|${Date.now()}`
     })});
@@ -17527,7 +17552,7 @@ window.addEventListener("pageshow",unlockNow);
 
    try{
      /* 取消前先確認對方是否剛好已同意，避免已成立後被撤銷。 */
-     const replies=await api(`/test_interactions?room_code=eq.${encodeURIComponent(code)}&to_char=eq.${encodeURIComponent(x.id)}&select=*&order=created_at.desc&limit=30`);
+     const replies=await api(`/interactions?room_code=eq.${encodeURIComponent(code)}&to_char=eq.${encodeURIComponent(x.id)}&select=*&order=created_at.desc&limit=30`);
      const accept=(replies||[]).find(v=>String(v.text||"").startsWith("QIXI_BIND_ACCEPT|"));
      if(accept){
        st.bound=true;
@@ -17536,16 +17561,16 @@ window.addEventListener("pageshow",unlockNow);
        st.boundName=st.selectedName||roomOtherName?.(code,x)||"同行者";
        st.boundCharId=String(accept.from_char||"");
        st.bindPending=false;
-       try{await api(`/test_interactions?id=eq.${encodeURIComponent(accept.id)}`,{method:"DELETE"})}catch(_){}
+       try{await api(`/interactions?id=eq.${encodeURIComponent(accept.id)}`,{method:"DELETE"})}catch(_){}
        saveLocal?.();render();
        return toast?.(`🌌 ${st.boundName} 已經同意，七夕同行已永久綁定，不能取消。`,4800);
      }
 
      if(to){
-       const rows=await api(`/test_interactions?room_code=eq.${encodeURIComponent(code)}&from_char=eq.${encodeURIComponent(x.id)}&to_char=eq.${encodeURIComponent(to)}&select=*&order=created_at.desc&limit=30`);
+       const rows=await api(`/interactions?room_code=eq.${encodeURIComponent(code)}&from_char=eq.${encodeURIComponent(x.id)}&to_char=eq.${encodeURIComponent(to)}&select=*&order=created_at.desc&limit=30`);
        const reqs=(rows||[]).filter(v=>String(v.text||"").startsWith("QIXI_BIND_REQUEST|"));
        for(const req of reqs){
-         try{await api(`/test_interactions?id=eq.${encodeURIComponent(req.id)}`,{method:"DELETE"})}catch(_){}
+         try{await api(`/interactions?id=eq.${encodeURIComponent(req.id)}`,{method:"DELETE"})}catch(_){}
        }
      }
 
@@ -17567,9 +17592,12 @@ window.addEventListener("pageshow",unlockNow);
    const x=c();if(!x)return;
    const st=ensure(x);
    if(st.bound)return toast?.("七夕同行已永久綁定，不能更換。");
-   try{if(typeof refreshRelationships==="function")await refreshRelationships()}catch(e){console.warn("qixi reselect sync",e)}
+
+   try{await qixiFast(typeof refreshRelationships==="function"?refreshRelationships():null,700,null)}catch(e){console.warn("qixi reselect sync",e)}
    const available=qixiAvailableCompanions(x);
-   const companionState=await qixiAvailabilityForCompanions(x,available);
+   let companionState=new Map();
+   try{companionState=await qixiFast(qixiAvailabilityForCompanions(x,available),700,new Map())||new Map()}catch(_){}
+
    const choices=available.map(v=>{
      const d=companionState.get(`${v.code}|${v.rel}`)||{};
      const unavailable=!!d.locked;
@@ -17586,18 +17614,57 @@ window.addEventListener("pageshow",unlockNow);
        goto:1
      };
    });
+
    choices.push({
-      label:"🌙 獨自走過星河",
-     onChoose:async()=>{
-       st.selectedRoomCode="";st.selectedRel="solo";st.selectedName="獨自參加";st.bindPending=false;
+     label:"⏳ 我再想想",
+     onChoose:()=>{
+       st.selectedRoomCode="";st.selectedRel="";st.selectedName="";st.bindPending=false;
+       st.introSeen=true;st.introStoryV=Math.max(6,Number(st.introStoryV||0));
        try{saveLocal?.()}catch(_){}
-       await qixiWriteSoloLock(x);
+     },
+     goto:2
+   });
+
+   choices.push({
+     label:"🌙 獨自走過星河",
+     onChoose:async()=>{
+       const askSoloAgain=()=>{
+         openConfirm?.({
+           title:"🌙 獨自前行",
+           message:"你確定要自己走？\n\n確定後，這次七夕的五個設施會以單人路線進行。",
+           confirmText:"確定，我自己走",
+           cancelText:"取消",
+           extraText:"我再想想",
+           onConfirm:async()=>{
+             st.selectedRoomCode="";st.selectedRel="solo";st.selectedName="獨自參加";st.bindPending=false;
+             try{saveLocal?.()}catch(_){}
+             await qixiWriteSoloLock(x);
+             render?.();
+           },
+           onCancel:()=>setTimeout(askSoloAgain,80),
+           onExtra:()=>{
+             st.selectedRoomCode="";st.selectedRel="";st.selectedName="";st.bindPending=false;
+             try{saveLocal?.()}catch(_){}
+             render?.();
+           }
+         });
+       };
+       if(typeof openConfirm==="function")askSoloAgain();
      },
      goto:1
    });
+
    const lines=[
-     {speaker:"守橋人",text:"「五段星河已由你獨自走完。現在，選擇要與誰一起進入最後的七夕結局？」",image:QIXI_ASSETS.keeper,choices},
-     {speaker:"守橋人",text:"「好。只有對方也答應這段緣，最後的故事才會為你們打開。」",image:QIXI_ASSETS.keeper}
+     {
+       speaker:"守橋人",
+       text:available.length
+         ?"「那麼這一次，你想與誰一起走過星河？」"
+         :"「目前還沒有讀到可以同行的既有關係。你可以先再想想，等關係同步完成後重新選擇。」",
+       image:QIXI_ASSETS.keeper,
+       choices
+     },
+     {speaker:"守橋人",text:"「好。若你選了同行者，我會把邀請送到對方手上；等對方答應後，五個設施就會開放給你各自完成。」",image:QIXI_ASSETS.keeper},
+     {speaker:"守橋人",text:"「沒關係。星河會替你留著入口，想好了再回來找我。」",image:QIXI_ASSETS.keeper}
    ];
    startQixiRpg(lines,"重新選擇｜今夜同行",()=>{
      openActivityMain();
@@ -17610,7 +17677,7 @@ window.addEventListener("pageshow",unlockNow);
    try{if(typeof refreshRelationships==="function")await refreshRelationships()}catch(_){}
    for(const code of (x?.roomCodes||[])){
      try{
-       const rows=await api(`/test_interactions?room_code=eq.${encodeURIComponent(code)}&to_char=eq.${encodeURIComponent(x.id)}&select=*&order=created_at.desc&limit=20`);
+       const rows=await api(`/interactions?room_code=eq.${encodeURIComponent(code)}&to_char=eq.${encodeURIComponent(x.id)}&select=*&order=created_at.desc&limit=20`);
        const req=(rows||[]).find(v=>String(v.text||"").startsWith("QIXI_BIND_REQUEST|"));
        if(req){
          const rr=relationshipSummaries?.[String(code)];
@@ -17710,10 +17777,10 @@ window.addEventListener("pageshow",unlockNow);
    try{
      for(const code of (x.roomCodes||[])){
        if(String(code)===String(keepCode))continue;
-       const rows=await api(`/test_interactions?room_code=eq.${encodeURIComponent(code)}&from_char=eq.${encodeURIComponent(x.id)}&select=*&order=created_at.desc&limit=30`);
+       const rows=await api(`/interactions?room_code=eq.${encodeURIComponent(code)}&from_char=eq.${encodeURIComponent(x.id)}&select=*&order=created_at.desc&limit=30`);
        const req=(rows||[]).find(v=>String(v.text||"").startsWith("QIXI_BIND_REQUEST|"));
        if(req){
-         await api(`/test_interactions`,{
+         await api(`/interactions`,{
            method:"POST",
            body:{room_code:String(code),from_char:x.id,to_char:req.to_char||"",text:`QIXI_BIND_CANCEL|${Date.now()}`}
          });
@@ -17728,7 +17795,7 @@ window.addEventListener("pageshow",unlockNow);
    try{
      for(const code of (x.roomCodes||[])){
        if(String(code)===String(keepCode))continue;
-       await api(`/test_interactions`,{
+       await api(`/interactions`,{
          method:"POST",
          body:{room_code:String(code),from_char:x.id,to_char:"",text:`QIXI_BIND_INVALIDATED|${Date.now()}`}
        });
@@ -17777,7 +17844,7 @@ window.addEventListener("pageshow",unlockNow);
     /* 收件方：找所有關係房間裡寄給自己的七夕綁定邀請 */
     if(!st.bound&&!qixiIncomingBind){
       for(const code of (x.roomCodes||[])){
-        const rows=await api(`/test_interactions?room_code=eq.${encodeURIComponent(code)}&to_char=eq.${encodeURIComponent(x.id)}&select=*&order=created_at.desc&limit=20`);
+        const rows=await api(`/interactions?room_code=eq.${encodeURIComponent(code)}&to_char=eq.${encodeURIComponent(x.id)}&select=*&order=created_at.desc&limit=20`);
         const req=(rows||[]).find(v=>String(v.text||"").startsWith("QIXI_BIND_REQUEST|"));
         if(req){
           const rr=relationshipSummaries?.[String(code)];
@@ -17798,7 +17865,7 @@ window.addEventListener("pageshow",unlockNow);
 
     /* 寄件方：等待 ACCEPT / DECLINE */
     if(!st.bound&&st.bindPending&&st.selectedRoomCode){
-      const rows=await api(`/test_interactions?room_code=eq.${encodeURIComponent(st.selectedRoomCode)}&to_char=eq.${encodeURIComponent(x.id)}&select=*&order=created_at.desc&limit=30`);
+      const rows=await api(`/interactions?room_code=eq.${encodeURIComponent(st.selectedRoomCode)}&to_char=eq.${encodeURIComponent(x.id)}&select=*&order=created_at.desc&limit=30`);
       const accept=(rows||[]).find(v=>String(v.text||"").startsWith("QIXI_BIND_ACCEPT|"));
       const decline=(rows||[]).find(v=>String(v.text||"").startsWith("QIXI_BIND_DECLINE|"));
       if(accept){
@@ -17806,12 +17873,12 @@ window.addEventListener("pageshow",unlockNow);
         st.bound=true;st.boundRoomCode=String(st.selectedRoomCode);st.boundRel=st.selectedRel;
         st.boundName=st.selectedName||roomOtherName?.(String(st.selectedRoomCode),x)||"同行者";
         st.boundCharId=String(accept.from_char||"");st.bindPending=false;
-        try{await api(`/test_interactions?id=eq.${encodeURIComponent(accept.id)}`,{method:"DELETE"})}catch(_){}
+        try{await api(`/interactions?id=eq.${encodeURIComponent(accept.id)}`,{method:"DELETE"})}catch(_){}
         await qixiWriteBindLock(x,st.boundRoomCode,st.boundCharId);
         saveLocal?.();render();toast?.(`🌌 ${st.boundName} 已同意！七夕同行已永久綁定。`,4800);
       }else if(decline){
         st.bindPending=false;st.selectedRoomCode="";st.selectedRel="";st.selectedName="";
-        try{await api(`/test_interactions?id=eq.${encodeURIComponent(decline.id)}`,{method:"DELETE"})}catch(_){}
+        try{await api(`/interactions?id=eq.${encodeURIComponent(decline.id)}`,{method:"DELETE"})}catch(_){}
         saveLocal?.();render();toast?.("對方婉拒了七夕同行邀請，你可以重新選擇。",4200);
       }
     }
@@ -17830,8 +17897,8 @@ window.addEventListener("pageshow",unlockNow);
   st.bound=true;st.boundRoomCode=p.code;st.boundRel=rel;st.boundName=p.name;st.boundCharId=String(p.row.from_char||"");
   st.selectedRoomCode=p.code;st.selectedRel=rel;st.selectedName=p.name;st.bindPending=false;
   try{
-    await api(`/test_interactions?id=eq.${encodeURIComponent(p.row.id)}`,{method:"DELETE"});
-    await api("/test_interactions",{method:"POST",body:JSON.stringify({
+    await api(`/interactions?id=eq.${encodeURIComponent(p.row.id)}`,{method:"DELETE"});
+    await api("/interactions",{method:"POST",body:JSON.stringify({
       room_code:p.code,from_char:x.id,to_char:p.row.from_char,text:`QIXI_BIND_ACCEPT|${Date.now()}`
     })});
   }catch(e){console.warn(e)}
@@ -17843,8 +17910,8 @@ window.addEventListener("pageshow",unlockNow);
  async function declineQixiBinding(){
   const x=c(),p=qixiIncomingBind;if(!x||!p)return;
   try{
-    await api(`/test_interactions?id=eq.${encodeURIComponent(p.row.id)}`,{method:"DELETE"});
-    await api("/test_interactions",{method:"POST",body:JSON.stringify({
+    await api(`/interactions?id=eq.${encodeURIComponent(p.row.id)}`,{method:"DELETE"});
+    await api("/interactions",{method:"POST",body:JSON.stringify({
       room_code:p.code,from_char:x.id,to_char:p.row.from_char,text:`QIXI_BIND_DECLINE|${Date.now()}`
     })});
   }catch(e){console.warn(e)}
@@ -18083,7 +18150,7 @@ window.addEventListener("pageshow",unlockNow);
      }
 
      /* 即時型：雙方在線才可開始；選擇提交型：允許離線後再完成。 */
-     const data=await api("/test_interactions",{method:"POST",headers:{"Prefer":"return=representation"},body:JSON.stringify({
+     const data=await api("/interactions",{method:"POST",headers:{"Prefer":"return=representation"},body:JSON.stringify({
        room_code:code,from_char:x.id,to_char:otherId,
        text:`GAME_INVITE|${type}|qixi_${fid}_${Date.now().toString(36)}`
      })});
@@ -18423,9 +18490,6 @@ window.addEventListener("pageshow",unlockNow);
  setInterval(()=>{if(!document.hidden)showFab()},3000);
 
  
-
- window.__qixiOpenIntroFormal=function(){return openIntro(false);};
- window.__qixiOpenMainFormal=function(){return openActivityMain();};
 })();
 </script>
 <style id="formalExactQixiFabFinalStyle3311416">
@@ -18822,6 +18886,129 @@ html[data-formal-theme="qixiGalaxy"] #qixiEventFab{
 #qixiMiniGameModal.hidden{display:none!important}
 </style>
 
+<style id="qixi33033LoginNoticeStyle">
+.qixiLoginRewardPanel{padding:12px!important}
+.qixiLoginRewardHead{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:10px}
+.qixiLoginRewardGrid{
+ display:grid!important;
+ grid-template-columns:repeat(7,minmax(74px,1fr))!important;
+ gap:8px!important;
+ overflow-x:auto!important;
+ padding:2px 1px 6px!important;
+ scrollbar-width:none!important;
+}
+.qixiLoginRewardGrid::-webkit-scrollbar{display:none}
+.qixiLoginDay{
+ min-width:74px!important;
+ padding:9px 6px!important;
+ border-radius:14px!important;
+ text-align:center!important;
+ border:1px solid #c9b8dd!important;
+ background:linear-gradient(180deg,#fbf7ff,#e7dcf3)!important;
+ color:#3f3157!important;
+}
+.qixiLoginDay .day{font-size:10px;font-weight:900;opacity:.72}
+.qixiLoginDay .reward{font-size:13px;font-weight:900;margin:5px 0}
+.qixiLoginDay.done{opacity:.7;background:linear-gradient(180deg,#e9f5ea,#d5ead8)!important}
+.qixiLoginDay.today{outline:3px solid #ffd36d!important;outline-offset:-2px!important}
+.qixiLoginDay button{width:100%!important;min-height:34px!important;padding:5px!important;font-size:10px!important}
+.qixiAnnouncementPanel{padding:0!important;overflow:hidden}
+.qixiAnnouncementPanel summary{cursor:pointer;padding:12px 14px;font-weight:900;list-style:none}
+.qixiAnnouncementPanel summary::-webkit-details-marker{display:none}
+.qixiAnnouncementPanel[open] summary{border-bottom:1px solid rgba(130,104,165,.26)}
+.qixiAnnouncementBody{padding:12px 14px;line-height:1.72}
+.qixiAnnouncementBody p{margin:5px 0}
+.qixiAnnouncementBody hr{border:0;border-top:1px dashed rgba(130,104,165,.35);margin:12px 0}
+.qixiBadgeNoticeList{display:grid;gap:6px;margin-top:10px}
+.qixiBadgeNoticeList>div{padding:8px 10px;border-radius:12px;background:rgba(255,255,255,.55)}
+@media(max-width:600px){
+ .qixiLoginRewardGrid{grid-template-columns:repeat(7,82px)!important}
+}
+</style>
+<script id="qixi33033LoginRewardScript">
+(function(){
+ const REWARDS=[
+ {coins:300,label:"🪙 300 金幣"},
+ {gift:2,label:"🎁 隨機禮物 ×2"},
+ {coins:500,label:"🪙 500 金幣"},
+ {premiumGift:1,label:"💝 高級禮物 ×1"},
+ {coins:777,label:"🪙 777 金幣"},
+ {premiumGift:2,label:"💝 高級禮物 ×2"},
+ {coins:1000,badge:"星河相逢",label:"🌌 星河相逢徽章＋1,000 金幣"}
+];
+ const KEY="qixi2026LoginReward";
+ function todayKey(){
+   const d=new Date();
+   return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+ }
+ function current(){try{return typeof cur==="function"?cur():null}catch(_){return null}}
+ function ensure(c){
+   if(!c)return null;
+   c[KEY]??={claimedDates:[],claimedCount:0};
+   if(!Array.isArray(c[KEY].claimedDates))c[KEY].claimedDates=[];
+   c[KEY].claimedCount=Math.max(Number(c[KEY].claimedCount)||0,c[KEY].claimedDates.length);
+   return c[KEY];
+ }
+ function save(){
+   try{saveLocal?.()}catch(_){}
+   try{window.saveCurrentCharacterToCloud?.(current())}catch(_){}
+   try{window.saveCharacterToCloud?.(current())}catch(_){}
+ }
+ function claim(){
+   const c=current();if(!c)return toast?.("請先進入角色。");
+   const st=ensure(c),k=todayKey();
+   if(st.claimedDates.includes(k))return toast?.("🎁 今天的七夕登入獎勵已領取。");
+   if(st.claimedCount>=7)return toast?.("🌌 七夕 7 日登入獎勵已全部領完。");
+   const idx=st.claimedCount,reward=REWARDS[idx];
+   st.claimedDates.push(k);st.claimedCount++;
+   if(reward.coins)c.money=Number(c.money||0)+reward.coins;
+   if(reward.gift){
+     c.gifts??={};
+     c.gifts.randomGift=Number(c.gifts.randomGift||0)+reward.gift;
+   }
+   if(reward.premiumGift){
+     c.gifts??={};
+     c.gifts.premiumGift=Number(c.gifts.premiumGift||0)+reward.premiumGift;
+   }
+   if(reward.badge){
+     c.badges??=[];
+     if(Array.isArray(c.badges)&&!c.badges.includes(reward.badge))c.badges.push(reward.badge);
+   }
+   save();
+   try{render?.()}catch(_){}
+   renderPanel();
+   toast?.(`🎁 七夕登入第 ${idx+1} 天｜${reward.label}`,3200);
+ }
+ function renderPanel(){
+   const box=document.getElementById("qixiLoginRewardGrid");
+   const status=document.getElementById("qixiLoginRewardStatus");
+   if(!box)return;
+   const c=current();
+   if(!c){box.innerHTML='<div class="small">請先進入角色。</div>';if(status)status.textContent="";return}
+   const st=ensure(c),k=todayKey(),claimedToday=st.claimedDates.includes(k);
+   box.innerHTML=REWARDS.map((reward,i)=>{
+     const done=i<st.claimedCount;
+     const today=i===st.claimedCount&&!claimedToday&&st.claimedCount<7;
+     let btn="";
+     if(done)btn='<button type="button" disabled>✓ 已領</button>';
+     else if(today)btn='<button type="button" class="primary qixiClaimLoginBtn">領取</button>';
+     else btn='<button type="button" disabled>未解鎖</button>';
+     return `<div class="qixiLoginDay ${done?"done":""} ${today?"today":""}">
+       <div class="day">DAY ${i+1}</div><div class="reward">${reward.label}</div>${btn}
+     </div>`;
+   }).join("");
+   box.querySelector(".qixiClaimLoginBtn")?.addEventListener("click",claim);
+   if(status)status.textContent=st.claimedCount>=7?"7/7 已完成":claimedToday?`${st.claimedCount}/7・今日已領`:`${st.claimedCount}/7`;
+ }
+ window.renderQixiLoginReward=renderPanel;
+ document.addEventListener("click",e=>{
+   if(e.target?.closest?.("#qixiEventFab,#openQixiEvent,#qixiEventButton"))setTimeout(renderPanel,50);
+ },true);
+ window.addEventListener("pageshow",()=>setTimeout(renderPanel,200),{passive:true});
+ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",()=>setTimeout(renderPanel,100),{once:true});
+ else setTimeout(renderPanel,100);
+})();
+</script>
 </body>
 </html>
 <style>
