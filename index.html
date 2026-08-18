@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#9a76c4" name="theme-color"/>
-<title>關係進行式・3.31.14.7</title>
+<title>關係進行式・3.31.14.8</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -1803,6 +1803,7 @@ html[data-formal-theme="maidCafe"] .navBtn::after{
 
 <style id="formal331147QixiFabTestParity">
 /* 3.31.14.7：七夕入口完整對齊測試服尺寸與主題連動。位置仍由既有拖曳程式控制。 */
+/* 3.31.14.8：入口顯示條件改為必須已進入角色；角色選擇／建立角色頁不顯示。 */
 #qixiEventFab{
   position:fixed!important;
   z-index:9998!important;
@@ -15641,7 +15642,7 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 
 <script id="formal33111SingleVersionSource">
 (function(){
- const VERSION="3.31.14.7";
+ const VERSION="3.31.14.8";
  function apply(){
    document.querySelectorAll(".homeVersion").forEach(function(el){
      el.textContent="第"+VERSION+"版・正式服";
@@ -17358,7 +17359,13 @@ function openConfirm(o={}){
  function showFab(){
   const game=document.getElementById("game"),fab=document.getElementById("qixiEventFab");
   if(!fab)return;
-  const inGame=!!game&&!game.classList.contains("hidden");
+  /* 3.31.14.8：七夕入口只在「已進入角色」後顯示。
+     帳號首頁／角色選擇／建立角色頁即使 #game 容器可見，也不能顯示。 */
+  let hasActiveCharacter=false;
+  try{
+   hasActiveCharacter=!!activeId && (typeof cur!=="function" || !!cur());
+  }catch(_){hasActiveCharacter=!!activeId}
+  const inGame=!!game&&!game.classList.contains("hidden")&&hasActiveCharacter;
   fab.style.display=(inGame&&Date.now()<=QIXI_EVENT_END)?"flex":"none";
   fab.classList.toggle("qixiComingSoon",Date.now()<QIXI_EVENT_START);
   fab.title=Date.now()<QIXI_EVENT_START?"8/19 00:00 開放":"七夕活動";
@@ -17487,7 +17494,7 @@ html[data-formal-theme="qixiGalaxy"] :is(.card,.panel,.pendingPanel,.characterCa
 })();
 </script>
 <script id="formal33114Version">
-(function(){const V='3.31.14.7';function f(){document.querySelectorAll('.homeVersion').forEach(el=>el.textContent='第'+V+'版・正式服');document.documentElement.dataset.gameVersion=V;document.title='關係進行式・'+V}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',f,{once:true});else f();window.addEventListener('pageshow',f)})();
+(function(){const V='3.31.14.8';function f(){document.querySelectorAll('.homeVersion').forEach(el=>el.textContent='第'+V+'版・正式服');document.documentElement.dataset.gameVersion=V;document.title='關係進行式・'+V}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',f,{once:true});else f();window.addEventListener('pageshow',f)})();
 </script>
 
 
