@@ -17377,17 +17377,16 @@ html[data-formal-theme="qixiGalaxy"] :is(.card,.panel,.pendingPanel,.characterCa
 (function(){
  const START=Date.parse('2026-08-19T00:00:00+08:00'), END=Date.parse('2026-08-25T23:59:59.999+08:00'), TRIAL=24*60*60*1000;
  const CAT=[
-  {icon:'☕',name:'請店長喝飲料',price:50,desc:'遊戲金幣 300＋限定徽章'},
-  {icon:'🐾',name:'店長的小禮物',price:60,desc:'遊戲金幣 700＋限定徽章'},
-  {icon:'💜',name:'小小贊助包',price:100,desc:'遊戲金幣 1,200＋限定徽章'},
-  {icon:'✨',name:'開發者應援包',price:150,desc:'遊戲金幣 2,000＋限定徽章'},
-  {icon:'🎀',name:'女僕咖啡廳主題',price:50,desc:'請店長喝咖啡券；於貓貓商店使用後解鎖限定劇情與主題'}
+  {icon:'☕',name:'請店長喝咖啡',price:50,desc:'遊戲金幣 ×300＋請店長喝咖啡券 ×1'},
+  {icon:'🐾',name:'店長的小禮物',price:60,desc:'遊戲金幣 ×700＋熟客小盒 ×1＋「店長的小禮物」限定徽章'},
+  {icon:'💜',name:'小小贊助包',price:100,desc:'遊戲金幣 ×1,200＋紫晶碎片 ×5＋熟客小盒 ×1＋「小小應援」限定徽章'},
+  {icon:'✨',name:'開發者應援包',price:150,desc:'遊戲金幣 ×2,000＋紫晶碎片 ×10＋熟客小盒 ×2＋小幸運鈴 ×1＋「開發者應援」限定徽章'}
  ];
  const QIXI=[
-  {icon:'🌠',name:'天上的一縷星辰禮包',price:50,desc:'300 金幣＋七夕限定徽章＋天上的一縷星辰 ×1'},
-  {icon:'🏮',name:'緣燈相逢禮包',price:60,desc:'700 金幣＋七夕限定徽章'},
-  {icon:'🌌',name:'鵲橋同行禮包',price:100,desc:'1,200 金幣＋七夕限定徽章'},
-  {icon:'💫',name:'星河長願禮包',price:150,desc:'2,000 金幣＋七夕限定徽章'}
+  {icon:'🌠',name:'天上的一縷星辰禮包',price:50,desc:'遊戲金幣 ×300＋七夕限定徽章＋天上的一縷星辰 ×1'},
+  {icon:'🏮',name:'緣燈相逢禮包',price:60,desc:'遊戲金幣 ×700＋七夕限定徽章＋喜鵲的羽毛 ×3（特殊贈禮・好感 +3）'},
+  {icon:'🌌',name:'鵲橋同行禮包',price:100,desc:'遊戲金幣 ×1,200＋七夕限定徽章＋喜鵲的羽毛 ×6（特殊贈禮・好感 +3）＋織女的雲彩 ×1（特殊贈禮・好感 +5）'},
+  {icon:'💫',name:'星河長願禮包',price:150,desc:'遊戲金幣 ×2,000＋七夕限定徽章＋喜鵲的羽毛 ×10（特殊贈禮・好感 +3）＋織女的雲彩 ×2（特殊贈禮・好感 +5）'}
  ];
  function card(p){return `<div class="paidProduct"><div class="paidProductIcon">${p.icon}</div><div class="paidProductTitle">${p.name}</div><div class="small">${p.desc}</div><div class="paidPrice">NT$${p.price}</div><button type="button" disabled>尚未開放</button></div>`}
  function renderPaid(){const box=document.getElementById('formalPaidShopList');if(!box)return;box.innerHTML=`<div class="qixiPaidGroupTitle cat">🐱 貓貓店長活動禮包</div>${CAT.map(card).join('')}<div class="qixiPaidGroupTitle">🌌 七夕活動限定禮包</div>${QIXI.map(card).join('')}`}
@@ -17416,6 +17415,27 @@ html[data-formal-theme="qixiGalaxy"] :is(.card,.panel,.pendingPanel,.characterCa
 (function(){const V='3.31.14.2';function f(){document.querySelectorAll('.homeVersion').forEach(el=>el.textContent='第'+V+'版・正式服');document.documentElement.dataset.gameVersion=V;document.title='關係進行式・'+V}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',f,{once:true});else f();window.addEventListener('pageshow',f)})();
 </script>
 
+
+<script id="formal331144QixiSpecialGifts">
+/* 3.31.14.4：七夕限定特殊贈禮。喜鵲的羽毛 +3、織女的雲彩 +5。 */
+(function(){
+ const FEATHER={id:"qixi_magpie_feather",n:"🪶 喜鵲的羽毛【七夕限定贈禮】",affinity:3,type:"affectionGift",desc:"七夕限定特殊贈禮・共同羈絆 +3"};
+ const CLOUD={id:"qixi_weaver_cloud",n:"☁️ 織女的雲彩【七夕限定贈禮】",affinity:5,type:"affectionGift",desc:"七夕限定特殊贈禮・共同羈絆 +5"};
+ const defs={qixi_magpie_feather:FEATHER,qixi_weaver_cloud:CLOUD};
+ const oldGift=typeof affectionGiftInfo==="function"?affectionGiftInfo:null;
+ try{affectionGiftInfo=function(id){return defs[id]||(oldGift?oldGift(id):null)}}catch(_){}
+ const oldOpts=typeof relationGiftOptions==="function"?relationGiftOptions:null;
+ try{relationGiftOptions=function(c){
+   let base=[];try{base=oldOpts?oldOpts(c):[]}catch(_){base=[]}
+   base=Array.isArray(base)?base:[];
+   for(const g of [CLOUD,FEATHER]){const n=Math.max(0,Number(c?.inventory?.[g.id]||0));if(n>0&&!base.some(x=>x.id===g.id))base.unshift({id:g.id,n,name:g.n,affinity:g.affinity});}
+   return base;
+ }}catch(_){}
+ const oldName=typeof itemDisplayName==="function"?itemDisplayName:null;
+ try{itemDisplayName=function(id){if(defs[id])return defs[id].n;return oldName?oldName(id):id}}catch(_){}
+ window.QIXI_SPECIAL_GIFTS=defs;
+})();
+</script>
 </body>
 </html>
 <style>
