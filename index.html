@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#9a76c4" name="theme-color"/>
-<title>關係進行式・3.31.14.18</title>
+<title>關係進行式・3.31.14.19</title>
 
 <script id="formal3311412PrePaintTheme">
 (function(){
@@ -3087,7 +3087,7 @@ function show(id){
       npc.style.setProperty("z-index","9996","important");
     }
   }
-  /* 3.31.14.18：七夕入口也由主頁切換函式直接控制。
+  /* 3.31.14.19：七夕入口也由主頁切換函式直接控制。
      不只看 activeId，避免離開角色後舊 activeId／定時器又把入口叫回首頁。 */
   const qixi=document.getElementById("qixiEventFab");
   if(qixi){
@@ -15699,7 +15699,7 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 
 <script id="formal33111SingleVersionSource">
 (function(){
- const VERSION="3.31.14.18";
+ const VERSION="3.31.14.19";
  function apply(){
    document.querySelectorAll(".homeVersion").forEach(function(el){
      el.textContent="第"+VERSION+"版・正式服";
@@ -15920,6 +15920,92 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 body.npcStoryRunning #qixiEventFab{display:none!important}
 </style>
 
+<div id="qixiRpgPlayer" class="hidden" aria-hidden="true">
+ <div class="qixiRpgStage">
+  <div class="qixiRpgBg"></div>
+  <div class="qixiRpgPortraitWrap">
+   <img id="qixiRpgPortrait" src="images/qixi/bridge_keeper.png" alt="七夕守橋人">
+   <div class="qixiRpgShade"></div>
+  </div>
+  <div class="qixiRpgChapter" id="qixiRpgChapter">七夕限定故事</div>
+  <button id="qixiRpgClose" type="button">×</button>
+  <div class="qixiRpgDialogue">
+   <div class="qixiRpgSpeaker" id="qixiRpgSpeaker">守橋人</div>
+   <div class="qixiRpgText" id="qixiRpgText"></div>
+   <div class="qixiRpgChoices hidden" id="qixiRpgChoices"></div>
+   <div class="qixiRpgHint" id="qixiRpgHint">點擊對話框繼續 ▶</div>
+  </div>
+ </div>
+</div>
+
+
+<style id="qixi-rpg-image-layout-3277">
+/* 手機：劇照真正滿版；電腦：中央完整直圖，左右以同圖模糊補滿 */
+@media (max-width: 899px){
+  #qixiRpgPlayer .qixiRpgStage{background:#0d0822!important}
+  #qixiRpgPlayer .qixiRpgBg{display:none!important}
+  #qixiRpgPortrait{
+    position:absolute!important;inset:0!important;
+    width:100%!important;height:100%!important;
+    object-fit:cover!important;object-position:center center!important;
+  }
+}
+@media (min-width: 900px){
+  #qixiRpgPlayer .qixiRpgBg{
+    display:block!important;filter:blur(28px) brightness(.45)!important;
+    transform:scale(1.12)!important;opacity:1!important;
+  }
+  #qixiRpgPortrait{
+    width:min(56vw,760px)!important;height:100dvh!important;
+    object-fit:contain!important;object-position:center center!important;
+    filter:drop-shadow(0 0 28px rgba(0,0,0,.26));
+  }
+}
+
+/* 七夕設施小遊戲 */
+#qixiMiniGameModal .modalBox{
+  max-width:560px;background:linear-gradient(180deg,#17113a,#2c1d55)!important;color:#d8c6e8!important;
+}
+.qixiGameTop{display:flex;justify-content:space-between;gap:10px;align-items:center}
+.qixiGameBoard{
+  position:relative;min-height:280px;margin-top:12px;padding:14px;
+  border-radius:18px;overflow:hidden;
+  background:radial-gradient(circle at 50% 10%,rgba(126,104,255,.28),transparent 38%),linear-gradient(180deg,#15103b,#22174b);
+  border:1px solid rgba(255,255,255,.16);
+}
+.qixiGameStatus{font-weight:900;margin-top:8px}
+.qixiStarTapGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.qixiStarTap{
+  min-height:72px!important;font-size:28px!important;
+  background:#ffffff12!important;border:1px solid #ffffff28!important;color:#d8c6e8!important;
+}
+.qixiStarTap.hit{opacity:.28;transform:scale(.9)}
+.qixiLanternRow{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:34px}
+.qixiLantern{
+  min-height:88px!important;font-size:30px!important;
+  background:#ffffff0f!important;border:1px solid #ffffff24!important;color:#d8c6e8!important;
+}
+.qixiLantern.flash{background:#f7c6ff!important;color:#46234f!important;box-shadow:0 0 28px #eab3ff}
+.qixiBalanceTrack{height:28px;border-radius:999px;background:#ffffff18;position:relative;margin:80px 12px 0}
+.qixiBalanceGood{position:absolute;left:42%;width:16%;top:0;bottom:0;border-radius:999px;background:#a8e5b3}
+.qixiBalanceNeedle{position:absolute;top:-11px;width:8px;height:50px;border-radius:5px;background:#fff;box-shadow:0 0 12px #fff}
+.qixiWishGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}
+.qixiWishStar{min-height:72px!important;font-size:25px!important;background:#ffffff10!important;color:#fff!important;border:1px solid #ffffff25!important}
+.qixiKeeperChoices{display:grid;gap:10px;margin-top:18px}
+.qixiKeeperChoices button{min-height:58px!important;text-align:left!important;background:#ffffff10!important;color:#fff!important;border:1px solid #ffffff26!important}
+</style>
+
+<div id="qixiMiniGameModal" class="modal hidden">
+ <div class="modalBox">
+  <div class="qixiGameTop">
+   <div><b id="qixiMiniGameTitle">七夕設施</b><div class="small" id="qixiMiniGameDesc"></div></div>
+   <button id="closeQixiMiniGame" type="button">×</button>
+  </div>
+  <div id="qixiMiniGameBoard" class="qixiGameBoard"></div>
+  <div id="qixiMiniGameStatus" class="qixiGameStatus"></div>
+ </div>
+</div>
+
 <button id="qixiEventFab" type="button">
  <span class="qixiFabIcon">🌌</span><b>七夕活動</b>
 </button>
@@ -15954,7 +16040,7 @@ body.npcStoryRunning #qixiEventFab{display:none!important}
  <div class="modalBox">
   <div class="qixiHead">
    <div><b style="font-size:19px">🌌 關係進行式・七夕限定｜星河有緣人</b>
-    <div class="small">🧪 TEST：七夕活動永久開放（正式服仍依正式活動時間）</div></div>
+    <div class="small">活動時間｜8/19 00:00 ～ 8/25 23:59</div></div>
    <button id="closeQixiEvent" type="button">×</button>
   </div>
   <div class="small" style="margin-top:8px">走過五個星河設施，聽見屬於不同關係的故事。五段劇情全部完成後，才會取得限定徽章。</div>
@@ -16088,7 +16174,7 @@ html[data-formal-theme="qixiGalaxy"] :is(.card,.panel,.pendingPanel,.characterCa
 })();
 </script>
 <script id="formal33114Version">
-(function(){const V='3.31.14.18';function f(){document.querySelectorAll('.homeVersion').forEach(el=>el.textContent='第'+V+'版・正式服');document.documentElement.dataset.gameVersion=V;document.title='關係進行式・'+V}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',f,{once:true});else f();window.addEventListener('pageshow',f)})();
+(function(){const V='3.31.14.19';function f(){document.querySelectorAll('.homeVersion').forEach(el=>el.textContent='第'+V+'版・正式服');document.documentElement.dataset.gameVersion=V;document.title='關係進行式・'+V}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',f,{once:true});else f();window.addEventListener('pageshow',f)})();
 </script>
 
 
@@ -16141,7 +16227,7 @@ html[data-formal-theme="qixiGalaxy"] :is(.card,.panel,.pendingPanel,.characterCa
 
 
 
-<!-- 3.31.14.18: 測試服星空外觀完整移植 -->
+<!-- 3.31.14.19: 測試服星空外觀完整移植 -->
 <style id="formalPort_qixi3290SingleTheme">
 :root.qixi-theme-now{
  --qixi-bg1:#090725;
@@ -16506,7 +16592,7 @@ html[data-formal-theme="qixiGalaxy"] #qixiEventModal :is(.qixiRewardBox,.qixiFac
 </script>
 
 
-<!-- 3.31.14.18：TEST 3.30.80 七夕活動直接移植 -->
+<!-- 3.31.14.19：TEST 3.30.80 七夕活動直接移植 -->
 <script id="formalExact_qixi33035DailyUnlockScript">
 (function(){
  const START=new Date(2026,7,19),COUNT=5;
@@ -16852,18 +16938,9 @@ window.addEventListener("pageshow",unlockNow);
 })();
 </script>
 <script id="qixi3270Script">
-
 (function(){
 
  const QIXI_TOKEN_KEY="qixi_star_token";
- function qixiFastWait(p,ms=900,fallback=null){
-   try{
-     return Promise.race([
-       Promise.resolve(p),
-       new Promise(resolve=>setTimeout(()=>resolve(fallback),ms))
-     ]);
-   }catch(_){return Promise.resolve(fallback)}
- }
  const QIXI_THEME_KEY="qixi_galaxy_theme";
  function qixiAccountBag(){
    local.accountItems??={};
@@ -17052,35 +17129,21 @@ window.addEventListener("pageshow",unlockNow);
    const st=ensure(x);
 
    if(!st.bound && !force){
-     let incoming=null;
-     try{incoming=await qixiFastWait(findIncomingQixiBind(x),900,null)}
-     catch(e){console.warn("qixi incoming fallback",e)}
-     if(incoming && Number(st.introStoryV||0)<6){
-       try{await openIncomingQixiFirstIntro(incoming);return}
-       catch(e){console.warn("qixi incoming intro fallback",e)}
-     }
+     /* 正式服：序章立即開，不讓雲端邀請查詢卡住入口。 */
+     try{Promise.resolve(findIncomingQixiBind(x)).catch(()=>{})}catch(_){}
    }
 
    /* 新版六緣開場已看過：直接回活動頁，不再開局跳獨立選人視窗。 */
    if(st.introStoryV>=6 && !force){
-     try{if(typeof refreshRelationships==="function")await qixiFastWait(refreshRelationships(),900,null)}catch(e){console.warn("qixi relation reopen sync",e)}
-     const now=qixiAvailableCompanions(x);
-     if(now.length && st.selectedRel==="solo"){
-       st.selectedRel="";st.selectedRoomCode="";st.selectedName="";st.bindPending=false;
-       try{saveLocal?.()}catch(_){}
-       openQixiFinalChoice();
-       return;
-     }
+     try{if(typeof refreshRelationships==="function")Promise.resolve(refreshRelationships()).then(()=>{try{render?.()}catch(_){}}).catch(()=>{})}catch(_){}
      openActivityMain();
      return;
    }
 
    /* 七夕不能比關係頁更早判定：先同步雲端關係，再建立同行選項。 */
-   try{if(typeof refreshRelationships==="function")await qixiFastWait(refreshRelationships(),900,null)}catch(e){console.warn("qixi relation preload",e)}
+   try{if(typeof refreshRelationships==="function")Promise.resolve(refreshRelationships()).catch(()=>{})}catch(_){}
    const available=qixiAvailableCompanions(x);
-   let companionState=new Map();
-   try{companionState=await qixiFastWait(qixiAvailabilityForCompanions(x,available),900,new Map())}
-   catch(e){console.warn("qixi availability fallback",e);companionState=new Map()}
+   const companionState=new Map();
    /* 舊版曾誤判成獨行；只要現在讀得到真實關係，就清掉錯誤獨行狀態。 */
    if(available.length && st.selectedRel==="solo"){
      st.selectedRel="";st.selectedRoomCode="";st.selectedName="";st.bindPending=false;
@@ -17198,12 +17261,6 @@ window.addEventListener("pageshow",unlockNow);
      if(st.selectedRel&&st.selectedRel!=="solo"&&!st.bound)setTimeout(()=>sendQixiBindRequest(true),120);
    });
  }
- window.__qixiOpenIntroFormal=function(){
-   return openIntro(false);
- };
- window.__qixiOpenMainFormal=function(){
-   return openActivityMain();
- };
  function nextIntro(){qixiRpgNext();}
  function openOutro(){
    const x=c();if(!x)return;
@@ -18254,13 +18311,12 @@ window.addEventListener("pageshow",unlockNow);
  }
  function finish(){qixiRpgNext();}
  function showFab(){
-  const home=document.getElementById("home"),game=document.getElementById("game"),fab=document.getElementById("qixiEventFab");
+  const game=document.getElementById("game"),fab=document.getElementById("qixiEventFab");
   if(!fab)return;
-  let hasChar=false;try{hasChar=!!activeId&&!!c()}catch(_){hasChar=!!activeId}
-  const inGame=!!game&&!game.classList.contains("hidden")&&!!home&&home.classList.contains("hidden")&&hasChar;
-  fab.style.display=(inGame&&Date.now()<=QIXI_EVENT_END)?"flex":"none";
+  const inGame=!!game&&!game.classList.contains("hidden");
+  fab.style.display=(inGame&&qixiEventIsOpen())?"flex":"none";
  }
- document.getElementById("qixiEventFab").onclick=null;
+ document.getElementById("qixiEventFab").onclick=()=>openIntro(false);
  document.getElementById("qixiRpgClose")?.addEventListener("click",e=>{e.stopPropagation();closeQixiRpg()});
  document.querySelector("#qixiRpgPlayer .qixiRpgDialogue")?.addEventListener("click",e=>{
    if(e.target.closest("button"))return;
@@ -18334,8 +18390,10 @@ window.addEventListener("pageshow",unlockNow);
  setInterval(()=>{if(!document.hidden)showFab()},3000);
 
  
-})();
 
+ window.__qixiOpenIntroFormal=function(){return openIntro(false);};
+ window.__qixiOpenMainFormal=function(){return openActivityMain();};
+})();
 </script>
 <style id="formalExactQixiFabFinalStyle3311416">
 /* 七夕入口最終尺寸：與貓貓商店同級，不再被舊版 168px/54px 覆蓋 */
@@ -18603,6 +18661,58 @@ html[data-formal-theme="qixiGalaxy"] #qixiEventFab{
      document.documentElement.classList.toggle('qixi-theme-now',mode==='qixiGalaxy');
    }catch(e){console.warn('qixi theme sticky',e)}
  }
+ window.addEventListener('pageshow',sync,{passive:true});
+ document.addEventListener('visibilitychange',()=>{if(!document.hidden)sync()},{passive:true});
+ setTimeout(sync,0);
+})();
+</script>
+
+
+<style id="formal3311419QixiScroll">
+#qixiEventModal{align-items:stretch!important;overflow:hidden!important;touch-action:pan-y!important}
+#qixiEventModal>.modalBox{
+  width:100%!important;max-width:520px!important;
+  height:100dvh!important;max-height:100dvh!important;
+  margin:0 auto!important;border-radius:0!important;
+  overflow-y:auto!important;overflow-x:hidden!important;
+  -webkit-overflow-scrolling:touch!important;
+  overscroll-behavior-y:contain!important;
+  touch-action:pan-y!important;
+  padding-bottom:calc(150px + env(safe-area-inset-bottom))!important;
+}
+#qixiEventModal .qixiHead{position:sticky!important;top:0!important;z-index:20!important}
+#qixiRpgPlayer{z-index:20000!important}
+#qixiMiniGameModal{z-index:20010!important}
+</style>
+
+
+<script id="formal3311419QixiThemeLock">
+(function(){
+ const KEY='role_life_formal_theme_v1';
+ const START=Date.parse('2026-08-19T00:00:00+08:00');
+ const END=Date.parse('2026-08-25T23:59:59.999+08:00');
+ function valid(){
+   const a=window.local?.accountAppearance;
+   if(a?.owned?.qixiGalaxy || window.local?.accountEntitlements?.qixiGalaxy)return true;
+   let t=Number(a?.trials?.qixiGalaxyStartedAt||0);
+   try{if(!t)t=Number(localStorage.getItem('qixiGalaxyTrialStartedAt_v1')||0)}catch(_){}
+   const now=Date.now();
+   return now>=START&&now<=END&&t>0&&now<t+86400000;
+ }
+ function sync(){
+   try{
+     let mode='';
+     try{mode=JSON.parse(localStorage.getItem(KEY)||'null')?.mode||''}catch(_){}
+     const a=window.local?.accountAppearance;
+     if(!mode)mode=a?.active||'default';
+     if(mode==='qixiGalaxy'&&valid()){
+       if(a)a.active='qixiGalaxy';
+       document.documentElement.setAttribute('data-formal-theme','qixiGalaxy');
+       document.documentElement.classList.add('qixi-theme-now');
+     }
+   }catch(_){}
+ }
+ setInterval(sync,350);
  window.addEventListener('pageshow',sync,{passive:true});
  document.addEventListener('visibilitychange',()=>{if(!document.hidden)sync()},{passive:true});
  setTimeout(sync,0);
