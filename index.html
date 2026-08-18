@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#9a76c4" name="theme-color"/>
-<title>關係進行式・3.31.14.29</title>
+<title>關係進行式・3.31.14.30</title>
 
 
 
@@ -1854,7 +1854,7 @@ html[data-formal-theme="maidCafe"] .navBtn::after{
 
 
 <style id="qixi3311424-layout-repair">
-/* 3.31.14.29 正式服：七夕活動手機排版與小遊戲樣式修復 */
+/* 3.31.14.30 正式服：七夕活動手機排版與小遊戲樣式修復 */
 #qixiEventModal .modalBox{font-size:16px!important;line-height:1.55!important;}
 #qixiEventModal .small,#qixiEventModal p,#qixiEventModal .qixiGameRuleNote{font-size:14px!important;line-height:1.55!important;}
 #qixiEventModal h2,#qixiEventModal .modalTitle{font-size:24px!important;line-height:1.25!important;}
@@ -3370,7 +3370,7 @@ function show(id){
       npc.style.setProperty("z-index","9996","important");
     }
   }
-  /* 3.31.14.29：七夕入口也由主頁切換函式直接控制。
+  /* 3.31.14.30：七夕入口也由主頁切換函式直接控制。
      不只看 activeId，避免離開角色後舊 activeId／定時器又把入口叫回首頁。 */
   const qixi=document.getElementById("qixiEventFab");
   if(qixi){
@@ -15938,7 +15938,7 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 
 <script id="formal33111SingleVersionSource">
 (function(){
- const VERSION="3.31.14.29";
+ const VERSION="3.31.14.30";
  function apply(){
    document.querySelectorAll(".homeVersion").forEach(function(el){
      el.textContent="第"+VERSION+"版・正式服";
@@ -16476,7 +16476,7 @@ html[data-formal-theme="qixiGalaxy"] :is(.card,.panel,.pendingPanel,.characterCa
 })();
 </script>
 <script id="formal33114Version">
-(function(){const V='3.31.14.29';function f(){document.querySelectorAll('.homeVersion').forEach(el=>el.textContent='第'+V+'版・正式服');document.documentElement.dataset.gameVersion=V;document.title='關係進行式・'+V}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',f,{once:true});else f();window.addEventListener('pageshow',f)})();
+(function(){const V='3.31.14.30';function f(){document.querySelectorAll('.homeVersion').forEach(el=>el.textContent='第'+V+'版・正式服');document.documentElement.dataset.gameVersion=V;document.title='關係進行式・'+V}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',f,{once:true});else f();window.addEventListener('pageshow',f)})();
 </script>
 
 
@@ -16529,7 +16529,7 @@ html[data-formal-theme="qixiGalaxy"] :is(.card,.panel,.pendingPanel,.characterCa
 
 
 
-<!-- 3.31.14.29: 測試服星空外觀完整移植 -->
+<!-- 3.31.14.30: 測試服星空外觀完整移植 -->
 <style id="formalPort_qixi3290SingleTheme">
 :root.qixi-theme-now{
  --qixi-bg1:#090725;
@@ -16894,7 +16894,7 @@ html[data-formal-theme="qixiGalaxy"] #qixiEventModal :is(.qixiRewardBox,.qixiFac
 </script>
 
 
-<!-- 3.31.14.29：TEST 3.30.80 七夕活動直接移植 -->
+<!-- 3.31.14.30：TEST 3.30.80 七夕活動直接移植 -->
 <script id="formalExact_qixi33035DailyUnlockScript">
 (function(){
  const START=new Date(2026,7,19),COUNT=5;
@@ -17144,61 +17144,6 @@ setTimeout(hardClean,350);window.addEventListener("pageshow",()=>setTimeout(hard
 
 })();
 </script>
-<script id="formalExact_test33064QixiNoDailyLimits">
-(function(){
-"use strict";
-
-/* TEST 3.30.64：七夕測試期間，單人與雙人設施都不限制每日遊玩次數。
-   只取消「今天玩過／每日上限」判定，不清除活動進度、劇情完成與獎勵紀錄。 */
-
-function unlockQixiDailyState(x){
-  if(!x)return;
-  x.qixi=x.qixi||{};
-  x.qixi.daily=x.qixi.daily||{};
-  x.qixi.daily.solo={};
-  x.qixi.daily.coop={};
-  x.qixi.soloDaily={};
-  x.qixi.coopDaily={};
-  x.qixi.dailySolo={};
-  x.qixi.dailyCoop={};
-
-  // Common legacy daily-count containers used by prior test builds.
-  for(const k of ["qixiDaily","qixiDailyCount","qixiSoloDaily","qixiCoopDaily","qixiFacilityDaily","qixiPlayDaily"]){
-    if(Object.prototype.hasOwnProperty.call(x,k)) x[k]={};
-  }
-}
-window.unlockQixiDailyState33064=unlockQixiDailyState;
-
-function unlockNow(){
-  try{
-    const x=typeof cur==="function"?cur():null;
-    if(!x)return;
-    unlockQixiDailyState(x);
-  }catch(_){}
-}
-
-/* Clear only daily gates immediately before opening/starting Qixi content. */
-document.addEventListener("pointerdown",e=>{
-  if(e.target.closest(
-    '[data-qixi-facility],[data-qixi-solo],[data-qixi-coop],[data-qixi-play],'+
-    '#qixiEventModal button,#qixiEventModal .facility,#qixiEventModal .qixiFacility'
-  )) unlockNow();
-},true);
-
-document.addEventListener("click",e=>{
-  if(e.target.closest(
-    '[data-qixi-facility],[data-qixi-solo],[data-qixi-coop],[data-qixi-play],'+
-    '#qixiEventModal button,#qixiEventModal .facility,#qixiEventModal .qixiFacility'
-  )) unlockNow();
-},true);
-
-/* Also clear on activity-page render/open and after midnight refreshes. */
-setTimeout(unlockNow,100);
-setInterval(unlockNow,3000);
-window.addEventListener("pageshow",unlockNow);
-
-})();
-</script>
 <script id="formalExact_test33066QixiPureSoloCleanup">
 (function(){
  "use strict";
@@ -17421,11 +17366,15 @@ window.addEventListener("pageshow",unlockNow);
    box.innerHTML=`<p>${String(lines[index]||"").replace(/</g,"&lt;")}</p>`;
  }
  async function openActivityMain(){
-   render();
-   const modal=document.getElementById("qixiEventModal");
-   modal.classList.remove("hidden");
-   try{modal.scrollTop=0}catch(_){}
- }
+  const x=c();
+  if(x){try{
+    if(!ensure(x)?.bound && typeof qixiRestoreBoundFromCloud==="function")await qixiFast(qixiRestoreBoundFromCloud(x),1300,false);
+    if(typeof refreshRelationships==="function")await qixiFast(refreshRelationships(),900,null);
+  }catch(_){}}
+  render();
+  const modal=document.getElementById("qixiEventModal");modal.classList.remove("hidden");
+  try{modal.querySelector(".modalBox")?.scrollTo?.({top:0,behavior:"instant"})}catch(_){}
+}
  const QIXI_EVENT_START=Date.parse("2026-08-19T00:00:00+08:00");
  const QIXI_EVENT_END=Date.parse("2026-08-25T23:59:59.999+08:00");
  function qixiEventIsOpen(){const now=Date.now();return now>=QIXI_EVENT_START&&now<=QIXI_EVENT_END}
@@ -17446,24 +17395,18 @@ window.addEventListener("pageshow",unlockNow);
 
    /* 新版六緣開場已看過：直接回活動頁，不再開局跳獨立選人視窗。 */
    if(st.introStoryV>=6 && !force){
-     let now=qixiAvailableCompanions(x);
-     if(!now.length){
-       try{await qixiFast(typeof refreshRelationships==="function"?refreshRelationships():null,700,null)}catch(_){}
-       now=qixiAvailableCompanions(x);
-     }
-     if(!st.bound && !st.bindPending && !st.selectedRel){
-       await openQixiFinalChoice();
-       return;
-     }
-     if(now.length && st.selectedRel==="solo"){
-       st.selectedRel="";st.selectedRoomCode="";st.selectedName="";st.bindPending=false;
-       try{saveLocal?.()}catch(_){}
-       await openQixiFinalChoice();
-       return;
-     }
-     openActivityMain();
-     return;
-   }
+  try{
+    if(!st.bound && typeof qixiRestoreBoundFromCloud==="function")await qixiFast(qixiRestoreBoundFromCloud(x),1300,false);
+    if(typeof refreshRelationships==="function")await qixiFast(refreshRelationships(),900,null);
+  }catch(e){console.warn("qixi relation reopen sync",e)}
+  const now=qixiAvailableCompanions(x);
+  if(now.length && st.selectedRel==="solo" && !st.bound){
+    st.selectedRel="";st.selectedRoomCode="";st.selectedName="";st.bindPending=false;
+    try{saveLocal?.()}catch(_){}
+    await openQixiFinalChoice();return;
+  }
+  await openActivityMain();return;
+}
 
    /* 七夕不能比關係頁更早判定：先同步雲端關係，再建立同行選項。 */
    let available=qixiAvailableCompanions(x);
@@ -17612,9 +17555,12 @@ window.addEventListener("pageshow",unlockNow);
    }));
    if(relationEnding[rel]) lines.splice(lines.length-1,0,{speaker:"守橋人",text:relationEnding[rel],image:QIXI_ASSETS.keeper});
    startQixiRpg(lines,"終幕｜守橋人的最後一問",()=>{
-     st.outroSeen=true;
-     try{saveLocal?.()}catch(_){}
-     awardIfDone(x);
+     st.outroSeen=true;awardIfDone(x);
+     if(!st.final50V2){
+       try{if(typeof qixiGrantMoney3311430==="function")qixiGrantMoney3311430(x,50,"qixi_final");else if(typeof secureMoneyAdd==="function")secureMoneyAdd(x,50,"qixi_final");else x.money=safeMoney(Number(x.money||0)+50)}catch(_){x.money=safeMoney(Number(x.money||0)+50)}
+       st.final50V2=1;st.rewardClaimed=true;toast?.("🎁 七夕全部劇情完成獎勵：50 金幣已發放！",3600);
+     }
+     try{saveLocal?.()}catch(_){}try{Promise.resolve(window.saveCurrentCharacterToCloud?.(x)).catch(()=>{})}catch(_){}
      render();
    });
  }
@@ -18329,19 +18275,15 @@ window.addEventListener("pageshow",unlockNow);
    return true;
  }
  function giveQixiFacilityReward(x,fid){
-   const st=ensure(x);
-   if(st.facilityRewards?.[fid])return;
-   const rw=QIXI_FACILITY_REWARDS[fid];
-   if(!rw)return;
-   x.money=safeMoney(Number(x.money||0)+rw.coins);
-   x.inventory??={};
-   x.inventory[rw.item]=Number(x.inventory[rw.item]||0)+rw.qty;
-   st.facilityRewards[fid]=1;
-   st.dailyFacilityDate=qixiToday();
-   st.dailyFacilityCompleted=fid;
-   try{saveLocal?.()}catch(_){}
-   toast?.(`🎁 通關獎勵：🪙${rw.coins}＋${rw.label} ×${rw.qty}`,4200);
- }
+ const st=ensure(x),rw=QIXI_FACILITY_REWARDS[fid];if(!rw)return;
+ st.facilityRewardsV2=st.facilityRewardsV2&&typeof st.facilityRewardsV2==="object"?st.facilityRewardsV2:{};
+ if(st.facilityRewardsV2[fid])return;
+ try{if(typeof qixiGrantMoney3311430==="function")qixiGrantMoney3311430(x,rw.coins,"qixi_facility_"+fid);else if(typeof secureMoneyAdd==="function")secureMoneyAdd(x,rw.coins,"qixi_facility_"+fid);else x.money=safeMoney(Number(x.money||0)+rw.coins)}catch(_){x.money=safeMoney(Number(x.money||0)+rw.coins)}
+ x.inventory??={};x.inventory[rw.item]=Number(x.inventory[rw.item]||0)+rw.qty;
+ st.facilityRewards??={};st.facilityRewards[fid]=1;st.facilityRewardsV2[fid]=1;st.dailyFacilityDate=qixiToday();st.dailyFacilityCompleted=fid;
+ try{saveLocal?.()}catch(_){}try{Promise.resolve(window.saveCurrentCharacterToCloud?.(x)).catch(()=>{})}catch(_){}
+ toast?.(`🎁 通關獎勵：🪙${rw.coins}＋${rw.label} ×${rw.qty}`,4200);
+}
  function progress(x){
   const st=ensure(x);return FACILITIES.filter(f=>st.done[f.id]).length;
  }
@@ -18406,10 +18348,17 @@ window.addEventListener("pageshow",unlockNow);
       <div class="small">請先與守橋人交談，完成真人關係綁定，或確認獨自走過星河。決定以前，小遊戲不會出現。</div>
       <button id="chooseQixiFromStoryBtn" type="button" style="margin-top:8px">與守橋人交談</button>
     </div>`)
-   +((st.bound || st.selectedRel==="solo")
-      ? FACILITIES.map(f=>`<button type="button" class="qixiFacility ${st.done[f.id]?'done':''}" data-qixi-fac="${f.id}" ${st.done[f.id]?"disabled":""}><div class="ico">${f.ico}</div><b>${f.name}</b><div class="small">${f.desc}</div><div class="small">${
-          st.done[f.id]?'✅ 已通關・獎勵已領取':'🎮 單人挑戰・立即開放'
-        }</div></button>`).join("")
+    +((st.bound || st.selectedRel==="solo")
+      ? FACILITIES.map((f,i)=>{
+          const start=Date.parse("2026-08-19T00:00:00+08:00");
+          const unlockAt=start+i*86400000,unlocked=Date.now()>=unlockAt,day=i+1;
+          return `<button type="button" class="qixiFacility ${st.done[f.id]?'done':''} ${unlocked?'':'qixiDailyLocked'}"
+            data-qixi-fac="${f.id}" data-qixi-day="${day}" data-qixi-unlock-at="${unlockAt}"
+            ${st.done[f.id]||!unlocked?"disabled":""}>
+            <div class="ico">${f.ico}</div><b>${f.name}</b><div class="small">${f.desc}</div>
+            <div class="small">${st.done[f.id]?'✅ 已通關・獎勵已領取':unlocked?'🎮 單人挑戰・今日已開放':`🔒 DAY ${day}｜8/${19+i} 00:00 開放`}</div>
+          </button>`;
+        }).join("")
       : '');
   
   grid.querySelector("#sendQixiBindBtn")?.addEventListener("click",()=>sendQixiBindRequest(false));
@@ -18890,7 +18839,12 @@ window.addEventListener("pageshow",unlockNow);
 
  document.getElementById("closeQixiBranch").onclick=()=>document.getElementById("qixiBranchModal").classList.add("hidden");
 
- document.getElementById("qixiFacilityGrid").onclick=e=>{const b=e.target.closest("[data-qixi-fac]");if(b)openBranches(b.dataset.qixiFac)};
+ document.getElementById("qixiFacilityGrid").onclick=e=>{
+  const b=e.target.closest("[data-qixi-fac]");if(!b)return;
+  const unlockAt=Number(b.dataset.qixiUnlockAt||0);
+  if(unlockAt&&Date.now()<unlockAt){try{toast?.(`🌌 此設施將於 DAY ${b.dataset.qixiDay}・8/${18+Number(b.dataset.qixiDay)} 00:00 開放。`,2600)}catch(_){}return}
+  openBranches(b.dataset.qixiFac);
+};
  document.getElementById("qixiBranchList").onclick=e=>{const b=e.target.closest("[data-qixi-rel]");if(b&&!b.disabled)openStory(b.dataset.qixiRel)};
 
 
@@ -19416,7 +19370,7 @@ html[data-formal-theme="qixiGalaxy"] #qixiEventFab{
    if(st.claimedCount>=7)return toast?.("🌌 七夕 7 日登入獎勵已全部領完。");
    const idx=st.claimedCount,reward=REWARDS[idx];
    st.claimedDates.push(k);st.claimedCount++;
-   if(reward.coins)c.money=Number(c.money||0)+reward.coins;
+   if(reward.coins){try{if(typeof qixiGrantMoney3311430==="function")qixiGrantMoney3311430(c,reward.coins,"qixi_login");else if(typeof secureMoneyAdd==="function")secureMoneyAdd(c,reward.coins,"qixi_login");else c.money=Number(c.money||0)+reward.coins}catch(_){c.money=Number(c.money||0)+reward.coins}}
    if(reward.gift){
      c.gifts??={};
      c.gifts.randomGift=Number(c.gifts.randomGift||0)+reward.gift;
@@ -19429,6 +19383,7 @@ html[data-formal-theme="qixiGalaxy"] #qixiEventFab{
      c.badges??=[];
      if(Array.isArray(c.badges)&&!c.badges.includes(reward.badge))c.badges.push(reward.badge);
    }
+   st.rewardAppliedV2=Array.isArray(st.rewardAppliedV2)?st.rewardAppliedV2:[];if(!st.rewardAppliedV2.includes(idx))st.rewardAppliedV2.push(idx);
    /* 先把領取狀態與總數鎖進本機，再更新面板。
       舊版先 render() 會讓雲端舊角色資料把 claimedCount 蓋回去。 */
    save(c,st);
@@ -19622,67 +19577,41 @@ html[data-formal-theme="qixiGalaxy"] #qixiEventFab{
 
 
 
-<script id="formal3311429AppearanceParity">
+<script id="formal3311430QixiAppearanceAuthoritative">
 (function(){
- function normalize(v){
-   v=String(v||'default');
-   if(v==='maid'||v==='maidCafe')return 'maidCafe';
-   if(v==='qixi'||v==='qixiGalaxy')return 'qixiGalaxy';
-   return 'default';
- }
- function account(){
-   window.local=window.local||{};
-   local.accountAppearance=local.accountAppearance||{};
-   local.accountAppearance.owned=local.accountAppearance.owned||{};
-   local.accountAppearance.trials=local.accountAppearance.trials||{};
-   return local.accountAppearance;
- }
- function canUse(mode){
-   const a=account();
-   if(mode==='default')return true;
-   if(mode==='maidCafe')return !!(a.owned.maidCafe||a.owned.maid||local.sharedPaidCosmetics?.maidCafe);
-   if(mode==='qixiGalaxy'){
-     if(a.owned.qixiGalaxy||a.owned.qixi)return true;
-     const s=Number(a.trials.qixiGalaxyStartedAt||0);
-     return !!s && Date.now()<s+86400000;
-   }
-   return false;
- }
- function apply(mode){
-   mode=normalize(mode);
-   if(!canUse(mode))mode='default';
-   const a=account();
-   a.active=mode;
-   local.appearanceTheme=mode==='maidCafe'?'maid':mode==='qixiGalaxy'?'qixi':'default';
-   document.documentElement.setAttribute('data-formal-theme',mode);
-   document.documentElement.setAttribute('data-test-theme',mode);
-   document.documentElement.classList.toggle('qixi-theme-now',mode==='qixiGalaxy');
-   document.querySelectorAll('[data-formal-theme-choice]').forEach(b=>{
-     b.classList.toggle('active',normalize(b.dataset.formalThemeChoice)===mode);
-   });
-   try{
-     localStorage.setItem('role_life_formal_theme_v1',JSON.stringify({mode,account:true,savedAt:Date.now()}));
-     localStorage.setItem('relationship_game_formal_paid_theme_v1',JSON.stringify({mode,account:true,savedAt:Date.now()}));
-     saveLocal?.();
-   }catch(_){}
- }
- document.addEventListener('click',e=>{
-   const b=e.target.closest?.('[data-formal-theme-choice]');
-   if(!b)return;
-   e.preventDefault();
-   e.stopImmediatePropagation();
-   const mode=normalize(b.dataset.formalThemeChoice);
-   if(!canUse(mode)){try{toast?.('🔒 這個外觀尚未解鎖。',2200)}catch(_){}return}
-   apply(mode);
-   try{toast?.('🎨 帳戶外觀已套用，所有角色同步。',1800)}catch(_){}
- },true);
- window.__formalAppearanceApply3311429=apply;
- window.addEventListener('pageshow',()=>apply(account().active),{passive:true});
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>apply(account().active),{once:true});
- else apply(account().active);
+ const START=Date.parse('2026-08-19T00:00:00+08:00'),END=Date.parse('2026-08-25T23:59:59.999+08:00'),TRIAL=86400000,KEY='qixiGalaxyTrialStartedAt_v1';
+ function ap(){window.local=window.local||{};local.accountAppearance=local.accountAppearance&&typeof local.accountAppearance==='object'?local.accountAppearance:{};local.accountAppearance.owned=local.accountAppearance.owned&&typeof local.accountAppearance.owned==='object'?local.accountAppearance.owned:{};local.accountAppearance.trials=local.accountAppearance.trials&&typeof local.accountAppearance.trials==='object'?local.accountAppearance.trials:{};return local.accountAppearance}
+ function grant(){const a=ap(),now=Date.now();let t=Number(a.trials.qixiGalaxyStartedAt||0);try{const p=Number(localStorage.getItem(KEY)||0);if(!t&&p){t=p;a.trials.qixiGalaxyStartedAt=p}}catch(_){}if(now>=START&&now<=END&&!a.owned.qixiGalaxy&&!t){t=now;a.trials.qixiGalaxyStartedAt=t;try{localStorage.setItem(KEY,String(t));saveLocal?.()}catch(_){}}return t}
+ function usable(){const a=ap(),t=grant(),now=Date.now();return !!a.owned.qixiGalaxy||(now>=START&&now<=END&&t>0&&now<t+TRIAL)}
+ function apply(mode){const a=ap();if(mode==='qixiGalaxy'&&!usable())mode='default';if(mode==='maidCafe'&&!a.owned.maidCafe)mode='default';a.active=mode;document.documentElement.setAttribute('data-formal-theme',mode);document.documentElement.classList.toggle('qixi-theme-now',mode==='qixiGalaxy');try{const p={mode,account:true,savedAt:Date.now()};localStorage.setItem('role_life_formal_theme_v1',JSON.stringify(p));localStorage.setItem('relationship_game_formal_paid_theme_v1',JSON.stringify(p));saveLocal?.()}catch(_){}}
+ function render(){grant();const grid=document.getElementById('formalAppearanceGrid');if(!grid)return;const a=ap(),ok=usable(),t=Number(a.trials.qixiGalaxyStartedAt||0),now=Date.now();let b=grid.querySelector('[data-formal-theme-choice="qixiGalaxy"]');if(!b){b=document.createElement('button');b.type='button';b.className='appearanceChoice';b.dataset.formalThemeChoice='qixiGalaxy';grid.appendChild(b)}const left=ok&&!a.owned.qixiGalaxy?Math.max(0,t+TRIAL-now):0;b.disabled=!ok;b.classList.toggle('active',a.active==='qixiGalaxy');b.innerHTML=`<b>🌌 鵲橋星河</b><span class="small">${a.owned.qixiGalaxy?'已永久解鎖・帳戶共用':ok?`24 小時免費體驗中・剩餘 ${Math.floor(left/3600000)} 小時 ${Math.floor((left%3600000)/60000)} 分`:'免費體驗已結束・購買後永久解鎖'}</span>`}
+ document.addEventListener('click',e=>{const b=e.target.closest?.('[data-formal-theme-choice="qixiGalaxy"]');if(!b)return;e.preventDefault();e.stopImmediatePropagation();if(!usable()){toast?.('🌌 免費體驗已結束，購買後可永久使用。',2400);return}apply('qixiGalaxy');render()},true);
+ document.addEventListener('click',e=>{if(e.target.closest?.('#formalAppearanceBtn,[data-load]'))setTimeout(render,0)},true);
+ window.addEventListener('pageshow',()=>setTimeout(render,0),{passive:true});if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',render,{once:true});else render();
+ window.__qixiAppearanceApply=apply;window.__qixiAppearanceRender=render;
 })();
 </script>
-
+<script id="formal3311430QixiRewardRepair">
+(function(){
+ const LOGIN=[{coins:300},{gift:2},{coins:500},{premiumGift:1},{coins:777},{premiumGift:2},{coins:1000,badge:"星河相逢"}];
+ const FAC={ferry:{coins:80,item:"qixi_stardust",qty:1},lantern:{coins:100,item:"qixi_lantern_fragment",qty:1},bridge:{coins:120,item:"qixi_magpie_feather",qty:1},wish:{coins:150,item:"qixi_wish_shard",qty:1},keeper:{coins:200,item:"qixi_keeper_token",qty:1}};
+ function cc(){try{return typeof cur==='function'?cur():null}catch(_){return null}}
+ function money(x,n,why){if(!n)return;try{if(typeof secureMoneyAdd==='function')secureMoneyAdd(x,n,why);else x.money=Math.max(0,Number(x.money||0)+n)}catch(_){x.money=Math.max(0,Number(x.money||0)+n)}}
+ function save(x){try{saveLocal?.()}catch(_){}try{Promise.resolve(window.saveCurrentCharacterToCloud?.(x)).catch(()=>{})}catch(_){}}
+ function loginApply(x,r){if(r.coins)money(x,r.coins,'qixi_login');if(r.gift){x.gifts??={};x.gifts.randomGift=Number(x.gifts.randomGift||0)+r.gift}if(r.premiumGift){x.gifts??={};x.gifts.premiumGift=Number(x.gifts.premiumGift||0)+r.premiumGift}if(r.badge){x.badges??=[];if(Array.isArray(x.badges)&&!x.badges.includes(r.badge))x.badges.push(r.badge)}}
+ function run(show=false){const x=cc();if(!x)return;let changed=false;
+  const ls=x.qixi2026LoginReward;if(ls){ls.rewardAppliedV2=Array.isArray(ls.rewardAppliedV2)?ls.rewardAppliedV2:[];for(let i=0;i<Math.min(7,Number(ls.claimedCount||0));i++){if(ls.rewardAppliedV2.includes(i))continue;loginApply(x,LOGIN[i]);ls.rewardAppliedV2.push(i);changed=true}}
+  const st=x.qixi2026;if(st){st.facilityRewardsV2=st.facilityRewardsV2&&typeof st.facilityRewardsV2==='object'?st.facilityRewardsV2:{};x.inventory??={};for(const [fid,r] of Object.entries(FAC)){if(st.done?.[fid]&&!st.facilityRewardsV2[fid]){money(x,r.coins,'qixi_facility_'+fid);x.inventory[r.item]=Number(x.inventory[r.item]||0)+r.qty;st.facilityRewardsV2[fid]=1;changed=true}}if(st.outroSeen&&Object.values(st.done||{}).filter(Boolean).length>=5&&!st.final50V2){money(x,50,'qixi_final');st.final50V2=1;st.rewardClaimed=true;changed=true}}
+  if(changed){save(x);try{render?.();window.renderQixiLoginReward?.()}catch(_){}if(show)toast?.('🎁 已補發缺少的七夕活動獎勵。',3200)}
+ }
+ window.qixiRepairRewards3311430=run;window.qixiGrantMoney3311430=money;
+ window.addEventListener('pageshow',()=>setTimeout(()=>run(false),500),{passive:true});document.addEventListener('click',e=>{if(e.target.closest?.('#qixiEventFab,#openQixiEvent,#qixiEventButton'))setTimeout(()=>run(false),500)},true);setTimeout(()=>run(false),900);
+})();
+</script>
+<style id="formal3311430DailyUnlockStyle">
+#qixiEventModal .qixiFacility.qixiDailyLocked{opacity:.52!important;filter:grayscale(.35)!important;cursor:not-allowed!important;position:relative!important}
+#qixiEventModal .qixiFacility.qixiDailyLocked::after{content:"逐日開放";position:absolute;right:8px;top:8px;padding:3px 7px;border-radius:999px;background:rgba(20,15,52,.88);color:#fff;font-size:10px;font-weight:900}
+</style>
 </body>
 </html>
 <style>
