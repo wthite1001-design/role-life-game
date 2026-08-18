@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#9a76c4" name="theme-color"/>
-<title>關係進行式・3.31.14.22</title>
+<title>關係進行式・3.31.14.23</title>
 
 
 <script id="formal3311412PrePaintTheme">
@@ -3101,7 +3101,7 @@ function show(id){
       npc.style.setProperty("z-index","9996","important");
     }
   }
-  /* 3.31.14.22：七夕入口也由主頁切換函式直接控制。
+  /* 3.31.14.23：七夕入口也由主頁切換函式直接控制。
      不只看 activeId，避免離開角色後舊 activeId／定時器又把入口叫回首頁。 */
   const qixi=document.getElementById("qixiEventFab");
   if(qixi){
@@ -5547,9 +5547,9 @@ async function refreshRelationships(){
     // An empty cloud result can be transient (network/cache/RLS timing), so never erase local relationships here.
     let old=(c.roomCodes||[]).map(String);
     let merged=valid.length
-      ? [...old.filter(code=>valid.includes(code)),...valid.filter(code=>!old.includes(code))]
+      ? [...old,...valid]
       : [...old];
-    c.roomCodes=[...new Set(merged)];
+    c.roomCodes=[...new Set(merged.filter(Boolean))];
     if(activeRoomCode&&!c.roomCodes.includes(activeRoomCode))activeRoomCode=c.roomCodes[0]||"";
     if(!activeRoomCode&&c.roomCodes.length)activeRoomCode=c.roomCodes[0];
     saveLocal();
@@ -15669,7 +15669,7 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 
 <script id="formal33111SingleVersionSource">
 (function(){
- const VERSION="3.31.14.22";
+ const VERSION="3.31.14.23";
  function apply(){
    document.querySelectorAll(".homeVersion").forEach(function(el){
      el.textContent="第"+VERSION+"版・正式服";
@@ -16207,7 +16207,7 @@ html[data-formal-theme="qixiGalaxy"] :is(.card,.panel,.pendingPanel,.characterCa
 })();
 </script>
 <script id="formal33114Version">
-(function(){const V='3.31.14.22';function f(){document.querySelectorAll('.homeVersion').forEach(el=>el.textContent='第'+V+'版・正式服');document.documentElement.dataset.gameVersion=V;document.title='關係進行式・'+V}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',f,{once:true});else f();window.addEventListener('pageshow',f)})();
+(function(){const V='3.31.14.23';function f(){document.querySelectorAll('.homeVersion').forEach(el=>el.textContent='第'+V+'版・正式服');document.documentElement.dataset.gameVersion=V;document.title='關係進行式・'+V}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',f,{once:true});else f();window.addEventListener('pageshow',f)})();
 </script>
 
 
@@ -16260,7 +16260,7 @@ html[data-formal-theme="qixiGalaxy"] :is(.card,.panel,.pendingPanel,.characterCa
 
 
 
-<!-- 3.31.14.22: 測試服星空外觀完整移植 -->
+<!-- 3.31.14.23: 測試服星空外觀完整移植 -->
 <style id="formalPort_qixi3290SingleTheme">
 :root.qixi-theme-now{
  --qixi-bg1:#090725;
@@ -16625,7 +16625,7 @@ html[data-formal-theme="qixiGalaxy"] #qixiEventModal :is(.qixiRewardBox,.qixiFac
 </script>
 
 
-<!-- 3.31.14.22：TEST 3.30.80 七夕活動直接移植 -->
+<!-- 3.31.14.23：TEST 3.30.80 七夕活動直接移植 -->
 <script id="formalExact_qixi33035DailyUnlockScript">
 (function(){
  const START=new Date(2026,7,19),COUNT=5;
@@ -17197,7 +17197,7 @@ window.addEventListener("pageshow",unlockNow);
    /* 七夕不能比關係頁更早判定：先同步雲端關係，再建立同行選項。 */
    let available=qixiAvailableCompanions(x);
    if(!available.length){
-     try{await qixiFast(typeof refreshRelationships==="function"?refreshRelationships():null,700,null)}catch(e){console.warn("qixi relation preload",e)}
+     try{await qixiFast(typeof refreshRelationships==="function"?refreshRelationships():null,1800,null)}catch(e){console.warn("qixi relation preload",e)}
      available=qixiAvailableCompanions(x);
    }
    let companionState=new Map();
@@ -17380,14 +17380,27 @@ window.addEventListener("pageshow",unlockNow);
   try{return JSON.parse(v)}catch(_){return {}}
  }
  function qixiAvailableCompanions(x){
-  const out=[];
-  for(const rawCode of (x?.roomCodes||[])){
-   const code=String(rawCode),rr=relationshipSummaries?.[code];
-   if(!rr?.relation||!RELS[rr.relation])continue;
+  const out=[],seen=new Set();
+  const add=(code,rr)=>{
+   code=String(code||rr?.code||"");
+   if(!code||seen.has(code)||!rr?.relation||!RELS[rr.relation])return;
    const host=qixiStateObj(rr.host_state),guest=qixiStateObj(rr.guest_state);
-   const other=String(rr.host_char)===String(x.id)?guest:host;
-   const name=other?.name||other?.characterName||other?.displayName||relationTypeLabels?.[rr.relation]||RELS[rr.relation].name.split("｜")[0];
+   const mineIsHost=String(rr.host_char)===String(x?.id);
+   const other=mineIsHost?guest:host;
+   const name=other?.name||other?.characterName||other?.displayName||
+     relationTypeLabels?.[rr.relation]||RELS[rr.relation].name.split("｜")[0];
+   seen.add(code);
    out.push({code,rel:rr.relation,name});
+  };
+
+  /* 正式服不能只相信角色本機 roomCodes。
+     關係頁已經從雲端抓到的 relationshipSummaries 才是七夕同行選擇的主要來源。 */
+  for(const [code,rr] of Object.entries(relationshipSummaries||{})){
+   if(String(rr?.host_char)===String(x?.id)||String(rr?.guest_char)===String(x?.id))add(code,rr);
+  }
+  for(const rawCode of (x?.roomCodes||[])){
+   const code=String(rawCode);
+   add(code,relationshipSummaries?.[code]);
   }
   return out;
  }
@@ -17593,8 +17606,11 @@ window.addEventListener("pageshow",unlockNow);
    const st=ensure(x);
    if(st.bound)return toast?.("七夕同行已永久綁定，不能更換。");
 
-   try{await qixiFast(typeof refreshRelationships==="function"?refreshRelationships():null,700,null)}catch(e){console.warn("qixi reselect sync",e)}
-   const available=qixiAvailableCompanions(x);
+   let available=qixiAvailableCompanions(x);
+   if(!available.length){
+     try{await qixiFast(typeof refreshRelationships==="function"?refreshRelationships():null,1800,null)}catch(e){console.warn("qixi reselect sync",e)}
+     available=qixiAvailableCompanions(x);
+   }
    let companionState=new Map();
    try{companionState=await qixiFast(qixiAvailabilityForCompanions(x,available),700,new Map())||new Map()}catch(_){}
 
