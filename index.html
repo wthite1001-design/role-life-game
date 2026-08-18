@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#9a76c4" name="theme-color"/>
-<title>關係進行式・3.31.14.23</title>
+<title>關係進行式・3.31.14.24</title>
 
 
 <script id="formal3311412PrePaintTheme">
@@ -1819,6 +1819,236 @@ html[data-formal-theme="maidCafe"] .navBtn::after{
 
 
 
+
+<style id="qixi3311424-layout-repair">
+/* 3.31.14.24 正式服：七夕活動手機排版與小遊戲樣式修復 */
+#qixiEventModal .modalBox{font-size:16px!important;line-height:1.55!important;}
+#qixiEventModal .small,#qixiEventModal p,#qixiEventModal .qixiGameRuleNote{font-size:14px!important;line-height:1.55!important;}
+#qixiEventModal h2,#qixiEventModal .modalTitle{font-size:24px!important;line-height:1.25!important;}
+#qixiEventModal h3,#qixiEventModal .qixiFacilityTitle{font-size:19px!important;line-height:1.35!important;}
+#qixiFacilityGrid .card,#qixiFacilityGrid .qixiFacilityCard{font-size:15px!important;}
+#qixiMiniGameModal{z-index:2200!important;}
+#qixiMiniGameModal .modalBox{font-size:16px!important;line-height:1.45!important;}
+#qixiMiniGameTitle{font-size:21px!important;line-height:1.25!important;}
+#qixiMiniGameDesc,#qixiMiniGameStatus{font-size:14px!important;line-height:1.45!important;}
+#qixiMiniGameBoard button{font-size:16px!important;line-height:1.25!important;}
+#qixiMiniGameBoard{touch-action:manipulation;}
+@media(max-width:600px){
+ #qixiEventModal .modalBox{padding:14px!important;}
+ #qixiEventModal h2,#qixiEventModal .modalTitle{font-size:21px!important;}
+ #qixiEventModal h3,#qixiEventModal .qixiFacilityTitle{font-size:18px!important;}
+}
+</style>
+<style id="qixi3311424-minigame-parity">
+
+/* 七夕入口：跟右下浮動功能鍵同級尺寸，星河主題，仍可拖曳 */
+#qixiEventFab{
+  min-width:168px!important;
+  min-height:54px!important;
+  padding:10px 16px!important;
+  border-radius:18px!important;
+  font-size:15px!important;
+  font-weight:900!important;
+  justify-content:center!important;
+  gap:8px!important;
+  color:#eadffc!important;
+  border:1px solid rgba(207,188,246,.46)!important;
+  background:
+    radial-gradient(circle at 18% 24%,rgba(255,255,255,.78) 0 1px,transparent 1.8px),
+    radial-gradient(circle at 82% 30%,rgba(191,165,255,.72) 0 1px,transparent 1.8px),
+    linear-gradient(135deg,#202a68 0%,#51367f 54%,#a660a2 100%)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.20),0 8px 22px rgba(24,15,68,.32)!important;
+  touch-action:none!important;
+}
+#qixiEventFab .qixiFabIcon{font-size:22px!important}
+#qixiEventFab .qixiDot{flex:0 0 auto!important}
+
+/* 七夕邀約不再跳到全螢幕白色 generic modal；直接出現在活動頁規則下面 */
+.qixiGameInviteInline{
+  margin:10px 0 12px!important;
+  padding:14px!important;
+  border-radius:18px!important;
+  border:1px solid rgba(207,188,246,.45)!important;
+  background:
+    radial-gradient(circle at 86% 18%,rgba(255,255,255,.20) 0 1px,transparent 2px),
+    linear-gradient(145deg,#252754 0%,#342b67 58%,#4d397a 100%)!important;
+  color:#d9c9e9!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.11),0 10px 26px rgba(4,4,27,.24)!important;
+}
+.qixiGameInviteInline.hidden{display:none!important}
+.qixiGameInviteInline b,.qixiGameInviteInline h3{color:#e5d8f2!important}
+.qixiGameInviteInline .small{color:#bba9cf!important}
+.qixiGameInviteInline .qixiInlineActions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.qixiGameInviteInline button{min-height:46px!important}
+
+/* 小遊戲卡片本身有背景，不再出現整片白底 */
+#qixiMiniGameModal{
+  background:rgba(8,6,32,.82)!important;
+}
+#qixiMiniGameModal>.modalBox{
+  width:min(94vw,620px)!important;
+  height:auto!important;
+  min-height:0!important;
+  max-height:92dvh!important;
+  overflow-y:auto!important;
+  padding:12px!important;
+  border-radius:24px!important;
+  background:linear-gradient(160deg,#171642,#292052 55%,#3c2a67)!important;
+}
+#qixiMiniGameBoard{
+  min-height:58dvh!important;
+  border-radius:20px!important;
+  overflow:hidden!important;
+  background-color:#140d35!important;
+  background-size:cover!important;
+  background-position:center center!important;
+  background-repeat:no-repeat!important;
+}
+#qixiMiniGameBoard.qixiLanternGameBoard{
+  background-image:linear-gradient(rgba(13,8,43,.22),rgba(22,12,52,.32)),url("images/qixi/qixi_lantern_corridor.png")!important;
+}
+#qixiMiniGameBoard.qixiBridgeGameBoard{
+  background-image:linear-gradient(rgba(8,7,35,.16),rgba(15,9,45,.25)),url("images/qixi/qixi_bridge_game_bg_v2.png")!important;
+}
+#qixiMiniGameBoard.qixiWishGameBoard,
+#qixiMiniGameBoard.qixiKeeperGameBoard{
+  background-image:linear-gradient(rgba(10,6,40,.18),rgba(17,9,48,.28)),url("images/qixi/qixi_wish_platform.png")!important;
+}
+#qixiMiniGameBoard :is(.qixiLanternRow,.qixiBalanceTrack,.qixiWishGrid,.qixiKeeperChoices,.qixiFerryHud,.qixiFerryControls){
+  position:relative;z-index:2;
+}
+#qixiMiniGameBoard.qixiLanternGameBoard .qixiLantern,
+#qixiMiniGameBoard.qixiWishGameBoard .qixiWishStar,
+#qixiMiniGameBoard.qixiKeeperGameBoard button{
+  backdrop-filter:blur(4px);
+  background:rgba(34,23,76,.72)!important;
+  color:#f0e9ff!important;
+  border:1px solid rgba(230,214,255,.40)!important;
+}
+
+/* 活動頁維持卡片式高度，不因邀請 generic modal 變成白色全屏 */
+#qixiEventModal>.modalBox{
+  min-height:0!important;
+  height:auto!important;
+  max-height:92dvh!important;
+  overflow-y:auto!important;
+}
+
+
+/* 七夕雙人遊戲永遠浮在活動頁最前面，不需要先把活動頁關掉。 */
+#gameModal.qixiConnectedGame{
+  z-index:286!important;
+  align-items:center!important;
+  justify-content:center!important;
+  background:rgba(14,9,35,.58)!important;
+  backdrop-filter:blur(7px);
+}
+#gameModal.qixiConnectedGame .modalBox{
+  width:min(94vw,760px)!important;
+  max-width:760px!important;
+  max-height:88dvh!important;
+  overflow:auto!important;
+  border-radius:24px!important;
+  padding:16px!important;
+  background:linear-gradient(180deg,#fbf8ff 0%,#f4eefa 100%)!important;
+  border:1px solid #d8c7e8!important;
+  box-shadow:0 24px 70px #12092966!important;
+}
+#gameModal.qixiConnectedGame .modalHead{
+  position:sticky;top:-16px;z-index:8;
+  margin:-16px -16px 10px;padding:14px 16px;
+  background:linear-gradient(135deg,#342766,#7651a5)!important;
+  color:#fff!important;border-radius:24px 24px 0 0;
+}
+#gameModal.qixiConnectedGame #gameDesc{color:#675b78!important;line-height:1.65}
+#gameModal.qixiConnectedGame #gameChoices{display:block!important;margin-top:12px}
+.qixiDuoBoard{display:grid;gap:12px}
+.qixiDuoPlayers{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.qixiDuoSide{
+  position:relative;min-height:138px;padding:14px 12px;border-radius:20px;
+  border:1px solid #d8cae8;background:linear-gradient(180deg,#fff,#f6f0fb);
+  overflow:hidden;text-align:center;
+}
+.qixiDuoSide.me{box-shadow:inset 0 0 0 2px #a784ca55}
+.qixiDuoName{font-weight:900;font-size:15px;margin-bottom:8px;color:#433450}
+.qixiDuoScene{height:58px;display:flex;align-items:center;justify-content:center;font-size:38px}
+.qixiDuoTrack{height:10px;border-radius:999px;background:#e9dfef;overflow:hidden;margin-top:8px}
+.qixiDuoTrack>i{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,#8e72c3,#d792b7);transition:width .25s}
+.qixiDuoStatus{font-size:12px;color:#71627d;margin-top:7px;min-height:18px}
+.qixiMission{
+  padding:13px;border-radius:18px;background:#2a2259;color:#fff;text-align:center;
+  box-shadow:0 10px 25px #2a225922
+}
+.qixiMission .big{font-size:29px;font-weight:1000;margin-top:4px}
+.qixiControlRow{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:11px}
+.qixiControlRow button,.qixiChoiceGrid button{
+  min-height:60px;border-radius:18px!important;font-weight:900!important;
+  background:#fff!important;border:1px solid #d9c8e8!important;color:#4f3b62!important;
+}
+.qixiControlRow button:active,.qixiChoiceGrid button:active{transform:scale(.97)}
+.qixiChoiceGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.qixiLanternVisual{display:flex;justify-content:center;gap:10px;font-size:34px;padding:12px 4px}
+.qixiLanternVisual span{filter:drop-shadow(0 5px 7px #7b4e9e33)}
+.qixiStarField{
+  min-height:145px;border-radius:20px;padding:14px;
+  background:radial-gradient(circle at 20% 30%,#fff 0 2px,transparent 3px),
+             radial-gradient(circle at 75% 20%,#fff 0 2px,transparent 3px),
+             radial-gradient(circle at 62% 72%,#fff 0 1px,transparent 2px),
+             linear-gradient(160deg,#191242,#4c3377);
+}
+.qixiStarField .qixiChoiceGrid button{background:#ffffffee!important}
+.qixiKeeperScroll{padding:14px;border-radius:18px;background:#fffaf1;border:1px solid #e5d5ba;box-shadow:0 8px 24px #5c3c1715}
+.qixiGameWaiting{
+  padding:12px 14px;border-radius:16px;background:#f0e8f7;color:#5b466c;text-align:center;font-weight:800
+}
+#gameModal.qixiConnectedGame #gameResult{
+  margin-top:12px;padding:12px;border-radius:16px;background:#fff;border:1px solid #e2d7eb;
+  color:#594b65;line-height:1.55
+}
+@media(max-width:520px){
+  .qixiDuoSide{min-height:125px;padding:11px 8px}
+  .qixiDuoScene{font-size:31px;height:50px}
+  .qixiControlRow{gap:6px}.qixiControlRow button{min-height:56px;padding:8px 4px}
+}
+
+
+/* 鵲羽橋小遊戲專用背景：使用使用者指定的七夕鵲橋圖 */
+#qixiMiniGameBoard.qixiBridgeGameBoard{
+ background-image:linear-gradient(rgba(10,8,35,.20),rgba(10,8,35,.34)),url("images/qixi/qixi_bridge_game_bg.png")!important;
+ background-size:cover!important;
+ background-position:center center!important;
+ background-repeat:no-repeat!important;
+ min-height:420px!important;
+}
+#qixiMiniGameBoard.qixiBridgeGameBoard .qixiBalanceTrack{
+ margin-top:220px!important;
+ background:rgba(255,255,255,.28)!important;
+ box-shadow:0 4px 18px rgba(0,0,0,.28)!important;
+ backdrop-filter:blur(3px);
+}
+#qixiMiniGameBoard.qixiBridgeGameBoard #qixiBalanceStop{
+ margin-top:90px!important;
+}
+@media (max-width:600px){
+ #qixiMiniGameBoard.qixiBridgeGameBoard{min-height:56vh!important;background-position:center center!important;}
+ #qixiMiniGameBoard.qixiBridgeGameBoard .qixiBalanceTrack{margin-top:32vh!important;}
+}
+
+
+/* 3.30.62：指定 GitHub 七夕背景；手機填滿、電腦固定直式舞台，禁止橫向螢幕把直圖放大裁爆 */
+#qixiMiniGameBoard.qixiFerryGameBoard,#qixiMiniGameBoard.qixiBridgeGameBoard{
+ background-image:linear-gradient(rgba(8,7,35,.12),rgba(15,9,45,.24)),url("images/qixi/qixi_full_background.png")!important;
+ background-repeat:no-repeat!important;background-position:center center!important;
+}
+@media (max-width:700px){#qixiMiniGameBoard.qixiFerryGameBoard,#qixiMiniGameBoard.qixiBridgeGameBoard{width:100%!important;max-width:none!important;min-height:58vh!important;background-size:cover!important}}
+@media (min-width:701px){#qixiMiniGameBoard.qixiFerryGameBoard,#qixiMiniGameBoard.qixiBridgeGameBoard{width:min(520px,92vw)!important;max-width:520px!important;height:min(72vh,780px)!important;min-height:620px!important;margin:0 auto!important;background-size:cover!important;background-position:center bottom!important;border-radius:28px!important;overflow:hidden!important}}
+.qixiFerrySea{position:relative;height:clamp(390px,52vh,610px);overflow:hidden;border-radius:22px;background:linear-gradient(180deg,rgba(12,10,52,.06),rgba(10,7,43,.30));}
+.qixiFerryHud{display:flex;justify-content:space-between;gap:12px;padding:10px 14px;margin-bottom:8px;border-radius:16px;background:rgba(18,13,62,.72);color:#fff;font-size:18px;font-weight:800;backdrop-filter:blur(4px)}
+.qixiFerryBoat{position:absolute;bottom:18px;width:48px;height:48px;font-size:38px;line-height:48px;text-align:center;transition:left .12s ease;filter:drop-shadow(0 3px 7px rgba(0,0,0,.5));z-index:3}
+.qixiFerryDrop{position:absolute;width:40px;height:40px;text-align:center;font-size:34px;line-height:40px;z-index:2;filter:drop-shadow(0 2px 6px rgba(0,0,0,.45))}.qixiFerryDrop.bad{font-size:36px}
+.qixiFerryControls{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px}.qixiFerryControls button{min-height:52px;border:1px solid rgba(255,255,255,.28);border-radius:16px;background:rgba(31,23,83,.86);color:#fff;font-weight:900;font-size:17px;touch-action:manipulation}
+
+</style>
 </head>
 <body>
 
@@ -3101,7 +3331,7 @@ function show(id){
       npc.style.setProperty("z-index","9996","important");
     }
   }
-  /* 3.31.14.23：七夕入口也由主頁切換函式直接控制。
+  /* 3.31.14.24：七夕入口也由主頁切換函式直接控制。
      不只看 activeId，避免離開角色後舊 activeId／定時器又把入口叫回首頁。 */
   const qixi=document.getElementById("qixiEventFab");
   if(qixi){
@@ -15669,7 +15899,7 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 
 <script id="formal33111SingleVersionSource">
 (function(){
- const VERSION="3.31.14.23";
+ const VERSION="3.31.14.24";
  function apply(){
    document.querySelectorAll(".homeVersion").forEach(function(el){
      el.textContent="第"+VERSION+"版・正式服";
@@ -16207,7 +16437,7 @@ html[data-formal-theme="qixiGalaxy"] :is(.card,.panel,.pendingPanel,.characterCa
 })();
 </script>
 <script id="formal33114Version">
-(function(){const V='3.31.14.23';function f(){document.querySelectorAll('.homeVersion').forEach(el=>el.textContent='第'+V+'版・正式服');document.documentElement.dataset.gameVersion=V;document.title='關係進行式・'+V}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',f,{once:true});else f();window.addEventListener('pageshow',f)})();
+(function(){const V='3.31.14.24';function f(){document.querySelectorAll('.homeVersion').forEach(el=>el.textContent='第'+V+'版・正式服');document.documentElement.dataset.gameVersion=V;document.title='關係進行式・'+V}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',f,{once:true});else f();window.addEventListener('pageshow',f)})();
 </script>
 
 
@@ -16260,7 +16490,7 @@ html[data-formal-theme="qixiGalaxy"] :is(.card,.panel,.pendingPanel,.characterCa
 
 
 
-<!-- 3.31.14.23: 測試服星空外觀完整移植 -->
+<!-- 3.31.14.24: 測試服星空外觀完整移植 -->
 <style id="formalPort_qixi3290SingleTheme">
 :root.qixi-theme-now{
  --qixi-bg1:#090725;
@@ -16625,7 +16855,7 @@ html[data-formal-theme="qixiGalaxy"] #qixiEventModal :is(.qixiRewardBox,.qixiFac
 </script>
 
 
-<!-- 3.31.14.23：TEST 3.30.80 七夕活動直接移植 -->
+<!-- 3.31.14.24：TEST 3.30.80 七夕活動直接移植 -->
 <script id="formalExact_qixi33035DailyUnlockScript">
 (function(){
  const START=new Date(2026,7,19),COUNT=5;
