@@ -17286,9 +17286,11 @@ function openConfirm(o={}){
   const game=document.getElementById("game"),fab=document.getElementById("qixiEventFab");
   if(!fab)return;
   const inGame=!!game&&!game.classList.contains("hidden");
-  fab.style.display=(inGame&&qixiEventIsOpen())?"flex":"none";
+  fab.style.display=(inGame&&Date.now()<=QIXI_EVENT_END)?"flex":"none";
+  fab.classList.toggle("qixiComingSoon",Date.now()<QIXI_EVENT_START);
+  fab.title=Date.now()<QIXI_EVENT_START?"8/19 00:00 開放":"七夕活動";
  }
- document.getElementById("qixiEventFab").onclick=()=>openIntro(false);
+ document.getElementById("qixiEventFab").onclick=()=>{if(Date.now()<QIXI_EVENT_START){toast?.("🌌 七夕活動將於 8/19 00:00 開放。",2800);return}openIntro(false)};
  document.getElementById("qixiRpgClose")?.addEventListener("click",e=>{e.stopPropagation();closeQixiRpg()});
  document.querySelector("#qixiRpgPlayer .qixiRpgDialogue")?.addEventListener("click",e=>{
    if(e.target.closest("button"))return;
@@ -17389,7 +17391,7 @@ html[data-formal-theme="qixiGalaxy"] :is(.card,.panel,.pendingPanel,.characterCa
   {icon:'💫',name:'星河長願禮包',price:150,desc:'遊戲金幣 ×2,000＋七夕限定徽章＋喜鵲的羽毛 ×10（特殊贈禮・好感 +3）＋織女的雲彩 ×2（特殊贈禮・好感 +5）'}
  ];
  function card(p){return `<div class="paidProduct"><div class="paidProductIcon">${p.icon}</div><div class="paidProductTitle">${p.name}</div><div class="small">${p.desc}</div><div class="paidPrice">NT$${p.price}</div><button type="button" disabled>尚未開放</button></div>`}
- function renderPaid(){const box=document.getElementById('formalPaidShopList');if(!box)return;box.innerHTML=`<div class="qixiPaidGroupTitle cat">🐱 貓貓店長活動禮包</div>${CAT.map(card).join('')}<div class="qixiPaidGroupTitle">🌌 七夕活動限定禮包</div>${QIXI.map(card).join('')}`}
+ function renderPaid(){const box=document.getElementById('formalPaidShopList');if(!box)return;box.innerHTML=`<section class="paidCatalogSection catSection"><div class="qixiPaidGroupTitle cat">🐾 貓貓店長活動禮包</div><div class="paidCatalogGrid">${CAT.map(card).join('')}</div></section><section class="paidCatalogSection qixiSection"><div class="qixiPaidGroupTitle">🌌 七夕限定禮包</div><div class="paidCatalogGrid">${QIXI.map(card).join('')}</div></section>`}
  window.renderFormalPaidShop=renderPaid;
  function ensure(){window.local=window.local||{};local.accountAppearance=local.accountAppearance&&typeof local.accountAppearance==='object'?local.accountAppearance:{};local.accountAppearance.owned=local.accountAppearance.owned&&typeof local.accountAppearance.owned==='object'?local.accountAppearance.owned:{};local.accountAppearance.trials=local.accountAppearance.trials&&typeof local.accountAppearance.trials==='object'?local.accountAppearance.trials:{};return local.accountAppearance}
  function trial(){const a=ensure();let t=Number(a.trials.qixiGalaxyStartedAt||0);const permanent=!!a.owned.qixiGalaxy,now=Date.now();
@@ -17412,7 +17414,7 @@ html[data-formal-theme="qixiGalaxy"] :is(.card,.panel,.pendingPanel,.characterCa
 })();
 </script>
 <script id="formal33114Version">
-(function(){const V='3.31.14.2';function f(){document.querySelectorAll('.homeVersion').forEach(el=>el.textContent='第'+V+'版・正式服');document.documentElement.dataset.gameVersion=V;document.title='關係進行式・'+V}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',f,{once:true});else f();window.addEventListener('pageshow',f)})();
+(function(){const V='3.31.14.5';function f(){document.querySelectorAll('.homeVersion').forEach(el=>el.textContent='第'+V+'版・正式服');document.documentElement.dataset.gameVersion=V;document.title='關係進行式・'+V}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',f,{once:true});else f();window.addEventListener('pageshow',f)})();
 </script>
 
 
@@ -17436,6 +17438,51 @@ html[data-formal-theme="qixiGalaxy"] :is(.card,.panel,.pendingPanel,.characterCa
  window.QIXI_SPECIAL_GIFTS=defs;
 })();
 </script>
+
+<style id="formal331145PaidLayoutAndQixiFab">
+/* 3.31.14.5：付費商品分區大標題 + 每區固定 2×2；七夕入口預告顯示並可拖曳。 */
+#formalPaidShopList.paidShopList{display:block!important}
+#formalPaidShopList .paidCatalogSection{display:block!important;margin:8px 0 24px!important}
+#formalPaidShopList .qixiPaidGroupTitle{
+ display:block!important;width:100%!important;grid-column:auto!important;
+ margin:0 0 12px!important;padding:14px 10px 12px!important;
+ font-size:clamp(27px,7vw,38px)!important;line-height:1.12!important;font-weight:950!important;
+ color:#4d327b!important;letter-spacing:.02em!important;
+ background:transparent!important;border:0!important;text-align:left!important;
+}
+#formalPaidShopList .qixiSection .qixiPaidGroupTitle{padding-top:18px!important;border-top:1px solid rgba(126,87,167,.18)!important}
+#formalPaidShopList .paidCatalogGrid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important}
+#formalPaidShopList .paidProduct{height:100%;box-sizing:border-box!important}
+@media(max-width:380px){
+ #formalPaidShopList .paidCatalogGrid{gap:7px!important}
+ #formalPaidShopList .qixiPaidGroupTitle{font-size:25px!important}
+ #formalPaidShopList .paidProduct{padding:10px!important}
+ #formalPaidShopList .paidProductTitle{font-size:16px!important}
+ #formalPaidShopList .paidProduct .small{font-size:12px!important;line-height:1.45!important}
+}
+#qixiEventFab{touch-action:none;user-select:none;-webkit-user-select:none;cursor:grab;z-index:9996!important}
+#qixiEventFab.qixiDragging{cursor:grabbing;transition:none!important}
+#qixiEventFab.qixiComingSoon{opacity:.88}
+</style>
+<script id="formal331145QixiFabDrag">
+(function(){
+ const START=Date.parse('2026-08-19T00:00:00+08:00'),END=Date.parse('2026-08-25T23:59:59.999+08:00');
+ function install(){
+  const fab=document.getElementById('qixiEventFab'); if(!fab||fab.dataset.dragReady)return; fab.dataset.dragReady='1';
+  let down=false,moved=false,sx=0,sy=0,sl=0,st=0,pid=null;
+  const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+  function restore(){try{const v=JSON.parse(localStorage.getItem('qixiFabPos331145')||'null');if(!v)return;fab.style.left=clamp(v.x,6,innerWidth-fab.offsetWidth-6)+'px';fab.style.top=clamp(v.y,72,innerHeight-fab.offsetHeight-12)+'px';fab.style.right='auto';fab.style.bottom='auto'}catch(_){}}
+  setTimeout(restore,80);
+  fab.addEventListener('pointerdown',e=>{down=true;moved=false;pid=e.pointerId;sx=e.clientX;sy=e.clientY;const r=fab.getBoundingClientRect();sl=r.left;st=r.top;try{fab.setPointerCapture(pid)}catch(_){};fab.classList.add('qixiDragging')});
+  fab.addEventListener('pointermove',e=>{if(!down||e.pointerId!==pid)return;const dx=e.clientX-sx,dy=e.clientY-sy;if(Math.hypot(dx,dy)>5)moved=true;if(!moved)return;e.preventDefault();fab.style.left=clamp(sl+dx,6,innerWidth-fab.offsetWidth-6)+'px';fab.style.top=clamp(st+dy,72,innerHeight-fab.offsetHeight-12)+'px';fab.style.right='auto';fab.style.bottom='auto'});
+  fab.addEventListener('pointerup',e=>{if(!down)return;down=false;fab.classList.remove('qixiDragging');try{fab.releasePointerCapture(pid)}catch(_){};if(moved){const r=fab.getBoundingClientRect();try{localStorage.setItem('qixiFabPos331145',JSON.stringify({x:r.left,y:r.top}))}catch(_){};fab.dataset.suppressClick='1';setTimeout(()=>delete fab.dataset.suppressClick,120)}});
+  fab.addEventListener('click',e=>{if(fab.dataset.suppressClick==='1'){e.preventDefault();e.stopImmediatePropagation();return}if(Date.now()<START){e.preventDefault();e.stopImmediatePropagation();toast?.('🌌 七夕活動將於 8/19 00:00 開放。',2800)}else if(Date.now()>END){e.preventDefault();e.stopImmediatePropagation()}},true);
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',install,{once:true});else install();
+ window.addEventListener('resize',()=>{const f=document.getElementById('qixiEventFab');if(f&&f.style.left){const r=f.getBoundingClientRect();f.style.left=Math.max(6,Math.min(r.left,innerWidth-f.offsetWidth-6))+'px';f.style.top=Math.max(72,Math.min(r.top,innerHeight-f.offsetHeight-12))+'px'}});
+})();
+</script>
+
 </body>
 </html>
 <style>
