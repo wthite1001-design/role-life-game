@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#9a76c4">
-<meta name="x-test-build" content="3.30.64">
+<meta name="x-test-build" content="3.30.65">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>關係進行式 TEST・3.30.64-七夕單雙人不限每日次數</title>
+<title>關係進行式 TEST・3.30.65-七夕全單人小遊戲</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -17803,21 +17803,30 @@ function openConfirm(o={}){
      st.introSeen=true;st.introStoryV=6;
      try{saveLocal?.()}catch(_){}
      openActivityMain();
-     /* 非獨行：選完直接送邀請，活動頁第一格立即顯示等待狀態。 */
-     if(st.selectedRel && st.selectedRel!=="solo" && !st.bound){
-       setTimeout(()=>sendQixiBindRequest(true),120);
-     }
+     /* 3.30.65：小遊戲階段不綁人。真人關係只在五個設施完成後，用於最終結局與徽章。 */
    });
  }
  function nextIntro(){qixiRpgNext();}
  function openOutro(){
    const x=c();if(!x)return;
    const st=ensure(x);
+   if(progress(x)<FACILITIES.length)return toast?.("先完成五個單人小遊戲，再回來找守橋人。",3600);
+   if(!st.bound){toast?.("最終結局與限定徽章需要先綁定一段真人關係。",4200);openQixiFinalChoice();return}
+   const rel=st.boundRel||"solo", who=st.boundName||"有緣人";
+   const relationEnding={
+    lover:`守橋人望向你與 ${who}：「相守之緣，不在於一起闖過遊戲，而在於走到最後時，你仍願意選擇這個人。」`,
+    bestfriend:`守橋人望向你與 ${who}：「同行之緣，不必時時並肩。各自走完自己的路，最後仍願意回到彼此身邊，就已足夠。」`,
+    family:`守橋人望向你與 ${who}：「歸處之緣，不必替彼此走路。重要的是走完以後，仍知道哪裡有人等你回來。」`,
+    partner:`守橋人望向你與 ${who}：「並肩之緣，不代表每一步都要一起完成。能各自前進，也能在最後把答案交給彼此。」`,
+    rival:`守橋人望向你與 ${who}：「競逐之緣，各自闖過自己的關卡，最後仍站在彼此前方——這場勝負，看來還遠沒有結束。」`,
+    enemy:`守橋人望向你與 ${who}，無奈笑道：「連各玩各的都能在最後碰上。這種甩不掉的惡緣，大概也算命運很有毅力吧。」`
+   };
    const lines=OUTRO_LINES.map((t,i)=>({
      speaker:(i===0||i===1||i===5||i===13)?"旁白":"守橋人",
      text:t,
      image:QIXI_ASSETS.keeper
    }));
+   if(relationEnding[rel]) lines.splice(lines.length-1,0,{speaker:"守橋人",text:relationEnding[rel],image:QIXI_ASSETS.keeper});
    startQixiRpg(lines,"終幕｜守橋人的最後一問",()=>{
      st.outroSeen=true;
      try{saveLocal?.()}catch(_){}
@@ -18027,7 +18036,7 @@ function openConfirm(o={}){
      goto:1
    }));
    choices.push({
-      label:"🌙 獨自參加",
+      label:"🌙 暫時不綁定",
      onChoose:()=>{
        st.selectedRoomCode="";st.selectedRel="solo";st.selectedName="獨自參加";st.bindPending=false;
        try{saveLocal?.()}catch(_){}
@@ -18035,8 +18044,8 @@ function openConfirm(o={}){
      goto:1
    });
    const lines=[
-     {speaker:"守橋人",text:"「邀請尚未被接受，所以你還可以重新選擇。這一次，要與誰同行？」",image:QIXI_ASSETS.keeper,choices},
-     {speaker:"守橋人",text:"「好。若你選了同行者，我會再替你把邀請送到對方手中。」",image:QIXI_ASSETS.keeper}
+     {speaker:"守橋人",text:"「五段星河已由你獨自走完。現在，選擇要與誰一起進入最後的七夕結局？」",image:QIXI_ASSETS.keeper,choices},
+     {speaker:"守橋人",text:"「好。只有對方也答應這段緣，最後的故事才會為你們打開。」",image:QIXI_ASSETS.keeper}
    ];
    startQixiRpg(lines,"重新選擇｜今夜同行",()=>{
      openActivityMain();
@@ -18339,7 +18348,7 @@ function openConfirm(o={}){
  }
  function awardIfDone(x){
   const st=ensure(x);
-  if(progress(x)<FACILITIES.length || !st.outroSeen || st.badge)return;
+  if(progress(x)<FACILITIES.length || !st.outroSeen || !st.bound || st.badge)return;
   st.badge=true;
   try{
     badgeDefs.qixi_star_fate={icon:"🌌",name:"星河有緣人",desc:"2026 七夕限定・走完五段星河劇情"};
@@ -18387,11 +18396,10 @@ function openConfirm(o={}){
       <div class="small">請從守橋人的對話選項中選擇。</div>
       <button id="chooseQixiFromStoryBtn" type="button" style="margin-top:8px">與守橋人交談</button>
     </div>`)
-   +FACILITIES.map(f=>`<button type="button" class="qixiFacility ${st.done[f.id]?'done':''}" data-qixi-fac="${f.id}" ${!selected||st.done[f.id]||(selected.rel!=="solo"&&!selected.bound)?"disabled":""}><div class="ico">${f.ico}</div><b>${f.name}</b><div class="small">${f.desc}</div><div class="small">${
+   +FACILITIES.map(f=>`<button type="button" class="qixiFacility ${st.done[f.id]?'done':''}" data-qixi-fac="${f.id}" ${st.done[f.id]?"disabled":""}><div class="ico">${f.ico}</div><b>${f.name}</b><div class="small">${f.desc}</div><div class="small">${
  st.done[f.id]?'✅ 已通關・獎勵已領取':
  (st.dailyFacilityCompleted && st.dailyFacilityCompleted!==f.id)?'🔒 今日已完成其他設施':
- selected?.rel==="solo"?'🎮 單人挑戰':
- '🔗 雙人挑戰'
+ '🎮 單人挑戰'
 }</div></button>`).join("");
   
   grid.querySelector("#sendQixiBindBtn")?.addEventListener("click",()=>sendQixiBindRequest(false));
@@ -18401,9 +18409,12 @@ function openConfirm(o={}){
   reward.innerHTML=st.badge
    ?`<b>🌌 已取得限定徽章「星河有緣人」</b><div class="small">五段星河故事與守橋人結尾都已完成。</div>${st.rewardClaimed?'<button type="button" disabled style="width:100%;margin-top:8px">✓ 活動獎勵已領取</button>':'<button id="claimQixiRewardBtn" type="button" class="primary" style="width:100%;margin-top:8px">🎁 領取活動獎勵｜50 金幣</button>'}`
    :n>=FACILITIES.length&&!st.outroSeen
-    ?'<b>🪶 五段星河已完成</b><div class="small">回到守橋人身邊，聽完最後一段故事後才會取得限定徽章。</div><button id="openQixiOutroBtn" type="button" class="primary" style="width:100%;margin-top:8px">回到守橋亭</button>'
-    :`<b>限定徽章進度：${n} / ${FACILITIES.length}</b><div class="small">完成五個設施，再聽完守橋人的結尾故事後才會發放。</div>`;
+    ?(st.bound
+      ?'<b>🪶 五段單人挑戰已完成</b><div class="small">已綁定有緣人，可以進入最終關係結局；看完後取得限定徽章。</div><button id="openQixiOutroBtn" type="button" class="primary" style="width:100%;margin-top:8px">進入最終結局</button>'
+      :'<b>🪶 五段單人挑戰已完成</b><div class="small">小遊戲不需要綁人。要進入最終關係結局並取得限定徽章，現在才需要選擇一段真人關係並由對方同意綁定。</div><button id="openQixiFinalBindBtn" type="button" class="primary" style="width:100%;margin-top:8px">選擇最終有緣人</button>')
+    :`<b>限定徽章進度：${n} / ${FACILITIES.length}</b><div class="small">五個小遊戲全部單人完成；全部通關後才會進入關係綁定與最終結局。</div>`;
   reward.querySelector("#openQixiOutroBtn")?.addEventListener("click",openOutro);
+  reward.querySelector("#openQixiFinalBindBtn")?.addEventListener("click",openQixiFinalChoice);
   reward.querySelector("#claimQixiRewardBtn")?.addEventListener("click",()=>{
     if(st.rewardClaimed||!storyComplete)return;
     st.rewardClaimed=true;x.money=safeMoney(Number(x.money||0)+50);
@@ -18563,7 +18574,8 @@ function openConfirm(o={}){
   const f=FACILITIES.find(x=>x.id===fid);
   const e=qixiMiniEls();
   e.status.textContent="✅ 小遊戲完成！正在進入劇情……";
-  setTimeout(()=>{closeQixiMiniGame();openStory(qixiSelectedCompanion(c()).rel)},500);
+  /* 3.30.65：五個設施全部都是單人遊玩，設施劇情也先走單人線。 */
+  setTimeout(()=>{closeQixiMiniGame();openStory("solo")},500);
  }
  function startQixiMiniGame(fid){
   const f=FACILITIES.find(x=>x.id===fid),e=qixiMiniEls();
@@ -18678,20 +18690,12 @@ function openConfirm(o={}){
  let pendingFacility="";
  function openBranches(fid){
   const x=c();if(!x)return;
-  const st=ensure(x),selected=qixiSelectedCompanion(x);
+  const st=ensure(x);
   if(!qixiCanStartFacility(x,fid))return;
-  if(!selected){toast?.("請先選擇七夕同行者，或確認『獨自前行』後，才能玩小遊戲。",4200);openQixiFinalChoice();return}
-  if(selected.rel!=="solo"&&!selected.bound){toast?.("要等對方同意七夕永久綁定後，才能開始每日設施。");return}
   if(st.dailyDone?.[fid]){toast?.("這個設施今天已經玩過了，明天 00:00 再來。");return}
   pendingFacility=fid;
-
-  /* 單人：完整保留原本五款單人小遊戲（星舟接星、記燈、平衡橋、找願星、守橋三問）。
-     雙人：才進 connected game，由兩名玩家共同完成同一個設施。 */
-  if(selected.rel==="solo"){
-    startQixiMiniGame(fid);
-  }else{
-    startQixiConnectedGame(fid);
-  }
+  /* 3.30.65：七夕五款小遊戲統一單人完成，不需要選人、邀請、等待或同步雙人房。 */
+  startQixiMiniGame(fid);
  }
  function openStory(rel){
    const x=c(),f=FACILITIES.find(v=>v.id===pendingFacility);if(!x||!f)return;
