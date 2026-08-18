@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#9a76c4" name="theme-color"/>
-<title>關係進行式・3.31.14.31</title>
+<title>關係進行式・3.31.14.32</title>
 
 
 
@@ -3132,7 +3132,7 @@ function show(id){
       npc.style.setProperty("z-index","9996","important");
     }
   }
-  /* 3.31.14.31：七夕入口也由主頁切換函式直接控制。
+  /* 3.31.14.32：七夕入口也由主頁切換函式直接控制。
      不只看 activeId，避免離開角色後舊 activeId／定時器又把入口叫回首頁。 */
   const qixi=document.getElementById("qixiEventFab");
   if(qixi){
@@ -15541,7 +15541,7 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 
 <script id="formal33111SingleVersionSource">
 (function(){
- const VERSION="3.31.14.31";
+ const VERSION="3.31.14.32";
  function apply(){
    document.querySelectorAll(".homeVersion").forEach(function(el){
      el.textContent="第"+VERSION+"版・正式服";
@@ -16026,7 +16026,7 @@ html[data-formal-theme="qixiGalaxy"] :is(.card,.panel,.pendingPanel,.characterCa
 .formalQixiTrialNote{font-size:12px;color:#705c7c;margin-top:5px}
 </style>
 <script id="formal33114Version">
-(function(){const V='3.31.14.31';function f(){document.querySelectorAll('.homeVersion').forEach(el=>el.textContent='第'+V+'版・正式服');document.documentElement.dataset.gameVersion=V;document.title='關係進行式・'+V}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',f,{once:true});else f();window.addEventListener('pageshow',f)})();
+(function(){const V='3.31.14.32';function f(){document.querySelectorAll('.homeVersion').forEach(el=>el.textContent='第'+V+'版・正式服');document.documentElement.dataset.gameVersion=V;document.title='關係進行式・'+V}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',f,{once:true});else f();window.addEventListener('pageshow',f)})();
 </script>
 
 
@@ -16079,38 +16079,8 @@ html[data-formal-theme="qixiGalaxy"] :is(.card,.panel,.pendingPanel,.characterCa
 
 
 
-<!-- 3.31.14.31: 測試服星空外觀完整移植 -->
-<!-- 3.31.14.31：TEST 3.30.80 七夕活動直接移植 -->
-<script id="formalExact_qixi33035DailyUnlockScript">
-(function(){
- const START=new Date(2026,7,19),COUNT=5;
- function day(){const n=new Date(),a=new Date(n.getFullYear(),n.getMonth(),n.getDate()),b=new Date(START.getFullYear(),START.getMonth(),START.getDate());return Math.floor((a-b)/86400000)+1}
- function buttons(){
-   const root=document.getElementById("qixiEventModal")||document;
-   const all=[...root.querySelectorAll("[data-qixi-game],[data-qixi-game-id],.qixiGameBtn,[data-game]")];
-   return [...new Set(all)].filter(x=>!/領取|關閉|公告|返回|登入/.test(x.textContent||"")).slice(0,COUNT);
- }
- function apply(){
-   const d=day(),open=Math.max(0,Math.min(COUNT,d));
-   buttons().forEach((b,i)=>{
-     const req=i+1,locked=req>open;
-     b.dataset.qixiRequiredDay=req;
-     b.classList.toggle("qixiDailyLocked",locked);
-     if(locked){b.dataset.qixiLockLabel=`DAY ${req} 開放`;b.setAttribute("aria-disabled","true")}
-     else{delete b.dataset.qixiLockLabel;b.removeAttribute("aria-disabled")}
-   });
- }
- document.addEventListener("click",e=>{
-   const b=e.target?.closest?.(".qixiDailyLocked");if(!b)return;
-   e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();
-   try{toast?.(`🌌 此設施將於活動 DAY ${b.dataset.qixiRequiredDay} 開放。`,2600)}catch(_){}
- },true);
- document.addEventListener("click",e=>{if(e.target?.closest?.("#qixiEventFab,#openQixiEvent,#qixiEventButton"))setTimeout(apply,30)},true);
- window.addEventListener("pageshow",()=>setTimeout(apply,30),{passive:true});
- if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",()=>setTimeout(apply,30),{once:true});else setTimeout(apply,30);
- window.refreshQixiDailyUnlock=apply;
-})();
-</script>
+<!-- 3.31.14.32: 測試服星空外觀完整移植 -->
+<!-- 3.31.14.32：TEST 3.30.80 七夕活動直接移植 -->
 <script id="formalExact_test33060QixiStableOpenAndInviteCleanup">
 (function(){
 "use strict";
@@ -16916,18 +16886,18 @@ setTimeout(hardClean,350);window.addEventListener("pageshow",()=>setTimeout(hard
      const b=JSON.parse(localStorage.getItem(qixiBindBackupKey(x))||"null");
      if(!b?.bound||!b.boundRoomCode)return false;
      const rr=relationshipSummaries?.[String(b.boundRoomCode)];
-     if(rr && rr.relation && RELS[rr.relation]){
-       st.bound=true;
-       st.boundRoomCode=String(b.boundRoomCode);
-       st.boundRel=String(b.boundRel||rr.relation);
-       st.boundName=String(b.boundName||roomOtherName?.(String(b.boundRoomCode),x)||"同行者");
-       st.boundCharId=String(b.boundCharId||qixiOtherCharId(rr,x)||"");
-       st.selectedRoomCode=st.boundRoomCode;
-       st.selectedRel=st.boundRel;
-       st.selectedName=st.boundName;
-       st.bindPending=false;
-       return true;
-     }
+     st.bound=true;
+     st.boundRoomCode=String(b.boundRoomCode);
+     st.boundRel=String(b.boundRel||rr?.relation||"partner");
+     st.boundName=String(b.boundName||roomOtherName?.(String(b.boundRoomCode),x)||"同行者");
+     st.boundCharId=String(b.boundCharId||qixiOtherCharId(rr,x)||"");
+     st.selectedRoomCode=st.boundRoomCode;
+     st.selectedRel=st.boundRel;
+     st.selectedName=st.boundName;
+     st.bindPending=false;
+     st.introSeen=true;
+     st.introStoryV=Math.max(6,Number(st.introStoryV||0));
+     return true;
    }catch(_){}
    return false;
  }
@@ -18025,7 +17995,16 @@ setTimeout(hardClean,350);window.addEventListener("pageshow",()=>setTimeout(hard
   const inGame=!!game&&!game.classList.contains("hidden");
   fab.style.display=(inGame&&qixiEventIsOpen())?"flex":"none";
  }
- document.getElementById("qixiEventFab").onclick=()=>openIntro(false);
+ document.getElementById("qixiEventFab").onclick=async()=>{
+   const x=c();
+   if(x){
+     try{qixiRestoreBoundBackup(x)}catch(_){}
+     try{await qixiFast(typeof refreshRelationships==="function"?refreshRelationships():null,1500,null)}catch(_){}
+     try{await qixiFast(qixiRestoreBoundFromCloud(x),1800,false)}catch(_){}
+     try{saveLocal?.()}catch(_){}
+   }
+   return openIntro(false);
+ };
  document.getElementById("qixiRpgClose")?.addEventListener("click",e=>{e.stopPropagation();closeQixiRpg()});
  document.querySelector("#qixiRpgPlayer .qixiRpgDialogue")?.addEventListener("click",e=>{
    if(e.target.closest("button"))return;
@@ -18385,11 +18364,6 @@ setTimeout(hardClean,350);window.addEventListener("pageshow",()=>setTimeout(hard
  else setTimeout(renderPanel,100);
 })();
 </script>
-
-<style id="formal3311430DailyUnlockStyle">
-#qixiEventModal .qixiFacility.qixiDailyLocked{opacity:.52!important;filter:grayscale(.35)!important;cursor:not-allowed!important;position:relative!important}
-#qixiEventModal .qixiFacility.qixiDailyLocked::after{content:"逐日開放";position:absolute;right:8px;top:8px;padding:3px 7px;border-radius:999px;background:rgba(20,15,52,.88);color:#fff;font-size:10px;font-weight:900}
-</style>
 
 <script id="formal3311431AppearanceAuthoritative">
 (function(){
@@ -19212,10 +19186,6 @@ html[data-formal-theme="qixiGalaxy"] #qixiEventModal :is(.qixiRewardBox,.qixiFac
   z-index:5!important;
 }
 </style>
-<style id="formalParity_qixi33035DailyUnlockStyle">
-.qixiDailyLocked{position:relative!important;opacity:.55!important;filter:grayscale(.35)!important}
-.qixiDailyLocked::after{content:attr(data-qixi-lock-label);position:absolute;left:7px;right:7px;bottom:6px;padding:4px;border-radius:8px;background:rgba(24,19,48,.86);color:#fff;font-size:10px;font-weight:900;text-align:center;pointer-events:none}
-</style>
 <style id="formalParity_qixi3292BridgeGameBackground">
 /* 鵲羽橋小遊戲專用背景：使用使用者指定的七夕鵲橋圖 */
 #qixiMiniGameBoard.qixiBridgeGameBoard{
@@ -19538,6 +19508,64 @@ html:not([data-test-theme="qixiGalaxy"]):not(.qixi-theme-now)
   color:#fff!important;
 }
 </style>
+
+<style id="formal3311432QixiDailyLockClean">
+#qixiEventModal .qixiFacility.qixiDailyLocked{
+ opacity:.58!important;filter:grayscale(.28)!important;cursor:not-allowed!important;position:relative!important
+}
+#qixiEventModal .qixiFacility.qixiDailyLocked::after,
+#qixiEventModal .qixiFacility.qixiDailyLocked::before{content:none!important;display:none!important}
+</style>
+
+<script id="formal3311432AppearanceModalOpenFix">
+(function(){
+ "use strict";
+ function M(){return document.getElementById("formalAppearanceModal")}
+ function open(){
+   const m=M();if(!m)return;
+   try{typeof closeDrawer==="function"&&closeDrawer()}catch(_){}
+   try{window.__formalRenderAppearance3311431?.()}catch(_){}
+   m.classList.remove("hidden");m.setAttribute("aria-hidden","false");
+   requestAnimationFrame(()=>{try{window.__formalRenderAppearance3311431?.()}catch(_){}});
+ }
+ function close(){const m=M();if(m){m.classList.add("hidden");m.setAttribute("aria-hidden","true")}}
+ document.addEventListener("click",e=>{
+   if(e.target.closest?.("#formalAppearanceBtn")){
+     e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();open();return;
+   }
+   if(e.target.closest?.("#closeFormalAppearance")){
+     e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();close();return;
+   }
+   const m=M();if(m&&e.target===m)close();
+ },true);
+ window.openFormalAppearance3311432=open;
+})();
+</script>
+
+<script id="formal3311432QixiBindingBootRestore">
+(function(){
+ "use strict";
+ async function restore(){
+   const x=typeof cur==="function"?cur():null;if(!x?.id)return;
+   try{
+     const st=typeof ensure==="function"?ensure(x):x.qixi2026;
+     if(st?.bound)return;
+     if(typeof qixiRestoreBoundBackup==="function"&&qixiRestoreBoundBackup(x)){
+       try{saveLocal?.();render?.()}catch(_){} return;
+     }
+     if(typeof qixiRestoreBoundFromCloud==="function"){
+       const ok=await qixiRestoreBoundFromCloud(x);
+       if(ok){try{saveLocal?.();render?.()}catch(_){}}
+     }
+   }catch(e){console.warn("qixi boot restore",e)}
+ }
+ [250,700,1400,2600,4500].forEach(ms=>setTimeout(restore,ms));
+ window.addEventListener("pageshow",()=>[150,650,1600].forEach(ms=>setTimeout(restore,ms)),{passive:true});
+ document.addEventListener("click",e=>{
+   if(e.target.closest?.("#qixiEventFab,.save button,[data-enter-save]"))setTimeout(restore,180);
+ },true);
+})();
+</script>
 </body>
 </html>
 <style>
