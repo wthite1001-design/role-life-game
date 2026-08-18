@@ -5,21 +5,35 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#9a76c4" name="theme-color"/>
-<title>關係進行式・3.31.14.19</title>
+<title>關係進行式・3.31.14.20</title>
+
 
 <script id="formal3311412PrePaintTheme">
 (function(){
  try{
-   const raw=JSON.parse(localStorage.getItem('role_life_formal_theme_v1')||'null');
-   const now=Date.now(), start=Date.parse('2026-08-19T00:00:00+08:00'), end=Date.parse('2026-08-25T23:59:59.999+08:00');
+   const THEME='role_life_formal_theme_v1';
+   const MANUAL='qixi_manual_theme_v1';
+   const now=Date.now();
+   const start=Date.parse('2026-08-19T00:00:00+08:00');
+   const end=Date.parse('2026-08-25T23:59:59.999+08:00');
    const trial=Number(localStorage.getItem('qixiGalaxyTrialStartedAt_v1')||0);
-   const qixiOk=now>=start&&now<=end&&trial>0&&now<trial+86400000;
-   const mode=raw?.mode==='qixiGalaxy'&&qixiOk?'qixiGalaxy':(raw?.mode==='maidCafe'?'maidCafe':'default');
+   const validTrial=now>=start&&now<=end&&trial>0&&now<trial+86400000;
+
+   let manual=null,saved=null;
+   try{manual=JSON.parse(localStorage.getItem(MANUAL)||'null')}catch(_){}
+   try{saved=JSON.parse(localStorage.getItem(THEME)||'null')}catch(_){}
+
+   let mode='default';
+   if(manual?.mode && Number(manual.at||0)>=trial) mode=manual.mode;
+   else if(validTrial) mode='qixiGalaxy';
+   else if(saved?.mode) mode=saved.mode;
+
    document.documentElement.setAttribute('data-formal-theme',mode);
-   if(mode==='qixiGalaxy')document.documentElement.classList.add('qixi-theme-now');
+   document.documentElement.classList.toggle('qixi-theme-now',mode==='qixiGalaxy');
  }catch(_){}
 })();
 </script>
+
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -3087,7 +3101,7 @@ function show(id){
       npc.style.setProperty("z-index","9996","important");
     }
   }
-  /* 3.31.14.19：七夕入口也由主頁切換函式直接控制。
+  /* 3.31.14.20：七夕入口也由主頁切換函式直接控制。
      不只看 activeId，避免離開角色後舊 activeId／定時器又把入口叫回首頁。 */
   const qixi=document.getElementById("qixiEventFab");
   if(qixi){
@@ -12945,8 +12959,7 @@ body.game-entry-active #npcTownFab{
   },300);
 })();
 </script>
-
-\n<script>
+<script>
 /* === 3.26.24 shopkeeper story semantic emotion priority === */
 (function(){
   // Override the final story face inference with context-first rules.
@@ -13004,7 +13017,7 @@ body.game-entry-active #npcTownFab{
     };
   }
 })();
-</script>\n
+</script>
 <script>
 /* === 3.27 FORMAL final activity/controller === */
 (function(){
@@ -15462,50 +15475,7 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 </script>
 
 
-<script id="formal31612AppearancePersistenceGuard">
-(function(){
- const KEY='role_life_formal_theme_v1';
- const START=Date.parse('2026-08-19T00:00:00+08:00');
- const END=Date.parse('2026-08-25T23:59:59.999+08:00');
- function qixiOK(a){
-   if(a?.owned?.qixiGalaxy)return true;
-   let t=Number(a?.trials?.qixiGalaxyStartedAt||0);
-   try{if(!t)t=Number(localStorage.getItem('qixiGalaxyTrialStartedAt_v1')||0)}catch(_){}
-   const now=Date.now();
-   return now>=START&&now<=END&&t>0&&now<t+86400000;
- }
- function resolve(a){
-   let saved='';
-   try{saved=JSON.parse(localStorage.getItem(KEY)||'null')?.mode||''}catch(_){}
-   let mode=saved||a?.active||'default';
-   if(mode==='qixiGalaxy'&&!qixiOK(a))mode='default';
-   if(mode==='maidCafe'&&!a?.owned?.maidCafe)mode='default';
-   return mode;
- }
- function sync(){
-   try{
-     const a=window.local?.accountAppearance;
-     if(!a)return;
-     const mode=resolve(a);
-     a.active=mode;
-     document.documentElement.setAttribute('data-formal-theme',mode);
-     document.documentElement.classList.toggle('qixi-theme-now',mode==='qixiGalaxy');
-     try{
-       localStorage.setItem(KEY,JSON.stringify({mode,account:true,savedAt:Date.now()}));
-       localStorage.setItem('relationship_game_formal_paid_theme_v1',JSON.stringify({mode,account:true,savedAt:Date.now()}));
-     }catch(_){}
-     document.querySelectorAll('[data-formal-theme-choice]').forEach(btn=>{
-       btn.classList.toggle('active',btn.dataset.formalThemeChoice===mode);
-     });
-   }catch(e){console.warn('appearance persistence guard',e)}
- }
- window.syncFormalAppearance3311417=sync;
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(sync,0),{once:true});
- else setTimeout(sync,0);
- window.addEventListener('pageshow',()=>setTimeout(sync,0),{passive:true});
- document.addEventListener('visibilitychange',()=>{if(!document.hidden)setTimeout(sync,0)},{passive:true});
-})();
-</script>
+
 
 
 
@@ -15699,7 +15669,7 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 
 <script id="formal33111SingleVersionSource">
 (function(){
- const VERSION="3.31.14.19";
+ const VERSION="3.31.14.20";
  function apply(){
    document.querySelectorAll(".homeVersion").forEach(function(el){
      el.textContent="第"+VERSION+"版・正式服";
@@ -15920,6 +15890,69 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 body.npcStoryRunning #qixiEventFab{display:none!important}
 </style>
 
+<style id="qixiRpg3274Style">
+#qixiRpgPlayer{
+ position:fixed!important;inset:0!important;z-index:1350!important;
+ background:#100b28!important;color:#fff!important;padding:0!important;
+}
+#qixiRpgPlayer.hidden{display:none!important}
+.qixiRpgStage{position:relative;width:100vw;height:100dvh;overflow:hidden;background:#100b28}
+.qixiRpgBg{
+ position:absolute;inset:-24px;
+ background-image:var(--qixi-rpg-bg,linear-gradient(180deg,#16103e,#3d245e));
+ background-size:cover;background-position:center;
+ filter:blur(18px) brightness(.55);transform:scale(1.06);opacity:.9;
+}
+.qixiRpgPortraitWrap{
+ position:absolute;inset:0;
+ display:flex;align-items:center;justify-content:center;
+ background:linear-gradient(180deg,rgba(15,10,45,.05),rgba(15,10,45,.25));
+}
+#qixiRpgPortrait{
+ position:relative;z-index:2;width:100%;height:100%;
+ object-fit:contain;object-position:center center;display:block;
+}
+.qixiRpgShade{
+ position:absolute;left:0;right:0;bottom:0;height:45%;
+ background:linear-gradient(180deg,transparent,rgba(10,7,27,.72));
+ pointer-events:none;z-index:3;
+}
+.qixiRpgDialogue{
+ position:absolute;z-index:5;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));
+ background:rgba(19,13,44,.92);border:1px solid rgba(255,255,255,.18);
+ border-radius:18px;padding:20px 15px 16px;box-shadow:0 14px 34px rgba(0,0,0,.34);
+ backdrop-filter:blur(8px);
+}
+.qixiRpgSpeaker{
+ position:absolute;left:16px;top:-16px;
+ display:inline-flex;align-items:center;min-height:32px;padding:5px 12px;
+ border-radius:999px;background:linear-gradient(135deg,#6b58aa,#bc74ac);
+ border:1px solid rgba(255,255,255,.32);font-weight:900;
+}
+.qixiRpgText{font-size:16px;line-height:1.75;min-height:56px;padding-top:4px}
+.qixiRpgHint{text-align:right;font-size:12px;color:#d7cbea;margin-top:6px}
+.qixiRpgChoices{display:grid;gap:8px;margin-top:12px}
+.qixiRpgChoices button{
+ min-height:48px!important;text-align:left!important;
+ background:linear-gradient(135deg,#ffffff18,#ffffff0b)!important;
+ color:#fff!important;border:1px solid #ffffff2c!important;
+}
+#qixiRpgClose{
+ position:absolute;right:12px;top:calc(10px + env(safe-area-inset-top));z-index:8;
+ width:42px;height:42px;border-radius:50%!important;background:#140e35cc!important;
+ color:#fff!important;border:1px solid #ffffff2d!important;
+}
+.qixiRpgChapter{
+ position:absolute;left:14px;top:calc(12px + env(safe-area-inset-top));z-index:7;
+ padding:6px 10px;border-radius:999px;background:#140e35a8;border:1px solid #ffffff22;
+ font-size:12px;font-weight:800;color:#eee5ff;
+}
+@media(min-width:900px) and (min-aspect-ratio:4/3){
+ #qixiRpgPortrait{object-fit:contain}
+ .qixiRpgDialogue{left:clamp(24px,4vw,72px);right:clamp(24px,4vw,72px);bottom:26px;padding:24px 24px 22px}
+ .qixiRpgText{font-size:17px}
+}
+</style>
 <div id="qixiRpgPlayer" class="hidden" aria-hidden="true">
  <div class="qixiRpgStage">
   <div class="qixiRpgBg"></div>
@@ -16174,7 +16207,7 @@ html[data-formal-theme="qixiGalaxy"] :is(.card,.panel,.pendingPanel,.characterCa
 })();
 </script>
 <script id="formal33114Version">
-(function(){const V='3.31.14.19';function f(){document.querySelectorAll('.homeVersion').forEach(el=>el.textContent='第'+V+'版・正式服');document.documentElement.dataset.gameVersion=V;document.title='關係進行式・'+V}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',f,{once:true});else f();window.addEventListener('pageshow',f)})();
+(function(){const V='3.31.14.20';function f(){document.querySelectorAll('.homeVersion').forEach(el=>el.textContent='第'+V+'版・正式服');document.documentElement.dataset.gameVersion=V;document.title='關係進行式・'+V}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',f,{once:true});else f();window.addEventListener('pageshow',f)})();
 </script>
 
 
@@ -16227,7 +16260,7 @@ html[data-formal-theme="qixiGalaxy"] :is(.card,.panel,.pendingPanel,.characterCa
 
 
 
-<!-- 3.31.14.19: 測試服星空外觀完整移植 -->
+<!-- 3.31.14.20: 測試服星空外觀完整移植 -->
 <style id="formalPort_qixi3290SingleTheme">
 :root.qixi-theme-now{
  --qixi-bg1:#090725;
@@ -16592,7 +16625,7 @@ html[data-formal-theme="qixiGalaxy"] #qixiEventModal :is(.qixiRewardBox,.qixiFac
 </script>
 
 
-<!-- 3.31.14.19：TEST 3.30.80 七夕活動直接移植 -->
+<!-- 3.31.14.20：TEST 3.30.80 七夕活動直接移植 -->
 <script id="formalExact_qixi33035DailyUnlockScript">
 (function(){
  const START=new Date(2026,7,19),COUNT=5;
@@ -18471,38 +18504,7 @@ html[data-formal-theme="qixiGalaxy"] #qixiEventFab{
 
 
 
-<script id="formal3311417ThemeLock">
-(function(){
- const KEY='role_life_formal_theme_v1';
- let busy=false;
- function sync(){
-   if(busy)return;
-   busy=true;
-   try{
-     const a=window.local?.accountAppearance;
-     let mode='';
-     try{mode=JSON.parse(localStorage.getItem(KEY)||'null')?.mode||''}catch(_){}
-     if(!mode)mode=a?.active||'default';
-     const now=Date.now(),START=Date.parse('2026-08-19T00:00:00+08:00'),END=Date.parse('2026-08-25T23:59:59.999+08:00');
-     let t=Number(a?.trials?.qixiGalaxyStartedAt||0);
-     try{if(!t)t=Number(localStorage.getItem('qixiGalaxyTrialStartedAt_v1')||0)}catch(_){}
-     const qixiOK=!!a?.owned?.qixiGalaxy||(now>=START&&now<=END&&t>0&&now<t+86400000);
-     if(mode==='qixiGalaxy'&&!qixiOK)mode='default';
-     if(mode==='maidCafe'&&!a?.owned?.maidCafe)mode='default';
-     if(a)a.active=mode;
-     if(document.documentElement.getAttribute('data-formal-theme')!==mode)
-       document.documentElement.setAttribute('data-formal-theme',mode);
-     document.documentElement.classList.toggle('qixi-theme-now',mode==='qixiGalaxy');
-   }finally{
-     queueMicrotask(()=>{busy=false});
-   }
- }
- new MutationObserver(sync).observe(document.documentElement,{attributes:true,attributeFilter:['data-formal-theme','class']});
- window.addEventListener('pageshow',sync,{passive:true});
- document.addEventListener('visibilitychange',()=>{if(!document.hidden)sync()},{passive:true});
- setTimeout(sync,0);
-})();
-</script>
+
 
 
 <style id="formal3311418QixiFabOneSource">
@@ -18644,28 +18646,7 @@ html[data-formal-theme="qixiGalaxy"] #qixiEventFab{
 </script>
 
 
-<script id="formal3311418QixiThemeSticky">
-(function(){
- const KEY='role_life_formal_theme_v1';
- function sync(){
-   try{
-     const a=window.local?.accountAppearance;
-     let mode=JSON.parse(localStorage.getItem(KEY)||'null')?.mode||a?.active||'default';
-     const now=Date.now(),start=Date.parse('2026-08-19T00:00:00+08:00'),end=Date.parse('2026-08-25T23:59:59.999+08:00');
-     let t=Number(a?.trials?.qixiGalaxyStartedAt||0);
-     try{if(!t)t=Number(localStorage.getItem('qixiGalaxyTrialStartedAt_v1')||0)}catch(_){}
-     const ok=!!a?.owned?.qixiGalaxy||(now>=start&&now<=end&&t>0&&now<t+86400000);
-     if(mode==='qixiGalaxy'&&!ok)mode='default';
-     if(a)a.active=mode;
-     document.documentElement.setAttribute('data-formal-theme',mode);
-     document.documentElement.classList.toggle('qixi-theme-now',mode==='qixiGalaxy');
-   }catch(e){console.warn('qixi theme sticky',e)}
- }
- window.addEventListener('pageshow',sync,{passive:true});
- document.addEventListener('visibilitychange',()=>{if(!document.hidden)sync()},{passive:true});
- setTimeout(sync,0);
-})();
-</script>
+
 
 
 <style id="formal3311419QixiScroll">
@@ -18686,38 +18667,160 @@ html[data-formal-theme="qixiGalaxy"] #qixiEventFab{
 </style>
 
 
-<script id="formal3311419QixiThemeLock">
+
+
+
+<script id="formal3311420AppearanceController">
 (function(){
- const KEY='role_life_formal_theme_v1';
+ const THEME='role_life_formal_theme_v1';
+ const LEGACY='relationship_game_formal_paid_theme_v1';
+ const MANUAL='qixi_manual_theme_v1';
  const START=Date.parse('2026-08-19T00:00:00+08:00');
  const END=Date.parse('2026-08-25T23:59:59.999+08:00');
- function valid(){
-   const a=window.local?.accountAppearance;
-   if(a?.owned?.qixiGalaxy || window.local?.accountEntitlements?.qixiGalaxy)return true;
+
+ function appearance(){
+   window.local=window.local||{};
+   local.accountAppearance=local.accountAppearance&&typeof local.accountAppearance==='object'
+     ?local.accountAppearance:{};
+   local.accountAppearance.owned=local.accountAppearance.owned&&typeof local.accountAppearance.owned==='object'
+     ?local.accountAppearance.owned:{};
+   local.accountAppearance.trials=local.accountAppearance.trials&&typeof local.accountAppearance.trials==='object'
+     ?local.accountAppearance.trials:{};
+   return local.accountAppearance;
+ }
+ function trialStart(a){
    let t=Number(a?.trials?.qixiGalaxyStartedAt||0);
-   try{if(!t)t=Number(localStorage.getItem('qixiGalaxyTrialStartedAt_v1')||0)}catch(_){}
-   const now=Date.now();
+   try{
+     const p=Number(localStorage.getItem('qixiGalaxyTrialStartedAt_v1')||0);
+     if(!t&&p){t=p;a.trials.qixiGalaxyStartedAt=p}
+   }catch(_){}
+   return t;
+ }
+ function qixiValid(a){
+   if(a?.owned?.qixiGalaxy || local.accountEntitlements?.qixiGalaxy || local.accountItems?.qixi_galaxy_theme)return true;
+   const t=trialStart(a),now=Date.now();
    return now>=START&&now<=END&&t>0&&now<t+86400000;
  }
- function sync(){
-   try{
-     let mode='';
-     try{mode=JSON.parse(localStorage.getItem(KEY)||'null')?.mode||''}catch(_){}
-     const a=window.local?.accountAppearance;
-     if(!mode)mode=a?.active||'default';
-     if(mode==='qixiGalaxy'&&valid()){
-       if(a)a.active='qixiGalaxy';
-       document.documentElement.setAttribute('data-formal-theme','qixiGalaxy');
-       document.documentElement.classList.add('qixi-theme-now');
-     }
-   }catch(_){}
+ function readJSON(k){try{return JSON.parse(localStorage.getItem(k)||'null')}catch(_){return null}}
+ function resolve(){
+   const a=appearance(), t=trialStart(a), now=Date.now();
+   const manual=readJSON(MANUAL);
+   const saved=readJSON(THEME);
+   let mode='default';
+
+   if(manual?.mode && Number(manual.at||0)>=t){
+     mode=manual.mode;
+   }else if(qixiValid(a)){
+     /* 第一次拿到 24h 體驗時，星河就是本次體驗外觀。 */
+     mode='qixiGalaxy';
+   }else if(saved?.mode){
+     mode=saved.mode;
+   }else if(a.active){
+     mode=a.active;
+   }
+
+   if(mode==='qixiGalaxy'&&!qixiValid(a))mode='default';
+   if(mode==='maidCafe'&&!a.owned?.maidCafe)mode='default';
+   return {a,mode,now};
  }
- setInterval(sync,350);
- window.addEventListener('pageshow',sync,{passive:true});
- document.addEventListener('visibilitychange',()=>{if(!document.hidden)sync()},{passive:true});
- setTimeout(sync,0);
+ let applying=false;
+ function apply(){
+   if(applying)return;
+   applying=true;
+   try{
+     const {a,mode,now}=resolve();
+     a.active=mode;
+     document.documentElement.setAttribute('data-formal-theme',mode);
+     document.documentElement.classList.toggle('qixi-theme-now',mode==='qixiGalaxy');
+     try{
+       localStorage.setItem(THEME,JSON.stringify({mode,account:true,savedAt:now}));
+       localStorage.setItem(LEGACY,JSON.stringify({mode,account:true,savedAt:now}));
+     }catch(_){}
+     document.querySelectorAll('[data-formal-theme-choice]').forEach(btn=>{
+       btn.classList.toggle('active',btn.dataset.formalThemeChoice===mode);
+     });
+   }finally{
+     queueMicrotask(()=>{applying=false});
+   }
+ }
+
+ /* 玩家自己點外觀設定時記錄「手動選擇」，這樣體驗期間也可以切回預設/女僕。 */
+ document.addEventListener('click',e=>{
+   const btn=e.target?.closest?.('[data-formal-theme-choice]');
+   if(!btn)return;
+   const mode=btn.dataset.formalThemeChoice;
+   if(!['default','maidCafe','qixiGalaxy'].includes(mode))return;
+   try{localStorage.setItem(MANUAL,JSON.stringify({mode,at:Date.now()}))}catch(_){}
+   setTimeout(apply,0);
+ },true);
+
+ window.addEventListener('pageshow',()=>setTimeout(apply,0),{passive:true});
+ document.addEventListener('visibilitychange',()=>{if(!document.hidden)setTimeout(apply,0)},{passive:true});
+
+ /* 不再每 350ms 強制改 DOM，只在真正被其他舊程式改掉時拉回。 */
+ new MutationObserver(()=>{
+   const expected=resolve().mode;
+   const actual=document.documentElement.getAttribute('data-formal-theme')||'default';
+   if(actual!==expected)setTimeout(apply,0);
+ }).observe(document.documentElement,{attributes:true,attributeFilter:['data-formal-theme']});
+
+ setTimeout(apply,0);
 })();
 </script>
+
+
+<style id="formal3311420QixiUiAuthoritative">
+/* 活動主頁完整覆蓋、可上下滑 */
+#qixiEventModal{
+  position:fixed!important;
+  inset:0!important;
+  z-index:1300!important;
+  overflow:hidden!important;
+  align-items:stretch!important;
+  background:transparent!important;
+}
+#qixiEventModal.hidden{display:none!important}
+#qixiEventModal>.modalBox{
+  position:relative!important;
+  width:100%!important;
+  max-width:520px!important;
+  height:100dvh!important;
+  max-height:100dvh!important;
+  margin:0 auto!important;
+  border-radius:0!important;
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  -webkit-overflow-scrolling:touch!important;
+  touch-action:pan-y!important;
+  overscroll-behavior-y:contain!important;
+  padding-bottom:calc(150px + env(safe-area-inset-bottom))!important;
+}
+
+/* 守橋人劇情一定在活動頁上方，而且是整個螢幕，不再掉到底部 */
+#qixiRpgPlayer{
+  position:fixed!important;
+  inset:0!important;
+  width:100vw!important;
+  height:100dvh!important;
+  z-index:20000!important;
+  margin:0!important;
+  padding:0!important;
+  overflow:hidden!important;
+}
+#qixiRpgPlayer.hidden{display:none!important}
+#qixiRpgPlayer .qixiRpgStage{
+  width:100vw!important;
+  height:100dvh!important;
+}
+
+/* 小遊戲也必須完整覆蓋 */
+#qixiMiniGameModal{
+  position:fixed!important;
+  inset:0!important;
+  z-index:20010!important;
+}
+#qixiMiniGameModal.hidden{display:none!important}
+</style>
 
 </body>
 </html>
