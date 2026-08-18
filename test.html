@@ -17103,6 +17103,47 @@ window.addEventListener("pageshow",unlockNow);
 })();
 </script>
 
+
+<script id="test33066QixiPureSoloCleanup">
+(function(){
+ "use strict";
+ function isQixiType(t){return /^qixi_/.test(String(t||""));}
+ function closeLegacy(){
+   try{document.getElementById("qixiGameInviteInline")?.classList.add("hidden");}catch(_){}
+   try{
+     const gm=document.getElementById("gameModal");
+     if(gm?.classList.contains("qixiConnectedGame")){gm.classList.add("hidden");gm.classList.remove("qixiConnectedGame","q63Ferry","q63Lantern","q63Bridge","q63Wish","q63Keeper");}
+   }catch(_){}
+   try{
+     if(typeof currentGameType!=="undefined" && isQixiType(currentGameType) && typeof gameRoomContext!=="undefined" && gameRoomContext){
+       currentGameType="";gameRoomContext=null;
+     }
+   }catch(_){}
+ }
+ window.hideQixiGameInviteInline=function(){const el=document.getElementById("qixiGameInviteInline");if(el){el.classList.add("hidden");el.innerHTML="";}};
+ window.showQixiIncomingInviteInline=function(){return false};
+ window.showQixiOutgoingInviteInline=function(){closeLegacy()};
+ if(typeof fetchPendingEvents==="function"){
+   const prev=fetchPendingEvents;
+   window.fetchPendingEvents=async function(c){const rows=await prev(c);return (rows||[]).filter(e=>!(e.kind==="game"&&isQixiType(e.type||e.gameType||String(e.text||"").split("|")[1])));};
+ }
+ async function purge(){
+   closeLegacy();
+   try{
+     const x=typeof cur==="function"?cur():null;if(!x||typeof api!=="function")return;
+     for(const code of (x.roomCodes||[])){
+       let rows=[];try{rows=await api(`/test_interactions?room_code=eq.${encodeURIComponent(code)}&select=*&order=created_at.desc&limit=100`)}catch(_){}
+       for(const r of (rows||[])){
+         const txt=String(r.text||"");
+         if(txt.startsWith("GAME_INVITE|qixi_")){try{await api(`/test_interactions?id=eq.${encodeURIComponent(r.id)}`,{method:"DELETE"})}catch(_){}}
+       }
+     }
+   }catch(_){}
+ }
+ setTimeout(purge,250);window.addEventListener("pageshow",()=>setTimeout(purge,200));
+ document.addEventListener("click",e=>{if(e.target.closest("#qixiEventFab,[data-qixi-fac]"))closeLegacy()},true);
+})();
+</script>
 </body>
 </html>
 
@@ -18317,14 +18358,10 @@ function openConfirm(o={}){
    }
  }
  function qixiCanStartFacility(x,fid){
-   const st=ensure(x);resetQixiDailyFacility(st);
+   const st=ensure(x);
+   /* 3.30.66：五個七夕小遊戲全部立即開放，不再有每日一設施限制。 */
    if(st.done?.[fid]){
-     toast?.("這個七夕設施已經通關過了，不能重複領獎。");
-     return false;
-   }
-   if(st.dailyFacilityCompleted && st.dailyFacilityCompleted!==fid){
-     const f=FACILITIES.find(v=>v.id===st.dailyFacilityCompleted);
-     toast?.(`今天已完成「${f?.name||"另一個設施"}」，明天 00:00 再來挑戰下一個。`,3600);
+     toast?.("這個七夕設施已經通關過了，請挑戰其他尚未完成的設施。");
      return false;
    }
    return true;
@@ -18373,7 +18410,7 @@ function openConfirm(o={}){
 
   document.getElementById("qixiProgressFill").style.width=(n/FACILITIES.length*100)+"%";
   const selected=qixiSelectedCompanion(x);
-  grid.innerHTML=(selected?`<div class="qixiRewardBox qixiBindStatus" style="grid-column:1/-1">
+  grid.innerHTML=(n>=FACILITIES.length && selected?`<div class="qixiRewardBox qixiBindStatus" style="grid-column:1/-1">
     <b>🌌 七夕同行：${RELS[selected.rel].icon} ${selected.name}</b>
     <div class="small">${
       selected.bound
@@ -18398,8 +18435,7 @@ function openConfirm(o={}){
     </div>`)
    +FACILITIES.map(f=>`<button type="button" class="qixiFacility ${st.done[f.id]?'done':''}" data-qixi-fac="${f.id}" ${st.done[f.id]?"disabled":""}><div class="ico">${f.ico}</div><b>${f.name}</b><div class="small">${f.desc}</div><div class="small">${
  st.done[f.id]?'✅ 已通關・獎勵已領取':
- (st.dailyFacilityCompleted && st.dailyFacilityCompleted!==f.id)?'🔒 今日已完成其他設施':
- '🎮 單人挑戰'
+ '🎮 單人挑戰・立即開放'
 }</div></button>`).join("");
   
   grid.querySelector("#sendQixiBindBtn")?.addEventListener("click",()=>sendQixiBindRequest(false));
