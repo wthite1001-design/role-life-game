@@ -5,9 +5,42 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#9a76c4" name="theme-color"/>
-<title>關係進行式・3.31.14.26</title>
+<title>關係進行式・3.31.14.28</title>
 
 
+
+<script id="formal3311427InstantQixiImages">
+(function(){
+ const ASSETS=[
+  "images/qixi/bridge_keeper.png",
+  "images/qixi/qixi_lantern_corridor.png",
+  "images/qixi/qixi_bridge_game_bg_v2.png",
+  "images/qixi/qixi_wish_platform.png"
+ ];
+ const imgs=[];
+ for(const src of ASSETS){
+   try{
+     const im=new Image();
+     im.decoding="async";
+     try{im.fetchPriority="high"}catch(_){}
+     im.src=src;
+     imgs.push(im);
+     try{im.decode?.().catch(()=>{})}catch(_){}
+   }catch(_){}
+ }
+ window.__qixiInstantImages=imgs;
+ if("caches" in window){
+   Promise.resolve().then(async()=>{
+     try{
+       const cache=await caches.open("qixi-images-v2");
+       await Promise.allSettled(ASSETS.map(async src=>{
+         if(!(await cache.match(src)))await cache.add(src);
+       }));
+     }catch(_){}
+   });
+ }
+})();
+</script>
 <script id="formal3311412PrePaintTheme">
 (function(){
  try{
@@ -1821,7 +1854,7 @@ html[data-formal-theme="maidCafe"] .navBtn::after{
 
 
 <style id="qixi3311424-layout-repair">
-/* 3.31.14.26 正式服：七夕活動手機排版與小遊戲樣式修復 */
+/* 3.31.14.28 正式服：七夕活動手機排版與小遊戲樣式修復 */
 #qixiEventModal .modalBox{font-size:16px!important;line-height:1.55!important;}
 #qixiEventModal .small,#qixiEventModal p,#qixiEventModal .qixiGameRuleNote{font-size:14px!important;line-height:1.55!important;}
 #qixiEventModal h2,#qixiEventModal .modalTitle{font-size:24px!important;line-height:1.25!important;}
@@ -2049,6 +2082,12 @@ html[data-formal-theme="maidCafe"] .navBtn::after{
 .qixiFerryControls{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px}.qixiFerryControls button{min-height:52px;border:1px solid rgba(255,255,255,.28);border-radius:16px;background:rgba(31,23,83,.86);color:#fff;font-weight:900;font-size:17px;touch-action:manipulation}
 
 </style>
+<!-- formal-qixi-preload-marker -->
+
+<link rel="preload" as="image" href="images/qixi/bridge_keeper.png" fetchpriority="high">
+<link rel="preload" as="image" href="images/qixi/qixi_lantern_corridor.png" fetchpriority="high">
+<link rel="preload" as="image" href="images/qixi/qixi_bridge_game_bg_v2.png" fetchpriority="high">
+<link rel="preload" as="image" href="images/qixi/qixi_wish_platform.png" fetchpriority="high">
 </head>
 <body>
 
@@ -3331,7 +3370,7 @@ function show(id){
       npc.style.setProperty("z-index","9996","important");
     }
   }
-  /* 3.31.14.26：七夕入口也由主頁切換函式直接控制。
+  /* 3.31.14.28：七夕入口也由主頁切換函式直接控制。
      不只看 activeId，避免離開角色後舊 activeId／定時器又把入口叫回首頁。 */
   const qixi=document.getElementById("qixiEventFab");
   if(qixi){
@@ -15899,7 +15938,7 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 
 <script id="formal33111SingleVersionSource">
 (function(){
- const VERSION="3.31.14.26";
+ const VERSION="3.31.14.28";
  function apply(){
    document.querySelectorAll(".homeVersion").forEach(function(el){
      el.textContent="第"+VERSION+"版・正式服";
@@ -16437,7 +16476,7 @@ html[data-formal-theme="qixiGalaxy"] :is(.card,.panel,.pendingPanel,.characterCa
 })();
 </script>
 <script id="formal33114Version">
-(function(){const V='3.31.14.26';function f(){document.querySelectorAll('.homeVersion').forEach(el=>el.textContent='第'+V+'版・正式服');document.documentElement.dataset.gameVersion=V;document.title='關係進行式・'+V}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',f,{once:true});else f();window.addEventListener('pageshow',f)})();
+(function(){const V='3.31.14.28';function f(){document.querySelectorAll('.homeVersion').forEach(el=>el.textContent='第'+V+'版・正式服');document.documentElement.dataset.gameVersion=V;document.title='關係進行式・'+V}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',f,{once:true});else f();window.addEventListener('pageshow',f)})();
 </script>
 
 
@@ -16490,7 +16529,7 @@ html[data-formal-theme="qixiGalaxy"] :is(.card,.panel,.pendingPanel,.characterCa
 
 
 
-<!-- 3.31.14.26: 測試服星空外觀完整移植 -->
+<!-- 3.31.14.28: 測試服星空外觀完整移植 -->
 <style id="formalPort_qixi3290SingleTheme">
 :root.qixi-theme-now{
  --qixi-bg1:#090725;
@@ -16855,7 +16894,7 @@ html[data-formal-theme="qixiGalaxy"] #qixiEventModal :is(.qixiRewardBox,.qixiFac
 </script>
 
 
-<!-- 3.31.14.26：TEST 3.30.80 七夕活動直接移植 -->
+<!-- 3.31.14.28：TEST 3.30.80 七夕活動直接移植 -->
 <script id="formalExact_qixi33035DailyUnlockScript">
 (function(){
  const START=new Date(2026,7,19),COUNT=5;
@@ -17249,6 +17288,7 @@ window.addEventListener("pageshow",unlockNow);
    if(qixiDecoded.has(src))return qixiDecoded.get(src);
    const task=new Promise(resolve=>{
      const im=new Image();im.decoding="async";
+     try{im.fetchPriority="high"}catch(_){}
      im.onload=()=>resolve(src);im.onerror=()=>resolve(src);im.src=src;
      if(im.decode)im.decode().then(()=>resolve(src)).catch(()=>{});
    });
@@ -17580,6 +17620,7 @@ window.addEventListener("pageshow",unlockNow);
      try{saveLocal?.()}catch(_){}
      awardIfDone(x);
      render();
+     setTimeout(()=>openActivityMain(),0);
    });
  }
  function nextOutro(){qixiRpgNext();}
@@ -18381,13 +18422,53 @@ window.addEventListener("pageshow",unlockNow);
   grid.querySelector("#chooseQixiFromStoryBtn")?.addEventListener("click",openQixiFinalChoice);
   const storyComplete=progress(x)>=FACILITIES.length&&st.outroSeen;
   const qixiBadge=qixiRelationBadge(st);
-  reward.innerHTML=st.badge&&qixiBadge
-   ?`<b>${qixiBadge.icon} 已取得七夕限定徽章「${qixiBadge.name}」</b><div class="small">五段星河故事與這段「${RELS[st.boundRel]?.name||"緣分"}」的守橋人結尾都已完成。</div>${st.rewardClaimed?'<button type="button" disabled style="width:100%;margin-top:8px">✓ 活動獎勵已領取</button>':'<button id="claimQixiRewardBtn" type="button" class="primary" style="width:100%;margin-top:8px">🎁 領取活動獎勵｜50 金幣</button>'}`
-   :n>=FACILITIES.length&&!st.outroSeen
-    ?(st.bound
-      ?`<b>🪶 五段單人挑戰已完成</b><div class="small">已綁定 ${RELS[st.boundRel]?.icon||"🌌"} ${st.boundName||"有緣人"}；接下來會進入這段關係專屬的最終結局，並取得「${qixiBadge?.name||"關係限定"}」徽章。</div><button id="openQixiOutroBtn" type="button" class="primary" style="width:100%;margin-top:8px">進入最終結局</button>`
-      :'<b>🪶 五段單人挑戰已完成</b><div class="small">小遊戲本身不需要同行者操作；但最終關係結局與關係限定徽章仍需要序章選定的真人關係完成雙方綁定。</div><button id="openQixiFinalBindBtn" type="button" class="primary" style="width:100%;margin-top:8px">回去確認七夕同行者</button>')
-    :`<b>七夕關係劇情進度：${n} / ${FACILITIES.length}</b><div class="small">五個小遊戲都由你單人完成；每次通關後會依序章綁定的關係播放不同劇情。最後也會依關係取得不同限定徽章。</div>`;
+  const gamesDone=n>=FACILITIES.length;
+  const endingDone=!!st.outroSeen;
+  const badgeDone=!!st.badge;
+  const targetName=qixiBadge?.name||"關係限定徽章";
+  const targetIcon=qixiBadge?.icon||"🏅";
+  const relationText=st.bound
+    ?`${RELS[st.boundRel]?.icon||"🌌"} ${st.boundName||"有緣人"}｜${RELS[st.boundRel]?.name||"已綁定"}`
+    :"尚未完成真人關係綁定";
+
+  reward.innerHTML=`
+    <div class="qixiFinalProgressCard">
+      <b>🏁 最終結局與限定徽章</b>
+      <div class="small" style="margin-top:4px">目前同行：${relationText}</div>
+
+      <div class="qixiFinalStep ${gamesDone?'done':''}">
+        <span>${gamesDone?'✅':'①'} 五個設施劇情</span>
+        <b>${n} / ${FACILITIES.length}</b>
+      </div>
+
+      <div class="qixiFinalStep ${endingDone?'done':''}">
+        <span>${endingDone?'✅':'②'} 關係專屬最終結局</span>
+        <b>${endingDone?'已完成':gamesDone&&st.bound?'可進入':'尚未解鎖'}</b>
+      </div>
+
+      <div class="qixiFinalStep ${badgeDone?'done':''}">
+        <span>${badgeDone?'✅':'③'} ${targetIcon} 限定徽章「${targetName}」</span>
+        <b>${badgeDone?'已取得':endingDone?'結算中':'未取得'}</b>
+      </div>
+
+      ${
+        badgeDone
+          ? `<div class="small" style="margin-top:7px">五段星河、關係結局與限定徽章皆已完成。</div>`
+          : gamesDone&&!endingDone
+            ? (st.bound
+                ? `<button id="openQixiOutroBtn" type="button" class="primary" style="width:100%;margin-top:9px">🌌 進入最終結局</button>`
+                : `<button id="openQixiFinalBindBtn" type="button" class="primary" style="width:100%;margin-top:9px">回去確認七夕同行者</button>`)
+            : `<div class="small" style="margin-top:7px">每完成一個單人設施，進度 +1；5/5 後開放專屬最終結局，完成後取得關係限定徽章。</div>`
+      }
+
+      ${
+        badgeDone
+          ? (st.rewardClaimed
+              ? '<button type="button" disabled style="width:100%;margin-top:8px">✓ 活動獎勵已領取</button>'
+              : '<button id="claimQixiRewardBtn" type="button" class="primary" style="width:100%;margin-top:8px">🎁 領取活動獎勵｜50 金幣</button>')
+          : ''
+      }
+    </div>`;
   reward.querySelector("#openQixiOutroBtn")?.addEventListener("click",openOutro);
   reward.querySelector("#openQixiFinalBindBtn")?.addEventListener("click",openQixiFinalChoice);
   reward.querySelector("#claimQixiRewardBtn")?.addEventListener("click",()=>{
@@ -18772,7 +18853,13 @@ window.addEventListener("pageshow",unlockNow);
   fab.style.display=(inGame&&qixiEventIsOpen())?"flex":"none";
  }
  document.getElementById("qixiEventFab").onclick=()=>openIntro(false);
- document.getElementById("qixiRpgClose")?.addEventListener("click",e=>{e.stopPropagation();closeQixiRpg()});
+ document.getElementById("qixiRpgClose")?.addEventListener("click",e=>{
+   e.stopPropagation();
+   const ch=String(qixiRpgState?.chapter||"");
+   const back=/星河渡口|緣燈長廊|鵲羽橋|星願台|守橋亭|再與守橋人交談|終幕/.test(ch);
+   closeQixiRpg();
+   if(back)setTimeout(()=>openActivityMain(),0);
+ });
  document.querySelector("#qixiRpgPlayer .qixiRpgDialogue")?.addEventListener("click",e=>{
    if(e.target.closest("button"))return;
    qixiRpgNext();
@@ -18780,7 +18867,12 @@ window.addEventListener("pageshow",unlockNow);
  document.addEventListener("keydown",e=>{
    if(document.getElementById("qixiRpgPlayer")?.classList.contains("hidden"))return;
    if(["Enter"," ","ArrowRight"].includes(e.key)){e.preventDefault();qixiRpgNext()}
-   if(e.key==="Escape")closeQixiRpg();
+   if(e.key==="Escape"){
+     const ch=String(qixiRpgState?.chapter||"");
+     const back=/星河渡口|緣燈長廊|鵲羽橋|星願台|守橋亭|再與守橋人交談|終幕/.test(ch);
+     closeQixiRpg();
+     if(back)setTimeout(()=>openActivityMain(),0);
+   }
  });
 
  document.getElementById("closeQixiEvent").onclick=()=>document.getElementById("qixiEventModal").classList.add("hidden");
@@ -19541,6 +19633,80 @@ html[data-formal-theme="qixiGalaxy"] #qixiEventFab{
   font-size:13px!important;
   min-height:24px!important;
   padding:6px 2px!important;
+}
+</style>
+
+
+<script id="formal3311428ThemeSwitchAuthoritative">
+(function(){
+ const THEME='role_life_formal_theme_v1';
+ const LEGACY='relationship_game_formal_paid_theme_v1';
+ const MANUAL='qixi_manual_theme_v1';
+
+ function apply(mode){
+   try{
+     window.local=window.local||{};
+     local.accountAppearance=local.accountAppearance||{};
+     local.accountAppearance.owned=local.accountAppearance.owned||{};
+     local.accountAppearance.trials=local.accountAppearance.trials||{};
+     local.accountAppearance.active=mode;
+
+     document.documentElement.setAttribute('data-formal-theme',mode);
+     document.documentElement.classList.toggle('qixi-theme-now',mode==='qixiGalaxy');
+
+     const payload={mode,account:true,savedAt:Date.now()};
+     localStorage.setItem(THEME,JSON.stringify(payload));
+     localStorage.setItem(LEGACY,JSON.stringify(payload));
+     localStorage.setItem(MANUAL,JSON.stringify({mode,at:Date.now()}));
+
+     document.querySelectorAll('[data-formal-theme-choice]').forEach(btn=>{
+       btn.classList.toggle('active',btn.dataset.formalThemeChoice===mode);
+     });
+   }catch(e){console.warn('formal theme switch',e)}
+ }
+
+ document.addEventListener('click',e=>{
+   const btn=e.target?.closest?.('[data-formal-theme-choice]');
+   if(!btn)return;
+   const mode=btn.dataset.formalThemeChoice;
+   if(!['default','maidCafe','qixiGalaxy'].includes(mode))return;
+   /* 舊程式仍會在同一 click 裡跑，因此這裡先記住，再用 microtask+rAF 最後覆蓋。 */
+   try{localStorage.setItem(MANUAL,JSON.stringify({mode,at:Date.now()}))}catch(_){}
+   queueMicrotask(()=>apply(mode));
+   requestAnimationFrame(()=>apply(mode));
+   setTimeout(()=>apply(mode),80);
+ },true);
+
+ window.__applyFormalTheme3311428=apply;
+})();
+</script>
+
+
+<script id="formal3311428QixiProgressPlacement">
+(function(){
+ function move(){
+   const login=document.getElementById('qixiLoginRewardPanel');
+   const reward=document.getElementById('qixiRewardBox');
+   if(login&&reward&&login.nextElementSibling!==reward)login.insertAdjacentElement('afterend',reward);
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',move,{once:true});else move();
+ window.addEventListener('pageshow',move,{passive:true});
+})();
+</script>
+
+
+<style id="formal3311428QixiFinalProgressStyle">
+#qixiRewardBox{margin:8px 0!important}
+.qixiFinalProgressCard{display:grid!important;gap:7px!important}
+.qixiFinalStep{
+ display:flex!important;justify-content:space-between!important;align-items:center!important;
+ gap:8px!important;padding:8px 9px!important;border-radius:12px!important;
+ background:rgba(255,255,255,.08)!important;border:1px solid rgba(221,205,255,.20)!important;
+ font-size:12px!important;line-height:1.3!important;
+}
+.qixiFinalStep>b{font-size:11px!important;white-space:nowrap!important}
+.qixiFinalStep.done{
+ background:rgba(128,206,160,.13)!important;border-color:rgba(151,225,180,.32)!important;
 }
 </style>
 
