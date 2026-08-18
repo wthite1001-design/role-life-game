@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#9a76c4">
-<meta name="x-test-build" content="3.30.69">
+<meta name="x-test-build" content="3.30.71">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>關係進行式 TEST・3.30.69-七夕單人設施關係分線</title>
+<title>關係進行式 TEST・3.30.71</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -2645,6 +2645,39 @@ padding:14px;z-index:5;filter:drop-shadow(0 0 12px #fff7a8);animation:qixiStarPu
 .q63Question{text-align:center;font-size:18px;font-weight:900;margin:6px 0 12px}.q63Answers{display:grid;gap:8px}.q63Answers button{min-height:56px!important}
 </style>
 
+
+<style id="test33071FlatRoleHome">
+/* 3.30.71：角色首頁回到平面版型。只移除角色首頁「外層」浮凸卡片，功能頁/彈窗不受影響。 */
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) body{
+  background:linear-gradient(#eee5f6,#fbf7fa)!important;
+}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) #game > .card:not(.pageCard){
+  background:transparent!important;
+  background-image:none!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+  padding-left:0!important;
+  padding-right:0!important;
+}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) #game > .card.hero.heroV322{
+  padding-top:10px!important;
+  padding-bottom:8px!important;
+}
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) #game > .relationShortcutCard{
+  padding-top:8px!important;
+  padding-bottom:8px!important;
+  border-top:1px solid var(--line)!important;
+  border-bottom:1px solid var(--line)!important;
+}
+/* 未處理事件本身保留可辨識的單筆事件卡；外框不再是一整塊浮起的卡片。 */
+html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) #game > .card:first-of-type{
+  margin-bottom:8px!important;
+  padding-top:4px!important;
+  padding-bottom:8px!important;
+}
+</style>
+
 </head>
 <body>
 
@@ -2697,7 +2730,7 @@ padding:14px;z-index:5;filter:drop-shadow(0 0 12px #fff7a8);animation:qixiStarPu
   </div>
 </div>
 
-<div id="testServerRibbon" class="testServerRibbon hidden">🧪 TEST・3.30.69-beta</div>
+<div id="testServerRibbon" class="testServerRibbon hidden">🧪 TEST・3.24-beta</div>
 <button id="returnProdBtn" class="returnProdBtn hidden" type="button">💞 回正式服</button>
 
 <!-- GM-MAILBOX-BUILD-3-NATIVE-NAV -->
@@ -2709,7 +2742,7 @@ padding:14px;z-index:5;filter:drop-shadow(0 0 12px #fff7a8);animation:qixiStarPu
     <div class="homeLogo">🧪</div>
     <h1>關係進行式 TEST</h1>
     <div class="homeTagline">測試中的每一段關係，都可能被重置。</div>
-    <div class="homeVersion">3.30.69・測試服｜七夕單人設施＋關係分線</div>
+    <div class="homeVersion">3.30.71・測試服</div>
   </div>
 
   <div id="playerAccountHomePanel" class="homePanel accountHomePanel">
@@ -15227,7 +15260,7 @@ body.maid-cafe-preview .chip{background:#f8e3e9!important;color:#7d4b60!importan
 </style>
 <script id="v32639MaidCafeFinalPatch">
 (function(){
- const BUILD='3.30.69';
+ const BUILD='3.30.71';
  const MAID_PASS='maidCafeVoucher';
  const MAID_COS='maidCafe';
  function current(){try{return typeof cur==='function'?cur():null}catch(_){return null}}
@@ -15257,8 +15290,8 @@ body.maid-cafe-preview .chip{background:#f8e3e9!important;color:#7d4b60!importan
    wrapped.__maid32639=true;window.npcRenderShop=wrapped;
  }
  function refreshVersion(){
-   document.title=`關係進行式 TEST・${BUILD}-七夕單人設施關係分線`;
-   const hv=document.querySelector('.homeVersion');if(hv)hv.textContent=`${BUILD}・測試服｜七夕單人設施＋關係分線`;
+   document.title=`關係進行式 TEST・${BUILD}-女僕咖啡廳單券兌換修復`;
+   const hv=document.querySelector('.homeVersion');if(hv)hv.textContent=`${BUILD}・測試服｜女僕咖啡廳單券兌換修復`;
    document.querySelectorAll('.testServerRibbon').forEach(el=>el.textContent=`🧪 TEST・${BUILD}-beta`);
    const meta=document.querySelector('meta[name="x-test-build"]');if(meta)meta.content=BUILD;
  }
@@ -15550,7 +15583,7 @@ header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{back
 <script id="qixi3283-ribbon-fix">
 (function(){
  function fix(){
-   document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.30.69-beta");
+   document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.30.71-beta");
  }
  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",fix,{once:true});else fix();
  setTimeout(fix,300);
@@ -15887,8 +15920,8 @@ html[data-formal-theme="default"] body::after{content:none!important;display:non
 
 <script id="test33015SingleVersionSource">
 (function(){
- const BUILD='3.30.69';
- const LABEL='七夕單人設施＋關係分線';
+ const BUILD='3.30.71';
+ const LABEL='七夕邀約內嵌＋設施背景＋快速雲端同步';
  function apply(){
    document.title='關係進行式 TEST・'+BUILD;
    document.querySelectorAll('.testServerRibbon').forEach(el=>el.textContent='🧪 TEST・'+BUILD+'-beta');
@@ -17170,6 +17203,21 @@ window.addEventListener("pageshow",unlockNow);
  document.addEventListener("click",e=>{if(e.target.closest("#qixiEventFab,[data-qixi-fac]"))closeLegacy()},true);
 })();
 </script>
+
+<script id="test33071AuthoritativeVersion">
+(function(){
+ const BUILD='3.30.71';
+ function apply(){
+   document.title='關係進行式 TEST・'+BUILD;
+   const meta=document.querySelector('meta[name="x-test-build"]'); if(meta) meta.content=BUILD;
+   const hv=document.querySelector('.homeVersion'); if(hv) hv.textContent=BUILD+'・測試服';
+   document.querySelectorAll('.testServerRibbon').forEach(el=>el.textContent='🧪 TEST・'+BUILD+'-beta');
+ }
+ if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',apply,{once:true}); else apply();
+ window.addEventListener('pageshow',apply,{passive:true});
+})();
+</script>
+
 </body>
 </html>
 
@@ -18802,11 +18850,37 @@ function openConfirm(o={}){
    document.getElementById("qixiBranchModal").classList.add("hidden");
    eventModal?.classList.add("hidden");
 
-   const lines=raw.map((t,i)=>({
-     speaker:i===0?"旁白":(rel==="solo"?"守橋人":(qixiSelectedCompanion(x)?.name||d.name.split("｜")[0])),
-     text:t,
-     image:QIXI_ASSETS.keeper
-   }));
+   /* 3.30.70：七夕關係劇情逐句拆分說話者。敘述＝旁白；「你」說的話＝玩家；「對方」說的話＝同行者；守橋人的話＝守橋人。 */
+   const playerName=String(x?.name||x?.characterName||x?.displayName||"我");
+   const companionName=rel==="solo"?"守橋人":(qixiSelectedCompanion(x)?.name||d.name.split("｜")[0]);
+   let dialogueTurn="player";
+   const lines=[];
+   const pushNarration=(text)=>{if(String(text||"").trim())lines.push({speaker:"旁白",text:String(text).trim(),image:QIXI_ASSETS.keeper})};
+   const pushDialogue=(text,ctx)=>{
+     const q=String(text||"").trim(); if(!q)return;
+     let speaker;
+     if(rel==="solo" || /守橋人/.test(ctx||"")) speaker="守橋人";
+     else if(/(?:你|你們?)(?:正想|本來|忽然|立刻|笑著|回答|反駁|問|說|喊|嘆|皺眉|挑眉|開口)/.test(ctx||"") && !/對方/.test(ctx||"")) speaker=playerName;
+     else if(/對方|身後|身旁的人|前方的人|那個人|熟悉的聲音/.test(ctx||"")) speaker=companionName;
+     else {speaker=dialogueTurn==="player"?playerName:companionName;}
+     if(speaker!=="守橋人") dialogueTurn=(speaker===playerName)?"companion":"player";
+     lines.push({speaker,text:`「${q}」`,image:QIXI_ASSETS.keeper});
+   };
+   for(const rawLine of raw){
+     const t=String(rawLine||"");
+     const re=/「([^」]*)」/g; let last=0,m,found=false;
+     while((m=re.exec(t))){
+       found=true;
+       const before=t.slice(last,m.index).trim();
+       if(before)pushNarration(before);
+       const context=(before||t.slice(Math.max(0,m.index-28),m.index));
+       pushDialogue(m[1],context);
+       last=re.lastIndex;
+     }
+     const after=t.slice(last).trim();
+     if(after)pushNarration(after);
+     else if(!found && t.trim())pushNarration(t);
+   }
 
    startQixiRpg(lines,`${f.ico} ${f.name}｜${d.name}`,()=>{
      const st=ensure(x);
