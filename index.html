@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#9a76c4" name="theme-color"/>
-<title>關係進行式・3.31.14.17</title>
+<title>關係進行式・3.31.14.18</title>
 
 <script id="formal3311412PrePaintTheme">
 (function(){
@@ -3087,7 +3087,7 @@ function show(id){
       npc.style.setProperty("z-index","9996","important");
     }
   }
-  /* 3.31.14.17：七夕入口也由主頁切換函式直接控制。
+  /* 3.31.14.18：七夕入口也由主頁切換函式直接控制。
      不只看 activeId，避免離開角色後舊 activeId／定時器又把入口叫回首頁。 */
   const qixi=document.getElementById("qixiEventFab");
   if(qixi){
@@ -15699,7 +15699,7 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 
 <script id="formal33111SingleVersionSource">
 (function(){
- const VERSION="3.31.14.17";
+ const VERSION="3.31.14.18";
  function apply(){
    document.querySelectorAll(".homeVersion").forEach(function(el){
      el.textContent="第"+VERSION+"版・正式服";
@@ -16088,7 +16088,7 @@ html[data-formal-theme="qixiGalaxy"] :is(.card,.panel,.pendingPanel,.characterCa
 })();
 </script>
 <script id="formal33114Version">
-(function(){const V='3.31.14.17';function f(){document.querySelectorAll('.homeVersion').forEach(el=>el.textContent='第'+V+'版・正式服');document.documentElement.dataset.gameVersion=V;document.title='關係進行式・'+V}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',f,{once:true});else f();window.addEventListener('pageshow',f)})();
+(function(){const V='3.31.14.18';function f(){document.querySelectorAll('.homeVersion').forEach(el=>el.textContent='第'+V+'版・正式服');document.documentElement.dataset.gameVersion=V;document.title='關係進行式・'+V}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',f,{once:true});else f();window.addEventListener('pageshow',f)})();
 </script>
 
 
@@ -16141,7 +16141,7 @@ html[data-formal-theme="qixiGalaxy"] :is(.card,.panel,.pendingPanel,.characterCa
 
 
 
-<!-- 3.31.14.17: 測試服星空外觀完整移植 -->
+<!-- 3.31.14.18: 測試服星空外觀完整移植 -->
 <style id="formalPort_qixi3290SingleTheme">
 :root.qixi-theme-now{
  --qixi-bg1:#090725;
@@ -16506,7 +16506,7 @@ html[data-formal-theme="qixiGalaxy"] #qixiEventModal :is(.qixiRewardBox,.qixiFac
 </script>
 
 
-<!-- 3.31.14.17：TEST 3.30.80 七夕活動直接移植 -->
+<!-- 3.31.14.18：TEST 3.30.80 七夕活動直接移植 -->
 <script id="formalExact_qixi33035DailyUnlockScript">
 (function(){
  const START=new Date(2026,7,19),COUNT=5;
@@ -16856,6 +16856,14 @@ window.addEventListener("pageshow",unlockNow);
 (function(){
 
  const QIXI_TOKEN_KEY="qixi_star_token";
+ function qixiFastWait(p,ms=900,fallback=null){
+   try{
+     return Promise.race([
+       Promise.resolve(p),
+       new Promise(resolve=>setTimeout(()=>resolve(fallback),ms))
+     ]);
+   }catch(_){return Promise.resolve(fallback)}
+ }
  const QIXI_THEME_KEY="qixi_galaxy_theme";
  function qixiAccountBag(){
    local.accountItems??={};
@@ -17045,7 +17053,7 @@ window.addEventListener("pageshow",unlockNow);
 
    if(!st.bound && !force){
      let incoming=null;
-     try{incoming=await findIncomingQixiBind(x)}
+     try{incoming=await qixiFastWait(findIncomingQixiBind(x),900,null)}
      catch(e){console.warn("qixi incoming fallback",e)}
      if(incoming && Number(st.introStoryV||0)<6){
        try{await openIncomingQixiFirstIntro(incoming);return}
@@ -17055,7 +17063,7 @@ window.addEventListener("pageshow",unlockNow);
 
    /* 新版六緣開場已看過：直接回活動頁，不再開局跳獨立選人視窗。 */
    if(st.introStoryV>=6 && !force){
-     try{if(typeof refreshRelationships==="function")await refreshRelationships()}catch(e){console.warn("qixi relation reopen sync",e)}
+     try{if(typeof refreshRelationships==="function")await qixiFastWait(refreshRelationships(),900,null)}catch(e){console.warn("qixi relation reopen sync",e)}
      const now=qixiAvailableCompanions(x);
      if(now.length && st.selectedRel==="solo"){
        st.selectedRel="";st.selectedRoomCode="";st.selectedName="";st.bindPending=false;
@@ -17068,10 +17076,10 @@ window.addEventListener("pageshow",unlockNow);
    }
 
    /* 七夕不能比關係頁更早判定：先同步雲端關係，再建立同行選項。 */
-   try{if(typeof refreshRelationships==="function")await refreshRelationships()}catch(e){console.warn("qixi relation preload",e)}
+   try{if(typeof refreshRelationships==="function")await qixiFastWait(refreshRelationships(),900,null)}catch(e){console.warn("qixi relation preload",e)}
    const available=qixiAvailableCompanions(x);
    let companionState=new Map();
-   try{companionState=await qixiAvailabilityForCompanions(x,available)}
+   try{companionState=await qixiFastWait(qixiAvailabilityForCompanions(x,available),900,new Map())}
    catch(e){console.warn("qixi availability fallback",e);companionState=new Map()}
    /* 舊版曾誤判成獨行；只要現在讀得到真實關係，就清掉錯誤獨行狀態。 */
    if(available.length && st.selectedRel==="solo"){
@@ -17190,6 +17198,12 @@ window.addEventListener("pageshow",unlockNow);
      if(st.selectedRel&&st.selectedRel!=="solo"&&!st.bound)setTimeout(()=>sendQixiBindRequest(true),120);
    });
  }
+ window.__qixiOpenIntroFormal=function(){
+   return openIntro(false);
+ };
+ window.__qixiOpenMainFormal=function(){
+   return openActivityMain();
+ };
  function nextIntro(){qixiRpgNext();}
  function openOutro(){
    const x=c();if(!x)return;
@@ -18246,14 +18260,7 @@ window.addEventListener("pageshow",unlockNow);
   const inGame=!!game&&!game.classList.contains("hidden")&&!!home&&home.classList.contains("hidden")&&hasChar;
   fab.style.display=(inGame&&Date.now()<=QIXI_EVENT_END)?"flex":"none";
  }
- document.getElementById("qixiEventFab").onclick=()=>{
-  if(!qixiEventIsOpen()){toast?.(qixiEventClosedMessage(),2800);return;}
-  Promise.resolve(openIntro(false)).catch(err=>{
-    console.error("qixi open fallback",err);
-    try{openActivityMain()}catch(_){}
-    try{toast?.("七夕活動已開啟；同行資料正在重新同步。",2600)}catch(_){}
-  });
-};
+ document.getElementById("qixiEventFab").onclick=null;
  document.getElementById("qixiRpgClose")?.addEventListener("click",e=>{e.stopPropagation();closeQixiRpg()});
  document.querySelector("#qixiRpgPlayer .qixiRpgDialogue")?.addEventListener("click",e=>{
    if(e.target.closest("button"))return;
@@ -18402,138 +18409,9 @@ html[data-formal-theme="qixiGalaxy"] #qixiEventFab{
     inset 0 1px 0 rgba(255,255,255,.22)!important;
 }
 </style>
-<script id="formalExactQixiFabFinalDrag3311416">
-(function(){
-  const KEY='rlg_fab_pos_qixi_v3';
 
-  function bind(){
-    const fab=document.getElementById('qixiEventFab');
-    if(!fab || fab.dataset.finalDragBound==='1')return;
-    fab.dataset.finalDragBound='1';
 
-    let active=false,moved=false,pid=null;
-    let sx=0,sy=0,sl=0,st=0;
 
-    function clamp(left,top){
-      const pad=8;
-      const w=fab.offsetWidth||140;
-      const h=fab.offsetHeight||44;
-      return {
-        left:Math.max(pad,Math.min(window.innerWidth-w-pad,left)),
-        top:Math.max(pad,Math.min(window.innerHeight-h-pad,top))
-      };
-    }
-
-    function apply(left,top){
-      const p=clamp(left,top);
-      fab.style.setProperty('left',p.left+'px','important');
-      fab.style.setProperty('top',p.top+'px','important');
-      fab.style.setProperty('right','auto','important');
-      fab.style.setProperty('bottom','auto','important');
-      fab.style.setProperty('transform','none','important');
-    }
-
-    function save(){
-      const r=fab.getBoundingClientRect();
-      try{
-        localStorage.setItem(KEY,JSON.stringify({left:r.left,top:r.top}));
-      }catch(_){}
-    }
-
-    function restore(){
-      try{
-        const p=JSON.parse(localStorage.getItem(KEY)||'null');
-        if(Number.isFinite(p?.left)&&Number.isFinite(p?.top)){
-          apply(p.left,p.top);
-          return;
-        }
-      }catch(_){}
-      requestAnimationFrame(()=>{
-        const r=fab.getBoundingClientRect();
-        apply(window.innerWidth-r.width-12,window.innerHeight-r.height-136);
-      });
-    }
-
-    fab.addEventListener('pointerdown',e=>{
-      if(e.button!=null&&e.button!==0)return;
-      const r=fab.getBoundingClientRect();
-      active=true;moved=false;pid=e.pointerId;
-      sx=e.clientX;sy=e.clientY;sl=r.left;st=r.top;
-      fab.classList.add('qixiDragging');
-      try{fab.setPointerCapture(pid)}catch(_){}
-    },{passive:true});
-
-    fab.addEventListener('pointermove',e=>{
-      if(!active||e.pointerId!==pid)return;
-      const dx=e.clientX-sx,dy=e.clientY-sy;
-      if(!moved&&Math.hypot(dx,dy)>5)moved=true;
-      if(!moved)return;
-      if(e.cancelable)e.preventDefault();
-      apply(sl+dx,st+dy);
-    },{passive:false});
-
-    function end(e){
-      if(!active)return;
-      active=false;
-      fab.classList.remove('qixiDragging');
-      try{fab.releasePointerCapture(pid)}catch(_){}
-      pid=null;
-      if(moved){
-        save();
-        fab.dataset.qixiDragClickBlock='1';
-        if(e?.cancelable)e.preventDefault();
-        e?.stopPropagation?.();
-        setTimeout(()=>delete fab.dataset.qixiDragClickBlock,900);
-      }
-    }
-
-    fab.addEventListener('pointerup',end,{passive:false});
-    fab.addEventListener('pointercancel',end,{passive:false});
-
-    /* 拖曳放開後產生的 click 不開活動；真正單點才開活動 */
-    fab.addEventListener('click',e=>{
-      if(fab.dataset.qixiDragClickBlock==='1'){
-        e.preventDefault();
-        e.stopPropagation();
-        e.stopImmediatePropagation();
-      }
-    },true);
-
-    window.addEventListener('resize',()=>{
-      const r=fab.getBoundingClientRect();
-      apply(r.left,r.top);
-    },{passive:true});
-
-    restore();
-  }
-
-  if(document.readyState==='loading'){
-    document.addEventListener('DOMContentLoaded',()=>setTimeout(bind,0),{once:true});
-  }else{
-    setTimeout(bind,0);
-  }
-  window.addEventListener('pageshow',()=>setTimeout(bind,0),{passive:true});
-})();
-</script>
-
-<style id="formal3311417QixiFabFinalSize">
-#qixiEventFab{
-  width:auto!important;
-  min-width:0!important;
-  max-width:150px!important;
-  height:44px!important;
-  min-height:44px!important;
-  max-height:44px!important;
-  padding:7px 11px!important;
-  margin:0!important;
-  border-radius:16px!important;
-  gap:6px!important;
-  font-size:11px!important;
-  line-height:1!important;
-  box-sizing:border-box!important;
-}
-#qixiEventFab .qixiFabIcon{font-size:17px!important}
-</style>
 
 <script id="formal3311417ThemeLock">
 (function(){
@@ -18562,6 +18440,169 @@ html[data-formal-theme="qixiGalaxy"] #qixiEventFab{
    }
  }
  new MutationObserver(sync).observe(document.documentElement,{attributes:true,attributeFilter:['data-formal-theme','class']});
+ window.addEventListener('pageshow',sync,{passive:true});
+ document.addEventListener('visibilitychange',()=>{if(!document.hidden)sync()},{passive:true});
+ setTimeout(sync,0);
+})();
+</script>
+
+
+<style id="formal3311418QixiFabOneSource">
+#qixiEventFab{
+  position:fixed!important;
+  z-index:9998!important;
+  width:auto!important;
+  min-width:0!important;
+  max-width:150px!important;
+  height:44px!important;
+  min-height:44px!important;
+  max-height:44px!important;
+  padding:7px 11px!important;
+  margin:0!important;
+  border-radius:16px!important;
+  display:flex;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:6px!important;
+  font-size:11px!important;
+  line-height:1!important;
+  font-weight:900!important;
+  touch-action:none!important;
+  user-select:none!important;
+  -webkit-user-select:none!important;
+  box-sizing:border-box!important;
+}
+#qixiEventFab .qixiFabIcon{font-size:17px!important;line-height:1!important}
+</style>
+<script id="formal3311418QixiDirectPointer">
+(function(){
+ const KEY='rlg_fab_pos_qixi_v4';
+ const START=Date.parse('2026-08-19T00:00:00+08:00');
+ const END=Date.parse('2026-08-25T23:59:59.999+08:00');
+
+ function bind(){
+   const fab=document.getElementById('qixiEventFab');
+   if(!fab || fab.dataset.qixiDirectBound==='1')return;
+   fab.dataset.qixiDirectBound='1';
+   fab.onclick=null;
+
+   let active=false,moved=false,pid=null,sx=0,sy=0,sl=0,st=0;
+
+   function clamp(left,top){
+     const pad=8,w=fab.offsetWidth||140,h=fab.offsetHeight||44;
+     return {
+       left:Math.max(pad,Math.min(innerWidth-w-pad,left)),
+       top:Math.max(pad,Math.min(innerHeight-h-pad,top))
+     };
+   }
+   function apply(left,top){
+     const p=clamp(left,top);
+     fab.style.setProperty('left',p.left+'px','important');
+     fab.style.setProperty('top',p.top+'px','important');
+     fab.style.setProperty('right','auto','important');
+     fab.style.setProperty('bottom','auto','important');
+     fab.style.setProperty('transform','none','important');
+   }
+   function restore(){
+     try{
+       const p=JSON.parse(localStorage.getItem(KEY)||'null');
+       if(Number.isFinite(p?.left)&&Number.isFinite(p?.top)){apply(p.left,p.top);return}
+     }catch(_){}
+     requestAnimationFrame(()=>{
+       const r=fab.getBoundingClientRect();
+       apply(innerWidth-r.width-12,innerHeight-r.height-136);
+     });
+   }
+   function save(){
+     const r=fab.getBoundingClientRect();
+     try{localStorage.setItem(KEY,JSON.stringify({left:r.left,top:r.top}))}catch(_){}
+   }
+   async function launch(){
+     const now=Date.now();
+     if(now<START){try{toast?.('🌌 七夕活動將於 8/19 00:00 開放。',2600)}catch(_){};return}
+     if(now>END){try{toast?.('🌌 2026 七夕活動已結束。',2600)}catch(_){};return}
+     try{
+       if(typeof window.__qixiOpenIntroFormal==='function'){
+         await window.__qixiOpenIntroFormal();
+         return;
+       }
+       if(typeof window.__qixiOpenMainFormal==='function'){
+         window.__qixiOpenMainFormal();
+         return;
+       }
+       const modal=document.getElementById('qixiEventModal');
+       if(modal){modal.classList.remove('hidden');return}
+       throw new Error('Qixi opener missing');
+     }catch(err){
+       console.error('Qixi direct launch failed',err);
+       try{
+         const modal=document.getElementById('qixiEventModal');
+         modal?.classList.remove('hidden');
+         toast?.('七夕活動已開啟，同行資料稍後同步。',2600);
+       }catch(_){}
+     }
+   }
+
+   fab.addEventListener('pointerdown',e=>{
+     if(e.button!=null&&e.button!==0)return;
+     const r=fab.getBoundingClientRect();
+     active=true;moved=false;pid=e.pointerId;
+     sx=e.clientX;sy=e.clientY;sl=r.left;st=r.top;
+     try{fab.setPointerCapture(pid)}catch(_){}
+   },{passive:true});
+
+   fab.addEventListener('pointermove',e=>{
+     if(!active||e.pointerId!==pid)return;
+     const dx=e.clientX-sx,dy=e.clientY-sy;
+     if(!moved&&Math.hypot(dx,dy)>10)moved=true;
+     if(!moved)return;
+     if(e.cancelable)e.preventDefault();
+     apply(sl+dx,st+dy);
+   },{passive:false});
+
+   fab.addEventListener('pointerup',e=>{
+     if(!active||e.pointerId!==pid)return;
+     active=false;
+     try{fab.releasePointerCapture(pid)}catch(_){}
+     pid=null;
+     if(moved){save();return}
+     launch();
+   },{passive:false});
+
+   fab.addEventListener('pointercancel',()=>{active=false;pid=null},{passive:true});
+
+   /* Browser-generated click is always consumed. Tap opening is handled by pointerup above. */
+   fab.addEventListener('click',e=>{
+     e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();
+   },true);
+
+   restore();
+ }
+
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(bind,0),{once:true});
+ else setTimeout(bind,0);
+ window.addEventListener('pageshow',()=>setTimeout(bind,0),{passive:true});
+})();
+</script>
+
+
+<script id="formal3311418QixiThemeSticky">
+(function(){
+ const KEY='role_life_formal_theme_v1';
+ function sync(){
+   try{
+     const a=window.local?.accountAppearance;
+     let mode=JSON.parse(localStorage.getItem(KEY)||'null')?.mode||a?.active||'default';
+     const now=Date.now(),start=Date.parse('2026-08-19T00:00:00+08:00'),end=Date.parse('2026-08-25T23:59:59.999+08:00');
+     let t=Number(a?.trials?.qixiGalaxyStartedAt||0);
+     try{if(!t)t=Number(localStorage.getItem('qixiGalaxyTrialStartedAt_v1')||0)}catch(_){}
+     const ok=!!a?.owned?.qixiGalaxy||(now>=start&&now<=end&&t>0&&now<t+86400000);
+     if(mode==='qixiGalaxy'&&!ok)mode='default';
+     if(a)a.active=mode;
+     document.documentElement.setAttribute('data-formal-theme',mode);
+     document.documentElement.classList.toggle('qixi-theme-now',mode==='qixiGalaxy');
+   }catch(e){console.warn('qixi theme sticky',e)}
+ }
  window.addEventListener('pageshow',sync,{passive:true});
  document.addEventListener('visibilitychange',()=>{if(!document.hidden)sync()},{passive:true});
  setTimeout(sync,0);
