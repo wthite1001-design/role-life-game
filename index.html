@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#9a76c4" name="theme-color"/>
-<title>關係進行式・3.31.14.33</title>
+<title>關係進行式・3.31.14.34</title>
 
 
 
@@ -3132,7 +3132,7 @@ function show(id){
       npc.style.setProperty("z-index","9996","important");
     }
   }
-  /* 3.31.14.33：七夕入口也由主頁切換函式直接控制。
+  /* 3.31.14.34：七夕入口也由主頁切換函式直接控制。
      不只看 activeId，避免離開角色後舊 activeId／定時器又把入口叫回首頁。 */
   const qixi=document.getElementById("qixiEventFab");
   if(qixi){
@@ -15541,7 +15541,7 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 
 <script id="formal33111SingleVersionSource">
 (function(){
- const VERSION="3.31.14.33";
+ const VERSION="3.31.14.34";
  function apply(){
    document.querySelectorAll(".homeVersion").forEach(function(el){
      el.textContent="第"+VERSION+"版・正式服";
@@ -16026,7 +16026,7 @@ html[data-formal-theme="qixiGalaxy"] :is(.card,.panel,.pendingPanel,.characterCa
 .formalQixiTrialNote{font-size:12px;color:#705c7c;margin-top:5px}
 </style>
 <script id="formal33114Version">
-(function(){const V='3.31.14.33';function f(){document.querySelectorAll('.homeVersion').forEach(el=>el.textContent='第'+V+'版・正式服');document.documentElement.dataset.gameVersion=V;document.title='關係進行式・'+V}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',f,{once:true});else f();window.addEventListener('pageshow',f)})();
+(function(){const V='3.31.14.34';function f(){document.querySelectorAll('.homeVersion').forEach(el=>el.textContent='第'+V+'版・正式服');document.documentElement.dataset.gameVersion=V;document.title='關係進行式・'+V}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',f,{once:true});else f();window.addEventListener('pageshow',f)})();
 </script>
 
 
@@ -16079,8 +16079,8 @@ html[data-formal-theme="qixiGalaxy"] :is(.card,.panel,.pendingPanel,.characterCa
 
 
 
-<!-- 3.31.14.33: 測試服星空外觀完整移植 -->
-<!-- 3.31.14.33：TEST 3.30.80 七夕活動直接移植 -->
+<!-- 3.31.14.34: 測試服星空外觀完整移植 -->
+<!-- 3.31.14.34：TEST 3.30.80 七夕活動直接移植 -->
 <script id="formalExact_test33060QixiStableOpenAndInviteCleanup">
 (function(){
 "use strict";
@@ -19558,7 +19558,7 @@ html:not([data-test-theme="qixiGalaxy"]):not(.qixi-theme-now)
  },true);
 })();
 </script>
-<!-- 3.31.14.33: exact Qixi visual parity copied from uploaded TEST 3.30.80 -->
+<!-- 3.31.14.34: exact Qixi visual parity copied from uploaded TEST 3.30.80 -->
 <style id="formalExactTest_qixi3279-scroll-fix">
 /* 3.30.62：七夕活動頁在手機上可完整往下捲，不再把守橋人卡片截成一半 */
 #qixiEventModal{
@@ -20845,6 +20845,78 @@ html:not([data-test-theme="qixiGalaxy"]):not(.qixi-theme-now)
 .qixiDailyLocked{position:relative!important;opacity:.55!important;filter:grayscale(.35)!important}
 .qixiDailyLocked::after{content:attr(data-qixi-lock-label)!important;display:block!important;position:absolute!important;left:7px!important;right:7px!important;bottom:6px!important;padding:4px!important;border-radius:8px!important;background:rgba(24,19,48,.86)!important;color:#fff!important;font-size:10px!important;font-weight:900!important;text-align:center!important;pointer-events:none!important}
 </style>
+
+<style id="formal3311434QixiEntryVisibilityFix">
+/* 最後權威：只有進入角色遊戲頁時顯示七夕入口。 */
+body.qixi-entry-in-game #qixiEventFab{
+  display:flex!important;
+  visibility:visible!important;
+  opacity:1!important;
+  pointer-events:auto!important;
+}
+body:not(.qixi-entry-in-game) #qixiEventFab{
+  display:none!important;
+}
+</style>
+
+<script id="formal3311434QixiEntryVisibilityController">
+(function(){
+ "use strict";
+ const fab=()=>document.getElementById("qixiEventFab");
+ const game=()=>document.getElementById("game");
+
+ function inGame(){
+   const g=game();
+   if(!g)return false;
+   if(g.classList.contains("hidden"))return false;
+   const cs=getComputedStyle(g);
+   return cs.display!=="none" && cs.visibility!=="hidden";
+ }
+
+ function sync(){
+   const ok=inGame();
+   document.body.classList.toggle("qixi-entry-in-game",ok);
+   const b=fab();
+   if(b&&ok){
+     b.style.removeProperty("display");
+     b.style.removeProperty("visibility");
+     b.style.removeProperty("opacity");
+     b.style.removeProperty("pointer-events");
+   }
+ }
+
+ // 與 TEST 服同樣：進角色、切頁、回前景、旋轉畫面都重新同步。
+ document.addEventListener("click",e=>{
+   if(e.target.closest?.("[data-load],.save button,#menuBtn,.navBtn,#qixiEventFab")){
+     setTimeout(sync,20);
+     setTimeout(sync,180);
+   }
+ },true);
+
+ window.addEventListener("pageshow",()=>setTimeout(sync,0),{passive:true});
+ window.addEventListener("resize",()=>setTimeout(sync,0),{passive:true});
+ document.addEventListener("visibilitychange",()=>{if(!document.hidden)setTimeout(sync,0)},{passive:true});
+
+ // 監看 game 的 hidden/class 變化，這才是 TEST 服入口不會自己消失的關鍵。
+ const startObserver=()=>{
+   const g=game();
+   if(g){
+     try{
+       new MutationObserver(sync).observe(g,{attributes:true,attributeFilter:["class","style"]});
+     }catch(_){}
+   }
+   sync();
+ };
+ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",startObserver,{once:true});
+ else startObserver();
+
+ // 手機角色資料載入較慢，多補幾次，不讓入口因第一次判斷太早而永遠隱藏。
+ [120,350,800,1600,3000].forEach(ms=>setTimeout(sync,ms));
+
+ window.__syncQixiEntry3311434=sync;
+})();
+</script>
+
 </body>
 </html>
 <style>
