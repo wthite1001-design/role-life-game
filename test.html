@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#9a76c4">
-<meta name="x-test-build" content="3.30.74">
+<meta name="x-test-build" content="3.30.75">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>關係進行式 TEST・3.30.74</title>
+<title>關係進行式 TEST・3.30.75</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -2647,7 +2647,7 @@ padding:14px;z-index:5;filter:drop-shadow(0 0 12px #fff7a8);animation:qixiStarPu
 
 
 <style id="test33071FlatRoleHome">
-/* 3.30.74：角色首頁回到平面版型。只移除角色首頁「外層」浮凸卡片，功能頁/彈窗不受影響。 */
+/* 3.30.75：角色首頁回到平面版型。只移除角色首頁「外層」浮凸卡片，功能頁/彈窗不受影響。 */
 html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) body{
   background:linear-gradient(#eee5f6,#fbf7fa)!important;
 }
@@ -2742,7 +2742,7 @@ html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) #game
     <div class="homeLogo">🧪</div>
     <h1>關係進行式 TEST</h1>
     <div class="homeTagline">測試中的每一段關係，都可能被重置。</div>
-    <div class="homeVersion">3.30.74・測試服</div>
+    <div class="homeVersion">3.30.75・測試服</div>
   </div>
 
   <div id="playerAccountHomePanel" class="homePanel accountHomePanel">
@@ -15260,7 +15260,7 @@ body.maid-cafe-preview .chip{background:#f8e3e9!important;color:#7d4b60!importan
 </style>
 <script id="v32639MaidCafeFinalPatch">
 (function(){
- const BUILD='3.30.74';
+ const BUILD='3.30.75';
  const MAID_PASS='maidCafeVoucher';
  const MAID_COS='maidCafe';
  function current(){try{return typeof cur==='function'?cur():null}catch(_){return null}}
@@ -15583,7 +15583,7 @@ header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{back
 <script id="qixi3283-ribbon-fix">
 (function(){
  function fix(){
-   document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.30.74-beta");
+   document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.30.75-beta");
  }
  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",fix,{once:true});else fix();
  setTimeout(fix,300);
@@ -15920,7 +15920,7 @@ html[data-formal-theme="default"] body::after{content:none!important;display:non
 
 <script id="test33015SingleVersionSource">
 (function(){
- const BUILD='3.30.74';
+ const BUILD='3.30.75';
  const LABEL='七夕邀約內嵌＋設施背景＋快速雲端同步';
  function apply(){
    document.title='關係進行式 TEST・'+BUILD;
@@ -17206,7 +17206,7 @@ window.addEventListener("pageshow",unlockNow);
 
 <script id="test33071AuthoritativeVersion">
 (function(){
- const BUILD='3.30.74';
+ const BUILD='3.30.75';
  function apply(){
    document.title='關係進行式 TEST・'+BUILD;
    const meta=document.querySelector('meta[name="x-test-build"]'); if(meta) meta.content=BUILD;
@@ -17220,7 +17220,7 @@ window.addEventListener("pageshow",unlockNow);
 
 
 
-<!-- === 3.30.74 theme parity + Qixi visual pass === -->
+<!-- === 3.30.75 theme parity + Qixi visual pass === -->
 <style id="test33072ThemeParityFinal">
 /*
   一般／女僕：以正式服 3.31.13.32 的視覺規則為最終準則。
@@ -17404,7 +17404,7 @@ html[data-test-theme="qixiGalaxy"] :is(input,select,textarea,.codeBox,.idBox){ba
 </script>
 
 <style id="testAppearanceBottomSheet33073">
-/* TEST 3.30.74：外觀更改選單與正式服一致，改為底部橫滑主題抽屜。 */
+/* TEST 3.30.75：外觀更改選單與正式服一致，改為底部橫滑主題抽屜。 */
 #appearanceModal{
   align-items:flex-end!important;
   justify-content:center!important;
@@ -18042,8 +18042,14 @@ function openConfirm(o={}){
      e.choices.classList.remove("hidden");e.hint.textContent="選擇你的回答";
      for(const ch of line.choices){
        const b=document.createElement("button");b.type="button";b.textContent=ch.label;
+       if(ch.disabled){
+         b.disabled=true;
+         b.setAttribute("aria-disabled","true");
+         if(ch.reason)b.title=ch.reason;
+       }
        b.onclick=(ev)=>{
          ev.stopPropagation();
+         if(ch.disabled){if(ch.reason)toast?.(ch.reason,3600);return;}
          if(ch.onChoose)ch.onChoose();
          if(Number.isFinite(ch.goto))qixiRpgState.index=ch.goto;
          else qixiRpgState.index++;
@@ -18138,6 +18144,7 @@ function openConfirm(o={}){
    /* 七夕不能比關係頁更早判定：先同步雲端關係，再建立同行選項。 */
    try{if(typeof refreshRelationships==="function")await refreshRelationships()}catch(e){console.warn("qixi relation preload",e)}
    const available=qixiAvailableCompanions(x);
+   const companionState=await qixiAvailabilityForCompanions(x,available);
    /* 舊版曾誤判成獨行；只要現在讀得到真實關係，就清掉錯誤獨行狀態。 */
    if(available.length && st.selectedRel==="solo"){
      st.selectedRel="";st.selectedRoomCode="";st.selectedName="";st.bindPending=false;
@@ -18171,19 +18178,27 @@ function openConfirm(o={}){
     {speaker:"守橋人",text:"「只要兩段生命真正交錯過，就可能留下屬於你們的緣。」",image:QIXI_ASSETS.keeper}
    ];
 
-   const choices=available.map(v=>({
-     label:`${RELS[v.rel].icon} ${v.name}｜${RELS[v.rel].name.split("｜")[0]}`,
-     onChoose:()=>{
-       st.selectedRoomCode=v.code;
-       st.selectedRel=v.rel;
-       st.selectedName=v.name;
-       st.bindPending=false;
-       st.introSeen=true;
-       st.introStoryV=6;
-       try{saveLocal?.()}catch(_){}
-     },
-     goto:lines.length+1
-   }));
+   const choices=available.map(v=>{
+     const d=companionState.get(`${v.code}|${v.rel}`)||{};
+     const unavailable=!!d.locked;
+     const reason=d.solo
+       ?`${v.name} 已選擇獨自走過星河，不能再綁定。`
+       :unavailable?`${v.name} 已完成其他七夕綁定，不能再選擇。`:"";
+     return {
+       label:`${RELS[v.rel].icon} ${v.name}｜${RELS[v.rel].name.split("｜")[0]}${unavailable?(d.solo?"（已獨自前行）":"（已綁定）"):""}`,
+       disabled:unavailable,reason,
+       onChoose:()=>{
+         st.selectedRoomCode=v.code;
+         st.selectedRel=v.rel;
+         st.selectedName=v.name;
+         st.bindPending=false;
+         st.introSeen=true;
+         st.introStoryV=6;
+         try{saveLocal?.()}catch(_){}
+       },
+       goto:lines.length+1
+     };
+   });
    choices.push({
      label:"⏳ 我再想想",
      onChoose:()=>{
@@ -18197,7 +18212,7 @@ function openConfirm(o={}){
    });
    choices.push({
       label:"🌙 獨自走過星河",
-     onChoose:()=>{
+     onChoose:async()=>{
        const askSoloAgain=()=>{
          openConfirm?.({
            title:"🌙 獨自前行",
@@ -18205,9 +18220,10 @@ function openConfirm(o={}){
            confirmText:"確定，我自己走",
            cancelText:"取消",
            extraText:"我再想想",
-           onConfirm:()=>{
+           onConfirm:async()=>{
              st.selectedRoomCode="";st.selectedRel="solo";st.selectedName="獨自參加";st.bindPending=false;st.introSeen=true;st.introStoryV=6;
              try{saveLocal?.()}catch(_){}
+             await qixiWriteSoloLock(x);
              render?.();
            },
            onCancel:()=>{ setTimeout(askSoloAgain,80); },
@@ -18217,7 +18233,7 @@ function openConfirm(o={}){
        if(typeof openConfirm==="function") askSoloAgain();
        else{
          const a=prompt("你確定要自己走？\n輸入 1＝確定自己走\n輸入 2＝取消（會繼續詢問）\n輸入 3＝我再想想","3");
-         if(a==="1"){st.selectedRoomCode="";st.selectedRel="solo";st.selectedName="獨自參加";st.bindPending=false;st.introSeen=true;st.introStoryV=6;try{saveLocal?.()}catch(_){}}
+         if(a==="1"){st.selectedRoomCode="";st.selectedRel="solo";st.selectedName="獨自參加";st.bindPending=false;st.introSeen=true;st.introStoryV=6;try{saveLocal?.()}catch(_){};await qixiWriteSoloLock(x)}
          else if(a==="2"){setTimeout(()=>this?.click?.(),80);}
        }
      },
@@ -18373,6 +18389,46 @@ function openConfirm(o={}){
    }
  }
 
+ /* 3.30.75：七夕選擇也寫入雲端。對方若已獨自前行或已完成綁定，就不能再被選成同行者。 */
+ async function qixiCloudDecisionFor(charId){
+   if(!charId)return {locked:false,solo:false,kind:""};
+   try{
+     const rows=await api(`/test_interactions?from_char=eq.${encodeURIComponent(String(charId))}&select=*&order=created_at.desc&limit=120`);
+     const list=rows||[];
+     const bind=list.find(v=>String(v.text||"").startsWith("QIXI_BIND_LOCK|"));
+     if(bind)return {locked:true,solo:false,kind:"bound",row:bind};
+     const solo=list.find(v=>String(v.text||"").startsWith("QIXI_SOLO_LOCK|"));
+     if(solo)return {locked:true,solo:true,kind:"solo",row:solo};
+     return {locked:false,solo:false,kind:""};
+   }catch(e){
+     console.warn("qixi decision lookup",e);
+     return {locked:false,solo:false,kind:""};
+   }
+ }
+
+ async function qixiWriteSoloLock(x){
+   if(!x?.id)return;
+   try{
+     const d=await qixiCloudDecisionFor(x.id);
+     if(d.locked)return;
+     await api("/test_interactions",{method:"POST",body:JSON.stringify({
+       room_code:"QIXI_SOLO",from_char:String(x.id),to_char:"",
+       text:`QIXI_SOLO_LOCK|${x.id}|${Date.now()}`
+     })});
+   }catch(e){console.warn("qixi write solo lock",e)}
+ }
+
+ async function qixiAvailabilityForCompanions(x,available){
+   const out=new Map();
+   await Promise.all((available||[]).map(async v=>{
+     const rr=relationshipSummaries?.[String(v.code)];
+     const otherId=qixiOtherCharId(rr,x);
+     const d=await qixiCloudDecisionFor(otherId);
+     out.set(`${v.code}|${v.rel}`,{...d,otherId});
+   }));
+   return out;
+ }
+
  async function qixiWriteBindLock(x,roomCode,otherId){
    if(!x?.id||!roomCode||!otherId)return;
    try{
@@ -18399,11 +18455,15 @@ function openConfirm(o={}){
   const to=qixiOtherCharId(rr,x);
   if(!to)return toast?.("找不到對方角色資料。");
 
-  const targetLock=await qixiCloudBindLockFor(to);
-  if(targetLock){
+  const targetDecision=await qixiCloudDecisionFor(to);
+  if(targetDecision.locked){
     st.bindPending=false;
+    st.selectedRoomCode="";st.selectedRel="";st.selectedName="";
     try{saveLocal?.()}catch(_){}
-    return toast?.(`${hit.name} 已經與其他人完成七夕綁定，不能再邀請。`,4600);
+    render?.();
+    return toast?.(targetDecision.solo
+      ?`${hit.name} 已選擇獨自走過星河，不能再邀請綁定。`
+      :`${hit.name} 已經完成七夕綁定，不能再邀請。`,4600);
   }
 
   try{
@@ -18477,19 +18537,29 @@ function openConfirm(o={}){
    if(st.bound)return toast?.("七夕同行已永久綁定，不能更換。");
    try{if(typeof refreshRelationships==="function")await refreshRelationships()}catch(e){console.warn("qixi reselect sync",e)}
    const available=qixiAvailableCompanions(x);
-   const choices=available.map(v=>({
-     label:`${RELS[v.rel].icon} ${v.name}｜${RELS[v.rel].name.split("｜")[0]}`,
-     onChoose:()=>{
-       st.selectedRoomCode=v.code;st.selectedRel=v.rel;st.selectedName=v.name;st.bindPending=false;
-       try{saveLocal?.()}catch(_){}
-     },
-     goto:1
-   }));
+   const companionState=await qixiAvailabilityForCompanions(x,available);
+   const choices=available.map(v=>{
+     const d=companionState.get(`${v.code}|${v.rel}`)||{};
+     const unavailable=!!d.locked;
+     const reason=d.solo
+       ?`${v.name} 已選擇獨自走過星河，不能再綁定。`
+       :unavailable?`${v.name} 已完成其他七夕綁定，不能再選擇。`:"";
+     return {
+       label:`${RELS[v.rel].icon} ${v.name}｜${RELS[v.rel].name.split("｜")[0]}${unavailable?(d.solo?"（已獨自前行）":"（已綁定）"):""}`,
+       disabled:unavailable,reason,
+       onChoose:()=>{
+         st.selectedRoomCode=v.code;st.selectedRel=v.rel;st.selectedName=v.name;st.bindPending=false;
+         try{saveLocal?.()}catch(_){}
+       },
+       goto:1
+     };
+   });
    choices.push({
-      label:"🌙 暫時不綁定",
-     onChoose:()=>{
+      label:"🌙 獨自走過星河",
+     onChoose:async()=>{
        st.selectedRoomCode="";st.selectedRel="solo";st.selectedName="獨自參加";st.bindPending=false;
        try{saveLocal?.()}catch(_){}
+       await qixiWriteSoloLock(x);
      },
      goto:1
    });
@@ -18590,9 +18660,11 @@ function openConfirm(o={}){
        return false;
      }
      const inviterId=String(inv.row?.from_char||"");
-     const inviterLock=await qixiCloudBindLockFor(inviterId);
-     if(inviterLock){
-       alert("這位玩家已經與其他人正式同行，這份邀請已失效。");
+     const inviterDecision=await qixiCloudDecisionFor(inviterId);
+     if(inviterDecision.locked){
+       alert(inviterDecision.solo
+         ?"這位玩家已選擇獨自走過星河，這份邀請已失效。"
+         :"這位玩家已經與其他人正式同行，這份邀請已失效。");
        return false;
      }
    }catch(e){
@@ -18768,8 +18840,9 @@ function openConfirm(o={}){
  }
  function qixiCanStartFacility(x,fid){
    const st=ensure(x);
-   /* 3.30.74：沒有完成七夕同行綁定，也沒有明確選擇獨自前行時，所有設施都鎖住。 */
+   /* 3.30.75：沒有完成七夕同行綁定，也沒有明確選擇獨自前行時，所有設施都鎖住。 */
    const soloConfirmed=st.selectedRel==="solo" && !st.bound;
+   if(soloConfirmed)qixiWriteSoloLock(x);
    if(!st.bound && !soloConfirmed){
      toast?.(st.bindPending?"要等對方同意七夕永久綁定後，才能開始小遊戲。":"請先和守橋人決定同行者，完成綁定；或明確選擇獨自走過星河。",4200);
      return false;
