@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#9a76c4" name="theme-color"/>
-<title>關係進行式・3.31.14.44</title>
+<title>關係進行式・3.31.14.45</title>
 
 
 
@@ -1892,7 +1892,7 @@ html[data-formal-theme="maidCafe"] .navBtn::after{
 <div class="homeLogo">💞</div>
 <h1>關係進行式</h1>
 <div class="homeTagline">每一段關係，都還在進行中。</div>
-<div class="homeVersion">第3.31.14.44版・正式服</div>
+<div class="homeVersion">第3.31.14.45版・正式服</div>
 </div>
 <div id="playerAccountHomePanel" class="homePanel accountHomePanel">
 <div class="homePanelTitle"><span>☁️ 玩家帳號</span><span id="playerAccountChip" class="chip">未登入</span></div>
@@ -1910,7 +1910,7 @@ html[data-formal-theme="maidCafe"] .navBtn::after{
 <div class="gmStatus" id="gmHomeStatus"></div>
 </div>
 <div class="homePanel">
-<div class="homePanelTitle"><span>📢 更新公告</span><span class="chip">第3.31.14.44版</span></div>
+<div class="homePanelTitle"><span>📢 更新公告</span><span class="chip">第3.31.14.45版</span></div>
 <div class="small">查看本次新增功能與修正內容。</div>
 <button id="openUpdateNotice" style="width:100%;margin-top:8px" type="button">查看更新內容</button>
 </div>
@@ -2164,7 +2164,7 @@ html[data-formal-theme="maidCafe"] .navBtn::after{
 <option value="npc_crystal_chip">💎 紫晶碎片</option>
 <option value="npc_cat_cookie">🐾 貓掌餅乾</option>
 <option value="npc_lucky_bell">🔔 小幸運鈴【限定贈禮】</option>
-<option value="npc_regular_box">🎁 熟客小盒</option>
+<option value="npc_regular_box">🎁 熟客小盒</option> <option value="npc_maid_cafe_coffee_voucher">☕ 請店長喝咖啡券</option>
 <option value="future_limited_item_ticket">🎟️ 限定物品抽獎券</option>
 <option value="gift_keychain">🔑 鑰匙圈</option>
 <option value="gift_flower">🌷 花束</option>
@@ -2333,7 +2333,7 @@ html[data-formal-theme="maidCafe"] .navBtn::after{
 </div>
 <div class="drawerShade hidden" id="drawerShade"></div><aside class="drawer hidden" id="drawer"><div style="padding:8px"><b id="drawerName">角色</b><div class="muted">功能選單</div></div><button class="navBtn" data-nav="life" type="button">🏠 角色生活</button><button class="navBtn" data-nav="daily" type="button">📋 今日小事</button><button class="navBtn" data-nav="work" type="button">💼 打工賺錢</button><button class="navBtn" data-nav="journal" type="button">📖 今日生活日誌</button><button class="navBtn" data-nav="routine" type="button">🕒 角色作息</button><button class="navBtn" data-nav="outing" type="button">🗺️ 外出 <span class="navDot hidden" data-dot="outing"></span></button><button class="navBtn" data-nav="relations" type="button">💞 關係 <span class="navDot hidden" data-dot="relations"></span></button><button class="navBtn" data-nav="npcrelations" type="button">✨ NPC 關係</button><button class="navBtn" data-nav="mailbox" type="button">📬 信箱 <span class="navDot hidden" data-dot="mailbox"></span></button><button class="navBtn" id="playerAccountDrawerBtn" type="button">☁️ 玩家帳號</button><button class="navBtn" id="gmDrawerLoginBtn" type="button">👑 管理員登入</button><button class="navBtn hidden" data-nav="gm" id="gmNavBtn" type="button">🛠️ GM 操作台</button><div class="navSep"></div><button class="navBtn" data-nav="bag" type="button">🎒 背包</button><button class="navBtn" data-nav="shop" type="button">🏪 商店</button><button class="navBtn" data-nav="memory" type="button">📖 回憶</button><button class="navBtn" data-nav="achievements" type="button">🏆 成就</button><div class="navSep"></div><div style="padding:8px"><b>🎵 悠閒 BGM</b><div class="actions"><button id="bgmToggle">▶ 播放</button><input id="bgmVolume" max="1" min="0" step=".05" type="range" value=".25"/></div><div class="small">把 bgm.mp3 和 index.html 放同一資料夾。</div></div><audio autoplay="" id="bgm" loop="" playsinline="" preload="auto"><source src="bgm.mp3" type="audio/mpeg"/></audio><button class="navBtn" id="back" type="button">💾 返回存檔首頁</button></aside><div class="modal hidden" id="updateNoticeModal">
 <div class="modalBox">
-<div class="modalHead"><b>📢 第3.31.14.44版更新公告</b><button id="closeUpdateNotice">×</button></div>
+<div class="modalHead"><b>📢 第3.31.14.45版更新公告</b><button id="closeUpdateNotice">×</button></div>
 <div class="updateNoticeBody">
   <h3>🎀 女僕咖啡廳主題</h3>
   <p>新增女僕咖啡廳限定外觀。解鎖後可在「外觀更改」中自由切換原始外觀與女僕咖啡廳，選擇會保留。</p>
@@ -3132,7 +3132,7 @@ function show(id){
       npc.style.setProperty("z-index","9996","important");
     }
   }
-  /* 3.31.14.44：七夕入口也由主頁切換函式直接控制。
+  /* 3.31.14.45：七夕入口也由主頁切換函式直接控制。
      不只看 activeId，避免離開角色後舊 activeId／定時器又把入口叫回首頁。 */
   const qixi=document.getElementById("qixiEventFab");
   if(qixi){
@@ -3888,18 +3888,40 @@ function rawCharacterIdFromDisplay(v){
 async function resolveCharacterId(v){
   v=String(v||"").trim();
   if(!v)return "";
-  if(!/^CHR-/i.test(v))return v;
-  let code=v.replace(/^CHR-/i,"").toUpperCase();
 
-  // 先找本機角色，讓 GM 在同一台測試裝置上也能直接使用 CHR-代碼。
+  /* 完整 UUID / 內部 ID 仍直接使用。 */
+  if(!/^CHR-/i.test(v))return v;
+
+  const code=v.replace(/^CHR-/i,"").toUpperCase();
+
+  /* 本機角色先比對。 */
   for(const c of (local?.characters||[])){
     if(c?.id && shortCharacterId(String(c.id))===code)return String(c.id);
   }
 
-  // 再從測試服關係快照找其他玩家角色。
+  /* 正式服 GM 一律從 formal_live_characters 反解 CHR-顯示 ID。
+     CHR-11JOBR71 這類顯示 ID 本來就不是資料庫 character_id 本身。 */
   try{
-    let rows=await api(`/rooms?select=host_char,guest_char`);
-    let ids=new Set();
+    const path="/formal_live_characters?select=character_id,name,player_id";
+    let rows=[];
+    try{
+      rows=gmProfile?await gmAuthFetch(path):await api(path);
+    }catch(e){
+      console.warn("resolve formal character auth fallback",e);
+      rows=await api(path);
+    }
+    for(const r of rows||[]){
+      const id=String(r.character_id||"");
+      if(id && shortCharacterId(id)===code)return id;
+    }
+  }catch(e){
+    console.warn("resolve formal character id",e);
+  }
+
+  /* 相容舊資料：最後才查 room snapshots。 */
+  try{
+    const rows=await api("/rooms?select=host_char,guest_char");
+    const ids=new Set();
     for(const r of rows||[]){
       if(r.host_char)ids.add(String(r.host_char));
       if(r.guest_char)ids.add(String(r.guest_char));
@@ -3907,9 +3929,8 @@ async function resolveCharacterId(v){
     for(const id of ids){
       if(shortCharacterId(id)===code)return id;
     }
-  }catch(e){
-    console.warn("resolve test character id",e);
-  }
+  }catch(_){}
+
   return "";
 }
 async function copyTextValue(v){
@@ -3925,40 +3946,48 @@ async function copyTextValue(v){
 }
 async function gmSearchCharactersByName(){
   if(!gmProfile)return toast("請先登入 GM");
-  let q=document.getElementById("gmSearchName")?.value.trim();
-  let box=document.getElementById("gmSearchResults");
+  const q=String(document.getElementById("gmSearchName")?.value||"").trim();
+  const box=document.getElementById("gmSearchResults");
   if(!box)return;
-  if(!q){box.innerHTML='<div class="small">請輸入角色名稱。</div>';return}
+  if(!q){box.innerHTML='<div class="small">請輸入角色名稱或 CHR-角色 ID。</div>';return}
 
-  box.innerHTML='<div class="small">搜尋中……</div>';
+  box.innerHTML='<div class="small">搜尋正式服角色中……</div>';
   try{
-    // Search cloud relationship room snapshots because that's where current public character states live.
-    let rows=await api(`/rooms?select=host_char,guest_char,host_state,guest_state`);
-    let found=new Map();
-    for(const r of rows||[]){
-      let pairs=[
-        [r.host_char,r.host_state],
-        [r.guest_char,r.guest_state]
-      ];
-      for(const [id,state] of pairs){
-        if(!id||!state)continue;
-        let name=String(state.name||"");
-        if(!name.toLowerCase().includes(q.toLowerCase()))continue;
-        if(!found.has(String(id))){
-          found.set(String(id),{
-            id:String(id),
-            name:name||"未命名角色",
-            level:Number(state.level||1),
-            gender:state.gender||"",
-            online:isOnlineState(state)
-          });
-        }
-      }
+    const select="character_id,player_id,name,last_seen";
+    let rows=[];
+
+    /* 正式服角色索引才是 GM 搜尋權威來源。
+       不再要求玩家必須先建立雲端關係。 */
+    try{
+      rows=await gmAuthFetch(`/formal_live_characters?select=${select}`);
+    }catch(e){
+      console.warn("GM formal character search auth fallback",e);
+      rows=await api(`/formal_live_characters?select=${select}`);
     }
 
-    let list=[...found.values()];
+    const key=q.toLowerCase();
+    const code=q.replace(/^CHR-/i,"").toUpperCase();
+
+    const list=(rows||[])
+      .filter(r=>{
+        const id=String(r.character_id||"");
+        const name=String(r.name||"");
+        if(name.toLowerCase().includes(key))return true;
+        if(/^CHR-/i.test(q) && shortCharacterId(id)===code)return true;
+        if(id.toLowerCase()===key)return true;
+        return false;
+      })
+      .map(r=>({
+        id:String(r.character_id||""),
+        name:String(r.name||"未命名角色"),
+        playerId:String(r.player_id||""),
+        lastSeen:r.last_seen||null
+      }))
+      .filter(x=>x.id);
+
     if(!list.length){
-      box.innerHTML='<div class="small">找不到符合的角色。尚未建立任何雲端關係的純本機角色目前無法被 GM 搜尋。</div>';
+      box.innerHTML='<div class="small">找不到符合的正式服角色。可搜尋角色名稱、CHR-角色 ID 或完整角色 UUID。</div>';
+      box._gmFound=[];
       return;
     }
 
@@ -3966,14 +3995,18 @@ async function gmSearchCharactersByName(){
       <div class="gmSearchRow">
         <div>
           <b>${esc(x.name)}</b>
-          <div class="gmSearchMeta">${x.online?"🟢 在線":"⚪ 離線"}　Lv.${x.level}　${esc(displayCharacterId({id:x.id}))}</div>
+          <div class="gmSearchMeta">
+            ${x.lastSeen?"🟢 有正式服紀錄":"⚪ 正式服角色"}　
+            ${esc(displayCharacterId({id:x.id}))}
+          </div>
         </div>
         <button type="button" data-gm-pick="${i}">選擇</button>
       </div>
     `).join("");
     box._gmFound=list;
   }catch(e){
-    box.innerHTML=`<div class="small">搜尋失敗：${esc(e.message)}</div>`;
+    console.error("GM formal character search",e);
+    box.innerHTML=`<div class="small">搜尋正式服角色失敗：${esc(e.message||e)}</div>`;
   }
 }
 
@@ -4051,7 +4084,7 @@ async function gmCheckTargetGifts(){
   if(!typed)return toast("請先輸入角色 ID");
   try{
     let target=await resolveCharacterId(typed);
-    if(!target)return toast("找不到這個測試服角色。請讓角色至少建立過一段雲端關係，或直接貼完整角色 ID。",5000);
+    if(!target)return toast("找不到這個正式服角色。請輸入角色名稱、CHR-角色 ID，或完整角色 UUID。",5000);
     let rows=await gmAuthFetch(`/gm_gifts?target_char=eq.${encodeURIComponent(target)}&claimed=eq.false&select=id,gift_type,gift_value,gift_count,created_at&order=created_at.desc`);
     if(!rows?.length)return alert("這個角色目前沒有未領取的 GM 禮物。");
     alert(rows.map(x=>`#${x.id}　${x.gift_type}　${x.gift_value} ×${x.gift_count}`).join("\\n"));
@@ -15541,7 +15574,7 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 
 <script id="formal33111SingleVersionSource">
 (function(){
- const VERSION="3.31.14.44";
+ const VERSION="3.31.14.45";
  function apply(){
    document.querySelectorAll(".homeVersion").forEach(function(el){
      el.textContent="第"+VERSION+"版・正式服";
@@ -16026,7 +16059,7 @@ html[data-formal-theme="qixiGalaxy"] :is(.card,.panel,.pendingPanel,.characterCa
 .formalQixiTrialNote{font-size:12px;color:#705c7c;margin-top:5px}
 </style>
 <script id="formal33114Version">
-(function(){const V='3.31.14.44';function f(){document.querySelectorAll('.homeVersion').forEach(el=>el.textContent='第'+V+'版・正式服');document.documentElement.dataset.gameVersion=V;document.title='關係進行式・'+V}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',f,{once:true});else f();window.addEventListener('pageshow',f)})();
+(function(){const V='3.31.14.45';function f(){document.querySelectorAll('.homeVersion').forEach(el=>el.textContent='第'+V+'版・正式服');document.documentElement.dataset.gameVersion=V;document.title='關係進行式・'+V}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',f,{once:true});else f();window.addEventListener('pageshow',f)})();
 </script>
 
 
@@ -16079,8 +16112,8 @@ html[data-formal-theme="qixiGalaxy"] :is(.card,.panel,.pendingPanel,.characterCa
 
 
 
-<!-- 3.31.14.44: 測試服星空外觀完整移植 -->
-<!-- 3.31.14.44：TEST 3.30.80 七夕活動直接移植 -->
+<!-- 3.31.14.45: 測試服星空外觀完整移植 -->
+<!-- 3.31.14.45：TEST 3.30.80 七夕活動直接移植 -->
 <script id="formalExact_test33060QixiStableOpenAndInviteCleanup">
 (function(){
 "use strict";
@@ -17514,7 +17547,7 @@ async function qixiRestoreBoundFromCloud(x){ return await qixiHydrateBoundState(
   if(!grid||!reward)return;
   if(!x){grid.innerHTML='<div class="small">請先進入角色。</div>';return}
   const st=ensure(x),n=progress(x);
-  /* 3.31.14.44：正式服舊存檔若留下中文/舊關係 key，轉回七夕使用的標準 key，避免 render 中斷造成兩條空白卡。 */
+  /* 3.31.14.45：正式服舊存檔若留下中文/舊關係 key，轉回七夕使用的標準 key，避免 render 中斷造成兩條空白卡。 */
   const relAlias={"戀人":"lover","摯友":"bestfriend","家人":"family","搭檔":"partner","宿敵":"rival","仇敵":"enemy","甜蜜共犯":"lover","秘密共犯":"lover"};
   if(st.boundRel&&!RELS[st.boundRel]&&relAlias[st.boundRel])st.boundRel=relAlias[st.boundRel];
   if(st.selectedRel&&!RELS[st.selectedRel]&&relAlias[st.selectedRel])st.selectedRel=relAlias[st.selectedRel];
@@ -18074,7 +18107,7 @@ async function qixiRestoreBoundFromCloud(x){ return await qixiHydrateBoundState(
  }
  
 
- /* 3.31.14.44：提供給正式服可拖曳七夕入口的唯一開啟器。
+ /* 3.31.14.45：提供給正式服可拖曳七夕入口的唯一開啟器。
     入口不能只 remove hidden；一定要走 openIntro/openActivityMain 才會同步綁定並 render。 */
  window.__qixiOpenIntroFormal=async()=>await openIntro(false);
  window.__qixiOpenMainFormal=async()=>await openActivityMain();
@@ -19604,7 +19637,7 @@ html:not([data-test-theme="qixiGalaxy"]):not(.qixi-theme-now)
 })();
 </script>
 
-<!-- 3.31.14.44: exact Qixi visual parity copied from uploaded TEST 3.30.80 -->
+<!-- 3.31.14.45: exact Qixi visual parity copied from uploaded TEST 3.30.80 -->
 <style id="formalExactTest_qixi3279-scroll-fix">
 /* 3.30.62：七夕活動頁在手機上可完整往下捲，不再把守橋人卡片截成一半 */
 #qixiEventModal{
@@ -21017,7 +21050,7 @@ body:not(.qixi-entry-in-game) #qixiEventFab{
        {coins:1000,badge:"星河相逢",label:"🌌 星河相逢徽章＋1,000 金幣"}
      ];
      const r=rewards[idx];
-     /* 3.31.14.44 的 V3 發放無法驗證是否真的持久化；這裡做一次保守補發，
+     /* 3.31.14.45 的 V3 發放無法驗證是否真的持久化；這裡做一次保守補發，
         並立刻寫 V4，之後絕不再補第二次。 */
      if(r.coins){
        const before=Number(c.money||0);
