@@ -5,7 +5,21 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#9a76c4" name="theme-color"/>
-<title>關係進行式・3.31.14.11</title>
+<title>關係進行式・3.31.14.12</title>
+
+<script id="formal3311412PrePaintTheme">
+(function(){
+ try{
+   const raw=JSON.parse(localStorage.getItem('role_life_formal_theme_v1')||'null');
+   const now=Date.now(), start=Date.parse('2026-08-19T00:00:00+08:00'), end=Date.parse('2026-08-25T23:59:59.999+08:00');
+   const trial=Number(localStorage.getItem('qixiGalaxyTrialStartedAt_v1')||0);
+   const qixiOk=now>=start&&now<=end&&trial>0&&now<trial+86400000;
+   const mode=raw?.mode==='qixiGalaxy'&&qixiOk?'qixiGalaxy':(raw?.mode==='maidCafe'?'maidCafe':'default');
+   document.documentElement.setAttribute('data-formal-theme',mode);
+   if(mode==='qixiGalaxy')document.documentElement.classList.add('qixi-theme-now');
+ }catch(_){}
+})();
+</script>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -1803,7 +1817,7 @@ html[data-formal-theme="maidCafe"] .navBtn::after{
 
 <style id="formal331147QixiFabTestParity">
 /* 3.31.14.7：七夕入口完整對齊測試服尺寸與主題連動。位置仍由既有拖曳程式控制。 */
-/* 3.31.14.11：入口顯示條件改為必須已進入角色；角色選擇／建立角色頁不顯示。 */
+/* 3.31.14.12：入口顯示條件改為必須已進入角色；角色選擇／建立角色頁不顯示。 */
 #qixiEventFab{
   position:fixed!important;
   z-index:9998!important;
@@ -3142,7 +3156,7 @@ function show(id){
       npc.style.setProperty("z-index","9996","important");
     }
   }
-  /* 3.31.14.11：七夕入口也由主頁切換函式直接控制。
+  /* 3.31.14.12：七夕入口也由主頁切換函式直接控制。
      不只看 activeId，避免離開角色後舊 activeId／定時器又把入口叫回首頁。 */
   const qixi=document.getElementById("qixiEventFab");
   if(qixi){
@@ -14667,7 +14681,13 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
     window.local=window.local||{};
     local.accountAppearance=local.accountAppearance&&typeof local.accountAppearance==='object'?local.accountAppearance:{};
     local.accountAppearance.owned=local.accountAppearance.owned&&typeof local.accountAppearance.owned==='object'?local.accountAppearance.owned:{};
+    local.accountAppearance.trials=local.accountAppearance.trials&&typeof local.accountAppearance.trials==='object'?local.accountAppearance.trials:{};
     if(local.sharedPaidCosmetics?.maidCafe || (typeof cur==='function'&&cur()?.paidCosmetics?.maidCafe)) local.accountAppearance.owned.maidCafe=1;
+    if(local.sharedPaidCosmetics?.qixiGalaxy || (typeof cur==='function'&&cur()?.paidCosmetics?.qixiGalaxy)) local.accountAppearance.owned.qixiGalaxy=1;
+    try{
+      const p=Number(localStorage.getItem('qixiGalaxyTrialStartedAt_v1')||0);
+      if(p&&!local.accountAppearance.trials.qixiGalaxyStartedAt)local.accountAppearance.trials.qixiGalaxyStartedAt=p;
+    }catch(_){}
     if(!local.accountAppearance.active)local.accountAppearance.active='default';
     return local.accountAppearance;
   }
@@ -14698,12 +14718,26 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
     const grid=document.getElementById('formalAppearanceGrid');
     if(!grid)return;
     const a=ensureAppearance();
+    const now=Date.now();
+    const qixiStart=Date.parse('2026-08-19T00:00:00+08:00');
+    const qixiEnd=Date.parse('2026-08-25T23:59:59.999+08:00');
+    const qixiTrialStart=Number(a.trials?.qixiGalaxyStartedAt||0);
+    const qixiPermanent=!!a.owned.qixiGalaxy;
+    const qixiTrialValid=now>=qixiStart&&now<=qixiEnd&&qixiTrialStart>0&&now<qixiTrialStart+86400000;
+    const qixiAvailable=qixiPermanent||qixiTrialValid;
+    const remain=qixiTrialValid?Math.max(0,qixiTrialStart+86400000-now):0;
+    const remainText=qixiTrialValid?`${Math.floor(remain/3600000)} 小時 ${Math.floor((remain%3600000)/60000)} 分`:'';
+    const qixiDesc=qixiPermanent?'已永久解鎖・帳戶共用':
+      qixiTrialValid?`24 小時免費體驗中・剩餘 ${remainText}`:
+      now<qixiStart?'8/19 00:00 起首次登入可領 24 小時體驗':
+      '免費體驗已結束・購買後永久解鎖';
     const items=[
       {id:'default',name:'一般背景',desc:'原本的遊戲背景',owned:true},
-      {id:'maidCafe',name:'🎀 女僕咖啡廳',desc:'完成女僕咖啡付費劇情後永久解鎖',owned:!!a.owned.maidCafe}
+      {id:'maidCafe',name:'🎀 女僕咖啡廳',desc:'完成女僕咖啡付費劇情後永久解鎖',owned:!!a.owned.maidCafe},
+      {id:'qixiGalaxy',name:'🌌 鵲橋星河',desc:qixiDesc,owned:qixiAvailable}
     ];
     grid.classList.add('appearanceGrid');
-    grid.innerHTML=items.map(x=>`<button type="button" class="appearanceChoice ${a.active===x.id?'active':''}" data-formal-theme-choice="${x.id}" ${x.owned?'':'disabled'}><b>${x.name}</b><span class="small">${x.owned?x.desc:'🔒 尚未解鎖'}</span></button>`).join('');
+    grid.innerHTML=items.map(x=>`<button type="button" class="appearanceChoice ${a.active===x.id?'active':''}" data-formal-theme-choice="${x.id}" ${x.owned?'':'disabled'}><b>${x.name}</b><span class="small">${x.owned?x.desc:(x.id==='qixiGalaxy'?x.desc:'🔒 尚未解鎖')}</span></button>`).join('');
   }
   function open(){render();document.getElementById('formalAppearanceModal')?.classList.remove('hidden');}
   function close(){document.getElementById('formalAppearanceModal')?.classList.add('hidden');}
@@ -14810,10 +14844,23 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
  function themeFirstFrame(){
    try{
      const raw=JSON.parse(localStorage.getItem('role_life_formal_theme_v1')||'null');
-     const mode=raw?.mode==='maidCafe'?'maidCafe':'default';
+     const now=Date.now();
+     const start=Date.parse('2026-08-19T00:00:00+08:00');
+     const end=Date.parse('2026-08-25T23:59:59.999+08:00');
+     const trial=Number(localStorage.getItem('qixiGalaxyTrialStartedAt_v1')||0);
+     let permanent=false;
+     try{
+       const account=window.local?.accountAppearance;
+       permanent=!!account?.owned?.qixiGalaxy||!!window.local?.sharedPaidCosmetics?.qixiGalaxy;
+     }catch(_){}
+     const qixiOk=permanent||(now>=start&&now<=end&&trial>0&&now<trial+86400000);
+     const mode=raw?.mode==='maidCafe'?'maidCafe':
+       (raw?.mode==='qixiGalaxy'&&qixiOk)?'qixiGalaxy':'default';
      document.documentElement.setAttribute('data-formal-theme',mode);
+     document.documentElement.classList.toggle('qixi-theme-now',mode==='qixiGalaxy');
    }catch(_){
      document.documentElement.setAttribute('data-formal-theme','default');
+     document.documentElement.classList.remove('qixi-theme-now');
    }
  }
 
@@ -15662,7 +15709,7 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 
 <script id="formal33111SingleVersionSource">
 (function(){
- const VERSION="3.31.14.11";
+ const VERSION="3.31.14.12";
  function apply(){
    document.querySelectorAll(".homeVersion").forEach(function(el){
      el.textContent="第"+VERSION+"版・正式服";
@@ -17379,7 +17426,7 @@ function openConfirm(o={}){
  function showFab(){
   const home=document.getElementById("home"),game=document.getElementById("game"),fab=document.getElementById("qixiEventFab");
   if(!fab)return;
-  /* 3.31.14.11：入口顯示以「目前畫面真的在角色生活」為唯一依據。
+  /* 3.31.14.12：入口顯示以「目前畫面真的在角色生活」為唯一依據。
      activeId 只作輔助，不再單獨決定顯示，避免首頁／建立角色頁殘留入口。 */
   let hasActiveCharacter=false;
   try{hasActiveCharacter=!!activeId && (typeof cur!=="function" || !!cur())}catch(_){hasActiveCharacter=!!activeId}
@@ -17399,7 +17446,7 @@ function openConfirm(o={}){
    if(now<QIXI_EVENT_START){toast?.("🌌 七夕活動將於 8/19 00:00 開放。",2800);return}
    if(now>QIXI_EVENT_END){toast?.("🌌 2026 七夕活動已結束。",2800);return}
    if(!c()){toast?.("請先進入一個角色後再參加七夕活動。",2600);return}
-   /* 3.31.14.11：先把活動頁打開，避免關係雲端同步期間看起來像按鈕沒反應。 */
+   /* 3.31.14.12：先把活動頁打開，避免關係雲端同步期間看起來像按鈕沒反應。 */
    try{openActivityMain()}catch(_){}
    try{await openIntro(false)}
    catch(err){console.error("qixi open failed",err);toast?.("七夕活動載入失敗，請再點一次。",3200)}
@@ -17542,7 +17589,7 @@ html[data-formal-theme="qixiGalaxy"] :is(.card,.panel,.pendingPanel,.characterCa
 })();
 </script>
 <script id="formal33114Version">
-(function(){const V='3.31.14.11';function f(){document.querySelectorAll('.homeVersion').forEach(el=>el.textContent='第'+V+'版・正式服');document.documentElement.dataset.gameVersion=V;document.title='關係進行式・'+V}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',f,{once:true});else f();window.addEventListener('pageshow',f)})();
+(function(){const V='3.31.14.12';function f(){document.querySelectorAll('.homeVersion').forEach(el=>el.textContent='第'+V+'版・正式服');document.documentElement.dataset.gameVersion=V;document.title='關係進行式・'+V}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',f,{once:true});else f();window.addEventListener('pageshow',f)})();
 </script>
 
 
@@ -17612,7 +17659,7 @@ html[data-formal-theme="qixiGalaxy"] :is(.card,.panel,.pendingPanel,.characterCa
 </script>
 
 
-<!-- 3.31.14.11: 測試服星空外觀完整移植 -->
+<!-- 3.31.14.12: 測試服星空外觀完整移植 -->
 <style id="formalPort_qixi3290SingleTheme">
 :root.qixi-theme-now{
  --qixi-bg1:#090725;
