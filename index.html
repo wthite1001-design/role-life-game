@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#9a76c4" name="theme-color"/>
-<title>關係進行式・3.31.14.13</title>
+<title>關係進行式・3.31.14.14</title>
 
 <script id="formal3311412PrePaintTheme">
 (function(){
@@ -1817,7 +1817,7 @@ html[data-formal-theme="maidCafe"] .navBtn::after{
 
 <style id="formal331147QixiFabTestParity">
 /* 3.31.14.7：七夕入口完整對齊測試服尺寸與主題連動。位置仍由既有拖曳程式控制。 */
-/* 3.31.14.13：入口顯示條件改為必須已進入角色；角色選擇／建立角色頁不顯示。 */
+/* 3.31.14.14：入口顯示條件改為必須已進入角色；角色選擇／建立角色頁不顯示。 */
 #qixiEventFab{
   position:fixed!important;
   z-index:9998!important;
@@ -3156,7 +3156,7 @@ function show(id){
       npc.style.setProperty("z-index","9996","important");
     }
   }
-  /* 3.31.14.13：七夕入口也由主頁切換函式直接控制。
+  /* 3.31.14.14：七夕入口也由主頁切換函式直接控制。
      不只看 activeId，避免離開角色後舊 activeId／定時器又把入口叫回首頁。 */
   const qixi=document.getElementById("qixiEventFab");
   if(qixi){
@@ -6141,6 +6141,41 @@ const miniGames={
   choice:{
     icon:"🛤️",name:"共同抉擇",desc:"遇到同一個情境，你們會做出相同選擇嗎？",
     choices:["先幫助陌生人","先完成自己的事","一起想兩全其美的方法"]
+  },
+  qixi_ferry:{
+    mode:"qixi_coop_ferry",qixiFacility:"ferry",qixiPlay:"realtime",
+    icon:"🌠",name:"七夕・星河渡口｜雙人引星航行",desc:"即時合作：一人掌左舵、一人掌右舵。依序完成 8 次航向判斷，其中還有雙生星合作題。",
+    choices:["⬅️ 左舵","⏸️ 穩住","➡️ 右舵"]
+  },
+  qixi_lantern:{
+    mode:"qixi_lantern",qixiFacility:"lantern",qixiPlay:"async",
+    icon:"🏮",name:"七夕・緣燈長廊｜默契燈陣",desc:"非同步默契題：各自回答 5 題，不能先看對方答案；兩份答案提交後才一起點亮緣燈。",
+    questions:[
+      ["走到岔路時？","先看地圖","憑直覺走","問同行者"],
+      ["只剩一盞燈？","自己拿","交給對方","一起提"],
+      ["突然下雨？","找地方躲","繼續走","把傘偏給對方"],
+      ["看到漂亮星光？","先拍照","先叫對方看","安靜記住"],
+      ["走累了？","休息一下","撐到終點","問對方要不要停"]
+    ]
+  },
+  qixi_bridge:{
+    mode:"qixi_bridge",qixiFacility:"bridge",qixiPlay:"realtime",
+    icon:"🌉",name:"七夕・鵲羽橋｜雙人踏橋",desc:"即時合作：兩人各完成 5 段橋面判斷；機關段需要一人踩住、另一人通過，兩人都抵達才算完成。",
+    choices:["🪶 輕步","🛡️ 踩住機關","🏃 快步通過"]
+  },
+  qixi_wish:{
+    mode:"qixi_wish",qixiFacility:"wish",qixiPlay:"async",
+    icon:"✨",name:"七夕・星願台｜三願排序",desc:"非同步許願：各自選出 3 個願望並排序。提交前看不到對方答案，雙方完成後才生成共同星象。",
+    choices:["一起看更多風景","平安順利","變得更有默契","完成重要目標","留下更多回憶","下一次還能同行"]
+  },
+  qixi_keeper:{
+    mode:"qixi_keeper",qixiFacility:"keeper",qixiPlay:"async",
+    icon:"🪶",name:"七夕・守橋亭｜最後三問",desc:"非同步最終試煉：守橋人給兩人不同角度的 3 道情境題。彼此不能偷看答案，雙方完成後才揭曉。",
+    questions:[
+      ["如果同行者停在橋中央？","回頭等他","在前面喊他","先問發生什麼事"],
+      ["若兩人的方向不同？","各走各的","一起商量","由一人決定"],
+      ["走到橋尾時最想留下？","一句話","一盞燈","一個約定"]
+    ]
   }
 };
 let currentGameType="",currentGameDraft=null,rewardedGames=new Set();
@@ -15709,7 +15744,7 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 
 <script id="formal33111SingleVersionSource">
 (function(){
- const VERSION="3.31.14.13";
+ const VERSION="3.31.14.14";
  function apply(){
    document.querySelectorAll(".homeVersion").forEach(function(el){
      el.textContent="第"+VERSION+"版・正式服";
@@ -16098,7 +16133,7 @@ html[data-formal-theme="qixiGalaxy"] :is(.card,.panel,.pendingPanel,.characterCa
 })();
 </script>
 <script id="formal33114Version">
-(function(){const V='3.31.14.13';function f(){document.querySelectorAll('.homeVersion').forEach(el=>el.textContent='第'+V+'版・正式服');document.documentElement.dataset.gameVersion=V;document.title='關係進行式・'+V}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',f,{once:true});else f();window.addEventListener('pageshow',f)})();
+(function(){const V='3.31.14.14';function f(){document.querySelectorAll('.homeVersion').forEach(el=>el.textContent='第'+V+'版・正式服');document.documentElement.dataset.gameVersion=V;document.title='關係進行式・'+V}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',f,{once:true});else f();window.addEventListener('pageshow',f)})();
 </script>
 
 
@@ -16168,7 +16203,7 @@ html[data-formal-theme="qixiGalaxy"] :is(.card,.panel,.pendingPanel,.characterCa
 </script>
 
 
-<!-- 3.31.14.13: 測試服星空外觀完整移植 -->
+<!-- 3.31.14.14: 測試服星空外觀完整移植 -->
 <style id="formalPort_qixi3290SingleTheme">
 :root.qixi-theme-now{
  --qixi-bg1:#090725;
@@ -16533,7 +16568,7 @@ html[data-formal-theme="qixiGalaxy"] #qixiEventModal :is(.qixiRewardBox,.qixiFac
 </script>
 
 
-<!-- 3.31.14.13：TEST 3.30.80 七夕活動運作層移植 -->
+<!-- 3.31.14.14：TEST 3.30.80 七夕活動運作層移植 -->
 <style id="formalPort_qixi3279-scroll-fix">
 /* 3.30.62：七夕活動頁在手機上可完整往下捲，不再把守橋人卡片截成一半 */
 #qixiEventModal{
@@ -17373,14 +17408,14 @@ document.addEventListener("click",function(ev){
 "use strict";
 
 /* ---------- exact requested Qixi coop definitions ---------- */
-miniGames.qixi_ferry.mode="qixi_coop_ferry";
+miniGames.qixi_ferry=miniGames.qixi_ferry||{};miniGames.qixi_ferry.mode="qixi_coop_ferry";
 miniGames.qixi_ferry.qixiPlay="realtime";
 miniGames.qixi_ferry.name="七夕・星河渡口｜雙人接星";
 miniGames.qixi_ferry.desc="即時合作：左右各一艘星舟，一人只控制左半、一人只控制右半；兩人合計接住 8 顆願星。";
-miniGames.qixi_lantern.mode="qixi_lantern";miniGames.qixi_lantern.qixiPlay="realtime";miniGames.qixi_lantern.name="七夕・緣燈長廊｜傳燈順序";miniGames.qixi_lantern.desc="一人看燈序、一人點燈。看得到順序的人要用遊戲聊天框告訴隊友。";
-miniGames.qixi_bridge.mode="qixi_bridge";miniGames.qixi_bridge.qixiPlay="realtime";miniGames.qixi_bridge.name="七夕・鵲羽橋｜左右踏橋";miniGames.qixi_bridge.desc="一人控制左橋、一人控制右橋，兩邊接力完成五段機關。";
-miniGames.qixi_wish.mode="qixi_wish";miniGames.qixi_wish.qixiPlay="realtime";miniGames.qixi_wish.name="七夕・星願台｜指星尋願";miniGames.qixi_wish.desc="一人看得到願星位置，另一人找星；觀星者用遊戲聊天框告訴隊友位置。";
-miniGames.qixi_keeper.mode="qixi_keeper";miniGames.qixi_keeper.qixiPlay="realtime";miniGames.qixi_keeper.name="七夕・守橋亭｜最後三問";miniGames.qixi_keeper.desc="兩人一起回答最後三問；雙方都完成才觸發最終劇情與七夕獎勵。";
+miniGames.qixi_lantern=miniGames.qixi_lantern||{};miniGames.qixi_lantern.mode="qixi_lantern";miniGames.qixi_lantern.qixiPlay="realtime";miniGames.qixi_lantern.name="七夕・緣燈長廊｜傳燈順序";miniGames.qixi_lantern.desc="一人看燈序、一人點燈。看得到順序的人要用遊戲聊天框告訴隊友。";
+miniGames.qixi_bridge=miniGames.qixi_bridge||{};miniGames.qixi_bridge.mode="qixi_bridge";miniGames.qixi_bridge.qixiPlay="realtime";miniGames.qixi_bridge.name="七夕・鵲羽橋｜左右踏橋";miniGames.qixi_bridge.desc="一人控制左橋、一人控制右橋，兩邊接力完成五段機關。";
+miniGames.qixi_wish=miniGames.qixi_wish||{};miniGames.qixi_wish.mode="qixi_wish";miniGames.qixi_wish.qixiPlay="realtime";miniGames.qixi_wish.name="七夕・星願台｜指星尋願";miniGames.qixi_wish.desc="一人看得到願星位置，另一人找星；觀星者用遊戲聊天框告訴隊友位置。";
+miniGames.qixi_keeper=miniGames.qixi_keeper||{};miniGames.qixi_keeper.mode="qixi_keeper";miniGames.qixi_keeper.qixiPlay="realtime";miniGames.qixi_keeper.name="七夕・守橋亭｜最後三問";miniGames.qixi_keeper.desc="兩人一起回答最後三問；雙方都完成才觸發最終劇情與七夕獎勵。";
 miniGames.qixi_keeper.questions=[
  ["什麼才算有緣？","只有戀人才算","生命真正交錯過","一定要每天見面"],
  ["同行真正重要的是？","永遠不吵架","彼此願意回應與選擇","由一方決定全部"],
