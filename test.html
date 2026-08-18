@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#9a76c4">
-<meta name="x-test-build" content="3.30.79">
+<meta name="x-test-build" content="3.30.80">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>關係進行式 TEST・3.30.79</title>
+<title>關係進行式 TEST・3.30.80</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -2647,7 +2647,7 @@ padding:14px;z-index:5;filter:drop-shadow(0 0 12px #fff7a8);animation:qixiStarPu
 
 
 <style id="test33071FlatRoleHome">
-/* 3.30.79：角色首頁回到平面版型。只移除角色首頁「外層」浮凸卡片，功能頁/彈窗不受影響。 */
+/* 3.30.80：角色首頁回到平面版型。只移除角色首頁「外層」浮凸卡片，功能頁/彈窗不受影響。 */
 html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) body{
   background:linear-gradient(#eee5f6,#fbf7fa)!important;
 }
@@ -2742,7 +2742,7 @@ html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) #game
     <div class="homeLogo">🧪</div>
     <h1>關係進行式 TEST</h1>
     <div class="homeTagline">測試中的每一段關係，都可能被重置。</div>
-    <div class="homeVersion">3.30.79・測試服</div>
+    <div class="homeVersion">3.30.80・測試服</div>
   </div>
 
   <div id="playerAccountHomePanel" class="homePanel accountHomePanel">
@@ -15260,7 +15260,7 @@ body.maid-cafe-preview .chip{background:#f8e3e9!important;color:#7d4b60!importan
 </style>
 <script id="v32639MaidCafeFinalPatch">
 (function(){
- const BUILD='3.30.79';
+ const BUILD='3.30.80';
  const MAID_PASS='maidCafeVoucher';
  const MAID_COS='maidCafe';
  function current(){try{return typeof cur==='function'?cur():null}catch(_){return null}}
@@ -15583,7 +15583,7 @@ header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{back
 <script id="qixi3283-ribbon-fix">
 (function(){
  function fix(){
-   document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.30.79-beta");
+   document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.30.80-beta");
  }
  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",fix,{once:true});else fix();
  setTimeout(fix,300);
@@ -15673,7 +15673,7 @@ header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{back
 
  function currentAppearance(){return ensureAccountAppearance().active||"default"}
 
- const QIXI_THEME_FREE_UNTIL=Date.parse("2026-08-18T18:00:00+08:00");
+ const QIXI_THEME_FREE_UNTIL=Date.parse("2026-08-18T21:00:00+08:00");
  function qixiTrialState(){
    const a=ensureAccountAppearance();
    if(a.owned.qixi)return {permanent:true,active:true,expired:false,startedAt:0,expiresAt:0,remaining:Infinity};
@@ -15751,7 +15751,7 @@ header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{back
        ?`免費體驗中・剩餘 ${fmtRemain(st.remaining)}`
        :st.expired
          ?"🔒 免費體驗已結束・購買後永久解鎖"
-         :"🎁 免費體驗至 8/18 18:00";
+         :"🎁 免費體驗至 8/18 21:00";
    grid.innerHTML=`
     <button type="button" class="appearanceChoice ${cur==="default"?"active":""}" data-appearance="default">
       <b>🌷 原本外觀</b><span class="small">帳戶共用・所有角色同步。</span>
@@ -15774,7 +15774,7 @@ header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{back
      grid?.insertAdjacentElement('afterend',box);
    }
    const st=qixiTrialState(),a=ensureAccountAppearance();
-   box.innerHTML=`<b>🧪 TEST 外觀限時</b><div style="margin-top:4px">${a.owned.qixi?'目前為永久擁有，不受期限限制。':st.active?`全服免費體驗至 8/18 18:00・剩餘 ${fmtRemain(st.remaining)}`:'免費體驗已於 8/18 18:00 結束，需購買才能使用。'}</div>`;
+   box.innerHTML=`<b>🧪 TEST 外觀限時</b><div style="margin-top:4px">${a.owned.qixi?'目前為永久擁有，不受期限限制。':st.active?`全服免費體驗至 8/18 21:00・剩餘 ${fmtRemain(st.remaining)}`:'免費體驗已於 8/18 21:00 結束，需購買才能使用。'}</div>`;
  }
 
  document.getElementById("appearanceDrawerBtn")?.addEventListener("click",()=>{
@@ -15978,7 +15978,7 @@ html[data-formal-theme="default"] body::after{content:none!important;display:non
 
 <script id="test33015SingleVersionSource">
 (function(){
- const BUILD='3.30.79';
+ const BUILD='3.30.80';
  const LABEL='七夕邀約內嵌＋設施背景＋快速雲端同步';
  function apply(){
    document.title='關係進行式 TEST・'+BUILD;
@@ -17264,7 +17264,7 @@ window.addEventListener("pageshow",unlockNow);
 
 <script id="test33071AuthoritativeVersion">
 (function(){
- const BUILD='3.30.79';
+ const BUILD='3.30.80';
  function apply(){
    document.title='關係進行式 TEST・'+BUILD;
    const meta=document.querySelector('meta[name="x-test-build"]'); if(meta) meta.content=BUILD;
@@ -17278,7 +17278,7 @@ window.addEventListener("pageshow",unlockNow);
 
 
 
-<!-- === 3.30.79 theme parity + Qixi visual pass === -->
+<!-- === 3.30.80 theme parity + Qixi visual pass === -->
 <style id="test33072ThemeParityFinal">
 /*
   一般／女僕：以正式服 3.31.13.32 的視覺規則為最終準則。
@@ -17462,7 +17462,7 @@ html[data-test-theme="qixiGalaxy"] :is(input,select,textarea,.codeBox,.idBox){ba
 </script>
 
 <style id="testAppearanceBottomSheet33073">
-/* TEST 3.30.79：外觀更改選單與正式服一致，改為底部橫滑主題抽屜。 */
+/* TEST 3.30.80：外觀更改選單與正式服一致，改為底部橫滑主題抽屜。 */
 #appearanceModal{
   align-items:flex-end!important;
   justify-content:center!important;
@@ -18452,7 +18452,7 @@ function openConfirm(o={}){
    }
  }
 
- /* 3.30.79：七夕選擇也寫入雲端。對方若已獨自前行或已完成綁定，就不能再被選成同行者。 */
+ /* 3.30.80：七夕選擇也寫入雲端。對方若已獨自前行或已完成綁定，就不能再被選成同行者。 */
  async function qixiCloudDecisionFor(charId){
    if(!charId)return {locked:false,solo:false,kind:""};
    try{
@@ -18903,7 +18903,7 @@ function openConfirm(o={}){
  }
  function qixiCanStartFacility(x,fid){
    const st=ensure(x);
-   /* 3.30.79：沒有完成七夕同行綁定，也沒有明確選擇獨自前行時，所有設施都鎖住。 */
+   /* 3.30.80：沒有完成七夕同行綁定，也沒有明確選擇獨自前行時，所有設施都鎖住。 */
    const soloConfirmed=st.selectedRel==="solo" && !st.bound;
    if(soloConfirmed)qixiWriteSoloLock(x);
    if(!st.bound && !soloConfirmed){
@@ -19435,7 +19435,7 @@ function openConfirm(o={}){
    }
   }catch(_){}
  }
- /* 3.30.79 TEST ONLY：七夕活動永久開放；移植正式服時不可帶入此旗標。 */
+ /* 3.30.80 TEST ONLY：七夕活動永久開放；移植正式服時不可帶入此旗標。 */
  window.qixiTestEventAlwaysOpen=true;
  function boot(){
   try{badgeDefs.qixi_star_fate={icon:"🌌",name:"星河有緣人",desc:"2026 七夕限定・走完五段星河劇情"}}catch(_){}
