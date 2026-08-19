@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#9a76c4" name="theme-color"/>
-<title>關係進行式・3.31.14.49</title>
+<title>關係進行式・3.31.14.50</title>
 
 
 
@@ -1939,7 +1939,7 @@ html[data-formal-theme="maidCafe"] .navBtn::after{
 <div class="homeLogo">💞</div>
 <h1>關係進行式</h1>
 <div class="homeTagline">每一段關係，都還在進行中。</div>
-<div class="homeVersion">第3.31.14.49版・正式服</div>
+<div class="homeVersion">第3.31.14.50版・正式服</div>
 </div>
 <div id="playerAccountHomePanel" class="homePanel accountHomePanel">
 <div class="homePanelTitle"><span>☁️ 玩家帳號</span><span id="playerAccountChip" class="chip">未登入</span></div>
@@ -1957,7 +1957,7 @@ html[data-formal-theme="maidCafe"] .navBtn::after{
 <div class="gmStatus" id="gmHomeStatus"></div>
 </div>
 <div class="homePanel">
-<div class="homePanelTitle"><span>📢 更新公告</span><span class="chip">第3.31.14.49版</span></div>
+<div class="homePanelTitle"><span>📢 更新公告</span><span class="chip">第3.31.14.50版</span></div>
 <div class="small">查看本次新增功能與修正內容。</div>
 <button id="openUpdateNotice" style="width:100%;margin-top:8px" type="button">查看更新內容</button>
 </div>
@@ -2380,7 +2380,7 @@ html[data-formal-theme="maidCafe"] .navBtn::after{
 </div>
 <div class="drawerShade hidden" id="drawerShade"></div><aside class="drawer hidden" id="drawer"><div style="padding:8px"><b id="drawerName">角色</b><div class="muted">功能選單</div></div><button class="navBtn" data-nav="life" type="button">🏠 角色生活</button><button class="navBtn" data-nav="daily" type="button">📋 今日小事</button><button class="navBtn" data-nav="work" type="button">💼 打工賺錢</button><button class="navBtn" data-nav="journal" type="button">📖 今日生活日誌</button><button class="navBtn" data-nav="routine" type="button">🕒 角色作息</button><button class="navBtn" data-nav="outing" type="button">🗺️ 外出 <span class="navDot hidden" data-dot="outing"></span></button><button class="navBtn" data-nav="relations" type="button">💞 關係 <span class="navDot hidden" data-dot="relations"></span></button><button class="navBtn" data-nav="npcrelations" type="button">✨ NPC 關係</button><button class="navBtn" data-nav="mailbox" type="button">📬 信箱 <span class="navDot hidden" data-dot="mailbox"></span></button><button class="navBtn" id="playerAccountDrawerBtn" type="button">☁️ 玩家帳號</button><button class="navBtn" id="gmDrawerLoginBtn" type="button">👑 管理員登入</button><button class="navBtn hidden" data-nav="gm" id="gmNavBtn" type="button">🛠️ GM 操作台</button><div class="navSep"></div><button class="navBtn" data-nav="bag" type="button">🎒 背包</button><button class="navBtn" data-nav="shop" type="button">🏪 商店</button><button class="navBtn" data-nav="memory" type="button">📖 回憶</button><button class="navBtn" data-nav="achievements" type="button">🏆 成就</button><div class="navSep"></div><div style="padding:8px"><b>🎵 悠閒 BGM</b><div class="actions"><button id="bgmToggle">▶ 播放</button><input id="bgmVolume" max="1" min="0" step=".05" type="range" value=".25"/></div><div class="small">把 bgm.mp3 和 index.html 放同一資料夾。</div></div><audio autoplay="" id="bgm" loop="" playsinline="" preload="auto"><source src="bgm.mp3" type="audio/mpeg"/></audio><button class="navBtn" id="back" type="button">💾 返回存檔首頁</button></aside><div class="modal hidden" id="updateNoticeModal">
 <div class="modalBox">
-<div class="modalHead"><b>📢 第3.31.14.49版更新公告</b><button id="closeUpdateNotice">×</button></div>
+<div class="modalHead"><b>📢 第3.31.14.50版更新公告</b><button id="closeUpdateNotice">×</button></div>
 <div class="updateNoticeBody">
   <h3>🎀 女僕咖啡廳主題</h3>
   <p>新增女僕咖啡廳限定外觀。解鎖後可在「外觀更改」中自由切換原始外觀與女僕咖啡廳，選擇會保留。</p>
@@ -3179,7 +3179,7 @@ function show(id){
       npc.style.setProperty("z-index","9996","important");
     }
   }
-  /* 3.31.14.49：七夕入口也由主頁切換函式直接控制。
+  /* 3.31.14.50：七夕入口也由主頁切換函式直接控制。
      不只看 activeId，避免離開角色後舊 activeId／定時器又把入口叫回首頁。 */
   const qixi=document.getElementById("qixiEventFab");
   if(qixi){
@@ -6734,7 +6734,7 @@ function isSpecialSoldOut(c,item){
   return false;
 }
 
-const protoAch=[["start","🌱 冒險的開始","開始角色生活","角色"],["week","🌙 七日物語","生活滿 7 天","生活"],["month","📅 一個月的生活","生活滿 30 天","生活"],["shop","🛍️ 購物初體驗","第一次購物","收藏"],["shop5","🎁 小小收藏家","累積購物 5 次","收藏"],["memory10","📖 回憶收藏冊","留下 10 段回憶","收藏"],["read","？？？","隱藏成就","隱藏"],["picnic","？？？","隱藏成就","隱藏"],["secret","？？？","隱藏成就","隱藏"],["solo","？？？","隱藏成就","隱藏"],["break","？？？","羈絆突破隱藏成就","隱藏"],["newyear","🧧 新年的第一頁","元旦期間可刷出","節日"],["qixi","🌌 今夜星河","七夕期間可刷出","節日"],["xmas","🎄 冬夜的禮物","聖誕期間可刷出","節日"],["relation","🤝","命運的相遇","第一次建立任意關係","關係"],["rel3types","🌈","關係多彩","同時擁有 3 種不同關係","關係"],["rel5types","🧩","各有位置","同時擁有 5 種不同關係","關係"],["rel6types","🌟","六種羈絆","六種關係類型全部建立","關係"],["lover","💕","心之所向","第一次建立戀人關係","關係"],["friend","🫂","摯友一生","第一次建立摯友關係","關係"],["family","🏠","家的方向","第一次建立家人關係","關係"],["partner","⚔️","並肩而行","第一次建立搭檔關係","關係"],["rival","🔥","命中宿敵","第一次建立宿敵關係","關係"],["enemy","💢","狹路相逢","第一次建立仇敵關係","關係"],["msg1","💬","第一句話","第一次傳送關係聊天訊息","關係"],["msg10","✉️","聊得來","累積傳送 10 則訊息","關係"],["msg50","💌","有好多話想說","累積傳送 50 則訊息","關係"],["interact1","💞","第一次靠近","第一次進行關係互動","關係"],["interact10","🌷","更加熟悉","累積關係互動 10 次","關係"],["interact50","🌹","已成習慣","累積關係互動 50 次","關係"],["outingTogether","🧋","一起出去吧","第一次完成共同外出","關係"],["outing5","🎡","好多共同足跡","累積完成 5 次共同外出","關係"],["game1","🎮","一起玩吧","第一次完成雙人小遊戲","關係"],["sync3","💫","心有靈犀","小遊戲連續 3 次默契成功","關係"],["gift1","🎁","一點心意","第一次送禮給關係角色","關係"],["gift10","🎀","總想送你東西","累積送禮 10 次","關係"],["bond5","💗","開始熟悉","任一關係羈絆達 Lv.5","關係"],["bond10","💖","更加靠近","任一關係羈絆達 Lv.10","關係"],["bond15","💓","默契漸深","任一關係羈絆達 Lv.15","關係"],["bond20","💞","彼此重要","任一關係羈絆達 Lv.20","關係"],["bond25","💘","無可忽視","任一關係羈絆達 Lv.25","關係"],["bond6","💎","一路走到這裡","任一關係抵達第六階","關係"],["bondmax","✨","滿溢的羈絆","任一關係羈絆達 Lv.30 MAX","關係"],["lover_stage3","🌸","習慣你的存在","戀人關係進入第三階段","關係"],["lover_stage6","💍","無可取代","戀人關係進入第六階段","關係"],["friend_stage3","🍬","聊不完的日常","摯友關係進入第三階段","關係"],["friend_stage6","🌟","靈魂摯友","摯友關係進入第六階段","關係"],["family_stage3","🍲","互相照顧","家人關係進入第三階段","關係"],["family_stage6","🏡","永遠的歸處","家人關係進入第六階段","關係"],["partner_stage3","🛡️","默契搭檔","搭檔關係進入第三階段","關係"],["partner_stage6","⚔️","最強搭檔","搭檔關係進入第六階段","關係"],["rival_stage3","🥊","真正的對手","宿敵關係進入第三階段","關係"],["rival_stage6","🔥","命定對手","宿敵關係進入第六階段","關係"],["enemy_stage3","⚡","水火不容","仇敵關係進入第三階段","關係"],["enemy_stage6","🩸","宿命之敵","仇敵關係進入第六階段","關係"],["daily1","☀️ 今日的小事","完成一次每日任務組","生活"],["daily10","✅ 日常達人","完成 10 次每日任務組","生活"],["work1","💼 第一天上班","完成第一次打工","生活"],["work10","🧾 熟練打工人","累積打工 10 次","生活"],["earn1000","💰 自己賺的錢","打工累積收入 1000 金幣","收藏"],
+const protoAch=[["start","🌱 冒險的開始","開始角色生活","角色"],["week","🌙 七日物語","生活滿 7 天","生活"],["month","📅 一個月的生活","生活滿 30 天","生活"],["shop","🛍️ 購物初體驗","第一次購物","收藏"],["shop5","🎁 小小收藏家","累積購物 5 次","收藏"],["memory10","📖 回憶收藏冊","留下 10 段回憶","收藏"],["read","？？？","隱藏成就","隱藏"],["picnic","？？？","隱藏成就","隱藏"],["secret","？？？","隱藏成就","隱藏"],["solo","？？？","隱藏成就","隱藏"],["break","？？？","羈絆突破隱藏成就","隱藏"],["newyear","🧧 新年的第一頁","元旦期間可刷出","節日"],["qixi","🌌 今夜星河","完成任一條七夕關係結局","節日"],["xmas","🎄 冬夜的禮物","聖誕期間可刷出","節日"],["relation","🤝","命運的相遇","第一次建立任意關係","關係"],["rel3types","🌈","關係多彩","同時擁有 3 種不同關係","關係"],["rel5types","🧩","各有位置","同時擁有 5 種不同關係","關係"],["rel6types","🌟","六種羈絆","六種關係類型全部建立","關係"],["lover","💕","心之所向","第一次建立戀人關係","關係"],["friend","🫂","摯友一生","第一次建立摯友關係","關係"],["family","🏠","家的方向","第一次建立家人關係","關係"],["partner","⚔️","並肩而行","第一次建立搭檔關係","關係"],["rival","🔥","命中宿敵","第一次建立宿敵關係","關係"],["enemy","💢","狹路相逢","第一次建立仇敵關係","關係"],["msg1","💬","第一句話","第一次傳送關係聊天訊息","關係"],["msg10","✉️","聊得來","累積傳送 10 則訊息","關係"],["msg50","💌","有好多話想說","累積傳送 50 則訊息","關係"],["interact1","💞","第一次靠近","第一次進行關係互動","關係"],["interact10","🌷","更加熟悉","累積關係互動 10 次","關係"],["interact50","🌹","已成習慣","累積關係互動 50 次","關係"],["outingTogether","🧋","一起出去吧","第一次完成共同外出","關係"],["outing5","🎡","好多共同足跡","累積完成 5 次共同外出","關係"],["game1","🎮","一起玩吧","第一次完成雙人小遊戲","關係"],["sync3","💫","心有靈犀","小遊戲連續 3 次默契成功","關係"],["gift1","🎁","一點心意","第一次送禮給關係角色","關係"],["gift10","🎀","總想送你東西","累積送禮 10 次","關係"],["bond5","💗","開始熟悉","任一關係羈絆達 Lv.5","關係"],["bond10","💖","更加靠近","任一關係羈絆達 Lv.10","關係"],["bond15","💓","默契漸深","任一關係羈絆達 Lv.15","關係"],["bond20","💞","彼此重要","任一關係羈絆達 Lv.20","關係"],["bond25","💘","無可忽視","任一關係羈絆達 Lv.25","關係"],["bond6","💎","一路走到這裡","任一關係抵達第六階","關係"],["bondmax","✨","滿溢的羈絆","任一關係羈絆達 Lv.30 MAX","關係"],["lover_stage3","🌸","習慣你的存在","戀人關係進入第三階段","關係"],["lover_stage6","💍","無可取代","戀人關係進入第六階段","關係"],["friend_stage3","🍬","聊不完的日常","摯友關係進入第三階段","關係"],["friend_stage6","🌟","靈魂摯友","摯友關係進入第六階段","關係"],["family_stage3","🍲","互相照顧","家人關係進入第三階段","關係"],["family_stage6","🏡","永遠的歸處","家人關係進入第六階段","關係"],["partner_stage3","🛡️","默契搭檔","搭檔關係進入第三階段","關係"],["partner_stage6","⚔️","最強搭檔","搭檔關係進入第六階段","關係"],["rival_stage3","🥊","真正的對手","宿敵關係進入第三階段","關係"],["rival_stage6","🔥","命定對手","宿敵關係進入第六階段","關係"],["enemy_stage3","⚡","水火不容","仇敵關係進入第三階段","關係"],["enemy_stage6","🩸","宿命之敵","仇敵關係進入第六階段","關係"],["daily1","☀️ 今日的小事","完成一次每日任務組","生活"],["daily10","✅ 日常達人","完成 10 次每日任務組","生活"],["work1","💼 第一天上班","完成第一次打工","生活"],["work10","🧾 熟練打工人","累積打工 10 次","生活"],["earn1000","💰 自己賺的錢","打工累積收入 1000 金幣","收藏"],
 ["gaylove","？？？","隱藏成就","隱藏"],["girllove","？？？","隱藏成就","隱藏"],
 ["rival_to_lover","？？？","隱藏成就","隱藏"],["lover_to_enemy","？？？","隱藏成就","隱藏"],["love_triangle","？？？","隱藏成就","隱藏"],
 ["game_sync3","🎯","一模一樣","心有靈犀累積成功 3 次","關係"],
@@ -6977,7 +6977,13 @@ const badgeDefs={
  badge_all:{icon:"🏆",name:"關係的盡頭",desc:"完成六種頂級關係"},
   paid_badge_gift_60:{icon:"🐾",name:"店長的小禮物",desc:"支持貓貓商店的限定徽章"},
   paid_badge_support_100:{icon:"🎀",name:"小小應援",desc:"小小贊助包限定徽章"},
-  paid_badge_dev_150:{icon:"✨",name:"開發者應援",desc:"開發者應援包限定徽章"}
+  paid_badge_dev_150:{icon:"✨",name:"開發者應援",desc:"開發者應援包限定徽章"},
+  qixi_fate_lover:{icon:"❤️",name:"相守之緣",desc:"2026 七夕限定・與戀人走完五段星河"},
+  qixi_fate_bestfriend:{icon:"🤝",name:"同行之緣",desc:"2026 七夕限定・與摯友走完五段星河"},
+  qixi_fate_family:{icon:"🏠",name:"歸處之緣",desc:"2026 七夕限定・與家人走完五段星河"},
+  qixi_fate_partner:{icon:"🧭",name:"並肩之緣",desc:"2026 七夕限定・與搭檔走完五段星河"},
+  qixi_fate_rival:{icon:"🔥",name:"競逐之緣",desc:"2026 七夕限定・與宿敵走完五段星河"},
+  qixi_fate_enemy:{icon:"💥",name:"惡緣",desc:"2026 七夕限定・與仇敵走完五段星河"}
 };
 function ensureBadges(){
  local.sharedBadges??={};
@@ -7358,6 +7364,7 @@ function reconcileAchievements(c){
  let pc=Math.max(c.purchaseCount||0,c.stats.purchases||0);
  if(pc>=1)c.achievements.shop=1;if(pc>=5)c.achievements.shop5=1;
  if((c.memories?.length||0)>=10)c.achievements.memory10=1;
+ if(Object.keys(local.sharedBadges||{}).some(id=>/^qixi_fate_(lover|bestfriend|family|partner|rival|enemy)$/.test(id)&&local.sharedBadges[id]))c.achievements.qixi=1;
  [["msg1","messages",1],["msg10","messages",10],["msg50","messages",50],
   ["interact1","relationshipEvents",1],["interact10","relationshipEvents",10],["interact50","relationshipEvents",50],
   ["outingTogether","outingTogether",1],["outing5","outingTogether",5],
@@ -15606,7 +15613,7 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 
 <script id="formal33111SingleVersionSource">
 (function(){
- const VERSION="3.31.14.49";
+ const VERSION="3.31.14.50";
  function apply(){
    document.querySelectorAll(".homeVersion").forEach(function(el){
      el.textContent="第"+VERSION+"版・正式服";
@@ -16091,7 +16098,7 @@ html[data-formal-theme="qixiGalaxy"] :is(.card,.panel,.pendingPanel,.characterCa
 .formalQixiTrialNote{font-size:12px;color:#705c7c;margin-top:5px}
 </style>
 <script id="formal33114Version">
-(function(){const V='3.31.14.49';function f(){document.querySelectorAll('.homeVersion').forEach(el=>el.textContent='第'+V+'版・正式服');document.documentElement.dataset.gameVersion=V;document.title='關係進行式・'+V}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',f,{once:true});else f();window.addEventListener('pageshow',f)})();
+(function(){const V='3.31.14.50';function f(){document.querySelectorAll('.homeVersion').forEach(el=>el.textContent='第'+V+'版・正式服');document.documentElement.dataset.gameVersion=V;document.title='關係進行式・'+V}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',f,{once:true});else f();window.addEventListener('pageshow',f)})();
 </script>
 
 
@@ -16144,8 +16151,8 @@ html[data-formal-theme="qixiGalaxy"] :is(.card,.panel,.pendingPanel,.characterCa
 
 
 
-<!-- 3.31.14.49: 測試服星空外觀完整移植 -->
-<!-- 3.31.14.49：TEST 3.30.80 七夕活動直接移植 -->
+<!-- 3.31.14.50: 測試服星空外觀完整移植 -->
+<!-- 3.31.14.50：TEST 3.30.80 七夕活動直接移植 -->
 <script id="formalExact_test33060QixiStableOpenAndInviteCleanup">
 (function(){
 "use strict";
@@ -17570,6 +17577,7 @@ async function qixiRestoreBoundFromCloud(x){ return await qixiHydrateBoundState(
   try{
     badgeDefs[bd.id]={icon:bd.icon,name:bd.name,desc:bd.desc};
     ensureBadges?.();local.sharedBadges??={};local.sharedBadges[bd.id]=1;
+    ensureSharedAchievements?.();local.sharedAchievements??={};local.sharedAchievements.qixi=1;
   }catch(_){}
   try{saveLocal?.()}catch(_){}
   toast?.(`${bd.icon} 七夕限定徽章「${bd.name}」已解鎖！`,4500);
@@ -17579,7 +17587,7 @@ async function qixiRestoreBoundFromCloud(x){ return await qixiHydrateBoundState(
   if(!grid||!reward)return;
   if(!x){grid.innerHTML='<div class="small">請先進入角色。</div>';return}
   const st=ensure(x),n=progress(x);
-  /* 3.31.14.49：正式服舊存檔若留下中文/舊關係 key，轉回七夕使用的標準 key，避免 render 中斷造成兩條空白卡。 */
+  /* 3.31.14.50：正式服舊存檔若留下中文/舊關係 key，轉回七夕使用的標準 key，避免 render 中斷造成兩條空白卡。 */
   const relAlias={"戀人":"lover","摯友":"bestfriend","家人":"family","搭檔":"partner","宿敵":"rival","仇敵":"enemy","甜蜜共犯":"lover","秘密共犯":"lover"};
   if(st.boundRel&&!RELS[st.boundRel]&&relAlias[st.boundRel])st.boundRel=relAlias[st.boundRel];
   if(st.selectedRel&&!RELS[st.selectedRel]&&relAlias[st.selectedRel])st.selectedRel=relAlias[st.selectedRel];
@@ -18139,7 +18147,7 @@ async function qixiRestoreBoundFromCloud(x){ return await qixiHydrateBoundState(
  }
  
 
- /* 3.31.14.49：提供給正式服可拖曳七夕入口的唯一開啟器。
+ /* 3.31.14.50：提供給正式服可拖曳七夕入口的唯一開啟器。
     入口不能只 remove hidden；一定要走 openIntro/openActivityMain 才會同步綁定並 render。 */
  window.__qixiOpenIntroFormal=async()=>await openIntro(false);
  window.__qixiOpenMainFormal=async()=>await openActivityMain();
@@ -19669,7 +19677,7 @@ html:not([data-test-theme="qixiGalaxy"]):not(.qixi-theme-now)
 })();
 </script>
 
-<!-- 3.31.14.49: exact Qixi visual parity copied from uploaded TEST 3.30.80 -->
+<!-- 3.31.14.50: exact Qixi visual parity copied from uploaded TEST 3.30.80 -->
 <style id="formalExactTest_qixi3279-scroll-fix">
 /* 3.30.62：七夕活動頁在手機上可完整往下捲，不再把守橋人卡片截成一半 */
 #qixiEventModal{
@@ -21082,7 +21090,7 @@ body:not(.qixi-entry-in-game) #qixiEventFab{
        {coins:1000,badge:"星河相逢",label:"🌌 星河相逢徽章＋1,000 金幣"}
      ];
      const r=rewards[idx];
-     /* 3.31.14.49 的 V3 發放無法驗證是否真的持久化；這裡做一次保守補發，
+     /* 3.31.14.50 的 V3 發放無法驗證是否真的持久化；這裡做一次保守補發，
         並立刻寫 V4，之後絕不再補第二次。 */
      if(r.coins){
        const before=Number(c.money||0);
