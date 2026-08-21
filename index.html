@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#9a76c4" name="theme-color"/>
-<title>關係進行式・3.31.14.58</title>
+<title>關係進行式・3.31.14.60</title>
 
 
 
@@ -1942,7 +1942,7 @@ html[data-formal-theme="maidCafe"] .navBtn::after{
 <div class="homeLogo">💞</div>
 <h1>關係進行式</h1>
 <div class="homeTagline">每一段關係，都還在進行中。</div>
-<div class="homeVersion">第3.31.14.58版・正式服</div>
+<div class="homeVersion">第3.31.14.60版・正式服</div>
 </div>
 <div id="playerAccountHomePanel" class="homePanel accountHomePanel">
 <div class="homePanelTitle"><span>☁️ 玩家帳號</span><span id="playerAccountChip" class="chip">未登入</span></div>
@@ -1960,7 +1960,7 @@ html[data-formal-theme="maidCafe"] .navBtn::after{
 <div class="gmStatus" id="gmHomeStatus"></div>
 </div>
 <div class="homePanel">
-<div class="homePanelTitle"><span>📢 更新公告</span><span class="chip">第3.31.14.58版</span></div>
+<div class="homePanelTitle"><span>📢 更新公告</span><span class="chip">第3.31.14.60版</span></div>
 <div class="small">查看本次新增功能與修正內容。</div>
 <button id="openUpdateNotice" style="width:100%;margin-top:8px" type="button">查看更新內容</button>
 </div>
@@ -2383,7 +2383,7 @@ html[data-formal-theme="maidCafe"] .navBtn::after{
 </div>
 <div class="drawerShade hidden" id="drawerShade"></div><aside class="drawer hidden" id="drawer"><div style="padding:8px"><b id="drawerName">角色</b><div class="muted">功能選單</div></div><button class="navBtn" data-nav="life" type="button">🏠 角色生活</button><button class="navBtn" data-nav="daily" type="button">📋 今日小事</button><button class="navBtn" data-nav="work" type="button">💼 打工賺錢</button><button class="navBtn" data-nav="journal" type="button">📖 今日生活日誌</button><button class="navBtn" data-nav="routine" type="button">🕒 角色作息</button><button class="navBtn" data-nav="outing" type="button">🗺️ 外出 <span class="navDot hidden" data-dot="outing"></span></button><button class="navBtn" data-nav="relations" type="button">💞 關係 <span class="navDot hidden" data-dot="relations"></span></button><button class="navBtn" data-nav="npcrelations" type="button">✨ NPC 關係</button><button class="navBtn" data-nav="mailbox" type="button">📬 信箱 <span class="navDot hidden" data-dot="mailbox"></span></button><button class="navBtn" id="playerAccountDrawerBtn" type="button">☁️ 玩家帳號</button><button class="navBtn" id="gmDrawerLoginBtn" type="button">👑 管理員登入</button><button class="navBtn hidden" data-nav="gm" id="gmNavBtn" type="button">🛠️ GM 操作台</button><div class="navSep"></div><button class="navBtn" data-nav="bag" type="button">🎒 背包</button><button class="navBtn" data-nav="shop" type="button">🏪 商店</button><button class="navBtn" data-nav="memory" type="button">📖 回憶</button><button class="navBtn" data-nav="achievements" type="button">🏆 成就</button><div class="navSep"></div><div style="padding:8px"><b>🎵 悠閒 BGM</b><div class="actions"><button id="bgmToggle">▶ 播放</button><select id="bgmTrack" aria-label="背景音樂"><option value="default">🎵 預設</option><option value="qixi">🌌 七夕</option></select><input id="bgmVolume" max="1" min="0" step=".05" type="range" value=".25"/></div><div class="small">可自由切換預設 BGM／七夕 BGM，選擇會自動記住。</div></div><audio autoplay="" id="bgm" loop="" playsinline="" preload="auto"><source src="bgm.mp3" type="audio/mpeg"/></audio><button class="navBtn" id="back" type="button">💾 返回存檔首頁</button></aside><div class="modal hidden" id="updateNoticeModal">
 <div class="modalBox">
-<div class="modalHead"><b>📢 第3.31.14.58版更新公告</b><button id="closeUpdateNotice">×</button></div>
+<div class="modalHead"><b>📢 第3.31.14.60版更新公告</b><button id="closeUpdateNotice">×</button></div>
 <div class="updateNoticeBody">
   <h3>🎀 女僕咖啡廳主題</h3>
   <p>新增女僕咖啡廳限定外觀。解鎖後可在「外觀更改」中自由切換原始外觀與女僕咖啡廳，選擇會保留。</p>
@@ -3201,7 +3201,7 @@ function show(id){
       npc.style.setProperty("z-index","9996","important");
     }
   }
-  /* 3.31.14.58：七夕入口也由主頁切換函式直接控制。
+  /* 3.31.14.60：七夕入口也由主頁切換函式直接控制。
      不只看 activeId，避免離開角色後舊 activeId／定時器又把入口叫回首頁。 */
   const qixi=document.getElementById("qixiEventFab");
   if(qixi){
@@ -3436,7 +3436,7 @@ async function importGameSaveFile(file){
 async function refreshPublicStats(){
   const a=document.getElementById("onlinePlayerCount"),b=document.getElementById("cloudCharacterCount");
   try{
-    /* 3.31.14.58：統一走 security-definer RPC，避免 RLS 讓首頁誤顯示「離線」。 */
+    /* 3.31.14.60：統一走 security-definer RPC，避免 RLS 讓首頁誤顯示「離線」。 */
     const rows=await api("/rpc/formal_public_character_stats",{
       method:"POST",
       body:JSON.stringify({})
@@ -5019,7 +5019,7 @@ async function canAddRelationTypeAuthoritative(c,type,ignoreCode=""){
   }
 }
 
-/* 3.31.14.58：建立／加入房間前，先以雲端目前仍存在的 rooms 為準，
+/* 3.31.14.60：建立／加入房間前，先以雲端目前仍存在的 rooms 為準，
    清掉「房間已刪除但本機 roomCodes / relationTypeClaims 還殘留」的狀態。
    只整理目前這隻角色的關係索引，不動角色本體、NPC 關係或其他玩家。 */
 function rebuildRelationClaimsFromRows(c,rows){
@@ -5140,8 +5140,8 @@ document.getElementById("joinRoom").onclick=async()=>{
     if(!rows.length)return alert("找不到這個房間。");
     let r=rows[0];
 
-    /* 3.31.14.58：
-       3.31.14.58 的問題不是邀請碼，而是舊版直接 DELETE /rooms 可能被 RLS 擋下，
+    /* 3.31.14.60：
+       3.31.14.60 的問題不是邀請碼，而是舊版直接 DELETE /rooms 可能被 RLS 擋下，
        畫面雖然已經 0/6，雲端卻仍殘留上一間房，於是被判定「家人席已有人」。
        如果同類型衝突房間是這次同步才發現的 cloud-only 房間，
        代表本機早已把它刪掉，現在用 security-definer RPC 把殘留真正清掉。 */
@@ -7341,11 +7341,36 @@ function recordRelationHistory(c,code,from,to){
  if(h.types.length>=6)c.achievements.relation_all_six=1;
 }
 function handleDailyLogin(c){
- ensureMeta(c);let k=todayKey();if(c.dailyLogin.last===k)return;
- let now=new Date(),prev=c.dailyLogin.last?new Date(c.dailyLogin.last+"T00:00:00"):null;
- let diff=prev?Math.round((new Date(k+"T00:00:00")-prev)/86400000):99;
- c.dailyLogin.streak=diff===1?(c.dailyLogin.streak||0)+1:1;c.dailyLogin.last=k;
- if(c.dailyLogin.streak>=3)c.achievements.login3=1;if(c.dailyLogin.streak>=7)c.achievements.login7=1;if(c.dailyLogin.streak>=14)c.achievements.login14=1;
+ ensureMeta(c);
+ /* 3.31.14.60：固定用台灣 UTC+8 的日曆日判斷連續登入。
+    舊版把 YYYY-M-D 直接交給 new Date()，部分 Android 會解析失敗，導致每天重設成 1。 */
+ function twKey(){
+   const d=new Date(Date.now()+8*60*60*1000);
+   return `${d.getUTCFullYear()}-${String(d.getUTCMonth()+1).padStart(2,"0")}-${String(d.getUTCDate()).padStart(2,"0")}`;
+ }
+ function daySerial(key){
+   const m=String(key||"").match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
+   if(!m)return null;
+   return Math.floor(Date.UTC(Number(m[1]),Number(m[2])-1,Number(m[3]))/86400000);
+ }
+ const k=twKey();
+ const oldSerial=daySerial(c.dailyLogin.last);
+ const nowSerial=daySerial(k);
+ if(oldSerial!==null&&oldSerial===nowSerial){
+   if(c.dailyLogin.last!==k){
+     c.dailyLogin.last=k;
+     try{saveLocal?.()}catch(_){}
+   }
+   return;
+ }
+ const diff=(oldSerial===null||nowSerial===null)?999:(nowSerial-oldSerial);
+ const prevStreak=Math.max(0,Number(c.dailyLogin.streak||0));
+ c.dailyLogin.streak=diff===1?prevStreak+1:1;
+ c.dailyLogin.last=k;
+ c.dailyLogin.updatedAt=Date.now();
+ if(c.dailyLogin.streak>=3)c.achievements.login3=1;
+ if(c.dailyLogin.streak>=7)c.achievements.login7=1;
+ if(c.dailyLogin.streak>=14)c.achievements.login14=1;
  secureMoneyAdd(c,(c.dailyLogin.streak%7===0?80:20),"daily-login");
  let events=[
   ["☀️","窗邊的好天氣","角色拉開窗簾，覺得今天似乎會有些好事發生。",5,0],
@@ -7358,6 +7383,7 @@ function handleDailyLogin(c){
  c.mood=Math.min(100,(c.mood||80)+ev[3]);secureMoneyAdd(c,ev[4],"daily-event");
  c.dailyLogin.event={date:k,title:`${ev[0]} ${ev[1]}`,text:ev[2]};
  logJournal(c,`今日登入事件：${ev[1]}`,"✨");saveLocal();
+ try{Promise.resolve(window.saveCurrentCharacterToCloud?.(c)).catch(()=>{})}catch(_){}
  setTimeout(()=>{if(cur()?.id===c.id){infoTitle.textContent=ev[0]+" 今日的小事件";infoBody.innerHTML=`<b>${ev[1]}</b><p>${ev[2]}</p><div class="small">連續登入 ${c.dailyLogin.streak} 天・今日登入獎勵已領取。</div>`;infoModal.classList.remove("hidden")}},500);
 }
 function setNavDot(name,count){
@@ -7728,7 +7754,7 @@ function renderExtras(c){
  safeCall(()=>renderWork(c),"打工");
  safeCall(()=>renderJournal(c),"生活日誌");
  safeCall(()=>renderShop(c),"商店");
- let bl=document.getElementById('bagList');if(bl){const badQixi=new Set(["qixi_stardust", "qixi_lantern_fragment", "qixi_bridge_fragment", "qixi_wish_shard", "qixi_keeper_token"]);for(const id of badQixi){if(c.inventory&&Object.prototype.hasOwnProperty.call(c.inventory,id))delete c.inventory[id]}let a=Object.entries(c.inventory).filter(x=>x[1]>0&&!badQixi.has(x[0]));bl.className=a.length?"itemGrid":"";bl.innerHTML=a.length?a.map(([id,n])=>{let i=protoShop.find(x=>x.id===id);let ni=NPC_ITEM_EFFECTS?.[id];let nm=i?.n||ni?.name||(typeof itemDisplayName==="function"?itemDisplayName(id):id);return `<button class="tile" data-bag="${id}"><div class="ico">${nm.split(" ")[0]||"🎁"}</div><b>${nm.includes(" ")?nm.substring(nm.indexOf(" ")+1):nm}</b><div class="small">×${n}</div></button>`}).join(''):'<div class="muted">背包目前是空的。</div>'}
+ let bl=document.getElementById('bagList');if(bl){/* 舊版七夕小遊戲素材已廢除；目前小遊戲只給金幣。 */const badQixi=new Set(["qixi_stardust", "qixi_lantern_fragment", "qixi_bridge_fragment", "qixi_wish_shard", "qixi_keeper_token"]);for(const id of badQixi){if(c.inventory&&Object.prototype.hasOwnProperty.call(c.inventory,id))delete c.inventory[id]}let a=Object.entries(c.inventory).filter(x=>x[1]>0&&!badQixi.has(x[0]));bl.className=a.length?"itemGrid":"";bl.innerHTML=a.length?a.map(([id,n])=>{let i=protoShop.find(x=>x.id===id);let ni=NPC_ITEM_EFFECTS?.[id];let nm=i?.n||ni?.name||(typeof itemDisplayName==="function"?itemDisplayName(id):id);return `<button class="tile" data-bag="${id}"><div class="ico">${nm.split(" ")[0]||"🎁"}</div><b>${nm.includes(" ")?nm.substring(nm.indexOf(" ")+1):nm}</b><div class="small">×${n}</div></button>`}).join(''):'<div class="muted">背包目前是空的。</div>'}
  let ml=document.getElementById('memoryList');if(ml)ml.innerHTML=c.memories.length?c.memories.map(x=>`<div class="itemRow"><b>${x.t}</b><div class="small">${x.d}</div></div>`).join(''):'<div class="muted">還沒有特殊回憶。</div>';
  if(day(c)>=7)c.achievements.week=1;if(day(c)>=30)c.achievements.month=1;c.achievements.start=1;if((c.stats?.workCount||0)>=1)c.achievements.work1=1;if((c.stats?.workCount||0)>=10)c.achievements.work10=1;if((c.stats?.workEarned||0)>=1000)c.achievements.earn1000=1;if(c.roomCodes.length)c.achievements.relation=1;if(c.roomCodes.length>=3)c.achievements.three=1;
  if((c.stats?.messages||0)>=1)c.achievements.msg1=1;if((c.stats?.messages||0)>=10)c.achievements.msg10=1;if((c.stats?.messages||0)>=50)c.achievements.msg50=1;
@@ -15837,7 +15863,7 @@ setInterval(()=>{try{const c=typeof cur==='function'?cur():null;if(c)verifyMoney
 
 <script id="formal33111SingleVersionSource">
 (function(){
- const VERSION="3.31.14.58";
+ const VERSION="3.31.14.60";
  function apply(){
    document.querySelectorAll(".homeVersion").forEach(function(el){
      el.textContent="第"+VERSION+"版・正式服";
@@ -16322,7 +16348,7 @@ html[data-formal-theme="qixiGalaxy"] :is(.card,.panel,.pendingPanel,.characterCa
 .formalQixiTrialNote{font-size:12px;color:#705c7c;margin-top:5px}
 </style>
 <script id="formal33114Version">
-(function(){const V='3.31.14.58';function f(){document.querySelectorAll('.homeVersion').forEach(el=>el.textContent='第'+V+'版・正式服');document.documentElement.dataset.gameVersion=V;document.title='關係進行式・'+V}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',f,{once:true});else f();window.addEventListener('pageshow',f)})();
+(function(){const V='3.31.14.60';function f(){document.querySelectorAll('.homeVersion').forEach(el=>el.textContent='第'+V+'版・正式服');document.documentElement.dataset.gameVersion=V;document.title='關係進行式・'+V}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',f,{once:true});else f();window.addEventListener('pageshow',f)})();
 </script>
 
 
@@ -16375,8 +16401,8 @@ html[data-formal-theme="qixiGalaxy"] :is(.card,.panel,.pendingPanel,.characterCa
 
 
 
-<!-- 3.31.14.58: 測試服星空外觀完整移植 -->
-<!-- 3.31.14.58：TEST 3.30.80 七夕活動直接移植 -->
+<!-- 3.31.14.60: 測試服星空外觀完整移植 -->
+<!-- 3.31.14.60：TEST 3.30.80 七夕活動直接移植 -->
 <script id="formalExact_test33060QixiStableOpenAndInviteCleanup">
 (function(){
 "use strict";
@@ -17727,12 +17753,12 @@ async function qixiRestoreBoundFromCloud(x){ return await qixiHydrateBoundState(
  }
 
  const QIXI_FACILITY_REWARDS={
-   ferry:{coins:80,item:"qixi_stardust",qty:1,label:"星屑"},
-   lantern:{coins:100,item:"qixi_lantern_fragment",qty:1,label:"緣燈碎片"},
-   bridge:{coins:120,item:"qixi_bridge_fragment",qty:1,label:"鵲羽"},
-   wish:{coins:150,item:"qixi_wish_shard",qty:1,label:"星願碎片"},
-   keeper:{coins:200,item:"qixi_keeper_token",qty:1,label:"守橋印記"}
- };
+ ferry:{coins:80},
+ lantern:{coins:100},
+ bridge:{coins:120},
+ wish:{coins:150},
+ keeper:{coins:200}
+};
 
  function qixiToday(){
    return new Date().toLocaleDateString("sv-SE");
@@ -17769,8 +17795,6 @@ async function qixiRestoreBoundFromCloud(x){ return await qixiHydrateBoundState(
      if(typeof secureMoneyAdd==="function")secureMoneyAdd(x,Number(rw.coins||0),`qixi_facility_${fid}`);
      else x.money=safeMoney(Number(x.money||0)+Number(rw.coins||0));
    }catch(_){x.money=safeMoney(Number(x.money||0)+Number(rw.coins||0))}
-   x.inventory??={};
-   x.inventory[rw.item]=Number(x.inventory[rw.item]||0)+Number(rw.qty||0);
    st.facilityRewards??={};
    st.facilityRewards[fid]=1;
    st.rewardV3.facilities[fid]=Date.now();
@@ -17778,7 +17802,7 @@ async function qixiRestoreBoundFromCloud(x){ return await qixiHydrateBoundState(
    st.dailyFacilityCompleted=fid;
    try{saveLocal?.()}catch(_){}
    try{Promise.resolve(window.saveCurrentCharacterToCloud?.(x)).catch(()=>{})}catch(_){}
-   toast?.(`🎁 通關獎勵：🪙${rw.coins}＋${rw.label} ×${rw.qty}`,4200);
+   toast?.(`🎁 通關獎勵：🪙 ${rw.coins} 金幣`,4200);
  }
  function progress(x){
   const st=ensure(x);return FACILITIES.filter(f=>st.done[f.id]).length;
@@ -17811,7 +17835,7 @@ async function qixiRestoreBoundFromCloud(x){ return await qixiHydrateBoundState(
   if(!grid||!reward)return;
   if(!x){grid.innerHTML='<div class="small">請先進入角色。</div>';return}
   const st=ensure(x),n=progress(x);
-  /* 3.31.14.58：正式服舊存檔若留下中文/舊關係 key，轉回七夕使用的標準 key，避免 render 中斷造成兩條空白卡。 */
+  /* 3.31.14.60：正式服舊存檔若留下中文/舊關係 key，轉回七夕使用的標準 key，避免 render 中斷造成兩條空白卡。 */
   const relAlias={"戀人":"lover","摯友":"bestfriend","家人":"family","搭檔":"partner","宿敵":"rival","仇敵":"enemy","甜蜜共犯":"lover","秘密共犯":"lover"};
   if(st.boundRel&&!RELS[st.boundRel]&&relAlias[st.boundRel])st.boundRel=relAlias[st.boundRel];
   if(st.selectedRel&&!RELS[st.selectedRel]&&relAlias[st.selectedRel])st.selectedRel=relAlias[st.selectedRel];
@@ -18371,7 +18395,7 @@ async function qixiRestoreBoundFromCloud(x){ return await qixiHydrateBoundState(
  }
  
 
- /* 3.31.14.58：提供給正式服可拖曳七夕入口的唯一開啟器。
+ /* 3.31.14.60：提供給正式服可拖曳七夕入口的唯一開啟器。
     入口不能只 remove hidden；一定要走 openIntro/openActivityMain 才會同步綁定並 render。 */
  window.__qixiOpenIntroFormal=async()=>await openIntro(false);
  window.__qixiOpenMainFormal=async()=>await openActivityMain();
@@ -19913,7 +19937,7 @@ html:not([data-test-theme="qixiGalaxy"]):not(.qixi-theme-now)
 })();
 </script>
 
-<!-- 3.31.14.58: exact Qixi visual parity copied from uploaded TEST 3.30.80 -->
+<!-- 3.31.14.60: exact Qixi visual parity copied from uploaded TEST 3.30.80 -->
 <style id="formalExactTest_qixi3279-scroll-fix">
 /* 3.30.62：七夕活動頁在手機上可完整往下捲，不再把守橋人卡片截成一半 */
 #qixiEventModal{
@@ -21326,7 +21350,7 @@ body:not(.qixi-entry-in-game) #qixiEventFab{
        {coins:1000,badge:"星河相逢",label:"🌌 星河相逢徽章＋1,000 金幣"}
      ];
      const r=rewards[idx];
-     /* 3.31.14.58 的 V3 發放無法驗證是否真的持久化；這裡做一次保守補發，
+     /* 3.31.14.60 的 V3 發放無法驗證是否真的持久化；這裡做一次保守補發，
         並立刻寫 V4，之後絕不再補第二次。 */
      if(r.coins){
        const before=Number(c.money||0);
