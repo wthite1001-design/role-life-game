@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#9a76c4">
-<meta name="x-test-build" content="3.30.89-midautumn">
+<meta name="x-test-build" content="3.30.91-midautumn">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>關係進行式 TEST・3.30.89</title>
+<title>關係進行式 TEST・3.30.91</title>
 <style id="test-33085-critical-first-paint">
-/* 3.30.89: first-paint guard — legacy launch/Qixi UI must never flash before cleanup scripts run. */
+/* 3.30.91: first-paint guard — legacy launch/Qixi UI must never flash before cleanup scripts run. */
 #launchActivityFab,#launchActivityModal,#qixiFab,#qixiModal,#testReferralPanel{display:none!important;visibility:hidden!important;pointer-events:none!important}
 </style>
 <style>
@@ -2684,7 +2684,7 @@ html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) #game
 
 
 <style id="test33087-resource-cleanup">
-/* TEST 3.30.89：測試服只保留 NPC 關係／培養系統。舊開服、七夕、貓貓商店浮動資源不再顯示。 */
+/* TEST 3.30.91：測試服只保留 NPC 關係／培養系統。舊開服、七夕、貓貓商店浮動資源不再顯示。 */
 #launchActivityFab,#launchActivityModal,#qixiEventFab,#qixiEventModal,#qixiInviteModal,#npcTownFab{display:none!important;visibility:hidden!important;pointer-events:none!important}
 /* 中秋入口維持小型浮動鍵。 */
 #midAutumnFab{min-height:34px!important;padding:5px 8px!important;font-size:10px!important;border-radius:11px!important}
@@ -2749,7 +2749,7 @@ html:not([data-test-theme="maidCafe"]):not([data-test-theme="qixiGalaxy"]) #game
     <div class="homeLogo">🧪</div>
     <h1>關係進行式 TEST</h1>
     <div class="homeTagline">測試中的每一段關係，都可能被重置。</div>
-    <div class="homeVersion">3.30.89・測試服</div>
+    <div class="homeVersion">3.30.91・測試服</div>
   </div>
 
   <div id="playerAccountHomePanel" class="homePanel accountHomePanel">
@@ -15282,7 +15282,7 @@ body.maid-cafe-preview .chip{background:#f8e3e9!important;color:#7d4b60!importan
 </style>
 <script id="v32639MaidCafeFinalPatch">
 (function(){
- const BUILD='3.30.89';
+ const BUILD='3.30.91';
  const MAID_PASS='maidCafeVoucher';
  const MAID_COS='maidCafe';
  function current(){try{return typeof cur==='function'?cur():null}catch(_){return null}}
@@ -15601,7 +15601,7 @@ header,.header,.topbar,.navbar,.nav-bar,[class*="topbar"],[class*="header"]{back
 <script id="qixi3283-ribbon-fix">
 (function(){
  function fix(){
-   document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.30.89-beta");
+   document.querySelectorAll(".testServerRibbon").forEach(el=>el.textContent="🧪 TEST・3.30.91-beta");
  }
  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",fix,{once:true});else fix();
  setTimeout(fix,300);
@@ -15996,7 +15996,7 @@ html[data-formal-theme="default"] body::after{content:none!important;display:non
 
 <script id="test33015SingleVersionSource">
 (function(){
- const BUILD='3.30.89';
+ const BUILD='3.30.91';
  const LABEL='七夕邀約內嵌＋設施背景＋快速雲端同步';
  function apply(){
    document.title='關係進行式 TEST・'+BUILD;
@@ -17282,7 +17282,7 @@ window.addEventListener("pageshow",unlockNow);
 
 <script id="test33071AuthoritativeVersion">
 (function(){
- const BUILD='3.30.89';
+ const BUILD='3.30.91';
  function apply(){
    document.title='關係進行式 TEST・'+BUILD;
    const meta=document.querySelector('meta[name="x-test-build"]'); if(meta) meta.content=BUILD;
@@ -17612,9 +17612,9 @@ html[data-test-theme="qixiGalaxy"] :is(input,select,textarea,.codeBox,.idBox){ba
 #midAutumnFab{position:fixed;right:12px;bottom:132px;z-index:997;border:0;border-radius:16px;padding:9px 12px;background:linear-gradient(135deg,#58406f,#a06e9e);color:#fff;font-weight:900;box-shadow:0 8px 24px #35213c55}
 #midAutumnModal,#midAutumnStory{position:fixed;inset:0;z-index:2000;background:#130f18;overflow:auto;color:#f8f1fa}#midAutumnModal.hidden,#midAutumnStory.hidden{display:none!important}
 .maCard{width:min(100%,560px);margin:auto;min-height:100dvh;padding:16px 14px 30px;background:linear-gradient(#21172a,#130f18)}.maHead{display:flex;justify-content:space-between;align-items:center;gap:10px}.maHead button,.maStoryTop button{min-height:38px;background:#ffffff16;color:#fff}.maHero{margin:12px 0;padding:18px;border:1px solid #6f587d;border-radius:18px;background:linear-gradient(135deg,#362643,#201727)}.maHero h2{margin:0 0 6px}.maProgress{height:8px;background:#ffffff16;border-radius:999px;overflow:hidden}.maProgress i{display:block;height:100%;background:#c59ad1;width:0}.maGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}.maStage{background:#2b2033;color:#eee0f3;border:1px solid #594666;text-align:left;min-height:78px}.maStage.done{border-color:#a88ab5}.maStage:disabled{opacity:.38}.maNote{padding:12px;border:1px solid #5e4a6a;border-radius:15px;background:#211827;line-height:1.65;font-size:12px}.maCaseSolved{margin-top:9px;padding:9px;border-radius:11px;background:#45334e}.maReset{width:100%;margin-top:12px;background:#36263c;color:#ead9ee}
-/* 3.30.89：中秋劇情改回與貓貓店長／七夕一致的 VN：CG 全畫面在後、對話框固定底部。 */
+/* 3.30.91：中秋劇情改回與貓貓店長／七夕一致的 VN：CG 全畫面在後、對話框固定底部。 */
 #midAutumnStory{overflow:hidden!important;background:#09070b!important}
-.maScene{position:absolute!important;inset:0!important;width:100%!important;height:100dvh!important;min-height:0!important;max-height:none!important;background:#09070b center center/cover no-repeat!important;z-index:0}
+.maScene{position:absolute!important;inset:0!important;width:100%!important;height:100dvh!important;min-height:0!important;max-height:none!important;background-color:#09070b!important;background-position:center center!important;background-size:cover!important;background-repeat:no-repeat!important;z-index:0}
 .maScene:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,5,10,.05) 0%,rgba(10,7,12,.03) 48%,rgba(13,9,17,.40) 67%,rgba(10,7,13,.82) 100%);pointer-events:none}
 .maStoryTop{position:absolute!important;top:calc(8px + env(safe-area-inset-top));left:10px;right:10px;z-index:4;display:flex;justify-content:space-between;align-items:center;padding:0;background:transparent!important;pointer-events:none}
 .maStoryTop>b{max-width:68%;padding:7px 10px;border-radius:12px;background:#17111dbb;backdrop-filter:blur(7px);font-size:12px}
@@ -17628,12 +17628,12 @@ html[data-test-theme="qixiGalaxy"] :is(input,select,textarea,.codeBox,.idBox){ba
 @media(max-width:390px){.maDialogue{width:calc(100% - 14px)!important;bottom:calc(7px + env(safe-area-inset-bottom))!important;padding:12px!important;max-height:50dvh!important}.maChoices button{font-size:12px!important;min-height:36px!important}.maStoryTop{left:7px;right:7px}.maStoryTop>b{font-size:11px;max-width:64%}}.maEvidence{display:grid;gap:8px;margin-top:12px}.maEvidence button{background:#2d2235;color:#f6edf8;border:1px solid #604d6c;text-align:left}.maEvidence button.found{opacity:.55}.maEvidence button.locked{opacity:.35}.maClueTag{display:inline-block;font-size:10px;padding:2px 6px;border-radius:999px;background:#ffffff14;margin-left:5px}.maWrong{margin-top:10px;padding:10px;border:1px solid #9a6571;background:#42252e;border-radius:12px}.maGood{margin-top:10px;padding:10px;border:1px solid #66836e;background:#26382c;border-radius:12px}
 </style>
 <button id="midAutumnFab" type="button">🌕 中秋調查</button>
-<div id="midAutumnModal" class="hidden"><div class="maCard"><div class="maHead"><div><b>🌕 千年前的未解之案</b><div style="font-size:11px;color:#bbaac4">TEST 3.30.89・自由調查模式</div></div><button id="maClose">×</button></div><div class="maHero"><h2>中秋限定調查</h2><div>蒐集證物、排除無關線索，與偵探一起重建那一夜。</div></div><div class="maProgress"><i id="maProgress"></i></div><div id="maStages" class="maGrid"></div><div id="maNotes" class="maNote"></div><button id="maReset" class="maReset">重置中秋測試進度</button></div></div>
+<div id="midAutumnModal" class="hidden"><div class="maCard"><div class="maHead"><div><b>🌕 千年前的未解之案</b><div style="font-size:11px;color:#bbaac4">TEST 3.30.91・自由調查模式</div></div><button id="maClose">×</button></div><div class="maHero"><h2>中秋限定調查</h2><div>蒐集證物、排除無關線索，與偵探一起重建那一夜。</div></div><div class="maProgress"><i id="maProgress"></i></div><div id="maStages" class="maGrid"></div><div id="maNotes" class="maNote"></div><button id="maReset" class="maReset">重置中秋測試進度</button></div></div>
 <div id="midAutumnStory" class="hidden"><div id="maScene" class="maScene"></div><div class="maStoryTop"><b id="maChapter"></b><button id="maStoryClose">返回調查板</button></div><div id="maDialogue" class="maDialogue"><div id="maSpeaker" class="maSpeaker"></div><div id="maText" class="maText"></div><div id="maChoices" class="maChoices"></div><div id="maHint" class="maHint"></div></div></div>
 <script id="midautumn-test-event">
 (()=>{
 const KEY='role_life_midautumn_test_v3';
-const IMG={detective:'./detective.png',detectiveSoft:'./detective_soft.png',detectiveSmile:'./detective_smile.png',detectiveSerious:'./detective_serious.png',general:'./general.png',generalSoft:'./general_soft.png',generalAngry:'./general_angry.png',attack:'./attack.png'};
+const IMG={detective:'./detective.png?v=33091',detectiveSoft:'./detective_soft.png?v=33091',detectiveSmile:'./detective_smile.png?v=33091',detectiveSerious:'./detective_serious.png?v=33091',general:'./general.png?v=33091',generalSoft:'./general_soft.png?v=33091',generalAngry:'./general_angry.png?v=33091',attack:'./attack.png?v=33091'};
 const places=[['office','🔎 偵探事務所','委託與最初的證物'],['archive','📚 舊檔案館','查閱被改寫的史料'],['manor','🏯 將軍府舊址','追查病情與出入者'],['garden','🌳 桂樹庭院','被時間留下的舊物'],['festival','🏮 中秋燈會舊址','重建襲擊現場'],['deduce','📜 最終推理','用證據完成結案']];
 const clues={
  letter:['匿名委託信','「請找出當年的真相。」','key'],jade:['故月佩','半枚古玉，背面刻著「玄」。','key'],map:['古燈會圖','標記了當年燈會與將軍府的位置。','normal'],wrapper:['月餅包紙','今年留下的包裝，與案件無關。','noise'],
@@ -17647,7 +17647,7 @@ function load(){try{return Object.assign(fresh(),JSON.parse(localStorage.getItem
 function save(){localStorage.setItem(KEY,JSON.stringify(st))}function has(x){return st.found.includes(x)}function addClue(x){if(!has(x))st.found.push(x);save()}function addMem(x){if(!st.mem.includes(x))st.mem.push(x);save()}function score(o={}){for(const k of Object.keys(o))st.score[k]=(st.score[k]||0)+o[k];save()}
 const MA_PRELOAD={};
 function preloadMidAutumnCG(){Object.entries(IMG).forEach(([k,src])=>{const im=new Image();MA_PRELOAD[k]=im;im.src=src;});}
-function img(name){const el=document.getElementById('maScene');if(!el)return;const key=Object.prototype.hasOwnProperty.call(IMG,name)?name:'detective';const file=IMG[key];if(el.dataset.cgKey===key&&el.style.backgroundImage)return;el.dataset.cgKey=key;el.style.backgroundColor='#09070b';el.style.backgroundImage=`url('${file}')`;const probe=MA_PRELOAD[key]||new Image();probe.onerror=()=>{console.warn('[MidAutumn CG] load failed',file);el.dataset.cgError=file;};if(!probe.src)probe.src=file;}
+function img(name){const el=document.getElementById('maScene');if(!el)return;const key=Object.prototype.hasOwnProperty.call(IMG,name)?name:'detective';const file=IMG[key];if(el.dataset.cgKey===key&&el.style.getPropertyValue('background-image'))return;el.dataset.cgKey=key;el.dataset.cgError='';el.style.setProperty('background-color','#09070b','important');el.style.setProperty('background-image',`url(\"${file}\")`,'important');el.style.setProperty('background-position','center center','important');el.style.setProperty('background-size','cover','important');el.style.setProperty('background-repeat','no-repeat','important');const probe=MA_PRELOAD[key]||new Image();probe.onload=()=>{el.dataset.cgLoaded='1';};probe.onerror=()=>{console.warn('[MidAutumn CG] load failed',file);el.dataset.cgError=file;el.dataset.cgLoaded='0';};if(!probe.src)probe.src=file;}
 preloadMidAutumnCG();
 function seq(title,arr,done){play={title,arr,i:0,done};document.getElementById('midAutumnModal').classList.add('hidden');document.getElementById('midAutumnStory').classList.remove('hidden');document.body.classList.add('midAutumnStoryOpen');show()}
 function show(){if(!play)return;if(play.i>=play.arr.length){const d=play.done;play=null;closeStory();d?.();return}const x=play.arr[play.i];document.getElementById('maChapter').textContent=play.title;document.getElementById('maSpeaker').textContent=x.s||'';document.getElementById('maText').textContent=x.t||'';img(x.i||'detective');const c=document.getElementById('maChoices');c.className='maChoices';c.innerHTML='';(x.c||[]).forEach(v=>{const b=document.createElement('button');b.textContent=v[0];b.onclick=e=>{e.stopPropagation();score(v[1]);play.i++;show()};c.appendChild(b)});document.getElementById('maHint').textContent=x.c?.length?'選擇只影響相處傾向，不會顯示數值。':'點擊對話區繼續'}
@@ -17754,7 +17754,7 @@ function open(){render();document.getElementById('midAutumnModal').classList.rem
 </script>
 
 <style id="test33085-cleanup">
-/* 3.30.89 TEST：移除開服／七夕舊活動；貓貓商店恢復原身份。NPC 培養仍由左側「NPC 關係」選單進入。 */
+/* 3.30.91 TEST：移除開服／七夕舊活動；貓貓商店恢復原身份。NPC 培養仍由左側「NPC 關係」選單進入。 */
 #launchActivityFab,#launchActivityModal,#qixiFab,#qixiModal,#testReferralPanel{display:none!important;visibility:hidden!important;pointer-events:none!important}
 body.midAutumnStoryOpen #midAutumnFab,body.midAutumnStoryOpen #npcTownFab{display:none!important}
 </style>
@@ -17767,6 +17767,17 @@ body.midAutumnStoryOpen #midAutumnFab,body.midAutumnStoryOpen #npcTownFab{displa
   const head=document.querySelector('#npcShopModal .modalHead b');if(head)head.textContent='🏪 貓貓商店';
  }
  cleanLegacyEntries();document.addEventListener('DOMContentLoaded',cleanLegacyEntries,{once:true});
+})();
+</script>
+
+<script>
+/* 3.30.91 early cleanup: this test build keeps NPC relationship/cultivation, but removes old Qixi / paid cat-shop floating resources. */
+(function(){
+  const purge=()=>{
+    ["qixiEventFab","launchActivityFab"].forEach(id=>document.getElementById(id)?.remove());
+    document.querySelectorAll('[data-qixi-fab], .qixiEventFab, .launchActivityFab').forEach(el=>el.remove());
+  };
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',purge,{once:true}); else purge();
 })();
 </script>
 </body>
@@ -19558,7 +19569,7 @@ function openConfirm(o={}){
   const inGame=!!game&&!game.classList.contains("hidden");
   fab.style.display=(inGame&&qixiEventIsOpen())?"flex":"none";
  }
- document.getElementById("qixiEventFab").onclick=()=>openIntro(false);
+ {const el=document.getElementById("qixiEventFab");if(el)el.onclick=()=>openIntro(false);}
  document.getElementById("qixiRpgClose")?.addEventListener("click",e=>{e.stopPropagation();closeQixiRpg()});
  document.querySelector("#qixiRpgPlayer .qixiRpgDialogue")?.addEventListener("click",e=>{
    if(e.target.closest("button"))return;
@@ -19570,7 +19581,7 @@ function openConfirm(o={}){
    if(e.key==="Escape")closeQixiRpg();
  });
 
- document.getElementById("closeQixiEvent").onclick=()=>document.getElementById("qixiEventModal").classList.add("hidden");
+ {const el=document.getElementById("closeQixiEvent");if(el)el.onclick=()=>document.getElementById("qixiEventModal")?.classList.add("hidden");}
  document.getElementById("closeQixiMiniGame")?.addEventListener("click",closeQixiMiniGame);
  document.getElementById("acceptQixiBind")?.addEventListener("click",acceptQixiBinding);
  document.getElementById("declineQixiBind")?.addEventListener("click",declineQixiBinding);
@@ -19587,7 +19598,7 @@ function openConfirm(o={}){
 
 
 
- document.getElementById("replayQixiIntro").onclick=()=>{
+ {const __qixiReplay=document.getElementById("replayQixiIntro");if(__qixiReplay)__qixiReplay.onclick=()=>{
    document.getElementById("qixiEventModal").classList.add("hidden");
    const lines=[
     {speaker:"旁白",text:"你再次來到橋邊。守橋人仍提著那盞燈，像第一次相遇時那樣站在星河下。",image:QIXI_ASSETS.keeper},
@@ -19597,12 +19608,12 @@ function openConfirm(o={}){
     {speaker:"守橋人",text:"「去吧。橋還在前面。」",image:QIXI_ASSETS.keeper}
    ];
    startQixiRpg(lines,"再與守橋人交談",()=>openActivityMain());
- };
+ };}
 
- document.getElementById("closeQixiBranch").onclick=()=>document.getElementById("qixiBranchModal").classList.add("hidden");
+ {const el=document.getElementById("closeQixiBranch");if(el)el.onclick=()=>document.getElementById("qixiBranchModal")?.classList.add("hidden");}
 
- document.getElementById("qixiFacilityGrid").onclick=e=>{const b=e.target.closest("[data-qixi-fac]");if(b)openBranches(b.dataset.qixiFac)};
- document.getElementById("qixiBranchList").onclick=e=>{const b=e.target.closest("[data-qixi-rel]");if(b&&!b.disabled)openStory(b.dataset.qixiRel)};
+ {const el=document.getElementById("qixiFacilityGrid");if(el)el.onclick=e=>{const b=e.target.closest("[data-qixi-fac]");if(b)openBranches(b.dataset.qixiFac)};}
+ {const el=document.getElementById("qixiBranchList");if(el)el.onclick=e=>{const b=e.target.closest("[data-qixi-rel]");if(b&&!b.disabled)openStory(b.dataset.qixiRel)};}
 
 
  /* 星河主題價格固定 NT$50。 */
@@ -19614,18 +19625,10 @@ function openConfirm(o={}){
   }catch(_){}
  }
  /* 3.30.80 TEST ONLY：七夕活動永久開放；移植正式服時不可帶入此旗標。 */
- window.qixiTestEventAlwaysOpen=true;
+ window.qixiTestEventAlwaysOpen=false;
  function boot(){
-  try{badgeDefs.qixi_star_fate={icon:"🌌",name:"星河有緣人",desc:"2026 七夕限定・走完五段星河劇情"}}catch(_){}
-  enforceGalaxy50();qixiTokenCount();
-  [
-    QIXI_ASSETS.keeper,
-    "images/qixi/qixi_lantern_corridor.png",
-    "images/qixi/qixi_bridge_game_bg_v2.png",
-    "images/qixi/qixi_wish_platform.png"
-  ].forEach(src=>prewarmQixiImage(src));
-  showFab();
-  setTimeout(()=>{enforceGalaxy50();qixiTokenCount();showFab();try{renderPaid?.()}catch(_){}},500);
+  // 3.30.91: Mid-Autumn-only test build. Legacy Qixi UI/resources are intentionally disabled.
+  const q=document.getElementById("qixiEventFab"); if(q) q.remove();
  }
  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot,{once:true});else boot();
  document.addEventListener("click",e=>{if(e.target.closest("[data-load]"))setTimeout(showFab,100)},true);
