@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#9a76c4">
-<meta name="x-test-build" content="3.30.81-midautumn">
+<meta name="x-test-build" content="3.30.82-midautumn">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>關係進行式 TEST・3.30.81 中秋活動測試</title>
+<title>關係進行式 TEST・3.30.82 中秋活動測試</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -17604,7 +17604,7 @@ body:not(.launch-game-open) #midAutumnFab{display:none!important}
 <script id="midautumn-test-event">
 (function(){
  const KEY='role_life_midautumn_test_v1';
- const CG={detective:'images/midautumn/detective.png',general:'images/midautumn/general.png',generalAngry:'images/midautumn/general_angry.png',generalSoft:'images/midautumn/general_soft.png',attack:'images/midautumn/attack.png'};
+ const CG={detective:'detective.png',general:'general.png',generalAngry:'general_angry.png',generalSoft:'general_soft.png',attack:'attack.png'};
  const stages=[['case','神秘委託','沒有委託人的委託。'],['fever','夜玄的病','高燒，成了千年前案件的第一個破綻。'],['ruins','將軍府舊址','尋找被藏起來的證詞。'],['festival','中秋燈會','重回那場沒有看完的煙花。'],['truth','真相推理','替千年前的案件正式結案。']];
  let st=load(),play=null;
  function load(){try{return Object.assign({step:0,lover:0,moon:0,old:0,mem:[],solved:false,ending:''},JSON.parse(localStorage.getItem(KEY)||'{}'))}catch(_){return {step:0,lover:0,moon:0,old:0,mem:[],solved:false,ending:''}}}
@@ -17682,6 +17682,23 @@ body:not(.launch-game-open) #midAutumnFab{display:none!important}
  function render(){const box=document.getElementById('maStages');if(!box)return;box.innerHTML='';stages.forEach((x,i)=>{const b=document.createElement('button');b.className='maStage'+(i<st.step||st.solved?' done':'');b.disabled=i>st.step&&!st.solved;b.innerHTML=`<b>${i+1}. ${x[1]}</b><div style="font-size:10px;margin-top:5px;opacity:.75">${x[2]}</div>`;b.onclick=()=>start(x[0]);box.appendChild(b)});document.getElementById('maProgress').style.width=((st.solved?5:Math.min(st.step,5))/5*100)+'%';document.getElementById('maNotes').innerHTML=`<b>紫衣的推理筆記</b><br>故月殘憶：${st.mem.length}/4<br>${st.mem.map(x=>'・'+x).join('<br>')||'尚未取得記憶碎片'}${st.solved?'<div class="maCaseSolved">案件已結案・'+({lover:'❤️ 戀人',moon:'🌕 歲歲共嬋娟',old:'🌙 故月照舊人',general:'🤍 一般關係'}[st.ending]||'')+'</div>':''}`}
  function open(){render();document.getElementById('midAutumnModal').classList.remove('hidden')}
  document.getElementById('midAutumnFab').onclick=open;document.getElementById('maClose').onclick=()=>document.getElementById('midAutumnModal').classList.add('hidden');document.getElementById('maStoryClose').onclick=()=>{document.getElementById('midAutumnStory').classList.add('hidden');play=null;open()};document.getElementById('maDialogue').onclick=e=>{if(!play||e.target.closest('button'))return;const x=play.arr[play.i];if(x&&x[3])return;play.i++;showLine()};document.getElementById('maReset').onclick=()=>{if(confirm('重置《故月照舊人》測試進度？')){localStorage.removeItem(KEY);st=load();render()}};render();
+})();
+</script>
+
+
+<style id="test33082-cleanup">
+/* 3.30.82 TEST：中秋測試期間移除舊活動/商店浮動入口；NPC 關係培養保留。 */
+#launchActivityFab,#launchActivityModal,#qixiFab,#qixiModal,#npcTownFab,#npcShopModal{display:none!important;visibility:hidden!important;pointer-events:none!important}
+body.midAutumnStoryOpen #midAutumnFab{display:none!important}
+</style>
+<script id="test33082-cleanup-script">
+(function(){
+ function cleanLegacyEntries(){
+  ['launchActivityFab','launchActivityModal','qixiFab','npcTownFab'].forEach(id=>document.getElementById(id)?.remove());
+ }
+ cleanLegacyEntries();
+ document.addEventListener('DOMContentLoaded',cleanLegacyEntries,{once:true});
+ setTimeout(cleanLegacyEntries,50);setTimeout(cleanLegacyEntries,600);
 })();
 </script>
 
