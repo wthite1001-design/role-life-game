@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#9a76c4">
-<meta name="x-test-build" content="3.30.80">
+<meta name="x-test-build" content="3.30.81-midautumn">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>關係進行式 TEST・3.30.80</title>
+<title>關係進行式 TEST・3.30.81 中秋活動測試</title>
 <style>
 :root{--bg:#f7f1fa;--card:#fffdfd;--text:#3d3343;--muted:#897b90;--line:#eadfee;--accent:#9872c0;--pink:#d899b8;--soft:#f3eaf7;--good:#668f70;--bad:#a65f70}
 *{box-sizing:border-box}
@@ -17589,6 +17589,102 @@ html[data-test-theme="qixiGalaxy"] :is(input,select,textarea,.codeBox,.idBox){ba
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script>
+
+<style id="midautumn-test-style">
+#midAutumnFab{position:fixed;z-index:998;right:12px;bottom:76px;min-height:44px;padding:7px 11px;border-radius:16px;background:linear-gradient(135deg,#332449,#8e63a9);color:#fff;box-shadow:0 7px 22px #24182d55;font-size:11px}
+body:not(.launch-game-open) #midAutumnFab{display:none!important}
+#midAutumnModal{position:fixed;inset:0;z-index:2400;background:#100b18;color:#f7effa;overflow:auto;padding:18px 12px calc(28px + env(safe-area-inset-bottom))}
+#midAutumnModal.hidden,#midAutumnStory.hidden{display:none!important}
+.maCard{width:min(100%,520px);margin:auto;background:#21172d;border:1px solid #6c537d;border-radius:22px;padding:16px;box-shadow:0 14px 40px #0007}.maHead{display:flex;justify-content:space-between;gap:8px;align-items:center}.maHead button,.maCard button{background:#3b294b;color:#fff;border:1px solid #6e5680}.maHero{margin:12px 0;padding:18px;border-radius:18px;background:radial-gradient(circle at 80% 12%,#fff7cf 0 5%,#ad8ac1 6%,transparent 19%),linear-gradient(160deg,#1c1328,#422d54 58%,#17101f);min-height:180px;display:flex;flex-direction:column;justify-content:flex-end}.maHero h2{margin:0 0 6px}.maProgress{height:8px;background:#ffffff18;border-radius:99px;overflow:hidden}.maProgress i{display:block;height:100%;background:#caa9d8;width:0}.maGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}.maStage{min-height:90px;text-align:left}.maStage.done{outline:1px solid #d9bd88}.maStage:disabled{opacity:.42}.maNote{margin-top:12px;padding:11px;border-radius:14px;background:#ffffff0b;font-size:12px;line-height:1.7}.maReset{margin-top:12px;width:100%}
+#midAutumnStory{position:fixed;inset:0;z-index:2600;background:#0d0912;color:#fff;overflow:hidden}.maScene{position:absolute;inset:0;background:radial-gradient(circle at 50% 20%,#644875,#21152c 42%,#0b0810 82%);background-size:cover;background-position:center}.maScene:after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 25%,#08050bcf 80%)}.maStoryTop{position:absolute;z-index:3;top:12px;left:12px;right:12px;display:flex;justify-content:space-between;align-items:center}.maStoryTop button{min-height:38px;background:#160f20cc;color:#fff}.maDialogue{position:absolute;z-index:3;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom));padding:14px;border-radius:18px;background:#160f20e8;border:1px solid #ffffff24;min-height:155px}.maSpeaker{font-weight:900;color:#d8b9e7;margin-bottom:7px}.maText{line-height:1.75;white-space:pre-wrap}.maChoices{display:grid;gap:7px;margin-top:10px}.maChoices button{background:#392849;color:#fff;border:1px solid #705582;text-align:left}.maHint{font-size:11px;color:#bcaec4;margin-top:8px}.maCaseSolved{text-align:center;padding:12px;margin-top:10px;background:#5a3d6d;border-radius:14px;font-weight:900}
+</style>
+<button id="midAutumnFab" type="button">🌕 中秋活動測試</button>
+<div id="midAutumnModal" class="hidden"><div class="maCard"><div class="maHead"><div><b>🌕《故月照舊人》</b><div style="font-size:11px;color:#bbaac4">測試服・不受日期限制</div></div><button id="maClose">×</button></div><div class="maHero"><h2>千年前未結束的中秋血案</h2><div>與私家偵探一同追查被掩埋的真相。</div></div><div class="maProgress"><i id="maProgress"></i></div><div id="maStages" class="maGrid"></div><div id="maNotes" class="maNote"></div><button id="maReset" class="maReset">重置中秋測試進度</button></div></div>
+<div id="midAutumnStory" class="hidden"><div id="maScene" class="maScene"></div><div class="maStoryTop"><b id="maChapter">故月照舊人</b><button id="maStoryClose">離開</button></div><div id="maDialogue" class="maDialogue"><div id="maSpeaker" class="maSpeaker"></div><div id="maText" class="maText"></div><div id="maChoices" class="maChoices"></div><div id="maHint" class="maHint"></div></div></div>
+<script id="midautumn-test-event">
+(function(){
+ const KEY='role_life_midautumn_test_v1';
+ const CG={detective:'images/midautumn/detective.png',general:'images/midautumn/general.png',generalAngry:'images/midautumn/general_angry.png',generalSoft:'images/midautumn/general_soft.png',attack:'images/midautumn/attack.png'};
+ const stages=[['case','神秘委託','沒有委託人的委託。'],['fever','夜玄的病','高燒，成了千年前案件的第一個破綻。'],['ruins','將軍府舊址','尋找被藏起來的證詞。'],['festival','中秋燈會','重回那場沒有看完的煙花。'],['truth','真相推理','替千年前的案件正式結案。']];
+ let st=load(),play=null;
+ function load(){try{return Object.assign({step:0,lover:0,moon:0,old:0,mem:[],solved:false,ending:''},JSON.parse(localStorage.getItem(KEY)||'{}'))}catch(_){return {step:0,lover:0,moon:0,old:0,mem:[],solved:false,ending:''}}}
+ function save(){localStorage.setItem(KEY,JSON.stringify(st))}
+ function add(route,n=1){if(route&&route!=='general')st[route]=(st[route]||0)+n;save()}
+ function mem(id){if(!st.mem.includes(id))st.mem.push(id);save()}
+ const lines={
+ case:[
+  ['旁白','中秋前夕，你收到私家偵探傳來的訊息。\n\n「有空嗎？來事務所一趟。」','detective'],
+  ['私家偵探','桌上沒有尋常的卷宗，只有一只沒有寄件人的木盒。','detective',[['怎麼，偵探先生想我了？','lover'],['有委託？','general'],['中秋前夕還工作？','moon'],['怎麼突然找我？','old']]],
+  ['私家偵探','盒裡有半枚舊玉佩、一張古時中秋燈會圖，還有一封信。\n\n「查明那位將軍夫人真正的死因。否則，當年的血案會再次發生。」','detective'],
+  ['旁白','月光落上玉佩。你碰到它的瞬間，眼前的事務所忽然消失。','generalSoft'],
+  ['旁白','【故月殘憶・我守著你】\n榻上的男人高燒不退。你伸手覆上他的額頭。\n\n「怎麼還這麼燙……」','generalSoft'],
+  ['夜玄','「我無事。」\n\n他才想起身，就被你重新按回榻上。','general'],
+  ['你','「先把藥喝了。今日哪裡也不許去。」','generalSoft'],
+  ['夜玄','他沉默地喝了藥，卻在你轉身時握住你的手。\n\n「……別走。」','generalSoft'],
+  ['你','「好。我守著你。」','generalSoft'],
+  ['私家偵探','記憶斷開時，他正握著你的手——與方才的夜玄一模一樣。\n\n「……妳也看見了？」','detective',[['沒關係，你想抓多久都可以。','lover'],['那段記憶讓我有點難受。','old'],['先別想太多，我陪你查下去。','moon'],['所以玉佩果然有問題。','general']]]
+ ],
+ fever:[
+  ['私家偵探','舊檔案記載：中秋前一日，夜玄高燒不退，醫者曾入將軍府。','detective'],
+  ['私家偵探','可第二天，他卻離府去了中秋燈會。這不是無關緊要的小事。','detective'],
+  ['旁白','玉佩再次發熱。','general'],
+  ['你','「夜玄，你還在發燒！」','generalAngry'],
+  ['夜玄','他已換好衣服，只淡淡道：\n\n「陪夫人看一場煙花，死不了。」','generalSoft'],
+  ['你','「中秋佳節，不許說這種不吉利的話。」','generalSoft'],
+  ['夜玄','他朝你伸出手。\n\n「走吧。」','generalSoft'],
+  ['你','「只看一會兒。明年中秋，你可不許再病成這樣。」','generalSoft'],
+  ['夜玄','「好。」','generalSoft'],
+  ['私家偵探','如果有人知道他的病情，也知道他一定會陪夫人赴約……那晚就是最好下手的時機。','detective',[['如果是我，也會想陪重要的人去。','lover'],['至少他們真的一起看到了那輪月亮。','moon'],['這句「明年」……他後來等到了嗎？','old'],['先查誰知道他的病情。','general']]]
+ ],
+ ruins:[
+  ['旁白','你們依照舊圖找到將軍府遺址。在封死的夾層裡，找到一份未被收入史冊的證詞。','detective'],
+  ['私家偵探','「傷口不是亂民的短刃。」\n\n「是軍中制式長刀。」','detective'],
+  ['私家偵探','史書所寫的「燈會暴亂」，恐怕只是掩飾。','detective'],
+  ['旁白','證詞最後一行只有一句：\n\n——刀鋒原本並未朝向夫人。','generalAngry'],
+  ['私家偵探','「真正的目標是夜玄。」','detective',[['所以她是替他擋下來的……','old'],['難怪偏偏挑他病得最重的時候。','general'],['如果知道結局，她還會推開他嗎？','lover'],['至少這次，我們把真相查完。','moon']]]
+ ],
+ festival:[
+  ['旁白','故月佩在掌心碎出一道細光。煙花聲從千年前重新響起。','attack'],
+  ['你','你在人群裡再次摸了摸夜玄的額頭。\n\n「……還是很燙。」','attack'],
+  ['旁白','煙花升空的瞬間，一柄長刀越過人群，直取夜玄。高燒讓他的反應慢了一瞬。','attack'],
+  ['旁白','你沒有思考。只是推開了他。','attack'],
+  ['夜玄','「——！」','attack'],
+  ['你','倒在他懷裡時，你仍抬手碰他的額頭。\n\n「……怎麼還這麼燙？」\n「早知道……便不該任性拉你出來。」','attack'],
+  ['夜玄','「不是妳的錯。」','attack'],
+  ['你','「若真有來世……願來世……能與你再續前緣。」','attack'],
+  ['夜玄','「我不要來世。」\n「我要妳現在陪我回家。」','attack'],
+  ['你','「夜玄……對不起。」','attack'],
+  ['旁白','你的手垂落。煙花仍在天上盛開，他卻再也沒有抬頭。','attack'],
+  ['私家偵探','回到今夜，他很久沒有說話。\n\n「她到最後都以為，是自己害他出了門。」','detective',[['如果是我，我也不會後悔救他。','lover'],['她不該帶著這個誤會離開。','old'],['今年的煙花，我們替他們看完吧。','moon'],['所以要找出策劃刺殺的人。','general']]]
+ ],
+ truth:[
+  ['私家偵探','證據已經足夠。最後只剩下把整件事拼回原位。','detective'],
+  ['私家偵探','第一問：夜玄為什麼在高燒未退時離府？','detective',[['陪夫人赴中秋燈會','quiz1'],['追捕刺客','bad'],['奉命出征','bad']]],
+  ['私家偵探','第二問：兇手為什麼選那一晚？','detective',[['夜玄病重，而且行蹤可預測','quiz2'],['只是碰巧','bad'],['因為夫人才是目標','bad']]],
+  ['私家偵探','第三問：真正的刺殺目標是誰？','detective',[['夜玄','quiz3'],['將軍夫人','bad'],['燈會百姓','bad']]],
+  ['私家偵探','最後一問：夫人真正的死因？','detective',[['為夜玄擋下原本刺向他的攻擊','quiz4'],['死於普通暴亂','bad'],['舊疾復發','bad']]],
+  ['旁白','【推理完成】\n千年前被寫成「燈會暴亂」的案件，終於恢復原貌。\n\n這不是任何一個人的任性，也不是誰沒有保護好誰。\n他們只是被捲進一場早有預謀的刺殺。','detective'],
+  ['旁白','又一年中秋。夜玄獨自坐在府中。桌上仍放著兩副碗筷、兩杯桂花酒，和她喜歡的月餅。','generalSoft'],
+  ['夜玄','「夫人。今年沒有染病。」\n「妳不是說……今年還要一起看嗎？」','generalSoft'],
+  ['夜玄','他把故月佩放在對面的空位。\n\n「若真的有來世……下一個中秋，換我去尋妳。」','generalSoft'],
+  ['旁白','記憶散去。現代的月光重新落在你與私家偵探身上。','detective']
+ ]};
+ let quiz=0;
+ function ending(){let e='general';if(st.lover>=4)e='lover';else if(st.old>=4)e='old';else if(st.moon>=4)e='moon';st.ending=e;st.solved=true;save();
+  const E={lover:[['私家偵探','「我想過，這些感情究竟是他的，還是我的。」'],['私家偵探','「後來發現不重要。」\n「夜玄愛他的夫人。但現在站在這裡喜歡妳的人，是我。」'],['私家偵探','「不是因為前世，也不是為了完成誰留下的約定。」\n「只是我想和妳在一起。」'],['旁白','你沒有回答，只把手放進他的掌心。'],['私家偵探','「只要妳還想看，我就陪妳。」'],['旁白','❤️ 解鎖關係：戀人\n——《月下再逢》']],moon:[['旁白','案件結束後，你們坐在河邊分著一塊月餅。'],['你','「明年還看嗎？」'],['私家偵探','「這算委託？」'],['你','「算約定。」'],['私家偵探','「那我接了。一年，到期再續。」'],['旁白','🌕 解鎖關係：歲歲共嬋娟\n不問前世，不許來生。只約歲歲月圓，仍有一人與你共賞。']],old:[['旁白','他把重新修復的故月佩放到你掌心。'],['你','「你說……夜玄最後找到她了嗎？」'],['私家偵探','他沒有看玉佩，只看著你。\n\n「讓妳等很久了嗎？」'],['你','「……有一點。」'],['私家偵探','「那這一次……不走了。」'],['旁白','🌙 解鎖特殊關係：故月照舊人\n故月照了千年，終於又照見故人。']],general:[['你','「所以，委託費呢？」'],['私家偵探','他把一盒月餅推過來。\n「委託費。」'],['你','「你認真的？」'],['私家偵探','「嫌少？」'],['旁白','🤍 維持一般關係\n一名私家偵探與他死不承認是助手的助手，偵破了一樁遲到千年的案件。']]};
+  startCustom(E[e],e==='old'?'千年故人':e==='lover'?'月下再逢':e==='moon'?'明年月下':'偵探與助手',()=>{render();}); }
+ function startCustom(arr,chapter,done){play={custom:true,arr:arr.map(x=>[x[0],x[1],'detective']),i:0,chapter,done};showLine()}
+ function start(id){if(id==='truth')quiz=0;play={id,arr:lines[id],i:0,chapter:stages.find(x=>x[0]===id)?.[1]||'故月照舊人'};document.getElementById('midAutumnModal').classList.add('hidden');document.getElementById('midAutumnStory').classList.remove('hidden');showLine()}
+ function scene(key){const el=document.getElementById('maScene'),src=CG[key];el.style.backgroundImage=`linear-gradient(transparent 25%,#08050bcf 82%),url("${src}")`;}
+ function showLine(){if(!play)return;const x=play.arr[play.i];if(!x){finishPlay();return}document.getElementById('maChapter').textContent=play.chapter;document.getElementById('maSpeaker').textContent=x[0];document.getElementById('maText').textContent=x[1];scene(x[2]||'detective');const box=document.getElementById('maChoices');box.innerHTML='';const cs=x[3];document.getElementById('maHint').textContent=cs?'選擇你的回答':'點擊對話框繼續 ▶';if(cs)for(const c of cs){const b=document.createElement('button');b.textContent=c[0];b.onclick=e=>{e.stopPropagation();choose(c[1]);};box.appendChild(b)}}
+ function choose(tag){if(tag==='bad'){document.getElementById('maText').textContent+='\n\n私家偵探：「再想一次。這和目前的證據對不上。」';return}if(/^quiz/.test(tag)){quiz++;}else add(tag);play.i++;showLine()}
+ function finishPlay(){if(play.custom){const d=play.done;play=null;document.getElementById('midAutumnStory').classList.add('hidden');d?.();open();return}const id=play.id;if(id==='case')mem('我守著你');if(id==='fever')mem('只看一會兒');if(id==='festival')mem('未盡之約');if(id==='truth'){mem('下一個中秋');if(quiz>=4){play=null;ending();return}}const idx=stages.findIndex(x=>x[0]===id);st.step=Math.max(st.step,idx+1);save();play=null;document.getElementById('midAutumnStory').classList.add('hidden');open()}
+ function render(){const box=document.getElementById('maStages');if(!box)return;box.innerHTML='';stages.forEach((x,i)=>{const b=document.createElement('button');b.className='maStage'+(i<st.step||st.solved?' done':'');b.disabled=i>st.step&&!st.solved;b.innerHTML=`<b>${i+1}. ${x[1]}</b><div style="font-size:10px;margin-top:5px;opacity:.75">${x[2]}</div>`;b.onclick=()=>start(x[0]);box.appendChild(b)});document.getElementById('maProgress').style.width=((st.solved?5:Math.min(st.step,5))/5*100)+'%';document.getElementById('maNotes').innerHTML=`<b>紫衣的推理筆記</b><br>故月殘憶：${st.mem.length}/4<br>${st.mem.map(x=>'・'+x).join('<br>')||'尚未取得記憶碎片'}${st.solved?'<div class="maCaseSolved">案件已結案・'+({lover:'❤️ 戀人',moon:'🌕 歲歲共嬋娟',old:'🌙 故月照舊人',general:'🤍 一般關係'}[st.ending]||'')+'</div>':''}`}
+ function open(){render();document.getElementById('midAutumnModal').classList.remove('hidden')}
+ document.getElementById('midAutumnFab').onclick=open;document.getElementById('maClose').onclick=()=>document.getElementById('midAutumnModal').classList.add('hidden');document.getElementById('maStoryClose').onclick=()=>{document.getElementById('midAutumnStory').classList.add('hidden');play=null;open()};document.getElementById('maDialogue').onclick=e=>{if(!play||e.target.closest('button'))return;const x=play.arr[play.i];if(x&&x[3])return;play.i++;showLine()};document.getElementById('maReset').onclick=()=>{if(confirm('重置《故月照舊人》測試進度？')){localStorage.removeItem(KEY);st=load();render()}};render();
+})();
+</script>
+
 </body>
 </html>
 
